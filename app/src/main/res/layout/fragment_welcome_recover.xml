@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/welcome_common_title_text_style"
+        android:layout_marginTop="@dimen/welcome_title_margin_top"
+        android:text="@string/welcome_restore_title"
+        app:layout_constraintBottom_toTopOf="@id/description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/welcome_description_text_style"
+        android:paddingTop="@dimen/common_padding"
+        android:text="@string/welcome_restore_description"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <GridLayout
+        android:id="@+id/phrasesLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/welcome_grid_offset"
+        android:layout_marginEnd="@dimen/welcome_grid_offset"
+        android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+        android:columnCount="2"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/btnRecover"
+        app:layout_constraintTop_toBottomOf="@id/description" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnRecover"
+        style="@style/common_button_style"
+        android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+        app:button_icon="@drawable/ic_btn_recover"
+        app:button_text="@string/welcome_recover"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

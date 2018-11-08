@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/welcome_common_title_text_style"
+            android:layout_marginTop="@dimen/welcome_title_margin_top"
+            android:text="@string/welcome_title"
+            app:layout_constraintBottom_toTopOf="@id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/welcome_description_text_style"
+            android:paddingTop="@dimen/common_padding"
+            android:text="@string/welcome_phrases_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <GridLayout
+            android:id="@+id/phrasesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/welcome_grid_offset"
+            android:layout_marginEnd="@dimen/welcome_grid_offset"
+            android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+            android:columnCount="2"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/btnCopy"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnCopy"
+            style="@style/common_button_style"
+            android:layout_marginBottom="@dimen/common_offset"
+            app:button_icon="@drawable/ic_btn_copy"
+            app:button_state_list="@color/primary_selector"
+            app:button_text="@string/welcome_copy_to_clipboard"
+            app:button_text_color="@color/common_text_color"
+            app:layout_constraintBottom_toTopOf="@id/btnNext" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
+            style="@style/common_button_style"
+            android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+            app:button_icon="@drawable/ic_btn_proceed"
+            app:button_text="@string/welcome_next"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

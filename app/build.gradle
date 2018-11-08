@@ -1,0 +1,76 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        // These docs use an open ended version so that our plugin
+        // can be updated quickly in response to Android tooling updates
+
+        // We recommend changing it to the latest version from our changelog:
+        // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
+        classpath "io.fabric.tools:gradle:$ver_fabric_gradle"
+    }
+}
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.mw.beam.beamwallet"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    androidExtensions {
+        experimental = true
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
+    implementation "com.android.support:appcompat-v7:$ver_support"
+    implementation "com.android.support.constraint:constraint-layout:$ver_constraint_layout"
+    implementation "com.android.support:recyclerview-v7:$ver_support"
+    implementation "com.android.support:design:$ver_support"
+    implementation "com.android.support:cardview-v7:$ver_support"
+    implementation "io.reactivex.rxjava2:rxandroid:$ver_rx"
+    implementation "io.reactivex.rxjava2:rxjava:$ver_rx"
+    implementation "com.github.restorer:holycycle:$ver_holycycle"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
+    debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
+
+    testImplementation "junit:junit:$ver_junit"
+    testImplementation "org.powermock:powermock-module-junit4:$ver_powermock"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$ver_powermock"
+    testImplementation "org.powermock:powermock-api-mockito:$ver_powermock"
+    testImplementation "org.powermock:powermock-classloading-xstream:$ver_powermock"
+    androidTestImplementation "com.android.support.test:runner:$ver_test_runner"
+    androidTestImplementation "com.android.support.test:rules:$ver_test_rules"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$ver_espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-web:$ver_espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$ver_espresso"
+    androidTestImplementation "com.agoda.kakao:kakao:$ver_kakao"
+    implementation("com.crashlytics.sdk.android:crashlytics:$ver_crashlytics") {
+        transitive = true
+    }
+}
