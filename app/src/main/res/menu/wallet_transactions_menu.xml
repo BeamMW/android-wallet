@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group android:checkableBehavior="single">
+        <item
+            android:checkable="false"
+            android:id="@+id/menu_search"
+            android:icon="@drawable/menu_search"
+            app:showAsAction="always"
+            android:title="@string/wallet_transactions_menu_search" />
+        <item
+            android:checkable="false"
+            android:id="@+id/menu_filter"
+            android:icon="@drawable/menu_filter"
+            android:title="@string/wallet_transactions_menu_filter" />
+        <item
+            android:checkable="false"
+            android:id="@+id/menu_export"
+            android:icon="@drawable/menu_export"
+            android:title="@string/wallet_transactions_menu_export" />
+        <item
+            android:checkable="false"
+            android:id="@+id/menu_delete"
+            android:icon="@drawable/menu_delete"
+            android:title="@string/wallet_transactions_menu_delete" />
+    </group>
+</menu>

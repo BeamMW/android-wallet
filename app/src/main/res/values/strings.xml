@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">Beam Wallet</string>
+    <string name="common_logo_text">Scalable confidential cryptocurrency</string>
+    <string name="common_successful">Done!</string>
+    <string name="common_error">Ooops, something went wrong…</string>
+    <string name="common_status_online">online</string>
+    <string name="common_drawer_open">open</string>
+    <string name="common_drawer_close">close</string>
+
+    <!--NavigationDrawer-->
+    <string name="nav_dashboard">dashboard</string>
+    <string name="nav_wallet">wallet</string>
+    <string name="nav_address_book">address book</string>
+    <string name="nav_utxo">utxo</string>
+    <string name="nav_notifications">notifications</string>
+    <string name="nav_help">help</string>
+    <string name="nav_settings">settings</string>
+
+    <!--WelcomeActivity-->
+    <string name="welcome_create_wallet">create new wallet</string>
+    <string name="welcome_restore">restore wallet from blockchain</string>
+    <string name="welcome_show">show my wallet</string>
+    <string name="welcome_login_to_another">login to another wallet</string>
+    <string name="welcome_change">change wallet</string>
+    <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
+    <string name="welcome_next">next</string>
+    <string name="welcome_recover">recover</string>
+    <string name="welcome_copy_to_clipboard">copy to clipboard</string>
+    <string name="welcome_proceed_to_wallet">proceed to your wallet</string>
+    <string name="welcome_title">Create new wallet</string>
+    <string name="welcome_restore_title">Restore wallet</string>
+    <string name="welcome_restore_description">Type in or paste your recovery phrase</string>
+    <string name="welcome_description">Create new wallet with generating recovery \n phrase. If you ever lose your device, you will need \n this phrase to recover your wallet!</string>
+    <string name="welcome_phrases_description">This set of 24 words allows you to recover your wallet from the blockchain. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_passwords_description">Create password to access your wallet</string>
+    <string name="welcome_validation_description">To ensure the recovery phrase is written down, please fill-in the specific words below</string>
+    <string name="welcome_passwords_not_match">Passwords do not match</string>
+    <string name="welcome_no_see">Do not let anyone see your \n recovery phrase</string>
+    <string name="welcome_no_type">Never type your recovery \n phrase into password \n managers or elsewhere</string>
+    <string name="welcome_copy">Make at least 2 copies of the \n phrase in case of emergency</string>
+    <string name="welcome_pass_empty">Add at least one symbol</string>
+    <string name="welcome_pass_very_weak">Very weak password</string>
+    <string name="welcome_pass_weak">Weak password</string>
+    <string name="welcome_pass_medium">Medium strength password</string>
+    <string name="welcome_pass_medium_strong">Medium strength password</string>
+    <string name="welcome_pass_strong">Very strong password</string>
+    <string name="welcome_pass_very_strong">Medium strength password (add at least one capital letter and one small letter)</string>
+    <string name="welcome_pass_not_much">Passwords do not match</string>
+    <string name="welcome_pass_empty_error">Password should not be empty</string>
+    <string name="welcome_pass_wrong">Wrong password</string>
+    <string name="welcome_pass_title">Enter password</string>
+    <string name="welcome_confirm_pass_title">Confirm password</string>
+    <string name="welcome_change_alert">If you will choose another wallet, all unsaved transaction history for the current wallet will be lost</string>
+
+    <!--WalletFragment-->
+    <string name="wallet_title">Wallet</string>
+    <string name="wallet_available">Available</string>
+    <string name="wallet_in_progress">In progress</string>
+    <string name="wallet_btn_receive">receive</string>
+    <string name="wallet_btn_send">send</string>
+    <string name="wallet_status_received">Received</string>
+    <string name="wallet_status_sent">Sent</string>
+    <string name="wallet_transactions_title">Active transactions</string>
+    <string name="wallet_transactions_receive">Receive %s</string>
+    <string name="wallet_transactions_send">Send %s</string>
+    <string name="wallet_transactions_swap">Swap %1$s to %2$s</string>
+    <string name="wallet_transactions_menu_search">Search</string>
+    <string name="wallet_transactions_menu_filter">Filter</string>
+    <string name="wallet_transactions_menu_export">Export</string>
+    <string name="wallet_transactions_menu_delete">Delete</string>
+
+    <!--UtxoActivity-->
+    <string name="utxo_height">Height</string>
+    <string name="utxo_hash">Hash</string>
+
+    <!--TransactionDetailsScreen-->
+    <string name="transaction_details_title">Transaction details</string>
+    <string name="transaction_details_general_info">General transaction info</string>
+    <string name="transaction_details_start_address">Start address:</string>
+    <string name="transaction_details_end_address">End address:</string>
+    <string name="transaction_details_current_amount">Current amount:</string>
+    <string name="transaction_details_transaction_fee">Transaction fee:</string>
+    <string name="transaction_details_comment">Comment:</string>
+    <string name="transaction_details_transaction_history">Transaction history</string>
+</resources>

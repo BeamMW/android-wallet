@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_padding">16dp</dimen>
+    <dimen name="common_offset">16dp</dimen>
+    <dimen name="common_margin">5dp</dimen>
+    <dimen name="common_button_margin">53dp</dimen>
+    <dimen name="common_alert_dialog_margin">20dp</dimen>
+    <dimen name="common_header_big_text_size">18sp</dimen>
+    <dimen name="common_header_small_text_size">14sp</dimen>
+    <dimen name="common_subheader_text_size">14sp</dimen>
+    <dimen name="common_description_text_size">12sp</dimen>
+    <dimen name="common_card_corner_radius">10dp</dimen>
+    <dimen name="toolbar_title_text_size">18sp</dimen>
+    <dimen name="toolbar_status_text_size">12sp</dimen>
+    <dimen name="toolbar_padding_bottom">2dp</dimen>
+    <dimen name="toolbar_padding_end">30dp</dimen>
+    <dimen name="toolbar_padding_for_status">5dp</dimen>
+    <dimen name="navigation_width">304dp</dimen>
+    <dimen name="alert_dialog_button_padding">40dp</dimen>
+
+    <!--WelcomeActivity-->
+    <dimen name="welcome_title_text_size">30sp</dimen>
+    <dimen name="welcome_title_margin_top">25dp</dimen>
+    <dimen name="welcome_button_text_padding_start">14dp</dimen>
+    <dimen name="welcome_button_text_padding_top">11dp</dimen>
+    <dimen name="welcome_button_text_padding_bottom">11dp</dimen>
+    <dimen name="welcome_button_margin_top">16dp</dimen>
+    <dimen name="welcome_logo_width">159dp</dimen>
+    <dimen name="welcome_logo_height">142dp</dimen>
+    <dimen name="welcome_logo_margin_top">153dp</dimen>
+    <dimen name="welcome_logo_text_margin_top">20dp</dimen>
+    <dimen name="welcome_passwords_padding">44dp</dimen>
+    <dimen name="welcome_passwords_title_padding_top">25dp</dimen>
+    <dimen name="welcome_passwords_info_text_size">12sp</dimen>
+    <dimen name="welcome_passwords_description_padding_top">14dp</dimen>
+    <dimen name="welcome_passwords_button_margin_bottom">41dp</dimen>
+    <dimen name="welcome_passwords_progress_item_margin">8dp</dimen>
+    <dimen name="welcome_passwords_items_offset">9dp</dimen>
+    <dimen name="welcome_password_title_padding_bottom">14dp</dimen>
+    <dimen name="welcome_phrases_button_margin">40dp</dimen>
+    <dimen name="welcome_main_margin_side">53dp</dimen>
+    <dimen name="welcome_number_text_size">10sp</dimen>
+    <dimen name="welcome_number_offset">9dp</dimen>
+    <dimen name="welcome_grid_offset">28dp</dimen>
+    <dimen name="welcome_grid_element_side_offset">12dp</dimen>
+    <dimen name="welcome_grid_element_top_offset">25dp</dimen>
+    <dimen name="welcome_description_side_offset">28dp</dimen>
+    <item name="welcome_password_dots_space" format="float" type="dimen">0.28</item>
+    <item name="welcome_password_letters_space" format="float" type="dimen">0.1</item>
+
+    <!--WalletFragment-->
+    <dimen name="wallet_card_padding">20dp</dimen>
+    <dimen name="wallet_available_text_size">24sp</dimen>
+    <dimen name="wallet_available_text_padding_start">12dp</dimen>
+    <dimen name="wallet_available_text_padding_end">3dp</dimen>
+    <dimen name="wallet_available_sum_margin_top">10dp</dimen>
+    <dimen name="wallet_available_text_icon_size">24dp</dimen>
+    <dimen name="wallet_currency_padding">3dp</dimen>
+    <dimen name="wallet_button_text_size">14sp</dimen>
+    <dimen name="wallet_button_width">155dp</dimen>
+    <dimen name="wallet_button_margin_top">25dp</dimen>
+    <dimen name="wallet_available_margin_top">20dp</dimen>
+    <dimen name="wallet_in_progress_margin_top">9dp</dimen>
+    <dimen name="wallet_expandable_icon_padding">9dp</dimen>
+    <dimen name="wallet_expandable_icon_size">20dp</dimen>
+
+    <dimen name="transaction_item_padding">13dp</dimen>
+    <dimen name="transaction_icon_padding_end">25dp</dimen>
+    <dimen name="transaction_sum_text_size">24sp</dimen>
+    <dimen name="transaction_status_text_size">11sp</dimen>
+    <dimen name="transaction_status_padding_top">4dp</dimen>
+    <dimen name="transactions_title_padding">20dp</dimen>
+
+    <!--TransactionDetails-->
+    <dimen name="transaction_details_title_padding_top">30dp</dimen>
+    <dimen name="transaction_details_title_padding_bottom">22dp</dimen>
+    <dimen name="transaction_details_padding">20dp</dimen>
+</resources>
