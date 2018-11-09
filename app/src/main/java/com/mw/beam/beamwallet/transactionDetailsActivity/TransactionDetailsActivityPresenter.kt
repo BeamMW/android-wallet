@@ -9,7 +9,8 @@ class TransactionDetailsActivityPresenter(currentView: TransactionDetailsActivit
     : BasePresenter<TransactionDetailsActivityContract.View>(currentView),
         TransactionDetailsActivityContract.Presenter {
 
-    override fun viewIsReady() {
+    override fun onStart() {
+        super.onStart()
         view?.init()
         view?.showTransactionDetailsFragment(view?.getTransactionDetails() ?: return)
     }

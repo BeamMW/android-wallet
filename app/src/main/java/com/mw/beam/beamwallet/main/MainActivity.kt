@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.transactionDetailsActivity.TransactionDetailsActivity
@@ -23,47 +25,23 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        presenter = MainPresenter(this, MainRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.activity_main
+    override fun onShowTransactionDetails(item: TxDescription) = presenter.onShowTransactionDetails(item)
 
     override fun configNavDrawer() {
         val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.common_drawer_open, R.string.common_drawer_close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
-        navView.itemIconTintList = getColorStateList(R.color.menu_selector)
 
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_wallet -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                R.id.nav_address_book -> LogUtils.log("address_book")
-                R.id.nav_utxo -> LogUtils.log("utxo")
-                R.id.nav_dashboard -> LogUtils.log("dashboard")
-                R.id.nav_notifications -> LogUtils.log("notifications")
-                R.id.nav_help -> LogUtils.log("help")
-                R.id.nav_settings -> LogUtils.log("settings")
-            }
-            true
-        }
-
-        navView.apply {
-            setCheckedItem(R.id.nav_wallet)
-            menu.performIdentifierAction(R.id.nav_wallet, 0)
-        }
-    }
-
-    override fun onShowTransactionDetails(item: TxDescription) {
-        presenter.onShowTransactionDetails(item)
+        configNavView()
     }
 
     override fun showTransactionDetails(item: TxDescription) {
-        startActivity(Intent(this, TransactionDetailsActivity::class.java).putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
+        startActivity(Intent(this, TransactionDetailsActivity::class.java)
+                .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
     }
 
     override fun onBackPressed() {
@@ -97,5 +75,32 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun configNavView() {
+        navView.itemIconTintList = getColorStateList(R.color.menu_selector)
+
+        navView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_wallet -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
+                R.id.nav_address_book -> LogUtils.log("address_book")
+                R.id.nav_utxo -> LogUtils.log("utxo")
+                R.id.nav_dashboard -> LogUtils.log("dashboard")
+                R.id.nav_notifications -> LogUtils.log("notifications")
+                R.id.nav_help -> LogUtils.log("help")
+                R.id.nav_settings -> LogUtils.log("settings")
+            }
+            true
+        }
+
+        navView.apply {
+            setCheckedItem(R.id.nav_wallet)
+            menu.performIdentifierAction(R.id.nav_wallet, 0)
+        }
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = MainPresenter(this, MainRepository())
+        return presenter
     }
 }

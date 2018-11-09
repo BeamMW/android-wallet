@@ -4,14 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.views.BeamButton
@@ -20,14 +21,9 @@ import com.mw.beam.beamwallet.core.views.BeamButton
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-abstract class BaseFragment<T : BasePresenter<out MvpView>> : Fragment(), MvpView {
+abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFragment(), MvpView {
     private lateinit var presenter: T
     private var alert: AlertDialog? = null
-
-    fun configPresenter(presenter: T) {
-        this.presenter = presenter
-        this.presenter.viewIsReady()
-    }
 
     override fun hideKeyboard() {
         val imm = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -78,30 +74,46 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : Fragment(), MvpVie
         return alert
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onPause() {
-        presenter.onPause()
-        super.onPause()
-    }
-
-    override fun onStop() {
+    override fun dismissAlert() {
         if (alert != null) {
             alert?.dismiss()
             alert = null
         }
+    }
 
-        presenter.detachView()
+    @Suppress("UNCHECKED_CAST")
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
+        presenter = initPresenter() as T
+        presenter.onCreate()
+    }
+
+    override fun onControllerContentViewCreated() {
+        presenter.onViewCreated()
+    }
+
+    override fun onControllerStart() {
+        super.onControllerStart()
+        presenter.onStart()
+    }
+
+    override fun onControllerResume() {
+        super.onControllerResume()
+        presenter.onResume()
+    }
+
+    override fun onControllerPause() {
+        presenter.onPause()
+        super.onControllerPause()
+    }
+
+    override fun onControllerStop() {
         presenter.onStop()
+        super.onControllerStop()
+    }
 
-        super.onStop()
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
     }
 }

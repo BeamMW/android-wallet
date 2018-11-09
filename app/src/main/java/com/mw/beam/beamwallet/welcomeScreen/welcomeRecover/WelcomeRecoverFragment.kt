@@ -1,14 +1,13 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomeRecover
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
@@ -37,20 +36,17 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_recover, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_recover
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomeRecoverPresenter(this, WelcomeRecoverRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
 
-    override fun init() {
         sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
+    }
+
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         btnRecover.isEnabled = false
         btnRecover.setOnClickListener {
@@ -117,5 +113,10 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
         }
 
         return true
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomeRecoverPresenter(this, WelcomeRecoverRepository())
+        return presenter
     }
 }

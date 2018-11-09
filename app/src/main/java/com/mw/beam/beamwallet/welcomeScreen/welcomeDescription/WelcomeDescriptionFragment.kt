@@ -1,18 +1,16 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomeDescription
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import kotlinx.android.synthetic.main.fragment_welcome_description.*
 
 /**
  * Created by vain onnellinen on 10/22/18.
  */
-class WelcomeDescriptionFragment  : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
+class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
     private lateinit var presenter: WelcomeDescriptionPresenter
 
     companion object {
@@ -29,23 +27,21 @@ class WelcomeDescriptionFragment  : BaseFragment<WelcomeDescriptionPresenter>(),
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_description, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
-        configPresenter(presenter)
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         btnGenerate.setOnClickListener {
             presenter.onGeneratePhrase()
         }
     }
 
-    override fun generatePhrase() {
-        (activity as GeneratePhraseHandler).generatePhrase()
+    override fun generatePhrase() = (activity as GeneratePhraseHandler).generatePhrase()
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
+        return presenter
     }
 
     interface GeneratePhraseHandler {

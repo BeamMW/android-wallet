@@ -1,13 +1,12 @@
 package com.mw.beam.beamwallet.transactionDetails
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.EntitiesHelper
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
@@ -37,24 +36,12 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_transaction_details, null)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
+    override fun getTransactionDetails(): TxDescription? = arguments?.getParcelable(EXTRA_TX_DESCRIPTION)
 
     override fun init(txDescription: TxDescription) {
         configTransactionDetails(txDescription)
         configGeneralTransactionInfo(txDescription)
-    }
-
-    override fun getTransactionDetails(): TxDescription? {
-        return arguments?.getParcelable(EXTRA_TX_DESCRIPTION)
     }
 
     private fun configTransactionDetails(txDescription: TxDescription) {
@@ -90,7 +77,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
         sum.text = EntitiesHelper.convertToBeamWithSign(txDescription.amount, txDescription.sender)
-
     }
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
@@ -108,9 +94,13 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             commentTitle.visibility = View.VISIBLE
             comment.visibility = View.VISIBLE
         }
-
     }
 
     private fun configTransactionHistory(txDescription: TxDescription) {
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository())
+        return presenter
     }
 }

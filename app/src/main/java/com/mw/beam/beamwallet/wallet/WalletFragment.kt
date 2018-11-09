@@ -9,11 +9,11 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.TxPeer
@@ -45,16 +45,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_wallet, null)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WalletPresenter(this, WalletRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
         available.text = EntitiesHelper.convertToBeam(walletStatus.available).toString()
@@ -70,20 +61,14 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    @SuppressLint("RestrictedApi")
     override fun init() {
-        val context = context ?: return
-        adapter = TransactionsAdapter(context, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
-            override fun onItemClick(item: TxDescription) {
-                (activity as TransactionDetailsHandler).onShowTransactionDetails(item)
-            }
-        })
-
         setTitle(getString(R.string.wallet_title))
+        initTransactionsList()
+        initListeners()
+    }
 
-        transactionsList.layoutManager = LinearLayoutManager(context)
-        transactionsList.adapter = adapter
-
+    @SuppressLint("RestrictedApi")
+    private fun initListeners() {
         btnReceive.setOnClickListener { presenter.onReceivePressed() }
         btnSend.setOnClickListener { presenter.onSendPressed() }
 
@@ -133,12 +118,30 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
+    private fun initTransactionsList() {
+        val context = context ?: return
+
+        adapter = TransactionsAdapter(context, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
+            override fun onItemClick(item: TxDescription) {
+                (activity as TransactionDetailsHandler).onShowTransactionDetails(item)
+            }
+        })
+
+        transactionsList.layoutManager = LinearLayoutManager(context)
+        transactionsList.adapter = adapter
+    }
+
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
         val angleFrom = if (shouldExpand) 180f else 360f
         val angleTo = if (shouldExpand) 360f else 180f
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WalletPresenter(this, WalletRepository())
+        return presenter
     }
 
     interface TransactionDetailsHandler {

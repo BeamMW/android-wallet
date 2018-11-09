@@ -1,14 +1,13 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomeValidation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.Phrases
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -41,20 +40,17 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_validation, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_validation
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomeValidationPresenter(this, WelcomeValidationRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
 
-    override fun init() {
         sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
+    }
+
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         btnNext.isEnabled = false
         btnNext.setOnClickListener {
@@ -75,6 +71,7 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     }
 
     override fun getData(): Phrases? = arguments?.getParcelable(ARG_PHRASES)
+    override fun showPasswordsFragment() = (activity as WelcomeValidationHandler).proceedToPasswords()
 
     override fun handleNextButton() {
         btnNext.isEnabled = arePhrasesValid()
@@ -127,8 +124,9 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
         return phrase
     }
 
-    override fun showPasswordsFragment() {
-        (activity as WelcomeValidationHandler).proceedToPasswords()
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomeValidationPresenter(this, WelcomeValidationRepository())
+        return presenter
     }
 
     interface WelcomeValidationHandler {

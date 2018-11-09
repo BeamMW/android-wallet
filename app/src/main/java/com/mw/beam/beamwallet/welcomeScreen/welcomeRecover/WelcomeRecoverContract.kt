@@ -9,7 +9,6 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
  */
 interface WelcomeRecoverContract {
     interface View : MvpView {
-        fun init()
         fun configPhrases(phrasesCount : Int)
         fun handleRecoverButton()
     }
