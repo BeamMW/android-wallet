@@ -9,7 +9,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     : BasePresenter<TransactionDetailsContract.View>(currentView),
         TransactionDetailsContract.Presenter {
 
-    override fun viewIsReady() {
+    override fun onStart() {
         view?.init(view?.getTransactionDetails() ?: return)
     }
 }

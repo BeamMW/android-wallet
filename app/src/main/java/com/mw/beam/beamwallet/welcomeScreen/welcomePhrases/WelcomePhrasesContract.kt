@@ -9,7 +9,6 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
  */
 interface WelcomePhrasesContract {
     interface View : MvpView {
-        fun init()
         fun showValidationFragment(phrases: MutableList<String>)
         fun configPhrases(phrases: MutableList<String>)
         fun copyToClipboard(data: String)

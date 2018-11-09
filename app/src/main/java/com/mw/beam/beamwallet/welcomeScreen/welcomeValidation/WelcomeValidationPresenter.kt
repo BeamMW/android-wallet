@@ -9,8 +9,7 @@ class WelcomeValidationPresenter(currentView: WelcomeValidationContract.View, pr
     : BasePresenter<WelcomeValidationContract.View>(currentView),
         WelcomeValidationContract.Presenter {
 
-    override fun viewIsReady() {
-        view?.init()
+    override fun onStart() {
         repository.phrases = view?.getData()
 
         if (repository.phrases != null) {

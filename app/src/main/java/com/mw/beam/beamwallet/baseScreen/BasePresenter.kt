@@ -9,32 +9,36 @@ import io.reactivex.disposables.Disposable
 abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     private val disposable = CompositeDisposable()
 
-    override fun detachView() {
-        view = null
+    override fun onCreate() {
+    }
+
+    override fun onViewCreated() {
     }
 
     override fun onStart() {
-    }
-
-    override fun onResume() {
         if (getSubscriptions() != null) {
             disposable.addAll(*getSubscriptions()!!)
         }
     }
 
+    override fun onResume() {
+    }
+
     override fun onPause() {
-        disposable.dispose()
     }
 
     override fun onStop() {
+        disposable.dispose()
+        view?.dismissAlert()
     }
 
-    protected fun isViewAttached(): Boolean {
-        return view != null
-    }
-
-    override fun viewIsReady() {
+    override fun onDestroy() {
+        detachView()
     }
 
     override fun getSubscriptions(): Array<Disposable>? = null
+
+    private fun detachView() {
+        view = null
+    }
 }

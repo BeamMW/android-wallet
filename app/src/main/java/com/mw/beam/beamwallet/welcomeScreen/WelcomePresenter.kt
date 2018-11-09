@@ -9,7 +9,8 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
     : BasePresenter<WelcomeContract.View>(currentView),
         WelcomeContract.Presenter {
 
-    override fun viewIsReady() {
+    override fun onStart() {
+        super.onStart()
         view?.showWelcomeMainFragment()
     }
 

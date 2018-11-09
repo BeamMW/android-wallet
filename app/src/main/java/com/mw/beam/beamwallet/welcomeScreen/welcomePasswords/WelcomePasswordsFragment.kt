@@ -1,17 +1,16 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomePasswords
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputType
 import android.util.TypedValue
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_passwords.*
@@ -46,15 +45,10 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_passwords, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_passwords
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomePasswordsPresenter(this, WelcomePasswordsRepository())
-        configPresenter(presenter)
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         pass.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(password: Editable?) {
@@ -86,6 +80,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     }
 
     override fun getPass(): String = pass.text.trim().toString()
+    override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
 
     override fun hasErrors(): Boolean {
         val context = context ?: return false
@@ -134,10 +129,6 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         }
     }
 
-    override fun proceedToWallet() {
-        (activity as WelcomePasswordsHandler).proceedToWallet()
-    }
-
     override fun changePassVisibility(shouldShow: Boolean) {
         confirmPass.inputType = if (shouldShow) InputType.TYPE_CLASS_TEXT else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         confirmPass.setSelection(confirmPass.text.length)
@@ -158,6 +149,11 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         mediumStrongPass = getString(R.string.welcome_pass_medium_strong)
         strongPass = getString(R.string.welcome_pass_strong)
         veryStrongPass = getString(R.string.welcome_pass_very_strong)
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomePasswordsPresenter(this, WelcomePasswordsRepository())
+        return presenter
     }
 
     interface WelcomePasswordsHandler {

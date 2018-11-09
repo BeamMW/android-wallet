@@ -13,35 +13,17 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     private lateinit var txStatusSubscription: Disposable
     private lateinit var txPeerUpdatedSubscription: Disposable
 
-    override fun viewIsReady() {
-        super.viewIsReady()
+    override fun onStart() {
+        super.onStart()
         view?.init()
-        initSubscriptions()
     }
 
-    override fun onReceivePressed() {
-        toDo()
-    }
-
-    override fun onSendPressed() {
-        toDo()
-    }
-
-    override fun onSearchPressed() {
-        toDo()
-    }
-
-    override fun onFilterPressed() {
-        toDo()
-    }
-
-    override fun onExportPressed() {
-        toDo()
-    }
-
-    override fun onDeletePressed() {
-        toDo()
-    }
+    override fun onReceivePressed() = toDo()
+    override fun onSendPressed() = toDo()
+    override fun onSearchPressed() = toDo()
+    override fun onFilterPressed() = toDo()
+    override fun onExportPressed() = toDo()
+    override fun onDeletePressed() = toDo()
 
     private fun initSubscriptions() {
         walletStatusSubscription = repository.getWalletStatus().subscribe {
@@ -60,6 +42,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
+        initSubscriptions()
         return arrayOf(walletStatusSubscription, txStatusSubscription, txPeerUpdatedSubscription)
     }
 

@@ -10,7 +10,8 @@ class MainPresenter(currentView: MainContract.View, private val repository: Main
     : BasePresenter<MainContract.View>(currentView),
         MainContract.Presenter {
 
-    override fun viewIsReady() {
+    override fun onStart() {
+        super.onStart()
         view?.configNavDrawer()
     }
 

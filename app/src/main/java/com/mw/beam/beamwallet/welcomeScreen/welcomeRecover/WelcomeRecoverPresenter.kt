@@ -9,8 +9,7 @@ class WelcomeRecoverPresenter(currentView: WelcomeRecoverContract.View, private 
     : BasePresenter<WelcomeRecoverContract.View>(currentView),
         WelcomeRecoverContract.Presenter {
 
-    override fun viewIsReady() {
-        view?.init()
+    override fun onStart(){
         view?.configPhrases(repository.phrasesCount)
     }
 

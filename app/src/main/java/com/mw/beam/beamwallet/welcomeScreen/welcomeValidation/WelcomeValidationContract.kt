@@ -10,7 +10,6 @@ import com.mw.beam.beamwallet.core.entities.Phrases
  */
 interface WelcomeValidationContract {
     interface View : MvpView {
-        fun init()
         fun getData(): Phrases?
         fun configPhrases(phrasesToValidate: MutableList<Int>, phrases : Phrases)
         fun showPasswordsFragment()

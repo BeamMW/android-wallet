@@ -10,7 +10,7 @@ class WelcomeMainPresenter(currentView: WelcomeMainContract.View, private val re
     : BasePresenter<WelcomeMainContract.View>(currentView),
         WelcomeMainContract.Presenter {
 
-    override fun viewIsReady() {
+    override fun onStart() {
         view?.configScreen(repository.isWalletInitialized())
     }
 

@@ -4,19 +4,20 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.views.BeamButton
@@ -25,14 +26,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-abstract class BaseActivity<T : BasePresenter<out MvpView>> : AppCompatActivity(), MvpView {
+abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private var alert: AlertDialog? = null
-
-    fun configPresenter(presenter: T) {
-        this.presenter = presenter
-        this.presenter.viewIsReady()
-    }
 
     protected fun showFragment(
             fragment: Fragment,
@@ -44,7 +40,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : AppCompatActivity(
         val fragmentManager = supportFragmentManager
         val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
 
-        if (currentFragment == null || tag != fragment.tag) {
+        if (currentFragment == null || tag != currentFragment.tag) {
             if (clearToTag != null || clearInclusive) {
                 fragmentManager.popBackStack(
                         clearToTag,
@@ -104,30 +100,20 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : AppCompatActivity(
         imm.hideSoftInputFromWindow(findViewById<View>(android.R.id.content)?.windowToken, 0)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.onResume()
-    }
-
-    override fun onPause() {
-        presenter.onPause()
-        super.onPause()
-    }
-
-    override fun onStop() {
+    override fun dismissAlert() {
         if (alert != null) {
             alert?.dismiss()
             alert = null
         }
+    }
 
-        presenter.detachView()
-        presenter.onStop()
-        super.onStop()
+    protected fun initToolbar(toolbar: Toolbar, title: String) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setTitle(title)
+        toolbar.setNavigationOnClickListener {
+            onBackPressed()
+        }
     }
 
     override fun onBackPressed() {
@@ -139,12 +125,39 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : AppCompatActivity(
         super.onBackPressed()
     }
 
-    fun initToolbar(toolbar: Toolbar, title: String) {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setTitle(title)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
+    @Suppress("UNCHECKED_CAST")
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
+        presenter = initPresenter() as T
+        presenter.onCreate()
+    }
+
+    override fun onControllerContentViewCreated() {
+        presenter.onViewCreated()
+    }
+
+    override fun onControllerStart() {
+        super.onControllerStart()
+        presenter.onStart()
+    }
+
+    override fun onControllerResume() {
+        super.onControllerResume()
+        presenter.onResume()
+    }
+
+    override fun onControllerPause() {
+        presenter.onPause()
+        super.onControllerPause()
+    }
+
+    override fun onControllerStop() {
+        presenter.onStop()
+        super.onControllerStop()
+    }
+
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
     }
 }

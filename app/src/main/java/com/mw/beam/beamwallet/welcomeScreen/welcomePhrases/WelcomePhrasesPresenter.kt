@@ -9,8 +9,8 @@ class WelcomePhrasesPresenter(currentView: WelcomePhrasesContract.View, private 
     : BasePresenter<WelcomePhrasesContract.View>(currentView),
         WelcomePhrasesContract.Presenter {
 
-    override fun viewIsReady() {
-        view?.init()
+    override fun onStart() {
+        super.onStart()
         view?.configPhrases(repository.getPhrases())
     }
 

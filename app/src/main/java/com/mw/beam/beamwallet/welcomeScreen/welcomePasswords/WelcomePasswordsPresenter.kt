@@ -17,7 +17,8 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, priv
     private val strengthStrong = Regex("(?=.{10,})(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
     private val strengthVeryStrong = Regex("(?=.{10,})(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])")
 
-    override fun viewIsReady() {
+    override fun onCreate() {
+        super.onCreate()
         view?.init()
     }
 

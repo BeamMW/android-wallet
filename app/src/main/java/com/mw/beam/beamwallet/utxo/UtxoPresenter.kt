@@ -8,8 +8,9 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 class UtxoPresenter(currentView: UtxoContract.View, private val repository: UtxoContract.Repository)
     : BasePresenter<UtxoContract.View>(currentView),
         UtxoContract.Presenter {
-    override fun viewIsReady() {
-        super.viewIsReady()
+
+    override fun onStart() {
+        super.onStart()
         view?.configData(repository.getWallet() ?: return)
     }
 }

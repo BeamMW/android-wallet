@@ -1,16 +1,15 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomePhrases
 
-import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhrase
 import kotlinx.android.synthetic.main.fragment_welcome_phrases.*
 
@@ -38,20 +37,17 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_phrases, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_phrases
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomePhrasesPresenter(this, WelcomePhrasesRepository())
-        configPresenter(presenter)
-    }
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
 
-    override fun init() {
         sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
+    }
+
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         btnNext.setOnClickListener {
             presenter.onNextPressed()
@@ -83,13 +79,7 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, data)
     }
 
-    override fun showValidationFragment(phrases: MutableList<String>) {
-        (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
-    }
-
-    interface WelcomePhrasesHandler {
-        fun proceedToValidation(phrases: MutableList<String>)
-    }
+    override fun showValidationFragment(phrases: MutableList<String>) = (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
 
     private fun configPhrase(text: String, number: Int, rowIndex: Int, columnIndex: Int): View? {
         val context = context ?: return null
@@ -113,5 +103,14 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         phrase.layoutParams = params
 
         return phrase
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomePhrasesPresenter(this, WelcomePhrasesRepository())
+        return presenter
+    }
+
+    interface WelcomePhrasesHandler {
+        fun proceedToValidation(phrases: MutableList<String>)
     }
 }

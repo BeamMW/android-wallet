@@ -1,14 +1,13 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomeMain
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.text.Editable
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
+import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_main.*
 
@@ -32,15 +31,10 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
         }
     }
 
-    @SuppressLint("InflateParams")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return layoutInflater.inflate(R.layout.fragment_welcome_main, null)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_main
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        presenter = WelcomeMainPresenter(this, WelcomeMainRepository())
-        configPresenter(presenter)
+    override fun onControllerStart() {
+        super.onControllerStart()
 
         btnCreate.setOnClickListener {
             presenter.onCreateWallet()
@@ -60,9 +54,13 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
 
         pass.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                clearError()
+                presenter.onPassChanged()
             }
         })
+    }
+
+    override fun onControllerResume() {
+        super.onControllerResume()
     }
 
     override fun configScreen(isWalletInitialized: Boolean) {
@@ -98,10 +96,8 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
 
     override fun getPass(): String = pass.text.trim().toString()
     override fun createWallet() = (activity as WelcomeMainHandler).createWallet()
-
-    override fun openWallet() {
-        (activity as WelcomeMainHandler).openWallet()
-    }
+    override fun openWallet() = (activity as WelcomeMainHandler).openWallet()
+    override fun restoreWallet() = (activity as WelcomeMainHandler).recoverWallet()
 
     override fun showOpenWalletError() {
         val context = context ?: return
@@ -114,8 +110,9 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
         showAlert(getString(R.string.welcome_change_alert), R.string.welcome_change, R.drawable.ic_btn_change_dark) { presenter.onChangeConfirm() }
     }
 
-    override fun restoreWallet() {
-        (activity as WelcomeMainHandler).recoverWallet()
+    override fun initPresenter(): BasePresenter<out MvpView> {
+        presenter = WelcomeMainPresenter(this, WelcomeMainRepository())
+        return presenter
     }
 
     interface WelcomeMainHandler {
