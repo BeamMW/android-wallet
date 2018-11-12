@@ -51,8 +51,10 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
 
     override fun onControllerStart() {
         super.onControllerStart()
-
         btnNext.isEnabled = false
+    }
+
+    override fun addListeners() {
         btnNext.setOnClickListener {
             if (it.isEnabled) {
                 presenter.onNextPressed()
@@ -122,6 +124,10 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
         })
 
         return phrase
+    }
+
+    override fun clearListeners() {
+        btnNext.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {

@@ -46,9 +46,7 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
     }
 
-    override fun onControllerStart() {
-        super.onControllerStart()
-
+    override fun addListeners() {
         btnNext.setOnClickListener {
             presenter.onNextPressed()
         }
@@ -56,6 +54,11 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         btnCopy.setOnClickListener {
             presenter.onCopyPressed()
         }
+    }
+
+    override fun clearListeners() {
+        btnNext.setOnClickListener(null)
+        btnCopy.setOnClickListener(null)
     }
 
     override fun configPhrases(phrases: MutableList<String>) {

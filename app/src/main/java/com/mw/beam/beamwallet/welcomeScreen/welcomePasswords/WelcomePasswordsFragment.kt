@@ -31,6 +31,18 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     private lateinit var strongPass: String
     private lateinit var veryStrongPass: String
 
+    private val passWatcher = object : TextWatcher {
+        override fun afterTextChanged(password: Editable?) {
+            presenter.onPassChanged(password?.toString())
+        }
+    }
+
+    private val confirmPassWatcher = object : TextWatcher {
+        override fun afterTextChanged(password: Editable?) {
+            presenter.onConfirmPassChanged()
+        }
+    }
+
     companion object {
         fun newInstance(): WelcomePasswordsFragment {
             val args = Bundle()
@@ -47,20 +59,9 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_passwords
 
-    override fun onControllerStart() {
-        super.onControllerStart()
-
-        pass.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(password: Editable?) {
-                presenter.onPassChanged(password?.toString())
-            }
-        })
-
-        confirmPass.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(password: Editable?) {
-                presenter.onConfirmPassChanged()
-            }
-        })
+    override fun addListeners() {
+        pass.addTextChangedListener(passWatcher)
+        confirmPass.addTextChangedListener(confirmPassWatcher)
 
         btnProceed.setOnClickListener {
             presenter.onProceed()
@@ -114,6 +115,13 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         pass.error = null
         confirmPass.setTextColor(ContextCompat.getColor(context, R.color.common_text_color))
         passMatchError.visibility = View.GONE
+    }
+
+    override fun clearListeners() {
+        pass.removeTextChangedListener(passWatcher)
+        confirmPass.removeTextChangedListener(confirmPassWatcher)
+        btnProceed.setOnClickListener(null)
+        showPass.setOnTouchListener(null)
     }
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {

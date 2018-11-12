@@ -13,4 +13,6 @@ interface MvpView {
     fun showAlert(message: String, btnTextResId: Int, btnIconResId: Int, onClick: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
     fun initPresenter(): BasePresenter<out MvpView>
+    fun addListeners()
+    fun clearListeners()
 }

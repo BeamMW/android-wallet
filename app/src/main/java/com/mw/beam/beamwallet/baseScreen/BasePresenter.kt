@@ -19,6 +19,8 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
         if (getSubscriptions() != null) {
             disposable.addAll(*getSubscriptions()!!)
         }
+
+        view?.addListeners()
     }
 
     override fun onResume() {
@@ -27,9 +29,11 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     override fun onPause() {
     }
 
+    // Why you need to unregister listeners? See https://stackoverflow.com/q/38368391
     override fun onStop() {
         disposable.dispose()
         view?.dismissAlert()
+        view?.clearListeners()
     }
 
     override fun onDestroy() {

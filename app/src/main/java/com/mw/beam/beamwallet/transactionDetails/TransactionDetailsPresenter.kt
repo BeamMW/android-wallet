@@ -10,6 +10,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         TransactionDetailsContract.Presenter {
 
     override fun onStart() {
+        super.onStart()
         view?.init(view?.getTransactionDetails() ?: return)
     }
 }
