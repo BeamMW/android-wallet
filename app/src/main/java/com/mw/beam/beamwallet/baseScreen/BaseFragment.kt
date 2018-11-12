@@ -81,6 +81,12 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFrag
         }
     }
 
+    override fun addListeners() {
+    }
+
+    override fun clearListeners() {
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)

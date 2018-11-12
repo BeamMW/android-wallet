@@ -99,6 +99,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         }
     }
 
+    override fun clearListeners() {
+        drawerLayout.removeDrawerListener(drawerToggle)
+    }
+
     override fun initPresenter(): BasePresenter<out MvpView> {
         presenter = MainPresenter(this, MainRepository())
         return presenter

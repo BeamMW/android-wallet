@@ -11,6 +11,7 @@ class WelcomeMainPresenter(currentView: WelcomeMainContract.View, private val re
         WelcomeMainContract.Presenter {
 
     override fun onStart() {
+        super.onStart()
         view?.configScreen(repository.isWalletInitialized())
     }
 

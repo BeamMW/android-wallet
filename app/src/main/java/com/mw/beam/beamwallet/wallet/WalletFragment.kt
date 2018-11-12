@@ -64,11 +64,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun init() {
         setTitle(getString(R.string.wallet_title))
         initTransactionsList()
-        initListeners()
     }
 
     @SuppressLint("RestrictedApi")
-    private fun initListeners() {
+    override fun addListeners() {
         btnReceive.setOnClickListener { presenter.onReceivePressed() }
         btnSend.setOnClickListener { presenter.onSendPressed() }
 
@@ -129,6 +128,14 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter
+    }
+
+    override fun clearListeners() {
+        btnReceive.setOnClickListener(null)
+        btnSend.setOnClickListener(null)
+        btnExpandAvailable.setOnClickListener(null)
+        btnExpandInProgress.setOnClickListener(null)
+        btnTransactionsMenu.setOnClickListener(null)
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {

@@ -29,15 +29,17 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description
 
-    override fun onControllerStart() {
-        super.onControllerStart()
+    override fun generatePhrase() = (activity as GeneratePhraseHandler).generatePhrase()
 
+    override fun addListeners() {
         btnGenerate.setOnClickListener {
             presenter.onGeneratePhrase()
         }
     }
 
-    override fun generatePhrase() = (activity as GeneratePhraseHandler).generatePhrase()
+    override fun clearListeners() {
+        btnGenerate.setOnClickListener(null)
+    }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
         presenter = WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())

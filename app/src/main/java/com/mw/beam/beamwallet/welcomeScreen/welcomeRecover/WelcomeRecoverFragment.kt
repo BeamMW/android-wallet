@@ -49,6 +49,9 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
         super.onControllerStart()
 
         btnRecover.isEnabled = false
+    }
+
+    override fun addListeners() {
         btnRecover.setOnClickListener {
             if (it.isEnabled) {
                 presenter.onRecoverPressed()
@@ -113,6 +116,10 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
         }
 
         return true
+    }
+
+    override fun clearListeners() {
+        btnRecover.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {

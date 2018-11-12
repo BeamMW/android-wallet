@@ -16,6 +16,11 @@ import kotlinx.android.synthetic.main.fragment_welcome_main.*
  */
 class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainContract.View {
     private lateinit var presenter: WelcomeMainPresenter
+    private val passWatcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+            presenter.onPassChanged()
+        }
+    }
 
     companion object {
         fun newInstance(): WelcomeMainFragment {
@@ -33,9 +38,7 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_main
 
-    override fun onControllerStart() {
-        super.onControllerStart()
-
+    override fun addListeners() {
         btnCreate.setOnClickListener {
             presenter.onCreateWallet()
         }
@@ -52,15 +55,7 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
             presenter.onChangeWallet()
         }
 
-        pass.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                presenter.onPassChanged()
-            }
-        })
-    }
-
-    override fun onControllerResume() {
-        super.onControllerResume()
+        pass.addTextChangedListener(passWatcher)
     }
 
     override fun configScreen(isWalletInitialized: Boolean) {
@@ -92,6 +87,15 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
         val context = context ?: return
         passError.visibility = View.INVISIBLE
         pass.setTextColor(ContextCompat.getColor(context, R.color.common_text_color))
+    }
+
+    override fun clearListeners() {
+        btnCreate.setOnClickListener(null)
+        btnRestore.setOnClickListener(null)
+        btnOpen.setOnClickListener(null)
+        btnChange.setOnClickListener(null)
+
+        pass.removeTextChangedListener(passWatcher)
     }
 
     override fun getPass(): String = pass.text.trim().toString()

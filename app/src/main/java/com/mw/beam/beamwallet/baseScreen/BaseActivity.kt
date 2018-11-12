@@ -125,6 +125,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
         super.onBackPressed()
     }
 
+    override fun addListeners() {
+    }
+
+    override fun clearListeners() {
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
