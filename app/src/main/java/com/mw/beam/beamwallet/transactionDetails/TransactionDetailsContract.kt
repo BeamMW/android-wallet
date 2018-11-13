@@ -6,14 +6,17 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 
 /**
- * Created by vain onnellinen on 10/17/18.
+ * Created by vain onnellinen on 10/18/18.
  */
-class TransactionDetailsContract {
+interface TransactionDetailsContract {
     interface View : MvpView {
-        fun getTransactionDetails() : TxDescription?
+        fun getTransactionDetails(): TxDescription
         fun init(txDescription: TxDescription)
     }
 
     interface Presenter : MvpPresenter<View>
-    interface Repository : MvpRepository
+
+    interface Repository : MvpRepository {
+        var txDescription: TxDescription?
+    }
 }

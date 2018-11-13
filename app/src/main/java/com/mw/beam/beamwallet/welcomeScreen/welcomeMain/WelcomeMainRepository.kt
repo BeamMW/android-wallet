@@ -23,7 +23,7 @@ class WelcomeMainRepository : BaseRepository(), WelcomeMainContract.Repository {
         var result = AppConfig.Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
-            val wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass!!)
+            val wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
             if (wallet != null) {
                 setWallet(wallet)
