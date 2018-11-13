@@ -122,12 +122,24 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         adapter = TransactionsAdapter(context, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
             override fun onItemClick(item: TxDescription) {
-                (activity as TransactionDetailsHandler).onShowTransactionDetails(item)
+                presenter.onTransactionPressed(item)
             }
         })
 
         transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter
+    }
+
+    override fun showTransactionDetails(txDescription: TxDescription) {
+        (activity as TransactionDetailsHandler).onShowTransactionDetails(txDescription)
+    }
+
+    override fun showReceiveScreen() {
+        (activity as TransactionDetailsHandler).onReceive()
+    }
+
+    override fun showSendScreen() {
+        (activity as TransactionDetailsHandler).onSend()
     }
 
     override fun clearListeners() {
@@ -153,5 +165,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     interface TransactionDetailsHandler {
         fun onShowTransactionDetails(item: TxDescription)
+        fun onReceive()
+        fun onSend()
     }
 }

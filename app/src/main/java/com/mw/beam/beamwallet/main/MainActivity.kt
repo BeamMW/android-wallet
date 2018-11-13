@@ -14,6 +14,7 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.receive.ReceiveActivity
 import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
 import com.mw.beam.beamwallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +28,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_main
     override fun onShowTransactionDetails(item: TxDescription) = presenter.onShowTransactionDetails(item)
+    override fun onReceive() = presenter.onReceive()
+    override fun onSend() = presenter.onSend()
 
     override fun configNavDrawer() {
         val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
@@ -42,6 +45,14 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     override fun showTransactionDetails(item: TxDescription) {
         startActivity(Intent(this, TransactionDetailsActivity::class.java)
                 .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
+    }
+
+    override fun showReceiveScreen() {
+        startActivity(Intent(this, ReceiveActivity::class.java))
+    }
+
+    override fun showSendScreen() {
+        showSnackBar("Coming soon ...")
     }
 
     override fun onBackPressed() {

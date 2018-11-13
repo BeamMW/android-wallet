@@ -107,12 +107,17 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
         }
     }
 
-    protected fun initToolbar(toolbar: Toolbar, title: String) {
+    protected fun initToolbar(toolbar: Toolbar, title: String, isWithStatus: Boolean = false) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        setTitle(title)
         toolbar.setNavigationOnClickListener {
             onBackPressed()
+        }
+
+        if (isWithStatus) {
+            toolbar.findViewById<TextView>(R.id.toolbarTitle)?.text = title
+        } else {
+            setTitle(title)
         }
     }
 

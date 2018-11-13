@@ -4,6 +4,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.TxPeer
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import io.reactivex.subjects.Subject
@@ -17,11 +18,15 @@ interface WalletContract {
         fun configWalletStatus(walletStatus: WalletStatus)
         fun configTxStatus(txStatusData: OnTxStatusData)
         fun configTxPeerUpdated(peers: Array<TxPeer>)
+        fun showTransactionDetails(txDescription: TxDescription)
+        fun showReceiveScreen()
+        fun showSendScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onReceivePressed()
         fun onSendPressed()
+        fun onTransactionPressed(txDescription: TxDescription)
         fun onSearchPressed()
         fun onFilterPressed()
         fun onExportPressed()

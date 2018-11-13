@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.wallet
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import io.reactivex.disposables.Disposable
 
 /**
@@ -18,8 +19,18 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
         view?.init()
     }
 
-    override fun onReceivePressed() = toDo()
-    override fun onSendPressed() = toDo()
+    override fun onReceivePressed() {
+        view?.showReceiveScreen()
+    }
+
+    override fun onSendPressed() {
+        view?.showSendScreen()
+    }
+
+    override fun onTransactionPressed(txDescription: TxDescription) {
+        view?.showTransactionDetails(txDescription)
+    }
+
     override fun onSearchPressed() = toDo()
     override fun onFilterPressed() = toDo()
     override fun onExportPressed() = toDo()

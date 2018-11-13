@@ -11,11 +11,15 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 interface MainContract {
     interface View : MvpView {
         fun showTransactionDetails(item: TxDescription)
+        fun showReceiveScreen()
+        fun showSendScreen()
         fun configNavDrawer()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShowTransactionDetails(item: TxDescription)
+        fun onReceive()
+        fun onSend()
         fun onClose()
     }
 
