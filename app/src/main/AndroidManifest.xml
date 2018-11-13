@@ -22,7 +22,7 @@
             android:name=".main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".transactionDetailsActivity.TransactionDetailsActivity"
+            android:name=".transactionDetails.TransactionDetailsActivity"
             android:label="@string/transaction_details_title"
             android:screenOrientation="portrait" />
         <activity

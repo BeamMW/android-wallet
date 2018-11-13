@@ -15,7 +15,7 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
         var result = AppConfig.Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
-            val wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass!!, AppConfig.TEST_SEED)
+            val wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, AppConfig.TEST_SEED)
 
             if (wallet != null) {
                 setWallet(wallet)

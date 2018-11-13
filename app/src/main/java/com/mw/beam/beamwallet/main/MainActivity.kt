@@ -14,7 +14,7 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.utils.LogUtils
-import com.mw.beam.beamwallet.transactionDetailsActivity.TransactionDetailsActivity
+import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
 import com.mw.beam.beamwallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
