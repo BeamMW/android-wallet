@@ -82,4 +82,14 @@
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
     <string name="transaction_details_transaction_history">Transaction history</string>
+
+    <!--ReceiveActivity-->
+    <string name="receive_title">Receive</string>
+    <string name="receive_switch_title">Swap</string>
+    <string name="receive_amount_title">Receive amount (optional)</string>
+    <string name="receive_beam">BEAM</string>
+    <string name="receive_groth">GROTH</string>
+    <string name="receive_comment">Comment</string>
+    <string name="receive_comment_description">The comment won\'t be sent, will be only stored locally.</string>
+    <string name="receive_next">next</string>
 </resources>

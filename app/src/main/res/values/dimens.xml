@@ -75,4 +75,14 @@
     <dimen name="transaction_details_title_padding_top">30dp</dimen>
     <dimen name="transaction_details_title_padding_bottom">22dp</dimen>
     <dimen name="transaction_details_padding">20dp</dimen>
+
+    <!--ReceiveActivity-->
+    <dimen name="receive_title_margin_top">44dp</dimen>
+    <dimen name="receive_amount_margin_end">40dp</dimen>
+    <dimen name="receive_amount_text_size">36sp</dimen>
+    <dimen name="receive_currency_text_size">24sp</dimen>
+    <dimen name="receive_sub_currency_text_size">16sp</dimen>
+    <dimen name="receive_common_margin">10dp</dimen>
+    <dimen name="receive_btn_margin_top">60dp</dimen>
+    <dimen name="receive_btn_width">156dp</dimen>
 </resources>

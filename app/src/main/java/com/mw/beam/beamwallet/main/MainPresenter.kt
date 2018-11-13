@@ -22,4 +22,12 @@ class MainPresenter(currentView: MainContract.View, private val repository: Main
     override fun onShowTransactionDetails(item: TxDescription) {
         view?.showTransactionDetails(item)
     }
+
+    override fun onReceive() {
+        view?.showReceiveScreen()
+    }
+
+    override fun onSend() {
+        view?.showSendScreen()
+    }
 }

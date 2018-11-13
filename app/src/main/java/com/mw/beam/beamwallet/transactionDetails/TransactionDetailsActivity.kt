@@ -12,7 +12,6 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
 
-
 /**
  * Created by vain onnellinen on 10/18/18.
  */
