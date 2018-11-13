@@ -78,7 +78,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     }
 
     private fun configNavView() {
-        navView.itemIconTintList = getColorStateList(R.color.menu_selector)
+        getColorStateList(R.color.menu_selector).apply {
+            navView.itemIconTintList = this
+            navView.itemTextColor = this
+        }
 
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
