@@ -121,7 +121,7 @@
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
-            android:layout_width="@dimen/receive_btn_width"
+            android:layout_width="@dimen/transfer_btn_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_btn_margin_top"
             app:button_icon="@drawable/ic_btn_proceed"

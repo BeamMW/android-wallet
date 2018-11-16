@@ -92,4 +92,13 @@
     <string name="receive_comment">Comment</string>
     <string name="receive_comment_description">The comment won\'t be sent, will be only stored locally.</string>
     <string name="receive_next">next</string>
+    <string name="receive_fee">Transaction fee</string>
+
+    <!--SendActivity-->
+    <string name="send_title">Send</string>
+    <string name="send_token_title">Transaction token&#160;</string>
+    <string name="send_token_extra_title">or contract</string>
+    <string name="send_amount_title">Send amount</string>
+    <string name="send_btn_title">send</string>
+
 </resources>

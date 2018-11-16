@@ -84,5 +84,5 @@
     <dimen name="receive_sub_currency_text_size">16sp</dimen>
     <dimen name="receive_common_margin">10dp</dimen>
     <dimen name="receive_btn_margin_top">60dp</dimen>
-    <dimen name="receive_btn_width">156dp</dimen>
+    <dimen name="transfer_btn_width">156dp</dimen>
 </resources>

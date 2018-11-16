@@ -15,6 +15,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.receive.ReceiveActivity
+import com.mw.beam.beamwallet.send.SendActivity
 import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
 import com.mw.beam.beamwallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,7 +53,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     }
 
     override fun showSendScreen() {
-        showSnackBar("Coming soon ...")
+        startActivity(Intent(this, SendActivity::class.java))
     }
 
     override fun onBackPressed() {
