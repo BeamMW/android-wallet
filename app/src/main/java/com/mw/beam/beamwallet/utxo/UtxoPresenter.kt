@@ -11,6 +11,6 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
 
     override fun onStart() {
         super.onStart()
-        view?.configData(repository.getWallet() ?: return)
+        view?.configData(repository.wallet ?: return)
     }
 }

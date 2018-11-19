@@ -9,9 +9,10 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
  */
 interface WelcomePhrasesContract {
     interface View : MvpView {
-        fun showValidationFragment(phrases: MutableList<String>)
-        fun configPhrases(phrases: MutableList<String>)
+        fun showValidationFragment(phrases: Array<String>)
+        fun configPhrases(phrases: Array<String>)
         fun copyToClipboard(data: String)
+        fun showCopiedAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -20,6 +21,6 @@ interface WelcomePhrasesContract {
     }
 
     interface Repository : MvpRepository {
-        fun getPhrases(): MutableList<String>
+        val phrases: Array<String>
     }
 }

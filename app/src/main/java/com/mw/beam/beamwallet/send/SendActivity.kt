@@ -18,6 +18,34 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun init() {
         val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
         initToolbar(toolbar, getString(R.string.send_title), true)
+
+    }
+
+    override fun getAmount(): Long {
+        //TODO handle NumberFormatException or show error
+        return amount.text.toString().toLong()
+    }
+
+    override fun getFee(): Long {
+        return fee.text.toString().toLong()
+    }
+
+    override fun getToken(): String {
+        return token.text.toString()
+    }
+
+    override fun getComment(): String? {
+        return comment.text.toString()
+    }
+
+    override fun addListeners() {
+        btnSend.setOnClickListener {
+            presenter.onSend()
+        }
+    }
+
+    override fun clearListeners() {
+        btnSend.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {

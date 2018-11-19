@@ -44,8 +44,11 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     }
 
     companion object {
-        fun newInstance(): WelcomePasswordsFragment {
+        private const val ARG_PHRASES = "ARG_PHRASES"
+
+        fun newInstance(phrases: Array<String>): WelcomePasswordsFragment {
             val args = Bundle()
+            args.putStringArray(ARG_PHRASES, phrases)
             val fragment = WelcomePasswordsFragment()
             fragment.arguments = args
 
@@ -80,6 +83,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         }
     }
 
+    override fun getPhrases(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
     override fun getPass(): String = pass.text.trim().toString()
     override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
 

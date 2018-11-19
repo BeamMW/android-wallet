@@ -8,7 +8,6 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
-import com.mw.beam.beamwallet.core.entities.Phrases
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
@@ -25,10 +24,9 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
 
-        fun newInstance(phrases: MutableList<String>): WelcomeValidationFragment {
+        fun newInstance(phrases: Array<String>): WelcomeValidationFragment {
             val args = Bundle()
-            //TODO hack - replace by appropriate data class when implemented
-            args.putParcelable(ARG_PHRASES, Phrases(phrases))
+            args.putStringArray(ARG_PHRASES, phrases)
             val fragment = WelcomeValidationFragment()
             fragment.arguments = args
 
@@ -72,14 +70,14 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
         return true
     }
 
-    override fun getData(): Phrases? = arguments?.getParcelable(ARG_PHRASES)
-    override fun showPasswordsFragment() = (activity as WelcomeValidationHandler).proceedToPasswords()
+    override fun getData(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
+    override fun showPasswordsFragment(phrases : Array<String>) = (activity as WelcomeValidationHandler).proceedToPasswords(phrases)
 
     override fun handleNextButton() {
         btnNext.isEnabled = arePhrasesValid()
     }
 
-    override fun configPhrases(phrasesToValidate: MutableList<Int>, phrases: Phrases) {
+    override fun configPhrases(phrasesToValidate: MutableList<Int>, phrases: Array<String>) {
         phrasesLayout.rowCount = phrasesToValidate.size / 2
         var columnIndex = 0
         var rowIndex = 0
@@ -90,7 +88,7 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
                 rowIndex++
             }
 
-            phrasesLayout.addView(configPhrase(phraseNumber, rowIndex, columnIndex, phrases.phrases[phraseNumber - 1]))
+            phrasesLayout.addView(configPhrase(phraseNumber, rowIndex, columnIndex, phrases[phraseNumber - 1]))
             columnIndex++
         }
     }
@@ -136,6 +134,6 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     }
 
     interface WelcomeValidationHandler {
-        fun proceedToPasswords()
+        fun proceedToPasswords(phrases : Array<String>)
     }
 }

@@ -20,11 +20,12 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, priv
     override fun onCreate() {
         super.onCreate()
         view?.init()
+        repository.phrases = view?.getPhrases()
     }
 
     override fun onProceed() {
         if (view != null && !view!!.hasErrors()) {
-            if (AppConfig.Status.STATUS_OK == repository.createWallet(view?.getPass())) {
+            if (AppConfig.Status.STATUS_OK == repository.createWallet(view?.getPass(), repository.phrases?.joinToString(separator = ";", postfix = ";"))) {
                 view?.proceedToWallet()
             } else {
                 view?.showSnackBar(AppConfig.Status.STATUS_ERROR)

@@ -9,8 +9,8 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
     : BasePresenter<WelcomeContract.View>(currentView),
         WelcomeContract.Presenter {
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated() {
+        super.onViewCreated()
         view?.showWelcomeMainFragment()
     }
 
@@ -26,11 +26,11 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
         view?.showMainActivity()
     }
 
-    override fun onProceedToPasswords() {
-        view?.showPasswordsFragment()
+    override fun onProceedToPasswords(phrases : Array<String>) {
+        view?.showPasswordsFragment(phrases)
     }
 
-    override fun onProceedToValidation(phrases: MutableList<String>) {
+    override fun onProceedToValidation(phrases: Array<String>) {
         view?.showValidationFragment(phrases)
     }
 

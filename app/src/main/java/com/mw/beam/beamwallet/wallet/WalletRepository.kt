@@ -19,7 +19,7 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult({getWallet()?.getWalletStatus()}, WalletListener.subOnTxStatus, object {}.javaClass.enclosingMethod.name)
+        return getResult({ wallet?.getWalletStatus() }, WalletListener.subOnTxStatus, object {}.javaClass.enclosingMethod.name)
     }
 
     override fun getTxPeerUpdated(): Subject<Array<TxPeer>?> {

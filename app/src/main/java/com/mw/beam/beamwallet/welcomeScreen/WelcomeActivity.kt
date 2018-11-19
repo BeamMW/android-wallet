@@ -28,9 +28,9 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
 
     override fun showWelcomeMainFragment() = showFragment(WelcomeMainFragment.newInstance(), WelcomeMainFragment.getFragmentTag(), WelcomeMainFragment.getFragmentTag(), true)
     override fun showDescriptionFragment() = showFragment(WelcomeDescriptionFragment.newInstance(), WelcomeDescriptionFragment.getFragmentTag(), null, false)
-    override fun showPasswordsFragment() = showFragment(WelcomePasswordsFragment.newInstance(), WelcomePasswordsFragment.getFragmentTag(), null, false)
+    override fun showPasswordsFragment(phrases : Array<String>) = showFragment(WelcomePasswordsFragment.newInstance(phrases), WelcomePasswordsFragment.getFragmentTag(), null, false)
     override fun showPhrasesFragment() = showFragment(WelcomePhrasesFragment.newInstance(), WelcomePhrasesFragment.getFragmentTag(), null, false)
-    override fun showValidationFragment(phrases: MutableList<String>) = showFragment(WelcomeValidationFragment.newInstance(phrases), WelcomeValidationFragment.getFragmentTag(), null, false)
+    override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeValidationFragment.newInstance(phrases), WelcomeValidationFragment.getFragmentTag(), null, false)
     override fun showRecoverFragment() = showFragment(WelcomeRecoverFragment.newInstance(), WelcomeRecoverFragment.getFragmentTag(), null, false)
 
     override fun createWallet() = presenter.onCreateWallet()
@@ -38,8 +38,8 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun openWallet() = presenter.onOpenWallet()
     override fun recoverWallet() = presenter.onRecoverWallet()
     override fun proceedToWallet() = presenter.onOpenWallet()
-    override fun proceedToPasswords() = presenter.onProceedToPasswords()
-    override fun proceedToValidation(phrases: MutableList<String>) = presenter.onProceedToValidation(phrases)
+    override fun proceedToPasswords(phrases : Array<String>) = presenter.onProceedToPasswords(phrases)
+    override fun proceedToValidation(phrases: Array<String>) = presenter.onProceedToValidation(phrases)
 
     override fun showMainActivity() {
         finish()

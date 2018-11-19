@@ -22,6 +22,7 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
     private lateinit var presenter: WelcomePhrasesPresenter
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
+    private lateinit var copiedAlert : String
 
     companion object {
         fun newInstance(): WelcomePhrasesFragment {
@@ -44,6 +45,7 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
 
         sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
+        copiedAlert = getString(R.string.welcome_phrases_copied_alert)
     }
 
     override fun addListeners() {
@@ -61,7 +63,7 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         btnCopy.setOnClickListener(null)
     }
 
-    override fun configPhrases(phrases: MutableList<String>) {
+    override fun configPhrases(phrases: Array<String>) {
         phrasesLayout.rowCount = phrases.size / 2
         var columnIndex = 0
         var rowIndex = 0
@@ -82,7 +84,11 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
         clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, data)
     }
 
-    override fun showValidationFragment(phrases: MutableList<String>) = (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
+    override fun showCopiedAlert() {
+        showSnackBar(copiedAlert)
+    }
+
+    override fun showValidationFragment(phrases: Array<String>) = (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
 
     private fun configPhrase(text: String, number: Int, rowIndex: Int, columnIndex: Int): View? {
         val context = context ?: return null
@@ -114,6 +120,6 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
     }
 
     interface WelcomePhrasesHandler {
-        fun proceedToValidation(phrases: MutableList<String>)
+        fun proceedToValidation(phrases: Array<String>)
     }
 }
