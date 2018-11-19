@@ -10,7 +10,8 @@ import io.reactivex.subjects.Subject
  */
 open class BaseRepository : MvpRepository {
 
-    override var wallet: Wallet? = App.wallet
+    override var wallet: Wallet? = null
+        get() = App.wallet
 
     fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String): Subject<T> {
         LogUtils.log(StringBuilder()

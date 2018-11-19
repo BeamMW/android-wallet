@@ -11,7 +11,7 @@ import io.reactivex.subjects.Subject
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 object WalletListener {
     private var uiHandler = Handler(Looper.getMainLooper())
     private val DUMMY_OBJECT = Any()
@@ -23,7 +23,7 @@ object WalletListener {
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnAllUtxoChanged: Subject<Array<Utxo>> = BehaviorSubject.create<Array<Utxo>>().toSerialized()
     var subOnAddresses: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnGeneratedNewWalletID: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnGeneratedNewWalletID: Subject<ByteArray> = BehaviorSubject.create<ByteArray>().toSerialized()
     var subOnChangeCurrentWalletIDs: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
 
     @JvmStatic
@@ -45,9 +45,10 @@ object WalletListener {
     fun onAllUtxoChanged(utxos: Array<Utxo>) = returnResult(subOnAllUtxoChanged, utxos, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAddresses() = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onAdrresses(own : Boolean, addresses : Array<WalletAddress>) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
-    fun onGeneratedNewWalletID() = returnResult(subOnGeneratedNewWalletID, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    @JvmStatic
+    fun onGeneratedNewWalletID(walletId : ByteArray) = returnResult(subOnGeneratedNewWalletID, walletId, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onChangeCurrentWalletIDs() = returnResult(subOnChangeCurrentWalletIDs, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
