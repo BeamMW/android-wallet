@@ -32,6 +32,7 @@
     <string name="welcome_restore_description">Type in or paste your recovery phrase</string>
     <string name="welcome_description">Create new wallet with generating recovery \n phrase. If you ever lose your device, you will need \n this phrase to recover your wallet!</string>
     <string name="welcome_phrases_description">This set of 24 words allows you to recover your wallet from the blockchain. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_phrases_copied_alert">Copied!</string>
     <string name="welcome_passwords_description">Create password to access your wallet</string>
     <string name="welcome_validation_description">To ensure the recovery phrase is written down, please fill-in the specific words below</string>
     <string name="welcome_passwords_not_match">Passwords do not match</string>

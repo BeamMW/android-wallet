@@ -17,6 +17,7 @@ interface WelcomePasswordsContract {
         fun clearErrors()
         fun changePassVisibility(shouldShow : Boolean)
         fun getPass(): String
+        fun getPhrases() : Array<String>?
         fun proceedToWallet()
     }
 
@@ -28,6 +29,7 @@ interface WelcomePasswordsContract {
     }
 
     interface Repository : MvpRepository {
-        fun createWallet(pass: String?): AppConfig.Status
+        var phrases : Array<String>?
+        fun createWallet(pass: String?, phrases : String?): AppConfig.Status
     }
 }

@@ -11,10 +11,10 @@ interface WelcomeContract {
     interface View : MvpView {
         fun showWelcomeMainFragment()
         fun showDescriptionFragment()
-        fun showPasswordsFragment()
+        fun showPasswordsFragment(phrases : Array<String>)
         fun showPhrasesFragment()
         fun showRecoverFragment()
-        fun showValidationFragment(phrases: MutableList<String>)
+        fun showValidationFragment(phrases: Array<String>)
         fun showMainActivity()
     }
 
@@ -23,8 +23,8 @@ interface WelcomeContract {
         fun onRecoverWallet()
         fun onGeneratePhrase()
         fun onOpenWallet()
-        fun onProceedToPasswords()
-        fun onProceedToValidation(phrases: MutableList<String>)
+        fun onProceedToPasswords(phrases : Array<String>)
+        fun onProceedToValidation(phrases: Array<String>)
     }
 
     interface Repository : MvpRepository

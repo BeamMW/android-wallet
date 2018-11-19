@@ -11,8 +11,17 @@ interface SendContract {
 
     interface View : MvpView {
         fun init()
+        fun getAmount(): Long
+        fun getFee(): Long
+        fun getToken(): String
+        fun getComment(): String?
     }
 
-    interface Presenter : MvpPresenter<View>
-    interface Repository : MvpRepository
+    interface Presenter : MvpPresenter<View> {
+        fun onSend()
+    }
+
+    interface Repository : MvpRepository {
+        fun sendMoney(token: String, comment: String?, amount: Long, fee: Long)
+    }
 }

@@ -23,7 +23,6 @@
         tools:ignore="RtlSymmetry" />
 
     <TextView
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
         android:id="@+id/tokenExtraTitle"
         style="@style/common_header_small"
         android:layout_width="wrap_content"
@@ -33,7 +32,8 @@
         android:text="@string/send_token_extra_title"
         android:textColor="@color/common_subheader_dark_color"
         android:textStyle="normal"
-        app:layout_constraintStart_toEndOf="@id/tokenTitle" />
+        app:layout_constraintStart_toEndOf="@id/tokenTitle"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
     <EditText
         android:id="@+id/token"
@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
+            android:inputType="number"
             android:text="@string/receive_beam"
             android:textColor="@color/common_text_color"
             android:textSize="@dimen/receive_currency_text_size"
@@ -127,6 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_common_margin"
             android:background="@drawable/edit_text_underline"
+            android:inputType="number"
             app:layout_constraintTop_toBottomOf="@id/feeTitle"
             tools:ignore="Autofill,LabelFor,TextFields" />
 
@@ -159,6 +161,7 @@
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnSend"
             android:layout_width="@dimen/transfer_btn_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_btn_margin_top"

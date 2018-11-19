@@ -9,9 +9,13 @@ class WelcomeValidationPresenter(currentView: WelcomeValidationContract.View, pr
     : BasePresenter<WelcomeValidationContract.View>(currentView),
         WelcomeValidationContract.Presenter {
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate() {
+        super.onCreate()
         repository.phrases = view?.getData()
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
 
         if (repository.phrases != null) {
             view?.configPhrases(repository.getPhrasesToValidate(), repository.phrases!!)
@@ -23,6 +27,6 @@ class WelcomeValidationPresenter(currentView: WelcomeValidationContract.View, pr
     }
 
     override fun onNextPressed() {
-        view?.showPasswordsFragment()
+        view?.showPasswordsFragment(repository.phrases ?: return)
     }
 }

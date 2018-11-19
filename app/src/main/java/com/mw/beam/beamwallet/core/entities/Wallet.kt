@@ -4,8 +4,7 @@ package com.mw.beam.beamwallet.core.entities
  * Created by vain onnellinen on 10/2/18.
  */
 data class Wallet(val _this: Long) {
-    external fun sendMoney()
-    external fun sendMoney2()
+    external fun sendMoney(receiver : String, comment : String?, amount : Long, fee : Long)
     external fun syncWithNode()
     external fun calcChange()
     external fun getWalletStatus()

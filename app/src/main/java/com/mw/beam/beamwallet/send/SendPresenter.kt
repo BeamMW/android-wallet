@@ -13,4 +13,16 @@ class SendPresenter(currentView: SendContract.View, private val repository: Send
         super.onStart()
         view?.init()
     }
+
+    override fun onSend() {
+        //TODO handle errors correctly
+        val amount = view?.getAmount()
+        val fee = view?.getFee()
+        val comment = view?.getComment()
+        val token = view?.getToken()
+
+        if (amount != null && fee != null && token != null) {
+            repository.sendMoney(token, comment, amount, fee)
+        }
+    }
 }
