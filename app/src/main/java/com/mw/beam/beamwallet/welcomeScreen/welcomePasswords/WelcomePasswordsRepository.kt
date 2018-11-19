@@ -2,6 +2,7 @@ package com.mw.beam.beamwallet.welcomeScreen.welcomePasswords
 
 import com.mw.beam.beamwallet.baseScreen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -16,7 +17,7 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
         var result = AppConfig.Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && phrases != null) {
-            wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
+            App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
 
             if (wallet != null) {
                 //TODO handle statuses of process

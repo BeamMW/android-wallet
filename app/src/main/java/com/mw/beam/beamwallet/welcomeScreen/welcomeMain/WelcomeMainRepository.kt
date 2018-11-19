@@ -2,6 +2,7 @@ package com.mw.beam.beamwallet.welcomeScreen.welcomeMain
 
 import com.mw.beam.beamwallet.baseScreen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -23,7 +24,7 @@ class WelcomeMainRepository : BaseRepository(), WelcomeMainContract.Repository {
         var result = AppConfig.Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
-            wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+            App.wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
             if (wallet != null) {
                 //TODO handle statuses
