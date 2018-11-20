@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.send
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.convertToGroth
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -22,7 +23,7 @@ class SendPresenter(currentView: SendContract.View, private val repository: Send
         val token = view?.getToken()
 
         if (amount != null && fee != null && token != null) {
-            repository.sendMoney(token, comment, amount, fee)
+            repository.sendMoney(token, comment, amount.convertToGroth(), fee.convertToGroth())
         }
     }
 }

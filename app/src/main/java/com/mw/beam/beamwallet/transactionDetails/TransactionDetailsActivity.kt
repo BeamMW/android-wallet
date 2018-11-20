@@ -7,7 +7,7 @@ import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.EntitiesHelper
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
@@ -33,7 +33,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     private fun configTransactionDetails(txDescription: TxDescription) {
         when (txDescription.senderEnum) {
-            EntitiesHelper.TxSender.RECEIVED -> {
+            TxSender.RECEIVED -> {
                 val receivedColor = ContextCompat.getColor(this, R.color.received_color)
                 sum.setTextColor(receivedColor)
                 status.setTextColor(receivedColor)
@@ -41,7 +41,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
                 currency.setImageResource(R.drawable.beam_received)
                 message.text = String.format(getString(R.string.wallet_transactions_receive), "BEAM") //TODO replace when multiply currency will be available
             }
-            EntitiesHelper.TxSender.SENT -> {
+            TxSender.SENT -> {
                 val sentColor = ContextCompat.getColor(this, R.color.sent_color)
                 sum.setTextColor(sentColor)
                 status.setTextColor(sentColor)
@@ -51,9 +51,9 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             }
         }
 
-        if (txDescription.statusEnum == EntitiesHelper.TxStatus.Failed
-                || txDescription.statusEnum == EntitiesHelper.TxStatus.InProgress
-                || txDescription.statusEnum == EntitiesHelper.TxStatus.Cancelled) {
+        if (txDescription.statusEnum == TxStatus.Failed
+                || txDescription.statusEnum == TxStatus.InProgress
+                || txDescription.statusEnum == TxStatus.Cancelled) {
             status.setTextColor(ContextCompat.getColor(this, R.color.transaction_common_status_color))
             status.text = txDescription.statusEnum.name.toLowerCase() //TODO make resources when all statuses will be stable
         }
@@ -61,19 +61,19 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         transactionLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.transaction_details_background))
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
-        sum.text = EntitiesHelper.convertToBeamWithSign(txDescription.amount, txDescription.sender)
+        sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender)
     }
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender) {
-            startAddress.text = EntitiesHelper.bytesToHex(txDescription.myId)
-            endAddress.text = EntitiesHelper.bytesToHex(txDescription.peerId)
+            startAddress.text = txDescription.myId.toHex()
+            endAddress.text = txDescription.peerId.toHex()
         } else {
-            startAddress.text = EntitiesHelper.bytesToHex(txDescription.peerId)
-            endAddress.text = EntitiesHelper.bytesToHex(txDescription.myId)
+            startAddress.text = txDescription.peerId.toHex()
+            endAddress.text = txDescription.myId.toHex()
         }
 
-        transactionFee.text = EntitiesHelper.convertToBeamAsFloatString(txDescription.fee)
+        transactionFee.text = txDescription.fee.convertToBeamAsFloatString()
         if (txDescription.message != null && txDescription.message.isNotEmpty()) {
             comment.text = String(txDescription.message)
             commentTitle.visibility = View.VISIBLE
