@@ -22,18 +22,8 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
     private var topOffset: Int = Int.MIN_VALUE
 
     companion object {
-
-        fun newInstance(): WelcomeRecoverFragment {
-            val args = Bundle()
-            val fragment = WelcomeRecoverFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomeRecoverFragment::class.java.simpleName
-        }
+        fun newInstance() = WelcomeRecoverFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomeRecoverFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_recover

@@ -3,10 +3,7 @@ package com.mw.beam.beamwallet.wallet
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.TxPeer
-import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.entities.*
 import io.reactivex.subjects.Subject
 
 /**
@@ -18,6 +15,7 @@ interface WalletContract {
         fun configWalletStatus(walletStatus: WalletStatus)
         fun configTxStatus(txStatusData: OnTxStatusData)
         fun configTxPeerUpdated(peers: Array<TxPeer>)
+        fun configInProgress(receivingAmount : Long, sendingAmount: Long, maturingAmount : Long)
         fun showTransactionDetails(txDescription: TxDescription)
         fun showReceiveScreen()
         fun showSendScreen()
@@ -37,5 +35,6 @@ interface WalletContract {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getTxPeerUpdated(): Subject<Array<TxPeer>?>
+        fun getUtxoUpdated(): Subject<Array<Utxo>>
     }
 }

@@ -22,20 +22,11 @@ class WelcomePhrasesFragment : BaseFragment<WelcomePhrasesPresenter>(), WelcomeP
     private lateinit var presenter: WelcomePhrasesPresenter
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
-    private lateinit var copiedAlert : String
+    private lateinit var copiedAlert: String
 
     companion object {
-        fun newInstance(): WelcomePhrasesFragment {
-            val args = Bundle()
-            val fragment = WelcomePhrasesFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomePhrasesFragment::class.java.simpleName
-        }
+        fun newInstance() = WelcomePhrasesFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomePhrasesFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_phrases

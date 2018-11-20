@@ -19,6 +19,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.TxPeer
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
 
@@ -32,23 +33,20 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private var shouldExpandInProgress = false
 
     companion object {
-        fun newInstance(): WalletFragment {
-            val args = Bundle()
-            val fragment = WalletFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WalletFragment::class.java.simpleName
-        }
+        fun newInstance() = WalletFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WalletFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
         available.text = walletStatus.available.convertToBeam().toString()
+    }
+
+    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
+        receiving.text = receivingAmount.convertToBeamWithSign(false)
+        sending.text = sendingAmount.convertToBeamWithSign(true)
+        maturing.text = maturingAmount.convertToBeam().toString()
     }
 
     override fun configTxStatus(txStatusData: OnTxStatusData) {
@@ -80,7 +78,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnExpandInProgress.setOnClickListener {
             animateDropDownIcon(btnExpandInProgress, shouldExpandInProgress)
             shouldExpandInProgress = !shouldExpandInProgress
-            inProgress.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+            inProgressGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         }
 
         btnTransactionsMenu.setOnClickListener { view ->
