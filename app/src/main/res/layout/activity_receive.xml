@@ -124,7 +124,7 @@
             android:layout_width="@dimen/transfer_btn_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_btn_margin_top"
-            app:button_icon="@drawable/ic_btn_proceed"
+            app:button_icon="@drawable/ic_btn_next"
             app:button_state_list="@color/primary_selector"
             app:button_text="@string/receive_next"
             app:button_text_color="@color/common_text_color"
