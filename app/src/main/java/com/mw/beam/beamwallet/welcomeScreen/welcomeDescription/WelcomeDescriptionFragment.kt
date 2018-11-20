@@ -14,17 +14,8 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
     private lateinit var presenter: WelcomeDescriptionPresenter
 
     companion object {
-        fun newInstance(): WelcomeDescriptionFragment {
-            val args = Bundle()
-            val fragment = WelcomeDescriptionFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomeDescriptionFragment::class.java.simpleName
-        }
+        fun newInstance() = WelcomeDescriptionFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomeDescriptionFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description

@@ -46,18 +46,8 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
 
-        fun newInstance(phrases: Array<String>): WelcomePasswordsFragment {
-            val args = Bundle()
-            args.putStringArray(ARG_PHRASES, phrases)
-            val fragment = WelcomePasswordsFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomePasswordsFragment::class.java.simpleName
-        }
+        fun newInstance(phrases: Array<String>) = WelcomePasswordsFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
+        fun getFragmentTag(): String = WelcomePasswordsFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_passwords

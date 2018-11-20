@@ -17,6 +17,14 @@ fun ByteArray.toHex(): String {
     return result.toString().toLowerCase()
 }
 
+inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
+    var sum = 0L
+    for (element in this) {
+        sum += selector(element)
+    }
+    return sum
+}
+
 enum class TxSender(val value: Boolean) {
     SENT(true), RECEIVED(false);
 
@@ -48,6 +56,24 @@ enum class TxStatus(val value: Int) {
         }
 
         fun fromValue(type: Int): TxStatus {
+            return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
+        }
+    }
+}
+
+enum class UtxoStatus(val value: Int) {
+    Unconfirmed(0), Unspent(1), Locked(2), Spent(3), Draft(4);
+
+    companion object {
+        private val map: HashMap<Int, UtxoStatus> = HashMap()
+
+        init {
+            UtxoStatus.values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int): UtxoStatus {
             return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
         }
     }

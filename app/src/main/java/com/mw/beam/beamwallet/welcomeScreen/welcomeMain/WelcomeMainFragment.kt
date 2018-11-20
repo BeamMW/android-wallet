@@ -23,17 +23,8 @@ class WelcomeMainFragment : BaseFragment<WelcomeMainPresenter>(), WelcomeMainCon
     }
 
     companion object {
-        fun newInstance(): WelcomeMainFragment {
-            val args = Bundle()
-            val fragment = WelcomeMainFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomeMainFragment::class.java.simpleName
-        }
+        fun newInstance() = WelcomeMainFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomeMainFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_main

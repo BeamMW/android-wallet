@@ -24,18 +24,8 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
 
-        fun newInstance(phrases: Array<String>): WelcomeValidationFragment {
-            val args = Bundle()
-            args.putStringArray(ARG_PHRASES, phrases)
-            val fragment = WelcomeValidationFragment()
-            fragment.arguments = args
-
-            return fragment
-        }
-
-        fun getFragmentTag(): String {
-            return WelcomeValidationFragment::class.java.simpleName
-        }
+        fun newInstance(phrases: Array<String>) = WelcomeValidationFragment().apply { Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
+        fun getFragmentTag(): String = WelcomeValidationFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_validation
@@ -71,7 +61,7 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     }
 
     override fun getData(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
-    override fun showPasswordsFragment(phrases : Array<String>) = (activity as WelcomeValidationHandler).proceedToPasswords(phrases)
+    override fun showPasswordsFragment(phrases: Array<String>) = (activity as WelcomeValidationHandler).proceedToPasswords(phrases)
 
     override fun handleNextButton() {
         btnNext.isEnabled = arePhrasesValid()
@@ -134,6 +124,6 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     }
 
     interface WelcomeValidationHandler {
-        fun proceedToPasswords(phrases : Array<String>)
+        fun proceedToPasswords(phrases: Array<String>)
     }
 }
