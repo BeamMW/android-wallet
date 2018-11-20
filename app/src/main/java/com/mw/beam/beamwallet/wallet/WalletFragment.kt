@@ -18,7 +18,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.TxPeer
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.EntitiesHelper
+import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
 
@@ -48,7 +48,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
-        available.text = EntitiesHelper.convertToBeam(walletStatus.available).toString()
+        available.text = walletStatus.available.convertToBeam().toString()
     }
 
     override fun configTxStatus(txStatusData: OnTxStatusData) {

@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.EntitiesHelper
+import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
@@ -43,14 +45,14 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
 
         holder.apply {
             when (transaction.senderEnum) {
-                EntitiesHelper.TxSender.RECEIVED -> {
+                TxSender.RECEIVED -> {
                     sum.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
                     status.text = receivedStatus
                     currency.setImageResource(receivedCurrencyResId)
                     message.text = String.format(receiveText, "BEAM") //TODO replace when multiply currency will be available
                 }
-                EntitiesHelper.TxSender.SENT -> {
+                TxSender.SENT -> {
                     sum.setTextColor(sentColor)
                     status.setTextColor(sentColor)
                     status.text = sentStatus
@@ -59,9 +61,9 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                 }
             }
 
-            if (transaction.statusEnum == EntitiesHelper.TxStatus.Failed
-                    || transaction.statusEnum == EntitiesHelper.TxStatus.InProgress
-                    || transaction.statusEnum == EntitiesHelper.TxStatus.Cancelled) {
+            if (transaction.statusEnum == TxStatus.Failed
+                    || transaction.statusEnum == TxStatus.InProgress
+                    || transaction.statusEnum == TxStatus.Cancelled) {
                 status.setTextColor(commonStatusColor)
                 status.text = transaction.statusEnum.name.toLowerCase() //TODO make resources when all statuses will be stable
             }
@@ -69,7 +71,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             icon.setImageResource(beamResId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime * 1000)
-            sum.text = EntitiesHelper.convertToBeamWithSign(transaction.amount, transaction.sender)
+            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender)
         }
     }
 
