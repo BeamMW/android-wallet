@@ -14,7 +14,9 @@ interface ReceiveContract {
     }
 
     interface Presenter : MvpPresenter<View>
+
     interface Repository : MvpRepository {
         fun generateWalletId() : Subject<ByteArray>
+        fun createNewAddress(walletID: ByteArray, comment : String)
     }
 }

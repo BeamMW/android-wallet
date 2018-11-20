@@ -2,6 +2,7 @@ package com.mw.beam.beamwallet.receive
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.EntitiesHelper
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.disposables.Disposable
 
 /**
@@ -19,7 +20,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
 
     private fun initSubscriptions() {
         walletIdSubscription = repository.generateWalletId().subscribe {
-            view?.showSnackBar(EntitiesHelper.bytesToHex(it))
+            //TODO should be done by pressing button
+            repository.createNewAddress(it, "temp comment")
+            LogUtils.log(EntitiesHelper.bytesToHex(it))
         }
     }
 
