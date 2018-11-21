@@ -22,7 +22,7 @@ object WalletListener {
     var subOnSyncProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnAllUtxoChanged: Subject<Array<Utxo>> = BehaviorSubject.create<Array<Utxo>>().toSerialized()
+    var subOnAllUtxoChanged: Subject<Array<Utxo>?> = BehaviorSubject.create<Array<Utxo>?>().toSerialized()
     var subOnAddresses: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnGeneratedNewWalletID: Subject<ByteArray> = BehaviorSubject.create<ByteArray>().toSerialized()
     var subOnChangeCurrentWalletIDs: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
@@ -48,7 +48,7 @@ object WalletListener {
     fun onChangeCalculated() = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<Utxo>) = returnResult(subOnAllUtxoChanged, utxos, object {}.javaClass.enclosingMethod.name)
+    fun onAllUtxoChanged(utxos: Array<Utxo>?) = returnResult(subOnAllUtxoChanged, utxos, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onAdrresses(own: Boolean, addresses: Array<WalletAddress>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)

@@ -12,17 +12,24 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
     : BasePresenter<ReceiveContract.View>(currentView),
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
+    //TODO should be in state
+    private var walletId: ByteArray? = null
 
     override fun onStart() {
         super.onStart()
         view?.init()
     }
 
+    override fun onNextPressed() {
+        if(walletId != null) {
+            repository.createNewAddress(walletId!!, view?.getComment() ?: "")
+            view?.showToken(walletId!!.toHex())
+        }
+    }
+
     private fun initSubscriptions() {
         walletIdSubscription = repository.generateWalletId().subscribe {
-            //TODO should be done by pressing button
-            repository.createNewAddress(it, "temp comment")
-            LogUtils.log(it.toHex())
+            walletId = it
         }
     }
 

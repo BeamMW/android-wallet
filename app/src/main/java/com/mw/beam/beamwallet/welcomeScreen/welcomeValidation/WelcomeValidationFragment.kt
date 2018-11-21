@@ -24,7 +24,7 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
 
-        fun newInstance(phrases: Array<String>) = WelcomeValidationFragment().apply { Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
+        fun newInstance(phrases: Array<String>) = WelcomeValidationFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
         fun getFragmentTag(): String = WelcomeValidationFragment::class.java.simpleName
     }
 

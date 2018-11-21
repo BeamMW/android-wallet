@@ -69,10 +69,10 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
             if (height != null) {
-                maturing = utxos.filter {
+                maturing = utxos?.filter {
                     it.statusEnum == UtxoStatus.Unconfirmed ||
                             (it.statusEnum == UtxoStatus.Unspent && it.maturity > height!!)
-                }.sumByLong { it.amount }
+                }?.sumByLong { it.amount }
                 view?.configInProgress(receiving ?: 0, sending ?: 0, maturing ?: 0)
             }
         }
