@@ -35,6 +35,6 @@ interface WalletContract {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getTxPeerUpdated(): Subject<Array<TxPeer>?>
-        fun getUtxoUpdated(): Subject<Array<Utxo>>
+        fun getUtxoUpdated(): Subject<Array<Utxo>?>
     }
 }

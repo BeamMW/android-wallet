@@ -18,7 +18,6 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun init() {
         val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
         initToolbar(toolbar, getString(R.string.send_title), true)
-
     }
 
     override fun getAmount(): Long {

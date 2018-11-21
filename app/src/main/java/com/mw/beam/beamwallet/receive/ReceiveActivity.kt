@@ -20,6 +20,20 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         initToolbar(toolbar, getString(R.string.receive_title), true)
     }
 
+    override fun addListeners() {
+        btnNext.setOnClickListener { presenter.onNextPressed() }
+    }
+
+    override fun showToken(token2: String) {
+        token.setText(token2)
+    }
+
+    override fun getComment(): String? = comment.text?.toString()
+
+    override fun clearListeners() {
+        btnNext.setOnClickListener(null)
+    }
+
     override fun initPresenter(): BasePresenter<out MvpView> {
         presenter = ReceivePresenter(this, ReceiveRepository())
         return presenter

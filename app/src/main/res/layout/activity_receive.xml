@@ -21,6 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/receive_switch_title"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/swapSwitch"
             app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +31,7 @@
             android:id="@+id/swapSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/switchTitle"
             app:layout_constraintTop_toTopOf="parent" />
@@ -121,6 +123,7 @@
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
             android:layout_width="@dimen/transfer_btn_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_btn_margin_top"
@@ -131,5 +134,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commentDescription" />
+
+        <EditText
+            android:id="@+id/token"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/btnNext" />
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
