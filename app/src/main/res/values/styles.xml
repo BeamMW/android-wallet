@@ -43,8 +43,15 @@
 
     <style name="common_header_small">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textColor">@color/common_header_small_color</item>
         <item name="android:textSize">@dimen/common_header_small_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_header_small_temp">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_header_small_temp_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -111,8 +118,15 @@
         <item name="android:paddingEnd">@dimen/wallet_expandable_icon_padding</item>
     </style>
 
+    <style name="wallet_in_progress_categories_style" parent="common_header_small">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
     <!-- TransactionDetails -->
-    <style name="transaction_details_title" parent="common_header_small">
+    <style name="transaction_details_title" parent="common_header_small_temp">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
     </style>
