@@ -15,6 +15,8 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""
     var isForEnsure: Boolean = false
+    var isEmpty: Boolean = true
+        get() = phraseView.text?.toString()?.isEmpty() ?: true
     var isValid: Boolean = false
         get() = phrase == phraseView.text?.toString()?.trim()
     var number: Int = Int.MIN_VALUE
@@ -71,12 +73,19 @@ class BeamPhraseInput : ConstraintLayout {
         phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (isForEnsure) {
-                    if (isValid) {
-                        numberTextColorResId = R.color.phrase_validated_number_text_color
-                        numberBackgroundResId = R.drawable.validated_number_background
-                    } else {
-                        numberTextColorResId = R.color.colorPrimary
-                        numberBackgroundResId = R.drawable.empty_number_background
+                    when {
+                        isEmpty -> {
+                            numberTextColorResId = R.color.colorPrimary
+                            numberBackgroundResId = R.drawable.empty_number_background
+                        }
+                        isValid -> {
+                            numberTextColorResId = R.color.phrase_validated_number_text_color
+                            numberBackgroundResId = R.drawable.validated_number_background
+                        }
+                        else -> {
+                            numberTextColorResId = R.color.phrase_error_number_text_color
+                            numberBackgroundResId = R.drawable.error_number_background
+                        }
                     }
                 } else {
                     if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
