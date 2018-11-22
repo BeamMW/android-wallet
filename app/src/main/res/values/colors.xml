@@ -32,7 +32,8 @@
 
     <!--WelcomePhrasesFragment-->
     <color name="phrase_number_text_color">#80d8d8d8</color>
-    <color name="phrase_validated_number_text_color">#02253c</color>
+    <color name="phrase_validated_number_text_color">#032e49</color>
+    <color name="phrase_error_number_text_color">@color/colorPrimaryDark</color>
 
     <!--WalletFragment-->
     <color name="transaction_common_status_color">@color/common_text_color</color>
