@@ -134,43 +134,134 @@
                 app:layout_constraintStart_toEndOf="@id/inProgressTitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!--Receiving-->
+            <TextView
+                android:id="@+id/receivingTitle"
+                style="@style/wallet_in_progress_categories_style"
+                android:layout_marginStart="@dimen/wallet_in_progress_title_margin_side"
+                android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                android:text="@string/wallet_receiving"
+                app:layout_constraintEnd_toStartOf="@id/sendingTitle"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inProgressTitle" />
+
             <TextView
                 android:id="@+id/receiving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/received_color"
                 android:textSize="@dimen/wallet_available_text_size"
+                app:layout_constraintEnd_toEndOf="@id/receivingTitle"
+                app:layout_constraintStart_toStartOf="@id/receivingTitle"
+                app:layout_constraintTop_toBottomOf="@id/receivingTitle" />
+
+            <ImageView
+                android:id="@+id/receivingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
+                android:contentDescription="@string/wallet_receiving"
+                app:layout_constraintEnd_toEndOf="@id/receivingTitle"
+                app:layout_constraintStart_toStartOf="@id/receivingTitle"
+                app:layout_constraintTop_toBottomOf="@id/receiving"
+                app:srcCompat="@drawable/ic_receiving" />
+
+            <android.support.constraint.Group
+                android:id="@+id/receivingGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="receivingTitle,receiving,receivingIcon" />
+
+            <!--Sending-->
+            <TextView
+                android:id="@+id/sendingTitle"
+                style="@style/wallet_in_progress_categories_style"
+                android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                android:text="@string/wallet_sending"
+                app:layout_constraintEnd_toStartOf="@id/maturingTitle"
+                app:layout_constraintStart_toEndOf="@id/receivingTitle"
                 app:layout_constraintTop_toBottomOf="@id/inProgressTitle" />
 
             <TextView
-                app:layout_constraintStart_toEndOf="@id/receiving"
                 android:id="@+id/sending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/send_selector"
                 android:textSize="@dimen/wallet_available_text_size"
+                app:layout_constraintEnd_toEndOf="@id/sendingTitle"
+                app:layout_constraintStart_toStartOf="@id/sendingTitle"
+                app:layout_constraintTop_toBottomOf="@id/sendingTitle" />
+
+            <ImageView
+                android:id="@+id/sendingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
+                android:contentDescription="@string/wallet_sending"
+                app:layout_constraintEnd_toEndOf="@id/sendingTitle"
+                app:layout_constraintStart_toStartOf="@id/sendingTitle"
+                app:layout_constraintTop_toBottomOf="@id/sending"
+                app:srcCompat="@drawable/ic_sending" />
+
+            <android.support.constraint.Group
+                android:id="@+id/sendingGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="sending,sendingTitle,sendingIcon" />
+
+            <!--Maturing-->
+            <TextView
+                android:id="@+id/maturingTitle"
+                style="@style/wallet_in_progress_categories_style"
+                android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                android:layout_marginEnd="@dimen/wallet_in_progress_title_margin_side"
+                android:text="@string/wallet_maturing"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sendingTitle"
                 app:layout_constraintTop_toBottomOf="@id/inProgressTitle" />
 
             <TextView
-                app:layout_constraintStart_toEndOf="@id/sending"
                 android:id="@+id/maturing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/common_text_color"
                 android:textSize="@dimen/wallet_available_text_size"
-                app:layout_constraintTop_toBottomOf="@id/inProgressTitle" />
+                app:layout_constraintEnd_toEndOf="@id/maturingTitle"
+                app:layout_constraintStart_toStartOf="@id/maturingTitle"
+                app:layout_constraintTop_toBottomOf="@id/maturingTitle" />
+
+            <ImageView
+                android:id="@+id/maturingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
+                android:contentDescription="@string/wallet_maturing"
+                app:layout_constraintEnd_toEndOf="@id/maturingTitle"
+                app:layout_constraintStart_toStartOf="@id/maturingTitle"
+                app:layout_constraintTop_toBottomOf="@id/maturing"
+                app:srcCompat="@drawable/ic_maturing" />
+
+            <android.support.constraint.Group
+                android:id="@+id/maturingGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="maturing,maturingTitle,maturingIcon" />
 
             <android.support.constraint.Group
                 android:id="@+id/inProgressGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="receiving, sending, maturing" />
+                app:constraint_referenced_ids="receiving, receivingTitle, receivingIcon, sending, sendingTitle, sendingIcon, maturing, maturingTitle, maturingIcon" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -194,6 +285,7 @@
         android:contentDescription="@null"
         android:paddingStart="@dimen/common_padding"
         android:paddingEnd="@dimen/common_padding"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/transactionsTitle"

@@ -44,9 +44,30 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
-        receiving.text = receivingAmount.convertToBeamWithSign(false)
-        sending.text = sendingAmount.convertToBeamWithSign(true)
-        maturing.text = maturingAmount.convertToBeam().toString()
+        when (receivingAmount) {
+            0L -> receivingGroup.visibility = View.GONE
+            else -> {
+                receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receivingGroup.visibility = View.GONE
+                receivingGroup.visibility = View.VISIBLE
+            }
+        }
+
+        when (sendingAmount) {
+            0L -> sendingGroup.visibility = View.GONE
+            else -> {
+                sending.text = sendingAmount.convertToBeamWithSign(true)
+                sendingGroup.visibility = View.VISIBLE
+            }
+        }
+
+        when (maturingAmount) {
+            0L -> maturingGroup.visibility = View.GONE
+            else -> {
+                maturing.text = maturingAmount.convertToBeam().toString()
+                maturingGroup.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun configTxStatus(txStatusData: OnTxStatusData) {

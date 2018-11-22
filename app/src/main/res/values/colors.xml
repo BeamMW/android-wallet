@@ -8,6 +8,7 @@
     <color name="common_text_color">#ffffff</color>
     <color name="common_error_color">#ff625c</color>
     <color name="common_subheader_dark_color">#8da1ad</color>
+    <color name="common_header_small_color">#99ffffff</color>
     <color name="snack_bar_color">#0a4b66</color>
     <color name="alert_dialog_color">#0a4b66</color>
     <color name="status_bar_color">#33000000</color>
