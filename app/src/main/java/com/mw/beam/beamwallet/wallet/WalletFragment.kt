@@ -32,6 +32,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private var shouldExpandAvailable = false //TODO where should it be?
     private var shouldExpandInProgress = false
 
+    //TODO move to state
+    private var receivingAmount: Long = 0L
+    private var sendingAmount: Long = 0L
+    private var maturingAmount: Long = 0L
+
     companion object {
         fun newInstance() = WalletFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WalletFragment::class.java.simpleName
@@ -44,11 +49,23 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
+        this.receivingAmount = receivingAmount
+        this.sendingAmount = sendingAmount
+        this.maturingAmount = maturingAmount
+
+        if (receivingAmount == 0L && sendingAmount == 0L && maturingAmount == 0L) {
+            inProgressLayout.visibility = View.GONE
+            return
+        } else {
+            inProgressLayout.visibility = View.VISIBLE
+        }
+
         when (receivingAmount) {
-            0L -> receivingGroup.visibility = View.GONE
+            0L -> {
+                receivingGroup.visibility = View.GONE
+            }
             else -> {
                 receiving.text = receivingAmount.convertToBeamWithSign(false)
-                receivingGroup.visibility = View.GONE
                 receivingGroup.visibility = View.VISIBLE
             }
         }
@@ -99,7 +116,14 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnExpandInProgress.setOnClickListener {
             animateDropDownIcon(btnExpandInProgress, shouldExpandInProgress)
             shouldExpandInProgress = !shouldExpandInProgress
-            inProgressGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+            receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+            sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+            maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+
+            //TODO maybe it should be done by presenter after implementing of state
+            if (!shouldExpandInProgress) {
+                configInProgress(receivingAmount, sendingAmount, maturingAmount)
+            }
         }
 
         btnTransactionsMenu.setOnClickListener { view ->
