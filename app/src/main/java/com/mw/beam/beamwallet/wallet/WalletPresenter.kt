@@ -20,7 +20,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     private lateinit var txPeerUpdatedSubscription: Disposable
     private lateinit var utxoUpdatedSubscription: Disposable
 
-    //TODO crete State and safe all data there
+    //TODO create State and save all data there
     var height: Long? = null
     var maturing: Long? = null
     var receiving: Long? = null
