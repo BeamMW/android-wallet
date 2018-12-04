@@ -5,7 +5,7 @@ package com.mw.beam.beamwallet.core.helpers
  */
 
 
-fun Long.convertToBeam() = this / 1000000L
+fun Long.convertToBeam() = "${this / 1000000L} B"
 fun Long.convertToGroth() = this * 1000000L
 fun Long.convertToBeamAsFloatString() = String.format("%.10f", this.toFloat() / 1000000f)
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeam()}" else "+${this.convertToBeam()}"

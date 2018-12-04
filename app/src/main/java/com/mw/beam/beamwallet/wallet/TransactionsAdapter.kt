@@ -21,8 +21,6 @@ import kotlinx.android.synthetic.main.item_transaction.*
 class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
-    private val sentCurrencyResId = R.drawable.beam_sent
-    private val receivedCurrencyResId = R.drawable.beam_received
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val receivedStatus = context.getString(R.string.wallet_status_received)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
@@ -49,14 +47,12 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                     sum.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
                     status.text = receivedStatus
-                    currency.setImageResource(receivedCurrencyResId)
                     message.text = String.format(receiveText, "BEAM") //TODO replace when multiply currency will be available
                 }
                 TxSender.SENT -> {
                     sum.setTextColor(sentColor)
                     status.setTextColor(sentColor)
                     status.text = sentStatus
-                    currency.setImageResource(sentCurrencyResId)
                     message.text = String.format(sendText, "BEAM") //TODO replace when multiply currency will be available
                 }
             }

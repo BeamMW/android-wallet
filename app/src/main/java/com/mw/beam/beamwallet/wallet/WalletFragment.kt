@@ -39,7 +39,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
-        available.text = walletStatus.available.convertToBeam().toString()
+        available.text = walletStatus.available.convertToBeam()
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
@@ -71,13 +71,15 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         when (maturingAmount) {
             0L -> maturingGroup.visibility = View.GONE
             else -> {
-                maturing.text = maturingAmount.convertToBeam().toString()
+                maturing.text = maturingAmount.convertToBeam()
                 maturingGroup.visibility = View.VISIBLE
             }
         }
     }
 
     override fun configTxStatus(txStatusData: OnTxStatusData) {
+        transactionsTitle.visibility = if (txStatusData.tx.isNullOrEmpty()) View.GONE else View.VISIBLE
+        
         if (txStatusData.tx != null) {
             adapter.setData(txStatusData.tx.sortedByDescending { it.modifyTime })
         }
