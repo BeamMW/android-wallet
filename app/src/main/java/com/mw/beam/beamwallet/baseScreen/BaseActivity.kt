@@ -1,26 +1,16 @@
 package com.mw.beam.beamwallet.baseScreen
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.views.BeamButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -28,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
-    private var alert: AlertDialog? = null
+    private val delegate = ScreenDelegate()
 
     protected fun showFragment(
             fragment: Fragment,
@@ -56,56 +46,15 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
         }
     }
 
-    override fun showSnackBar(status: AppConfig.Status) {
-        showSnackBar(
-                when (status) {
-                    AppConfig.Status.STATUS_OK -> getString(R.string.common_successful)
-                    AppConfig.Status.STATUS_ERROR -> getString(R.string.common_error)
-                }
-        )
-    }
 
-    override fun showSnackBar(message: String) {
-        val snackBar = Snackbar.make(findViewById(android.R.id.content) ?: return,
-                message, Snackbar.LENGTH_LONG)
-        snackBar.view.setBackgroundColor(ContextCompat.getColor(this, R.color.snack_bar_color))
-        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(this, R.color.colorAccent))
-        snackBar.show()
-    }
-
-    @SuppressLint("InflateParams")
     override fun showAlert(message: String, btnTextResId: Int, btnIconResId: Int, onClick: () -> Unit): AlertDialog? {
-        val context = baseContext
-        val view = LayoutInflater.from(context).inflate(R.layout.common_alert_dialog, null)
-        val alertText = view.findViewById<TextView>(R.id.alertText)
-        val button = view.findViewById<BeamButton>(R.id.button)
-
-        alertText.text = message
-        button.textResId = btnTextResId
-        button.iconResId = btnIconResId
-        button.setOnClickListener {
-            onClick.invoke()
-            alert?.dismiss()
-        }
-
-        val dialog = AlertDialog.Builder(context).setView(view).show()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        alert = dialog
-
-        return alert
+        return delegate.showAlert(message, btnTextResId, btnIconResId, onClick, baseContext)
     }
 
-    override fun hideKeyboard() {
-        val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(findViewById<View>(android.R.id.content)?.windowToken, 0)
-    }
-
-    override fun dismissAlert() {
-        if (alert != null) {
-            alert?.dismiss()
-            alert = null
-        }
-    }
+    override fun showSnackBar(status: AppConfig.Status) = delegate.showSnackBar(status, this)
+    override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
+    override fun hideKeyboard() = delegate.hideKeyboard(this)
+    override fun dismissAlert() = delegate.dismissAlert()
 
     protected fun initToolbar(toolbar: Toolbar, title: String, isWithStatus: Boolean = false) {
         setSupportActionBar(toolbar)
@@ -144,6 +93,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
     }
 
     override fun onControllerContentViewCreated() {
+        super.onControllerContentViewCreated()
         presenter.onViewCreated()
     }
 
