@@ -9,6 +9,7 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.view.Gravity
+import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
@@ -29,13 +30,6 @@ import kotlinx.android.synthetic.main.fragment_wallet.*
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var presenter: WalletPresenter
     private lateinit var adapter: TransactionsAdapter
-    private var shouldExpandAvailable = false //TODO where should it be?
-    private var shouldExpandInProgress = false
-
-    //TODO move to state
-    private var receivingAmount: Long = 0L
-    private var sendingAmount: Long = 0L
-    private var maturingAmount: Long = 0L
 
     companion object {
         fun newInstance() = WalletFragment().apply { arguments = Bundle() }
@@ -49,10 +43,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
-        this.receivingAmount = receivingAmount
-        this.sendingAmount = sendingAmount
-        this.maturingAmount = maturingAmount
-
         if (receivingAmount == 0L && sendingAmount == 0L && maturingAmount == 0L) {
             inProgressLayout.visibility = View.GONE
             return
@@ -108,55 +98,15 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnSend.setOnClickListener { presenter.onSendPressed() }
 
         btnExpandAvailable.setOnClickListener {
-            animateDropDownIcon(btnExpandAvailable, shouldExpandAvailable)
-            shouldExpandAvailable = !shouldExpandAvailable
-            availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
+            presenter.onExpandAvailablePressed()
         }
 
         btnExpandInProgress.setOnClickListener {
-            animateDropDownIcon(btnExpandInProgress, shouldExpandInProgress)
-            shouldExpandInProgress = !shouldExpandInProgress
-            receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-            sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-            maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-
-            //TODO maybe it should be done by presenter after implementing of state
-            if (!shouldExpandInProgress) {
-                configInProgress(receivingAmount, sendingAmount, maturingAmount)
-            }
+            presenter.onExpandInProgressPressed()
         }
 
         btnTransactionsMenu.setOnClickListener { view ->
-            val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
-            val transactionsMenu = PopupMenu(wrapper, view)
-            transactionsMenu.inflate(R.menu.wallet_transactions_menu)
-
-            transactionsMenu.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.menu_search -> {
-                        presenter.onSearchPressed()
-                        true
-                    }
-                    R.id.menu_filter -> {
-                        presenter.onFilterPressed()
-                        true
-                    }
-                    R.id.menu_export -> {
-                        presenter.onExportPressed()
-                        true
-                    }
-                    R.id.menu_delete -> {
-                        presenter.onDeletePressed()
-                        true
-                    }
-                    else -> true
-                }
-            }
-
-            val menuHelper = MenuPopupHelper(wrapper, transactionsMenu.menu as MenuBuilder, view)
-            menuHelper.setForceShowIcon(true)
-            menuHelper.gravity = Gravity.START
-            menuHelper.show()
+            presenter.onTransactionsMenuButtonPressed(view)
         }
     }
 
@@ -173,17 +123,59 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         transactionsList.adapter = adapter
     }
 
-    override fun showTransactionDetails(txDescription: TxDescription) {
-        (activity as TransactionDetailsHandler).onShowTransactionDetails(txDescription)
+    override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
+        animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
+        availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
-    override fun showReceiveScreen() {
-        (activity as TransactionDetailsHandler).onReceive()
+    override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
+        animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
+        receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+        sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+        maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
     }
 
-    override fun showSendScreen() {
-        (activity as TransactionDetailsHandler).onSend()
+    @SuppressLint("RestrictedApi")
+    override fun showTransactionsMenu(menu: View) {
+        val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
+        val transactionsMenu = PopupMenu(wrapper, menu)
+        transactionsMenu.inflate(R.menu.wallet_transactions_menu)
+
+        transactionsMenu.setOnMenuItemClickListener {
+            presenter.onTransactionsMenuPressed(it)
+        }
+
+        val menuHelper = MenuPopupHelper(wrapper, transactionsMenu.menu as MenuBuilder, menu)
+        menuHelper.setForceShowIcon(true)
+        menuHelper.gravity = Gravity.START
+        menuHelper.show()
     }
+
+    override fun handleTransactionsMenu(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_search -> {
+                presenter.onSearchPressed()
+                true
+            }
+            R.id.menu_filter -> {
+                presenter.onFilterPressed()
+                true
+            }
+            R.id.menu_export -> {
+                presenter.onExportPressed()
+                true
+            }
+            R.id.menu_delete -> {
+                presenter.onDeletePressed()
+                true
+            }
+            else -> true
+        }
+    }
+
+    override fun showTransactionDetails(txDescription: TxDescription) = (activity as TransactionDetailsHandler).onShowTransactionDetails(txDescription)
+    override fun showReceiveScreen() = (activity as TransactionDetailsHandler).onReceive()
+    override fun showSendScreen() = (activity as TransactionDetailsHandler).onSend()
 
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
@@ -202,7 +194,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = WalletPresenter(this, WalletRepository())
+        presenter = WalletPresenter(this, WalletRepository(), WalletState())
         return presenter
     }
 

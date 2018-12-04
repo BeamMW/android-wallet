@@ -1,10 +1,12 @@
 package com.mw.beam.beamwallet.wallet
 
+import android.view.MenuItem
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.*
 import io.reactivex.subjects.Subject
+import android.view.View as MenuView
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -19,6 +21,10 @@ interface WalletContract {
         fun showTransactionDetails(txDescription: TxDescription)
         fun showReceiveScreen()
         fun showSendScreen()
+        fun handleExpandAvailable(shouldExpandAvailable : Boolean)
+        fun handleExpandInProgress(shouldExpandInProgress : Boolean)
+        fun handleTransactionsMenu(item : MenuItem) : Boolean
+        fun showTransactionsMenu(menu: MenuView)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -29,6 +35,10 @@ interface WalletContract {
         fun onFilterPressed()
         fun onExportPressed()
         fun onDeletePressed()
+        fun onExpandAvailablePressed()
+        fun onExpandInProgressPressed()
+        fun onTransactionsMenuPressed(item : MenuItem) : Boolean
+        fun onTransactionsMenuButtonPressed(menu : MenuView)
     }
 
     interface Repository : MvpRepository {
