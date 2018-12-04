@@ -83,22 +83,11 @@
                 app:layout_constraintStart_toEndOf="@id/icAvailableCurrency"
                 app:layout_constraintTop_toBottomOf="@id/availableTitle" />
 
-            <ImageView
-                android:id="@+id/icAvailableTextCurrency"
-                android:layout_width="@dimen/wallet_available_text_icon_size"
-                android:layout_height="@dimen/wallet_available_text_icon_size"
-                android:contentDescription="@null"
-                app:layout_constraintBottom_toBottomOf="@id/available"
-                app:layout_constraintStart_toEndOf="@id/available"
-                app:layout_constraintTop_toTopOf="@id/available"
-                app:layout_constraintVertical_bias="1"
-                app:srcCompat="@drawable/beam_common" />
-
             <android.support.constraint.Group
                 android:id="@+id/availableGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="icAvailableCurrency, available, icAvailableTextCurrency" />
+                app:constraint_referenced_ids="icAvailableCurrency, available" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
