@@ -79,7 +79,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun configTxStatus(txStatusData: OnTxStatusData) {
         transactionsTitle.visibility = if (txStatusData.tx.isNullOrEmpty()) View.GONE else View.VISIBLE
-        
+
         if (txStatusData.tx != null) {
             adapter.setData(txStatusData.tx.sortedByDescending { it.modifyTime })
         }

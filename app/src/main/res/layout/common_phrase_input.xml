@@ -21,7 +21,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_number_offset"
-        android:background="@drawable/edit_text_underline"
+        android:background="@drawable/edit_text_selector"
         android:gravity="center_horizontal"
         android:inputType="text"
         android:maxLines="1"

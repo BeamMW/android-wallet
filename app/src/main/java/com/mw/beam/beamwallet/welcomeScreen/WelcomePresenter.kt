@@ -11,7 +11,12 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.showWelcomeMainFragment()
+
+        if (repository.isWalletInitialized()) {
+            view?.showWelcomeMainFragment()
+        } else {
+            view?.showCreateFragment()
+        }
     }
 
     override fun onCreateWallet() {
@@ -26,7 +31,7 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
         view?.showMainActivity()
     }
 
-    override fun onProceedToPasswords(phrases : Array<String>) {
+    override fun onProceedToPasswords(phrases: Array<String>) {
         view?.showPasswordsFragment(phrases)
     }
 

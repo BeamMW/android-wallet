@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeMain
+package com.mw.beam.beamwallet.welcomeScreen.welcomeOpen
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
@@ -6,18 +6,9 @@ import com.mw.beam.beamwallet.core.AppConfig
 /**
  * Created by vain onnellinen on 10/19/18.
  */
-class WelcomeMainPresenter(currentView: WelcomeMainContract.View, private val repository: WelcomeMainContract.Repository)
-    : BasePresenter<WelcomeMainContract.View>(currentView),
-        WelcomeMainContract.Presenter {
-
-    override fun onStart() {
-        super.onStart()
-        view?.configScreen(repository.isWalletInitialized())
-    }
-
-    override fun onCreateWallet() {
-        view?.createWallet()
-    }
+class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, private val repository: WelcomeOpenContract.Repository)
+    : BasePresenter<WelcomeOpenContract.View>(currentView),
+        WelcomeOpenContract.Presenter {
 
     override fun onOpenWallet() {
         view?.hideKeyboard()
@@ -41,10 +32,5 @@ class WelcomeMainPresenter(currentView: WelcomeMainContract.View, private val re
     }
 
     override fun onChangeConfirm() {
-        view?.configScreen(false)
-    }
-
-    override fun onRestoreWallet() {
-        view?.restoreWallet()
     }
 }

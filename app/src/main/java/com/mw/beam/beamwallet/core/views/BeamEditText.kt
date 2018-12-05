@@ -1,0 +1,92 @@
+package com.mw.beam.beamwallet.core.views
+
+import android.content.Context
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatEditText
+import android.util.AttributeSet
+import com.mw.beam.beamwallet.R
+
+/**
+ * Created by vain onnellinen on 12/4/18.
+ */
+class BeamEditText : AppCompatEditText {
+    private val STATE_ACCENT = intArrayOf(R.attr.state_accent)
+    private val STATE_NORMAL = intArrayOf(R.attr.state_normal)
+    private val STATE_ERROR = intArrayOf(R.attr.state_error)
+    var isStateAccent: Boolean = false
+        set(value) {
+            field = value
+            if (field) {
+                isStateNormal = false
+                isStateError = false
+                refreshDrawableState()
+            }
+        }
+    var isStateNormal: Boolean = false
+        set(value) {
+            field = value
+            if (field) {
+                isStateAccent = false
+                isStateError = false
+                refreshDrawableState()
+            }
+        }
+    var isStateError: Boolean = false
+        set(value) {
+            field = value
+            if (field) {
+                isStateAccent = false
+                isStateNormal = false
+                refreshDrawableState()
+            }
+        }
+
+    constructor(context: Context) : super(context) {
+        init(context, null)
+    }
+
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
+        init(context, attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
+        init(context, attrs)
+    }
+
+    override fun onCreateDrawableState(extraSpace: Int): IntArray {
+        val drawableState = super.onCreateDrawableState(extraSpace + 3)
+
+        when {
+            isStateAccent -> mergeDrawableStates(drawableState, STATE_ACCENT)
+            isStateNormal -> mergeDrawableStates(drawableState, STATE_NORMAL)
+            isStateError -> mergeDrawableStates(drawableState, STATE_ERROR)
+        }
+
+        return drawableState
+    }
+
+    private fun init(context: Context, attrs: AttributeSet?) {
+        this.background = ContextCompat.getDrawable(context, R.drawable.edit_text_selector)
+        setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_selector))
+
+        this.setOnFocusChangeListener { _, isFocused ->
+            if (isFocused) {
+                isStateAccent = true
+            } else {
+                isStateNormal = true
+            }
+        }
+
+        if (attrs != null) {
+            val a = context.theme.obtainStyledAttributes(
+                    attrs,
+                    R.styleable.BeamEditText,
+                    0, 0
+            )
+
+            isStateAccent = a.getBoolean(R.styleable.BeamEditText_state_accent, false)
+            isStateNormal = a.getBoolean(R.styleable.BeamEditText_state_normal, false)
+            isStateError = a.getBoolean(R.styleable.BeamEditText_state_error, false)
+        }
+    }
+}

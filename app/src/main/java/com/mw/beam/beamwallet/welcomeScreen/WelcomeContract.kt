@@ -14,6 +14,7 @@ interface WelcomeContract {
         fun showPasswordsFragment(phrases : Array<String>)
         fun showPhrasesFragment()
         fun showRecoverFragment()
+        fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
         fun showMainActivity()
     }
@@ -27,5 +28,7 @@ interface WelcomeContract {
         fun onProceedToValidation(phrases: Array<String>)
     }
 
-    interface Repository : MvpRepository
+    interface Repository : MvpRepository {
+        fun isWalletInitialized(): Boolean
+    }
 }

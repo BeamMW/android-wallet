@@ -18,6 +18,7 @@
     <dimen name="toolbar_padding_for_status">5dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
     <dimen name="alert_dialog_button_padding">40dp</dimen>
+    <dimen name="logo_text_size">16sp</dimen>
 
     <!--WelcomeActivity-->
     <dimen name="welcome_title_text_size">30sp</dimen>
@@ -25,11 +26,11 @@
     <dimen name="welcome_button_text_padding_start">14dp</dimen>
     <dimen name="welcome_button_text_padding_top">11dp</dimen>
     <dimen name="welcome_button_text_padding_bottom">11dp</dimen>
-    <dimen name="welcome_button_margin_top">16dp</dimen>
+    <dimen name="welcome_button_margin_offset">20dp</dimen>
     <dimen name="welcome_logo_width">159dp</dimen>
     <dimen name="welcome_logo_height">142dp</dimen>
     <dimen name="welcome_logo_margin_top">153dp</dimen>
-    <dimen name="welcome_logo_text_margin_top">20dp</dimen>
+    <dimen name="welcome_logo_text_margin_top">30dp</dimen>
     <dimen name="welcome_passwords_padding">44dp</dimen>
     <dimen name="welcome_passwords_title_padding_top">25dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
@@ -37,9 +38,8 @@
     <dimen name="welcome_passwords_button_margin_bottom">41dp</dimen>
     <dimen name="welcome_passwords_progress_item_margin">8dp</dimen>
     <dimen name="welcome_passwords_items_offset">9dp</dimen>
-    <dimen name="welcome_password_title_padding_bottom">14dp</dimen>
+    <dimen name="welcome_password_title_padding_bottom">15dp</dimen>
     <dimen name="welcome_phrases_button_margin">40dp</dimen>
-    <dimen name="welcome_main_margin_side">53dp</dimen>
     <dimen name="welcome_number_text_size">10sp</dimen>
     <dimen name="welcome_number_offset">9dp</dimen>
     <dimen name="welcome_grid_offset">28dp</dimen>
@@ -48,6 +48,15 @@
     <dimen name="welcome_description_side_offset">28dp</dimen>
     <item name="welcome_password_dots_space" format="float" type="dimen">0.28</item>
     <item name="welcome_password_letters_space" format="float" type="dimen">0.1</item>
+
+    <!--WelcomeOpenFragment-->
+    <dimen name="welcome_open_logo_width">89dp</dimen>
+    <dimen name="welcome_open_logo_height">80dp</dimen>
+    <dimen name="welcome_open_logo_margin_top">35dp</dimen>
+    <dimen name="welcome_open_margin_side">30dp</dimen>
+    <dimen name="welcome_open_forgot_padding_bottom">30dp</dimen>
+    <dimen name="welcome_open_forgot_padding_top">60dp</dimen>
+    <dimen name="welcome_open_forgot_text_size">14sp</dimen>
 
     <!--WalletFragment-->
     <dimen name="wallet_card_padding">20dp</dimen>
