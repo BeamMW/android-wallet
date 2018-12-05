@@ -1,13 +1,13 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeRecover
+package com.mw.beam.beamwallet.welcomeScreen.welcomeRestore
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 
 /**
  * Created by vain onnellinen on 11/5/18.
  */
-class WelcomeRecoverPresenter(currentView: WelcomeRecoverContract.View, private val repository: WelcomeRecoverContract.Repository)
-    : BasePresenter<WelcomeRecoverContract.View>(currentView),
-        WelcomeRecoverContract.Presenter {
+class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, private val repository: WelcomeRestoreContract.Repository)
+    : BasePresenter<WelcomeRestoreContract.View>(currentView),
+        WelcomeRestoreContract.Presenter {
 
     override fun onStart() {
         super.onStart()
