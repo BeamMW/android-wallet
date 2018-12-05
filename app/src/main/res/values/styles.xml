@@ -92,13 +92,12 @@
     </style>
 
     <style name="welcome_password_view_style" parent="common_header_big">
-        <item name="android:textColorHint">@color/password_text_color</item>
         <item name="android:inputType">textPassword</item>
-        <item name="android:background">@drawable/edit_text_underline</item>
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:letterSpacing">@dimen/welcome_password_dots_space</item>
     </style>
 
-    <style name="welcome_password_title_style" parent="common_header_big">
+    <style name="welcome_password_title_style" parent="common_header_small_temp">
         <item name="android:paddingBottom">@dimen/welcome_password_title_padding_bottom</item>
     </style>
 

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/welcome_open_logo_width"
+        android:layout_height="@dimen/welcome_open_logo_height"
+        android:layout_marginTop="@dimen/welcome_open_logo_margin_top"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/passTitle"
+        style="@style/welcome_password_title_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/welcome_open_margin_side"
+        android:layout_marginEnd="@dimen/welcome_open_margin_side"
+        android:text="@string/welcome_pass_title"
+        app:layout_constraintBottom_toTopOf="@id/pass"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <com.mw.beam.beamwallet.core.views.BeamEditText
+        android:id="@+id/pass"
+        style="@style/welcome_password_view_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/welcome_open_margin_side"
+        android:layout_marginEnd="@dimen/welcome_open_margin_side"
+        app:layout_constraintBottom_toTopOf="@id/passError"
+        app:layout_constraintTop_toBottomOf="@id/passTitle"
+        tools:ignore="Autofill,LabelFor" />
+
+    <TextView
+        android:id="@+id/passError"
+        style="@style/common_subheader_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/welcome_open_margin_side"
+        android:layout_marginEnd="@dimen/welcome_open_margin_side"
+        android:fontFamily="sans-serif"
+        android:paddingTop="@dimen/welcome_passwords_items_offset"
+        android:text="@string/welcome_pass_not_much"
+        android:textColor="@color/common_error_color"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/btnOpen"
+        app:layout_constraintTop_toBottomOf="@id/pass" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnOpen"
+        style="@style/common_button_style"
+        android:layout_marginBottom="@dimen/welcome_button_margin_offset"
+        app:button_icon="@drawable/ic_btn_show"
+        app:button_text="@string/welcome_open"
+        app:layout_constraintBottom_toTopOf="@id/btnChange" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnChange"
+        style="@style/common_button_style"
+        app:button_icon="@drawable/ic_btn_change"
+        app:button_state_list="@color/primary_selector"
+        app:button_text="@string/welcome_login_to_another"
+        app:button_text_color="@color/common_text_color"
+        app:layout_constraintBottom_toTopOf="@id/forgotPass" />
+
+    <TextView
+        android:id="@+id/forgotPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:paddingTop="@dimen/welcome_open_forgot_padding_top"
+        android:paddingBottom="@dimen/welcome_open_forgot_padding_bottom"
+        android:text="@string/welcome_forgot_pass"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/welcome_open_forgot_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>

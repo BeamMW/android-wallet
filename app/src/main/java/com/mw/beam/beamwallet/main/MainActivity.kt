@@ -98,10 +98,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_wallet -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                R.id.nav_address_book -> LogUtils.log("address_book")
+               // R.id.nav_address_book -> LogUtils.log("address_book")
                 R.id.nav_utxo -> LogUtils.log("utxo")
-                R.id.nav_dashboard -> LogUtils.log("dashboard")
-                R.id.nav_notifications -> LogUtils.log("notifications")
+               // R.id.nav_dashboard -> LogUtils.log("dashboard")
+               // R.id.nav_notifications -> LogUtils.log("notifications")
                 R.id.nav_help -> LogUtils.log("help")
                 R.id.nav_settings -> LogUtils.log("settings")
             }

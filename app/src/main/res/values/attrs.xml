@@ -19,6 +19,12 @@
         <attr name="number" />
     </declare-styleable>
 
+    <declare-styleable name="BeamEditText">
+        <attr name="state_normal" format="boolean" />
+        <attr name="state_accent" format="boolean" />
+        <attr name="state_error" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="BeamPhraseInput">
         <attr name="phrase" />
         <attr name="number" />
