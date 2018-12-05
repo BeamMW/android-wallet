@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/common_alert_dialog_background">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:paddingBottom="@dimen/alert_dialog_title_padding"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/alertText"
@@ -11,12 +23,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="@dimen/alert_dialog_button_padding" />
+        android:paddingBottom="@dimen/alert_dialog_alert_padding"
+        app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/button"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnConfirm"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/alertText" />
+
+    <TextView
+        android:id="@+id/btnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/alert_dialog_button_padding"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@id/alertText"
+        tools:ignore="RtlSymmetry" />
 
 </android.support.constraint.ConstraintLayout>

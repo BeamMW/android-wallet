@@ -36,7 +36,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     }
 
     override fun createWallet() = (activity as WelcomeCreateHandler).createWallet()
-    override fun restoreWallet() = (activity as WelcomeCreateHandler).recoverWallet()
+    override fun restoreWallet() = (activity as WelcomeCreateHandler).restoreWallet()
 
     override fun initPresenter(): BasePresenter<out MvpView> {
         presenter = WelcomeCreatePresenter(this, WelcomeCreateRepository())
@@ -45,7 +45,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
 
     interface WelcomeCreateHandler {
         fun createWallet()
-        fun recoverWallet()
+        fun restoreWallet()
     }
 }
 

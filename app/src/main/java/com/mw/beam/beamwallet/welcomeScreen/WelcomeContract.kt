@@ -9,11 +9,11 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
  */
 interface WelcomeContract {
     interface View : MvpView {
-        fun showWelcomeMainFragment()
+        fun showOpenFragment()
         fun showDescriptionFragment()
         fun showPasswordsFragment(phrases : Array<String>)
         fun showPhrasesFragment()
-        fun showRecoverFragment()
+        fun showRestoreFragment()
         fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
         fun showMainActivity()
@@ -21,9 +21,10 @@ interface WelcomeContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onCreateWallet()
-        fun onRecoverWallet()
+        fun onRestoreWallet()
         fun onGeneratePhrase()
         fun onOpenWallet()
+        fun onChangeWallet()
         fun onProceedToPasswords(phrases : Array<String>)
         fun onProceedToValidation(phrases: Array<String>)
     }

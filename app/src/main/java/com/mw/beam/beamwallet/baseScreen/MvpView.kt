@@ -10,7 +10,7 @@ interface MvpView {
     fun hideKeyboard()
     fun showSnackBar(status: AppConfig.Status)
     fun showSnackBar(message: String)
-    fun showAlert(message: String, btnTextResId: Int, btnIconResId: Int, onClick: () -> Unit = {}): AlertDialog?
+    fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String? = null, onConfirm: () -> Unit = {}, onCancel: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
     fun initPresenter(): BasePresenter<out MvpView>
     fun addListeners()

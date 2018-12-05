@@ -32,5 +32,15 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, private val re
     }
 
     override fun onChangeConfirm() {
+        view?.changeWallet()
+    }
+
+    override fun onForgotPassword() {
+        view?.clearError()
+        view?.showForgotAlert()
+    }
+
+    override fun onForgotConfirm() {
+        view?.restoreWallet()
     }
 }
