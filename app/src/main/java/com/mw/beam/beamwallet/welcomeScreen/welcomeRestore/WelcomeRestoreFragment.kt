@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeRecover
+package com.mw.beam.beamwallet.welcomeScreen.welcomeRestore
 
 import android.os.Bundle
 import android.text.Editable
@@ -16,14 +16,14 @@ import kotlinx.android.synthetic.main.fragment_welcome_recover.*
 /**
  * Created by vain onnellinen on 11/5/18.
  */
-class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeRecoverContract.View {
-    private lateinit var presenter: WelcomeRecoverPresenter
+class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
+    private lateinit var presenter: WelcomeRestorePresenter
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
 
     companion object {
-        fun newInstance() = WelcomeRecoverFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeRecoverFragment::class.java.simpleName
+        fun newInstance() = WelcomeRestoreFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomeRestoreFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_recover
@@ -113,7 +113,7 @@ class WelcomeRecoverFragment : BaseFragment<WelcomeRecoverPresenter>(), WelcomeR
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = WelcomeRecoverPresenter(this, WelcomeRecoverRepository())
+        presenter = WelcomeRestorePresenter(this, WelcomeRestoreRepository())
         return presenter
     }
 }

@@ -17,6 +17,10 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
         var result = AppConfig.Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && phrases != null) {
+            if (Api.isWalletInitialized(AppConfig.DB_PATH)) {
+                AppConfig.removeDatabase()
+            }
+
             App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
 
             if (wallet != null) {

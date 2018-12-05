@@ -11,7 +11,7 @@ import com.mw.beam.beamwallet.welcomeScreen.welcomeDescription.WelcomeDescriptio
 import com.mw.beam.beamwallet.welcomeScreen.welcomeOpen.WelcomeOpenFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomePasswords.WelcomePasswordsFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomePhrases.WelcomePhrasesFragment
-import com.mw.beam.beamwallet.welcomeScreen.welcomeRecover.WelcomeRecoverFragment
+import com.mw.beam.beamwallet.welcomeScreen.welcomeRestore.WelcomeRestoreFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeValidation.WelcomeValidationFragment
 
 /**
@@ -34,7 +34,7 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun showPasswordsFragment(phrases: Array<String>) = showFragment(WelcomePasswordsFragment.newInstance(phrases), WelcomePasswordsFragment.getFragmentTag(), null, false)
     override fun showPhrasesFragment() = showFragment(WelcomePhrasesFragment.newInstance(), WelcomePhrasesFragment.getFragmentTag(), null, false)
     override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeValidationFragment.newInstance(phrases), WelcomeValidationFragment.getFragmentTag(), null, false)
-    override fun showRestoreFragment() = showFragment(WelcomeRecoverFragment.newInstance(), WelcomeRecoverFragment.getFragmentTag(), null, false)
+    override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
 
     override fun createWallet() = presenter.onCreateWallet()
