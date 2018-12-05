@@ -46,9 +46,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
         }
     }
 
-
-    override fun showAlert(message: String, btnTextResId: Int, btnIconResId: Int, onClick: () -> Unit): AlertDialog? {
-        return delegate.showAlert(message, btnTextResId, btnIconResId, onClick, baseContext)
+    override fun showAlert(message: String, title: String, btnConfirmText : String, btnCancelText : String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
+        return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, baseContext)
     }
 
     override fun showSnackBar(status: AppConfig.Status) = delegate.showSnackBar(status, this)

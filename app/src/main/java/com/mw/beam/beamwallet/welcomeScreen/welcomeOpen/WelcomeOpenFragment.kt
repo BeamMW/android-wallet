@@ -37,6 +37,10 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             presenter.onChangeWallet()
         }
 
+        forgotPass.setOnClickListener {
+            presenter.onForgotPassword()
+        }
+
         pass.addTextChangedListener(passWatcher)
     }
 
@@ -63,12 +67,15 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun clearListeners() {
         btnOpen.setOnClickListener(null)
         btnChange.setOnClickListener(null)
+        forgotPass.setOnClickListener(null)
 
         pass.removeTextChangedListener(passWatcher)
     }
 
     override fun getPass(): String = pass.text?.trim().toString()
-    override fun openWallet() = (activity as WelcomeMainHandler).openWallet()
+    override fun openWallet() = (activity as WelcomeOpenHandler).openWallet()
+    override fun changeWallet() = (activity as WelcomeOpenHandler).changeWallet()
+    override fun restoreWallet() = (activity as WelcomeOpenHandler).restoreWallet()
 
     override fun showOpenWalletError() {
         pass.isStateError = true
@@ -77,7 +84,19 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun showChangeAlert() {
-        showAlert(getString(R.string.welcome_change_alert), R.string.welcome_change, R.drawable.ic_btn_change_dark) { presenter.onChangeConfirm() }
+        showAlert(getString(R.string.welcome_change_alert),
+                getString(R.string.welcome_title_change_alert),
+                getString(R.string.welcome_btn_change_alert),
+                getString(R.string.common_cancel),
+                { presenter.onChangeConfirm() })
+    }
+
+    override fun showForgotAlert() {
+        showAlert(getString(R.string.welcome_forgot_alert),
+                getString(R.string.welcome_title_forgot_alert),
+                getString(R.string.welcome_btn_forgot_alert),
+                getString(R.string.common_cancel),
+                { presenter.onForgotConfirm() })
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
@@ -85,7 +104,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         return presenter
     }
 
-    interface WelcomeMainHandler {
+    interface WelcomeOpenHandler {
         fun openWallet()
+        fun restoreWallet()
+        fun changeWallet()
     }
 }

@@ -32,8 +32,9 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFrag
         activity?.findViewById<View>(R.id.toolbarLayout)?.findViewById<TextView>(R.id.toolbarTitle)?.text = title
     }
 
-    override fun showAlert(message: String, btnTextResId: Int, btnIconResId: Int, onClick: () -> Unit): AlertDialog? {
-        return delegate.showAlert(message, btnTextResId, btnIconResId, onClick, context ?: return null)
+    override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
+        return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, context
+                ?: return null)
     }
 
     override fun dismissAlert() {

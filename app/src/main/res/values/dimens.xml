@@ -5,6 +5,7 @@
     <dimen name="common_margin">5dp</dimen>
     <dimen name="common_button_margin">53dp</dimen>
     <dimen name="common_alert_dialog_margin">20dp</dimen>
+    <dimen name="common_alert_title_text_size">16sp</dimen>
     <dimen name="common_header_big_text_size">18sp</dimen>
     <dimen name="common_header_small_text_size">12sp</dimen>
     <dimen name="common_header_small_temp_text_size">14sp</dimen>
@@ -17,7 +18,9 @@
     <dimen name="toolbar_padding_end">30dp</dimen>
     <dimen name="toolbar_padding_for_status">5dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
-    <dimen name="alert_dialog_button_padding">40dp</dimen>
+    <dimen name="alert_dialog_button_padding">20dp</dimen>
+    <dimen name="alert_dialog_alert_padding">40dp</dimen>
+    <dimen name="alert_dialog_title_padding">30dp</dimen>
     <dimen name="logo_text_size">16sp</dimen>
 
     <!--WelcomeActivity-->

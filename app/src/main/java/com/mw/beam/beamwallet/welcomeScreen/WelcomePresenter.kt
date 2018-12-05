@@ -13,7 +13,7 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
         super.onViewCreated()
 
         if (repository.isWalletInitialized()) {
-            view?.showWelcomeMainFragment()
+            view?.showOpenFragment()
         } else {
             view?.showCreateFragment()
         }
@@ -39,7 +39,11 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
         view?.showValidationFragment(phrases)
     }
 
-    override fun onRecoverWallet() {
-        view?.showRecoverFragment()
+    override fun onRestoreWallet() {
+        view?.showRestoreFragment()
+    }
+
+    override fun onChangeWallet() {
+        view?.showCreateFragment()
     }
 }

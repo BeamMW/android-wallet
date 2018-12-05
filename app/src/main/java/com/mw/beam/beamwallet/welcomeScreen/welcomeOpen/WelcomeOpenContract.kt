@@ -13,7 +13,10 @@ interface WelcomeOpenContract {
         fun hasValidPass(): Boolean
         fun getPass(): String
         fun openWallet()
+        fun changeWallet()
+        fun restoreWallet()
         fun showChangeAlert()
+        fun showForgotAlert()
         fun showOpenWalletError()
         fun clearError()
     }
@@ -22,6 +25,8 @@ interface WelcomeOpenContract {
         fun onOpenWallet()
         fun onChangeWallet()
         fun onChangeConfirm()
+        fun onForgotPassword()
+        fun onForgotConfirm()
         fun onPassChanged()
     }
 
