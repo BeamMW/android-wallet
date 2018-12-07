@@ -70,7 +70,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            view?.configTxStatus(data)
+            view?.configTransactions(state.updateTransactions(data.tx))
         }
 
         txPeerUpdatedSubscription = repository.getTxPeerUpdated().subscribe {

@@ -15,16 +15,16 @@ interface WalletContract {
     interface View : MvpView {
         fun init()
         fun configWalletStatus(walletStatus: WalletStatus)
-        fun configTxStatus(txStatusData: OnTxStatusData)
+        fun configTransactions(transactions: List<TxDescription>)
         fun configTxPeerUpdated(peers: Array<TxPeer>)
-        fun configInProgress(receivingAmount : Long, sendingAmount: Long, maturingAmount : Long)
-        fun configAvailable(availableAmount : Long)
+        fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long)
+        fun configAvailable(availableAmount: Long)
         fun showTransactionDetails(txDescription: TxDescription)
         fun showReceiveScreen()
         fun showSendScreen()
-        fun handleExpandAvailable(shouldExpandAvailable : Boolean)
-        fun handleExpandInProgress(shouldExpandInProgress : Boolean)
-        fun handleTransactionsMenu(item : MenuItem) : Boolean
+        fun handleExpandAvailable(shouldExpandAvailable: Boolean)
+        fun handleExpandInProgress(shouldExpandInProgress: Boolean)
+        fun handleTransactionsMenu(item: MenuItem): Boolean
         fun showTransactionsMenu(menu: MenuView)
     }
 
@@ -38,8 +38,8 @@ interface WalletContract {
         fun onDeletePressed()
         fun onExpandAvailablePressed()
         fun onExpandInProgressPressed()
-        fun onTransactionsMenuPressed(item : MenuItem) : Boolean
-        fun onTransactionsMenuButtonPressed(menu : MenuView)
+        fun onTransactionsMenuPressed(item: MenuItem): Boolean
+        fun onTransactionsMenuButtonPressed(menu: MenuView)
     }
 
     interface Repository : MvpRepository {
