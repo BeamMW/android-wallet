@@ -1,8 +1,7 @@
 package com.mw.beam.beamwallet.receive
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.core.helpers.toHex
-import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.disposables.Disposable
 
 /**
@@ -13,7 +12,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
     //TODO should be in state
-    private var walletId: ByteArray? = null
+    private var address: WalletAddress? = null
 
     override fun onStart() {
         super.onStart()
@@ -21,15 +20,19 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
     }
 
     override fun onNextPressed() {
-        if(walletId != null) {
-            repository.createNewAddress(walletId!!, view?.getComment() ?: "")
-            view?.showToken(walletId!!.toHex())
+        if(address != null) {
+            if (!view?.getComment().isNullOrBlank()) {
+                address?.label = view!!.getComment()!!
+            }
+
+            repository.saveAddress(address!!)
+            view?.showToken(address!!.walletID)
         }
     }
 
     private fun initSubscriptions() {
-        walletIdSubscription = repository.generateWalletId().subscribe {
-            walletId = it
+        walletIdSubscription = repository.generateNewAddress().subscribe {
+            address = it
         }
     }
 

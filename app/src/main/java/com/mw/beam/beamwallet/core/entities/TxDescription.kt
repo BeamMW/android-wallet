@@ -14,8 +14,8 @@ class TxDescription(val id: ByteArray,
                     val fee: Long,
                     val change: Long,
                     val minHeight: Long,
-                    val peerId: ByteArray,
-                    val myId: ByteArray,
+                    val peerId: String,
+                    val myId: String,
                     val message: ByteArray?,
                     val createTime: Long,
                     val modifyTime: Long,
@@ -26,4 +26,9 @@ class TxDescription(val id: ByteArray,
 
     val statusEnum: TxStatus
         get() = TxStatus.fromValue(status)
+
+    override fun toString(): String {
+        return "TxDescription(id=$id amount=$amount fee=$fee change=$change minHeight=$minHeight " +
+                "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender= ${senderEnum.name} status=${statusEnum.name})"
+    }
 }

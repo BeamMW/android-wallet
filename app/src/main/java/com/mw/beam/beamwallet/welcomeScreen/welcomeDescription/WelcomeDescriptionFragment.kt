@@ -26,6 +26,8 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
         btnGenerate.setOnClickListener {
             presenter.onGeneratePhrase()
         }
+
+        setTitle(getString(R.string.welcome_title))
     }
 
     override fun clearListeners() {

@@ -2,3 +2,5 @@
 *.bat
 .idea/
 .gradle/
+.build/
+.app/release

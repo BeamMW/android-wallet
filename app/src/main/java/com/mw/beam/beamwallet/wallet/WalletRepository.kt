@@ -23,11 +23,11 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         return getResult({ wallet?.getWalletStatus() }, WalletListener.subOnTxStatus, object {}.javaClass.enclosingMethod.name)
     }
 
-    override fun getTxPeerUpdated(): Subject<Array<TxPeer>?> {
+    override fun getTxPeerUpdated(): Subject<Array<TxPeer>> {
         return getResult({}, WalletListener.subOnTxPeerUpdated, object {}.javaClass.enclosingMethod.name)
     }
 
-    override fun getUtxoUpdated(): Subject<Array<Utxo>?> {
+    override fun getUtxoUpdated(): Subject<Array<Utxo>> {
         return getResult({ wallet?.getUtxosStatus() }, WalletListener.subOnAllUtxoChanged, object {}.javaClass.enclosingMethod.name)
     }
 }
