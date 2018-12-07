@@ -3,6 +3,7 @@ package com.mw.beam.beamwallet.receive
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.subjects.Subject
 
 /**
@@ -20,7 +21,7 @@ interface ReceiveContract {
     }
 
     interface Repository : MvpRepository {
-        fun generateWalletId() : Subject<ByteArray>
-        fun createNewAddress(walletID: ByteArray, comment : String)
+        fun generateNewAddress() : Subject<WalletAddress>
+        fun saveAddress(address: WalletAddress)
     }
 }

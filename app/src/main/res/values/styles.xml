@@ -84,11 +84,9 @@
     </style>
 
     <style name="welcome_description_text_style" parent="common_description">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:paddingStart">@dimen/welcome_description_side_offset</item>
-        <item name="android:paddingEnd">@dimen/welcome_description_side_offset</item>
+        <item name="android:gravity">start</item>
     </style>
 
     <style name="welcome_password_view_style" parent="common_header_big">

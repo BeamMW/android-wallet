@@ -3,9 +3,9 @@ package com.mw.beam.beamwallet.core.entities
 /**
  * Created by vain onnellinen on 019 19.11.18.
  */
-data class WalletAddress(val walletID: ByteArray,
-                         val label: String,
+data class WalletAddress(val walletID: String,
+                         var label: String,
                          val category: String,
                          val createTime: Long,
                          val duration: Long,
-                         val own: Boolean)
+                         val own: Long)

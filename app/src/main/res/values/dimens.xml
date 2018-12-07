@@ -48,7 +48,6 @@
     <dimen name="welcome_grid_offset">28dp</dimen>
     <dimen name="welcome_grid_element_side_offset">12dp</dimen>
     <dimen name="welcome_grid_element_top_offset">25dp</dimen>
-    <dimen name="welcome_description_side_offset">28dp</dimen>
     <item name="welcome_password_dots_space" format="float" type="dimen">0.28</item>
     <item name="welcome_password_letters_space" format="float" type="dimen">0.1</item>
 
@@ -60,6 +59,14 @@
     <dimen name="welcome_open_forgot_padding_bottom">30dp</dimen>
     <dimen name="welcome_open_forgot_padding_top">60dp</dimen>
     <dimen name="welcome_open_forgot_text_size">14sp</dimen>
+
+    <!--WelcomeDescriptionFragment-->
+    <dimen name="welcome_description_padding_top">75dp</dimen>
+    <dimen name="welcome_description_side_offset">40dp</dimen>
+    <dimen name="welcome_description_item_top_offset">46dp</dimen>
+    <dimen name="welcome_description_item_side_offset">30dp</dimen>
+    <dimen name="welcome_description_button_side_offset">13dp</dimen>
+    <dimen name="welcome_description_button_bottom_offset">62dp</dimen>
 
     <!--WalletFragment-->
     <dimen name="wallet_card_padding">20dp</dimen>

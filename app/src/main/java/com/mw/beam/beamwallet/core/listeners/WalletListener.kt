@@ -3,6 +3,7 @@ package com.mw.beam.beamwallet.core.listeners
 import android.os.Handler
 import android.os.Looper
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
@@ -18,13 +19,13 @@ object WalletListener {
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
-    var subOnTxPeerUpdated: Subject<Array<TxPeer>?> = BehaviorSubject.create<Array<TxPeer>?>().toSerialized()
+    var subOnTxPeerUpdated: Subject<Array<TxPeer>> = BehaviorSubject.create<Array<TxPeer>>().toSerialized()
     var subOnSyncProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnAllUtxoChanged: Subject<Array<Utxo>?> = BehaviorSubject.create<Array<Utxo>?>().toSerialized()
+    var subOnAllUtxoChanged: Subject<Array<Utxo>> = BehaviorSubject.create<Array<Utxo>>().toSerialized()
     var subOnAddresses: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnGeneratedNewWalletID: Subject<ByteArray> = BehaviorSubject.create<ByteArray>().toSerialized()
+    var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnChangeCurrentWalletIDs: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
@@ -36,7 +37,8 @@ object WalletListener {
     fun onTxStatus(action: Int, tx: Array<TxDescription>?) = returnResult(subOnTxStatus, OnTxStatusData(action, tx), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onTxPeerUpdated(peers: Array<TxPeer>?) = returnResult(subOnTxPeerUpdated, peers, object {}.javaClass.enclosingMethod.name)
+    fun onTxPeerUpdated(peers: Array<TxPeer>?) = returnResult(subOnTxPeerUpdated, peers
+            ?: emptyArray(), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
@@ -48,13 +50,14 @@ object WalletListener {
     fun onChangeCalculated() = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<Utxo>?) = returnResult(subOnAllUtxoChanged, utxos, object {}.javaClass.enclosingMethod.name)
+    fun onAllUtxoChanged(utxos: Array<Utxo>?) = returnResult(subOnAllUtxoChanged, utxos
+            ?: emptyArray(), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onAdrresses(own: Boolean, addresses: Array<WalletAddress>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onGeneratedNewWalletID(walletId: ByteArray) = returnResult(subOnGeneratedNewWalletID, walletId, object {}.javaClass.enclosingMethod.name)
+    fun onGeneratedNewAddress(addr: WalletAddress) = returnResult(subOnGeneratedNewAddress, addr, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onChangeCurrentWalletIDs() = returnResult(subOnChangeCurrentWalletIDs, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
@@ -69,7 +72,12 @@ object WalletListener {
         uiHandler.post {
             try {
                 subject.onNext(result)
-                LogUtils.logResponse(result, responseName)
+
+                when (result) {
+                    DUMMY_OBJECT -> LogUtils.logResponse("null", responseName)
+                    is Array<*> -> LogUtils.logResponse(if (result.isEmpty()) "null" else result.prepareForLog(), responseName)
+                    else -> LogUtils.logResponse(result, responseName)
+                }
             } catch (e: NullPointerException) {
                 LogUtils.logErrorResponse(e, responseName)
             }

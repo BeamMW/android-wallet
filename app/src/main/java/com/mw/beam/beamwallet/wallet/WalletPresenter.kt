@@ -4,8 +4,6 @@ import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.sumByLong
 import io.reactivex.disposables.Disposable
@@ -69,30 +67,27 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     private fun initSubscriptions() {
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             view?.configWalletStatus(it)
-            state.height = it.system.height
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
             view?.configTxStatus(data)
-            state.receiving = data.tx?.filter { it.statusEnum == TxStatus.InProgress && it.senderEnum == TxSender.RECEIVED }?.sumByLong { it.amount } ?: 0
-            state.sending = data.tx?.filter { it.statusEnum == TxStatus.InProgress && it.senderEnum == TxSender.SENT }?.sumByLong { it.amount } ?: 0
-            view?.configInProgress(state.receiving, state.sending, state.maturing)
         }
 
         txPeerUpdatedSubscription = repository.getTxPeerUpdated().subscribe {
-            if (it != null) {
+            if (!it.isNullOrEmpty()) {
                 view?.configTxPeerUpdated(it)
             }
         }
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            if (state.height != null) {
-                state.maturing = utxos?.filter {
-                    it.statusEnum == UtxoStatus.Unconfirmed ||
-                            (it.statusEnum == UtxoStatus.Unspent && it.maturity > state.height!!)
-                }?.sumByLong { it.amount } ?: 0
-                view?.configInProgress(state.receiving, state.sending, state.maturing)
-            }
+            state.available = utxos.filter { it.statusEnum == UtxoStatus.Available }.sumByLong { it.amount }
+            state.maturing = utxos.filter { it.statusEnum == UtxoStatus.Maturing }.sumByLong { it.amount }
+            state.receiving = utxos.filter { it.statusEnum == UtxoStatus.Incoming }.sumByLong { it.amount }
+            //TODO sum won't be changed in future
+            state.sending = utxos.filter { it.statusEnum == UtxoStatus.Outgoing }.sumByLong { it.amount } - utxos.filter { it.statusEnum == UtxoStatus.Change }.sumByLong { it.amount }
+
+            view?.configInProgress(state.receiving, state.sending, state.maturing)
+            view?.configAvailable(state.available)
         }
     }
 

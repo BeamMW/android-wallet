@@ -10,6 +10,6 @@ data class Wallet(val _this: Long) {
     external fun sendMoney(receiver: String, comment: String?, amount: Long, fee: Long)
     external fun calcChange(amount: Long)
     external fun getAddresses(own: Boolean)
-    external fun generateNewWalletID()
-    external fun createNewAddress(address: WalletAddress)
+    external fun generateNewAddress()
+    external fun saveAddress(address: WalletAddress, own : Boolean)
 }

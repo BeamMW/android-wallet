@@ -11,11 +11,11 @@ import io.reactivex.subjects.Subject
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
-    override fun generateWalletId(): Subject<ByteArray> {
-        return getResult({ wallet?.generateNewWalletID() }, WalletListener.subOnGeneratedNewWalletID, object {}.javaClass.enclosingMethod.name)
+    override fun generateNewAddress(): Subject<WalletAddress> {
+        return getResult({ wallet?.generateNewAddress() }, WalletListener.subOnGeneratedNewAddress, object {}.javaClass.enclosingMethod.name)
     }
 
-    override fun createNewAddress(walletID: ByteArray, comment : String) {
-        wallet?.createNewAddress(WalletAddress(walletID, comment, "", System.currentTimeMillis(), 86400, true))
+    override fun saveAddress(address: WalletAddress) {
+        wallet?.saveAddress(address, true)
     }
 }

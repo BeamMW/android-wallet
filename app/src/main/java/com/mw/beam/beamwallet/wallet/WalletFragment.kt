@@ -39,7 +39,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
-        available.text = walletStatus.available.convertToBeam()
+        //TODO handle later
+    }
+
+    override fun configAvailable(availableAmount: Long) {
+        available.text = availableAmount.convertToBeam()
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
@@ -90,7 +94,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun init() {
-        setTitle(getString(R.string.wallet_title))
+        setTitle(getString(R.string.wallet_title), true)
         initTransactionsList()
     }
 

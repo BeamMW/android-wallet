@@ -18,6 +18,7 @@ interface WalletContract {
         fun configTxStatus(txStatusData: OnTxStatusData)
         fun configTxPeerUpdated(peers: Array<TxPeer>)
         fun configInProgress(receivingAmount : Long, sendingAmount: Long, maturingAmount : Long)
+        fun configAvailable(availableAmount : Long)
         fun showTransactionDetails(txDescription: TxDescription)
         fun showReceiveScreen()
         fun showSendScreen()
@@ -44,7 +45,7 @@ interface WalletContract {
     interface Repository : MvpRepository {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
-        fun getTxPeerUpdated(): Subject<Array<TxPeer>?>
-        fun getUtxoUpdated(): Subject<Array<Utxo>?>
+        fun getTxPeerUpdated(): Subject<Array<TxPeer>>
+        fun getUtxoUpdated(): Subject<Array<Utxo>>
     }
 }

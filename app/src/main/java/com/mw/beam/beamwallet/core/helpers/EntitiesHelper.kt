@@ -5,17 +5,11 @@ package com.mw.beam.beamwallet.core.helpers
  */
 
 
-fun Long.convertToBeam() = "${this / 1000000L} B"
-fun Long.convertToGroth() = this * 1000000L
-fun Long.convertToBeamAsFloatString() = String.format("%.10f", this.toFloat() / 1000000f)
+fun Long.convertToBeam() = "${this / 100000000L} B"
+fun Long.convertToGroth() = this * 100000000L
+fun Long.convertToBeamAsFloatString() = String.format("%.10f", this.toFloat() / 100000000f)
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeam()}" else "+${this.convertToBeam()}"
-
-fun ByteArray.toHex(): String {
-    val result = StringBuilder()
-    this.forEach { result.append(String.format("%02X", it)) }
-
-    return result.toString().toLowerCase()
-}
+fun Array<*>.prepareForLog() = this.joinToString { it.toString() }
 
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L
@@ -62,7 +56,7 @@ enum class TxStatus(val value: Int) {
 }
 
 enum class UtxoStatus(val value: Int) {
-    Unconfirmed(0), Unspent(1), Locked(2), Spent(3), Draft(4);
+    Unavailable(0), Available(1), Maturing(2), Outgoing(3), Incoming(4), Change(5), Spent(6);
 
     companion object {
         private val map: HashMap<Int, UtxoStatus> = HashMap()
@@ -74,7 +68,7 @@ enum class UtxoStatus(val value: Int) {
         }
 
         fun fromValue(type: Int): UtxoStatus {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
+            return map[type] ?: throw IllegalArgumentException("Unknown type of UtxoStatus")
         }
     }
 }

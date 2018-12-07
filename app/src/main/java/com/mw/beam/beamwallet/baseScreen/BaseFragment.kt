@@ -28,8 +28,12 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFrag
         delegate.showSnackBar(message, activity ?: return)
     }
 
-    protected fun setTitle(title: String) {
-        activity?.findViewById<View>(R.id.toolbarLayout)?.findViewById<TextView>(R.id.toolbarTitle)?.text = title
+    protected fun setTitle(title: String, isWithStatus: Boolean = false) {
+        if (isWithStatus) {
+            activity?.findViewById<View>(R.id.toolbarLayout)?.findViewById<TextView>(R.id.toolbarTitle)?.text = title
+        } else {
+            (activity as BaseActivity<*>).initToolbar(activity?.findViewById(R.id.toolbar) ?: return, title)
+        }
     }
 
     override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {

@@ -55,7 +55,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
 
-    protected fun initToolbar(toolbar: Toolbar, title: String, isWithStatus: Boolean = false) {
+    fun initToolbar(toolbar: Toolbar, title: String, isWithStatus: Boolean = false) {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {

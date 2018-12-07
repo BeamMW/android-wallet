@@ -7,7 +7,10 @@ import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeamAsFloatString
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
@@ -64,11 +67,11 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender) {
-            startAddress.text = txDescription.myId.toHex()
-            endAddress.text = txDescription.peerId.toHex()
+            startAddress.text = txDescription.myId
+            endAddress.text = txDescription.peerId
         } else {
-            startAddress.text = txDescription.peerId.toHex()
-            endAddress.text = txDescription.myId.toHex()
+            startAddress.text = txDescription.peerId
+            endAddress.text = txDescription.myId
         }
 
         transactionFee.text = txDescription.fee.convertToBeamAsFloatString()
