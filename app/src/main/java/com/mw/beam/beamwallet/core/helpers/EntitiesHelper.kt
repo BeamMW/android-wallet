@@ -10,6 +10,11 @@ fun Long.convertToGroth() = this * 100000000L
 fun Long.convertToBeamAsFloatString() = String.format("%.10f", this.toFloat() / 100000000f)
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeam()}" else "+${this.convertToBeam()}"
 fun Array<*>.prepareForLog() = this.joinToString { it.toString() }
+fun ByteArray.toHex(): String {
+    val result = StringBuilder()
+    this.forEach { result.append(String.format("%02X", it)) }
+    return result.toString().toLowerCase()
+}
 
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L

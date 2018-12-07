@@ -15,7 +15,6 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.TxPeer
 import com.mw.beam.beamwallet.core.entities.WalletStatus
@@ -81,11 +80,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun configTxStatus(txStatusData: OnTxStatusData) {
-        transactionsTitle.visibility = if (txStatusData.tx.isNullOrEmpty()) View.GONE else View.VISIBLE
+    override fun configTransactions(transactions: List<TxDescription>) {
+        transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
-        if (txStatusData.tx != null) {
-            adapter.setData(txStatusData.tx.sortedByDescending { it.modifyTime })
+        if (transactions.isNotEmpty()) {
+            adapter.setData(transactions)
         }
     }
 
