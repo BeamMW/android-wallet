@@ -36,6 +36,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
+    override fun getToolbarTitle(): String? = getString(R.string.wallet_title)
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
         //TODO handle later
@@ -93,7 +94,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun init() {
-        setTitle(getString(R.string.wallet_title), true)
         initTransactionsList()
     }
 

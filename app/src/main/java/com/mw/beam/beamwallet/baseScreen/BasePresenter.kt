@@ -13,6 +13,7 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     }
 
     override fun onViewCreated() {
+        view?.initToolbar(view?.getToolbarTitle(), hasBackArrow(), hasStatus())
     }
 
     override fun onStart() {
@@ -21,6 +22,7 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
         }
 
         view?.addListeners()
+
     }
 
     override fun onResume() {
@@ -45,4 +47,7 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     private fun detachView() {
         view = null
     }
+
+    override fun hasStatus(): Boolean = false
+    override fun hasBackArrow(): Boolean? = true
 }

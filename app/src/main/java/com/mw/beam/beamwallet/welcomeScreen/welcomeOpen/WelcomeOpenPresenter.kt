@@ -43,4 +43,6 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, private val re
     override fun onForgotConfirm() {
         view?.restoreWallet()
     }
+
+    override fun hasBackArrow(): Boolean? = false
 }

@@ -10,8 +10,8 @@ class MainPresenter(currentView: MainContract.View, private val repository: Main
     : BasePresenter<MainContract.View>(currentView),
         MainContract.Presenter {
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated() {
+        super.onViewCreated()
         view?.configNavDrawer()
     }
 
@@ -30,4 +30,7 @@ class MainPresenter(currentView: MainContract.View, private val repository: Main
     override fun onSend() {
         view?.showSendScreen()
     }
+
+    override fun hasStatus(): Boolean = true
+
 }

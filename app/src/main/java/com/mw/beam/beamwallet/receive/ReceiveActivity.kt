@@ -1,6 +1,5 @@
 package com.mw.beam.beamwallet.receive
 
-import android.support.v7.widget.Toolbar
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
@@ -14,11 +13,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     private lateinit var presenter: ReceivePresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_receive
-
-    override fun init() {
-        val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
-        initToolbar(toolbar, getString(R.string.receive_title), true)
-    }
+    override fun getToolbarTitle(): String? = getString(R.string.receive_title)
 
     override fun addListeners() {
         btnNext.setOnClickListener { presenter.onNextPressed() }

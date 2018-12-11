@@ -11,7 +11,6 @@
         style="@style/common_subheader_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:paddingTop="@dimen/welcome_description_padding_top"
         android:text="@string/welcome_description"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +29,7 @@
         android:id="@+id/no_see"
         style="@style/welcome_description_text_style"
         android:layout_marginStart="@dimen/welcome_description_item_side_offset"
+        android:gravity="start"
         android:text="@string/welcome_no_see"
         app:layout_constraintBottom_toBottomOf="@id/ic_no_see"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +49,7 @@
     <TextView
         android:id="@+id/no_type"
         style="@style/welcome_description_text_style"
+        android:gravity="start"
         android:text="@string/welcome_no_type"
         app:layout_constraintBottom_toBottomOf="@id/ic_no_type"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +71,7 @@
     <TextView
         android:id="@+id/copy"
         style="@style/welcome_description_text_style"
+        android:gravity="start"
         android:text="@string/welcome_copy"
         app:layout_constraintBottom_toBottomOf="@id/ic_copy"
         app:layout_constraintEnd_toEndOf="parent"

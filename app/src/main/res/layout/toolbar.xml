@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/toolbarLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,6 +27,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <ImageView
+                android:id="@+id/statusIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -39,6 +37,7 @@
                 android:src="@drawable/status" />
 
             <TextView
+                android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-regular"
@@ -50,4 +49,4 @@
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
-</android.support.constraint.ConstraintLayout>
+</merge>

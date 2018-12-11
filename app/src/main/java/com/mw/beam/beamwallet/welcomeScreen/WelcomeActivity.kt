@@ -10,9 +10,9 @@ import com.mw.beam.beamwallet.welcomeScreen.welcomeCreate.WelcomeCreateFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeDescription.WelcomeDescriptionFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeOpen.WelcomeOpenFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomePasswords.WelcomePasswordsFragment
-import com.mw.beam.beamwallet.welcomeScreen.welcomePhrases.WelcomePhrasesFragment
+import com.mw.beam.beamwallet.welcomeScreen.welcomePhrase.WelcomePhraseFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeRestore.WelcomeRestoreFragment
-import com.mw.beam.beamwallet.welcomeScreen.welcomeValidation.WelcomeValidationFragment
+import com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm.WelcomeConfirmFragment
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -23,17 +23,18 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         WelcomeCreateFragment.WelcomeCreateHandler,
         WelcomeDescriptionFragment.GeneratePhraseHandler,
         WelcomePasswordsFragment.WelcomePasswordsHandler,
-        WelcomePhrasesFragment.WelcomePhrasesHandler,
-        WelcomeValidationFragment.WelcomeValidationHandler {
+        WelcomePhraseFragment.WelcomePhrasesHandler,
+        WelcomeConfirmFragment.WelcomeValidationHandler {
     private lateinit var presenter: WelcomePresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_welcome
+    override fun getToolbarTitle(): String? = null
 
     override fun showOpenFragment() = showFragment(WelcomeOpenFragment.newInstance(), WelcomeOpenFragment.getFragmentTag(), WelcomeOpenFragment.getFragmentTag(), true)
     override fun showDescriptionFragment() = showFragment(WelcomeDescriptionFragment.newInstance(), WelcomeDescriptionFragment.getFragmentTag(), null, false)
     override fun showPasswordsFragment(phrases: Array<String>) = showFragment(WelcomePasswordsFragment.newInstance(phrases), WelcomePasswordsFragment.getFragmentTag(), null, false)
-    override fun showPhrasesFragment() = showFragment(WelcomePhrasesFragment.newInstance(), WelcomePhrasesFragment.getFragmentTag(), null, false)
-    override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeValidationFragment.newInstance(phrases), WelcomeValidationFragment.getFragmentTag(), null, false)
+    override fun showPhrasesFragment() = showFragment(WelcomePhraseFragment.newInstance(), WelcomePhraseFragment.getFragmentTag(), null, false)
+    override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeConfirmFragment.newInstance(phrases), WelcomeConfirmFragment.getFragmentTag(), null, false)
     override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
 

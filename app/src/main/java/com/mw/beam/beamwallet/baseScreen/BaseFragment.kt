@@ -2,10 +2,7 @@ package com.mw.beam.beamwallet.baseScreen
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.view.View
-import android.widget.TextView
 import com.eightsines.holycycle.app.ViewControllerFragment
-import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
 
 
@@ -28,12 +25,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFrag
         delegate.showSnackBar(message, activity ?: return)
     }
 
-    protected fun setTitle(title: String, isWithStatus: Boolean = false) {
-        if (isWithStatus) {
-            activity?.findViewById<View>(R.id.toolbarLayout)?.findViewById<TextView>(R.id.toolbarTitle)?.text = title
-        } else {
-            (activity as BaseActivity<*>).initToolbar(activity?.findViewById(R.id.toolbar) ?: return, title)
-        }
+    override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
+        (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
     }
 
     override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {

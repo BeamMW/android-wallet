@@ -10,11 +10,6 @@ class SendPresenter(currentView: SendContract.View, private val repository: Send
     : BasePresenter<SendContract.View>(currentView),
         SendContract.Presenter {
 
-    override fun onStart() {
-        super.onStart()
-        view?.init()
-    }
-
     override fun onSend() {
         //TODO handle errors correctly
         val amount = view?.getAmount()

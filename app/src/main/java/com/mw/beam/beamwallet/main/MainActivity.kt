@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
@@ -28,12 +27,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_main
+    override fun getToolbarTitle(): String? = null
     override fun onShowTransactionDetails(item: TxDescription) = presenter.onShowTransactionDetails(item)
     override fun onReceive() = presenter.onReceive()
     override fun onSend() = presenter.onSend()
 
     override fun configNavDrawer() {
-        val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
+        val toolbar = toolbarLayout.toolbar
         setSupportActionBar(toolbar)
 
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.common_drawer_open, R.string.common_drawer_close)

@@ -99,4 +99,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     private fun toDo() {
         view?.showSnackBar("Coming soon...")
     }
+
+    override fun hasBackArrow(): Boolean? = null
+    override fun hasStatus(): Boolean = true
 }

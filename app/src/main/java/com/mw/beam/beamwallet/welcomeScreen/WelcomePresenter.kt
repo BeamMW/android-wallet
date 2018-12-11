@@ -46,4 +46,6 @@ class WelcomePresenter(currentView: WelcomeContract.View, private val repository
     override fun onChangeWallet() {
         view?.showCreateFragment()
     }
+
+    override fun hasBackArrow(): Boolean? = false
 }

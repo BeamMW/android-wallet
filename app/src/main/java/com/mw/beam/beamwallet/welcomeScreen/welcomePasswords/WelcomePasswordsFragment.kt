@@ -51,6 +51,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_passwords
+    override fun getToolbarTitle(): String? = getString(R.string.welcome_passwords_title)
 
     override fun addListeners() {
         pass.addTextChangedListener(passWatcher)

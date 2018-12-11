@@ -13,6 +13,7 @@ class UtxoActivity : BaseActivity<UtxoPresenter>(), UtxoContract.View {
     private lateinit var presenter: UtxoPresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_utxo
+    override fun getToolbarTitle(): String? = null
 
     override fun configData(wallet: Wallet) {
         // height.text = wallet.getSystemState().height.toString()

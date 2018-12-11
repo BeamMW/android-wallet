@@ -32,4 +32,9 @@
         <attr name="number_text_color" format="integer" />
         <attr name="number_background" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="BeamToolbar">
+        <attr name="hasStatus" format="boolean" />
+        <attr name="title" format="string" />
+    </declare-styleable>
 </resources>

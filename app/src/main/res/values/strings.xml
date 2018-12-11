@@ -26,20 +26,38 @@
     <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
     <string name="welcome_next">next</string>
     <string name="welcome_recover">recover</string>
-    <string name="welcome_copy_to_clipboard">copy to clipboard</string>
+    <string name="welcome_copy_to_clipboard">copy</string>
     <string name="welcome_proceed_to_wallet">proceed to your wallet</string>
     <string name="welcome_title">Create new wallet</string>
-    <string name="welcome_restore_title">Restore wallet</string>
     <string name="welcome_restore_description">Type in or paste your recovery phrase</string>
     <string name="welcome_description">Create new wallet with generating recovery phrase. If you ever lose your device, you will need this phrase to recover your wallet!</string>
-    <string name="welcome_phrases_description">This set of 24 words allows you to recover your wallet from the blockchain. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_phrases_description">Your recovery phrase is the access key to all the cryptocurrencies in your wallet. Write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_phrases_copied_alert">Copied!</string>
-    <string name="welcome_passwords_description">Create password to access your wallet</string>
-    <string name="welcome_validation_description">To ensure the recovery phrase is written down, please fill-in the specific words below</string>
-    <string name="welcome_passwords_not_match">Passwords do not match</string>
+    <string name="welcome_phrase_title">Recovery phrase</string>
     <string name="welcome_no_see">Do not let anyone see your recovery phrase</string>
     <string name="welcome_no_type">Never type your recovery phrase into password managers or elsewhere</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency</string>
+    <string name="welcome_pass_title">Password</string>
+    <string name="welcome_forgot_pass">Forgot password?</string>
+    <string name="welcome_confirm_pass_title">Confirm password</string>
+    <string name="welcome_title_change_alert">Login to another wallet</string>
+    <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
+    <string name="welcome_btn_change_alert">Change wallet</string>
+    <string name="welcome_title_forgot_alert">Forgot password</string>
+    <string name="welcome_forgot_alert">You can restore you wallet using your recovery phrase but all transaction history will be lost.</string>
+    <string name="welcome_btn_forgot_alert">Restore wallet</string>
+
+    <!--WelcomeConfirmFragment-->
+    <string name="welcome_validation_title">Confirm recovery phrase</string>
+    <string name="welcome_validation_description">To ensure the recovery phrase is written down, please fill-in the specific words below</string>
+
+    <!--WelcomeRestoreFragment-->
+    <string name="welcome_restore_title">Restore wallet</string>
+
+    <!--WelcomePasswordsFragment-->
+    <string name="welcome_passwords_title">Password</string>
+    <string name="welcome_passwords_description">Create password to access your wallet</string>
+    <string name="welcome_passwords_not_match">Passwords do not match</string>
     <string name="welcome_pass_empty">Add at least one symbol</string>
     <string name="welcome_pass_very_weak">Very weak password</string>
     <string name="welcome_pass_weak">Weak password</string>
@@ -50,15 +68,6 @@
     <string name="welcome_pass_not_much">Passwords do not match</string>
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>
-    <string name="welcome_pass_title">Password</string>
-    <string name="welcome_forgot_pass">Forgot password?</string>
-    <string name="welcome_confirm_pass_title">Confirm password</string>
-    <string name="welcome_title_change_alert">Login to another wallet</string>
-    <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
-    <string name="welcome_btn_change_alert">Change wallet</string>
-    <string name="welcome_title_forgot_alert">Forgot password</string>
-    <string name="welcome_forgot_alert">You can restore you wallet using your recovery phrase but all transaction history will be lost.</string>
-    <string name="welcome_btn_forgot_alert">Restore wallet</string>
 
     <!--WalletFragment-->
     <string name="wallet_title">Wallet</string>

@@ -10,19 +10,11 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/title"
-            style="@style/welcome_common_title_text_style"
-            android:layout_marginTop="@dimen/welcome_title_margin_top"
-            android:text="@string/welcome_title"
-            app:layout_constraintBottom_toTopOf="@id/description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
             android:id="@+id/description"
             style="@style/welcome_description_text_style"
-            android:paddingTop="@dimen/common_padding"
+            android:paddingStart="@dimen/welcome_phrase_description_side_offset"
+            android:paddingTop="@dimen/welcome_phrase_description_padding"
+            android:paddingEnd="@dimen/welcome_phrase_description_side_offset"
             android:text="@string/welcome_phrases_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/welcome_grid_offset"
             android:layout_marginEnd="@dimen/welcome_grid_offset"
-            android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
             android:columnCount="2"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/btnCopy"
@@ -42,21 +34,26 @@
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnCopy"
-            style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/common_offset"
+            android:layout_width="@dimen/wallet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
             app:button_icon="@drawable/ic_btn_copy"
             app:button_state_list="@color/primary_selector"
             app:button_text="@string/welcome_copy_to_clipboard"
             app:button_text_color="@color/common_text_color"
-            app:layout_constraintBottom_toTopOf="@id/btnNext" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnNext"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnNext"
-            style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/welcome_phrases_button_margin"
+            android:layout_width="@dimen/wallet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
             app:button_icon="@drawable/ic_btn_proceed"
             app:button_text="@string/welcome_next"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnCopy" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
