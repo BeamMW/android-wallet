@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeValidation
+package com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,24 +11,25 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
-import kotlinx.android.synthetic.main.fragment_welcome_validation.*
+import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
 
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), WelcomeValidationContract.View {
-    private lateinit var presenter: WelcomeValidationPresenter
+class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
+    private lateinit var presenter: WelcomeConfirmPresenter
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
 
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
 
-        fun newInstance(phrases: Array<String>) = WelcomeValidationFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
-        fun getFragmentTag(): String = WelcomeValidationFragment::class.java.simpleName
+        fun newInstance(phrases: Array<String>) = WelcomeConfirmFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
+        fun getFragmentTag(): String = WelcomeConfirmFragment::class.java.simpleName
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_validation
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_confirm
+    override fun getToolbarTitle(): String =getString(R.string.welcome_validation_title)
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -119,7 +120,7 @@ class WelcomeValidationFragment : BaseFragment<WelcomeValidationPresenter>(), We
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = WelcomeValidationPresenter(this, WelcomeValidationRepository())
+        presenter = WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
         return presenter
     }
 

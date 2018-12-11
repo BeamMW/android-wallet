@@ -27,6 +27,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
+    override fun getToolbarTitle(): String? = ""
 
     override fun addListeners() {
         btnOpen.setOnClickListener {

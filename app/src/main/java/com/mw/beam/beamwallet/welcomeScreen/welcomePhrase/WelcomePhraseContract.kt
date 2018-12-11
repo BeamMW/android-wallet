@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomePhrases
+package com.mw.beam.beamwallet.welcomeScreen.welcomePhrase
 
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
@@ -7,7 +7,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-interface WelcomePhrasesContract {
+interface WelcomePhraseContract {
     interface View : MvpView {
         fun showValidationFragment(phrases: Array<String>)
         fun configPhrases(phrases: Array<String>)

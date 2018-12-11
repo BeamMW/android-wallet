@@ -13,5 +13,7 @@ interface MvpPresenter<V : MvpView> {
     fun onPause()
     fun onStop()
     fun onDestroy()
-    fun getSubscriptions() : Array<Disposable>?
+    fun hasStatus(): Boolean = false
+    fun hasBackArrow(): Boolean? = false
+    fun getSubscriptions(): Array<Disposable>?
 }

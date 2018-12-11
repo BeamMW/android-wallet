@@ -14,11 +14,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
     //TODO should be in state
     private var address: WalletAddress? = null
 
-    override fun onStart() {
-        super.onStart()
-        view?.init()
-    }
-
     override fun onNextPressed() {
         if(address != null) {
             if (!view?.getComment().isNullOrBlank()) {

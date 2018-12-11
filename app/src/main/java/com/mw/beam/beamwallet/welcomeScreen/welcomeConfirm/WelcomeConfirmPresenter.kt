@@ -1,13 +1,13 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeValidation
+package com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-class WelcomeValidationPresenter(currentView: WelcomeValidationContract.View, private val repository: WelcomeValidationContract.Repository)
-    : BasePresenter<WelcomeValidationContract.View>(currentView),
-        WelcomeValidationContract.Presenter {
+class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, private val repository: WelcomeConfirmContract.Repository)
+    : BasePresenter<WelcomeConfirmContract.View>(currentView),
+        WelcomeConfirmContract.Presenter {
 
     override fun onCreate() {
         super.onCreate()

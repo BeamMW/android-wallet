@@ -5,12 +5,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
 import android.view.Gravity
-import android.widget.TextView
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.views.BeamToolbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -46,7 +45,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
         }
     }
 
-    override fun showAlert(message: String, title: String, btnConfirmText : String, btnCancelText : String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
+    override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
         return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, baseContext)
     }
 
@@ -55,17 +54,20 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
 
-    fun initToolbar(toolbar: Toolbar, title: String, isWithStatus: Boolean = false) {
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
+    override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
+        val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
+        setSupportActionBar(toolbarLayout.toolbar)
+        toolbarLayout.title = title
+        toolbarLayout.hasStatus = hasStatus
 
-        if (isWithStatus) {
-            toolbar.findViewById<TextView>(R.id.toolbarTitle)?.text = title
-        } else {
-            setTitle(title)
+        if (hasBackArrow != null) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(hasBackArrow)
+
+            if (hasBackArrow) {
+                toolbarLayout.toolbar.setNavigationOnClickListener {
+                    onBackPressed()
+                }
+            }
         }
     }
 

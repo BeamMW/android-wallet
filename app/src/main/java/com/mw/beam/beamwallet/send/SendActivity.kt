@@ -1,6 +1,5 @@
 package com.mw.beam.beamwallet.send
 
-import android.support.v7.widget.Toolbar
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
@@ -14,11 +13,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var presenter: SendPresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
-
-    override fun init() {
-        val toolbar = toolbarLayout.findViewById<Toolbar>(R.id.toolbar)
-        initToolbar(toolbar, getString(R.string.send_title), true)
-    }
+    override fun getToolbarTitle(): String? = getString(R.string.send_title)
 
     override fun getAmount(): Long {
         //TODO handle NumberFormatException or show error

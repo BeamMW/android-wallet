@@ -11,7 +11,6 @@ import io.reactivex.subjects.Subject
  */
 interface ReceiveContract {
     interface View : MvpView {
-        fun init()
         fun getComment() : String?
         fun showToken(token : String)
     }

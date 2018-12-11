@@ -11,29 +11,21 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
-import kotlinx.android.synthetic.main.fragment_welcome_recover.*
+import kotlinx.android.synthetic.main.fragment_welcome_restore.*
 
 /**
  * Created by vain onnellinen on 11/5/18.
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     private lateinit var presenter: WelcomeRestorePresenter
-    private var sideOffset: Int = Int.MIN_VALUE
-    private var topOffset: Int = Int.MIN_VALUE
 
     companion object {
         fun newInstance() = WelcomeRestoreFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WelcomeRestoreFragment::class.java.simpleName
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_recover
-
-    override fun onControllerCreate(extras: Bundle?) {
-        super.onControllerCreate(extras)
-
-        sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
-        topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
-    }
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_restore
+    override fun getToolbarTitle(): String = getString(R.string.welcome_restore_title)
 
     override fun onControllerStart() {
         super.onControllerStart()
@@ -50,9 +42,11 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun configPhrases(phrasesCount: Int) {
-        phrasesLayout.rowCount = phrasesCount / 2
+        val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
+        val topOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
         var columnIndex = 0
         var rowIndex = 0
+        phrasesLayout.rowCount = phrasesCount / 2
 
         for (i in 1..phrasesCount) {
             if (columnIndex == phrasesLayout.columnCount) {
@@ -60,12 +54,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 rowIndex++
             }
 
-            phrasesLayout.addView(configPhrase(i, rowIndex, columnIndex))
+            phrasesLayout.addView(configPhrase(i, rowIndex, columnIndex, sideOffset, topOffset))
             columnIndex++
         }
     }
 
-    private fun configPhrase(number: Int, rowIndex: Int, columnIndex: Int): View? {
+    private fun configPhrase(number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {
         val context = context ?: return null
 
         val phrase = BeamPhraseInput(context)

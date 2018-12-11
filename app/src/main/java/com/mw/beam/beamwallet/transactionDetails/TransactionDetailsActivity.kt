@@ -26,10 +26,10 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_transaction_details
+    override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
     override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(EXTRA_TRANSACTION_DETAILS)
 
     override fun init(txDescription: TxDescription) {
-        initToolbar(toolbar, getString(R.string.transaction_details_title))
         configTransactionDetails(txDescription)
         configGeneralTransactionInfo(txDescription)
     }

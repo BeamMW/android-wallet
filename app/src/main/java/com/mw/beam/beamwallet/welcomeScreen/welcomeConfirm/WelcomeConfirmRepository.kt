@@ -1,11 +1,11 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeValidation
+package com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm
 
 import com.mw.beam.beamwallet.baseScreen.BaseRepository
 
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-class WelcomeValidationRepository : BaseRepository(), WelcomeValidationContract.Repository {
+class WelcomeConfirmRepository : BaseRepository(), WelcomeConfirmContract.Repository {
     override var phrases: Array<String>? = null
 
     override fun getPhrasesToValidate(): MutableList<Int> {

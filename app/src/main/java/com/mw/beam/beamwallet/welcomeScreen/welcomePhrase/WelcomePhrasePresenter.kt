@@ -1,13 +1,13 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomePhrases
+package com.mw.beam.beamwallet.welcomeScreen.welcomePhrase
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-class WelcomePhrasesPresenter(currentView: WelcomePhrasesContract.View, private val repository: WelcomePhrasesContract.Repository)
-    : BasePresenter<WelcomePhrasesContract.View>(currentView),
-        WelcomePhrasesContract.Presenter {
+class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, private val repository: WelcomePhraseContract.Repository)
+    : BasePresenter<WelcomePhraseContract.View>(currentView),
+        WelcomePhraseContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()

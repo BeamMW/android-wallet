@@ -19,6 +19,7 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description
+    override fun getToolbarTitle(): String? = getString(R.string.welcome_title)
 
     override fun generatePhrase() = (activity as GeneratePhraseHandler).generatePhrase()
 
@@ -26,8 +27,6 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
         btnGenerate.setOnClickListener {
             presenter.onGeneratePhrase()
         }
-
-        setTitle(getString(R.string.welcome_title))
     }
 
     override fun clearListeners() {

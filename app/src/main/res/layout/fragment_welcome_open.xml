@@ -9,7 +9,6 @@
         android:id="@+id/logo"
         android:layout_width="@dimen/welcome_open_logo_width"
         android:layout_height="@dimen/welcome_open_logo_height"
-        android:layout_marginTop="@dimen/welcome_open_logo_margin_top"
         android:contentDescription="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

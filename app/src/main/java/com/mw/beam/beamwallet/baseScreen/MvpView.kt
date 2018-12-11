@@ -13,6 +13,8 @@ interface MvpView {
     fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String? = null, onConfirm: () -> Unit = {}, onCancel: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
     fun initPresenter(): BasePresenter<out MvpView>
+    fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
+    fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
 }

@@ -16,4 +16,6 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, private va
     override fun onRestoreWallet() {
         view?.restoreWallet()
     }
+
+    override fun hasBackArrow(): Boolean? = false
 }
