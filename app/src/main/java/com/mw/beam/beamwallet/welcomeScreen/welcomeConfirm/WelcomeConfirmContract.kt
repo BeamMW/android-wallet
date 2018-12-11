@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.welcomeScreen.welcomeValidation
+package com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm
 
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
@@ -7,7 +7,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-interface WelcomeValidationContract {
+interface WelcomeConfirmContract {
     interface View : MvpView {
         fun getData(): Array<String>?
         fun configPhrases(phrasesToValidate: MutableList<Int>, phrases : Array<String>)
