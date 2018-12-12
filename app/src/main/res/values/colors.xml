@@ -7,8 +7,8 @@
     <color name="colorAccentPicked">#01c4a7</color>
     <color name="common_text_color">#ffffff</color>
     <color name="common_error_color">#ff625c</color>
-    <color name="common_subheader_dark_color">#8da1ad</color>
-    <color name="common_header_small_color">#99ffffff</color>
+    <color name="common_text_dark_color">#8da1ad</color>
+    <color name="common_header_small_color">#60ffffff</color>
     <color name="snack_bar_color">#0a4b66</color>
     <color name="alert_dialog_color">#0a4b66</color>
     <color name="alert_dialog_cancel_color">#8da1ad</color>

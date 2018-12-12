@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/switchTitle"
-            style="@style/common_header_small_temp"
+            style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/receive_switch_title"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/receiveAmountTitle"
-            style="@style/common_header_small_temp"
+            style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_title_margin_top"
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="@string/receive_groth"
-            android:textColor="@color/common_subheader_dark_color"
+            android:textColor="@color/common_text_dark_color"
             android:textSize="@dimen/receive_sub_currency_text_size"
             app:layout_constraintEnd_toEndOf="@id/currency"
             app:layout_constraintStart_toStartOf="@id/currency"
@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/commentTitle"
-            style="@style/common_header_small_temp"
+            style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_title_margin_top"
@@ -106,7 +106,7 @@
 
         <EditText
             android:id="@+id/comment"
-            style="@style/common_subheader_light"
+            style="@style/common_text_big_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_common_margin"
@@ -116,7 +116,7 @@
 
         <TextView
             android:id="@+id/commentDescription"
-            style="@style/common_subheader_dark"
+            style="@style/common_text_big_dark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_common_margin"

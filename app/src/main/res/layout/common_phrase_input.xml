@@ -17,7 +17,7 @@
 
     <EditText
         android:id="@+id/phraseView"
-        style="@style/common_subheader_light"
+        style="@style/common_text_big_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_number_offset"

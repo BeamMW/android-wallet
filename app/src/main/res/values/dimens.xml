@@ -7,10 +7,10 @@
     <dimen name="common_alert_dialog_margin">20dp</dimen>
     <dimen name="common_alert_title_text_size">16sp</dimen>
     <dimen name="common_header_big_text_size">18sp</dimen>
-    <dimen name="common_header_small_text_size">12sp</dimen>
+    <dimen name="common_header_small_size">12sp</dimen>
     <dimen name="common_header_small_temp_text_size">14sp</dimen>
-    <dimen name="common_subheader_text_size">14sp</dimen>
-    <dimen name="common_description_text_size">12sp</dimen>
+    <dimen name="common_text_big_size">14sp</dimen>
+    <dimen name="common_text_small_size">12sp</dimen>
     <dimen name="common_card_corner_radius">10dp</dimen>
     <dimen name="toolbar_title_text_size">18sp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>

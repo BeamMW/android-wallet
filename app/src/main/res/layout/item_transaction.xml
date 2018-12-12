@@ -23,7 +23,7 @@
 
     <TextView
         android:id="@+id/message"
-        style="@style/common_header_small_temp"
+        style="@style/common_subheader_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/common_description"
+        style="@style/common_text_small"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
