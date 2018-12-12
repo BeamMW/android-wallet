@@ -6,7 +6,7 @@
     <string name="common_status_online">online</string>
     <string name="common_drawer_open">open</string>
     <string name="common_drawer_close">close</string>
-    <string name="common_cancel">cancel</string>
+    <string name="common_cancel">Cancel</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">dashboard</string>
@@ -20,7 +20,6 @@
     <!--WelcomeActivity-->
     <string name="welcome_create_wallet">create new wallet</string>
     <string name="welcome_restore">restore wallet</string>
-    <string name="welcome_open">open my wallet</string>
     <string name="welcome_login_to_another">login to another wallet</string>
     <string name="welcome_change">change wallet</string>
     <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
@@ -46,6 +45,10 @@
     <string name="welcome_title_forgot_alert">Forgot password</string>
     <string name="welcome_forgot_alert">You can restore you wallet using your recovery phrase but all transaction history will be lost.</string>
     <string name="welcome_btn_forgot_alert">Restore wallet</string>
+
+    <!--WelcomeOpenFragment-->
+    <string name="welcome_open">open my wallet</string>
+    <string name="welcome_open_description">Enter your password to access the wallet</string>
 
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirm recovery phrase</string>

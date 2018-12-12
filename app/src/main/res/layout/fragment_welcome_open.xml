@@ -16,6 +16,18 @@
         app:srcCompat="@drawable/logo" />
 
     <TextView
+        android:id="@+id/description"
+        style="@style/common_subheader_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/welcome_open_margin_side"
+        android:layout_marginEnd="@dimen/welcome_open_margin_side"
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/welcome_open_description_top_offset"
+        android:text="@string/welcome_open_description"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <TextView
         android:id="@+id/passTitle"
         style="@style/welcome_password_title_style"
         android:layout_width="match_parent"
@@ -24,7 +36,7 @@
         android:layout_marginEnd="@dimen/welcome_open_margin_side"
         android:text="@string/welcome_pass_title"
         app:layout_constraintBottom_toTopOf="@id/pass"
-        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintTop_toBottomOf="@id/description"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.mw.beam.beamwallet.core.views.BeamEditText
