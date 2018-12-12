@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
-                android:padding="@dimen/common_padding">
+                android:padding="@dimen/common_offset">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:orientation="vertical"
-                android:padding="@dimen/common_padding">
+                android:padding="@dimen/common_offset">
 
                 <TextView
                     android:layout_width="wrap_content"

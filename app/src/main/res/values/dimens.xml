@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="common_padding">16dp</dimen>
     <dimen name="common_offset">16dp</dimen>
     <dimen name="common_margin">5dp</dimen>
     <dimen name="common_button_margin">53dp</dimen>
@@ -8,7 +7,6 @@
     <dimen name="common_alert_title_text_size">16sp</dimen>
     <dimen name="common_header_big_text_size">18sp</dimen>
     <dimen name="common_header_small_size">12sp</dimen>
-    <dimen name="common_header_small_temp_text_size">14sp</dimen>
     <dimen name="common_text_big_size">14sp</dimen>
     <dimen name="common_text_small_size">12sp</dimen>
     <dimen name="common_card_corner_radius">10dp</dimen>
@@ -24,8 +22,6 @@
     <dimen name="logo_text_size">16sp</dimen>
 
     <!--WelcomeActivity-->
-    <dimen name="welcome_title_text_size">30sp</dimen>
-    <dimen name="welcome_title_margin_top">25dp</dimen>
     <dimen name="welcome_button_text_padding_start">14dp</dimen>
     <dimen name="welcome_button_text_padding_top">11dp</dimen>
     <dimen name="welcome_button_text_padding_bottom">11dp</dimen>
@@ -35,7 +31,6 @@
     <dimen name="welcome_logo_margin_top">98dp</dimen>
     <dimen name="welcome_logo_text_margin_top">30dp</dimen>
     <dimen name="welcome_passwords_padding">44dp</dimen>
-    <dimen name="welcome_passwords_title_padding_top">25dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
     <dimen name="welcome_passwords_description_padding_top">14dp</dimen>
     <dimen name="welcome_passwords_button_margin_bottom">41dp</dimen>
@@ -78,7 +73,6 @@
     <dimen name="wallet_available_text_padding_start">12dp</dimen>
     <dimen name="wallet_available_text_padding_end">3dp</dimen>
     <dimen name="wallet_available_sum_margin_top">10dp</dimen>
-    <dimen name="wallet_available_text_icon_size">24dp</dimen>
     <dimen name="wallet_currency_padding">3dp</dimen>
     <dimen name="wallet_button_text_size">14sp</dimen>
     <dimen name="wallet_button_width">155dp</dimen>

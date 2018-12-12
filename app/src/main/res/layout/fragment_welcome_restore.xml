@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/description"
         style="@style/welcome_description_text_style"
-        android:paddingTop="@dimen/common_padding"
+        android:paddingTop="@dimen/common_offset"
         android:text="@string/welcome_restore_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

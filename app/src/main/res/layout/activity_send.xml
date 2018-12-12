@@ -16,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:paddingStart="@dimen/common_padding"
-        android:paddingTop="@dimen/common_padding"
+        android:paddingStart="@dimen/common_offset"
+        android:paddingTop="@dimen/common_offset"
         android:text="@string/send_token_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:paddingTop="@dimen/common_padding"
+        android:paddingTop="@dimen/common_offset"
         android:text="@string/send_token_extra_title"
         android:textColor="@color/common_text_dark_color"
         android:textStyle="normal"
@@ -43,15 +43,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/receive_common_margin"
         android:background="@drawable/edit_text_selector"
-        android:paddingStart="@dimen/common_padding"
-        android:paddingEnd="@dimen/common_padding"
+        android:paddingStart="@dimen/common_offset"
+        android:paddingEnd="@dimen/common_offset"
         app:layout_constraintTop_toBottomOf="@id/tokenTitle"
         tools:ignore="Autofill,LabelFor,TextFields" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/common_padding"
+        android:padding="@dimen/common_offset"
         app:layout_constraintTop_toBottomOf="@id/token">
 
         <TextView

@@ -29,7 +29,6 @@
     <color name="pass_progress_strong">@color/colorAccent</color>
 
     <!--WelcomePasswordsFragment-->
-    <color name="password_text_color">#ffffff</color>
     <color name="password_underline_color">@color/colorPrimary</color>
 
     <!--WelcomePhraseFragment-->
