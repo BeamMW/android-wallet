@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:paddingStart="@dimen/common_padding"
+    android:paddingStart="@dimen/common_offset"
     android:paddingTop="@dimen/transaction_item_padding"
-    android:paddingEnd="@dimen/common_padding"
+    android:paddingEnd="@dimen/common_offset"
     android:paddingBottom="@dimen/transaction_item_padding">
 
     <ImageView

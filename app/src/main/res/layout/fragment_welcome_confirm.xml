@@ -8,7 +8,7 @@
         android:id="@+id/description"
         style="@style/welcome_description_text_style"
         android:paddingStart="@dimen/welcome_description_side_offset"
-        android:paddingTop="@dimen/common_padding"
+        android:paddingTop="@dimen/common_offset"
         android:paddingEnd="@dimen/welcome_description_side_offset"
         android:text="@string/welcome_validation_description"
         app:layout_constraintEnd_toEndOf="parent"

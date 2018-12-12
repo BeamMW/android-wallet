@@ -21,7 +21,6 @@
     <string name="welcome_create_wallet">create new wallet</string>
     <string name="welcome_restore">restore wallet</string>
     <string name="welcome_login_to_another">login to another wallet</string>
-    <string name="welcome_change">change wallet</string>
     <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
     <string name="welcome_next">next</string>
     <string name="welcome_recover">recover</string>
@@ -101,7 +100,7 @@
     <string name="transaction_details_general_info">General transaction info</string>
     <string name="transaction_details_start_address">Start address:</string>
     <string name="transaction_details_end_address">End address:</string>
-    <string name="transaction_details_current_amount">Current amount:</string>
+    <string name="transaction_details_currencies_amount">Currencies amount:</string>
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
     <string name="transaction_details_transaction_history">Transaction history</string>
