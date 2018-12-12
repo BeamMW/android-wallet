@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/description"
-        style="@style/common_subheader_light"
+        style="@style/common_text_big_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_open_margin_side"
@@ -52,7 +52,7 @@
 
     <TextView
         android:id="@+id/passError"
-        style="@style/common_subheader_light"
+        style="@style/common_text_big_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_open_margin_side"
