@@ -54,6 +54,7 @@
     <dimen name="welcome_open_logo_width">89dp</dimen>
     <dimen name="welcome_open_logo_height">80dp</dimen>
     <dimen name="welcome_open_margin_side">30dp</dimen>
+    <dimen name="welcome_open_description_top_offset">40dp</dimen>
     <dimen name="welcome_open_forgot_padding_bottom">30dp</dimen>
     <dimen name="welcome_open_forgot_padding_top">60dp</dimen>
     <dimen name="welcome_open_forgot_text_size">14sp</dimen>
