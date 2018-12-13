@@ -103,5 +103,9 @@ class BeamPhraseInput : ConstraintLayout {
                 }
             }
         })
+
+
+        //necessary to prevent BeamEditText from changing text color
+        phraseView.onFocusChangeListener = null
     }
 }
