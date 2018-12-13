@@ -7,6 +7,7 @@
     <string name="common_drawer_open">open</string>
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
+    <string name="common_done">done</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">dashboard</string>
@@ -29,9 +30,6 @@
     <string name="welcome_title">Create new wallet</string>
     <string name="welcome_restore_description">Type in or paste your recovery phrase</string>
     <string name="welcome_description">Create new wallet with generating recovery phrase. If you ever lose your device, you will need this phrase to recover your wallet!</string>
-    <string name="welcome_phrases_description">Your recovery phrase is the access key to all the cryptocurrencies in your wallet. Write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
-    <string name="welcome_phrases_copied_alert">Copied!</string>
-    <string name="welcome_phrase_title">Recovery phrase</string>
     <string name="welcome_no_see">Do not let anyone see your recovery phrase</string>
     <string name="welcome_no_type">Never type your recovery phrase into password managers or elsewhere</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency</string>
@@ -48,6 +46,13 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">open my wallet</string>
     <string name="welcome_open_description">Enter your password to access the wallet</string>
+
+    <!--WelcomePhraseFragment-->
+    <string name="welcome_phrase_description">Your recovery phrase is the access key to all the cryptocurrencies in your wallet. Write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_phrase_copied_alert">Copied!</string>
+    <string name="welcome_phrase_title">Recovery phrase</string>
+    <string name="welcome_phrase_save_title">Save recovery phrase</string>
+    <string name="welcome_phrase_save_description">Please write the recovery phrase down. Storing it in a file makes it prone to cyber attacks and, therefore, less secure.</string>
 
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirm recovery phrase</string>

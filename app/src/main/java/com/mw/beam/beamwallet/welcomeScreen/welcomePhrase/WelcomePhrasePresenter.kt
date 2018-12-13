@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomePhrase
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
  * Created by vain onnellinen on 10/30/18.
@@ -12,26 +13,36 @@ class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, private va
     override fun onViewCreated() {
         super.onViewCreated()
         view?.configPhrases(repository.phrases)
+
+        LogUtils.log("Recovery phrase: \n${preparePhrases(repository.phrases)}")
     }
 
-    override fun onNextPressed() {
+    override fun onDonePressed() {
         view?.showValidationFragment(repository.phrases)
     }
 
+    override fun onNextPressed() {
+        view?.showSaveAlert()
+    }
+
     override fun onCopyPressed() {
+        view?.copyToClipboard(preparePhrases(repository.phrases))
+        view?.showCopiedAlert()
+    }
+
+    private fun preparePhrases(phrases: Array<String>): String {
         val result = StringBuilder()
 
-        for ((index, value) in repository.phrases.withIndex()) {
+        for ((index, value) in phrases.withIndex()) {
             result.append((index + 1).toString())
                     .append(" ")
                     .append(value)
 
-            if (index != repository.phrases.lastIndex) {
+            if (index != phrases.lastIndex) {
                 result.append("\n")
             }
         }
 
-        view?.copyToClipboard(result.toString())
-        view?.showCopiedAlert()
+        return result.toString()
     }
 }

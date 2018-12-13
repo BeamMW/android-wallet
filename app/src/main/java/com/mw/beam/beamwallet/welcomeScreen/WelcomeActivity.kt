@@ -6,13 +6,13 @@ import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.main.MainActivity
+import com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm.WelcomeConfirmFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeCreate.WelcomeCreateFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeDescription.WelcomeDescriptionFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeOpen.WelcomeOpenFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomePasswords.WelcomePasswordsFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomePhrase.WelcomePhraseFragment
 import com.mw.beam.beamwallet.welcomeScreen.welcomeRestore.WelcomeRestoreFragment
-import com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm.WelcomeConfirmFragment
 
 /**
  * Created by vain onnellinen on 10/19/18.

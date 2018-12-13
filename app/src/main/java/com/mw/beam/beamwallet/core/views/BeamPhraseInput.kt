@@ -77,23 +77,28 @@ class BeamPhraseInput : ConstraintLayout {
                         isEmpty -> {
                             numberTextColorResId = R.color.colorPrimary
                             numberBackgroundResId = R.drawable.empty_number_background
+                            phraseView.isStateNormal = true
                         }
                         isValid -> {
                             numberTextColorResId = R.color.phrase_validated_number_text_color
                             numberBackgroundResId = R.drawable.validated_number_background
+                            phraseView.isStateAccent = true
                         }
                         else -> {
                             numberTextColorResId = R.color.phrase_error_number_text_color
                             numberBackgroundResId = R.drawable.error_number_background
+                            phraseView.isStateError = true
                         }
                     }
                 } else {
                     if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.empty_number_background
+                        phraseView.isStateNormal = true
                     } else {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.number_background
+                        phraseView.isStateNormal = true
                     }
                 }
             }

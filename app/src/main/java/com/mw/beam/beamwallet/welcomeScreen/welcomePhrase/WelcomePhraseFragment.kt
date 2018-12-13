@@ -33,7 +33,7 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
 
-        copiedAlert = getString(R.string.welcome_phrases_copied_alert)
+        copiedAlert = getString(R.string.welcome_phrase_copied_alert)
     }
 
     override fun addListeners() {
@@ -76,6 +76,12 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
 
     override fun showCopiedAlert() {
         showSnackBar(copiedAlert)
+    }
+
+    override fun showSaveAlert() {
+        showAlert(getString(R.string.welcome_phrase_save_description), getString(R.string.welcome_phrase_save_title),
+                getString(R.string.common_done), getString(R.string.common_cancel),
+                { presenter.onDonePressed() })
     }
 
     override fun showValidationFragment(phrases: Array<String>) = (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
