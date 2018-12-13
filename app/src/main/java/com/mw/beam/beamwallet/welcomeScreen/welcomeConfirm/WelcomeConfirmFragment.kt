@@ -68,7 +68,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         btnNext.isEnabled = arePhrasesValid()
     }
 
-    override fun configPhrases(phrasesToValidate: MutableList<Int>, phrases: Array<String>) {
+    override fun configPhrases(phrasesToValidate: List<Int>, phrases: Array<String>) {
         phrasesLayout.rowCount = phrasesToValidate.size / 2
         var columnIndex = 0
         var rowIndex = 0

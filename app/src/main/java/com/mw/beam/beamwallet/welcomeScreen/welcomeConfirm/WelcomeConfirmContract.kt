@@ -10,7 +10,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 interface WelcomeConfirmContract {
     interface View : MvpView {
         fun getData(): Array<String>?
-        fun configPhrases(phrasesToValidate: MutableList<Int>, phrases : Array<String>)
+        fun configPhrases(phrasesToValidate: List<Int>, phrases : Array<String>)
         fun showPasswordsFragment(phrases : Array<String>)
         fun handleNextButton()
     }
@@ -21,7 +21,7 @@ interface WelcomeConfirmContract {
     }
 
     interface Repository : MvpRepository {
-        fun getPhrasesToValidate(): MutableList<Int>
+        fun getPhrasesToValidate(): List<Int>
         var phrases : Array<String>?
     }
 }
