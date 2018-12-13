@@ -1,6 +1,8 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm
 
 import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import java.util.*
+import kotlin.collections.HashSet
 
 /**
  * Created by vain onnellinen on 11/1/18.
@@ -8,7 +10,14 @@ import com.mw.beam.beamwallet.baseScreen.BaseRepository
 class WelcomeConfirmRepository : BaseRepository(), WelcomeConfirmContract.Repository {
     override var phrases: Array<String>? = null
 
-    override fun getPhrasesToValidate(): MutableList<Int> {
-        return mutableListOf(1, 3, 4, 7, 10, 12)
+    override fun getPhrasesToValidate(): List<Int> {
+        val set = HashSet<Int>()
+        val ran = Random()
+
+        while (set.size < 6) {
+            set.add(ran.nextInt(11) + 1)
+        }
+
+        return set.shuffled()
     }
 }
