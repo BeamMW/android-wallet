@@ -15,7 +15,7 @@
             android:paddingStart="@dimen/welcome_phrase_description_side_offset"
             android:paddingTop="@dimen/welcome_phrase_description_padding"
             android:paddingEnd="@dimen/welcome_phrase_description_side_offset"
-            android:text="@string/welcome_phrases_description"
+            android:text="@string/welcome_phrase_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />

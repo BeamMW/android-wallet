@@ -13,11 +13,13 @@ interface WelcomePhraseContract {
         fun configPhrases(phrases: Array<String>)
         fun copyToClipboard(data: String)
         fun showCopiedAlert()
+        fun showSaveAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNextPressed()
         fun onCopyPressed()
+        fun onDonePressed()
     }
 
     interface Repository : MvpRepository {

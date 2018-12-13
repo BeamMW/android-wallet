@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:color="@color/password_underline_color" app:state_accent="false" app:state_error="false" app:state_normal="true" />
+    <item android:color="@color/common_text_color" app:state_accent="false" app:state_error="false" app:state_normal="true" />
     <item android:color="@color/common_error_color" app:state_accent="false" app:state_error="true" app:state_normal="false" />
-    <item android:color="@color/colorAccent" app:state_accent="true" app:state_error="false" app:state_normal="false" />
-    <item android:color="@color/password_underline_color" app:state_accent="false" app:state_error="false" app:state_normal="false" />
+    <item android:color="@color/common_text_color" app:state_accent="true" app:state_error="false" app:state_normal="false" />
+    <item android:color="@color/common_text_color" app:state_accent="false" app:state_error="false" app:state_normal="false" />
 </selector>
