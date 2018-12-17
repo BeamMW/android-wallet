@@ -27,28 +27,25 @@
         android:text="@string/welcome_open_description"
         app:layout_constraintTop_toBottomOf="@id/logo" />
 
-    <TextView
-        android:id="@+id/passTitle"
-        style="@style/welcome_password_title_style"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/passLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_open_margin_side"
         android:layout_marginEnd="@dimen/welcome_open_margin_side"
-        android:text="@string/welcome_pass_title"
-        app:layout_constraintBottom_toTopOf="@id/pass"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <com.mw.beam.beamwallet.core.views.BeamEditText
-        android:id="@+id/pass"
-        style="@style/welcome_password_view_style"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/welcome_open_margin_side"
-        android:layout_marginEnd="@dimen/welcome_open_margin_side"
+        app:hintTextAppearance="@style/welcome_password_label_style"
         app:layout_constraintBottom_toTopOf="@id/passError"
-        app:layout_constraintTop_toBottomOf="@id/passTitle"
-        tools:ignore="Autofill,LabelFor" />
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.mw.beam.beamwallet.core.views.BeamEditText
+            android:id="@+id/pass"
+            style="@style/welcome_password_view_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/welcome_pass_hint"
+            tools:ignore="Autofill,LabelFor" />
+    </android.support.design.widget.TextInputLayout>
 
     <TextView
         android:id="@+id/passError"
@@ -63,7 +60,7 @@
         android:textColor="@color/common_error_color"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/btnOpen"
-        app:layout_constraintTop_toBottomOf="@id/pass" />
+        app:layout_constraintTop_toBottomOf="@id/passLayout" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnOpen"

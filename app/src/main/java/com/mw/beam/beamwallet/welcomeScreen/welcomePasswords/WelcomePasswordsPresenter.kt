@@ -56,8 +56,4 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, priv
     override fun onConfirmPassChanged() {
         view?.clearErrors()
     }
-
-    override fun onChangePassVisibility(shouldShow: Boolean) {
-        view?.changePassVisibility(shouldShow)
-    }
 }

@@ -15,7 +15,6 @@ interface WelcomePasswordsContract {
         fun hasErrors() : Boolean
         fun setStrengthLevel(strength : PasswordStrengthView.Strength)
         fun clearErrors()
-        fun changePassVisibility(shouldShow : Boolean)
         fun getPass(): String
         fun getPhrases() : Array<String>?
         fun proceedToWallet()
@@ -25,7 +24,6 @@ interface WelcomePasswordsContract {
         fun onPassChanged(pass : String?)
         fun onConfirmPassChanged()
         fun onProceed()
-        fun onChangePassVisibility(shouldShow : Boolean)
     }
 
     interface Repository : MvpRepository {

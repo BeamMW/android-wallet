@@ -33,9 +33,8 @@
     <string name="welcome_no_see">Do not let anyone see your recovery phrase</string>
     <string name="welcome_no_type">Never type your recovery phrase into password managers or elsewhere</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency</string>
-    <string name="welcome_pass_title">Password</string>
+    <string name="welcome_pass_hint">Password</string>
     <string name="welcome_forgot_pass">Forgot password?</string>
-    <string name="welcome_confirm_pass_title">Confirm password</string>
     <string name="welcome_title_change_alert">Login to another wallet</string>
     <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
     <string name="welcome_btn_change_alert">Change wallet</string>
@@ -75,6 +74,7 @@
     <string name="welcome_pass_not_much">Passwords do not match</string>
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>
+    <string name="welcome_confirm_pass_hint">Confirm password</string>
 
     <!--WalletFragment-->
     <string name="wallet_title">Wallet</string>
