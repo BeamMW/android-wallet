@@ -1,11 +1,8 @@
 package com.mw.beam.beamwallet.welcomeScreen.welcomePasswords
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.text.Editable
-import android.text.InputType
 import android.util.TypedValue
-import android.view.MotionEvent
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
@@ -60,45 +57,34 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         btnProceed.setOnClickListener {
             presenter.onProceed()
         }
-
-        showPass.setOnTouchListener { _, motionEvent ->
-            when (motionEvent.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    presenter.onChangePassVisibility(true)
-                }
-                MotionEvent.ACTION_UP -> {
-                    presenter.onChangePassVisibility(false)
-                }
-            }
-            true
-        }
     }
 
     override fun getPhrases(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
-    override fun getPass(): String = pass.text.trim().toString()
+    override fun getPass(): String = pass.text?.trim().toString()
     override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
 
     override fun hasErrors(): Boolean {
-        val context = context ?: return false
         var hasErrors = false
-        pass.error = null
-        passMatchError.visibility = View.GONE
-        confirmPass.setTextColor(ContextCompat.getColor(context, R.color.common_text_color))
+        clearErrors()
 
         if (pass.text.isNullOrBlank()) {
-            pass.error = getString(R.string.welcome_pass_empty_error)
+            passError.visibility = View.VISIBLE
+            passError.text = getString(R.string.welcome_pass_empty_error)
+            pass.isStateError = true
             hasErrors = true
         }
 
         if (!pass.text.isNullOrBlank() && pass.text.toString() != confirmPass.text.toString()) {
-            passMatchError.visibility = View.VISIBLE
-            passMatchError.text = getString(R.string.welcome_passwords_not_match)
-            confirmPass.setTextColor(ContextCompat.getColor(context, R.color.common_error_color))
+            passError.visibility = View.VISIBLE
+            passError.text = getString(R.string.welcome_passwords_not_match)
+            confirmPass.isStateError = true
             hasErrors = true
         }
 
         if (confirmPass.text.isNullOrBlank()) {
-            passMatchError.text = getString(R.string.welcome_pass_empty_error)
+            passError.visibility = View.VISIBLE
+            passError.text = getString(R.string.welcome_pass_empty_error)
+            confirmPass.isStateError = true
             hasErrors = true
         }
 
@@ -106,17 +92,25 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     }
 
     override fun clearErrors() {
-        val context = context ?: return
-        pass.error = null
-        confirmPass.setTextColor(ContextCompat.getColor(context, R.color.common_text_color))
-        passMatchError.visibility = View.GONE
+        passError.visibility = View.GONE
+
+        if (pass.isFocused) {
+            pass.isStateAccent = true
+        } else {
+            pass.isStateNormal = true
+        }
+
+        if (confirmPass.isFocused) {
+            confirmPass.isStateAccent = true
+        } else {
+            confirmPass.isStateNormal = true
+        }
     }
 
     override fun clearListeners() {
         pass.removeTextChangedListener(passWatcher)
         confirmPass.removeTextChangedListener(confirmPassWatcher)
         btnProceed.setOnClickListener(null)
-        showPass.setOnTouchListener(null)
     }
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
@@ -130,12 +124,6 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
             PasswordStrengthView.Strength.STRONG -> strongPass
             PasswordStrengthView.Strength.VERY_STRONG -> veryStrongPass
         }
-    }
-
-    override fun changePassVisibility(shouldShow: Boolean) {
-        confirmPass.inputType = if (shouldShow) InputType.TYPE_CLASS_TEXT else InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        confirmPass.setSelection(confirmPass.text.length)
-        confirmPass.letterSpacing = if (shouldShow) lettersSpace else dotsSpace
     }
 
     override fun init() {

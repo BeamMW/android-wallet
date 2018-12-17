@@ -86,7 +86,7 @@
         <item name="android:letterSpacing">@dimen/welcome_password_dots_space</item>
     </style>
 
-    <style name="welcome_password_title_style" parent="common_subheader_light">
+    <style name="welcome_password_label_style" parent="common_subheader_light">
         <item name="android:paddingBottom">@dimen/welcome_password_title_padding_bottom</item>
     </style>
 

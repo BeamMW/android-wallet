@@ -33,7 +33,8 @@
     <dimen name="welcome_passwords_padding">44dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
     <dimen name="welcome_passwords_description_padding_top">14dp</dimen>
-    <dimen name="welcome_passwords_button_margin_bottom">41dp</dimen>
+    <dimen name="welcome_passwords_button_margin_bottom">60dp</dimen>
+    <dimen name="welcome_passwords_group_padding_top">60dp</dimen>
     <dimen name="welcome_passwords_progress_item_margin">8dp</dimen>
     <dimen name="welcome_passwords_items_offset">9dp</dimen>
     <dimen name="welcome_password_title_padding_bottom">15dp</dimen>
