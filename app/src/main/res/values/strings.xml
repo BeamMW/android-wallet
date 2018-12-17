@@ -70,7 +70,7 @@
     <string name="welcome_pass_medium">Medium strength password</string>
     <string name="welcome_pass_medium_strong">Medium strength password</string>
     <string name="welcome_pass_strong">Very strong password</string>
-    <string name="welcome_pass_very_strong">Medium strength password (add at least one capital letter and one small letter)</string>
+    <string name="welcome_pass_very_strong">Medium strength password</string>
     <string name="welcome_pass_not_much">Passwords do not match</string>
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>
@@ -85,8 +85,13 @@
     <string name="wallet_maturing">Maturing</string>
     <string name="wallet_btn_receive">receive</string>
     <string name="wallet_btn_send">send</string>
-    <string name="wallet_status_received">Received</string>
-    <string name="wallet_status_sent">Sent</string>
+    <string name="wallet_status_received">received</string>
+    <string name="wallet_status_sent">sent</string>
+    <string name="wallet_status_confirming">confirming</string>
+    <string name="wallet_status_in_progress">in progress</string>
+    <string name="wallet_status_failed">failed</string>
+    <string name="wallet_status_cancelled">cancelled</string>
+    <string name="wallet_status_pending">pending</string>
     <string name="wallet_transactions_title">Transactions</string>
     <string name="wallet_transactions_receive">Receive %s</string>
     <string name="wallet_transactions_send">Send %s</string>

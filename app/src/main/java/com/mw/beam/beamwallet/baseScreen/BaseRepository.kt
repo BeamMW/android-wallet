@@ -24,4 +24,15 @@ open class BaseRepository : MvpRepository {
         block.invoke()
         return subject
     }
+
+    fun getResult(block: () -> Unit, requestName: String) {
+        LogUtils.log(StringBuilder()
+                .append(LogUtils.LOG_REQUEST)
+                .append(" ")
+                .append(requestName)
+                .append("\n")
+                .append("--------------------------")
+                .append("\n").toString())
+        block.invoke()
+    }
 }
