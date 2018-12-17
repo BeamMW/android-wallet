@@ -23,9 +23,14 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val beamResId = R.drawable.ic_beam
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val receivedStatus = context.getString(R.string.wallet_status_received)
-    private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
     private val sentStatus = context.getString(R.string.wallet_status_sent)
-    private val commonStatusColor = ContextCompat.getColor(context, R.color.transaction_common_status_color)
+    private val inProgressStatus = context.getString(R.string.wallet_status_in_progress)
+    private val cancelledStatus = context.getString(R.string.wallet_status_cancelled)
+    private val failedStatus = context.getString(R.string.wallet_status_failed)
+    private val pendingStatus = context.getString(R.string.wallet_status_pending)
+    private val confirmingStatus = context.getString(R.string.wallet_status_confirming)
+    private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
+    private val swapStatusColor = ContextCompat.getColor(context, R.color.transaction_common_status_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
@@ -46,22 +51,25 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                 TxSender.RECEIVED -> {
                     sum.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
-                    status.text = receivedStatus
                     message.text = String.format(receiveText, "BEAM") //TODO replace when multiply currency will be available
                 }
                 TxSender.SENT -> {
                     sum.setTextColor(sentColor)
                     status.setTextColor(sentColor)
-                    status.text = sentStatus
                     message.text = String.format(sendText, "BEAM") //TODO replace when multiply currency will be available
                 }
             }
 
-            if (transaction.statusEnum == TxStatus.Failed
-                    || transaction.statusEnum == TxStatus.InProgress
-                    || transaction.statusEnum == TxStatus.Cancelled) {
-                status.setTextColor(commonStatusColor)
-                status.text = transaction.statusEnum.name.toLowerCase() //TODO make resources when all statuses will be stable
+            status.text = when (transaction.statusEnum) {
+                TxStatus.InProgress -> inProgressStatus
+                TxStatus.Cancelled -> cancelledStatus
+                TxStatus.Failed -> failedStatus
+                TxStatus.Pending -> pendingStatus
+                TxStatus.Registered -> confirmingStatus
+                TxStatus.Completed -> when (transaction.senderEnum) {
+                    TxSender.RECEIVED -> receivedStatus
+                    TxSender.SENT -> sentStatus
+                }
             }
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
