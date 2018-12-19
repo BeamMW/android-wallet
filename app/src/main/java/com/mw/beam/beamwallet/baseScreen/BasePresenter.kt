@@ -17,12 +17,13 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     }
 
     override fun onStart() {
-        if (getSubscriptions() != null) {
-            disposable.addAll(*getSubscriptions()!!)
+        val subscriptions = getSubscriptions()
+
+        if (subscriptions != null) {
+            disposable.addAll(*subscriptions)
         }
 
         view?.addListeners()
-
     }
 
     override fun onResume() {

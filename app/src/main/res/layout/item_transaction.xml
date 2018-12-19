@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/date"
-        style="@style/common_text_small"
+        style="@style/common_text_small_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"

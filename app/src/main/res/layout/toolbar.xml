@@ -32,8 +32,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:contentDescription="@null"
-                android:paddingLeft="@dimen/toolbar_padding_for_status"
-                android:paddingRight="@dimen/toolbar_padding_for_status"
+                android:paddingStart="@dimen/toolbar_padding_for_status"
+                android:paddingEnd="@dimen/toolbar_padding_for_status"
                 android:src="@drawable/status" />
 
             <TextView

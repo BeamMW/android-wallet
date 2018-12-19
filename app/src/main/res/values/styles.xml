@@ -64,7 +64,11 @@
         <item name="android:textSize">@dimen/common_text_big_size</item>
     </style>
 
-    <style name="common_text_small" parent="common_text_big_light">
+    <style name="common_text_small_light" parent="common_text_big_light">
+        <item name="android:textSize">@dimen/common_text_small_size</item>
+    </style>
+
+    <style name="common_text_small_dark" parent="common_text_big_dark">
         <item name="android:textSize">@dimen/common_text_small_size</item>
     </style>
 
@@ -75,7 +79,7 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
 
-    <style name="welcome_description_item_text_style" parent="common_text_small">
+    <style name="welcome_description_item_text_style" parent="common_text_small_light">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>

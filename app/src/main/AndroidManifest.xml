@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".utxo.UtxoActivity"
+            android:name=".utxo.UtxoFragment"
             android:screenOrientation="portrait" />
         <activity
             android:name=".main.MainActivity"

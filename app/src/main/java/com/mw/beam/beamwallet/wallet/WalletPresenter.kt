@@ -20,8 +20,8 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     private lateinit var txPeerUpdatedSubscription: Disposable
     private lateinit var utxoUpdatedSubscription: Disposable
 
-    override fun onStart() {
-        super.onStart()
+    override fun onViewCreated() {
+        super.onViewCreated()
         view?.init()
     }
 
@@ -93,7 +93,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
 
     override fun getSubscriptions(): Array<Disposable>? {
         initSubscriptions()
-        return arrayOf(walletStatusSubscription, txStatusSubscription, txPeerUpdatedSubscription)
+        return arrayOf(walletStatusSubscription, txStatusSubscription, txPeerUpdatedSubscription, utxoUpdatedSubscription)
     }
 
     private fun toDo() {

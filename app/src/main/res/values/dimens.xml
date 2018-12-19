@@ -108,4 +108,11 @@
     <dimen name="receive_common_margin">10dp</dimen>
     <dimen name="receive_btn_margin_top">60dp</dimen>
     <dimen name="transfer_btn_width">156dp</dimen>
+
+    <!--UtxoFragment-->
+    <dimen name="utxo_status_offset_start">16dp</dimen>
+    <dimen name="utxo_status_offset_end">5dp</dimen>
+    <dimen name="utxo_item_padding">20dp</dimen>
+    <dimen name="utxo_item_offset_top">10dp</dimen>
+    <dimen name="utxo_item_amount_text_size">24sp</dimen>
 </resources>

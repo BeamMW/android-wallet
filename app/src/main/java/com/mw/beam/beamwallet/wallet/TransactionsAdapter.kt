@@ -80,7 +80,6 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     }
 
     override fun getItemCount(): Int = data.size
-    fun getPositionByItem(item: TxDescription) = data.indexOf(item)
 
     fun setData(data: List<TxDescription>) {
         this.data = data
