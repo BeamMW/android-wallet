@@ -101,9 +101,19 @@
     <string name="wallet_transactions_menu_export">Export</string>
     <string name="wallet_transactions_menu_delete">Delete</string>
 
-    <!--UtxoActivity-->
-    <string name="utxo_height">Height</string>
-    <string name="utxo_hash">Hash</string>
+    <!--UtxoFragment-->
+    <string name="utxo_title">UTXO</string>
+    <string name="utxo_tab_active">Active</string>
+    <string name="utxo_tab_all">All</string>
+    <string name="utxo_status_available">available</string>
+    <string name="utxo_status_incoming">(incoming)</string>
+    <string name="utxo_status_in_progress">in progress</string>
+    <string name="utxo_status_change">(change)</string>
+    <string name="utxo_status_outgoing">(outgoing)</string>
+    <string name="utxo_status_maturing">maturing</string>
+    <string name="utxo_status_spent">spent</string>
+    <string name="utxo_status_unavailable">unavailable</string>
+    <string name="utxo_status_result_rollback">(mining result rollback)</string>
 
     <!--TransactionDetailsScreen-->
     <string name="transaction_details_title">Transaction details</string>

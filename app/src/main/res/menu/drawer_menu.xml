@@ -5,10 +5,10 @@
             android:id="@+id/nav_wallet"
             android:icon="@drawable/menu_wallet_active"
             android:title="@string/nav_wallet" />
-        <!--<item-->
-            <!--android:id="@+id/nav_address_book"-->
-            <!--android:icon="@drawable/menu_address_book"-->
-            <!--android:title="@string/nav_address_book" />-->
+        <item
+            android:id="@+id/nav_address_book"
+            android:icon="@drawable/menu_address_book"
+            android:title="@string/nav_address_book" />
         <item
             android:id="@+id/nav_utxo"
             android:icon="@drawable/menu_utxo"
