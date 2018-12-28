@@ -13,9 +13,12 @@ interface UtxoContract {
     interface View : MvpView {
         fun init()
         fun updateUtxos(utxos: Array<Utxo>)
+        fun showUtxoDetails(utxo : Utxo)
     }
 
-    interface Presenter : MvpPresenter<View>
+    interface Presenter : MvpPresenter<View> {
+        fun onUtxoPressed(utxo : Utxo)
+    }
 
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<Array<Utxo>>

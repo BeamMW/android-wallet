@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.utxo
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
 
 /**
@@ -14,6 +15,10 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+    }
+
+    override fun onUtxoPressed(utxo: Utxo) {
+        view?.showUtxoDetails(utxo)
     }
 
     private fun initSubscriptions() {

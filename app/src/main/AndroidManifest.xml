@@ -16,9 +16,6 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".utxo.UtxoFragment"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -39,6 +36,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".send.SendActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".utxoDetails.UtxoDetailsActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

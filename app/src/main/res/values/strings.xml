@@ -115,7 +115,26 @@
     <string name="utxo_status_unavailable">unavailable</string>
     <string name="utxo_status_result_rollback">(mining result rollback)</string>
 
-    <!--TransactionDetailsScreen-->
+    <!--UtxoDetailsFragment-->
+    <string name="utxo_details_title">UTXO details</string>
+    <string name="utxo_transaction_details">Transaction details</string>
+    <string name="utxo_transaction_id">Transaction ID:</string>
+    <string name="utxo_type">UTXO type:</string>
+    <string name="utxo_completion_time">Completion time:</string>
+    <string name="utxo_contact">Contact:</string>
+    <string name="utxo_transaction_history">Transaction history</string>
+    <string name="utxo_type_commission">Commission</string>
+    <string name="utxo_type_coinbase">Coinbase</string>
+    <string name="utxo_type_decoy">Decoy</string>
+    <string name="utxo_type_regular">Regular</string>
+    <string name="utxo_type_change">Change</string>
+    <string name="utxo_type_kernel">Kernel</string>
+    <string name="utxo_type_kernel2">Kernel2</string>
+    <string name="utxo_type_identity">Identity</string>
+    <string name="utxo_type_childKey">ChildKey</string>
+    <string name="utxo_type_bbs">Bbs</string>
+
+    <!--TransactionDetailsActivity-->
     <string name="transaction_details_title">Transaction details</string>
     <string name="transaction_details_general_info">General transaction info</string>
     <string name="transaction_details_start_address">Start address:</string>

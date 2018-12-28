@@ -34,12 +34,12 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
         allUtxosAdapter = UtxosAdapter(context, mutableListOf(), object : UtxosAdapter.OnItemClickListener {
             override fun onItemClick(item: Utxo) {
-
+                presenter.onUtxoPressed(item)
             }
         })
         activeUtxosAdapter = UtxosAdapter(context, mutableListOf(), object : UtxosAdapter.OnItemClickListener {
             override fun onItemClick(item: Utxo) {
-
+                presenter.onUtxoPressed(item)
             }
         })
 
@@ -59,6 +59,8 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         })
     }
 
+    override fun showUtxoDetails(utxo: Utxo)  = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo)
+
     override fun updateUtxos(utxos: Array<Utxo>) {
         activeUtxosAdapter.setData(utxos.asList().filter { it.statusEnum == UtxoStatus.Available || it.statusEnum == UtxoStatus.Maturing })
         allUtxosAdapter.setData(utxos.asList())
@@ -71,6 +73,10 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     override fun initPresenter(): BasePresenter<out MvpView> {
         presenter = UtxoPresenter(this, UtxoRepository())
         return presenter
+    }
+
+    interface UtxoDetailsHandler {
+        fun onShowUtxoDetails(item: Utxo)
     }
 
     private enum class Tab {

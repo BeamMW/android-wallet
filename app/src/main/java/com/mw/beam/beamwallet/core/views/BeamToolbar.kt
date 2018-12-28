@@ -47,7 +47,7 @@ class BeamToolbar : ConstraintLayout {
         inflate(context, R.layout.toolbar, this)
         toolbar = this.findViewById(R.id.toolbar)
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle)
-        status = toolbar.findViewById(R.id.status)
+        status = toolbar.findViewById(R.id.connectionStatus)
         statusIcon = toolbar.findViewById(R.id.statusIcon)
 
         if (attrs != null) {

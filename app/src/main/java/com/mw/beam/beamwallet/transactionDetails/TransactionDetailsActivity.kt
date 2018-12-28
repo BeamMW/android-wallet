@@ -37,29 +37,29 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     private fun configTransactionDetails(txDescription: TxDescription) {
         when (txDescription.senderEnum) {
             TxSender.RECEIVED -> {
-                val receivedColor = ContextCompat.getColor(this, R.color.received_color)
-                sum.setTextColor(receivedColor)
-                status.setTextColor(receivedColor)
-                status.text = getString(R.string.wallet_status_received)
+                sum.setTextColor(ContextCompat.getColor(this, R.color.received_color))
+                status.setTextColor(ContextCompat.getColor(this, R.color.received_color))
                 message.text = String.format(getString(R.string.wallet_transactions_receive), "BEAM") //TODO replace when multiply currency will be available
             }
             TxSender.SENT -> {
-                val sentColor = ContextCompat.getColor(this, R.color.sent_color)
-                sum.setTextColor(sentColor)
-                status.setTextColor(sentColor)
-                status.text = getString(R.string.wallet_status_sent)
+                sum.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
+                status.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
                 message.text = String.format(getString(R.string.wallet_transactions_send), "BEAM") //TODO replace when multiply currency will be available
             }
         }
 
-        if (txDescription.statusEnum == TxStatus.Failed
-                || txDescription.statusEnum == TxStatus.InProgress
-                || txDescription.statusEnum == TxStatus.Cancelled) {
-            status.setTextColor(ContextCompat.getColor(this, R.color.transaction_common_status_color))
-            status.text = txDescription.statusEnum.name.toLowerCase() //TODO make resources when all statuses will be stable
+        status.text = when (txDescription.statusEnum) {
+            TxStatus.InProgress -> getString(R.string.wallet_status_in_progress)
+            TxStatus.Cancelled -> getString(R.string.wallet_status_cancelled)
+            TxStatus.Failed -> getString(R.string.wallet_status_failed)
+            TxStatus.Pending -> getString(R.string.wallet_status_pending)
+            TxStatus.Registered -> getString(R.string.wallet_status_confirming)
+            TxStatus.Completed -> when (txDescription.senderEnum) {
+                TxSender.RECEIVED -> getString(R.string.wallet_status_received)
+                TxSender.SENT -> getString(R.string.wallet_status_sent)
+            }
         }
 
-        transactionLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.transaction_details_background))
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
         sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender)
