@@ -12,10 +12,11 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, private val re
     override fun onCreate() {
         super.onCreate()
         repository.utxo = view?.getUtxoDetails()
+        repository.relatedTransactions = view?.getRelatedTransactions()
     }
 
     override fun onStart() {
         super.onStart()
-        view?.init(repository.utxo ?: return)
+        view?.init(repository.utxo ?: return, repository.relatedTransactions ?: return)
     }
 }

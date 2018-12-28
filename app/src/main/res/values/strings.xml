@@ -133,6 +133,8 @@
     <string name="utxo_type_identity">Identity</string>
     <string name="utxo_type_childKey">ChildKey</string>
     <string name="utxo_type_bbs">Bbs</string>
+    <string name="utxo_time_title">Date | time</string>
+    <string name="utxo_id_title">ID</string>
 
     <!--TransactionDetailsActivity-->
     <string name="transaction_details_title">Transaction details</string>
