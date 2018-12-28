@@ -12,18 +12,20 @@ import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.receive.ReceiveActivity
 import com.mw.beam.beamwallet.send.SendActivity
 import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
 import com.mw.beam.beamwallet.utxo.UtxoFragment
+import com.mw.beam.beamwallet.utxoDetails.UtxoDetailsActivity
 import com.mw.beam.beamwallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler {
+class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler, UtxoFragment.UtxoDetailsHandler {
     private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
 
@@ -47,6 +49,11 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     override fun showTransactionDetails(item: TxDescription) {
         startActivity(Intent(this, TransactionDetailsActivity::class.java)
                 .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
+    }
+
+    override fun onShowUtxoDetails(item: Utxo) {
+        startActivity(Intent(this, UtxoDetailsActivity::class.java)
+                .putExtra(UtxoDetailsActivity.EXTRA_UTXO_DETAILS, item))
     }
 
     override fun showReceiveScreen() {

@@ -16,6 +16,17 @@ fun ByteArray.toHex(): String {
     return result.toString().toLowerCase()
 }
 
+fun Int.convertToString(): String {
+    val hex = Integer.toHexString(this)
+    val sb = StringBuilder()
+
+    for (i in 0 until hex.length - 1 step 2) {
+        sb.append(Integer.parseInt(hex.substring(i, i + 2), 16).toChar())
+    }
+
+    return sb.toString()
+}
+
 inline fun <T> Iterable<T>.sumByLong(selector: (T) -> Long): Long {
     var sum = 0L
     for (element in this) {
@@ -74,6 +85,26 @@ enum class UtxoStatus(val value: Int) {
 
         fun fromValue(type: Int): UtxoStatus {
             return map[type] ?: throw IllegalArgumentException("Unknown type of UtxoStatus")
+        }
+    }
+}
+
+enum class UtxoKeyType(val value: String) {
+    Commission("fees"), Coinbase("mine"), Regular("norm"), Change("chng"),
+    Kernel("kern"), Kernel2("kerM"), Identity("iden"),
+    ChildKey("SubK"), Bbs("BbsM"), Decoy("dcoy");
+
+    companion object {
+        private val map: HashMap<String, UtxoKeyType> = HashMap()
+
+        init {
+            UtxoKeyType.values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: String): UtxoKeyType {
+            return map[type] ?: throw IllegalArgumentException("Unknown type of UtxoKeyType")
         }
     }
 }

@@ -92,7 +92,8 @@
     <dimen name="transaction_sum_text_size">24sp</dimen>
     <dimen name="transaction_status_text_size">11sp</dimen>
     <dimen name="transaction_status_padding_top">4dp</dimen>
-    <dimen name="transactions_title_padding">20dp</dimen>
+    <dimen name="transaction_date_padding">10dp</dimen>
+    <dimen name="transactions_title_padding">10dp</dimen>
 
     <!--TransactionDetails-->
     <dimen name="transaction_details_title_padding_top">30dp</dimen>
