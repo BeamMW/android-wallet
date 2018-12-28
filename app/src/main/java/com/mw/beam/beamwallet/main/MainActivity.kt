@@ -51,9 +51,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
                 .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
     }
 
-    override fun onShowUtxoDetails(item: Utxo) {
+    override fun onShowUtxoDetails(item: Utxo, relatedTransactions: ArrayList<TxDescription>) {
         startActivity(Intent(this, UtxoDetailsActivity::class.java)
-                .putExtra(UtxoDetailsActivity.EXTRA_UTXO_DETAILS, item))
+                .putExtra(UtxoDetailsActivity.EXTRA_UTXO_DETAILS, item)
+                .putParcelableArrayListExtra(UtxoDetailsActivity.EXTRA_RELATED_TRANSACTIONS, relatedTransactions))
     }
 
     override fun showReceiveScreen() {

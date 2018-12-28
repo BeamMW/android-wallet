@@ -8,6 +8,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.watchers.TabSelectedListener
@@ -59,7 +60,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         })
     }
 
-    override fun showUtxoDetails(utxo: Utxo)  = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo)
+    override fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo, relatedTransactions)
 
     override fun updateUtxos(utxos: Array<Utxo>) {
         activeUtxosAdapter.setData(utxos.asList().filter { it.statusEnum == UtxoStatus.Available || it.statusEnum == UtxoStatus.Maturing })
@@ -71,12 +72,12 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = UtxoPresenter(this, UtxoRepository())
+        presenter = UtxoPresenter(this, UtxoRepository(), UtxoState())
         return presenter
     }
 
     interface UtxoDetailsHandler {
-        fun onShowUtxoDetails(item: Utxo)
+        fun onShowUtxoDetails(item: Utxo, relatedTransactions: ArrayList<TxDescription>)
     }
 
     private enum class Tab {

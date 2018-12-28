@@ -85,17 +85,15 @@
             android:id="@+id/transactionHistoryTitle"
             style="@style/transaction_details_title"
             android:paddingTop="@dimen/transaction_details_title_padding_top"
-            android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
             android:text="@string/utxo_transaction_history"
             app:layout_constraintTop_toBottomOf="@id/contact" />
 
-        <android.support.v7.widget.RecyclerView
+        <LinearLayout
             android:id="@+id/transactionHistoryList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transactionHistoryTitle"
-            app:layout_constraintVertical_weight="0" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/transactionHistoryTitle" />
 
         <android.support.constraint.Barrier
             android:id="@+id/titlesBarrier"

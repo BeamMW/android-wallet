@@ -116,4 +116,10 @@
     <dimen name="utxo_item_padding">20dp</dimen>
     <dimen name="utxo_item_offset_top">10dp</dimen>
     <dimen name="utxo_item_amount_text_size">24sp</dimen>
+
+    <!--UtxoDetailsActivity-->
+    <dimen name="utxo_history_offset">20dp</dimen>
+    <dimen name="utxo_history_top_offset">16dp</dimen>
+    <dimen name="utxo_history_comment_offset">10dp</dimen>
+    <dimen name="utxo_history_side_offset">5dp</dimen>
 </resources>
