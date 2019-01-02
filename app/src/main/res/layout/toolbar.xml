@@ -8,45 +8,34 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimaryDark"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/statusLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/toolbar_padding_bottom">
+
+        <ImageView
+            android:id="@+id/statusIcon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:contentDescription="@null"
+            android:paddingStart="@dimen/toolbar_padding_for_status_start"
+            android:paddingEnd="@dimen/toolbar_padding_for_status"
+            android:src="@drawable/status" />
 
-            <TextView
-                android:id="@+id/toolbarTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
-                android:paddingBottom="@dimen/toolbar_padding_bottom"
-                android:textColor="@color/toolbar_title_color"
-                android:textSize="@dimen/toolbar_title_text_size"
-                tools:ignore="RtlSymmetry" />
-
-            <ImageView
-                android:id="@+id/statusIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:contentDescription="@null"
-                android:paddingStart="@dimen/toolbar_padding_for_status"
-                android:paddingEnd="@dimen/toolbar_padding_for_status"
-                android:src="@drawable/status" />
-
-            <TextView
-                android:id="@+id/connectionStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-regular"
-                android:paddingEnd="@dimen/toolbar_padding_end"
-                android:paddingBottom="@dimen/toolbar_padding_bottom"
-                android:text="@string/common_status_online"
-                android:textColor="@color/toolbar_status_color"
-                android:textSize="@dimen/toolbar_status_text_size"
-                tools:ignore="RtlSymmetry" />
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+        <TextView
+            android:id="@+id/connectionStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:fontFamily="sans-serif-regular"
+            android:paddingEnd="@dimen/toolbar_padding_end"
+            android:text="@string/common_status_online"
+            android:textColor="@color/toolbar_status_color"
+            android:textSize="@dimen/toolbar_status_text_size"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
 </merge>

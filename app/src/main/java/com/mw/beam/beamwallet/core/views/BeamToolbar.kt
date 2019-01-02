@@ -1,35 +1,34 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
 
 /**
  * Created by vain onnellinen on 12/10/18.
  */
-class BeamToolbar : ConstraintLayout {
+class BeamToolbar : LinearLayout {
     var title: String? = null
         set(value) {
             field = value
             if (field != null) {
-                toolbarTitle.text = field
+                toolbar.title = field
             }
         }
     var hasStatus: Boolean = false
         set(value) {
             field = value
-            status.visibility = if (field) View.VISIBLE else View.GONE
-            statusIcon.visibility = if (field) View.VISIBLE else View.GONE
+            statusLayout.visibility = if (field) View.VISIBLE else View.GONE
         }
     lateinit var toolbar: Toolbar
-    lateinit var toolbarTitle: TextView
     lateinit var status: TextView
     lateinit var statusIcon: ImageView
+    lateinit var statusLayout: LinearLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
@@ -46,9 +45,11 @@ class BeamToolbar : ConstraintLayout {
     private fun init(context: Context, attrs: AttributeSet?) {
         inflate(context, R.layout.toolbar, this)
         toolbar = this.findViewById(R.id.toolbar)
-        toolbarTitle = toolbar.findViewById(R.id.toolbarTitle)
-        status = toolbar.findViewById(R.id.connectionStatus)
-        statusIcon = toolbar.findViewById(R.id.statusIcon)
+        status = this.findViewById(R.id.connectionStatus)
+        statusIcon = this.findViewById(R.id.statusIcon)
+        statusLayout = this.findViewById(R.id.statusLayout)
+
+        this.orientation = LinearLayout.VERTICAL
 
         if (attrs != null) {
             val a = context.theme.obtainStyledAttributes(
