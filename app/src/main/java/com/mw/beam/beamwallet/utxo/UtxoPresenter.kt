@@ -40,4 +40,5 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
     }
 
     override fun hasBackArrow(): Boolean? = null
+    override fun hasStatus(): Boolean = true
 }
