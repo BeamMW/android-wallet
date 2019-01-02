@@ -13,13 +13,6 @@ import com.mw.beam.beamwallet.R
  * Created by vain onnellinen on 12/10/18.
  */
 class BeamToolbar : LinearLayout {
-    var title: String? = null
-        set(value) {
-            field = value
-            if (field != null) {
-                toolbar.title = field
-            }
-        }
     var hasStatus: Boolean = false
         set(value) {
             field = value
@@ -58,7 +51,6 @@ class BeamToolbar : LinearLayout {
                     0, 0
             )
 
-            title = a.getNonResourceString(R.styleable.BeamToolbar_title)
             hasStatus = a.getBoolean(R.styleable.BeamToolbar_hasStatus, false)
         }
     }
