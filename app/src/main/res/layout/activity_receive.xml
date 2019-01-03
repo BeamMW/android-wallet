@@ -77,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:text="@string/receive_beam"
+            android:text="@string/currency_beam"
+            android:textAllCaps="true"
             android:textColor="@color/common_text_color"
             android:textSize="@dimen/receive_currency_text_size"
             app:layout_constraintBottom_toBottomOf="@id/amount"
@@ -88,7 +89,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
-            android:text="@string/receive_groth"
+            android:text="@string/currency_groth"
+            android:textAllCaps="true"
             android:textColor="@color/common_text_dark_color"
             android:textSize="@dimen/receive_sub_currency_text_size"
             app:layout_constraintEnd_toEndOf="@id/currency"
@@ -101,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_title_margin_top"
-            android:text="@string/receive_comment"
+            android:text="@string/receive_send_comment"
             app:layout_constraintTop_toBottomOf="@id/amount" />
 
         <EditText
@@ -120,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/receive_common_margin"
-            android:text="@string/receive_comment_description"
+            android:text="@string/receive_send_comment_description"
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton

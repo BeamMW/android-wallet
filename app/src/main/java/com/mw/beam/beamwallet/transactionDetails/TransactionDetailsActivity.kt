@@ -67,11 +67,11 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender) {
-            startAddress.text = txDescription.myId
-            endAddress.text = txDescription.peerId
+            startAddress.text = txDescription.formattedMyId
+            endAddress.text = txDescription.formattedPeerId
         } else {
-            startAddress.text = txDescription.peerId
-            endAddress.text = txDescription.myId
+            startAddress.text = txDescription.formattedPeerId
+            endAddress.text = txDescription.formattedMyId
         }
 
         transactionFee.text = txDescription.fee.convertToBeamAsFloatString()

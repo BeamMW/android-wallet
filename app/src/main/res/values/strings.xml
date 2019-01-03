@@ -8,6 +8,8 @@
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_done">done</string>
+    <string name="currency_beam">beam</string>
+    <string name="currency_groth">groth</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">dashboard</string>
@@ -150,12 +152,10 @@
     <string name="receive_title">Receive</string>
     <string name="receive_switch_title">Swap</string>
     <string name="receive_amount_title">Receive amount (optional)</string>
-    <string name="receive_beam">BEAM</string>
-    <string name="receive_groth">GROTH</string>
-    <string name="receive_comment">Comment</string>
-    <string name="receive_comment_description">The comment won\'t be sent, will be only stored locally.</string>
+    <string name="receive_send_comment">Comment</string>
+    <string name="receive_send_comment_description">Comments are local and won\'t be sent.</string>
     <string name="receive_next">next</string>
-    <string name="receive_fee">Transaction fee</string>
+    <string name="receive_send_fee">Transaction fee</string>
 
     <!--SendActivity-->
     <string name="send_title">Send</string>
@@ -163,5 +163,6 @@
     <string name="send_token_extra_title">or contract</string>
     <string name="send_amount_title">Send amount</string>
     <string name="send_btn_title">send</string>
-
+    <string name="send_amount_empty_error">Amount field can\'t be empty</string>
+    <string name="send_amount_zero_error">Amount can\'t be 0</string>
 </resources>

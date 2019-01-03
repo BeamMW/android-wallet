@@ -14,8 +14,7 @@
         android:id="@+id/statusLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="@dimen/toolbar_padding_bottom">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/statusIcon"

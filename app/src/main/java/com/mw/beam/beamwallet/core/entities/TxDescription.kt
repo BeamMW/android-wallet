@@ -14,8 +14,8 @@ class TxDescription(val id: ByteArray,
                     val fee: Long,
                     val change: Long,
                     val minHeight: Long,
-                    val peerId: String,
-                    val myId: String,
+                    private val peerId: String,
+                    private val myId: String,
                     val message: ByteArray?,
                     val createTime: Long,
                     val modifyTime: Long,
@@ -27,8 +27,11 @@ class TxDescription(val id: ByteArray,
     val statusEnum: TxStatus
         get() = TxStatus.fromValue(status)
 
+    val formattedPeerId = peerId.replaceFirst(Regex("^0+"), "")
+    val formattedMyId = myId.replaceFirst(Regex("^0+"), "")
+
     override fun toString(): String {
         return "TxDescription(id=$id amount=$amount fee=$fee change=$change minHeight=$minHeight " +
-                "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender= ${senderEnum.name} status=${statusEnum.name})"
+                "peerId=$formattedPeerId myId=$formattedMyId message=$message createTime=$createTime modifyTime=$modifyTime sender= ${senderEnum.name} status=${statusEnum.name})"
     }
 }

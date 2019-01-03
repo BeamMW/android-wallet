@@ -15,9 +15,8 @@
         style="@style/common_subheader_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingStart="@dimen/common_offset"
-        android:paddingTop="@dimen/common_offset"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_token_title_margin_top"
         android:text="@string/send_token_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
@@ -25,153 +24,174 @@
 
     <TextView
         android:id="@+id/tokenExtraTitle"
-        style="@style/common_subheader_light"
+        style="@style/common_text_big_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:paddingTop="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_token_title_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
         android:text="@string/send_token_extra_title"
-        android:textColor="@color/common_text_dark_color"
-        android:textStyle="normal"
         app:layout_constraintStart_toEndOf="@id/tokenTitle"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+        tools:ignore="RtlSymmetry" />
 
     <EditText
         android:id="@+id/token"
         style="@style/common_text_big_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/receive_common_margin"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginEnd="@dimen/common_offset"
         android:background="@drawable/edit_text_selector"
-        android:paddingStart="@dimen/common_offset"
-        android:paddingEnd="@dimen/common_offset"
+        android:maxLines="1"
         app:layout_constraintTop_toBottomOf="@id/tokenTitle"
         tools:ignore="Autofill,LabelFor,TextFields" />
 
-    <android.support.constraint.ConstraintLayout
+    <TextView
+        android:id="@+id/amountTitle"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_title_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/send_amount_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/token" />
+
+    <com.mw.beam.beamwallet.core.views.BeamEditText
+        android:id="@+id/amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginEnd="@dimen/send_amount_margin_end"
+        android:background="@drawable/edit_text_selector"
+        android:inputType="number"
+        android:textColor="@color/sent_color"
+        android:textSize="@dimen/send_amount_text_size"
+        app:layout_constraintEnd_toStartOf="@id/currency"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amountTitle"
+        tools:ignore="Autofill,LabelFor" />
+
+    <TextView
+        android:id="@+id/amountError"
+        style="@style/common_text_big_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_amount_error_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:textColor="@color/common_error_color"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amount" />
+
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/currency_beam"
+        android:textAllCaps="true"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/send_currency_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/amount"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/feeTitle"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_title_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/receive_send_fee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/amountError" />
+
+    <EditText
+        android:id="@+id/fee"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/receive_common_margin"
+        android:layout_marginEnd="@dimen/send_amount_margin_end"
+        android:background="@drawable/edit_text_selector"
+        android:inputType="number"
+        app:layout_constraintEnd_toStartOf="@id/feeCurrency"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/feeTitle"
+        tools:ignore="Autofill,LabelFor,TextFields" />
+
+    <TextView
+        android:id="@+id/feeCurrency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/currency_groth"
+        android:textAllCaps="true"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/send_currency_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/fee"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/commentTitle"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_title_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/receive_send_comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fee" />
+
+    <EditText
+        android:id="@+id/comment"
+        style="@style/common_text_big_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/common_offset"
-        app:layout_constraintTop_toBottomOf="@id/token">
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:background="@drawable/edit_text_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/commentTitle"
+        tools:ignore="Autofill,LabelFor,TextFields" />
 
-        <TextView
-            android:id="@+id/receiveAmountTitle"
-            style="@style/common_subheader_light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_title_margin_top"
-            android:text="@string/send_amount_title"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/commentDescription"
+        style="@style/common_text_big_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_common_margin"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/receive_send_comment_description"
+        app:layout_constraintTop_toBottomOf="@id/comment" />
 
-        <EditText
-            android:id="@+id/amount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_common_margin"
-            android:layout_marginEnd="@dimen/receive_amount_margin_end"
-            android:background="@drawable/edit_text_selector"
-            android:fontFamily="sans-serif-light"
-            android:inputType="number"
-            android:letterSpacing="0.02"
-            android:textColor="@color/sent_color"
-            android:textSize="@dimen/receive_amount_text_size"
-            app:layout_constraintEnd_toStartOf="@id/currencyBarrier"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/receiveAmountTitle"
-            tools:ignore="Autofill,LabelFor" />
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnSend"
+        android:layout_width="@dimen/transfer_btn_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/send_btn_margin_bottom"
+        app:button_icon="@drawable/ic_btn_send"
+        app:button_state_list="@color/send_selector"
+        app:button_text="@string/send_btn_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-        <android.support.constraint.Barrier
-            android:id="@+id/currencyBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:constraint_referenced_ids="currency, subCurrency" />
-
-        <TextView
-            android:id="@+id/currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:inputType="number"
-            android:text="@string/receive_beam"
-            android:textColor="@color/common_text_color"
-            android:textSize="@dimen/receive_currency_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/amount"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/subCurrency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/receive_groth"
-            android:textColor="@color/common_text_dark_color"
-            android:textSize="@dimen/receive_sub_currency_text_size"
-            app:layout_constraintEnd_toEndOf="@id/currency"
-            app:layout_constraintStart_toStartOf="@id/currency"
-            app:layout_constraintTop_toBottomOf="@id/amount" />
-
-        <TextView
-            android:id="@+id/feeTitle"
-            style="@style/common_subheader_light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_title_margin_top"
-            android:text="@string/receive_fee"
-            app:layout_constraintTop_toBottomOf="@id/amount" />
-
-        <EditText
-            android:id="@+id/fee"
-            style="@style/common_text_big_light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_common_margin"
-            android:background="@drawable/edit_text_selector"
-            android:inputType="number"
-            app:layout_constraintTop_toBottomOf="@id/feeTitle"
-            tools:ignore="Autofill,LabelFor,TextFields" />
-
-        <TextView
-            android:id="@+id/commentTitle"
-            style="@style/common_subheader_light"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_title_margin_top"
-            android:text="@string/receive_comment"
-            app:layout_constraintTop_toBottomOf="@id/fee" />
-
-        <EditText
-            android:id="@+id/comment"
-            style="@style/common_text_big_light"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_common_margin"
-            android:background="@drawable/edit_text_selector"
-            app:layout_constraintTop_toBottomOf="@id/commentTitle"
-            tools:ignore="Autofill,LabelFor,TextFields" />
-
-        <TextView
-            android:id="@+id/commentDescription"
-            style="@style/common_text_big_dark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_common_margin"
-            android:text="@string/receive_comment_description"
-            app:layout_constraintTop_toBottomOf="@id/comment" />
-
-        <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnSend"
-            android:layout_width="@dimen/transfer_btn_width"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/receive_btn_margin_top"
-            app:button_icon="@drawable/ic_btn_send"
-            app:button_state_list="@color/send_selector"
-            app:button_text="@string/send_btn_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/commentDescription" />
-    </android.support.constraint.ConstraintLayout>
-
+    <android.support.constraint.Group
+        android:id="@+id/params"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend" />
 </android.support.constraint.ConstraintLayout>
