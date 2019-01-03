@@ -14,10 +14,16 @@ interface SendContract {
         fun getFee(): Long
         fun getToken(): String
         fun getComment(): String?
+        fun updateUI(shouldShowParams: Boolean)
+        fun hasErrors() : Boolean
+        fun clearErrors()
+        fun init()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSend()
+        fun onTokenChanged(isTokenEmpty: Boolean)
+        fun onAmountChanged()
     }
 
     interface Repository : MvpRepository {

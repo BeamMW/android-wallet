@@ -79,7 +79,7 @@
     <dimen name="wallet_currency_padding">3dp</dimen>
     <dimen name="wallet_button_text_size">14sp</dimen>
     <dimen name="wallet_button_width">155dp</dimen>
-    <dimen name="wallet_button_margin_top">25dp</dimen>
+    <dimen name="wallet_button_margin_top">10dp</dimen>
     <dimen name="wallet_available_margin_top">20dp</dimen>
     <dimen name="wallet_in_progress_margin_top">9dp</dimen>
     <dimen name="wallet_in_progress_title_margin_top">20dp</dimen>
@@ -110,6 +110,17 @@
     <dimen name="receive_common_margin">10dp</dimen>
     <dimen name="receive_btn_margin_top">60dp</dimen>
     <dimen name="transfer_btn_width">156dp</dimen>
+
+    <!--SendActivity-->
+    <dimen name="send_token_title_margin_top">24dp</dimen>
+    <dimen name="send_title_margin_top">30dp</dimen>
+    <dimen name="send_common_margin">10dp</dimen>
+    <dimen name="send_amount_margin_end">30dp</dimen>
+    <dimen name="send_currency_margin_end">10dp</dimen>
+    <dimen name="send_currency_text_size">24sp</dimen>
+    <dimen name="send_amount_text_size">36sp</dimen>
+    <dimen name="send_amount_error_margin_top">8dp</dimen>
+    <dimen name="send_btn_margin_bottom">22dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>
