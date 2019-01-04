@@ -16,6 +16,6 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
     }
 
     override fun saveAddress(address: WalletAddress) {
-        wallet?.saveAddress(address, true)
+        getResult({ wallet?.saveAddress(address.toDTO(), true) }, object {}.javaClass.enclosingMethod.name)
     }
 }

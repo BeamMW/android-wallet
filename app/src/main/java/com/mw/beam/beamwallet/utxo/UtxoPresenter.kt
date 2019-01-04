@@ -3,7 +3,6 @@ package com.mw.beam.beamwallet.utxo
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
-import com.mw.beam.beamwallet.core.helpers.toHex
 import io.reactivex.disposables.Disposable
 
 /**
@@ -21,7 +20,7 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
     }
 
     override fun onUtxoPressed(utxo: Utxo) {
-        view?.showUtxoDetails(utxo, state.configTransactions().filter { it.id.toHex() == utxo.createTxId.toHex() || it.id.toHex() == utxo.spentTxId?.toHex() } as ArrayList<TxDescription>)
+        view?.showUtxoDetails(utxo, state.configTransactions().filter { it.id == utxo.createTxId || it.id == utxo.spentTxId } as ArrayList<TxDescription>)
     }
 
     private fun initSubscriptions() {

@@ -49,6 +49,9 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
         allUtxos.adapter = allUtxosAdapter
         activeUtxos.adapter = activeUtxosAdapter
+
+        activeUtxos.visibility = View.VISIBLE
+        allUtxos.visibility = View.GONE
     }
 
     override fun addListeners() {
@@ -62,9 +65,9 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo, relatedTransactions)
 
-    override fun updateUtxos(utxos: Array<Utxo>) {
-        activeUtxosAdapter.setData(utxos.asList().filter { it.statusEnum == UtxoStatus.Available || it.statusEnum == UtxoStatus.Maturing })
-        allUtxosAdapter.setData(utxos.asList())
+    override fun updateUtxos(utxos: List<Utxo>) {
+        activeUtxosAdapter.setData(utxos.filter { it.status == UtxoStatus.Available || it.status == UtxoStatus.Maturing })
+        allUtxosAdapter.setData(utxos)
     }
 
     override fun clearListeners() {

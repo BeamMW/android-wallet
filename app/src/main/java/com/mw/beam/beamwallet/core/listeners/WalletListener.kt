@@ -3,6 +3,10 @@ package com.mw.beam.beamwallet.core.listeners
 import android.os.Handler
 import android.os.Looper
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
+import com.mw.beam.beamwallet.core.entities.dto.UtxoDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
@@ -19,26 +23,20 @@ object WalletListener {
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
-    var subOnTxPeerUpdated: Subject<Array<TxPeer>> = BehaviorSubject.create<Array<TxPeer>>().toSerialized()
     var subOnSyncProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnAllUtxoChanged: Subject<Array<Utxo>> = BehaviorSubject.create<Array<Utxo>>().toSerialized()
+    var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
     var subOnAddresses: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
-    var subOnChangeCurrentWalletIDs: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
 
     @JvmStatic
-    fun onStatus(status: WalletStatus) = returnResult(subOnStatus, status, object {}.javaClass.enclosingMethod.name)
+    fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onTxStatus(action: Int, tx: Array<TxDescription>?) = returnResult(subOnTxStatus, OnTxStatusData(action, tx), object {}.javaClass.enclosingMethod.name)
-
-    @JvmStatic
-    fun onTxPeerUpdated(peers: Array<TxPeer>?) = returnResult(subOnTxPeerUpdated, peers
-            ?: emptyArray(), object {}.javaClass.enclosingMethod.name)
+    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(action, tx?.map { TxDescription(it) }), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
@@ -47,20 +45,17 @@ object WalletListener {
     fun onRecoverProgressUpdated(done: Int, total: Int, message: String) = returnResult(subOnRecoverProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onChangeCalculated() = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<Utxo>?) = returnResult(subOnAllUtxoChanged, utxos
-            ?: emptyArray(), object {}.javaClass.enclosingMethod.name)
+    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
+            ?: emptyList(), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAdrresses(own: Boolean, addresses: Array<WalletAddress>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onAdrresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onGeneratedNewAddress(addr: WalletAddress) = returnResult(subOnGeneratedNewAddress, addr, object {}.javaClass.enclosingMethod.name)
-
-    @JvmStatic
-    fun onChangeCurrentWalletIDs() = returnResult(subOnChangeCurrentWalletIDs, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, object {}.javaClass.enclosingMethod.name)
@@ -75,10 +70,10 @@ object WalletListener {
 
                 when (result) {
                     DUMMY_OBJECT -> LogUtils.logResponse("null", responseName)
-                    is Array<*> -> LogUtils.logResponse(if (result.isEmpty()) "null" else result.prepareForLog(), responseName)
+                    is Array<*> -> LogUtils.logResponse(if (result.isEmpty()) "null" else result.toList().prepareForLog(), responseName)
                     else -> LogUtils.logResponse(result, responseName)
                 }
-            } catch (e: NullPointerException) {
+            } catch (e: Exception) {
                 LogUtils.logErrorResponse(e, responseName)
             }
         }

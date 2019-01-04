@@ -1,5 +1,7 @@
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
+
 /**
  * Created by vain onnellinen on 10/2/18.
  */
@@ -11,5 +13,5 @@ data class Wallet(val _this: Long) {
     external fun calcChange(amount: Long)
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
-    external fun saveAddress(address: WalletAddress, own : Boolean)
+    external fun saveAddress(address: WalletAddressDTO, own : Boolean)
 }

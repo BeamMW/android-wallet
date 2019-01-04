@@ -16,7 +16,6 @@ import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.TxPeer
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
@@ -87,10 +86,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         if (transactions.isNotEmpty()) {
             adapter.setData(transactions)
         }
-    }
-
-    override fun configTxPeerUpdated(peers: Array<TxPeer>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun init() {

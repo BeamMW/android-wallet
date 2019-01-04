@@ -12,7 +12,7 @@ import io.reactivex.subjects.Subject
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class UtxoRepository : BaseRepository(), UtxoContract.Repository {
 
-    override fun getUtxoUpdated(): Subject<Array<Utxo>> {
+    override fun getUtxoUpdated(): Subject<List<Utxo>> {
         return getResult({ wallet?.getUtxosStatus() }, WalletListener.subOnAllUtxoChanged, object {}.javaClass.enclosingMethod.name)
     }
 
