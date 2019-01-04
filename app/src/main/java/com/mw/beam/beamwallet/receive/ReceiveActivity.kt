@@ -16,21 +16,28 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
 
     override fun addListeners() {
-        btnNext.setOnClickListener { presenter.onNextPressed() }
+        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
+        btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
     }
 
-    override fun showToken(token2: String) {
-        token.setText(token2)
+    override fun showToken(receiveToken: String) {
+        token.text = receiveToken
     }
 
     override fun getComment(): String? = comment.text?.toString()
 
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+        super.onBackPressed()
+    }
+
     override fun clearListeners() {
-        btnNext.setOnClickListener(null)
+        btnCopyToken.setOnClickListener(null)
+        btnShowQR.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = ReceivePresenter(this, ReceiveRepository())
+        presenter = ReceivePresenter(this, ReceiveRepository(), ReceiveState())
         return presenter
     }
 }

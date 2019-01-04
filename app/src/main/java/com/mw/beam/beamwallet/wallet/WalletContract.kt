@@ -4,7 +4,10 @@ import android.view.MenuItem
 import com.mw.beam.beamwallet.baseScreen.MvpPresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
-import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.entities.WalletStatus
 import io.reactivex.subjects.Subject
 import android.view.View as MenuView
 
@@ -16,7 +19,6 @@ interface WalletContract {
         fun init()
         fun configWalletStatus(walletStatus: WalletStatus)
         fun configTransactions(transactions: List<TxDescription>)
-        fun configTxPeerUpdated(peers: Array<TxPeer>)
         fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long)
         fun configAvailable(availableAmount: Long)
         fun showTransactionDetails(txDescription: TxDescription)
@@ -45,7 +47,6 @@ interface WalletContract {
     interface Repository : MvpRepository {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
-        fun getTxPeerUpdated(): Subject<Array<TxPeer>>
-        fun getUtxoUpdated(): Subject<Array<Utxo>>
+        fun getUtxoUpdated(): Subject<List<Utxo>>
     }
 }

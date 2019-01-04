@@ -35,7 +35,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     private fun configTransactionDetails(txDescription: TxDescription) {
-        when (txDescription.senderEnum) {
+        when (txDescription.sender) {
             TxSender.RECEIVED -> {
                 sum.setTextColor(ContextCompat.getColor(this, R.color.received_color))
                 status.setTextColor(ContextCompat.getColor(this, R.color.received_color))
@@ -48,13 +48,13 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             }
         }
 
-        status.text = when (txDescription.statusEnum) {
+        status.text = when (txDescription.status) {
             TxStatus.InProgress -> getString(R.string.wallet_status_in_progress)
             TxStatus.Cancelled -> getString(R.string.wallet_status_cancelled)
             TxStatus.Failed -> getString(R.string.wallet_status_failed)
             TxStatus.Pending -> getString(R.string.wallet_status_pending)
             TxStatus.Registered -> getString(R.string.wallet_status_confirming)
-            TxStatus.Completed -> when (txDescription.senderEnum) {
+            TxStatus.Completed -> when (txDescription.sender) {
                 TxSender.RECEIVED -> getString(R.string.wallet_status_received)
                 TxSender.SENT -> getString(R.string.wallet_status_sent)
             }
@@ -62,21 +62,21 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
-        sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender)
+        sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
     }
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
-        if (txDescription.sender) {
-            startAddress.text = txDescription.formattedMyId
-            endAddress.text = txDescription.formattedPeerId
+        if (txDescription.sender.value) {
+            startAddress.text = txDescription.myId
+            endAddress.text = txDescription.peerId
         } else {
-            startAddress.text = txDescription.formattedPeerId
-            endAddress.text = txDescription.formattedMyId
+            startAddress.text = txDescription.peerId
+            endAddress.text = txDescription.myId
         }
 
         transactionFee.text = txDescription.fee.convertToBeamAsFloatString()
-        if (txDescription.message != null && txDescription.message.isNotEmpty()) {
-            comment.text = String(txDescription.message)
+        if (txDescription.message.isNotEmpty()) {
+            comment.text = txDescription.message
             commentTitle.visibility = View.VISIBLE
             comment.visibility = View.VISIBLE
         }

@@ -17,7 +17,6 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var txPeerUpdatedSubscription: Disposable
     private lateinit var utxoUpdatedSubscription: Disposable
 
     override fun onViewCreated() {
@@ -73,18 +72,12 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
             view?.configTransactions(state.updateTransactions(data.tx))
         }
 
-        txPeerUpdatedSubscription = repository.getTxPeerUpdated().subscribe {
-            if (!it.isNullOrEmpty()) {
-                view?.configTxPeerUpdated(it)
-            }
-        }
-
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            state.available = utxos.filter { it.statusEnum == UtxoStatus.Available }.sumByLong { it.amount }
-            state.maturing = utxos.filter { it.statusEnum == UtxoStatus.Maturing }.sumByLong { it.amount }
-            state.receiving = utxos.filter { it.statusEnum == UtxoStatus.Incoming }.sumByLong { it.amount }
+            state.available = utxos.filter { it.status == UtxoStatus.Available }.sumByLong { it.amount }
+            state.maturing = utxos.filter { it.status == UtxoStatus.Maturing }.sumByLong { it.amount }
+            state.receiving = utxos.filter { it.status == UtxoStatus.Incoming }.sumByLong { it.amount }
             //TODO sum won't be changed in future
-            state.sending = utxos.filter { it.statusEnum == UtxoStatus.Outgoing }.sumByLong { it.amount } - utxos.filter { it.statusEnum == UtxoStatus.Change }.sumByLong { it.amount }
+            state.sending = utxos.filter { it.status == UtxoStatus.Outgoing }.sumByLong { it.amount } - utxos.filter { it.status == UtxoStatus.Change }.sumByLong { it.amount }
 
             view?.configInProgress(state.receiving, state.sending, state.maturing)
             view?.configAvailable(state.available)
@@ -93,7 +86,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
 
     override fun getSubscriptions(): Array<Disposable>? {
         initSubscriptions()
-        return arrayOf(walletStatusSubscription, txStatusSubscription, txPeerUpdatedSubscription, utxoUpdatedSubscription)
+        return arrayOf(walletStatusSubscription, txStatusSubscription, utxoUpdatedSubscription)
     }
 
     private fun toDo() {

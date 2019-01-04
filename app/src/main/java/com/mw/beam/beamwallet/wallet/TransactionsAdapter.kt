@@ -47,7 +47,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
         val transaction = data[position]
 
         holder.apply {
-            when (transaction.senderEnum) {
+            when (transaction.sender) {
                 TxSender.RECEIVED -> {
                     sum.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
@@ -60,13 +60,13 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                 }
             }
 
-            status.text = when (transaction.statusEnum) {
+            status.text = when (transaction.status) {
                 TxStatus.InProgress -> inProgressStatus
                 TxStatus.Cancelled -> cancelledStatus
                 TxStatus.Failed -> failedStatus
                 TxStatus.Pending -> pendingStatus
                 TxStatus.Registered -> confirmingStatus
-                TxStatus.Completed -> when (transaction.senderEnum) {
+                TxStatus.Completed -> when (transaction.sender) {
                     TxSender.RECEIVED -> receivedStatus
                     TxSender.SENT -> sentStatus
                 }
@@ -75,7 +75,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             icon.setImageResource(beamResId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime * 1000)
-            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender)
+            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
         }
     }
 

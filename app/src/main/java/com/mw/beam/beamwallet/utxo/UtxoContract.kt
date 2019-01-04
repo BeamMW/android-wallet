@@ -14,7 +14,7 @@ import io.reactivex.subjects.Subject
 interface UtxoContract {
     interface View : MvpView {
         fun init()
-        fun updateUtxos(utxos: Array<Utxo>)
+        fun updateUtxos(utxos: List<Utxo>)
         fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>)
     }
 
@@ -23,7 +23,7 @@ interface UtxoContract {
     }
 
     interface Repository : MvpRepository {
-        fun getUtxoUpdated(): Subject<Array<Utxo>>
+        fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
     }
 }

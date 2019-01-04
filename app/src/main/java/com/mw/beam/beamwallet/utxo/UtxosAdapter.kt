@@ -44,7 +44,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
         val utxo = data[position]
 
         holder.apply {
-            when (utxo.statusEnum) {
+            when (utxo.status) {
                 UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> {
                     amount.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
@@ -59,7 +59,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
                 }
             }
 
-            status.text = when (utxo.statusEnum) {
+            status.text = when (utxo.status) {
                 UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> inProgressStatus
                 UtxoStatus.Maturing -> maturingStatus
                 UtxoStatus.Spent -> spentStatus
@@ -68,7 +68,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
             }
 
             detailedStatus.visibility = View.VISIBLE
-            detailedStatus.text = when (utxo.statusEnum) {
+            detailedStatus.text = when (utxo.status) {
                 UtxoStatus.Incoming -> incomingStatus
                 UtxoStatus.Change -> changeStatus
                 UtxoStatus.Outgoing -> outgoingStatus

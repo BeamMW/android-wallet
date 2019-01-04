@@ -16,7 +16,6 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
-import com.mw.beam.beamwallet.core.helpers.toHex
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
@@ -44,7 +43,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     private fun configUtxoInfo(utxo: Utxo) {
-        when (utxo.statusEnum) {
+        when (utxo.status) {
             UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> {
                 ContextCompat.getColor(this, R.color.received_color).apply {
                     amount.setTextColor(this)
@@ -59,7 +58,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
             }
         }
 
-        status.text = when (utxo.statusEnum) {
+        status.text = when (utxo.status) {
             UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> getString(R.string.utxo_status_in_progress)
             UtxoStatus.Maturing -> getString(R.string.utxo_status_maturing)
             UtxoStatus.Spent -> getString(R.string.utxo_status_spent)
@@ -68,7 +67,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
 
         detailedStatus.visibility = View.VISIBLE
-        detailedStatus.text = when (utxo.statusEnum) {
+        detailedStatus.text = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.utxo_status_incoming)
             UtxoStatus.Change -> getString(R.string.utxo_status_change)
             UtxoStatus.Outgoing -> getString(R.string.utxo_status_outgoing)
@@ -84,9 +83,9 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     private fun configUtxoDetails(utxo: Utxo) {
-        transactionId.text = utxo.createTxId.toHex()
+        transactionId.text = utxo.createTxId
 
-        utxoType.text = when (utxo.keyTypeEnum) {
+        utxoType.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.utxo_type_commission)
             UtxoKeyType.Coinbase -> getString(R.string.utxo_type_coinbase)
             UtxoKeyType.Regular -> getString(R.string.utxo_type_regular)
@@ -105,10 +104,10 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         relatedTransactions.forEach {
             transactionHistoryList.addView(configTransaction(
-                    isReceived = it.id.toHex() == utxo.createTxId.toHex(),
+                    isReceived = it.id == utxo.createTxId,
                     time = CalendarUtils.fromTimestamp(it.modifyTime * 1000),
-                    id = it.id.toHex(),
-                    comment = String(it.message ?: ByteArray(0)),
+                    id = it.id,
+                    comment = it.message,
                     offset = offset))
         }
     }

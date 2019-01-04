@@ -12,11 +12,13 @@ import io.reactivex.subjects.Subject
 interface ReceiveContract {
     interface View : MvpView {
         fun getComment() : String?
-        fun showToken(token : String)
+        fun showToken(receiveToken : String)
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onNextPressed()
+        fun onCopyTokenPressed()
+        fun onShowQrPressed()
+        fun onBackPressed()
     }
 
     interface Repository : MvpRepository {
