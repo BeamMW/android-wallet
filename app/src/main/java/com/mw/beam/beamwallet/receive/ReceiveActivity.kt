@@ -1,5 +1,8 @@
 package com.mw.beam.beamwallet.receive
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
@@ -11,12 +14,13 @@ import kotlinx.android.synthetic.main.activity_receive.*
  */
 class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     private lateinit var presenter: ReceivePresenter
+    private val COPY_TAG = "TOKEN"
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
 
     override fun addListeners() {
-        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
+        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed()       }
         btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
     }
 
@@ -25,6 +29,11 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun getComment(): String? = comment.text?.toString()
+
+    override fun copyToClipboard(receiveToken: String) {
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, receiveToken)
+    }
 
     override fun onBackPressed() {
         presenter.onBackPressed()
