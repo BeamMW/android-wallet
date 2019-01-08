@@ -13,7 +13,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
 
     override fun onCopyTokenPressed() {
         saveAddress()
-        view?.showSnackBar("Coming soon...")
+
+        if (state.address != null) {
+            view?.copyToClipboard(state.address!!.walletID)
+        }
     }
 
     override fun onShowQrPressed() {
