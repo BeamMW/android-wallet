@@ -5,22 +5,26 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 /**
  * Created by vain onnellinen on 11/5/18.
  */
-class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, private val repository: WelcomeRestoreContract.Repository)
+class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, private val repository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
     : BasePresenter<WelcomeRestoreContract.View>(currentView),
         WelcomeRestoreContract.Presenter {
 
     override fun onStart() {
         super.onStart()
-        view?.configPhrases(repository.phrasesCount)
+        view?.init()
+        view?.configPhrases(state.phrasesCount)
     }
 
-    override fun onRecoverPressed() {
-        if (repository.recoverWallet()) {
-            view?.showSnackBar("Coming soon...")
-        }
+    override fun onStop() {
+        view?.clearWindowState()
+        super.onStop()
+    }
+
+    override fun onRestorePressed() {
+        view?.showPasswordsFragment(view?.getPhrase() ?: return)
     }
 
     override fun onPhraseChanged() {
-        view?.handleRecoverButton()
+        view?.handleRestoreButton()
     }
 }

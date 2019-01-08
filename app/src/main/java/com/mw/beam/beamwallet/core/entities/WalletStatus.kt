@@ -12,4 +12,8 @@ data class WalletStatus(private val source: WalletStatusDTO){
     val updateDone: Int = source.updateDone
     val updateTotal: Int = source.updateTotal
     val system: SystemState = SystemState(source.system)
+
+    override fun toString(): String {
+        return "available=$available unconfirmed=$unconfirmed updateLastTime=$updateLastTime updateDone=$updateDone updateTotal=$updateTotal system=$system"
+    }
 }

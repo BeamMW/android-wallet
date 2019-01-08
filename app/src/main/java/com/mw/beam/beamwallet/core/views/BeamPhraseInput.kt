@@ -92,7 +92,7 @@ class BeamPhraseInput : ConstraintLayout {
                     }
                 } else {
                     if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
-                        numberTextColorResId = R.color.phrase_number_text_color
+                        numberTextColorResId = R.color.colorPrimary
                         numberBackgroundResId = R.drawable.empty_number_background
                         phraseView.isStateNormal = true
                     } else {
