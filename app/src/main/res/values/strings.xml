@@ -26,7 +26,7 @@
     <string name="welcome_login_to_another">login to another wallet</string>
     <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
     <string name="welcome_next">next</string>
-    <string name="welcome_recover">recover</string>
+    <string name="welcome_recover">restore wallet</string>
     <string name="welcome_copy_to_clipboard">copy</string>
     <string name="welcome_proceed_to_wallet">proceed to your wallet</string>
     <string name="welcome_title">Create new wallet</string>
@@ -41,7 +41,7 @@
     <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
     <string name="welcome_btn_change_alert">Change wallet</string>
     <string name="welcome_title_forgot_alert">Forgot password</string>
-    <string name="welcome_forgot_alert">You can restore you wallet using your recovery phrase but all transaction history will be lost.</string>
+    <string name="welcome_forgot_alert">Your funds will be fully restored from the blockchain. The transaction history is stored locally and is encrypted with your password, hence it can\'t be restored.\n\nThat\'s the final version till the future validation and process.</string>
     <string name="welcome_btn_forgot_alert">Restore wallet</string>
 
     <!--WelcomeOpenFragment-->
@@ -71,8 +71,8 @@
     <string name="welcome_pass_weak">Weak password</string>
     <string name="welcome_pass_medium">Medium strength password</string>
     <string name="welcome_pass_medium_strong">Medium strength password</string>
-    <string name="welcome_pass_strong">Very strong password</string>
-    <string name="welcome_pass_very_strong">Medium strength password</string>
+    <string name="welcome_pass_strong">Strong password</string>
+    <string name="welcome_pass_very_strong">Very strong password</string>
     <string name="welcome_pass_not_much">Passwords do not match</string>
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>

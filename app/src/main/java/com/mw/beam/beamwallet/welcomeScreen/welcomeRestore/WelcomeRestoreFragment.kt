@@ -3,6 +3,7 @@ package com.mw.beam.beamwallet.welcomeScreen.welcomeRestore
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.view.WindowManager
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
@@ -27,19 +28,20 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_restore
     override fun getToolbarTitle(): String = getString(R.string.welcome_restore_title)
 
-    override fun onControllerStart() {
-        super.onControllerStart()
-
-        btnRecover.isEnabled = false
+    override fun init() {
+        btnRestore.isEnabled = false
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun addListeners() {
-        btnRecover.setOnClickListener {
+        btnRestore.setOnClickListener {
             if (it.isEnabled) {
-                presenter.onRecoverPressed()
+                presenter.onRestorePressed()
             }
         }
     }
+
+    override fun showPasswordsFragment(phrases: Array<String>) = (activity as WelcomeRestoreHandler).proceedToPasswords(phrases)
 
     override fun configPhrases(phrasesCount: Int) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
@@ -88,8 +90,18 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         return phrase
     }
 
-    override fun handleRecoverButton() {
-        btnRecover.isEnabled = arePhrasesFilled()
+    override fun handleRestoreButton() {
+        btnRestore.isEnabled = arePhrasesFilled()
+    }
+
+    override fun getPhrase(): Array<String> {
+        val phrasesList = ArrayList<String>()
+
+        for (i in 0 until phrasesLayout.childCount) {
+            phrasesList.add((phrasesLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString())
+        }
+
+        return phrasesList.toTypedArray()
     }
 
     private fun arePhrasesFilled(): Boolean {
@@ -103,11 +115,19 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun clearListeners() {
-        btnRecover.setOnClickListener(null)
+        btnRestore.setOnClickListener(null)
+    }
+
+    override fun clearWindowState() {
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView> {
-        presenter = WelcomeRestorePresenter(this, WelcomeRestoreRepository())
+        presenter = WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
         return presenter
+    }
+
+    interface WelcomeRestoreHandler {
+        fun proceedToPasswords(phrases: Array<String>)
     }
 }

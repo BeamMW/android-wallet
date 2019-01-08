@@ -22,6 +22,6 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     val confirmHeight: Long = source.confirmHeight
     val confirmHash: ByteArray? = source.confirmHash
     val lockHeight: Long = source.lockHeight
-    val createTxId: String = source.createTxId.toHex()
+    val createTxId: String? = source.createTxId?.toHex()
     val spentTxId: String? = source.spentTxId?.toHex()
 }

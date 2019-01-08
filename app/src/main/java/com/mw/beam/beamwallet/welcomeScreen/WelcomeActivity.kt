@@ -24,7 +24,8 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         WelcomeDescriptionFragment.GeneratePhraseHandler,
         WelcomePasswordsFragment.WelcomePasswordsHandler,
         WelcomePhraseFragment.WelcomePhrasesHandler,
-        WelcomeConfirmFragment.WelcomeValidationHandler {
+        WelcomeConfirmFragment.WelcomeValidationHandler,
+        WelcomeRestoreFragment.WelcomeRestoreHandler {
     private lateinit var presenter: WelcomePresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_welcome
