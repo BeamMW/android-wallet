@@ -22,8 +22,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
-    private val receivedStatus = context.getString(R.string.wallet_status_received)
-    private val sentStatus = context.getString(R.string.wallet_status_sent)
+    private val completedStatus = context.getString(R.string.wallet_status_completed)
     private val inProgressStatus = context.getString(R.string.wallet_status_in_progress)
     private val cancelledStatus = context.getString(R.string.wallet_status_cancelled)
     private val failedStatus = context.getString(R.string.wallet_status_failed)
@@ -66,10 +65,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                 TxStatus.Failed -> failedStatus
                 TxStatus.Pending -> pendingStatus
                 TxStatus.Registered -> confirmingStatus
-                TxStatus.Completed -> when (transaction.sender) {
-                    TxSender.RECEIVED -> receivedStatus
-                    TxSender.SENT -> sentStatus
-                }
+                TxStatus.Completed -> completedStatus
             }
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)

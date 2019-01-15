@@ -54,10 +54,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             TxStatus.Failed -> getString(R.string.wallet_status_failed)
             TxStatus.Pending -> getString(R.string.wallet_status_pending)
             TxStatus.Registered -> getString(R.string.wallet_status_confirming)
-            TxStatus.Completed -> when (txDescription.sender) {
-                TxSender.RECEIVED -> getString(R.string.wallet_status_received)
-                TxSender.SENT -> getString(R.string.wallet_status_sent)
-            }
+            TxStatus.Completed -> getString(R.string.wallet_status_completed)
         }
 
         icon.setImageResource(R.drawable.ic_beam)

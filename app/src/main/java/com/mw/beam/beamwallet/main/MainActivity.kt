@@ -13,7 +13,6 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
-import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.receive.ReceiveActivity
 import com.mw.beam.beamwallet.send.SendActivity
 import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
@@ -107,12 +106,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_wallet -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                R.id.nav_address_book -> LogUtils.log("address book")
+              //  R.id.nav_address_book -> LogUtils.log("address book")
                 R.id.nav_utxo -> showFragment(UtxoFragment.newInstance(), UtxoFragment.getFragmentTag(), UtxoFragment.getFragmentTag(), true)
                 // R.id.nav_dashboard -> LogUtils.log("dashboard")
                 // R.id.nav_notifications -> LogUtils.log("notifications")
-                R.id.nav_help -> LogUtils.log("help")
-                R.id.nav_settings -> LogUtils.log("settings")
+              //  R.id.nav_help -> LogUtils.log("help")
+              //  R.id.nav_settings -> LogUtils.log("settings")
             }
             true
         }
