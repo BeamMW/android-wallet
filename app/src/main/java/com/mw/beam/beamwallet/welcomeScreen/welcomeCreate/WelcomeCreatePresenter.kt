@@ -5,8 +5,8 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 /**
  * Created by vain onnellinen on 12/4/18.
  */
-class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, private val repository: WelcomeCreateContract.Repository)
-    : BasePresenter<WelcomeCreateContract.View>(currentView),
+class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRepository: WelcomeCreateContract.Repository)
+    : BasePresenter<WelcomeCreateContract.View, WelcomeCreateContract.Repository>(currentView, currentRepository),
         WelcomeCreateContract.Presenter {
 
     override fun onCreateWallet() {

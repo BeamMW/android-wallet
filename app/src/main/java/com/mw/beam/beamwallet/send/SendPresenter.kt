@@ -6,8 +6,8 @@ import com.mw.beam.beamwallet.core.helpers.convertToGroth
 /**
  * Created by vain onnellinen on 11/13/18.
  */
-class SendPresenter(currentView: SendContract.View, private val repository: SendContract.Repository, private val state: SendState)
-    : BasePresenter<SendContract.View>(currentView),
+class SendPresenter(currentView: SendContract.View, currentRepository: SendContract.Repository, private val state: SendState)
+    : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
 
     override fun onViewCreated() {

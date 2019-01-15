@@ -8,6 +8,7 @@ import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -122,7 +123,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
         return presenter
     }

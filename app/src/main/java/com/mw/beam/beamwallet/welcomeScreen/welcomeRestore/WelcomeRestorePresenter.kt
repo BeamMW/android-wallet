@@ -5,8 +5,8 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 /**
  * Created by vain onnellinen on 11/5/18.
  */
-class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, private val repository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
-    : BasePresenter<WelcomeRestoreContract.View>(currentView),
+class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentRepository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
+    : BasePresenter<WelcomeRestoreContract.View, WelcomeRestoreContract.Repository>(currentView, currentRepository),
         WelcomeRestoreContract.Presenter {
 
     override fun onStart() {

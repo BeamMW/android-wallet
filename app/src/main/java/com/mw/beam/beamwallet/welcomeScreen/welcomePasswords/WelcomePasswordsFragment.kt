@@ -7,6 +7,7 @@ import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -142,7 +143,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         veryStrongPass = getString(R.string.welcome_pass_very_strong)
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomePasswordsPresenter(this, WelcomePasswordsRepository())
         return presenter
     }

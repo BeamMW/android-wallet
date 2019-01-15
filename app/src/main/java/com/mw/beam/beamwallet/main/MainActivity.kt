@@ -10,6 +10,7 @@ import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
@@ -126,7 +127,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         drawerLayout.removeDrawerListener(drawerToggle)
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = MainPresenter(this, MainRepository())
         return presenter
     }

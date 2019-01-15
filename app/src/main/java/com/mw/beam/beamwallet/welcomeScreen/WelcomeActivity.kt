@@ -4,6 +4,7 @@ import android.content.Intent
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.main.MainActivity
 import com.mw.beam.beamwallet.welcomeScreen.welcomeConfirm.WelcomeConfirmFragment
@@ -54,7 +55,7 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         startActivity(Intent(this, MainActivity::class.java))
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomePresenter(this, WelcomeRepository())
         return presenter
     }

@@ -8,8 +8,8 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class UtxoPresenter(currentView: UtxoContract.View, private val repository: UtxoContract.Repository, private val state: UtxoState)
-    : BasePresenter<UtxoContract.View>(currentView),
+class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository, private val state: UtxoState)
+    : BasePresenter<UtxoContract.View, UtxoContract.Repository>(currentView, currentRepository),
         UtxoContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
@@ -23,7 +23,9 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
         view?.showUtxoDetails(utxo, state.configTransactions().filter { it.id == utxo.createTxId || it.id == utxo.spentTxId } as ArrayList<TxDescription>)
     }
 
-    private fun initSubscriptions() {
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
             view?.updateUtxos(utxos)
         }
@@ -33,10 +35,7 @@ class UtxoPresenter(currentView: UtxoContract.View, private val repository: Utxo
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? {
-        initSubscriptions()
-        return arrayOf(utxoUpdatedSubscription, txStatusSubscription)
-    }
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

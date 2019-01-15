@@ -9,7 +9,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFragment(), MvpView {
+abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
 
@@ -27,6 +27,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView>> : ViewControllerFrag
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
+    }
+
+    override fun configStatus(isConnected: Boolean) {
+        (activity as BaseActivity<*>).configStatus(isConnected)
     }
 
     override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {

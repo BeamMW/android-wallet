@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import kotlinx.android.synthetic.main.fragment_welcome_create.*
 
@@ -39,7 +40,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun createWallet() = (activity as WelcomeCreateHandler).createWallet()
     override fun restoreWallet() = (activity as WelcomeCreateHandler).restoreWallet()
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeCreatePresenter(this, WelcomeCreateRepository())
         return presenter
     }

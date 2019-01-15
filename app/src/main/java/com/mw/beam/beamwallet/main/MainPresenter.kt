@@ -6,8 +6,8 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-class MainPresenter(currentView: MainContract.View, private val repository: MainContract.Repository)
-    : BasePresenter<MainContract.View>(currentView),
+class MainPresenter(currentView: MainContract.View, currentRepository: MainContract.Repository)
+    : BasePresenter<MainContract.View, MainContract.Repository>(currentView, currentRepository),
         MainContract.Presenter {
 
     override fun onViewCreated() {

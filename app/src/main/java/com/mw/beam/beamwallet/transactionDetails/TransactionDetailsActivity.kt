@@ -5,6 +5,7 @@ import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TxSender
@@ -82,7 +83,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     private fun configTransactionHistory(txDescription: TxDescription) {
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository())
         return presenter
     }

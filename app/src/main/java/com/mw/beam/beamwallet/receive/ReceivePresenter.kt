@@ -6,8 +6,8 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 11/13/18.
  */
-class ReceivePresenter(currentView: ReceiveContract.View, private val repository: ReceiveContract.Repository, private val state: ReceiveState)
-    : BasePresenter<ReceiveContract.View>(currentView),
+class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
+    : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
 
@@ -28,7 +28,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
         saveAddress()
     }
 
-    private fun initSubscriptions() {
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
         walletIdSubscription = repository.generateNewAddress().subscribe {
             state.address = it
             view?.showToken(state.address!!.walletID)
@@ -48,8 +50,5 @@ class ReceivePresenter(currentView: ReceiveContract.View, private val repository
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? {
-        initSubscriptions()
-        return arrayOf(walletIdSubscription)
-    }
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletIdSubscription)
 }

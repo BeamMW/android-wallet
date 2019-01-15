@@ -12,8 +12,8 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-class WalletPresenter(currentView: WalletContract.View, private val repository: WalletContract.Repository, private val state: WalletState)
-    : BasePresenter<WalletContract.View>(currentView),
+class WalletPresenter(currentView: WalletContract.View, currentRepository: WalletContract.Repository, private val state: WalletState)
+    : BasePresenter<WalletContract.View, WalletContract.Repository>(currentView, currentRepository),
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
@@ -63,7 +63,9 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
     override fun onExportPressed() = toDo()
     override fun onDeletePressed() = toDo()
 
-    private fun initSubscriptions() {
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             view?.configWalletStatus(it)
         }
@@ -84,10 +86,7 @@ class WalletPresenter(currentView: WalletContract.View, private val repository: 
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? {
-        initSubscriptions()
-        return arrayOf(walletStatusSubscription, txStatusSubscription, utxoUpdatedSubscription)
-    }
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, utxoUpdatedSubscription)
 
     private fun toDo() {
         view?.showSnackBar("Coming soon...")

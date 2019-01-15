@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
@@ -134,7 +135,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         return view
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository())
         return presenter
     }
