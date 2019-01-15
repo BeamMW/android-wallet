@@ -18,6 +18,7 @@ interface SendContract {
         fun hasErrors() : Boolean
         fun clearErrors()
         fun init()
+        fun close()
     }
 
     interface Presenter : MvpPresenter<View> {

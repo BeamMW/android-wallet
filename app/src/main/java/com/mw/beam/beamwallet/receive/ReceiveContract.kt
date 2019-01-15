@@ -14,6 +14,7 @@ interface ReceiveContract {
         fun getComment() : String?
         fun showToken(receiveToken : String)
         fun copyToClipboard(receiveToken : String)
+        fun close()
     }
 
     interface Presenter : MvpPresenter<View> {

@@ -16,6 +16,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         if (state.address != null) {
             view?.copyToClipboard(state.address!!.walletID)
+            view?.close()
         }
     }
 
