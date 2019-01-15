@@ -24,7 +24,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             if (amount != null && fee != null && token != null) {
                 repository.sendMoney(token, comment, amount.convertToGroth(), fee)
-                view?.showSnackBar("Sent!")
+                view?.close()
             }
         }
     }

@@ -98,6 +98,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
     }
 
+    override fun close() {
+        finish()
+    }
+
     override fun clearListeners() {
         btnSend.setOnClickListener(null)
         token.removeTextChangedListener(tokenWatcher)

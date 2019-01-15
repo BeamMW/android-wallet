@@ -21,7 +21,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
 
     override fun addListeners() {
-        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed()       }
+        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
         btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
     }
 
@@ -34,6 +34,10 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     override fun copyToClipboard(receiveToken: String) {
         val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, receiveToken)
+    }
+
+    override fun close() {
+        finish()
     }
 
     override fun onBackPressed() {
