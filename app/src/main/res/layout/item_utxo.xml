@@ -29,6 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:visibility="gone"
         android:paddingTop="@dimen/utxo_item_offset_top"
         app:layout_constraintBottom_toTopOf="@id/label"
         app:layout_constraintEnd_toStartOf="@id/barrier"
