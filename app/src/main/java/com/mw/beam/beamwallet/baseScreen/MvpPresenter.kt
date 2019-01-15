@@ -16,4 +16,5 @@ interface MvpPresenter<V : MvpView> {
     fun hasStatus(): Boolean = false
     fun hasBackArrow(): Boolean? = false
     fun getSubscriptions(): Array<Disposable>?
+    fun initSubscriptions()
 }

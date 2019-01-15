@@ -6,8 +6,8 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, private val repository: WelcomePhraseContract.Repository)
-    : BasePresenter<WelcomePhraseContract.View>(currentView),
+class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, currentRepository: WelcomePhraseContract.Repository)
+    : BasePresenter<WelcomePhraseContract.View, WelcomePhraseContract.Repository>(currentView, currentRepository),
         WelcomePhraseContract.Presenter {
 
     override fun onViewCreated() {

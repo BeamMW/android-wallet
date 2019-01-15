@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppCompatActivity(), MvpView {
+abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
 
@@ -84,6 +85,17 @@ abstract class BaseActivity<T : BasePresenter<out MvpView>> : ViewControllerAppC
     }
 
     override fun clearListeners() {
+    }
+
+    override fun configStatus(isConnected: Boolean) {
+        val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
+
+        toolbarLayout.statusIcon.setImageDrawable(
+                if (isConnected) ContextCompat.getDrawable(this, R.drawable.status_connected)
+                else ContextCompat.getDrawable(this, R.drawable.status_error))
+        toolbarLayout.status.text =
+                if (isConnected) getString(R.string.common_status_online)
+                else String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
     }
 
     @Suppress("UNCHECKED_CAST")

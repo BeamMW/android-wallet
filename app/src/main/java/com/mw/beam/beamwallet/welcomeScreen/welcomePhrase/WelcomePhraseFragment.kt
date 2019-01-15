@@ -9,6 +9,7 @@ import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhrase
 import kotlinx.android.synthetic.main.fragment_welcome_phrase.*
@@ -110,7 +111,7 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
         return phrase
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomePhrasePresenter(this, WelcomePhraseRepository())
         return presenter
     }

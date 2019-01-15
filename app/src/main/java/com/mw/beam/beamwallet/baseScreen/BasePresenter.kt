@@ -6,8 +6,10 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
+abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
     private val disposable = CompositeDisposable()
+    private lateinit var nodeConnectionSubscription: Disposable
+    private lateinit var nodeConnectionFailedSubscription: Disposable
 
     override fun onCreate() {
     }
@@ -17,10 +19,17 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     }
 
     override fun onStart() {
+        initSubscriptions()
+
         val subscriptions = getSubscriptions()
 
         if (subscriptions != null) {
             disposable.addAll(*subscriptions)
+        }
+
+        disposable.apply {
+            add(nodeConnectionSubscription)
+            add(nodeConnectionFailedSubscription)
         }
 
         view?.addListeners()
@@ -44,6 +53,16 @@ abstract class BasePresenter<T : MvpView>(var view: T?) : MvpPresenter<T> {
     }
 
     override fun getSubscriptions(): Array<Disposable>? = null
+
+    override fun initSubscriptions() {
+        nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
+            view?.configStatus(it)
+        }
+
+        nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
+            view?.configStatus(false)
+        }
+    }
 
     private fun detachView() {
         view = null

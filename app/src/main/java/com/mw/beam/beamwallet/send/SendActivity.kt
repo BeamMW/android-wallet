@@ -6,6 +6,7 @@ import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_send.*
@@ -103,7 +104,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.removeTextChangedListener(amountWatcher)
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = SendPresenter(this, SendRepository(), SendState())
         return presenter
     }

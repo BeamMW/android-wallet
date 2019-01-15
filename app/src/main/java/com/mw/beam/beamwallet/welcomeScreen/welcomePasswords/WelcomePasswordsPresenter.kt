@@ -7,8 +7,8 @@ import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, private val repository: WelcomePasswordsContract.Repository)
-    : BasePresenter<WelcomePasswordsContract.View>(currentView),
+class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, currentRepository: WelcomePasswordsContract.Repository)
+    : BasePresenter<WelcomePasswordsContract.View, WelcomePasswordsContract.Repository>(currentView, currentRepository),
         WelcomePasswordsContract.Presenter {
     private val strengthVeryWeak = Regex("(?=.+)")
     private val strengthWeak = Regex("((?=.{6,})(?=.*[0-9]))|((?=.{6,})(?=.*[A-Z]))|((?=.{6,})(?=.*[a-z]))")

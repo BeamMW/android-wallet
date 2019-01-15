@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import kotlinx.android.synthetic.main.fragment_welcome_description.*
 
@@ -33,7 +34,7 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
         btnGenerate.setOnClickListener(null)
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView> {
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
         return presenter
     }

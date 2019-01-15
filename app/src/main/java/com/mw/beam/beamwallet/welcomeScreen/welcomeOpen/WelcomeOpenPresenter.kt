@@ -6,8 +6,8 @@ import com.mw.beam.beamwallet.core.AppConfig
 /**
  * Created by vain onnellinen on 10/19/18.
  */
-class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, private val repository: WelcomeOpenContract.Repository)
-    : BasePresenter<WelcomeOpenContract.View>(currentView),
+class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentRepository: WelcomeOpenContract.Repository)
+    : BasePresenter<WelcomeOpenContract.View, WelcomeOpenContract.Repository>(currentView, currentRepository),
         WelcomeOpenContract.Presenter {
 
     override fun onOpenWallet() {

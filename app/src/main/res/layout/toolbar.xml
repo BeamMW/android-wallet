@@ -23,7 +23,7 @@
             android:contentDescription="@null"
             android:paddingStart="@dimen/toolbar_padding_for_status_start"
             android:paddingEnd="@dimen/toolbar_padding_for_status"
-            android:src="@drawable/status" />
+            android:src="@drawable/status_connected" />
 
         <TextView
             android:id="@+id/connectionStatus"
