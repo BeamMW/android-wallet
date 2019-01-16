@@ -103,12 +103,14 @@
 
     <!--ReceiveActivity-->
     <dimen name="receive_title_margin_top">35dp</dimen>
+    <dimen name="receive_comment_title_margin_top">30dp</dimen>
     <dimen name="receive_common_margin">10dp</dimen>
     <dimen name="receive_common_side_margin">60dp</dimen>
     <dimen name="receive_btn_margin">30dp</dimen>
-    <dimen name="transfer_btn_width">156dp</dimen>
     <dimen name="receive_token_title_margin_top">40dp</dimen>
     <dimen name="receive_token_description_margin_top">30dp</dimen>
+    <dimen name="receive_spinner_width">140dp</dimen>
+    <dimen name="receive_spinner_offset">8dp</dimen>
 
     <!--SendActivity-->
     <dimen name="send_token_title_margin_top">24dp</dimen>
@@ -120,6 +122,7 @@
     <dimen name="send_amount_text_size">36sp</dimen>
     <dimen name="send_amount_error_margin_top">8dp</dimen>
     <dimen name="send_btn_margin_bottom">22dp</dimen>
+    <dimen name="send_transfer_btn_width">156dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>

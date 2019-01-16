@@ -10,7 +10,7 @@ class WalletAddress(var source: WalletAddressDTO) {
     var label: String = source.label
     val category: String = source.category
     val createTime: Long = source.createTime
-    val duration: Long = source.duration
+    var duration: Long = source.duration
     val own: Long = source.own
 
     fun toDTO(): WalletAddressDTO = source.apply {

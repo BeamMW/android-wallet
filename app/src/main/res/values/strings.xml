@@ -152,12 +152,17 @@
     <string name="receive_title">Receive</string>
     <string name="receive_switch_title">Swap</string>
     <string name="receive_send_comment">Comment</string>
+    <string name="receive_expires_on">Expires on</string>
     <string name="receive_send_comment_description">Comments are local and won\'t be sent.</string>
     <string name="receive_btn_copy">copy token</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
     <string name="receive_token_title">Your transaction token:</string>
     <string name="receive_token_description">Send this token to the sender over secure channel</string>
+    <string-array name="receive_expires_periods">
+        <item>24 hours</item>
+        <item>Never</item>
+    </string-array>
 
     <!--SendActivity-->
     <string name="send_title">Send</string>

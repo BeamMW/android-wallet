@@ -3,11 +3,16 @@ package com.mw.beam.beamwallet.receive
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.activity_receive.*
 
 /**
@@ -16,13 +21,34 @@ import kotlinx.android.synthetic.main.activity_receive.*
 class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     private lateinit var presenter: ReceivePresenter
     private val COPY_TAG = "TOKEN"
+    private val expireListener = object : OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            presenter.onExpirePeriodChanged(when (position) {
+                ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
+                else -> ExpirePeriod.NEVER
+            })
+        }
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
 
+    override fun init() {
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.receive_expires_periods,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            expiresOnSpinner.adapter = adapter
+            expiresOnSpinner.setSelection(0)
+        }
+    }
+
     override fun addListeners() {
         btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
         btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
+        expiresOnSpinner.onItemSelectedListener = expireListener
     }
 
     override fun showToken(receiveToken: String) {
@@ -48,6 +74,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     override fun clearListeners() {
         btnCopyToken.setOnClickListener(null)
         btnShowQR.setOnClickListener(null)
+        expiresOnSpinner.onItemSelectedListener = null
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
