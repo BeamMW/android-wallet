@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.receive
 
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import io.reactivex.disposables.Disposable
 
 /**
@@ -10,6 +11,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
 
     override fun onCopyTokenPressed() {
         saveAddress()
@@ -23,6 +29,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onShowQrPressed() {
         saveAddress()
         view?.showSnackBar("Coming soon...")
+    }
+
+    override fun onExpirePeriodChanged(period: ExpirePeriod) {
+        state.expirePeriod = period
     }
 
     override fun onBackPressed() {
@@ -40,6 +50,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     private fun saveAddress() {
         if (state.address != null && !state.wasAddressSaved) {
+            state.address!!.duration = state.expirePeriod.value
+
             val comment = view?.getComment()
 
             if (!comment.isNullOrBlank()) {

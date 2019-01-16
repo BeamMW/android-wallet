@@ -8,7 +8,8 @@
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/switchTitle"
@@ -36,16 +37,38 @@
         tools:ignore="RtlSymmetry" />
 
     <TextView
-        android:id="@+id/commentTitle"
+        android:id="@+id/expiresTitle"
         style="@style/common_subheader_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_offset"
         android:layout_marginTop="@dimen/receive_title_margin_top"
         android:layout_marginEnd="@dimen/common_offset"
-        android:text="@string/receive_send_comment"
+        android:text="@string/receive_expires_on"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/switchTitle" />
+
+    <Spinner
+        android:id="@+id/expiresOnSpinner"
+        android:layout_width="@dimen/receive_spinner_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/receive_spinner_offset"
+        android:layout_marginTop="@dimen/receive_common_margin"
+        android:layout_marginEnd="@dimen/receive_spinner_offset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
+
+    <TextView
+        android:id="@+id/commentTitle"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/receive_comment_title_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/receive_send_comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
 
     <EditText
         android:id="@+id/comment"
