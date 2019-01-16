@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 buildscript {
     repositories {
@@ -48,6 +48,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
     implementation "com.android.support:appcompat-v7:$ver_support"
+    implementation "com.android.support:support-v4:$ver_support"
+    implementation "com.android.support:support-media-compat:$ver_support"
     implementation "com.android.support.constraint:constraint-layout:$ver_constraint_layout"
     implementation "com.android.support:recyclerview-v7:$ver_support"
     implementation "com.android.support:design:$ver_support"
@@ -55,6 +57,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$ver_rx_android"
     implementation "io.reactivex.rxjava2:rxjava:$ver_rx_java"
     implementation "com.github.restorer:holycycle:$ver_holycycle"
+    implementation "com.google.firebase:firebase-core:$ver_firebase_core"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
@@ -74,3 +77,5 @@ dependencies {
         transitive = true
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
