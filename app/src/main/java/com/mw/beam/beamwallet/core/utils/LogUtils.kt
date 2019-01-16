@@ -17,37 +17,20 @@ object LogUtils {
         }
     }
 
-    fun logD(message: String) {
-        if (BuildConfig.DEBUG) {
-            android.util.Log.d(LOG_TAG, message)
-        }
-    }
-
-    fun logE(throwable: Throwable) {
-        if (BuildConfig.DEBUG) {
-            android.util.Log.e(LOG_TAG, "$LOG_TAG_ERROR: " + (throwable.message
-                    ?: "Unknown exception"))
-        }
-    }
-
     fun <T> logResponse(result: T, responseName: String) {
-        if (BuildConfig.DEBUG) {
-            LogUtils.log(StringBuilder()
-                    .append(LogUtils.LOG_RESPONSE)
-                    .append(" ")
-                    .append(responseName)
-                    .append(": ")
-                    .append(result.toString())
-                    .append("\n")
-                    .append("--------------------------")
-                    .append("\n").toString())
-        }
+        log(StringBuilder()
+                .append(LOG_RESPONSE)
+                .append(" ")
+                .append(responseName)
+                .append(": ")
+                .append(result.toString())
+                .append("\n")
+                .append("--------------------------")
+                .append("\n").toString())
     }
 
     fun logErrorResponse(throwable: Throwable, methodName: String) {
-        if (BuildConfig.DEBUG) {
-            android.util.Log.e(LOG_TAG, "$LOG_TAG_ERROR $LOG_RESPONSE $methodName:" + (throwable.message
-                    ?: "Unknown exception"))
-        }
+        log("$LOG_TAG_ERROR $LOG_RESPONSE $methodName:" + (throwable.message
+                ?: "Unknown exception"))
     }
 }
