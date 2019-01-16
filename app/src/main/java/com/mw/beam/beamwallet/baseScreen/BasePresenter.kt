@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable
  * Created by vain onnellinen on 10/1/18.
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
-    private val disposable = CompositeDisposable()
+    private lateinit var disposable: CompositeDisposable
     private lateinit var nodeConnectionSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
 
@@ -19,6 +19,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     }
 
     override fun onStart() {
+        disposable = CompositeDisposable()
         initSubscriptions()
 
         val subscriptions = getSubscriptions()
