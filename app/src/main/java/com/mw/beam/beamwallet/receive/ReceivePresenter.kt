@@ -64,4 +64,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletIdSubscription)
+
+    override fun hasStatus(): Boolean = true
 }

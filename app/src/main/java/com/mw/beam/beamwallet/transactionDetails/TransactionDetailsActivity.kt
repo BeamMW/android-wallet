@@ -54,7 +54,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             TxStatus.Cancelled -> getString(R.string.wallet_status_cancelled)
             TxStatus.Failed -> getString(R.string.wallet_status_failed)
             TxStatus.Pending -> getString(R.string.wallet_status_pending)
-            TxStatus.Registered -> getString(R.string.wallet_status_confirming)
+            TxStatus.Registered -> getString(R.string.wallet_status_syncing_with_blockchain)
             TxStatus.Completed -> getString(R.string.wallet_status_completed)
         }
 
