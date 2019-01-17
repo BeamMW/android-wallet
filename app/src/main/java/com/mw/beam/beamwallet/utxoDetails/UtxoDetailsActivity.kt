@@ -16,7 +16,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
@@ -79,7 +79,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
             }
         }
 
-        amount.text = utxo.amount.convertToBeam()
+        amount.text = utxo.amount.convertToBeamWithCurrency()
        // id.text = utxo.id.toString() //TODO implement correct id from API
     }
 

@@ -142,6 +142,19 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
+        android:id="@+id/feeError"
+        style="@style/common_text_big_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_amount_error_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:textColor="@color/common_error_color"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fee" />
+
+    <TextView
         android:id="@+id/commentTitle"
         style="@style/common_subheader_light"
         android:layout_width="wrap_content"
@@ -151,7 +164,7 @@
         android:layout_marginEnd="@dimen/common_offset"
         android:text="@string/receive_send_comment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fee" />
+        app:layout_constraintTop_toBottomOf="@id/feeError" />
 
     <EditText
         android:id="@+id/comment"

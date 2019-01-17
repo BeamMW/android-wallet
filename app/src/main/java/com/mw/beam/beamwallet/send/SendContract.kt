@@ -10,7 +10,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
 interface SendContract {
 
     interface View : MvpView {
-        fun getAmount(): Long
+        fun getAmount(): Double
         fun getFee(): Long
         fun getToken(): String
         fun getComment(): String?

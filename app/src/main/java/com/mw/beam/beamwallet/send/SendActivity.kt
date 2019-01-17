@@ -22,7 +22,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
 
-    override fun getAmount(): Long = amount.text.toString().toLong()
+    override fun getAmount(): Double = amount.text.toString().toDouble()
     override fun getToken(): String = token.text.toString()
     override fun getComment(): String? = comment.text.toString()
     override fun getFee(): Long {
@@ -66,8 +66,13 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             hasErrors = true
         }
 
+        if (fee.text.isNullOrBlank()) {
+            configFeeError(getString(R.string.send_fee_empty_error))
+            hasErrors = true
+        }
+
         try {
-            if (amount.text.toString().toInt() == 0) {
+            if (amount.text.toString().toDouble() == 0.0) {
                 configAmountError(getString(R.string.send_amount_zero_error))
                 hasErrors = true
             }
@@ -83,6 +88,8 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amountError.visibility = View.GONE
         amount.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
         amount.isStateNormal = true
+        feeError.visibility = View.GONE
+        fee.setTextColor(ContextCompat.getColor(this, R.color.common_text_color))
     }
 
     override fun updateUI(shouldShowParams: Boolean) {
@@ -119,5 +126,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amountError.text = errorString
         amount.setTextColor(ContextCompat.getColorStateList(this, R.color.text_color_selector))
         amount.isStateError = true
+    }
+
+    private fun configFeeError(errorString: String) {
+        feeError.visibility = View.VISIBLE
+        feeError.text = errorString
+        fee.setTextColor(ContextCompat.getColor(this, R.color.common_error_color))
     }
 }
