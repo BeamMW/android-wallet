@@ -7,8 +7,9 @@ import java.text.DecimalFormat
  */
 
 
-fun Long.convertToBeam(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
-fun Long.convertToBeamWithCurrency() = "${this.convertToBeam()} B"
+fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
+fun Long.convertToBeam(): Double = this.toDouble() / 100000000
+fun Long.convertToBeamWithCurrency() = "${this.convertToBeamString()} B"
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamWithCurrency()}" else "+${this.convertToBeamWithCurrency()}"
 fun Double.convertToGroth() = (this * 100000000).toLong()
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
