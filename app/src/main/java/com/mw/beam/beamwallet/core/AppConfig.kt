@@ -10,7 +10,7 @@ object AppConfig {
     var DB_PATH = ""
     var DB_FILE_NAME = "wallet.db"
     var DB_KEYS_NAME = "keys.bbs"
-    var NODE_ADDRESS = "176.58.98.195:8501"
+    var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
     var LOCALE: Locale = Locale.US
 
     enum class Status(val value: Int) {

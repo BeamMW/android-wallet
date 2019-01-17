@@ -19,7 +19,6 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, curr
 
     override fun onCreate() {
         super.onCreate()
-        view?.init()
         repository.phrases = view?.getPhrases()
     }
 
