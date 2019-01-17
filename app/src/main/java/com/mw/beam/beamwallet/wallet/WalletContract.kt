@@ -6,7 +6,6 @@ import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import io.reactivex.subjects.Subject
 import android.view.View as MenuView
@@ -47,6 +46,5 @@ interface WalletContract {
     interface Repository : MvpRepository {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
-        fun getUtxoUpdated(): Subject<List<Utxo>>
     }
 }

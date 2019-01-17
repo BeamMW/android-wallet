@@ -8,6 +8,8 @@ import com.mw.beam.beamwallet.baseScreen.BaseActivity
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_send.*
 
@@ -57,9 +59,19 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
     }
 
-    override fun hasErrors(): Boolean {
+    override fun hasErrors(availableAmount: Long): Boolean {
         var hasErrors = false
         clearErrors()
+
+        try {
+            if (amount.text.toString().toDouble() + fee.text.toString().toLong().convertToBeam() > availableAmount.convertToBeam()) {
+                configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamWithCurrency()))
+                hasErrors = true
+            }
+        } catch (exception: NumberFormatException) {
+            configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamWithCurrency()))
+            hasErrors = true
+        }
 
         if (amount.text.isNullOrBlank()) {
             configAmountError(getString(R.string.send_amount_empty_error))
