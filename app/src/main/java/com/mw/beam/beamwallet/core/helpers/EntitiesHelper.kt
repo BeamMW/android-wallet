@@ -1,14 +1,16 @@
 package com.mw.beam.beamwallet.core.helpers
 
+import java.text.DecimalFormat
+
 /**
  * Created by vain onnellinen on 10/3/18.
  */
 
 
-fun Long.convertToBeam() = "${this / 100000000L} B"
-fun Long.convertToGroth() = this * 100000000L
-fun Long.convertToBeamAsFloatString() = String.format("%.10f", this.toFloat() / 100000000f)
+fun Long.convertToBeam(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
+fun Long.convertToBeamWithCurrency() = "${this.convertToBeam()} B"
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeam()}" else "+${this.convertToBeam()}"
+fun Double.convertToGroth() = (this * 100000000).toLong()
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 fun ByteArray.toHex(): String {
     val result = StringBuilder()

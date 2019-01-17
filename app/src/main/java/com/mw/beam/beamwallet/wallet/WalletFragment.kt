@@ -18,7 +18,7 @@ import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
 
@@ -43,7 +43,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configAvailable(availableAmount: Long) {
-        available.text = availableAmount.convertToBeam()
+        available.text = availableAmount.convertToBeamWithCurrency()
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
@@ -75,7 +75,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         when (maturingAmount) {
             0L -> maturingGroup.visibility = View.GONE
             else -> {
-                maturing.text = maturingAmount.convertToBeam()
+                maturing.text = maturingAmount.convertToBeamWithCurrency()
                 maturingGroup.visibility = View.VISIBLE
             }
         }

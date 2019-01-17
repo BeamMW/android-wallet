@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_utxo.*
 
@@ -80,7 +80,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
             }
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
-            amount.text = utxo.amount.convertToBeam()
+            amount.text = utxo.amount.convertToBeamWithCurrency()
           //  id.text = utxo.id.toString() //TODO implement correct id from API
         }
     }
