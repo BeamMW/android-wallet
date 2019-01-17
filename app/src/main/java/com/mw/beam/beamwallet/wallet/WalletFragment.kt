@@ -39,7 +39,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun getToolbarTitle(): String? = getString(R.string.wallet_title)
 
     override fun configWalletStatus(walletStatus: WalletStatus) {
-        //TODO handle later
+        configAvailable(walletStatus.available)
+        configInProgress(walletStatus.receiving, walletStatus.sending, walletStatus.maturing)
     }
 
     override fun configAvailable(availableAmount: Long) {

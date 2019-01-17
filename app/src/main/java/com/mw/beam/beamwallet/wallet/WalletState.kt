@@ -1,15 +1,13 @@
 package com.mw.beam.beamwallet.wallet
 
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletStatus
 
 /**
  * Created by vain onnellinen on 12/4/18.
  */
 class WalletState {
-    var maturing: Long = 0L
-    var receiving: Long = 0L
-    var sending: Long = 0L
-    var available: Long = 0L
+    var walletStatus: WalletStatus? = null
 
     var shouldExpandAvailable = false
     var shouldExpandInProgress = false

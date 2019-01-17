@@ -4,8 +4,6 @@ import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.sumByLong
 import io.reactivex.disposables.Disposable
 
 
@@ -17,7 +15,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var utxoUpdatedSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -46,7 +43,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.handleExpandInProgress(state.shouldExpandInProgress)
 
         if (!state.shouldExpandInProgress) {
-            view?.configInProgress(state.receiving, state.sending, state.maturing)
+            view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending ?:0, state.walletStatus?.maturing ?: 0)
         }
     }
 
@@ -67,26 +64,16 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.initSubscriptions()
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
+            state.walletStatus = it
             view?.configWalletStatus(it)
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
             view?.configTransactions(state.updateTransactions(data.tx))
         }
-
-        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            state.available = utxos.filter { it.status == UtxoStatus.Available }.sumByLong { it.amount }
-            state.maturing = utxos.filter { it.status == UtxoStatus.Maturing }.sumByLong { it.amount }
-            state.receiving = utxos.filter { it.status == UtxoStatus.Incoming }.sumByLong { it.amount }
-            //TODO sum won't be changed in future
-            state.sending = utxos.filter { it.status == UtxoStatus.Outgoing }.sumByLong { it.amount } - utxos.filter { it.status == UtxoStatus.Change }.sumByLong { it.amount }
-
-            view?.configInProgress(state.receiving, state.sending, state.maturing)
-            view?.configAvailable(state.available)
-        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, utxoUpdatedSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription)
 
     private fun toDo() {
         view?.showSnackBar("Coming soon...")
