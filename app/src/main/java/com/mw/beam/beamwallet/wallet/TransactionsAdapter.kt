@@ -27,7 +27,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val cancelledStatus = context.getString(R.string.wallet_status_cancelled)
     private val failedStatus = context.getString(R.string.wallet_status_failed)
     private val pendingStatus = context.getString(R.string.wallet_status_pending)
-    private val confirmingStatus = context.getString(R.string.wallet_status_confirming)
+    private val confirmingStatus = context.getString(R.string.wallet_status_syncing_with_blockchain)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
     private val swapStatusColor = ContextCompat.getColor(context, R.color.transaction_common_status_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)

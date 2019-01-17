@@ -89,7 +89,7 @@
     <string name="wallet_btn_receive">receive</string>
     <string name="wallet_btn_send">send</string>
     <string name="wallet_status_completed">completed</string>
-    <string name="wallet_status_confirming">confirming</string>
+    <string name="wallet_status_syncing_with_blockchain">syncing with blockchain</string>
     <string name="wallet_status_in_progress">in progress</string>
     <string name="wallet_status_failed">failed</string>
     <string name="wallet_status_cancelled">cancelled</string>
