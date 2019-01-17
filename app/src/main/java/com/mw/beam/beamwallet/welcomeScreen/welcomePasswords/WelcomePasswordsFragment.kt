@@ -2,7 +2,6 @@ package com.mw.beam.beamwallet.welcomeScreen.welcomePasswords
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.TypedValue
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
@@ -19,15 +18,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_passwords.*
  */
 class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), WelcomePasswordsContract.View {
     private lateinit var presenter: WelcomePasswordsPresenter
-    private var lettersSpace: Float = 0f
-    private var dotsSpace: Float = 0f
-    private lateinit var emptyPass: String
-    private lateinit var veryWeakPass: String
-    private lateinit var weakPass: String
-    private lateinit var mediumPass: String
-    private lateinit var mediumStrongPass: String
-    private lateinit var strongPass: String
-    private lateinit var veryStrongPass: String
 
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
@@ -116,31 +106,6 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
         strengthView.strength = strength
-        strengthText.text = when (strength) {
-            PasswordStrengthView.Strength.EMPTY -> emptyPass
-            PasswordStrengthView.Strength.VERY_WEAK -> veryWeakPass
-            PasswordStrengthView.Strength.WEAK -> weakPass
-            PasswordStrengthView.Strength.MEDIUM -> mediumPass
-            PasswordStrengthView.Strength.MEDIUM_STRONG -> mediumStrongPass
-            PasswordStrengthView.Strength.STRONG -> strongPass
-            PasswordStrengthView.Strength.VERY_STRONG -> veryStrongPass
-        }
-    }
-
-    override fun init() {
-        val outValue = TypedValue()
-        resources.getValue(R.dimen.welcome_password_letters_space, outValue, true)
-        lettersSpace = outValue.float
-        resources.getValue(R.dimen.welcome_password_dots_space, outValue, true)
-        dotsSpace = outValue.float
-
-        emptyPass = getString(R.string.welcome_pass_empty)
-        veryWeakPass = getString(R.string.welcome_pass_very_weak)
-        weakPass = getString(R.string.welcome_pass_weak)
-        mediumPass = getString(R.string.welcome_pass_medium)
-        mediumStrongPass = getString(R.string.welcome_pass_medium_strong)
-        strongPass = getString(R.string.welcome_pass_strong)
-        veryStrongPass = getString(R.string.welcome_pass_very_strong)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

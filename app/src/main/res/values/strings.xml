@@ -67,13 +67,11 @@
     <string name="welcome_passwords_title">Password</string>
     <string name="welcome_passwords_description">Create password to access your wallet</string>
     <string name="welcome_passwords_not_match">Passwords do not match</string>
-    <string name="welcome_pass_empty">Add at least one symbol</string>
-    <string name="welcome_pass_very_weak">Very weak password</string>
-    <string name="welcome_pass_weak">Weak password</string>
-    <string name="welcome_pass_medium">Medium strength password</string>
-    <string name="welcome_pass_medium_strong">Medium strength password</string>
-    <string name="welcome_pass_strong">Strong password</string>
-    <string name="welcome_pass_very_strong">Very strong password</string>
+    <string name="welcome_pass_description">Strong password needs to meet the following requirements:\n
+•  the length must be at least 10 characters\n
+•  must contain at least one lowercase letter\n
+•  must contain at least one uppercase letter\n
+•  must contain at least one number</string>
     <string name="welcome_pass_not_much">Passwords do not match</string>
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>
