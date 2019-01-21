@@ -23,7 +23,7 @@ object WalletListener {
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
-    var subOnSyncProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
@@ -39,7 +39,7 @@ object WalletListener {
     fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(action, tx?.map { TxDescription(it) }), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onRecoverProgressUpdated(done: Int, total: Int, message: String) = returnResult(subOnRecoverProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
