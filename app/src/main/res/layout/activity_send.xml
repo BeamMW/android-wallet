@@ -121,6 +121,7 @@
         android:layout_marginEnd="@dimen/send_amount_margin_end"
         android:background="@drawable/edit_text_selector"
         android:inputType="number"
+        android:text="@string/send_zero_fee"
         app:layout_constraintEnd_toStartOf="@id/feeCurrency"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

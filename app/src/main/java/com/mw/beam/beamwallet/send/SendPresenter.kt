@@ -12,6 +12,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private val tokenRegex = Regex("[^A-Za-z0-9]")
+    private val MAX_TOKEN_LENGTH = 80
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -33,7 +34,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onTokenChanged(rawToken: String?) {
-        val clearedToken = rawToken?.replace(tokenRegex, "")
+        var clearedToken = rawToken?.replace(tokenRegex, "")
+
+        if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
+            clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
+        }
 
         if (rawToken == clearedToken) {
             val isTokenEmpty = rawToken.isNullOrEmpty()

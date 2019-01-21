@@ -20,6 +20,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var presenter: SendPresenter
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
+    private lateinit var feeFocusListener: View.OnFocusChangeListener
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
@@ -57,6 +58,15 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             }
         }
         amount.addTextChangedListener(amountWatcher)
+
+        feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
+            if (!isFocused) {
+                if (fee.text.toString().isEmpty()) {
+                    fee.setText(getString(R.string.send_zero_fee))
+                }
+            }
+        }
+        fee.onFocusChangeListener = feeFocusListener
     }
 
     override fun hasErrors(availableAmount: Long): Boolean {
@@ -98,14 +108,13 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun clearToken(clearedToken: String?) {
         token.setText(clearedToken)
+        token.setSelection(token.text.length)
     }
 
     override fun clearErrors() {
         amountError.visibility = View.GONE
         amount.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
         amount.isStateNormal = true
-        feeError.visibility = View.GONE
-        fee.setTextColor(ContextCompat.getColor(this, R.color.common_text_color))
     }
 
     override fun updateUI(shouldShowParams: Boolean) {
@@ -129,6 +138,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         btnSend.setOnClickListener(null)
         token.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
+        fee.onFocusChangeListener = null
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -142,11 +152,5 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amountError.text = errorString
         amount.setTextColor(ContextCompat.getColorStateList(this, R.color.text_color_selector))
         amount.isStateError = true
-    }
-
-    private fun configFeeError(errorString: String) {
-        feeError.visibility = View.VISIBLE
-        feeError.text = errorString
-        fee.setTextColor(ContextCompat.getColor(this, R.color.common_error_color))
     }
 }

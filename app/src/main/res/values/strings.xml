@@ -171,4 +171,5 @@
     <string name="send_amount_empty_error">Amount field can\'t be empty</string>
     <string name="send_amount_zero_error">Amount can\'t be 0</string>
     <string name="send_amount_overflow_error">Maximum available amount is %1$s</string>
+    <string name="send_zero_fee">0</string>
 </resources>
