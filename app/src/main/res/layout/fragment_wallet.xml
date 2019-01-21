@@ -33,6 +33,7 @@
 
     <!--Available card-->
     <android.support.v7.widget.CardView
+        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/availableLayout"
         style="@style/wallet_card_style"
         android:layout_marginTop="@dimen/wallet_available_margin_top"
@@ -48,6 +49,7 @@
             android:padding="@dimen/wallet_card_padding">
 
             <TextView
+                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/availableTitle"
                 style="@style/wallet_card_title_style"
                 android:text="@string/wallet_available"
@@ -64,6 +66,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/icAvailableCurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,6 +99,7 @@
 
     <!--In progress card-->
     <android.support.v7.widget.CardView
+        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/inProgressLayout"
         style="@style/wallet_card_style"
         android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
@@ -111,6 +115,8 @@
             android:padding="@dimen/wallet_card_padding">
 
             <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/inProgressTitle"
                 style="@style/wallet_card_title_style"
                 android:text="@string/wallet_in_progress"
