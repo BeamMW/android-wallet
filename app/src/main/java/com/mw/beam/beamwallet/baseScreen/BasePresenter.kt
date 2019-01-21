@@ -10,6 +10,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     private lateinit var disposable: CompositeDisposable
     private lateinit var nodeConnectionSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
+    private lateinit var syncProgressUpdatedSubscription: Disposable
 
     override fun onCreate() {
     }
@@ -62,6 +63,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             view?.configStatus(false)
+        }
+
+        syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
+            view?.configStatus(it.done == it.total)
         }
     }
 

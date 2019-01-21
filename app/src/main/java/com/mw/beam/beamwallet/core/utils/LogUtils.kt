@@ -1,7 +1,5 @@
 package com.mw.beam.beamwallet.core.utils
 
-import com.mw.beam.beamwallet.BuildConfig
-
 /**
  * Created by vain onnellinen on 10/1/18.
  */
@@ -12,9 +10,9 @@ object LogUtils {
     const val LOG_RESPONSE = "Response"
 
     fun log(message: String) {
-        if (BuildConfig.DEBUG) {
+       // if (BuildConfig.DEBUG) {
             android.util.Log.e(LOG_TAG, message)
-        }
+       // }
     }
 
     fun <T> logResponse(result: T, responseName: String) {

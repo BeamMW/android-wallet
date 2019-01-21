@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.baseScreen
 
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -21,6 +22,10 @@ open class BaseRepository : MvpRepository {
 
     override fun getNodeConnectionFailed(): Subject<Any> {
         return getResult({}, WalletListener.subOnNodeConnectionFailed, object {}.javaClass.enclosingMethod.name)
+    }
+
+    override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
+        return getResult({}, WalletListener.subOnSyncProgressUpdated, object {}.javaClass.enclosingMethod.name)
     }
 
     fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String): Subject<T> {
