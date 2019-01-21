@@ -52,7 +52,7 @@ object WalletListener {
             ?: emptyList(), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAdrresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), object {}.javaClass.enclosingMethod.name)
