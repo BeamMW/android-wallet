@@ -19,13 +19,14 @@ interface SendContract {
         fun updateUI(shouldShowParams: Boolean)
         fun hasErrors(availableAmount : Long) : Boolean
         fun clearErrors()
+        fun clearToken(clearedToken : String?)
         fun init()
         fun close()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSend()
-        fun onTokenChanged(isTokenEmpty: Boolean)
+        fun onTokenChanged(rawToken : String?)
         fun onAmountChanged()
     }
 

@@ -46,7 +46,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         tokenWatcher = object : TextWatcher {
             override fun afterTextChanged(token: Editable?) {
-                presenter.onTokenChanged(token.isNullOrBlank())
+                presenter.onTokenChanged(token.toString())
             }
         }
         token.addTextChangedListener(tokenWatcher)
@@ -94,6 +94,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
 
         return hasErrors
+    }
+
+    override fun clearToken(clearedToken: String?) {
+        token.setText(clearedToken)
     }
 
     override fun clearErrors() {

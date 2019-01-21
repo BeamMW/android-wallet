@@ -11,6 +11,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
+    private val tokenRegex = Regex("[^A-Za-z0-9]")
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -31,12 +32,20 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onTokenChanged(isTokenEmpty: Boolean) {
-        if (isTokenEmpty != state.isTokenEmpty) {
-            view?.updateUI(!isTokenEmpty)
-        }
+    override fun onTokenChanged(rawToken: String?) {
+        val clearedToken = rawToken?.replace(tokenRegex, "")
 
-        state.isTokenEmpty = isTokenEmpty
+        if (rawToken == clearedToken) {
+            val isTokenEmpty = rawToken.isNullOrEmpty()
+
+            if (isTokenEmpty != state.isTokenEmpty) {
+                view?.updateUI(!isTokenEmpty)
+            }
+
+            state.isTokenEmpty = isTokenEmpty
+        } else {
+            view?.clearToken(clearedToken)
+        }
     }
 
     override fun onAmountChanged() {
