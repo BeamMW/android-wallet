@@ -60,11 +60,16 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun hasErrors(availableAmount: Long): Boolean {
+        val feeAmount = try {
+            fee.text.toString().toLong().convertToBeam()
+        } catch (exception: NumberFormatException) {
+            0.0
+        }
         var hasErrors = false
         clearErrors()
 
         try {
-            if (amount.text.toString().toDouble() + fee.text.toString().toLong().convertToBeam() > availableAmount.convertToBeam()) {
+            if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
                 configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamWithCurrency()))
                 hasErrors = true
             }
@@ -75,11 +80,6 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         if (amount.text.isNullOrBlank()) {
             configAmountError(getString(R.string.send_amount_empty_error))
-            hasErrors = true
-        }
-
-        if (fee.text.isNullOrBlank()) {
-            configFeeError(getString(R.string.send_fee_empty_error))
             hasErrors = true
         }
 
