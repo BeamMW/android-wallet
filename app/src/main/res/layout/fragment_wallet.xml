@@ -67,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/icAvailableCurrency"
+                android:id="@+id/availableIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
@@ -87,14 +87,27 @@
                 android:paddingEnd="@dimen/wallet_available_text_padding_end"
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/wallet_available_text_size"
-                app:layout_constraintStart_toEndOf="@id/icAvailableCurrency"
-                app:layout_constraintTop_toBottomOf="@id/availableTitle" />
+                app:layout_constraintStart_toEndOf="@id/availableIcon"
+                app:layout_constraintTop_toBottomOf="@id/availableTitle"
+                tools:text="123.14" />
+
+            <ImageView
+                android:id="@+id/availableCurrency"
+                style="@style/common_currency_style"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/available"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/available"
+                app:layout_constraintTop_toTopOf="@id/available"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/currency_beam" />
 
             <android.support.constraint.Group
                 android:id="@+id/availableGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="icAvailableCurrency, available" />
+                app:constraint_referenced_ids="availableIcon, available, availableCurrency" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -157,9 +170,11 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/received_color"
                 android:textSize="@dimen/wallet_available_text_size"
-                app:layout_constraintEnd_toEndOf="@id/receivingTitle"
+                app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/receivingTitle"
-                app:layout_constraintTop_toBottomOf="@id/receivingTitle" />
+                app:layout_constraintTop_toBottomOf="@id/receivingTitle"
+                tools:text="123.12" />
 
             <ImageView
                 android:id="@+id/receivingIcon"
@@ -172,11 +187,23 @@
                 app:layout_constraintTop_toBottomOf="@id/receiving"
                 app:srcCompat="@drawable/ic_receiving" />
 
+            <ImageView
+                android:id="@+id/receivingCurrency"
+                style="@style/common_currency_style"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/receiving"
+                app:layout_constraintEnd_toEndOf="@id/receivingTitle"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/receiving"
+                app:layout_constraintTop_toTopOf="@id/receiving"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/currency_beam_receive" />
+
             <android.support.constraint.Group
                 android:id="@+id/receivingGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="receivingTitle,receiving,receivingIcon" />
+                app:constraint_referenced_ids="receivingTitle,receiving,receivingIcon, receivingCurrency" />
 
             <!--Sending-->
             <TextView
@@ -200,9 +227,11 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/send_selector"
                 android:textSize="@dimen/wallet_available_text_size"
-                app:layout_constraintEnd_toEndOf="@id/sendingTitle"
+                app:layout_constraintEnd_toStartOf="@id/sendingCurrency"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/sendingTitle"
-                app:layout_constraintTop_toBottomOf="@id/sendingTitle" />
+                app:layout_constraintTop_toBottomOf="@id/sendingTitle"
+                tools:text="123.12" />
 
             <ImageView
                 android:id="@+id/sendingIcon"
@@ -215,11 +244,23 @@
                 app:layout_constraintTop_toBottomOf="@id/sending"
                 app:srcCompat="@drawable/ic_sending" />
 
+            <ImageView
+                android:id="@+id/sendingCurrency"
+                style="@style/common_currency_style"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/sending"
+                app:layout_constraintEnd_toEndOf="@id/sendingTitle"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/sending"
+                app:layout_constraintTop_toTopOf="@id/sending"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/currency_beam_send" />
+
             <android.support.constraint.Group
                 android:id="@+id/sendingGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="sending,sendingTitle,sendingIcon" />
+                app:constraint_referenced_ids="sending,sendingTitle,sendingIcon, sendingCurrency" />
 
             <!--Maturing-->
             <TextView
@@ -244,9 +285,11 @@
                 android:fontFamily="sans-serif"
                 android:textColor="@color/common_text_color"
                 android:textSize="@dimen/wallet_available_text_size"
-                app:layout_constraintEnd_toEndOf="@id/maturingTitle"
+                app:layout_constraintEnd_toStartOf="@id/maturingCurrency"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/maturingTitle"
-                app:layout_constraintTop_toBottomOf="@id/maturingTitle" />
+                app:layout_constraintTop_toBottomOf="@id/maturingTitle"
+                tools:text="123.15" />
 
             <ImageView
                 android:id="@+id/maturingIcon"
@@ -258,6 +301,18 @@
                 app:layout_constraintStart_toStartOf="@id/maturingTitle"
                 app:layout_constraintTop_toBottomOf="@id/maturing"
                 app:srcCompat="@drawable/ic_maturing" />
+
+            <ImageView
+                android:id="@+id/maturingCurrency"
+                style="@style/common_currency_style"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/maturing"
+                app:layout_constraintEnd_toEndOf="@id/maturingTitle"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/maturing"
+                app:layout_constraintTop_toTopOf="@id/maturing"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/currency_beam" />
 
             <android.support.constraint.Group
                 android:id="@+id/maturingGroup"

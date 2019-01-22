@@ -37,6 +37,8 @@ import kotlinx.android.synthetic.main.item_transaction.*
 class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
+    private val sentBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_send)
+    private val receivedBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_receive)
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val completedStatus = context.getString(R.string.wallet_status_completed)
     private val inProgressStatus = context.getString(R.string.wallet_status_in_progress)
@@ -51,6 +53,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
     private val sendText = context.getString(R.string.wallet_transactions_send)
     private val swapText = context.getString(R.string.wallet_transactions_swap)
+    private val currencyBeam = context.getString(R.string.currency_beam)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
@@ -66,12 +69,14 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                 TxSender.RECEIVED -> {
                     sum.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
-                    message.text = String.format(receiveText, "BEAM") //TODO replace when multiply currency will be available
+                    currency.setImageDrawable(receivedBeamCurrency)
+                    message.text = String.format(receiveText, currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
                 }
                 TxSender.SENT -> {
                     sum.setTextColor(sentColor)
                     status.setTextColor(sentColor)
-                    message.text = String.format(sendText, "BEAM") //TODO replace when multiply currency will be available
+                    currency.setImageDrawable(sentBeamCurrency)
+                    message.text = String.format(sendText, currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
                 }
             }
 

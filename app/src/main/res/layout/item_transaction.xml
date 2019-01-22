@@ -66,8 +66,20 @@
         android:paddingEnd="@dimen/wallet_currency_padding"
         android:textSize="@dimen/transaction_sum_text_size"
         app:layout_constraintBottom_toTopOf="@id/status"
+        app:layout_constraintEnd_toStartOf="@id/currency"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="123.12" />
+
+    <ImageView
+        android:id="@+id/currency"
+        style="@style/common_currency_style"
+        android:contentDescription="@null"
+        app:srcCompat="@drawable/currency_beam"
+        app:layout_constraintBottom_toBottomOf="@id/sum"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintTop_toTopOf="@id/sum"
+        app:layout_constraintVertical_bias="0" />
 
     <TextView
         android:id="@+id/status"

@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_send.*
 
@@ -96,11 +96,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         try {
             if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamWithCurrency()))
+                configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString()))
                 hasErrors = true
             }
         } catch (exception: NumberFormatException) {
-            configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamWithCurrency()))
+            configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString()))
             hasErrors = true
         }
 

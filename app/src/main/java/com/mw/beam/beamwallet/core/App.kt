@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.core
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
@@ -45,7 +46,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics())
+        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

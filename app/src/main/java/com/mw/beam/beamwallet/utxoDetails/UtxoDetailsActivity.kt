@@ -32,7 +32,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
@@ -66,12 +66,21 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
                     amount.setTextColor(this)
                     status.setTextColor(this)
                 }
+                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_receive))
             }
-            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent, UtxoStatus.Unavailable -> {
+            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> {
                 ContextCompat.getColor(this, R.color.sent_color).apply {
                     amount.setTextColor(this)
                     status.setTextColor(this)
                 }
+                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_send))
+            }
+            UtxoStatus.Unavailable -> {
+                ContextCompat.getColor(this, R.color.common_text_color).apply {
+                    amount.setTextColor(this)
+                    status.setTextColor(this)
+                }
+                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam))
             }
         }
 
@@ -95,8 +104,8 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
             }
         }
 
-        amount.text = utxo.amount.convertToBeamWithCurrency()
-       // id.text = utxo.id.toString() //TODO implement correct id from API
+        amount.text = utxo.amount.convertToBeamString()
+        // id.text = utxo.id.toString() //TODO implement correct id from API
     }
 
     private fun configUtxoDetails(utxo: Utxo) {

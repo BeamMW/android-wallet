@@ -56,11 +56,13 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             TxSender.RECEIVED -> {
                 sum.setTextColor(ContextCompat.getColor(this, R.color.received_color))
                 status.setTextColor(ContextCompat.getColor(this, R.color.received_color))
+                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_receive))
                 message.text = String.format(getString(R.string.wallet_transactions_receive), "BEAM") //TODO replace when multiply currency will be available
             }
             TxSender.SENT -> {
                 sum.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
                 status.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
+                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_send))
                 message.text = String.format(getString(R.string.wallet_transactions_send), "BEAM") //TODO replace when multiply currency will be available
             }
         }
