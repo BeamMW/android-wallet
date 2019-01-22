@@ -4,6 +4,8 @@
 [twitter](https://twitter.com/beamprivacy) | [medium](https://medium.com/beam-mw) | [reddit](https://www.reddit.com/r/beamprivacy/) | [beam forum](http://forum.beam-mw.com) | [gitter](https://gitter.im/beamprivacy/Lobby) | [telegram](https://t.me/BeamPrivacy) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
 </p>
 
+Beam documentation is located here: https://documentation.beam.mw
+
 # Roadmap
 
 - January 2019     : Tesnet 1 // All devices support, Create, Send, Recieve, UTXO screen
