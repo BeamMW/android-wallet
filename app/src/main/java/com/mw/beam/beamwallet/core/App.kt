@@ -18,6 +18,14 @@ package com.mw.beam.beamwallet.core
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
+import com.elvishew.xlog.LogConfiguration
+import com.elvishew.xlog.LogLevel
+import com.elvishew.xlog.XLog
+import com.elvishew.xlog.flattener.PatternFlattener
+import com.elvishew.xlog.printer.file.FilePrinter
+import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
+import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
+import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.squareup.leakcanary.LeakCanary
@@ -47,10 +55,23 @@ class App : Application() {
 
         self = this
         AppConfig.DB_PATH = filesDir.absolutePath
+        AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.LOCALE = Locale.getDefault()
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(self)
         }
+
+        XLog.init(LogConfiguration.Builder()
+                .logLevel(LogLevel.ALL)
+                .tag(AppConfig.APP_TAG)
+                .build(),
+                FilePrinter
+                        .Builder(AppConfig.LOG_PATH)
+                        .fileNameGenerator(DateFileNameGenerator())
+                        .backupStrategy(NeverBackupStrategy())
+                        .cleanStrategy(FileLastModifiedCleanStrategy(AppConfig.LOG_CLEAN_TIME))
+                        .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
+                        .build())
     }
 }

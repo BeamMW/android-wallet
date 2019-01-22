@@ -24,7 +24,14 @@ import com.mw.beam.beamwallet.baseScreen.MvpView
  * Created by vain onnellinen on 1/21/19.
  */
 interface SettingsContract {
-    interface View : MvpView
-    interface Presenter : MvpPresenter<View>
+    interface View : MvpView {
+        fun init()
+        fun sendMailWithLogs()
+    }
+
+    interface Presenter : MvpPresenter<View> {
+        fun onReportProblem()
+    }
+
     interface Repository : MvpRepository
 }

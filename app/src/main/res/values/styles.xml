@@ -34,6 +34,18 @@
         <item name="android:layout_marginEnd">@dimen/common_button_margin</item>
     </style>
 
+    <style name="common_card_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="common_menu_item" parent="common_text_big_light">
+        <item name="android:textSize">@dimen/common_settings_size</item>
+    </style>
+
     <style name="common_header_big">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/common_text_color</item>
@@ -95,14 +107,6 @@
     </style>
 
     <!-- WalletFragment -->
-    <style name="wallet_card_style">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginStart">@dimen/common_margin</item>
-        <item name="android:layout_marginEnd">@dimen/common_margin</item>
-        <item name="android:background">@color/colorPrimary</item>
-    </style>
-
     <style name="wallet_card_title_style" parent="common_header_big">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>

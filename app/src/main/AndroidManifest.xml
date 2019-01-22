@@ -41,6 +41,16 @@
             android:name=".utxoDetails.UtxoDetailsActivity"
             android:screenOrientation="portrait" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.mw.beam.beamwallet.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a1b807ba21d77b7a801d4c9674b93d0e4f26b21d" />

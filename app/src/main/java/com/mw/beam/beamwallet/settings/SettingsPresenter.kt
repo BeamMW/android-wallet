@@ -25,6 +25,15 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
+
+    override fun onReportProblem() {
+        view?.sendMailWithLogs()
+    }
+
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true
 }

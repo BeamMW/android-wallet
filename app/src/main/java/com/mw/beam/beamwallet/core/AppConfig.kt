@@ -23,9 +23,16 @@ import java.util.*
  * Created by vain onnellinen on 10/1/18.
  */
 object AppConfig {
+    const val APP_TAG = "BeamWallet"
+    const val LOG_CLEAN_TIME: Long = 259200000
+    const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
+    const val SHARE_TYPE = "text/plain"
+    const val SHARE_VALUE = "Logs"
+    const val AUTHORITY = "com.mw.beam.beamwallet.fileprovider"
+    const val SUPPORT_EMAIL = "tatsiana@beam-mw.com"
     var DB_PATH = ""
+    var LOG_PATH = ""
     var DB_FILE_NAME = "wallet.db"
-    var DB_KEYS_NAME = "keys.bbs"
     var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
     var LOCALE: Locale = Locale.US
 
@@ -48,10 +55,6 @@ object AppConfig {
     }
 
     fun removeDatabase() {
-        val db = File(DB_PATH, DB_FILE_NAME)
-        val keys = File(DB_PATH, DB_KEYS_NAME)
-
-        db.delete()
-        keys.delete()
+        File(DB_PATH, DB_FILE_NAME).delete()
     }
 }
