@@ -22,7 +22,7 @@ Beam documentation is located here: https://documentation.beam.mw
 
 # Limitations in Tesnet 1
 - Restore is not supported
-- No Adresses and Settings screens and functionality
+- No Adresses and functionality
 - Known UI uncompleted issues
 
 # How to build
