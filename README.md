@@ -19,7 +19,7 @@ Can be installed on all devices Android OS Version 6 and higher
 Send and recieve transactions
 UTXO screen
 
-# Limitations ins Tesnet 1
+# Limitations in Tesnet 1
 Restore is not supported
 No Adresses and Settings screens and functionality
 Known UI uncompleted issues
