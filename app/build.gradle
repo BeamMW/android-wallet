@@ -44,6 +44,10 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
+crashlytics {
+    enableNdk true
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
@@ -74,6 +78,9 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-web:$ver_espresso"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$ver_espresso"
     androidTestImplementation "com.agoda.kakao:kakao:$ver_kakao"
+    implementation ("com.crashlytics.sdk.android:crashlytics-ndk:$ver_crashlytics_ndk") {
+        transitive = true
+    }
     implementation("com.crashlytics.sdk.android:crashlytics:$ver_crashlytics") {
         transitive = true
     }

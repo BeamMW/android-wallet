@@ -12,6 +12,7 @@
     <dimen name="common_settings_size">16sp</dimen>
     <dimen name="common_card_corner_radius">10dp</dimen>
     <dimen name="common_card_padding">20dp</dimen>
+    <dimen name="common_currency_offset">8dp</dimen>
     <dimen name="toolbar_title_text_size">18sp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
     <dimen name="toolbar_padding_bottom">10dp</dimen>

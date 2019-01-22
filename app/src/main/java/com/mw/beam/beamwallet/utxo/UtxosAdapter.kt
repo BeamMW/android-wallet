@@ -25,7 +25,7 @@ import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithCurrency
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_utxo.*
 
@@ -34,6 +34,9 @@ import kotlinx.android.synthetic.main.item_utxo.*
  */
 class UtxosAdapter(private val context: Context, private var data: List<Utxo>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
+    private val sentBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_send)
+    private val receivedBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_receive)
+    private val unavailableBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam)
     private val spentStatus = context.getString(R.string.utxo_status_spent)
     private val inProgressStatus = context.getString(R.string.utxo_status_in_progress)
     private val incomingStatus = context.getString(R.string.utxo_status_incoming)
@@ -64,14 +67,17 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
                 UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> {
                     amount.setTextColor(receivedColor)
                     status.setTextColor(receivedColor)
+                    currency.setImageDrawable(receivedBeamCurrency)
                 }
                 UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> {
                     amount.setTextColor(sentColor)
                     status.setTextColor(sentColor)
+                    currency.setImageDrawable(sentBeamCurrency)
                 }
                 UtxoStatus.Unavailable -> {
                     amount.setTextColor(unavailableColor)
                     status.setTextColor(unavailableColor)
+                    currency.setImageDrawable(unavailableBeamCurrency)
                 }
             }
 
@@ -96,8 +102,8 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
             }
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
-            amount.text = utxo.amount.convertToBeamWithCurrency()
-          //  id.text = utxo.id.toString() //TODO implement correct id from API
+            amount.text = utxo.amount.convertToBeamString()
+            //  id.text = utxo.id.toString() //TODO implement correct id from API
         }
     }
 
