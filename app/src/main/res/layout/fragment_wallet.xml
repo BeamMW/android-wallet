@@ -14,9 +14,9 @@
         app:button_icon="@drawable/ic_btn_receive"
         app:button_state_list="@color/receive_selector"
         app:button_text="@string/wallet_btn_receive"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnSend"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnSend"
@@ -26,19 +26,19 @@
         app:button_icon="@drawable/ic_btn_send"
         app:button_state_list="@color/send_selector"
         app:button_text="@string/wallet_btn_send"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="@id/btnReceive" />
+        app:layout_constraintStart_toEndOf="@id/btnReceive"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--Available card-->
     <android.support.v7.widget.CardView
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/availableLayout"
-        style="@style/wallet_card_style"
+        style="@style/common_card_style"
         android:layout_marginTop="@dimen/wallet_available_margin_top"
         android:animateLayoutChanges="true"
         app:cardCornerRadius="@dimen/common_card_corner_radius"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnReceive">
 
         <android.support.constraint.ConstraintLayout
@@ -46,13 +46,14 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:background="@color/colorPrimary"
-            android:padding="@dimen/wallet_card_padding">
+            android:padding="@dimen/common_card_padding">
 
             <TextView
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/availableTitle"
                 style="@style/wallet_card_title_style"
                 android:text="@string/wallet_available"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
 
             <View
@@ -66,13 +67,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/icAvailableCurrency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
                 android:src="@drawable/ic_beam"
                 app:layout_constraintBottom_toBottomOf="@id/available"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/available" />
 
             <TextView
@@ -99,12 +100,12 @@
 
     <!--In progress card-->
     <android.support.v7.widget.CardView
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/inProgressLayout"
-        style="@style/wallet_card_style"
+        style="@style/common_card_style"
         android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
         android:animateLayoutChanges="true"
         app:cardCornerRadius="@dimen/common_card_corner_radius"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/availableLayout">
 
         <android.support.constraint.ConstraintLayout
@@ -112,14 +113,14 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:background="@color/colorPrimary"
-            android:padding="@dimen/wallet_card_padding">
+            android:padding="@dimen/common_card_padding">
 
             <TextView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/inProgressTitle"
                 style="@style/wallet_card_title_style"
                 android:text="@string/wallet_in_progress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
 
             <View

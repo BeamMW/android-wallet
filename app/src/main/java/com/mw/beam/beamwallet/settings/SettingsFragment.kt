@@ -16,12 +16,19 @@
 
 package com.mw.beam.beamwallet.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.support.v4.content.FileProvider
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.baseScreen.BaseFragment
 import com.mw.beam.beamwallet.baseScreen.BasePresenter
 import com.mw.beam.beamwallet.baseScreen.MvpRepository
 import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.core.AppConfig
+import kotlinx.android.synthetic.main.fragment_settings.*
+import java.io.File
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -36,6 +43,40 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings_title)
+
+    override fun init() {
+        appVersion.text = BuildConfig.VERSION_NAME
+    }
+
+    override fun sendMailWithLogs() {
+        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
+        shareIntent.type = AppConfig.SHARE_TYPE
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, AppConfig.SHARE_VALUE)
+        shareIntent.putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+
+        val uris = ArrayList<Uri>()
+        val files = File(AppConfig.LOG_PATH).listFiles()
+
+        files.asIterable().forEach {
+            uris.add(FileProvider.getUriForFile(context
+                    ?: return, AppConfig.AUTHORITY, File(AppConfig.LOG_PATH, it.name)))
+        }
+
+        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.settings_send_logs_description)))
+    }
+
+    override fun addListeners() {
+        reportProblem.setOnClickListener {
+            presenter.onReportProblem()
+        }
+    }
+
+    override fun clearListeners() {
+        reportProblem.setOnClickListener(null)
+    }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = SettingsPresenter(this, SettingsRepository())

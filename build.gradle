@@ -8,6 +8,7 @@ buildscript {
     ext.ver_fabric_gradle = '1.25.4'
     ext.ver_support = '28.0.0'
     ext.ver_holycycle = '0.1.0' //https://github.com/restorer/holycycle
+    ext.ver_xlog = '1.6.1' //https://github.com/elvishew/xLog
     ext.ver_junit = '4.12'
     ext.ver_espresso = '3.0.2'
     ext.ver_test_runner = '1.0.2'

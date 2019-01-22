@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.core.utils
 
+import com.elvishew.xlog.XLog
+
 /**
  * Created by vain onnellinen on 10/1/18.
  */
@@ -26,9 +28,10 @@ object LogUtils {
     const val LOG_RESPONSE = "Response"
 
     fun log(message: String) {
-       // if (BuildConfig.DEBUG) {
-            android.util.Log.e(LOG_TAG, message)
-       // }
+        // if (BuildConfig.DEBUG) {
+        android.util.Log.e(LOG_TAG, message)
+        // }
+        XLog.e(message)
     }
 
     fun <T> logResponse(result: T, responseName: String) {

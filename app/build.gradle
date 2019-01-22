@@ -58,6 +58,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$ver_rx_java"
     implementation "com.github.restorer:holycycle:$ver_holycycle"
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
+    implementation "com.elvishew:xlog:$ver_xlog"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
