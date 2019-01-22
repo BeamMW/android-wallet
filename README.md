@@ -12,8 +12,6 @@
 - February 2019    : Tesnet 4 // Settings
 - March 2019       : Mainet
 
-
-
 # Current status
 - Tesnet 1 almost ready
 - Can be installed on all devices Android OS Version 6 and higher
@@ -25,12 +23,7 @@
 - No Adresses and Settings screens and functionality
 - Known UI uncompleted issues
 
-
-
-
 # How to build
-
-
 
 # Build status
 
