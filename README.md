@@ -1,29 +1,34 @@
-<p align="center">
-  <img width="100" height="100" src="https://www.beam.mw/themes/beam/assets/images/icons/logo.svg">
+![alt text](https://forum.beam-mw.com/uploads/beam_mw/original/1X/261e2a2eba2b6c8aadae678673f9e8e09a78f5cf.png "Beam Logo")
 
 [twitter](https://twitter.com/beamprivacy) | [medium](https://medium.com/beam-mw) | [reddit](https://www.reddit.com/r/beamprivacy/) | [beam forum](http://forum.beam-mw.com) | [gitter](https://gitter.im/beamprivacy/Lobby) | [telegram](https://t.me/BeamPrivacy) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
-</p>
 
-Beam documentation is located here: https://documentation.beam.mw
+Beam wallet mobile application allows to confidentially exchange funds anywhere you are.
+
+Read documentation [here](https://documentation.beam.mw).
+
+Things that make BEAM special include:
+
+* Users have complete control over privacy - a user decides which information will be available and to which parties, having complete control over his personal data in accordance to his will and applicable laws.
+* Confidentiality without penalty - in BEAM confidential transactions do not cause bloating of the blockchain, avoiding excessive computational overhead or penalty on performance or scalability while completely concealing the transaction value.
+* No trusted setup required
+* Blocks are mined using Equihash Proof-of-Work algorithm.
+* Limited emission using periodic halving.
+* No addresses are stored in the blockchain - no information whatsoever about either the sender or the receiver of a transaction is stored in the blockchain.
+* Superior scalability through compact blockchain size - using the “cut-through” feature of Mimblewimble makes the BEAM blockchain orders of magnitude smaller than any other blockchain implementation.
+* BEAM supports many transaction types such as escrow transactions, time locked transactions, atomic swaps and more.
 
 # Roadmap
-
-- January 2019     : Tesnet 1 // All devices support, Create, Send, Recieve, UTXO screen
-- February 2019    : Tesnet 2 // Restore, Fixes, screens
-- February 2019    : Tesnet 3 // Adresses
-- February 2019    : Tesnet 4 // Settings
-- March 2019       : Mainet
+- January 2019     : Tesnet 1 // Core functionality on all devices
+- February 2019    : Tesnet 2-4 // In-depth features and UX enhancements
+- March 2019       : Mainnet release
 
 # Current status
-- Tesnet 1 almost ready
-- Can be installed on all devices Android OS Version 6 and higher
-- Send and recieve transactions
-- UTXO screen
+- Create new wallet using seed phase
+- Send and receive BEAM
+- See transactions history and UTXO
 
-# Limitations in Tesnet 1
-- Restore is not supported
-- No Adresses and functionality
-- Known UI uncompleted issues
+# Known limitations and workarounds:
+- Restore flow is not implemented on mobile, yet the funds can be restored from the desktop wallet using the same seed the mobile wallet was created with
 
 # How to build
 
