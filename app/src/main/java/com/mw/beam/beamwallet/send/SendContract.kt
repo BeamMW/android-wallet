@@ -38,6 +38,8 @@ interface SendContract {
         fun clearToken(clearedToken : String?)
         fun init()
         fun close()
+        fun setAddressError()
+        fun clearAddressError()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -49,5 +51,6 @@ interface SendContract {
     interface Repository : MvpRepository {
         fun sendMoney(token: String, comment: String?, amount: Long, fee: Long)
         fun getWalletStatus(): Subject<WalletStatus>
+        fun checkAddress(address: String?) : Boolean
     }
 }
