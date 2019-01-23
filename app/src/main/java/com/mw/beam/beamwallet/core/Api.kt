@@ -31,4 +31,5 @@ object Api {
     external fun openWallet(nodeAddr: String, dbPath: String, pass: String): Wallet?
     external fun isWalletInitialized(dbPath: String): Boolean
     external fun createMnemonic(): Array<String>
+    external fun checkReceiverAddress(address: String?): Boolean
 }

@@ -27,7 +27,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
-    private val tokenRegex = Regex("[^A-Za-z0-9]")
+    private val tokenRegex = Regex("[^A-Fa-f0-9]")
     private val MAX_TOKEN_LENGTH = 80
 
     override fun onViewCreated() {
@@ -42,7 +42,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val comment = view?.getComment()
             val token = view?.getToken()
 
-            if (amount != null && fee != null && token != null) {
+            if (amount != null && fee != null && token != null && state.isTokenValid) {
                 repository.sendMoney(token, comment, amount.convertToGroth(), fee)
                 view?.close()
             }
@@ -61,6 +61,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             if (isTokenEmpty != state.isTokenEmpty) {
                 view?.updateUI(!isTokenEmpty)
+            }
+
+            if (!isTokenEmpty) {
+                if (repository.checkAddress(rawToken)) {
+                    view?.clearAddressError()
+                    state.isTokenValid = true
+                } else {
+                    view?.setAddressError()
+                    state.isTokenValid = false
+                }
+            } else {
+                state.isTokenValid = false
             }
 
             state.isTokenEmpty = isTokenEmpty

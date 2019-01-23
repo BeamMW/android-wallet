@@ -122,6 +122,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    override fun setAddressError() {
+        tokenError.visibility = View.VISIBLE
+    }
+
+    override fun clearAddressError() {
+        tokenError.visibility = View.GONE
+    }
+
     override fun clearToken(clearedToken: String?) {
         token.setText(clearedToken)
         token.setSelection(token.text.length)
@@ -143,6 +151,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         } else {
             //can't attach this view to the params because constraint group forbid to change visibility of it's children
             amountError.visibility = View.GONE
+            tokenError.visibility = View.GONE
         }
     }
 

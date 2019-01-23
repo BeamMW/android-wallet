@@ -24,4 +24,5 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 class SendState {
     var walletStatus : WalletStatus? = null
     var isTokenEmpty = true
+    var isTokenValid = true
 }
