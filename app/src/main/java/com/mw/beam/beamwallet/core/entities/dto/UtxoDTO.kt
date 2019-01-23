@@ -23,6 +23,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class UtxoDTO(val id: Long,
+                   val stringId : String,
                    val amount: Long,
                    val status: Int,
                    val createHeight: Long,

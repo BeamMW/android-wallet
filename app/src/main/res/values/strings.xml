@@ -117,12 +117,12 @@
 
     <!--UtxoDetailsFragment-->
     <string name="utxo_details_title">UTXO details</string>
-    <string name="utxo_transaction_details">Transaction details</string>
+    <string name="utxo_transaction_details">Utxo details</string>
     <string name="utxo_transaction_id">Transaction ID:</string>
     <string name="utxo_type">UTXO type:</string>
     <string name="utxo_completion_time">Completion time:</string>
     <string name="utxo_contact">Contact:</string>
-    <string name="utxo_transaction_history">Transaction history</string>
+    <string name="utxo_transaction_history">Utxo history</string>
     <string name="utxo_type_commission">Commission</string>
     <string name="utxo_type_coinbase">Coinbase</string>
     <string name="utxo_type_decoy">Decoy</string>

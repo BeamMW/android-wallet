@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -23,6 +24,8 @@
         app:layout_constraintTop_toBottomOf="@id/transactionLayout">
 
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/generalInfoTitle"
             style="@style/transaction_details_title"
             android:paddingTop="@dimen/transaction_details_title_padding_top"
@@ -30,6 +33,7 @@
             android:text="@string/transaction_details_general_info" />
 
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/startAddressTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/transaction_details_start_address"
@@ -42,6 +46,7 @@
             app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
 
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/endAddressTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/transaction_details_end_address"
@@ -54,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@id/startAddress" />
 
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/transactionFeeTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/transaction_details_transaction_fee"
@@ -66,6 +72,7 @@
             app:layout_constraintTop_toBottomOf="@id/endAddress" />
 
         <TextView
+            app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/commentTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/transaction_details_comment"

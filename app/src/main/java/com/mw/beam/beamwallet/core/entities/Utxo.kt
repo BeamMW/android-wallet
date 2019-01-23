@@ -30,6 +30,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Utxo(private val source: UtxoDTO) : Parcelable {
     val id: Long = source.id
+    val stringId: String = source.stringId.replaceFirst(Regex("^0+"), "")
     val amount: Long = source.amount
     val status: UtxoStatus = UtxoStatus.fromValue(source.status)
     val createHeight: Long = source.createHeight
