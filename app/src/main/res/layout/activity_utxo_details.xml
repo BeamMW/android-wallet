@@ -7,7 +7,8 @@
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/utxoLayout"
@@ -23,28 +24,32 @@
         app:layout_constraintTop_toBottomOf="@id/utxoLayout">
 
         <TextView
-            android:id="@+id/transactionDetailsTitle"
+            android:id="@+id/utxoDetailsTitle"
             style="@style/transaction_details_title"
             android:paddingTop="@dimen/transaction_details_title_padding_top"
             android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
-            android:text="@string/utxo_transaction_details" />
+            android:text="@string/utxo_transaction_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/transactionIdTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/utxo_transaction_id"
-            app:layout_constraintTop_toBottomOf="@id/transactionDetailsTitle" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/utxoDetailsTitle" />
 
         <TextView
             android:id="@+id/transactionId"
             style="@style/transaction_details_value"
             app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/transactionDetailsTitle" />
+            app:layout_constraintTop_toBottomOf="@id/utxoDetailsTitle" />
 
         <TextView
             android:id="@+id/utxoTypeTitle"
             style="@style/transaction_details_sub_title"
             android:text="@string/utxo_type"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/transactionId" />
 
         <TextView
@@ -58,6 +63,7 @@
             style="@style/transaction_details_sub_title"
             android:text="@string/utxo_completion_time"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/utxoType" />
 
         <TextView
@@ -72,6 +78,7 @@
             style="@style/transaction_details_sub_title"
             android:text="@string/utxo_contact"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/completionTime" />
 
         <TextView
@@ -82,10 +89,11 @@
             app:layout_constraintTop_toBottomOf="@id/completionTime" />
 
         <TextView
-            android:id="@+id/transactionHistoryTitle"
+            android:id="@+id/utxoHistoryTitle"
             style="@style/transaction_details_title"
             android:paddingTop="@dimen/transaction_details_title_padding_top"
             android:text="@string/utxo_transaction_history"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/contact" />
 
         <LinearLayout
@@ -93,7 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/transactionHistoryTitle" />
+            app:layout_constraintTop_toBottomOf="@id/utxoHistoryTitle" />
 
         <android.support.constraint.Barrier
             android:id="@+id/titlesBarrier"

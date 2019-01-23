@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:paddingTop="@dimen/utxo_item_offset_top"
-        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/label"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintHorizontal_bias="1"

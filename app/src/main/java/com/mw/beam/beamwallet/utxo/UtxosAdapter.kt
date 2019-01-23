@@ -103,7 +103,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()
-            //  id.text = utxo.id.toString() //TODO implement correct id from API
+            id.text = utxo.stringId
         }
     }
 

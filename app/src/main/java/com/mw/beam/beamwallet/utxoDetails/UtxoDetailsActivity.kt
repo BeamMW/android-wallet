@@ -105,7 +105,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
 
         amount.text = utxo.amount.convertToBeamString()
-        // id.text = utxo.id.toString() //TODO implement correct id from API
+        id.text = utxo.stringId
     }
 
     private fun configUtxoDetails(utxo: Utxo) {
