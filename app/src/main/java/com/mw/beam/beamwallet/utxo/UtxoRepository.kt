@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.utxo
 
-import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.listeners.WalletListener

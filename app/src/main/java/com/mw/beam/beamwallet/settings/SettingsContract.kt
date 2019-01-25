@@ -16,9 +16,9 @@
 
 package com.mw.beam.beamwallet.settings
 
-import com.mw.beam.beamwallet.baseScreen.MvpPresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.MvpPresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
  * Created by vain onnellinen on 1/21/19.

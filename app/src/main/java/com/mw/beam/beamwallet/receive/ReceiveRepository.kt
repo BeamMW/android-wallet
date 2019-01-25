@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.receive
 
-import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject

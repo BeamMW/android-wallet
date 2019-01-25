@@ -55,6 +55,8 @@ class BeamButton : LinearLayout {
             field = value
             if (field != Integer.MIN_VALUE) {
                 DrawableCompat.setTintList(this.background, ContextCompat.getColorStateList(context, field))
+            } else {
+                DrawableCompat.setTintList(this.background, ContextCompat.getColorStateList(context, R.color.accent_selector))
             }
         }
 

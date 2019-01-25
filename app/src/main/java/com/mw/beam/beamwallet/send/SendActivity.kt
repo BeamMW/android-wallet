@@ -20,10 +20,10 @@ import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.baseScreen.BaseActivity
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher

@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.send
 
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.convertToGroth
 import io.reactivex.disposables.Disposable
 

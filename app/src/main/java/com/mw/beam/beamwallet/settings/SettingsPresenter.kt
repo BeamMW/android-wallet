@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.settings
 
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
  * Created by vain onnellinen on 1/21/19.

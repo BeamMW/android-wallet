@@ -28,10 +28,10 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.baseScreen.BaseFragment
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseFragment
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
