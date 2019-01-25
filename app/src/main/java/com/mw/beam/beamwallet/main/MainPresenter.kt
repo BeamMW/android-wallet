@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.main
 
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 
 /**

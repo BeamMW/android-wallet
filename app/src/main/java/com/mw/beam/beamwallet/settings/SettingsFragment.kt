@@ -22,10 +22,10 @@ import android.os.Bundle
 import android.support.v4.content.FileProvider
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.baseScreen.BaseFragment
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseFragment
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File

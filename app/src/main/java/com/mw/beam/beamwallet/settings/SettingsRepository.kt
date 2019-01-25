@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.settings
 
-import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 
 /**
  * Created by vain onnellinen on 1/21/19.

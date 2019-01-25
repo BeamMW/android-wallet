@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.main
 
-import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**

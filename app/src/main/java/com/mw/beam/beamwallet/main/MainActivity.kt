@@ -24,18 +24,18 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.baseScreen.BaseActivity
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.receive.ReceiveActivity
 import com.mw.beam.beamwallet.send.SendActivity
 import com.mw.beam.beamwallet.settings.SettingsFragment
-import com.mw.beam.beamwallet.transactionDetails.TransactionDetailsActivity
+import com.mw.beam.beamwallet.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.utxo.UtxoFragment
-import com.mw.beam.beamwallet.utxoDetails.UtxoDetailsActivity
+import com.mw.beam.beamwallet.utxo_details.UtxoDetailsActivity
 import com.mw.beam.beamwallet.wallet.WalletFragment
 import kotlinx.android.synthetic.main.activity_main.*
 

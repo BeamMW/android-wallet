@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/initial_background">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/welcome_logo_width"
+        android:layout_height="@dimen/welcome_logo_height"
+        android:layout_marginTop="@dimen/welcome_logo_margin_top"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@id/logoText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/logoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/welcome_logo_text_margin_top"
+        android:fontFamily="@font/slogan_font"
+        android:text="@string/common_logo_text"
+        android:textColor="@color/logo_text_color"
+        android:textSize="@dimen/logo_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnRestore"
+        style="@style/common_button_style"
+        android:layout_marginTop="@dimen/welcome_button_margin_offset"
+        app:button_icon="@drawable/ic_btn_restore"
+        app:button_state_list="@color/primary_selector"
+        app:button_text="@string/welcome_restore"
+        app:button_text_color="@color/common_text_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoText" />
+</android.support.constraint.ConstraintLayout>

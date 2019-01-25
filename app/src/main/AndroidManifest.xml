@@ -18,11 +18,11 @@
             android:name=".main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".transactionDetails.TransactionDetailsActivity"
+            android:name=".transaction_details.TransactionDetailsActivity"
             android:label="@string/transaction_details_title"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".welcomeScreen.WelcomeActivity"
+            android:name=".welcome_screen.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,7 +38,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".utxoDetails.UtxoDetailsActivity"
+            android:name=".utxo_details.UtxoDetailsActivity"
             android:screenOrientation="portrait" />
 
         <provider

@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.wallet
 
-import com.mw.beam.beamwallet.baseScreen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.listeners.WalletListener

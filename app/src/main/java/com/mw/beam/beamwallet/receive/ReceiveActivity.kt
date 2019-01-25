@@ -23,10 +23,10 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.baseScreen.BaseActivity
-import com.mw.beam.beamwallet.baseScreen.BasePresenter
-import com.mw.beam.beamwallet.baseScreen.MvpRepository
-import com.mw.beam.beamwallet.baseScreen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.activity_receive.*
