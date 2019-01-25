@@ -34,4 +34,5 @@ data class TxDescriptionDTO(var id: ByteArray,
                             var createTime: Long,
                             var modifyTime: Long,
                             var sender: Boolean,
-                            var status: Int) : Parcelable
+                            var status: Int,
+                            var kernelId: String) : Parcelable

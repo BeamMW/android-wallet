@@ -39,9 +39,10 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
     val modifyTime: Long = source.modifyTime
     val sender: TxSender = TxSender.fromValue(source.sender)
     val status: TxStatus = TxStatus.fromValue(source.status)
+    val kernelId: String = source.kernelId
 
     override fun toString(): String {
-        return "TxDescription(id=$id amount=$amount fee=$fee status=${status.name} change=$change minHeight=$minHeight " +
+        return "TxDescription(id=$id amount=$amount fee=$fee status=${status.name} kernelId=$kernelId change=$change minHeight=$minHeight " +
                 "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender= ${sender.name})"
     }
 }
