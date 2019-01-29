@@ -144,6 +144,7 @@
     <string name="transaction_details_currencies_amount">Currencies amount:</string>
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
+    <string name="transaction_details_kernel_id">Kernel ID:</string>
     <string name="transaction_details_transaction_history">Transaction history</string>
 
     <!--ReceiveActivity-->

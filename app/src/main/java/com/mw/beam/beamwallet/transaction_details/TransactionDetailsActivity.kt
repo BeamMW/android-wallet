@@ -91,6 +91,8 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
 
         transactionFee.text = txDescription.fee.convertToBeamString()
+        kernel.text = txDescription.kernelId
+
         if (txDescription.message.isNotEmpty()) {
             comment.text = txDescription.message
             commentTitle.visibility = View.VISIBLE

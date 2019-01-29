@@ -142,7 +142,7 @@
 
     <style name="transaction_details_value" parent="common_text_big_light">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
     </style>
 </resources>
