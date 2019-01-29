@@ -25,16 +25,15 @@
     <string name="welcome_create_wallet">create new wallet</string>
     <string name="welcome_restore">restore wallet</string>
     <string name="welcome_login_to_another">login to another wallet</string>
-    <string name="welcome_generate_recovery_phrase">generate recovery phrase</string>
+    <string name="welcome_generate_seed_phrase">generate seed phrase</string>
     <string name="welcome_next">next</string>
     <string name="welcome_recover">restore wallet</string>
     <string name="welcome_copy_to_clipboard">copy</string>
     <string name="welcome_proceed_to_wallet">proceed to your wallet</string>
     <string name="welcome_title">Create new wallet</string>
-    <string name="welcome_restore_description">Type in or paste your recovery phrase</string>
-    <string name="welcome_description">Create new wallet with generating recovery phrase. If you ever lose your device, you will need this phrase to recover your wallet!</string>
-    <string name="welcome_no_see">Do not let anyone see your recovery phrase</string>
-    <string name="welcome_no_type">Never type your recovery phrase into password managers or elsewhere</string>
+    <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers, never save it in your local or remote folders in any form.</string>
+    <string name="welcome_no_see">Do not let anyone see your seed phrase</string>
+    <string name="welcome_no_type">Never type your seed phrase into password managers or elsewhere</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency</string>
     <string name="welcome_pass_hint">Password</string>
     <string name="welcome_forgot_pass">Forgot password?</string>
@@ -50,18 +49,19 @@
     <string name="welcome_open_description">Enter your password to access the wallet</string>
 
     <!--WelcomePhraseFragment-->
-    <string name="welcome_phrase_description">Your recovery phrase is the access key to all the cryptocurrencies in your wallet. Write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_phrase_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_phrase_copied_alert">Copied!</string>
-    <string name="welcome_phrase_title">Recovery phrase</string>
-    <string name="welcome_phrase_save_title">Save recovery phrase</string>
-    <string name="welcome_phrase_save_description">Please write the recovery phrase down. Storing it in a file makes it prone to cyber attacks and, therefore, less secure.</string>
+    <string name="welcome_phrase_title">Seed phrase</string>
+    <string name="welcome_phrase_save_title">Save seed phrase</string>
+    <string name="welcome_phrase_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
 
     <!--WelcomeConfirmFragment-->
-    <string name="welcome_validation_title">Confirm recovery phrase</string>
-    <string name="welcome_validation_description">To ensure the recovery phrase is written down, please fill-in the specific words below</string>
+    <string name="welcome_validation_title">Confirm seed phrase</string>
+    <string name="welcome_validation_description">To ensure the seed phrase is written down correctly, please fill in the specific words below</string>
 
     <!--WelcomeRestoreFragment-->
     <string name="welcome_restore_title">Restore wallet</string>
+    <string name="welcome_restore_description">Type in your seed phrase</string>
 
     <!--WelcomePasswordsFragment-->
     <string name="welcome_passwords_title">Password</string>

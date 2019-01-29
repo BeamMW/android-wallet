@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1c435b</color>
-    <color name="colorPrimaryPicked">#113951</color>
-    <color name="colorPrimaryDark">#032e49</color>
+    <!--Hidden till mainet-->
+    <!--<color name="colorPrimary">#1c435b</color>-->
+    <!--<color name="colorPrimaryPicked">#113951</color>-->
+    <!--<color name="colorPrimaryDark">#032e49</color>-->
+    <color name="colorPrimary">#342e41</color>
+    <color name="colorPrimaryPicked">#2c2638</color>
+    <color name="colorPrimaryDark">#1e172c</color>
     <color name="colorAccent">#00f6d2</color>
-    <color name="colorAccentPicked">#01c4a7</color>
+    <color name="colorAccentPicked">#8000f6d2</color>
     <color name="common_text_color">#ffffff</color>
     <color name="common_error_color">#ff625c</color>
     <color name="common_text_dark_color">#8da1ad</color>
     <color name="common_header_small_color">#60ffffff</color>
-    <color name="snack_bar_color">#0a4b66</color>
-    <color name="alert_dialog_color">#0a4b66</color>
+    <color name="snack_bar_color">@color/colorPrimary</color>
+    <color name="alert_dialog_color">@color/colorPrimary</color>
     <color name="alert_dialog_cancel_color">#8da1ad</color>
     <color name="status_bar_color">#33000000</color>
     <color name="toolbar_title_color">@color/common_text_color</color>
     <color name="toolbar_status_color">#8da1ad</color>
-    <color name="navigation_drawer_color">#02253c</color>
+    <!--<color name="navigation_drawer_color">#02253c</color>-->
+    <color name="navigation_drawer_color">#191226</color>
     <color name="received_color">#0bccf7</color>
     <color name="received_color_picked">#0ab1d6</color>
     <color name="sent_color">#da68f5</color>
@@ -33,15 +38,14 @@
 
     <!--WelcomePhraseFragment-->
     <color name="phrase_number_text_color">#80d8d8d8</color>
-    <color name="phrase_validated_number_text_color">#032e49</color>
+    <color name="phrase_validated_number_text_color">@color/colorPrimaryDark</color>
     <color name="phrase_error_number_text_color">@color/colorPrimaryDark</color>
 
     <!--WalletFragment-->
     <color name="transaction_common_status_color">@color/common_text_color</color>
     <color name="btn_drop_down_color">#8da1ad</color>
-    <color name="wallet_adapter_multiply_color">#0e3850</color>
-    <color name="wallet_adapter_not_multiply_color">@color/colorPrimary</color>
-
-    <!--TransactionDetails-->
-    <color name="transaction_details_background">#0e3850</color>
+    <!--<color name="wallet_adapter_multiply_color">#301c435b</color>-->
+    <!--<color name="wallet_adapter_not_multiply_color">#0e3850</color>-->
+    <color name="wallet_adapter_multiply_color">#292236</color>
+    <color name="wallet_adapter_not_multiply_color">#332d40</color>
 </resources>

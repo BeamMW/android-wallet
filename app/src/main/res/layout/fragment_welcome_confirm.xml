@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/description"
         style="@style/welcome_description_text_style"
         android:paddingStart="@dimen/welcome_description_side_offset"
@@ -33,6 +34,7 @@
         android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
         app:button_icon="@drawable/ic_btn_proceed"
         app:button_text="@string/welcome_next"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
