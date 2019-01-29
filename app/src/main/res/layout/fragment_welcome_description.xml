@@ -81,6 +81,6 @@
         android:layout_marginEnd="@dimen/welcome_description_button_side_offset"
         android:layout_marginBottom="@dimen/welcome_description_button_bottom_offset"
         app:button_icon="@drawable/ic_btn_generate"
-        app:button_text="@string/welcome_generate_recovery_phrase"
+        app:button_text="@string/welcome_generate_seed_phrase"
         app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

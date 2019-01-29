@@ -14,7 +14,8 @@
             android:paddingTop="@dimen/common_offset"
             android:text="@string/welcome_restore_description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <GridLayout
             android:id="@+id/phrasesLayout"
@@ -34,7 +35,8 @@
             android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
             app:button_icon="@drawable/ic_btn_recover"
             app:button_text="@string/welcome_recover"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
