@@ -128,19 +128,19 @@
         android:text="@string/receive_token_description"
         app:layout_constraintTop_toBottomOf="@id/token" />
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnShowQR"
-        android:layout_width="@dimen/wallet_button_width"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/receive_btn_margin"
-        android:layout_marginBottom="@dimen/receive_btn_margin"
-        app:button_icon="@drawable/ic_btn_qr"
-        app:button_state_list="@color/primary_selector"
-        app:button_text="@string/receive_btn_qr"
-        app:button_text_color="@color/common_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnCopyToken"
-        app:layout_constraintStart_toStartOf="parent" />
+    <!--<com.mw.beam.beamwallet.core.views.BeamButton-->
+        <!--android:id="@+id/btnShowQR"-->
+        <!--android:layout_width="@dimen/wallet_button_width"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="@dimen/receive_btn_margin"-->
+        <!--android:layout_marginBottom="@dimen/receive_btn_margin"-->
+        <!--app:button_icon="@drawable/ic_btn_qr"-->
+        <!--app:button_state_list="@color/primary_selector"-->
+        <!--app:button_text="@string/receive_btn_qr"-->
+        <!--app:button_text_color="@color/common_text_color"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toStartOf="@id/btnCopyToken"-->
+        <!--app:layout_constraintStart_toStartOf="parent" />-->
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnCopyToken"
@@ -154,5 +154,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="@id/btnShowQR" />
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

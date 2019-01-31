@@ -26,11 +26,8 @@ data class UtxoDTO(val id: Long,
                    val stringId : String,
                    val amount: Long,
                    val status: Int,
-                   val createHeight: Long,
                    val maturity: Long,
                    val keyType: Int,
                    val confirmHeight: Long,
-                   val confirmHash: ByteArray?,
-                   val lockHeight: Long,
-                   val createTxId: ByteArray?,
-                   val spentTxId: ByteArray?) : Parcelable
+                   val createTxId: String?,
+                   val spentTxId: String?) : Parcelable
