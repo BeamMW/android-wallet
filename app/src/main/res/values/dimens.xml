@@ -24,6 +24,7 @@
     <dimen name="alert_dialog_alert_padding">40dp</dimen>
     <dimen name="alert_dialog_title_padding">30dp</dimen>
     <dimen name="logo_text_size">16sp</dimen>
+    <dimen name="testnet_text_size">14sp</dimen>
 
     <!--WelcomeActivity-->
     <dimen name="welcome_button_text_padding_start">14dp</dimen>
@@ -34,6 +35,7 @@
     <dimen name="welcome_logo_height">142dp</dimen>
     <dimen name="welcome_logo_margin_top">98dp</dimen>
     <dimen name="welcome_logo_text_margin_top">30dp</dimen>
+    <dimen name="welcome_testnet_text_margin_top">40dp</dimen>
     <dimen name="welcome_passwords_padding">44dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
     <dimen name="welcome_passwords_description_padding_top">14dp</dimen>
