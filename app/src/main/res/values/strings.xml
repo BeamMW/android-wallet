@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Beam Wallet</string>
     <string name="common_logo_text">Scalable confidential cryptocurrency</string>
+    <string name="common_testnet">Testnet</string>
     <string name="common_successful">Done!</string>
     <string name="common_error">Ooops, something went wrong…</string>
     <string name="common_status_online">online</string>
