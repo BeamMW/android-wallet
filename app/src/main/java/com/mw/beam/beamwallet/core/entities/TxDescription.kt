@@ -19,7 +19,6 @@ import android.os.Parcelable
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.toHex
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -27,14 +26,14 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
-    val id: String = source.id.toHex()
+    val id: String = source.id
     val amount: Long = source.amount
     val fee: Long = source.fee
     val change: Long = source.change
     val minHeight: Long = source.minHeight
     val peerId: String = source.peerId.replaceFirst(Regex("^0+"), "")
     val myId: String = source.myId.replaceFirst(Regex("^0+"), "")
-    val message: String = String(source.message ?: ByteArray(0))
+    val message: String = source.message ?: ""
     val createTime: Long = source.createTime
     val modifyTime: Long = source.modifyTime
     val sender: TxSender = TxSender.fromValue(source.sender)

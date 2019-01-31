@@ -26,5 +26,4 @@ class WalletStatusDTO(val available: Long,
                       val updateLastTime: Long,
                       val updateDone: Int,
                       val updateTotal: Int,
-                      val system: SystemStateDTO) {
-}
+                      val system: SystemStateDTO)

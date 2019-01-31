@@ -23,14 +23,14 @@ import kotlinx.android.parcel.Parcelize
  * Created by vain onnellinen on 1/4/19.
  */
 @Parcelize
-data class TxDescriptionDTO(var id: ByteArray,
+data class TxDescriptionDTO(var id: String,
                             var amount: Long,
                             var fee: Long,
                             var change: Long,
                             var minHeight: Long,
                             var peerId: String,
                             var myId: String,
-                            var message: ByteArray?,
+                            var message: String?,
                             var createTime: Long,
                             var modifyTime: Long,
                             var sender: Boolean,
