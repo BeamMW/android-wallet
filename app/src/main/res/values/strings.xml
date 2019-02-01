@@ -158,7 +158,7 @@
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
     <string name="receive_token_title">My address:</string>
-    <string name="receive_token_description">Send this address to the sender over secure channel</string>
+    <string name="receive_token_description">Send this address to the sender over an external secure channel</string>
     <string-array name="receive_expires_periods">
         <item>24 hours</item>
         <item>Never</item>
@@ -166,7 +166,7 @@
 
     <!--SendActivity-->
     <string name="send_title">Send</string>
-    <string name="send_token_title">Send to:</string>
+    <string name="send_token_title">Send to</string>
     <string name="send_amount_title">Transaction amount</string>
     <string name="send_btn_title">send</string>
     <string name="send_amount_empty_error">Amount field can\'t be empty</string>
