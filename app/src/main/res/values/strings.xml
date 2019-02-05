@@ -30,7 +30,7 @@
     <string name="welcome_next">next</string>
     <string name="welcome_recover">restore wallet</string>
     <string name="welcome_copy_to_clipboard">copy</string>
-    <string name="welcome_proceed_to_wallet">proceed to your wallet</string>
+    <string name="welcome_proceed_to_wallet">start using your wallet</string>
     <string name="welcome_title">Create new wallet</string>
     <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers, never save it in your local or remote folders in any form.</string>
     <string name="welcome_no_see">Do not let anyone see your seed phrase</string>
@@ -63,6 +63,12 @@
     <!--WelcomeRestoreFragment-->
     <string name="welcome_restore_title">Restore wallet</string>
     <string name="welcome_restore_description">Type in your seed phrase</string>
+
+    <!--WelcomeProgressFragment-->
+    <string name="welcome_progress_create">Creating wallet</string>
+    <string name="welcome_progress_open">Loading wallet</string>
+    <string name="welcome_progress_restore">Restoring wallet</string>
+    <string name="welcome_progress_open_description">Scanning UTXO %1$d/%2$d</string>
 
     <!--WelcomePasswordsFragment-->
     <string name="welcome_passwords_title">Password</string>

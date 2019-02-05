@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.welcome_screen
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -27,12 +28,12 @@ interface WelcomeContract {
     interface View : MvpView {
         fun showOpenFragment()
         fun showDescriptionFragment()
-        fun showPasswordsFragment(phrases : Array<String>)
+        fun showPasswordsFragment(phrases: Array<String>)
         fun showPhrasesFragment()
         fun showRestoreFragment()
         fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
-        fun showProgressFragment()
+        fun showProgressFragment(mode: WelcomeMode)
         fun showMainActivity()
         fun finishNotRootTask()
     }
@@ -41,11 +42,11 @@ interface WelcomeContract {
         fun onCreateWallet()
         fun onRestoreWallet()
         fun onGeneratePhrase()
-        fun onOpenWallet()
+        fun onShowWallet()
+        fun onOpenWallet(mode: WelcomeMode)
         fun onChangeWallet()
-        fun onProceedToPasswords(phrases : Array<String>)
+        fun onProceedToPasswords(phrases: Array<String>)
         fun onProceedToValidation(phrases: Array<String>)
-        fun onProgress()
     }
 
     interface Repository : MvpRepository {

@@ -14,24 +14,14 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.core
+package com.mw.beam.beamwallet.welcome_screen.welcome_progress
 
-import java.util.*
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ * Created by vain onnellinen on 2/5/19.
  */
-object AppConfig {
-    const val APP_TAG = "BeamWallet"
-    const val LOG_CLEAN_TIME: Long = 259200000
-    const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
-    const val SHARE_TYPE = "text/plain"
-    const val SHARE_VALUE = "Logs"
-    const val AUTHORITY = "com.mw.beam.beamwallet.fileprovider"
-    const val SUPPORT_EMAIL = "tatsiana@beam-mw.com"
-    val DB_FILE_NAME = "wallet.db"
-    var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
-    var DB_PATH = ""
-    var LOG_PATH = ""
-    var LOCALE: Locale = Locale.US
+class WelcomeProgressState {
+    //TODO decide what should be by default (arguments == null), when all modes will be available
+    var mode : WelcomeMode = WelcomeMode.CREATE
 }

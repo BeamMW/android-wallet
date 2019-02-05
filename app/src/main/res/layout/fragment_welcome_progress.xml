@@ -2,43 +2,70 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/initial_background">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="@dimen/welcome_logo_width"
-        android:layout_height="@dimen/welcome_logo_height"
-        android:layout_marginTop="@dimen/welcome_logo_margin_top"
+        android:layout_width="@dimen/welcome_small_logo_width"
+        android:layout_height="@dimen/welcome_small_logo_height"
         android:contentDescription="@null"
-        app:layout_constraintBottom_toTopOf="@id/logoText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/logoText"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/welcome_logo_text_margin_top"
-        android:fontFamily="@font/slogan_font"
-        android:text="@string/common_logo_text"
-        android:textColor="@color/logo_text_color"
-        android:textSize="@dimen/logo_text_size"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/welcome_progress_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/description"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:paddingStart="@dimen/welcome_progress_description_side_offset"
+        android:paddingTop="@dimen/welcome_progress_description_top_offset"
+        android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/progress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="@dimen/welcome_progress_progress_size"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
+        android:progressDrawable="@drawable/progress_bar"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnRestore"
+        android:id="@+id/btnCancel"
         style="@style/common_button_style"
-        android:layout_marginTop="@dimen/welcome_button_margin_offset"
-        app:button_icon="@drawable/ic_btn_restore"
+        android:layout_width="@dimen/welcome_progress_btn_size"
+        android:layout_marginBottom="@dimen/welcome_progress_button_margin"
+        android:visibility="gone"
+        app:button_icon="@drawable/ic_btn_cancel"
         app:button_state_list="@color/primary_selector"
-        app:button_text="@string/welcome_restore"
+        app:button_text="@string/common_cancel"
         app:button_text_color="@color/common_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

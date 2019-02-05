@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.welcome_screen.welcome_passwords
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
@@ -40,10 +40,10 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, curr
 
     override fun onProceed() {
         if (view != null && !view!!.hasErrors()) {
-            if (AppConfig.Status.STATUS_OK == repository.createWallet(view?.getPass(), repository.phrases?.joinToString(separator = ";", postfix = ";"))) {
+            if (Status.STATUS_OK == repository.createWallet(view?.getPass(), repository.phrases?.joinToString(separator = ";", postfix = ";"))) {
                 view?.proceedToWallet()
             } else {
-                view?.showSnackBar(AppConfig.Status.STATUS_ERROR)
+                view?.showSnackBar(Status.STATUS_ERROR)
             }
         }
     }

@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.main.MainActivity
 import com.mw.beam.beamwallet.welcome_screen.welcome_confirm.WelcomeConfirmFragment
 import com.mw.beam.beamwallet.welcome_screen.welcome_create.WelcomeCreateFragment
@@ -57,18 +58,15 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeConfirmFragment.newInstance(phrases), WelcomeConfirmFragment.getFragmentTag(), null, false)
     override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
-    override fun showProgressFragment() = showFragment(WelcomeProgressFragment.newInstance(), WelcomeProgressFragment.getFragmentTag(), null, true)
+    override fun showProgressFragment(mode: WelcomeMode) = showFragment(WelcomeProgressFragment.newInstance(mode), WelcomeProgressFragment.getFragmentTag(), null, true)
 
-    override fun createWallet() = presenter.onCreateWallet()
+    override fun createWallet() = presenter.onCreateWallet() //calls from WelcomeCreateFragment
     override fun generatePhrase() = presenter.onGeneratePhrase()
-    override fun openWallet() = presenter.onOpenWallet()
+    override fun openWallet() = presenter.onOpenWallet(WelcomeMode.OPEN) //calls from WelcomeOpenFragment
     override fun restoreWallet() = presenter.onRestoreWallet()
-    override fun proceedToWallet() = presenter.onOpenWallet()
+    override fun proceedToWallet() = presenter.onOpenWallet(WelcomeMode.CREATE) //calls from WelcomePasswordsFragment
     override fun changeWallet() = presenter.onChangeWallet()
-
-    //TODO temporarily hidden during screen developing
-    //override fun showProgress() = presenter.onProgress()
-    override fun showProgress() = presenter.onOpenWallet()
+    override fun showWallet() = presenter.onShowWallet()
 
     override fun proceedToPasswords(phrases: Array<String>) = presenter.onProceedToPasswords(phrases)
     override fun proceedToValidation(phrases: Array<String>) = presenter.onProceedToValidation(phrases)

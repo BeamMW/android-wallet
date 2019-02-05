@@ -24,9 +24,9 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
     private lateinit var disposable: CompositeDisposable
-    private lateinit var nodeConnectionSubscription: Disposable
-    private lateinit var nodeConnectionFailedSubscription: Disposable
-    private lateinit var syncProgressUpdatedSubscription: Disposable
+    private var nodeConnectionSubscription: Disposable? = null
+    private var nodeConnectionFailedSubscription: Disposable? = null
+    private var syncProgressUpdatedSubscription: Disposable? = null
 
     override fun onCreate() {
     }
@@ -46,8 +46,17 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         }
 
         disposable.apply {
-            add(nodeConnectionSubscription)
-            add(nodeConnectionFailedSubscription)
+            if (nodeConnectionSubscription != null) {
+                add(nodeConnectionSubscription!!)
+            }
+
+            if (nodeConnectionFailedSubscription != null) {
+                add(nodeConnectionFailedSubscription!!)
+            }
+
+            if (syncProgressUpdatedSubscription != null) {
+                add(syncProgressUpdatedSubscription!!)
+            }
         }
 
         view?.addListeners()

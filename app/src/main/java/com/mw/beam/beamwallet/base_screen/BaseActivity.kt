@@ -25,6 +25,7 @@ import android.view.Gravity
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -65,7 +66,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, baseContext)
     }
 
-    override fun showSnackBar(status: AppConfig.Status) = delegate.showSnackBar(status, this)
+    override fun showSnackBar(status: Status) = delegate.showSnackBar(status, this)
     override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()

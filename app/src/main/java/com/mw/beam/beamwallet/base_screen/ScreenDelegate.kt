@@ -31,6 +31,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
  * Created by vain onnellinen on 12/4/18.
@@ -43,11 +44,11 @@ class ScreenDelegate {
         imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content)?.windowToken, 0)
     }
 
-    fun showSnackBar(status: AppConfig.Status, activity: SupportActivity) {
+    fun showSnackBar(status: Status, activity: SupportActivity) {
         showSnackBar(
                 when (status) {
-                    AppConfig.Status.STATUS_OK -> activity.getString(R.string.common_successful)
-                    AppConfig.Status.STATUS_ERROR -> activity.getString(R.string.common_error)
+                    Status.STATUS_OK -> activity.getString(R.string.common_successful)
+                    Status.STATUS_ERROR -> activity.getString(R.string.common_error)
                 }, activity
         )
     }

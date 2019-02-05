@@ -19,12 +19,19 @@ package com.mw.beam.beamwallet.welcome_screen.welcome_progress
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
 interface WelcomeProgressContract {
-    interface View : MvpView
+    interface View : MvpView {
+        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode)
+        fun getMode(): WelcomeMode?
+        fun showWallet()
+    }
+
     interface Presenter : MvpPresenter<View>
     interface Repository : MvpRepository
 }
