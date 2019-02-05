@@ -2,8 +2,8 @@
     <string name="app_name">Beam Wallet</string>
     <string name="common_logo_text">Scalable confidential cryptocurrency</string>
     <string name="common_testnet">Testnet</string>
-    <string name="common_successful">Done!</string>
-    <string name="common_error">Ooops, something went wrong…</string>
+    <string name="common_successful">done!</string>
+    <string name="common_error">Oops, something went wrong…</string>
     <string name="common_status_online">online</string>
     <string name="common_status_error">Cannot connect to node: %s</string>
     <string name="common_drawer_open">open</string>
@@ -32,22 +32,22 @@
     <string name="welcome_copy_to_clipboard">copy</string>
     <string name="welcome_proceed_to_wallet">start using your wallet</string>
     <string name="welcome_title">Create new wallet</string>
-    <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers, never save it in your local or remote folders in any form.</string>
-    <string name="welcome_no_see">Do not let anyone see your seed phrase</string>
-    <string name="welcome_no_type">Never type your seed phrase into password managers or elsewhere</string>
-    <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency</string>
+    <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers. Never save it in your local or remote folders in any form.</string>
+    <string name="welcome_no_see">Do not let anyone see your seed phrase.</string>
+    <string name="welcome_no_type">Never type your seed phrase into password managers or elsewhere.</string>
+    <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency.</string>
     <string name="welcome_pass_hint">Password</string>
     <string name="welcome_forgot_pass">Forgot password?</string>
     <string name="welcome_title_change_alert">Login to another wallet</string>
     <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
     <string name="welcome_btn_change_alert">Change wallet</string>
     <string name="welcome_title_forgot_alert">Forgot password</string>
-    <string name="welcome_forgot_alert">Your funds will be fully restored from the blockchain. The transaction history is stored locally and is encrypted with your password, hence it can\'t be restored.\n\nThat\'s the final version till the future validation and process.</string>
+    <string name="welcome_forgot_alert">Only your funds can be fully restored from the blockchain. The transaction history is stored locally and is encrypted with your password, hence it can\'t be restored.\n\nThat\'s the final version until the future validation and process.</string>
     <string name="welcome_btn_forgot_alert">Restore wallet</string>
 
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">open my wallet</string>
-    <string name="welcome_open_description">Enter your password to access the wallet</string>
+    <string name="welcome_open_description">Enter your password to access the wallet.</string>
 
     <!--WelcomePhraseFragment-->
     <string name="welcome_phrase_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
@@ -58,7 +58,7 @@
 
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirm seed phrase</string>
-    <string name="welcome_validation_description">To ensure the seed phrase is written down correctly, please fill in the specific words below</string>
+    <string name="welcome_validation_description">To ensure the seed phrase is written down correctly, please fill in the specific words below.</string>
 
     <!--WelcomeRestoreFragment-->
     <string name="welcome_restore_title">Restore wallet</string>
@@ -124,12 +124,12 @@
 
     <!--UtxoDetailsFragment-->
     <string name="utxo_details_title">UTXO details</string>
-    <string name="utxo_transaction_details">Utxo details</string>
+    <string name="utxo_transaction_details">UTXO details</string>
     <string name="utxo_transaction_id">Transaction ID:</string>
     <string name="utxo_type">UTXO type:</string>
     <string name="utxo_completion_time">Completion time:</string>
     <string name="utxo_contact">Contact:</string>
-    <string name="utxo_transaction_history">Utxo history</string>
+    <string name="utxo_transaction_history">UTXO history</string>
     <string name="utxo_type_commission">Commission</string>
     <string name="utxo_type_coinbase">Coinbase</string>
     <string name="utxo_type_decoy">Decoy</string>
@@ -148,7 +148,7 @@
     <string name="transaction_details_general_info">General transaction info</string>
     <string name="transaction_details_start_address">Start address:</string>
     <string name="transaction_details_end_address">End address:</string>
-    <string name="transaction_details_currencies_amount">Currencies amount:</string>
+    <string name="transaction_details_currencies_amount">Currency amount:</string>
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
     <string name="transaction_details_kernel_id">Kernel ID:</string>
@@ -159,7 +159,7 @@
     <string name="receive_switch_title">Swap</string>
     <string name="receive_send_comment">Comment</string>
     <string name="receive_expires_on">Expires</string>
-    <string name="receive_send_comment_description">Comments are local and won\'t be sent.</string>
+    <string name="receive_send_comment_description">Comments are local and won\'t be shared.</string>
     <string name="receive_btn_copy">copy token</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
