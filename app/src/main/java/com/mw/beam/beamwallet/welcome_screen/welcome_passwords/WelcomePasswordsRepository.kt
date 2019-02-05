@@ -20,6 +20,8 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -29,12 +31,12 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Repository {
     override var phrases: Array<String>? = null
 
-    override fun createWallet(pass: String?, phrases: String?): AppConfig.Status {
-        var result = AppConfig.Status.STATUS_ERROR
+    override fun createWallet(pass: String?, phrases: String?): Status {
+        var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && phrases != null) {
             if (Api.isWalletInitialized(AppConfig.DB_PATH)) {
-                AppConfig.removeDatabase()
+                removeDatabase()
             }
 
             App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
@@ -42,7 +44,7 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
             if (wallet != null) {
                 //TODO handle statuses of process
                 wallet!!.syncWithNode()
-                result = AppConfig.Status.STATUS_OK
+                result = Status.STATUS_OK
             }
         }
 

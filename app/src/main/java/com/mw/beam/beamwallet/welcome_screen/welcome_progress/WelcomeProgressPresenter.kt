@@ -17,13 +17,42 @@
 package com.mw.beam.beamwallet.welcome_screen.welcome_progress
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
-class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository)
+class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository, private val state: WelcomeProgressState)
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
+    private lateinit var syncProgressUpdatedSubscription: Disposable
+
+    override fun onCreate() {
+        super.onCreate()
+        state.mode = view?.getMode() ?: return
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
+            repository.wallet?.syncWithNode()
+        }
+    }
+
+    override fun initSubscriptions() {
+        syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
+            if (it.total == 0) {
+                view?.showWallet()
+            } else {
+                view?.updateProgress(it, state.mode)
+
+                if (it.done == it.total) {
+                    view?.showWallet()
+                }
+            }
+        }
+    }
 
     override fun hasBackArrow(): Boolean? = false
 }

@@ -5,7 +5,7 @@ buildscript {
     ext.ver_rx_java = '2.2.5' //https://github.com/ReactiveX/RxJava
     ext.ver_rx_android = '2.1.0' //https://github.com/ReactiveX/RxAndroid
     ext.ver_gradle = '3.2.1'
-    ext.ver_fabric_gradle = '1.25.4'
+    ext.ver_fabric_gradle = '1.27.1'
     ext.ver_support = '28.0.0'
     ext.ver_holycycle = '0.1.0' //https://github.com/restorer/holycycle
     ext.ver_xlog = '1.6.1' //https://github.com/elvishew/xLog

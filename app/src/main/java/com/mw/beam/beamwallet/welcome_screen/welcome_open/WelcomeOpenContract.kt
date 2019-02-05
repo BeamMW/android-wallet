@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.welcome_screen.welcome_open
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -47,6 +47,6 @@ interface WelcomeOpenContract {
     }
 
     interface Repository : MvpRepository {
-        fun openWallet(pass: String?): AppConfig.Status
+        fun openWallet(pass: String?): Status
     }
 }

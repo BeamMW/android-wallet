@@ -16,7 +16,7 @@
 package com.mw.beam.beamwallet.welcome_screen.welcome_restore
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.removeDatabase
 
 /**
  * Created by vain onnellinen on 11/5/18.
@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 class WelcomeRestoreRepository : BaseRepository(), WelcomeRestoreContract.Repository {
 
     override fun restoreWallet(): Boolean {
-        AppConfig.removeDatabase()
+        removeDatabase()
         return true
     }
 }

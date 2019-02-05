@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.welcome_screen.welcome_passwords
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
@@ -43,6 +43,6 @@ interface WelcomePasswordsContract {
 
     interface Repository : MvpRepository {
         var phrases : Array<String>?
-        fun createWallet(pass: String?, phrases : String?): AppConfig.Status
+        fun createWallet(pass: String?, phrases : String?): Status
     }
 }

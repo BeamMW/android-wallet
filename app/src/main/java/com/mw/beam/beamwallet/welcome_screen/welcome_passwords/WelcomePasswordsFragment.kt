@@ -68,7 +68,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
 
     override fun getPhrases(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
     override fun getPass(): String = pass.text?.trim().toString()
-    override fun proceedToWallet() = (activity as WelcomePasswordsHandler).showProgress()
+    override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
 
     override fun hasErrors(): Boolean {
         var hasErrors = false
@@ -130,6 +130,6 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
     }
 
     interface WelcomePasswordsHandler {
-        fun showProgress()
+        fun proceedToWallet()
     }
 }

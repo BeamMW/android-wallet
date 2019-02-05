@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.welcome_screen
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -48,8 +49,11 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
         view?.showPhrasesFragment()
     }
 
-    override fun onOpenWallet() {
-        view?.showMainActivity()
+    override fun onOpenWallet(mode: WelcomeMode) {
+        when (mode) {
+            WelcomeMode.OPEN -> view?.showProgressFragment(mode)
+            WelcomeMode.RESTORE, WelcomeMode.CREATE -> view?.showMainActivity()
+        }
     }
 
     override fun onProceedToPasswords(phrases: Array<String>) {
@@ -68,8 +72,8 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
         view?.showCreateFragment()
     }
 
-    override fun onProgress() {
-        view?.showProgressFragment()
+    override fun onShowWallet() {
+        view?.showMainActivity()
     }
 
     override fun hasBackArrow(): Boolean? = false

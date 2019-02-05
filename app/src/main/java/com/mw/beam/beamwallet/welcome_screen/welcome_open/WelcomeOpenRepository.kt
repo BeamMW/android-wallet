@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 
@@ -29,16 +30,15 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class WelcomeOpenRepository : BaseRepository(), WelcomeOpenContract.Repository {
 
-    override fun openWallet(pass: String?): AppConfig.Status {
-        var result = AppConfig.Status.STATUS_ERROR
+    override fun openWallet(pass: String?): Status {
+        var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
             App.wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
             if (wallet != null) {
                 //TODO handle statuses
-                wallet!!.syncWithNode()
-                result = AppConfig.Status.STATUS_OK
+                result = Status.STATUS_OK
             }
         }
 

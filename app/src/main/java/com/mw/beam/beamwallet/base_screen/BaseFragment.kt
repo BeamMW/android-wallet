@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.base_screen
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 
 
 /**
@@ -33,7 +33,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.hideKeyboard(activity ?: return)
     }
 
-    override fun showSnackBar(status: AppConfig.Status) {
+    override fun showSnackBar(status: Status) {
         delegate.showSnackBar(status, activity ?: return)
     }
 

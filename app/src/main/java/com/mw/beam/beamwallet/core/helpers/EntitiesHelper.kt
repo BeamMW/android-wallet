@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
+import com.mw.beam.beamwallet.core.AppConfig
+import java.io.File
 import java.text.DecimalFormat
 
 /**
@@ -121,4 +123,30 @@ enum class UtxoKeyType(val value: String) {
 
 enum class ExpirePeriod(val value: Long) {
     DAY(86400), NEVER(0)
+}
+
+enum class WelcomeMode {
+    OPEN, CREATE, RESTORE
+}
+
+enum class Status(val value: Int) {
+    STATUS_OK(0), STATUS_ERROR(-1);
+
+    companion object {
+        private val map: MutableMap<Int, Status> = java.util.HashMap()
+
+        init {
+            Status.values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int?): Status {
+            return map[type] ?: STATUS_ERROR
+        }
+    }
+}
+
+fun removeDatabase() {
+    File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
 }

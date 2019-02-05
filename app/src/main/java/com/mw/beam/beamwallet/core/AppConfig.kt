@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.core
 
-import java.io.File
 import java.util.*
 
 /**
@@ -30,31 +29,9 @@ object AppConfig {
     const val SHARE_VALUE = "Logs"
     const val AUTHORITY = "com.mw.beam.beamwallet.fileprovider"
     const val SUPPORT_EMAIL = "tatsiana@beam-mw.com"
+    val DB_FILE_NAME = "wallet.db"
+    var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
     var DB_PATH = ""
     var LOG_PATH = ""
-    var DB_FILE_NAME = "wallet.db"
-    var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
     var LOCALE: Locale = Locale.US
-
-    enum class Status(val value: Int) {
-        STATUS_OK(0), STATUS_ERROR(-1);
-
-        companion object {
-            private val map: MutableMap<Int, Status> = HashMap()
-
-            init {
-                Status.values().forEach {
-                    map[it.value] = it
-                }
-            }
-
-            fun fromValue(type: Int?): Status {
-                return map[type] ?: STATUS_ERROR
-            }
-        }
-    }
-
-    fun removeDatabase() {
-        File(DB_PATH, DB_FILE_NAME).delete()
-    }
 }

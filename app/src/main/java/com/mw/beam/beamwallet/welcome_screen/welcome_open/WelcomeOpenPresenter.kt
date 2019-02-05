@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.welcome_screen.welcome_open
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -30,7 +30,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.hideKeyboard()
 
         if (view != null && view!!.hasValidPass()) {
-            if (AppConfig.Status.STATUS_OK == repository.openWallet(view?.getPass())) {
+            if (Status.STATUS_OK == repository.openWallet(view?.getPass())) {
                 view?.openWallet()
             } else {
                 view?.showOpenWalletError()
