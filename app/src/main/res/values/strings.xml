@@ -14,13 +14,13 @@
     <string name="currency_groth">groth</string>
 
     <!--NavigationDrawer-->
-    <string name="nav_dashboard">dashboard</string>
-    <string name="nav_wallet">wallet</string>
-    <string name="nav_address_book">address book</string>
-    <string name="nav_utxo">utxo</string>
-    <string name="nav_notifications">notifications</string>
-    <string name="nav_help">help</string>
-    <string name="nav_settings">settings</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_wallet">Wallet</string>
+    <string name="nav_address_book">Address book</string>
+    <string name="nav_utxo">UTXO</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_help">Help</string>
+    <string name="nav_settings">Settings</string>
 
     <!--WelcomeActivity-->
     <string name="welcome_create_wallet">create new wallet</string>
@@ -146,8 +146,8 @@
     <!--TransactionDetailsActivity-->
     <string name="transaction_details_title">Transaction details</string>
     <string name="transaction_details_general_info">General transaction info</string>
-    <string name="transaction_details_start_address">Start address:</string>
-    <string name="transaction_details_end_address">End address:</string>
+    <string name="transaction_details_start_address">Sending address:</string>
+    <string name="transaction_details_end_address">Receiving address:</string>
     <string name="transaction_details_currencies_amount">Currency amount:</string>
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
