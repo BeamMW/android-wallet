@@ -83,10 +83,10 @@
                 android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
-                android:paddingStart="@dimen/wallet_available_text_padding_start"
-                android:paddingEnd="@dimen/wallet_available_text_padding_end"
+                android:paddingStart="@dimen/wallet_card_text_padding_start"
+                android:paddingEnd="@dimen/wallet_card_text_padding_end"
                 android:textColor="@color/common_text_color"
-                android:textSize="@dimen/wallet_available_text_size"
+                android:textSize="@dimen/wallet_sum_text_size"
                 app:layout_constraintStart_toEndOf="@id/availableIcon"
                 app:layout_constraintTop_toBottomOf="@id/availableTitle"
                 tools:text="123.14" />
@@ -146,6 +146,59 @@
                 app:layout_constraintStart_toEndOf="@id/inProgressTitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!--Separate-->
+            <TextView
+                android:id="@+id/separateTitle"
+                style="@style/wallet_in_progress_categories_style"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inProgressTitle"
+                tools:text="@string/wallet_receiving" />
+
+            <ImageView
+                android:id="@+id/separateIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/separateAmount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/separateAmount"
+                tools:srcCompat="@drawable/ic_receiving" />
+
+            <TextView
+                android:id="@+id/separateAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
+                android:background="@color/colorPrimary"
+                android:fontFamily="sans-serif"
+                android:paddingStart="@dimen/wallet_card_text_padding_start"
+                android:paddingEnd="@dimen/wallet_card_text_padding_end"
+                android:textSize="@dimen/wallet_sum_text_size"
+                app:layout_constraintStart_toEndOf="@id/separateIcon"
+                app:layout_constraintTop_toBottomOf="@id/separateTitle"
+                tools:text="+123.14" />
+
+            <ImageView
+                android:id="@+id/separateCurrency"
+                style="@style/common_currency_style"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/separateAmount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toEndOf="@id/separateAmount"
+                app:layout_constraintTop_toTopOf="@id/separateAmount"
+                app:layout_constraintVertical_bias="0"
+                tools:srcCompat="@drawable/currency_beam" />
+
+            <android.support.constraint.Group
+                android:id="@+id/separateGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="separateTitle,separateAmount,separateIcon, separateCurrency" />
+
             <!--Receiving-->
             <TextView
                 android:id="@+id/receivingTitle"
@@ -169,7 +222,7 @@
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/received_color"
-                android:textSize="@dimen/wallet_available_text_size"
+                android:textSize="@dimen/wallet_sum_text_size"
                 app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/receivingTitle"
@@ -203,6 +256,7 @@
                 android:id="@+id/receivingGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:constraint_referenced_ids="receivingTitle,receiving,receivingIcon, receivingCurrency" />
 
             <!--Sending-->
@@ -226,7 +280,7 @@
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/send_selector"
-                android:textSize="@dimen/wallet_available_text_size"
+                android:textSize="@dimen/wallet_sum_text_size"
                 app:layout_constraintEnd_toStartOf="@id/sendingCurrency"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/sendingTitle"
@@ -260,6 +314,7 @@
                 android:id="@+id/sendingGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:constraint_referenced_ids="sending,sendingTitle,sendingIcon, sendingCurrency" />
 
             <!--Maturing-->
@@ -284,7 +339,7 @@
                 android:background="@color/colorPrimary"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/common_text_color"
-                android:textSize="@dimen/wallet_available_text_size"
+                android:textSize="@dimen/wallet_sum_text_size"
                 app:layout_constraintEnd_toStartOf="@id/maturingCurrency"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="@id/maturingTitle"
@@ -318,6 +373,7 @@
                 android:id="@+id/maturingGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:constraint_referenced_ids="maturing,maturingTitle,maturingIcon" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

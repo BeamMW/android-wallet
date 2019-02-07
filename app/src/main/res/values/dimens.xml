@@ -86,9 +86,9 @@
     <dimen name="welcome_progress_progress_top_offset">30dp</dimen>
 
     <!--WalletFragment-->
-    <dimen name="wallet_available_text_size">24sp</dimen>
-    <dimen name="wallet_available_text_padding_start">12dp</dimen>
-    <dimen name="wallet_available_text_padding_end">3dp</dimen>
+    <dimen name="wallet_sum_text_size">24sp</dimen>
+    <dimen name="wallet_card_text_padding_start">12dp</dimen>
+    <dimen name="wallet_card_text_padding_end">3dp</dimen>
     <dimen name="wallet_available_sum_margin_top">10dp</dimen>
     <dimen name="wallet_currency_padding">3dp</dimen>
     <dimen name="wallet_button_text_size">14sp</dimen>
