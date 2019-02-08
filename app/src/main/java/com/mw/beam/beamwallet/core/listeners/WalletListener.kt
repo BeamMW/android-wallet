@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
 import com.mw.beam.beamwallet.core.entities.dto.UtxoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
+import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
@@ -51,7 +52,7 @@ object WalletListener {
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(action, tx?.map { TxDescription(it) }), object {}.javaClass.enclosingMethod.name)
+    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), object {}.javaClass.enclosingMethod.name)

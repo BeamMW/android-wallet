@@ -11,7 +11,8 @@
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/toolbar_title_color</item>
-        <item name="android:itemBackground">@color/colorPrimary</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:background">@drawable/menu_background</item>
     </style>
 
     <style name="common_button_text_style">

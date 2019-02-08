@@ -125,6 +125,24 @@ enum class ExpirePeriod(val value: Long) {
     DAY(86400), NEVER(0)
 }
 
+enum class ChangeAction(val value: Int) {
+    ADDED(0), REMOVED(1), UPDATED(2), RESET(3);
+
+    companion object {
+        private val map: HashMap<Int, ChangeAction> = HashMap()
+
+        init {
+            ChangeAction.values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int): ChangeAction {
+            return map[type] ?: throw IllegalArgumentException("Unknown type of ChangeAction")
+        }
+    }
+}
+
 enum class WelcomeMode {
     OPEN, CREATE, RESTORE
 }

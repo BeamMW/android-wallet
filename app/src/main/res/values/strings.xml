@@ -153,6 +153,12 @@
     <string name="transaction_details_comment">Comment:</string>
     <string name="transaction_details_kernel_id">Kernel ID:</string>
     <string name="transaction_details_transaction_history">Transaction history</string>
+    <string name="transaction_details_menu_repeat">Repeat transaction</string>
+    <string name="transaction_details_menu_save">Save peer address</string>
+    <string name="transaction_details_menu_copy_address">Copy address</string>
+    <string name="transaction_details_menu_cancel">Cancel transaction</string>
+    <string name="transaction_details_menu_delete">Delete transaction</string>
+    <string name="transaction_details_menu_more">more</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>

@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.transaction_details
 
 import android.support.v4.content.ContextCompat
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -49,6 +51,29 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     override fun init(txDescription: TxDescription) {
         configTransactionDetails(txDescription)
         configGeneralTransactionInfo(txDescription)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.transaction_menu, menu)
+        presenter.onMenuCreate(menu)
+
+        return true
+    }
+
+    override fun configMenuItems(menu: Menu?, txStatus: TxStatus) {
+        menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
+        menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            // R.id.repeat -> {  }
+            // R.id.save -> {  }
+            R.id.cancel -> presenter.onCancelTransaction()
+            R.id.delete -> presenter.onDeleteTransaction()
+        }
+
+        return true
     }
 
     private fun configTransactionDetails(txDescription: TxDescription) {
@@ -101,6 +126,10 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     private fun configTransactionHistory(txDescription: TxDescription) {
+    }
+
+    override fun finishScreen() {
+        finish()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

@@ -37,4 +37,9 @@ class WalletState {
 
         return transactions.values.sortedByDescending { it.modifyTime }
     }
+
+    fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
+        tx?.forEach { transactions.remove(it.id) }
+        return transactions.values.sortedByDescending { it.modifyTime }
+    }
 }
