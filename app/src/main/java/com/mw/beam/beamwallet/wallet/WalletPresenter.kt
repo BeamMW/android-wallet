@@ -20,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import io.reactivex.disposables.Disposable
 
 
@@ -59,7 +60,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.handleExpandInProgress(state.shouldExpandInProgress)
 
         if (!state.shouldExpandInProgress) {
-            view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending ?:0, state.walletStatus?.maturing ?: 0)
+            view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending
+                    ?: 0, state.walletStatus?.maturing ?: 0)
         }
     }
 
@@ -85,7 +87,11 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            view?.configTransactions(state.updateTransactions(data.tx))
+            view?.configTransactions(
+                    when (data.action) {
+                        ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
+                        else -> state.updateTransactions(data.tx)
+                    })
         }
     }
 

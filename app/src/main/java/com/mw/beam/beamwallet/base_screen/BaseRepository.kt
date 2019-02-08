@@ -43,11 +43,13 @@ open class BaseRepository : MvpRepository {
         return getResult({}, WalletListener.subOnSyncProgressUpdated, object {}.javaClass.enclosingMethod.name)
     }
 
-    fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String): Subject<T> {
+    fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String, additionalInfo: String = ""): Subject<T> {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
                 .append(requestName)
+                .append("\n")
+                .append(additionalInfo)
                 .append("\n")
                 .append("--------------------------")
                 .append("\n").toString())
@@ -55,11 +57,13 @@ open class BaseRepository : MvpRepository {
         return subject
     }
 
-    fun getResult(block: () -> Unit, requestName: String) {
+    fun getResult(block: () -> Unit, requestName: String, additionalInfo: String = "") {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
                 .append(requestName)
+                .append("\n")
+                .append(additionalInfo)
                 .append("\n")
                 .append("--------------------------")
                 .append("\n").toString())

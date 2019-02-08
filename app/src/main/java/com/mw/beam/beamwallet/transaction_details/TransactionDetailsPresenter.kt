@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.transaction_details
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
@@ -28,6 +29,20 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun onCreate() {
         super.onCreate()
         repository.txDescription = view?.getTransactionDetails()
+    }
+
+    override fun onMenuCreate(menu: Menu?) {
+        view?.configMenuItems(menu, repository.txDescription?.status ?: return)
+    }
+
+    override fun onCancelTransaction() {
+        repository.cancelTransaction()
+        view?.finishScreen()
+    }
+
+    override fun onDeleteTransaction() {
+        repository.deleteTransaction()
+        view?.finishScreen()
     }
 
     override fun onStart() {

@@ -14,7 +14,8 @@
         android:paddingBottom="@dimen/alert_dialog_title_padding"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/common_alert_title_text_size"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/alertText"

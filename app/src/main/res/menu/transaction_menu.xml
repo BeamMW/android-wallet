@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/tx_more"
+        android:title="@string/transaction_details_menu_more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <!--<item-->
+                <!--android:id="@+id/repeat"-->
+                <!--android:icon="@drawable/tx_repeat"-->
+                <!--android:title="@string/transaction_details_menu_repeat"-->
+                <!--app:showAsAction="never" />-->
+            <!--<item-->
+                <!--android:id="@+id/save"-->
+                <!--android:icon="@drawable/tx_save"-->
+                <!--android:title="@string/transaction_details_menu_save"-->
+                <!--app:showAsAction="never" />-->
+            <item
+                android:id="@+id/cancel"
+                android:icon="@drawable/tx_cancel"
+                android:title="@string/transaction_details_menu_cancel"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/delete"
+                android:icon="@drawable/tx_delete"
+                android:title="@string/transaction_details_menu_delete"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
+

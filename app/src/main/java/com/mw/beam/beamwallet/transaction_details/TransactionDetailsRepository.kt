@@ -22,6 +22,19 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 /**
  * Created by vain onnellinen on 10/18/18.
  */
-class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository{
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository {
     override var txDescription: TxDescription? = null
+
+    override fun deleteTransaction() {
+        if (txDescription != null) {
+            getResult({ wallet?.deleteTx(txDescription?.id!!) }, object {}.javaClass.enclosingMethod.name, "kernelID = ${txDescription!!.kernelId}")
+        }
+    }
+
+    override fun cancelTransaction() {
+        if (txDescription != null) {
+            getResult({ wallet?.cancelTx(txDescription?.id!!) }, object {}.javaClass.enclosingMethod.name, "kernelID = ${txDescription!!.kernelId}")
+        }
+    }
 }
