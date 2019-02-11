@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_send.*
+import java.text.DecimalFormat
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -96,7 +97,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         try {
             if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString()))
+                configAmountError(String.format(getString(R.string.send_amount_overflow_error), DecimalFormat("#.########").format(availableAmount.convertToBeam() - feeAmount)))
                 hasErrors = true
             }
         } catch (exception: NumberFormatException) {
