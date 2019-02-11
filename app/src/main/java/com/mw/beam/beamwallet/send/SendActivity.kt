@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.send
 
 import android.support.v4.content.ContextCompat
 import android.text.Editable
+import android.text.InputFilter
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -26,9 +27,11 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_send.*
 import java.text.DecimalFormat
+
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -75,7 +78,9 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             }
         }
         amount.addTextChangedListener(amountWatcher)
+        amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
+        //TODO presenter
         feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
             if (!isFocused) {
                 if (fee.text.toString().isEmpty()) {
@@ -164,6 +169,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         btnSend.setOnClickListener(null)
         token.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
+        amount.filters = emptyArray()
         fee.onFocusChangeListener = null
     }
 
