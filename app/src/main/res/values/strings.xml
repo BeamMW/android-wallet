@@ -166,7 +166,7 @@
     <string name="receive_send_comment">Comment</string>
     <string name="receive_expires_on">Expires</string>
     <string name="receive_send_comment_description">Comments are local and won\'t be shared.</string>
-    <string name="receive_btn_copy">copy token</string>
+    <string name="receive_btn_copy">copy</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
     <string name="receive_token_title">My address:</string>
