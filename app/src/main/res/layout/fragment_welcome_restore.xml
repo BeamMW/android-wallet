@@ -18,12 +18,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <GridLayout
-            android:id="@+id/phrasesLayout"
+            android:id="@+id/seedLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/welcome_grid_offset"
             android:layout_marginEnd="@dimen/welcome_grid_offset"
-            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
+            android:layout_marginBottom="@dimen/welcome_seed_button_margin"
             android:columnCount="2"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@id/btnRestore"
@@ -32,7 +32,7 @@
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnRestore"
             style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
+            android:layout_marginBottom="@dimen/welcome_seed_button_margin"
             app:button_icon="@drawable/ic_btn_recover"
             app:button_text="@string/welcome_recover"
             app:layout_constraintBottom_toBottomOf="parent"

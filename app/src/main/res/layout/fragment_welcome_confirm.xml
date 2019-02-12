@@ -11,13 +11,13 @@
         android:paddingStart="@dimen/welcome_description_side_offset"
         android:paddingTop="@dimen/common_offset"
         android:paddingEnd="@dimen/welcome_description_side_offset"
-        android:paddingBottom="@dimen/welcome_phrase_description_padding_bottom"
+        android:paddingBottom="@dimen/welcome_seed_description_padding_bottom"
         android:text="@string/welcome_validation_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <GridLayout
-        android:id="@+id/phrasesLayout"
+        android:id="@+id/seedLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/welcome_grid_offset"
@@ -31,7 +31,7 @@
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnNext"
         style="@style/common_button_style"
-        android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
+        android:layout_marginBottom="@dimen/welcome_seed_button_margin"
         app:button_icon="@drawable/ic_btn_proceed"
         app:button_text="@string/welcome_next"
         app:layout_constraintBottom_toBottomOf="parent"

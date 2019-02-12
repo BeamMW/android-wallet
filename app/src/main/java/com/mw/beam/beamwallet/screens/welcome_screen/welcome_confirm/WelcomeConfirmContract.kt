@@ -26,8 +26,8 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 interface WelcomeConfirmContract {
     interface View : MvpView {
         fun getData(): Array<String>?
-        fun configPhrases(phrasesToValidate: List<Int>, phrases : Array<String>)
-        fun showPasswordsFragment(phrases : Array<String>)
+        fun configSeed(seedToValidate: List<Int>, seed : Array<String>)
+        fun showPasswordsFragment(seed : Array<String>)
         fun handleNextButton()
         fun showSeedAlert()
         fun showSeedFragment()
@@ -35,13 +35,13 @@ interface WelcomeConfirmContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onNextPressed()
-        fun onPhraseChanged()
+        fun onSeedChanged()
         fun onBackPressed()
         fun onCreateNewSeed()
     }
 
     interface Repository : MvpRepository {
-        fun getPhrasesToValidate(): List<Int>
-        var phrases : Array<String>?
+        fun getSeedToValidate(): List<Int>
+        var seed : Array<String>?
     }
 }

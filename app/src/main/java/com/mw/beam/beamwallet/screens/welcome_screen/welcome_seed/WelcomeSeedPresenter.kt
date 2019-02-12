@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_phrase
+package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -22,19 +22,19 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, currentRepository: WelcomePhraseContract.Repository)
-    : BasePresenter<WelcomePhraseContract.View, WelcomePhraseContract.Repository>(currentView, currentRepository),
-        WelcomePhraseContract.Presenter {
+class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentRepository: WelcomeSeedContract.Repository)
+    : BasePresenter<WelcomeSeedContract.View, WelcomeSeedContract.Repository>(currentView, currentRepository),
+        WelcomeSeedContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.configPhrases(repository.phrases)
+        view?.configSeed(repository.seed)
 
-        LogUtils.log("Recovery phrase: \n${preparePhrases(repository.phrases)}")
+        LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed)}")
     }
 
     override fun onDonePressed() {
-        view?.showValidationFragment(repository.phrases)
+        view?.showConfirmFragment(repository.seed)
     }
 
     override fun onNextPressed() {
@@ -42,19 +42,19 @@ class WelcomePhrasePresenter(currentView: WelcomePhraseContract.View, currentRep
     }
 
     override fun onCopyPressed() {
-        view?.copyToClipboard(preparePhrases(repository.phrases))
+        view?.copyToClipboard(prepareSeed(repository.seed))
         view?.showCopiedAlert()
     }
 
-    private fun preparePhrases(phrases: Array<String>): String {
+    private fun prepareSeed(seed: Array<String>): String {
         val result = StringBuilder()
 
-        for ((index, value) in phrases.withIndex()) {
+        for ((index, value) in seed.withIndex()) {
             result.append((index + 1).toString())
                     .append(" ")
                     .append(value)
 
-            if (index != phrases.lastIndex) {
+            if (index != seed.lastIndex) {
                 result.append("\n")
             }
         }

@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_phrase
+package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -28,29 +28,29 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhrase
-import kotlinx.android.synthetic.main.fragment_welcome_phrase.*
+import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
 
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhraseContract.View {
-    private val COPY_TAG = "RECOVERY PHRASES"
-    private lateinit var presenter: WelcomePhrasePresenter
+class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
+    private val COPY_TAG = "RECOVERY SEED"
+    private lateinit var presenter: WelcomeSeedPresenter
     private lateinit var copiedAlert: String
 
     companion object {
-        fun newInstance() = WelcomePhraseFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomePhraseFragment::class.java.simpleName
+        fun newInstance() = WelcomeSeedFragment().apply { arguments = Bundle() }
+        fun getFragmentTag(): String = WelcomeSeedFragment::class.java.simpleName
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_phrase
-    override fun getToolbarTitle(): String? = getString(R.string.welcome_phrase_title)
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed
+    override fun getToolbarTitle(): String? = getString(R.string.welcome_seed_title)
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
 
-        copiedAlert = getString(R.string.welcome_phrase_copied_alert)
+        copiedAlert = getString(R.string.welcome_seed_copied_alert)
     }
 
     override fun addListeners() {
@@ -68,20 +68,20 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
         btnCopy.setOnClickListener(null)
     }
 
-    override fun configPhrases(phrases: Array<String>) {
+    override fun configSeed(seed: Array<String>) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         val topOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
         var columnIndex = 0
         var rowIndex = 0
-        phrasesLayout.rowCount = phrases.size / 2
+        seedLayout.rowCount = seed.size / 2
 
-        for ((index, value) in phrases.withIndex()) {
-            if (columnIndex == phrasesLayout.columnCount) {
+        for ((index, value) in seed.withIndex()) {
+            if (columnIndex == seedLayout.columnCount) {
                 columnIndex = 0
                 rowIndex++
             }
 
-            phrasesLayout.addView(configPhrase(value, index + 1, rowIndex, columnIndex, sideOffset, topOffset))
+            seedLayout.addView(configPhrase(value, index + 1, rowIndex, columnIndex, sideOffset, topOffset))
             columnIndex++
         }
     }
@@ -96,12 +96,12 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
     }
 
     override fun showSaveAlert() {
-        showAlert(getString(R.string.welcome_phrase_save_description), getString(R.string.welcome_phrase_save_title),
+        showAlert(getString(R.string.welcome_seed_save_description), getString(R.string.welcome_seed_save_title),
                 getString(R.string.common_done), getString(R.string.common_cancel),
                 { presenter.onDonePressed() })
     }
 
-    override fun showValidationFragment(phrases: Array<String>) = (activity as WelcomePhrasesHandler).proceedToValidation(phrases)
+    override fun showConfirmFragment(seed: Array<String>) = (activity as SeedHandler).proceedToValidation(seed)
 
     private fun configPhrase(text: String, number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {
         val context = context ?: return null
@@ -128,11 +128,11 @@ class WelcomePhraseFragment : BaseFragment<WelcomePhrasePresenter>(), WelcomePhr
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomePhrasePresenter(this, WelcomePhraseRepository())
+        presenter = WelcomeSeedPresenter(this, WelcomeSeedRepository())
         return presenter
     }
 
-    interface WelcomePhrasesHandler {
-        fun proceedToValidation(phrases: Array<String>)
+    interface SeedHandler {
+        fun proceedToValidation(seed: Array<String>)
     }
 }

@@ -29,23 +29,23 @@ import com.mw.beam.beamwallet.screens.welcome_screen.welcome_create.WelcomeCreat
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_description.WelcomeDescriptionFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_passwords.WelcomePasswordsFragment
-import com.mw.beam.beamwallet.screens.welcome_screen.welcome_phrase.WelcomePhraseFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress.WelcomeProgressFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore.WelcomeRestoreFragment
+import com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed.WelcomeSeedFragment
 
 /**
  * Created by vain onnellinen on 10/19/18.
  */
 class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         WelcomeContract.View,
-        WelcomeOpenFragment.WelcomeOpenHandler,
-        WelcomeCreateFragment.WelcomeCreateHandler,
+        WelcomeOpenFragment.OpenHandler,
+        WelcomeCreateFragment.CreateHandler,
         WelcomeDescriptionFragment.DescriptionHandler,
-        WelcomePasswordsFragment.WelcomePasswordsHandler,
-        WelcomePhraseFragment.WelcomePhrasesHandler,
-        WelcomeConfirmFragment.ValidationHandler,
-        WelcomeRestoreFragment.WelcomeRestoreHandler,
-        WelcomeProgressFragment.WelcomeProgressHandler {
+        WelcomePasswordsFragment.PasswordsHandler,
+        WelcomeSeedFragment.SeedHandler,
+        WelcomeConfirmFragment.ConfirmHandler,
+        WelcomeRestoreFragment.RestoreHandler,
+        WelcomeProgressFragment.ProgressHandler {
     private lateinit var presenter: WelcomePresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_welcome
@@ -54,7 +54,7 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun showOpenFragment() = showFragment(WelcomeOpenFragment.newInstance(), WelcomeOpenFragment.getFragmentTag(), WelcomeOpenFragment.getFragmentTag(), true)
     override fun showDescriptionFragment() = showFragment(WelcomeDescriptionFragment.newInstance(), WelcomeDescriptionFragment.getFragmentTag(), null, false)
     override fun showPasswordsFragment(phrases: Array<String>) = showFragment(WelcomePasswordsFragment.newInstance(phrases), WelcomePasswordsFragment.getFragmentTag(), null, false)
-    override fun showSeedFragment() = showFragment(WelcomePhraseFragment.newInstance(), WelcomePhraseFragment.getFragmentTag(), WelcomePhraseFragment.getFragmentTag(), true)
+    override fun showSeedFragment() = showFragment(WelcomeSeedFragment.newInstance(), WelcomeSeedFragment.getFragmentTag(), WelcomeSeedFragment.getFragmentTag(), true)
     override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeConfirmFragment.newInstance(phrases), WelcomeConfirmFragment.getFragmentTag(), null, false)
     override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
@@ -68,8 +68,8 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun changeWallet() = presenter.onChangeWallet()
     override fun showWallet() = presenter.onShowWallet()
 
-    override fun proceedToPasswords(phrases: Array<String>) = presenter.onProceedToPasswords(phrases)
-    override fun proceedToValidation(phrases: Array<String>) = presenter.onProceedToValidation(phrases)
+    override fun proceedToPasswords(seed: Array<String>) = presenter.onProceedToPasswords(seed)
+    override fun proceedToValidation(seed: Array<String>) = presenter.onProceedToValidation(seed)
 
     override fun showMainActivity() {
         finish()

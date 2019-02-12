@@ -58,22 +58,22 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         }
     }
 
-    override fun showPasswordsFragment(phrases: Array<String>) = (activity as WelcomeRestoreHandler).proceedToPasswords(phrases)
+    override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed)
 
-    override fun configPhrases(phrasesCount: Int) {
+    override fun configSeed(phrasesCount: Int) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         val topOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
         var columnIndex = 0
         var rowIndex = 0
-        phrasesLayout.rowCount = phrasesCount / 2
+        seedLayout.rowCount = phrasesCount / 2
 
         for (i in 1..phrasesCount) {
-            if (columnIndex == phrasesLayout.columnCount) {
+            if (columnIndex == seedLayout.columnCount) {
                 columnIndex = 0
                 rowIndex++
             }
 
-            phrasesLayout.addView(configPhrase(i, rowIndex, columnIndex, sideOffset, topOffset))
+            seedLayout.addView(configPhrase(i, rowIndex, columnIndex, sideOffset, topOffset))
             columnIndex++
         }
     }
@@ -100,7 +100,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                presenter.onPhraseChanged()
+                presenter.onSeedChanged()
             }
         })
 
@@ -111,19 +111,19 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         btnRestore.isEnabled = arePhrasesFilled()
     }
 
-    override fun getPhrase(): Array<String> {
-        val phrasesList = ArrayList<String>()
+    override fun getSeed(): Array<String> {
+        val seed = ArrayList<String>()
 
-        for (i in 0 until phrasesLayout.childCount) {
-            phrasesList.add((phrasesLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString())
+        for (i in 0 until seedLayout.childCount) {
+            seed.add((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString())
         }
 
-        return phrasesList.toTypedArray()
+        return seed.toTypedArray()
     }
 
     private fun arePhrasesFilled(): Boolean {
-        for (i in 0 until phrasesLayout.childCount) {
-            if ((phrasesLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.isNullOrBlank()) {
+        for (i in 0 until seedLayout.childCount) {
+            if ((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.isNullOrBlank()) {
                 return false
             }
         }
@@ -144,7 +144,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         return presenter
     }
 
-    interface WelcomeRestoreHandler {
-        fun proceedToPasswords(phrases: Array<String>)
+    interface RestoreHandler {
+        fun proceedToPasswords(seed: Array<String>)
     }
 }

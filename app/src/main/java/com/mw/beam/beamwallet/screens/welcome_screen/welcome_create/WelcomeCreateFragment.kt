@@ -53,15 +53,15 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnRestore.setOnClickListener(null)
     }
 
-    override fun createWallet() = (activity as WelcomeCreateHandler).createWallet()
-    override fun restoreWallet() = (activity as WelcomeCreateHandler).restoreWallet()
+    override fun createWallet() = (activity as CreateHandler).createWallet()
+    override fun restoreWallet() = (activity as CreateHandler).restoreWallet()
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeCreatePresenter(this, WelcomeCreateRepository())
         return presenter
     }
 
-    interface WelcomeCreateHandler {
+    interface CreateHandler {
         fun createWallet()
         fun restoreWallet()
     }

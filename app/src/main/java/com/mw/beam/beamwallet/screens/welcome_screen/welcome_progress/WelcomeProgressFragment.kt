@@ -76,14 +76,14 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getMode(): WelcomeMode? = WelcomeMode.valueOf(arguments?.getString(ARG_MODE)
             ?: WelcomeMode.CREATE.name)
 
-    override fun showWallet() = (activity as WelcomeProgressFragment.WelcomeProgressHandler).showWallet()
+    override fun showWallet() = (activity as WelcomeProgressFragment.ProgressHandler).showWallet()
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())
         return presenter
     }
 
-    interface WelcomeProgressHandler {
+    interface ProgressHandler {
         fun showWallet()
     }
 }

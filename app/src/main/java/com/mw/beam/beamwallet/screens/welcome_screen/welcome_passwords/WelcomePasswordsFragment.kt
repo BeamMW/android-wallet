@@ -69,8 +69,8 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
 
     override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
     override fun getPass(): String = pass.text?.trim().toString()
-    override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
-    override fun showSeedFragment() = (activity as WelcomePasswordsHandler).showSeedFragment()
+    override fun proceedToWallet() = (activity as PasswordsHandler).proceedToWallet()
+    override fun showSeedFragment() = (activity as PasswordsHandler).showSeedFragment()
 
     override fun hasErrors(): Boolean {
         var hasErrors = false
@@ -143,7 +143,7 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         return presenter
     }
 
-    interface WelcomePasswordsHandler {
+    interface PasswordsHandler {
         fun proceedToWallet()
         fun showSeedFragment()
     }
