@@ -40,10 +40,10 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         WelcomeContract.View,
         WelcomeOpenFragment.WelcomeOpenHandler,
         WelcomeCreateFragment.WelcomeCreateHandler,
-        WelcomeDescriptionFragment.GeneratePhraseHandler,
+        WelcomeDescriptionFragment.DescriptionHandler,
         WelcomePasswordsFragment.WelcomePasswordsHandler,
         WelcomePhraseFragment.WelcomePhrasesHandler,
-        WelcomeConfirmFragment.WelcomeValidationHandler,
+        WelcomeConfirmFragment.ValidationHandler,
         WelcomeRestoreFragment.WelcomeRestoreHandler,
         WelcomeProgressFragment.WelcomeProgressHandler {
     private lateinit var presenter: WelcomePresenter
@@ -54,14 +54,14 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun showOpenFragment() = showFragment(WelcomeOpenFragment.newInstance(), WelcomeOpenFragment.getFragmentTag(), WelcomeOpenFragment.getFragmentTag(), true)
     override fun showDescriptionFragment() = showFragment(WelcomeDescriptionFragment.newInstance(), WelcomeDescriptionFragment.getFragmentTag(), null, false)
     override fun showPasswordsFragment(phrases: Array<String>) = showFragment(WelcomePasswordsFragment.newInstance(phrases), WelcomePasswordsFragment.getFragmentTag(), null, false)
-    override fun showPhrasesFragment() = showFragment(WelcomePhraseFragment.newInstance(), WelcomePhraseFragment.getFragmentTag(), null, false)
+    override fun showSeedFragment() = showFragment(WelcomePhraseFragment.newInstance(), WelcomePhraseFragment.getFragmentTag(), WelcomePhraseFragment.getFragmentTag(), true)
     override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeConfirmFragment.newInstance(phrases), WelcomeConfirmFragment.getFragmentTag(), null, false)
     override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
     override fun showProgressFragment(mode: WelcomeMode) = showFragment(WelcomeProgressFragment.newInstance(mode), WelcomeProgressFragment.getFragmentTag(), null, true)
 
     override fun createWallet() = presenter.onCreateWallet() //calls from WelcomeCreateFragment
-    override fun generatePhrase() = presenter.onGeneratePhrase()
+    override fun generateSeed() = presenter.onGenerateSeed()
     override fun openWallet() = presenter.onOpenWallet(WelcomeMode.OPEN) //calls from WelcomeOpenFragment
     override fun restoreWallet() = presenter.onRestoreWallet()
     override fun proceedToWallet() = presenter.onOpenWallet(WelcomeMode.CREATE) //calls from WelcomePasswordsFragment
@@ -76,6 +76,16 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         startActivity(Intent(this, MainActivity::class.java))
     }
 
+    override fun onBackPressed() {
+        val fragment = this.supportFragmentManager.findFragmentById(R.id.container)
+
+        if (fragment != null && fragment is OnBackPressedHandler) {
+            (fragment as? OnBackPressedHandler)?.onBackPressed()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun finishNotRootTask() {
         // solves issue with extra tasks on some custom launchers https://issuetracker.google.com/issues/36907463
         if (!isTaskRoot) {
@@ -88,4 +98,9 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
         presenter = WelcomePresenter(this, WelcomeRepository())
         return presenter
     }
+}
+
+// outstanding interface is needed to prevent a cycle in the inheritance hierarchy for this type
+interface OnBackPressedHandler {
+    fun onBackPressed()
 }

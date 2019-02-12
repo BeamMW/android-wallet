@@ -45,8 +45,8 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
         view?.showDescriptionFragment()
     }
 
-    override fun onGeneratePhrase() {
-        view?.showPhrasesFragment()
+    override fun onGenerateSeed() {
+        view?.showSeedFragment()
     }
 
     override fun onOpenWallet(mode: WelcomeMode) {

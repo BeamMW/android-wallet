@@ -35,7 +35,7 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, curr
 
     override fun onCreate() {
         super.onCreate()
-        repository.phrases = view?.getPhrases()
+        repository.phrases = view?.getSeed()
     }
 
     override fun onProceed() {
@@ -70,5 +70,13 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, curr
 
     override fun onConfirmPassChanged() {
         view?.clearErrors()
+    }
+
+    override fun onBackPressed() {
+        view?.showSeedAlert()
+    }
+
+    override fun onCreateNewSeed() {
+        view?.showSeedFragment()
     }
 }

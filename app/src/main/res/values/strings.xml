@@ -83,6 +83,9 @@
     <string name="welcome_pass_empty_error">Password should not be empty</string>
     <string name="welcome_pass_wrong">Wrong password</string>
     <string name="welcome_confirm_pass_hint">Confirm password</string>
+    <string name="welcome_pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won\’t be saved.</string>
+    <string name="welcome_pass_return_seed_title">Return to seed phrase</string>
+    <string name="welcome_pass_return_seed_btn_create_new">create new phrase</string>
 
     <!--WalletFragment-->
     <string name="wallet_title">Wallet</string>

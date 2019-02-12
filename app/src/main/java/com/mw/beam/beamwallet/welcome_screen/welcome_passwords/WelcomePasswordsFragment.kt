@@ -26,13 +26,14 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.fragment_welcome_passwords.*
 
 
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), WelcomePasswordsContract.View {
+class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), WelcomePasswordsContract.View, OnBackPressedHandler {
     private lateinit var presenter: WelcomePasswordsPresenter
 
     private val passWatcher = object : TextWatcher {
@@ -66,9 +67,10 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         }
     }
 
-    override fun getPhrases(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
+    override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
     override fun getPass(): String = pass.text?.trim().toString()
     override fun proceedToWallet() = (activity as WelcomePasswordsHandler).proceedToWallet()
+    override fun showSeedFragment() = (activity as WelcomePasswordsHandler).showSeedFragment()
 
     override fun hasErrors(): Boolean {
         var hasErrors = false
@@ -114,10 +116,22 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
         }
     }
 
+    override fun showSeedAlert() {
+        showAlert(message = getString(R.string.welcome_pass_return_seed_message),
+                title = getString(R.string.welcome_pass_return_seed_title),
+                btnConfirmText = getString(R.string.welcome_pass_return_seed_btn_create_new),
+                btnCancelText = getString(R.string.common_cancel),
+                onConfirm = { presenter.onCreateNewSeed() })
+    }
+
     override fun clearListeners() {
         pass.removeTextChangedListener(passWatcher)
         confirmPass.removeTextChangedListener(confirmPassWatcher)
         btnProceed.setOnClickListener(null)
+    }
+
+    override fun onBackPressed() {
+        presenter.onBackPressed()
     }
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
@@ -131,5 +145,6 @@ class WelcomePasswordsFragment : BaseFragment<WelcomePasswordsPresenter>(), Welc
 
     interface WelcomePasswordsHandler {
         fun proceedToWallet()
+        fun showSeedFragment()
     }
 }

@@ -29,11 +29,15 @@ interface WelcomeConfirmContract {
         fun configPhrases(phrasesToValidate: List<Int>, phrases : Array<String>)
         fun showPasswordsFragment(phrases : Array<String>)
         fun handleNextButton()
+        fun showSeedAlert()
+        fun showSeedFragment()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNextPressed()
         fun onPhraseChanged()
+        fun onBackPressed()
+        fun onCreateNewSeed()
     }
 
     interface Repository : MvpRepository {
