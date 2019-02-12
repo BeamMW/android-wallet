@@ -23,14 +23,17 @@ import android.text.Spanned
  * Created by vain onnellinen on 2/11/19.
  */
 class AmountFilter : InputFilter {
-    var regExp = "^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\\.[0-9]{0,7}[1-9])?$".toRegex()
+    var regExp = "^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\\.[0-9]{0,7}[1-9]?)?$".toRegex()
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-        return if (!regExp.containsMatchIn(dest.toString() + source)) {
-            //this is necessary to allow input "." symbol
-            if (source == "." && dest.isNotEmpty()) null else ""
-        } else {
-            null
+        if (source.isNotEmpty()) {
+            return if (!regExp.containsMatchIn(dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length))) {
+                ""
+            } else {
+                null
+            }
         }
+
+        return null
     }
 }
