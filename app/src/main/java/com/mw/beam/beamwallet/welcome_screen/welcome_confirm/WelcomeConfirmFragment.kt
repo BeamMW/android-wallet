@@ -27,13 +27,14 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
 
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
+class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View, OnBackPressedHandler {
     private lateinit var presenter: WelcomeConfirmPresenter
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
@@ -46,7 +47,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_confirm
-    override fun getToolbarTitle(): String =getString(R.string.welcome_validation_title)
+    override fun getToolbarTitle(): String = getString(R.string.welcome_validation_title)
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -79,7 +80,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun getData(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
-    override fun showPasswordsFragment(phrases: Array<String>) = (activity as WelcomeValidationHandler).proceedToPasswords(phrases)
+    override fun showPasswordsFragment(phrases: Array<String>) = (activity as ValidationHandler).proceedToPasswords(phrases)
+    override fun showSeedFragment() = (activity as WelcomeConfirmFragment.ValidationHandler).showSeedFragment()
 
     override fun handleNextButton() {
         btnNext.isEnabled = arePhrasesValid()
@@ -132,6 +134,15 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return phrase
     }
 
+    override fun showSeedAlert() {
+        // TODO show alert
+        presenter.onCreateNewSeed()
+    }
+
+    override fun onBackPressed() {
+        presenter.onBackPressed()
+    }
+
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
     }
@@ -141,7 +152,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return presenter
     }
 
-    interface WelcomeValidationHandler {
+    interface ValidationHandler {
         fun proceedToPasswords(phrases: Array<String>)
+        fun showSeedFragment()
     }
 }

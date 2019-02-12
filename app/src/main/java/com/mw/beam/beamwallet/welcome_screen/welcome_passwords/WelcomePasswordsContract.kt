@@ -31,14 +31,18 @@ interface WelcomePasswordsContract {
         fun setStrengthLevel(strength : PasswordStrengthView.Strength)
         fun clearErrors()
         fun getPass(): String
-        fun getPhrases() : Array<String>?
+        fun getSeed() : Array<String>?
         fun proceedToWallet()
+        fun showSeedAlert()
+        fun showSeedFragment()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onPassChanged(pass : String?)
         fun onConfirmPassChanged()
         fun onProceed()
+        fun onBackPressed()
+        fun onCreateNewSeed()
     }
 
     interface Repository : MvpRepository {

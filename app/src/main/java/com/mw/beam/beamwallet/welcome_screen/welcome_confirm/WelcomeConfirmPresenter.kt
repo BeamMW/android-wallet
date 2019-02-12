@@ -45,4 +45,12 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
     override fun onNextPressed() {
         view?.showPasswordsFragment(repository.phrases ?: return)
     }
+
+    override fun onBackPressed() {
+        view?.showSeedAlert()
+    }
+
+    override fun onCreateNewSeed() {
+        view?.showSeedFragment()
+    }
 }

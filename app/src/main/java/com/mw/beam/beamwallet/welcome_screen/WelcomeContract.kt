@@ -29,7 +29,7 @@ interface WelcomeContract {
         fun showOpenFragment()
         fun showDescriptionFragment()
         fun showPasswordsFragment(phrases: Array<String>)
-        fun showPhrasesFragment()
+        fun showSeedFragment()
         fun showRestoreFragment()
         fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
@@ -41,7 +41,7 @@ interface WelcomeContract {
     interface Presenter : MvpPresenter<View> {
         fun onCreateWallet()
         fun onRestoreWallet()
-        fun onGeneratePhrase()
+        fun onGenerateSeed()
         fun onShowWallet()
         fun onOpenWallet(mode: WelcomeMode)
         fun onChangeWallet()
