@@ -27,23 +27,23 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
 
     override fun onCreate() {
         super.onCreate()
-        repository.phrases = view?.getData()
+        repository.seed = view?.getData()
     }
 
     override fun onViewCreated() {
         super.onViewCreated()
 
-        if (repository.phrases != null) {
-            view?.configPhrases(repository.getPhrasesToValidate(), repository.phrases!!)
+        if (repository.seed != null) {
+            view?.configSeed(repository.getSeedToValidate(), repository.seed!!)
         }
     }
 
-    override fun onPhraseChanged() {
+    override fun onSeedChanged() {
         view?.handleNextButton()
     }
 
     override fun onNextPressed() {
-        view?.showPasswordsFragment(repository.phrases ?: return)
+        view?.showPasswordsFragment(repository.seed ?: return)
     }
 
     override fun onBackPressed() {

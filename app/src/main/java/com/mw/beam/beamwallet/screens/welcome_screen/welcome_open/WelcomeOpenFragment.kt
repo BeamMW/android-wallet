@@ -91,9 +91,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun getPass(): String = pass.text?.trim().toString()
-    override fun openWallet() = (activity as WelcomeOpenHandler).openWallet()
-    override fun changeWallet() = (activity as WelcomeOpenHandler).changeWallet()
-    override fun restoreWallet() = (activity as WelcomeOpenHandler).restoreWallet()
+    override fun openWallet() = (activity as OpenHandler).openWallet()
+    override fun changeWallet() = (activity as OpenHandler).changeWallet()
+    override fun restoreWallet() = (activity as OpenHandler).restoreWallet()
 
     override fun showOpenWalletError() {
         pass.isStateError = true
@@ -122,7 +122,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         return presenter
     }
 
-    interface WelcomeOpenHandler {
+    interface OpenHandler {
         fun openWallet()
         fun restoreWallet()
         fun changeWallet()

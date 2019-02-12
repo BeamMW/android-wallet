@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_phrase
+package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
@@ -23,10 +23,10 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-interface WelcomePhraseContract {
+interface WelcomeSeedContract {
     interface View : MvpView {
-        fun showValidationFragment(phrases: Array<String>)
-        fun configPhrases(phrases: Array<String>)
+        fun showConfirmFragment(seed: Array<String>)
+        fun configSeed(seed: Array<String>)
         fun copyToClipboard(data: String)
         fun showCopiedAlert()
         fun showSaveAlert()
@@ -39,6 +39,6 @@ interface WelcomePhraseContract {
     }
 
     interface Repository : MvpRepository {
-        val phrases: Array<String>
+        val seed: Array<String>
     }
 }

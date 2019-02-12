@@ -49,12 +49,12 @@
     <string name="welcome_open">open my wallet</string>
     <string name="welcome_open_description">Enter your password to access the wallet.</string>
 
-    <!--WelcomePhraseFragment-->
-    <string name="welcome_phrase_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
-    <string name="welcome_phrase_copied_alert">Copied!</string>
-    <string name="welcome_phrase_title">Seed phrase</string>
-    <string name="welcome_phrase_save_title">Save seed phrase</string>
-    <string name="welcome_phrase_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
+    <!--WelcomeSeedFragment-->
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_copied_alert">Copied!</string>
+    <string name="welcome_seed_title">Seed phrase</string>
+    <string name="welcome_seed_save_title">Save seed phrase</string>
+    <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
 
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirm seed phrase</string>

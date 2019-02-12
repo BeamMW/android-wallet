@@ -13,7 +13,7 @@
  * // See the License for the specific language governing permissions and
  * // limitations under the License.
  */
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_phrase
+package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
@@ -21,6 +21,6 @@ import com.mw.beam.beamwallet.core.Api
 /**
  * Created by vain onnellinen on 10/30/18.
  */
-class WelcomePhraseRepository : BaseRepository(), WelcomePhraseContract.Repository {
-    override val phrases: Array<String> = Api.createMnemonic()
+class WelcomeSeedRepository : BaseRepository(), WelcomeSeedContract.Repository {
+    override val seed: Array<String> = Api.createMnemonic()
 }

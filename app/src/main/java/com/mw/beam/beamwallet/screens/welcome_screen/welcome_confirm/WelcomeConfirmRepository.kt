@@ -24,9 +24,9 @@ import kotlin.collections.HashSet
  * Created by vain onnellinen on 11/1/18.
  */
 class WelcomeConfirmRepository : BaseRepository(), WelcomeConfirmContract.Repository {
-    override var phrases: Array<String>? = null
+    override var seed: Array<String>? = null
 
-    override fun getPhrasesToValidate(): List<Int> {
+    override fun getSeedToValidate(): List<Int> {
         val set = HashSet<Int>()
         val ran = Random()
 

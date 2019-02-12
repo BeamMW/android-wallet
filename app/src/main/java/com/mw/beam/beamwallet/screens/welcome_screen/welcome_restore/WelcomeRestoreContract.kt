@@ -26,16 +26,16 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 interface WelcomeRestoreContract {
     interface View : MvpView {
         fun init()
-        fun configPhrases(phrasesCount : Int)
+        fun configSeed(phrasesCount : Int)
         fun handleRestoreButton()
-        fun getPhrase() : Array<String>
-        fun showPasswordsFragment(phrases : Array<String>)
+        fun getSeed() : Array<String>
+        fun showPasswordsFragment(seed : Array<String>)
         fun clearWindowState()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onRestorePressed()
-        fun onPhraseChanged()
+        fun onSeedChanged()
     }
 
     interface Repository : MvpRepository {

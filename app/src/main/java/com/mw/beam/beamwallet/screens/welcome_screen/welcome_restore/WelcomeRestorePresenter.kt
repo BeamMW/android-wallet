@@ -28,7 +28,7 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     override fun onStart() {
         super.onStart()
         view?.init()
-        view?.configPhrases(state.phrasesCount)
+        view?.configSeed(state.phrasesCount)
     }
 
     override fun onStop() {
@@ -37,10 +37,10 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     }
 
     override fun onRestorePressed() {
-        view?.showPasswordsFragment(view?.getPhrase() ?: return)
+        view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
 
-    override fun onPhraseChanged() {
+    override fun onSeedChanged() {
         view?.handleRestoreButton()
     }
 }

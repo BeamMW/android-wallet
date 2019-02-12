@@ -40,9 +40,9 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     private var topOffset: Int = Int.MIN_VALUE
 
     companion object {
-        private const val ARG_PHRASES = "ARG_PHRASES"
+        private const val ARG_SEED = "ARG_SEED"
 
-        fun newInstance(phrases: Array<String>) = WelcomeConfirmFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
+        fun newInstance(seed: Array<String>) = WelcomeConfirmFragment().apply { arguments = Bundle().apply { putStringArray(ARG_SEED, seed) } }
         fun getFragmentTag(): String = WelcomeConfirmFragment::class.java.simpleName
     }
 
@@ -69,9 +69,9 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         }
     }
 
-    private fun arePhrasesValid(): Boolean {
-        for (i in 0 until phrasesLayout.childCount) {
-            if (!(phrasesLayout.getChildAt(i) as BeamPhraseInput).isValid) {
+    private fun isSeedValid(): Boolean {
+        for (i in 0 until seedLayout.childCount) {
+            if (!(seedLayout.getChildAt(i) as BeamPhraseInput).isValid) {
                 return false
             }
         }
@@ -79,26 +79,26 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return true
     }
 
-    override fun getData(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
-    override fun showPasswordsFragment(phrases: Array<String>) = (activity as ValidationHandler).proceedToPasswords(phrases)
-    override fun showSeedFragment() = (activity as WelcomeConfirmFragment.ValidationHandler).showSeedFragment()
+    override fun getData(): Array<String>? = arguments?.getStringArray(ARG_SEED)
+    override fun showPasswordsFragment(seed: Array<String>) = (activity as ConfirmHandler).proceedToPasswords(seed)
+    override fun showSeedFragment() = (activity as WelcomeConfirmFragment.ConfirmHandler).showSeedFragment()
 
     override fun handleNextButton() {
-        btnNext.isEnabled = arePhrasesValid()
+        btnNext.isEnabled = isSeedValid()
     }
 
-    override fun configPhrases(phrasesToValidate: List<Int>, phrases: Array<String>) {
-        phrasesLayout.rowCount = phrasesToValidate.size / 2
+    override fun configSeed(seedToValidate: List<Int>, seed: Array<String>) {
+        seedLayout.rowCount = seedToValidate.size / 2
         var columnIndex = 0
         var rowIndex = 0
 
-        for (phraseNumber in phrasesToValidate) {
-            if (columnIndex == phrasesLayout.columnCount) {
+        for (phraseNumber in seedToValidate) {
+            if (columnIndex == seedLayout.columnCount) {
                 columnIndex = 0
                 rowIndex++
             }
 
-            phrasesLayout.addView(configPhrase(phraseNumber, rowIndex, columnIndex, phrases[phraseNumber - 1]))
+            seedLayout.addView(configPhrase(phraseNumber, rowIndex, columnIndex, seed[phraseNumber - 1]))
             columnIndex++
         }
     }
@@ -127,7 +127,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                presenter.onPhraseChanged()
+                presenter.onSeedChanged()
             }
         })
 
@@ -152,8 +152,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return presenter
     }
 
-    interface ValidationHandler {
-        fun proceedToPasswords(phrases: Array<String>)
+    interface ConfirmHandler {
+        fun proceedToPasswords(seed: Array<String>)
         fun showSeedFragment()
     }
 }
