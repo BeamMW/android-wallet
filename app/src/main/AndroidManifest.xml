@@ -16,14 +16,14 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.mw.beam.beamwallet.screens.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".transaction_details.TransactionDetailsActivity"
+            android:name="com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity"
             android:label="@string/transaction_details_title"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".welcome_screen.WelcomeActivity"
+            android:name="com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,14 +32,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".receive.ReceiveActivity"
+            android:name="com.mw.beam.beamwallet.screens.receive.ReceiveActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".send.SendActivity"
+            android:name="com.mw.beam.beamwallet.screens.send.SendActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".utxo_details.UtxoDetailsActivity"
+            android:name="com.mw.beam.beamwallet.screens.utxo_details.UtxoDetailsActivity"
             android:screenOrientation="portrait" />
 
         <provider
