@@ -33,3 +33,5 @@ Things that make BEAM special include:
 
 # Build status
 
+# Support
+Android Beam Wallet is currently in Testnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via Telegram
