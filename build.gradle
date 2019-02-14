@@ -20,7 +20,8 @@ buildscript {
     ext.ver_kakao = '1.4.0' //https://github.com/agoda-com/Kakao
     ext.ver_leak_canary = '1.6.1' //https://github.com/square/leakcanary
     ext.ver_google_services = '4.2.0'
-    ext.ver_firebase_core = '16.0.6'
+    ext.ver_firebase_core = '16.0.7'
+    ext.ver_qr = '3.3.3'
 
     repositories {
         google()

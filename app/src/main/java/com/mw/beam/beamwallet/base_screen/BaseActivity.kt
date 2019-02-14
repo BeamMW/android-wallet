@@ -15,6 +15,7 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -24,9 +25,11 @@ import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
+import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -88,6 +91,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
+    open fun ensureState(): Boolean = App.wallet != null
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
             finish()
@@ -118,7 +123,16 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         presenter = initPresenter() as T
-        presenter.onCreate()
+
+        if (!ensureState()) {
+            startActivity(Intent(this, WelcomeActivity::class.java)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            )
+
+            finish()
+        } else {
+            presenter.onCreate()
+        }
     }
 
     override fun onControllerContentViewCreated() {

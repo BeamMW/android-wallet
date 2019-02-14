@@ -123,8 +123,13 @@
     <dimen name="receive_btn_margin">30dp</dimen>
     <dimen name="receive_token_title_margin_top">40dp</dimen>
     <dimen name="receive_token_description_margin_top">30dp</dimen>
+    <dimen name="receive_qr_token_description_margin_top">26dp</dimen>
     <dimen name="receive_spinner_width">140dp</dimen>
     <dimen name="receive_spinner_offset">8dp</dimen>
+    <dimen name="receive_cancel_size">24dp</dimen>
+    <dimen name="receive_qr_size">160dp</dimen>
+    <dimen name="receive_common_qr_offset">20dp</dimen>
+    <dimen name="receive_btn_margin_bottom">20dp</dimen>
 
     <!--SendActivity-->
     <dimen name="send_token_title_margin_top">24dp</dimen>
