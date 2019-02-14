@@ -44,7 +44,19 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onShowQrPressed() {
         saveAddress()
-        view?.showSnackBar("Coming soon...")
+        view?.showQR(state.address!!.walletID)
+    }
+
+    override fun onDialogCopyPressed() {
+        if (state.address != null) {
+            view?.copyToClipboard(state.address!!.walletID)
+            view?.dismissDialog()
+            view?.close()
+        }
+    }
+
+    override fun onDialogClosePressed() {
+        view?.dismissDialog()
     }
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
@@ -53,6 +65,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onBackPressed() {
         saveAddress()
+    }
+
+    override fun onDestroy() {
+        view?.dismissDialog()
+        super.onDestroy()
     }
 
     override fun initSubscriptions() {

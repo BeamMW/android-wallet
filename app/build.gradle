@@ -25,8 +25,8 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 23
-        versionName "1.0.3"
+        versionCode 25
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -74,6 +74,7 @@ dependencies {
     implementation "com.github.restorer:holycycle:$ver_holycycle"
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
     implementation "com.elvishew:xlog:$ver_xlog"
+    implementation "com.google.zxing:core:$ver_qr"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"

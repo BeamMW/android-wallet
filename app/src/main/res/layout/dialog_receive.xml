@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_receive_dialog_background">
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="@dimen/receive_cancel_size"
+        android:layout_height="@dimen/receive_cancel_size"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_receive" />
+
+    <ImageView
+        android:id="@+id/qrView"
+        android:layout_width="@dimen/receive_qr_size"
+        android:layout_height="@dimen/receive_qr_size"
+        android:layout_marginTop="@dimen/receive_common_qr_offset"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tokenTitle"
+        style="@style/common_subheader_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/receive_common_side_margin"
+        android:layout_marginTop="@dimen/receive_common_qr_offset"
+        android:layout_marginEnd="@dimen/receive_common_side_margin"
+        android:gravity="center"
+        android:text="@string/receive_token_title"
+        app:layout_constraintBottom_toTopOf="@id/tokenView"
+        app:layout_constraintTop_toBottomOf="@id/qrView"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/tokenView"
+        style="@style/common_text_big_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/receive_common_qr_offset"
+        android:layout_marginTop="@dimen/send_receive_common_margin"
+        android:layout_marginEnd="@dimen/receive_common_qr_offset"
+        android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/tokenDescription"
+        app:layout_constraintTop_toBottomOf="@id/tokenTitle" />
+
+    <TextView
+        android:id="@+id/tokenDescription"
+        style="@style/common_text_big_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/receive_common_qr_offset"
+        android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
+        android:layout_marginEnd="@dimen/receive_common_qr_offset"
+        android:layout_marginBottom="@dimen/receive_btn_margin"
+        android:gravity="center"
+        android:text="@string/receive_token_via_qr_description"
+        app:layout_constraintBottom_toTopOf="@id/btnCopy"
+        app:layout_constraintTop_toBottomOf="@id/tokenView" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnCopy"
+        android:layout_width="@dimen/wallet_button_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
+        app:button_icon="@drawable/ic_btn_copy_dark"
+        app:button_state_list="@color/receive_selector"
+        app:button_text="@string/receive_btn_copy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

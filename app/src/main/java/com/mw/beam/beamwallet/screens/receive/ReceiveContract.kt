@@ -31,14 +31,18 @@ interface ReceiveContract {
         fun init()
         fun getComment() : String?
         fun showToken(receiveToken : String)
+        fun showQR(receiveToken : String)
         fun copyToClipboard(receiveToken : String)
         fun close()
+        fun dismissDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onCopyTokenPressed()
         fun onShowQrPressed()
         fun onBackPressed()
+        fun onDialogCopyPressed()
+        fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
     }
 
