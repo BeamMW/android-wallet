@@ -18,8 +18,8 @@ Things that make BEAM special include:
 * BEAM supports many transaction types such as escrow transactions, time locked transactions, atomic swaps and more.
 
 # Roadmap
-- January 2019     : Tesnet 1 // Core functionality on all devices
-- February 2019    : Tesnet 2-4 // In-depth features and UX enhancements
+- February 2019     : Tesnet 1 // Core functionality on all devices
+- February-March 2019    : Tesnet 2-4 // In-depth features and UX enhancements
 - March 2019       : Mainnet release
 
 # Current status
