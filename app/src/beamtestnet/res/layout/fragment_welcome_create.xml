@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo" />
 
     <TextView
-        android:id="@+id/testnetText"
+        android:id="@+id/flavorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/welcome_testnet_text_margin_top"
@@ -51,7 +51,7 @@
         app:button_text="@string/welcome_create_wallet"
         app:layout_constraintBottom_toTopOf="@id/btnRestore"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/testnetText"
+        app:layout_constraintTop_toBottomOf="@id/flavorText"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton

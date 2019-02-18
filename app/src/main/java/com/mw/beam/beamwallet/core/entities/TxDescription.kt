@@ -17,6 +17,7 @@ package com.mw.beam.beamwallet.core.entities
 
 import android.os.Parcelable
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
+import com.mw.beam.beamwallet.core.helpers.TxFailureReason
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import kotlinx.android.parcel.Parcelize
@@ -39,9 +40,11 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
     val sender: TxSender = TxSender.fromValue(source.sender)
     val status: TxStatus = TxStatus.fromValue(source.status)
     val kernelId: String = source.kernelId
+    val selfTx: Boolean = source.selfTx
+    val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
 
     override fun toString(): String {
         return "TxDescription(id=$id amount=$amount fee=$fee status=${status.name} kernelId=$kernelId change=$change minHeight=$minHeight " +
-                "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender= ${sender.name})"
+                "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender=${sender.name} selfTx=$selfTx failureReason=$failureReason)"
     }
 }

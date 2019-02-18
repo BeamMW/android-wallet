@@ -44,9 +44,16 @@ android {
     productFlavors {
         mainnet {
             dimension "api"
+            //change to mainnet
+            buildConfigField "String", "NODE_ADDRESS", '"eu-node03.masternet.beam.mw:8100"'
         }
-        beta {
+        masternet {
             dimension "api"
+            buildConfigField "String", "NODE_ADDRESS", '"eu-node03.masternet.beam.mw:8100"'
+        }
+        beamtestnet {
+            dimension "api"
+            buildConfigField "String", "NODE_ADDRESS", '"ap-node03.testnet.beam.mw:8100"'
         }
     }
 }
