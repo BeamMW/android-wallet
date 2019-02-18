@@ -26,6 +26,7 @@ import java.text.DecimalFormat
 
 
 fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
+
 fun Long.convertToBeam(): Double = this.toDouble() / 100000000
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
 fun Double.convertToGroth() = (this * 100000000).toLong()
@@ -74,6 +75,27 @@ enum class TxStatus(val value: Int) {
 
         fun fromValue(type: Int): TxStatus {
             return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
+        }
+    }
+}
+
+enum class TxFailureReason(val value: Int) {
+    UNKNOWN(0), CANCELLED(1), INVALID_PEER_SIGNATURE(2), FAILED_TO_REGISTER(3),
+    INVALID_TRANSACTION(4), INVALID_KERNEL_PROOF(5), FAILED_TO_SEND_PARAMETERS(6),
+    NO_INPUTS(7), EXPIRED_ADDRESS_PROVIDED(8), FAILED_TO_GET_PARAMETER(9),
+    TRANSACTION_EXPIRED(10), NO_PAYMENT_PROOF(11);
+
+    companion object {
+        private val map: MutableMap<Int, TxFailureReason> = java.util.HashMap()
+
+        init {
+            TxFailureReason.values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int?): TxFailureReason {
+            return map[type] ?: UNKNOWN
         }
     }
 }
