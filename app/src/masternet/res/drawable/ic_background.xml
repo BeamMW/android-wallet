@@ -4,4 +4,7 @@
     <path android:fillColor="#1E172C" android:fillType="evenOdd"
         android:pathData="M0,0h108v108h-108z"
         android:strokeColor="#00000000" android:strokeWidth="1"/>
+    <path android:fillColor="#9013FE" android:fillType="evenOdd"
+        android:pathData="M-2.108,-16.02l122.388,49.448l-6.368,15.762l-122.388,-49.448z"
+        android:strokeColor="#00000000" android:strokeWidth="1"/>
 </vector>

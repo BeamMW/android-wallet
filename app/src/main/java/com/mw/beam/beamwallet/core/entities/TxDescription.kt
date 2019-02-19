@@ -16,6 +16,9 @@
 package com.mw.beam.beamwallet.core.entities
 
 import android.os.Parcelable
+import android.support.v4.content.ContextCompat
+import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
 import com.mw.beam.beamwallet.core.helpers.TxFailureReason
 import com.mw.beam.beamwallet.core.helpers.TxSender
@@ -47,4 +50,52 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
         return "TxDescription(id=$id amount=$amount fee=$fee status=${status.name} kernelId=$kernelId change=$change minHeight=$minHeight " +
                 "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender=${sender.name} selfTx=$selfTx failureReason=$failureReason)"
     }
+
+    val statusString = when (status) {
+        TxStatus.Pending -> App.self.getString(R.string.wallet_status_pending)
+        TxStatus.InProgress -> {
+            when (sender) {
+                TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_in_progress_sender)
+                TxSender.SENT -> App.self.getString(R.string.wallet_status_in_progress_receiver)
+            }
+        }
+        TxStatus.Registered -> {
+            when (sender) {
+                TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_receiving)
+                TxSender.SENT -> App.self.getString(R.string.wallet_status_sending)
+            }
+        }
+        TxStatus.Completed -> {
+            if (selfTx) {
+                App.self.getString(R.string.wallet_status_completed)
+            } else {
+                when (sender) {
+                    TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_received)
+                    TxSender.SENT -> App.self.getString(R.string.wallet_status_sent)
+                }
+            }
+        }
+        TxStatus.Cancelled -> App.self.getString(R.string.wallet_status_cancelled)
+        TxStatus.Failed -> {
+            when (failureReason) {
+                TxFailureReason.TRANSACTION_EXPIRED -> App.self.getString(R.string.wallet_status_expired)
+                else -> App.self.getString(R.string.wallet_status_failed)
+            }
+        }
+    }
+
+    val color = if (selfTx) {
+        ContextCompat.getColor(App.self, R.color.common_text_color)
+    } else {
+        when (sender) {
+            TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
+            TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
+        }
+    }
+
+    val currencyImage = when (sender) {
+        TxSender.RECEIVED -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_receive)
+        TxSender.SENT -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_send)
+    }
 }
+

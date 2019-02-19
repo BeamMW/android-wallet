@@ -98,9 +98,14 @@
     <string name="wallet_btn_receive">receive</string>
     <string name="wallet_btn_send">send</string>
     <string name="wallet_status_completed">completed</string>
-    <string name="wallet_status_syncing_with_blockchain">syncing with blockchain</string>
-    <string name="wallet_status_in_progress">in progress</string>
+    <string name="wallet_status_received">received</string>
+    <string name="wallet_status_sent">sent</string>
+    <string name="wallet_status_receiving">receiving</string>
+    <string name="wallet_status_sending">sending</string>
+    <string name="wallet_status_in_progress_sender">waiting for sender</string>
+    <string name="wallet_status_in_progress_receiver">waiting for receiver</string>
     <string name="wallet_status_failed">failed</string>
+    <string name="wallet_status_expired">expired</string>
     <string name="wallet_status_cancelled">cancelled</string>
     <string name="wallet_status_pending">pending</string>
     <string name="wallet_transactions_title">Transactions</string>

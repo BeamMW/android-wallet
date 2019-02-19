@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
-import android.support.v4.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -77,33 +76,22 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     private fun configTransactionDetails(txDescription: TxDescription) {
-        when (txDescription.sender) {
-            TxSender.RECEIVED -> {
-                sum.setTextColor(ContextCompat.getColor(this, R.color.received_color))
-                status.setTextColor(ContextCompat.getColor(this, R.color.received_color))
-                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_receive))
-                message.text = String.format(getString(R.string.wallet_transactions_receive), "BEAM") //TODO replace when multiply currency will be available
-            }
-            TxSender.SENT -> {
-                sum.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
-                status.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
-                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_send))
-                message.text = String.format(getString(R.string.wallet_transactions_send), "BEAM") //TODO replace when multiply currency will be available
-            }
-        }
-
-        status.text = when (txDescription.status) {
-            TxStatus.InProgress -> getString(R.string.wallet_status_in_progress)
-            TxStatus.Cancelled -> getString(R.string.wallet_status_cancelled)
-            TxStatus.Failed -> getString(R.string.wallet_status_failed)
-            TxStatus.Pending -> getString(R.string.wallet_status_pending)
-            TxStatus.Registered -> getString(R.string.wallet_status_syncing_with_blockchain)
-            TxStatus.Completed -> getString(R.string.wallet_status_completed)
-        }
+        message.text = String.format(
+                when (txDescription.sender) {
+                    TxSender.RECEIVED -> getString(R.string.wallet_transactions_receive)
+                    TxSender.SENT -> getString(R.string.wallet_transactions_send)
+                },
+                getString(R.string.currency_beam).toUpperCase()) //TODO replace when multiply currency will be available
 
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
+        currency.setImageDrawable(txDescription.currencyImage)
+
         sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
+        sum.setTextColor(txDescription.color)
+
+        status.setTextColor(txDescription.color)
+        status.text = txDescription.statusString
     }
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {

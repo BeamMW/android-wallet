@@ -25,7 +25,6 @@ import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
@@ -37,17 +36,6 @@ import kotlinx.android.synthetic.main.item_transaction.*
 class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
-    private val sentBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_send)
-    private val receivedBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_receive)
-    private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
-    private val completedStatus = context.getString(R.string.wallet_status_completed)
-    private val inProgressStatus = context.getString(R.string.wallet_status_in_progress)
-    private val cancelledStatus = context.getString(R.string.wallet_status_cancelled)
-    private val failedStatus = context.getString(R.string.wallet_status_failed)
-    private val pendingStatus = context.getString(R.string.wallet_status_pending)
-    private val confirmingStatus = context.getString(R.string.wallet_status_syncing_with_blockchain)
-    private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
-    private val swapStatusColor = ContextCompat.getColor(context, R.color.transaction_common_status_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
@@ -65,34 +53,23 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
         val transaction = data[position]
 
         holder.apply {
-            when (transaction.sender) {
-                TxSender.RECEIVED -> {
-                    sum.setTextColor(receivedColor)
-                    status.setTextColor(receivedColor)
-                    currency.setImageDrawable(receivedBeamCurrency)
-                    message.text = String.format(receiveText, currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
-                }
-                TxSender.SENT -> {
-                    sum.setTextColor(sentColor)
-                    status.setTextColor(sentColor)
-                    currency.setImageDrawable(sentBeamCurrency)
-                    message.text = String.format(sendText, currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
-                }
-            }
-
-            status.text = when (transaction.status) {
-                TxStatus.InProgress -> inProgressStatus
-                TxStatus.Cancelled -> cancelledStatus
-                TxStatus.Failed -> failedStatus
-                TxStatus.Pending -> pendingStatus
-                TxStatus.Registered -> confirmingStatus
-                TxStatus.Completed -> completedStatus
-            }
+            message.text = String.format(
+                    when (transaction.sender) {
+                        TxSender.RECEIVED -> receiveText
+                        TxSender.SENT -> sendText
+                    },
+                    currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             icon.setImageResource(beamResId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime * 1000)
+            currency.setImageDrawable(transaction.currencyImage)
+
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
+            sum.setTextColor(transaction.color)
+
+            status.setTextColor(transaction.color)
+            status.text = transaction.statusString
         }
     }
 
