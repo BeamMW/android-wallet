@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -101,6 +102,12 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
             seedLayout.addView(configPhrase(phraseNumber, rowIndex, columnIndex, seed[phraseNumber - 1]))
             columnIndex++
         }
+
+        //hide keyboard at last phrase
+        (seedLayout.getChildAt(seedToValidate.size - 1) as BeamPhraseInput).phraseView.imeOptions = EditorInfo.IME_ACTION_DONE
+
+        (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
+        showKeyboard()
     }
 
     private fun configPhrase(number: Int, rowIndex: Int, columnIndex: Int, validPhrase: String): View? {
