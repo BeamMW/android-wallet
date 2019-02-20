@@ -91,7 +91,7 @@ class BeamPhraseInput : ConstraintLayout {
                 if (isForEnsure) {
                     when {
                         isEmpty -> {
-                            numberTextColorResId = R.color.colorPrimary
+                            numberTextColorResId = R.color.common_text_dark_color
                             numberBackgroundResId = R.drawable.empty_number_background
                             phraseView.isStateNormal = true
                         }
@@ -108,7 +108,7 @@ class BeamPhraseInput : ConstraintLayout {
                     }
                 } else {
                     if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
-                        numberTextColorResId = R.color.colorPrimary
+                        numberTextColorResId = R.color.common_text_dark_color
                         numberBackgroundResId = R.drawable.empty_number_background
                         phraseView.isStateNormal = true
                     } else {
