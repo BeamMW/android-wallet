@@ -23,6 +23,7 @@ import com.mw.beam.beamwallet.core.helpers.Status
  * Created by vain onnellinen on 10/1/18.
  */
 interface MvpView {
+    fun showKeyboard()
     fun hideKeyboard()
     fun showSnackBar(status: Status)
     fun showSnackBar(message: String)

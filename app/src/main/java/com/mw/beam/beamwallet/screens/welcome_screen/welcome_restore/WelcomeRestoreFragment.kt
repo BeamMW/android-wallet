@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -76,6 +77,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
             seedLayout.addView(configPhrase(i, rowIndex, columnIndex, sideOffset, topOffset))
             columnIndex++
         }
+
+        //hide keyboard at last phrase
+        (seedLayout.getChildAt(phrasesCount - 1) as BeamPhraseInput).phraseView.imeOptions = EditorInfo.IME_ACTION_DONE
+
+        (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
+        showKeyboard()
     }
 
     private fun configPhrase(number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {

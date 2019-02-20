@@ -30,7 +30,6 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
@@ -43,6 +42,12 @@ class ScreenDelegate {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content)?.windowToken, 0)
     }
+
+    fun showKeyboard(activity: SupportActivity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInputFromWindow(activity.findViewById<View>(android.R.id.content)?.windowToken, InputMethodManager.SHOW_FORCED, 0)
+    }
+
 
     fun showSnackBar(status: Status, activity: SupportActivity) {
         showSnackBar(
@@ -62,7 +67,7 @@ class ScreenDelegate {
     }
 
     @SuppressLint("InflateParams")
-    fun showAlert(message: String, title: String, btnConfirmText : String, btnCancelText : String?, onConfirm: () -> Unit, onCancel: () -> Unit, context: Context): AlertDialog? {
+    fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit, context: Context): AlertDialog? {
         val view = LayoutInflater.from(context).inflate(R.layout.common_alert_dialog, null)
         val alertTitle = view.findViewById<TextView>(R.id.title)
         val alertText = view.findViewById<TextView>(R.id.alertText)

@@ -24,6 +24,7 @@
         android:background="@drawable/edit_text_selector"
         android:inputType="text"
         android:maxLines="1"
+        android:imeOptions="actionNext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
