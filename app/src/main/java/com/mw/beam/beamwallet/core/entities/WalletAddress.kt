@@ -31,5 +31,6 @@ class WalletAddress(var source: WalletAddressDTO) {
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
+        this.duration = this@WalletAddress.duration
     }
 }

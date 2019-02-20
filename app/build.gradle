@@ -25,8 +25,8 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 26
-        versionName "1.0.5"
+        versionCode 27
+        versionName "1.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,10 +46,13 @@ android {
             dimension "api"
             //change to mainnet
             buildConfigField "String", "NODE_ADDRESS", '"eu-node03.masternet.beam.mw:8100"'
+            applicationIdSuffix ".mainnet"
+
         }
         masternet {
             dimension "api"
             buildConfigField "String", "NODE_ADDRESS", '"eu-node03.masternet.beam.mw:8100"'
+            applicationIdSuffix ".masternet"
         }
         beamtestnet {
             dimension "api"

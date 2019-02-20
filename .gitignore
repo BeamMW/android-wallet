@@ -4,5 +4,7 @@
 .gradle/
 /build
 /app/release
-/app/beta
+/app/masternet
+/app/beamtestnet
+/app/mainnet
 .gradle/
