@@ -23,5 +23,5 @@ data class WalletAddressDTO(val walletID: String,
                             var label: String,
                             val category: String,
                             val createTime: Long,
-                            val duration: Long,
+                            var duration: Long,
                             val own: Long)

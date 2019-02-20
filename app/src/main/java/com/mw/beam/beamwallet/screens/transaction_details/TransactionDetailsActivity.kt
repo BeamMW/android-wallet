@@ -88,9 +88,9 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         currency.setImageDrawable(txDescription.currencyImage)
 
         sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
-        sum.setTextColor(txDescription.color)
+        sum.setTextColor(txDescription.amountColor)
 
-        status.setTextColor(txDescription.color)
+        status.setTextColor(txDescription.statusColor)
         status.text = txDescription.statusString
     }
 

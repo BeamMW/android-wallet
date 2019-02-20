@@ -66,9 +66,9 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
             currency.setImageDrawable(transaction.currencyImage)
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
-            sum.setTextColor(transaction.color)
+            sum.setTextColor(transaction.amountColor)
 
-            status.setTextColor(transaction.color)
+            status.setTextColor(transaction.statusColor)
             status.text = transaction.statusString
         }
     }

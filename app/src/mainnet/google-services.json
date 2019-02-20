@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "858605387984",
+    "firebase_url": "https://beam-7c4e6.firebaseio.com",
+    "project_id": "beam-7c4e6",
+    "storage_bucket": "beam-7c4e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:858605387984:android:5b5f47b030e024cd",
+        "android_client_info": {
+          "package_name": "com.mw.beam.beamwallet.mainnet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "858605387984-h7mjhnmj5id9kcnd141u6uhfaru0hqp2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjeBwcms9xUSaF0QZA4Tls8UwiPsALLfU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
