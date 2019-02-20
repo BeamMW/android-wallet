@@ -62,7 +62,7 @@
     <dimen name="welcome_description_item_top_offset">46dp</dimen>
     <dimen name="welcome_description_item_side_offset">30dp</dimen>
     <dimen name="welcome_description_button_side_offset">13dp</dimen>
-    <dimen name="welcome_description_button_bottom_offset">62dp</dimen>
+    <dimen name="welcome_description_button_offset">62dp</dimen>
 
     <!--WelcomeSeedFragment-->
     <dimen name="welcome_seed_button_margin">60dp</dimen>

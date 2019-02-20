@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/description"
-        style="@style/welcome_description_text_style"
-        android:paddingStart="@dimen/welcome_description_side_offset"
-        android:paddingTop="@dimen/common_offset"
-        android:paddingEnd="@dimen/welcome_description_side_offset"
-        android:paddingBottom="@dimen/welcome_seed_description_padding_bottom"
-        android:text="@string/welcome_validation_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <GridLayout
-        android:id="@+id/seedLayout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/welcome_grid_offset"
-        android:layout_marginEnd="@dimen/welcome_grid_offset"
-        android:columnCount="2"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/btnNext"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        app:layout_constraintVertical_weight="1" />
+        android:layout_height="wrap_content">
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnNext"
-        style="@style/common_button_style"
-        android:layout_marginBottom="@dimen/welcome_seed_button_margin"
-        app:button_icon="@drawable/ic_btn_proceed"
-        app:button_text="@string/welcome_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <TextView
+            android:id="@+id/description"
+            style="@style/welcome_description_text_style"
+            android:paddingStart="@dimen/welcome_description_side_offset"
+            android:paddingTop="@dimen/common_offset"
+            android:paddingEnd="@dimen/welcome_description_side_offset"
+            android:paddingBottom="@dimen/welcome_seed_description_padding_bottom"
+            android:text="@string/welcome_validation_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        <GridLayout
+            android:id="@+id/seedLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/welcome_grid_offset"
+            android:layout_marginEnd="@dimen/welcome_grid_offset"
+            android:columnCount="2"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
+            style="@style/common_button_style"
+            android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+            android:layout_marginTop="@dimen/welcome_seed_button_margin"
+            app:button_icon="@drawable/ic_btn_proceed"
+            app:button_text="@string/welcome_next"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
