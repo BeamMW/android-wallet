@@ -19,9 +19,11 @@ package com.mw.beam.beamwallet.screens.main
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.os.PersistableBundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -30,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.screens.receive.ReceiveActivity
 import com.mw.beam.beamwallet.screens.send.SendActivity
 import com.mw.beam.beamwallet.screens.settings.SettingsFragment
@@ -45,6 +48,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler, UtxoFragment.UtxoDetailsHandler {
     private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var navItemsAdapter: NavItemsAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_main
     override fun getToolbarTitle(): String? = null
@@ -95,6 +99,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         }
 
         super.onBackPressed()
+
+        when (supportFragmentManager.findFragmentById(R.id.container)?.tag) {
+            WalletFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.WALLET)
+            UtxoFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.UTXO)
+            SettingsFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.SETTINGS)
+        }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -116,29 +126,35 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     }
 
     private fun configNavView() {
-        getColorStateList(R.color.menu_selector).apply {
-            navView.itemIconTintList = this
-            navView.itemTextColor = this
-        }
+        val menuItems = arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.nav_utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.nav_settings)))
 
-        //TODO presenter?
-        navView.setNavigationItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.nav_wallet -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                //  R.id.nav_address_book -> LogUtils.log("address book")
-                R.id.nav_utxo -> showFragment(UtxoFragment.newInstance(), UtxoFragment.getFragmentTag(), UtxoFragment.getFragmentTag(), true)
-                // R.id.nav_dashboard -> LogUtils.log("dashboard")
-                // R.id.nav_notifications -> LogUtils.log("notifications")
-                //  R.id.nav_help -> LogUtils.log("help")
-                R.id.nav_settings -> showFragment(SettingsFragment.newInstance(), SettingsFragment.getFragmentTag(), SettingsFragment.getFragmentTag(), true)
+        navItemsAdapter = NavItemsAdapter(this, menuItems, object : NavItemsAdapter.OnItemClickListener {
+            override fun onItemClick(navItem: NavItem) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+
+                when (navItem.id) {
+                    NavItem.ID.WALLET -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
+                    NavItem.ID.ADDRESS_BOOK -> LogUtils.log("address book")
+                    NavItem.ID.UTXO -> showFragment(UtxoFragment.newInstance(), UtxoFragment.getFragmentTag(), UtxoFragment.getFragmentTag(), true)
+                    NavItem.ID.DASHBOARD -> LogUtils.log("dashboard")
+                    NavItem.ID.NOTIFICATIONS -> LogUtils.log("notifications")
+                    NavItem.ID.HELP -> LogUtils.log("help")
+                    NavItem.ID.SETTINGS -> showFragment(SettingsFragment.newInstance(), SettingsFragment.getFragmentTag(), SettingsFragment.getFragmentTag(), true)
+                }
             }
-            true
-        }
+        })
+        navMenu.layoutManager = LinearLayoutManager(this)
+        navMenu.adapter = navItemsAdapter
 
-        navView.apply {
-            setCheckedItem(R.id.nav_wallet)
-            menu.performIdentifierAction(R.id.nav_wallet, 0)
-        }
+        // handler is needed to make it work somehow
+        Handler().postDelayed({
+            run {
+                navMenu.findViewHolderForAdapterPosition(0)?.itemView?.performClick()
+            }
+        }, 100)
     }
 
     override fun clearListeners() {

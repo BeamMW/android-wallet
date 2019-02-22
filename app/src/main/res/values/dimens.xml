@@ -20,6 +20,11 @@
     <dimen name="toolbar_padding_for_status_start">16dp</dimen>
     <dimen name="toolbar_padding_for_status">10dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
+    <dimen name="navigation_padding_top">29dp</dimen>
+    <dimen name="navigation_accent_size">6dp</dimen>
+    <dimen name="navigation_item_size">47dp</dimen>
+    <dimen name="navigation_item_icon_margin">20dp</dimen>
+    <dimen name="navigation_item_text_size">16sp</dimen>
     <dimen name="alert_dialog_button_padding">20dp</dimen>
     <dimen name="alert_dialog_alert_padding">40dp</dimen>
     <dimen name="alert_dialog_title_padding">30dp</dimen>

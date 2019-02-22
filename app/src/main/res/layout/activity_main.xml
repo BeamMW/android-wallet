@@ -31,6 +31,12 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/navigation_drawer_color"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/drawer_menu" />
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/navMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/navigation_padding_top" />
+    </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

@@ -22,7 +22,7 @@
     <color name="sent_color_picked">#be5cd6</color>
     <color name="logo_text_color">#25c1ff</color>
     <color name="testnet_text_color">#80ffffff</color>
-    <color name="ic_menu_color">#80929D</color>
+    <color name="ic_menu_color">#99ffffff</color>
 
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>
