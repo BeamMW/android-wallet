@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable
  * Created by vain onnellinen on 10/1/18.
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
-    private lateinit var disposable: CompositeDisposable
+    protected lateinit var disposable: CompositeDisposable
     private var nodeConnectionSubscription: Disposable? = null
     private var nodeConnectionFailedSubscription: Disposable? = null
     private var syncProgressUpdatedSubscription: Disposable? = null
