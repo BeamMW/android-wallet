@@ -43,15 +43,27 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     override fun initSubscriptions() {
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             if (it.total == 0) {
-                view?.showWallet()
+                //TODO maybe we should show "100%" progress before moving further
+                showWallet()
             } else {
                 view?.updateProgress(it, state.mode)
 
                 if (it.done == it.total) {
-                    view?.showWallet()
+                    showWallet()
                 }
             }
         }
+    }
+
+    override fun getSubscriptions(): Array<Disposable>? {
+        return arrayOf(syncProgressUpdatedSubscription)
+    }
+
+    private fun showWallet() {
+        //sometimes lib notifies us few times about end of progress
+        //so we need to unsubscribe from events to prevent unexpected behaviour
+        disposable.dispose()
+        view?.showWallet()
     }
 
     override fun hasBackArrow(): Boolean? = false
