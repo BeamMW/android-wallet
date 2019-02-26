@@ -103,7 +103,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
             columnIndex++
         }
 
-        //hide keyboard at last phrase
+        //to hide keyboard at last phrase
         (seedLayout.getChildAt(seedToValidate.size - 1) as BeamPhraseInput).phraseView.imeOptions = EditorInfo.IME_ACTION_DONE
 
         (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
