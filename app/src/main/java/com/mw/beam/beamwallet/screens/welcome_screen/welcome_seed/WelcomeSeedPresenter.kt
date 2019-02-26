@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -30,7 +31,9 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         super.onViewCreated()
         view?.configSeed(repository.seed)
 
-        LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed)}")
+        if (BuildConfig.DEBUG) {
+            LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed)}")
+        }
     }
 
     override fun onDonePressed() {
