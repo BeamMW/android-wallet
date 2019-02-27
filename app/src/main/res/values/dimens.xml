@@ -101,6 +101,7 @@
     <dimen name="wallet_button_margin_top">10dp</dimen>
     <dimen name="wallet_available_margin_top">20dp</dimen>
     <dimen name="wallet_in_progress_margin_top">9dp</dimen>
+    <dimen name="wallet_in_progress_sum_padding">6dp</dimen>
     <dimen name="wallet_in_progress_title_margin_top">20dp</dimen>
     <dimen name="wallet_in_progress_title_margin_side">20dp</dimen>
     <dimen name="wallet_in_progress_element_margin_top">6dp</dimen>
