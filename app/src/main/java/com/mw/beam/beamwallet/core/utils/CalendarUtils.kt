@@ -24,11 +24,19 @@ import java.util.*
  * Created by vain onnellinen on 10/4/18.
  */
 object CalendarUtils {
-    private val WALLET_TIME_FORMAT = SimpleDateFormat("dd MMM yyyy  |  HH:mm a", AppConfig.LOCALE)
+    private val WALLET_TIME_FORMAT = SimpleDateFormat("d MMM yyyy  |  HH:mm a", AppConfig.LOCALE)
 
-    fun fromTimestamp(timestamp : Long) : String {
+    fun fromTimestamp(timestamp: Long): String {
         val calendar = Calendar.getInstance()
-        calendar.timeInMillis = timestamp
+        calendar.timeInMillis = timestamp * 1000
         return WALLET_TIME_FORMAT.format(calendar.time)
     }
+}
+
+fun Long.isBefore(): Boolean {
+    val calendar = Calendar.getInstance()
+    val currentCalendar = Calendar.getInstance()
+    calendar.timeInMillis = this
+
+    return currentCalendar.after(calendar)
 }

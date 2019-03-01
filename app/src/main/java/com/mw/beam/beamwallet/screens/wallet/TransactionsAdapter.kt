@@ -62,7 +62,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             icon.setImageResource(beamResId)
-            date.text = CalendarUtils.fromTimestamp(transaction.modifyTime * 1000)
+            date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)

@@ -84,7 +84,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
                 getString(R.string.currency_beam).toUpperCase()) //TODO replace when multiply currency will be available
 
         icon.setImageResource(R.drawable.ic_beam)
-        date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime * 1000)
+        date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
         currency.setImageDrawable(txDescription.currencyImage)
 
         sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)

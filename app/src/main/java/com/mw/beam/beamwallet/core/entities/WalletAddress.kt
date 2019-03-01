@@ -17,9 +17,11 @@
 package com.mw.beam.beamwallet.core.entities
 
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.utils.isBefore
 
 /**
- * Created by vain onnellinen on 019 19.11.18.
+ * Created by vain onnellinen on 19.11.18.
  */
 class WalletAddress(var source: WalletAddressDTO) {
     val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
@@ -28,9 +30,14 @@ class WalletAddress(var source: WalletAddressDTO) {
     val createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
+    val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
+    }
+
+    override fun toString(): String {
+        return "WalletAddress(walletID=$walletID label=$label category=$category createTime=${CalendarUtils.fromTimestamp(createTime)} duration=$duration own=$own isExpired=$isExpired"
     }
 }

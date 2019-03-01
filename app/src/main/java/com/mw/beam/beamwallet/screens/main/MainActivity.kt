@@ -33,6 +33,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
 import com.mw.beam.beamwallet.screens.receive.ReceiveActivity
 import com.mw.beam.beamwallet.screens.send.SendActivity
 import com.mw.beam.beamwallet.screens.settings.SettingsFragment
@@ -128,6 +129,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     private fun configNavView() {
         val menuItems = arrayOf(
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.nav_address_book)),
                 NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.nav_utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.nav_settings)))
 
@@ -135,9 +137,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
             override fun onItemClick(navItem: NavItem) {
                 drawerLayout.closeDrawer(GravityCompat.START)
 
+                //TODO presenter?
                 when (navItem.id) {
                     NavItem.ID.WALLET -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                    NavItem.ID.ADDRESS_BOOK -> LogUtils.log("address book")
+                    NavItem.ID.ADDRESS_BOOK -> showFragment(AddressesFragment.newInstance(), AddressesFragment.getFragmentTag(), AddressesFragment.getFragmentTag(), true)
                     NavItem.ID.UTXO -> showFragment(UtxoFragment.newInstance(), UtxoFragment.getFragmentTag(), UtxoFragment.getFragmentTag(), true)
                     NavItem.ID.DASHBOARD -> LogUtils.log("dashboard")
                     NavItem.ID.NOTIFICATIONS -> LogUtils.log("notifications")
