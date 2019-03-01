@@ -36,10 +36,7 @@ interface MainContract {
         fun onShowTransactionDetails(item: TxDescription)
         fun onReceive()
         fun onSend()
-        fun onClose()
     }
 
-    interface Repository : MvpRepository {
-        fun closeWallet()
-    }
+    interface Repository : MvpRepository
 }

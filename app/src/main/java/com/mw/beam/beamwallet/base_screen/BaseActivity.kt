@@ -96,6 +96,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
+            presenter.onClose()
             finish()
             return
         }

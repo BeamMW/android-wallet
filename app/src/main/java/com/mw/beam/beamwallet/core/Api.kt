@@ -32,4 +32,6 @@ object Api {
     external fun isWalletInitialized(dbPath: String): Boolean
     external fun createMnemonic(): Array<String>
     external fun checkReceiverAddress(address: String?): Boolean
+    external fun closeWallet()
+    external fun isWalletRunning(): Boolean
 }

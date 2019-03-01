@@ -79,6 +79,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         detachView()
     }
 
+    override fun onClose() {
+        repository.closeWallet()
+    }
+
     override fun getSubscriptions(): Array<Disposable>? = null
 
     override fun initSubscriptions() {
