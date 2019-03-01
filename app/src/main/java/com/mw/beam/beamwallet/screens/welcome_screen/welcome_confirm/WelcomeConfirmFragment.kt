@@ -142,8 +142,11 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun showSeedAlert() {
-        // TODO show alert
-        presenter.onCreateNewSeed()
+        showAlert(message = getString(R.string.welcome_validation_return_seed_message),
+                title = getString(R.string.welcome_pass_return_seed_title),
+                btnConfirmText = getString(R.string.welcome_pass_return_seed_btn_create_new),
+                btnCancelText = getString(R.string.common_cancel),
+                onConfirm = { presenter.onCreateNewSeed() })
     }
 
     override fun onBackPressed() {
