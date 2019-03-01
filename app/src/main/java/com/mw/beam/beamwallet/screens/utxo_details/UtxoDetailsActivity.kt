@@ -131,7 +131,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         relatedTransactions.forEach {
             transactionHistoryList.addView(configTransaction(
                     isReceived = it.id == utxo.createTxId,
-                    time = CalendarUtils.fromTimestamp(it.modifyTime * 1000),
+                    time = CalendarUtils.fromTimestamp(it.modifyTime),
                     id = it.id,
                     comment = it.message,
                     offset = offset))

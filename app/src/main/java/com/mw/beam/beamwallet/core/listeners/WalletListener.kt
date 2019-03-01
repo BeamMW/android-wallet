@@ -43,7 +43,7 @@ object WalletListener {
     var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
-    var subOnAddresses: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
@@ -68,7 +68,7 @@ object WalletListener {
             ?: emptyList(), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
-    fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), object {}.javaClass.enclosingMethod.name)
 
     @JvmStatic
     fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), object {}.javaClass.enclosingMethod.name)
