@@ -29,4 +29,6 @@ interface MvpRepository {
     fun getNodeConnectionStatusChanged(): Subject<Boolean>
     fun getNodeConnectionFailed(): Subject<Any>
     fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
+
+    fun closeWallet()
 }
