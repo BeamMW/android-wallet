@@ -60,6 +60,7 @@
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirm seed phrase</string>
     <string name="welcome_validation_description">To ensure the seed phrase is written down correctly, please fill in the specific words below.</string>
+    <string name="welcome_validation_return_seed_message">Your current seed will become obsolete and the new seed will be generated</string>
 
     <!--WelcomeRestoreFragment-->
     <string name="welcome_restore_title">Restore wallet</string>
