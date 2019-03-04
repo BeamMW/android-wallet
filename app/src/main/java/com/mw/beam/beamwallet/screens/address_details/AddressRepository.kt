@@ -27,8 +27,8 @@ import io.reactivex.subjects.Subject
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
-    override fun deleteAddress() {
-
+    override fun deleteAddress(addressId: String) {
+        getResult({ wallet?.deleteAddress(addressId) }, object {}.javaClass.enclosingMethod.name)
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
