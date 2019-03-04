@@ -30,7 +30,7 @@ import io.reactivex.subjects.Subject
 interface AddressContract {
     interface View : MvpView {
         fun getAddress(): WalletAddress
-        fun init(address : WalletAddress)
+        fun init(address: WalletAddress)
         fun configTransactions(transactions: List<TxDescription>)
         fun showTransactionDetails(txDescription: TxDescription)
         fun finishScreen()
@@ -44,7 +44,7 @@ interface AddressContract {
     }
 
     interface Repository : MvpRepository {
-        fun deleteAddress()
+        fun deleteAddress(addressId: String)
         fun getTxStatus(): Subject<OnTxStatusData>
     }
 }

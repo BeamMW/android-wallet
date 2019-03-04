@@ -41,6 +41,6 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     }
 
     override fun toString(): String {
-        return "WalletAddress(walletID=$walletID label=$label category=$category createTime=${CalendarUtils.fromTimestamp(createTime)} duration=$duration own=$own isExpired=$isExpired"
+        return "WalletAddress( \nwalletID=$walletID\n label=$label\n category=$category\n createTime=${CalendarUtils.fromTimestamp(createTime)}\n duration=$duration\n own=$own\n isExpired=$isExpired\n"
     }
 }

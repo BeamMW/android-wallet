@@ -44,7 +44,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onDeleteAddress() {
-        repository.deleteAddress()
+        repository.deleteAddress(state.address?.walletID ?: return)
         view?.finishScreen()
     }
 
