@@ -14,32 +14,37 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.addresses
+package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ * Created by vain onnellinen on 3/4/19.
  */
-interface AddressesContract {
+interface AddressContract {
     interface View : MvpView {
-        fun init()
-        fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
-        fun showAddressDetails(address: WalletAddress)
+        fun getAddress(): WalletAddress
+        fun init(address : WalletAddress)
+        fun configTransactions(transactions: List<TxDescription>)
+        fun showTransactionDetails(txDescription: TxDescription)
+        fun finishScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onAddressPressed(address: WalletAddress)
+        fun onShowQR()
+        fun onEditAddress()
+        fun onDeleteAddress()
+        fun onTransactionPressed(txDescription: TxDescription)
     }
 
     interface Repository : MvpRepository {
-        fun getAddresses(): Subject<OnAddressesData>
+        fun deleteAddress()
         fun getTxStatus(): Subject<OnTxStatusData>
     }
 }

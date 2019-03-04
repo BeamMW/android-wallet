@@ -16,14 +16,17 @@
 
 package com.mw.beam.beamwallet.core.entities
 
+import android.os.Parcelable
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.utils.isBefore
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by vain onnellinen on 19.11.18.
  */
-class WalletAddress(var source: WalletAddressDTO) {
+@Parcelize
+class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
     var label: String = source.label
     val category: String = source.category

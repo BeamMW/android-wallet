@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/addressLayout"
+        layout="@layout/item_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+
+    <!--Transactions-->
+    <TextView
+        android:id="@+id/transactionsTitle"
+        style="@style/common_header_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/common_offset"
+        android:paddingTop="@dimen/address_transaction_title_padding_top"
+        android:paddingEnd="@dimen/common_offset"
+        android:paddingBottom="@dimen/address_transaction_title_padding_bottom"
+        android:text="@string/address_transactions_title"
+        app:layout_constraintTop_toBottomOf="@id/addressLayout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/transactionsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionsTitle" />
+
+</android.support.constraint.ConstraintLayout>

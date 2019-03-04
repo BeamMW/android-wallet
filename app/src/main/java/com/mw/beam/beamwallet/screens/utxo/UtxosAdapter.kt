@@ -50,8 +50,8 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
     private val unavailableColor = ContextCompat.getColor(context, R.color.common_text_color)
-    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
+    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
+    private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_utxo, parent, false)).apply {
         this.containerView.setOnClickListener {

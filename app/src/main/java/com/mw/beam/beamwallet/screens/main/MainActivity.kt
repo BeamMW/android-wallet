@@ -32,7 +32,9 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.screens.address_details.AddressActivity
 import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
 import com.mw.beam.beamwallet.screens.receive.ReceiveActivity
 import com.mw.beam.beamwallet.screens.send.SendActivity
@@ -46,7 +48,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler, UtxoFragment.UtxoDetailsHandler {
+class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler, UtxoFragment.UtxoDetailsHandler, AddressesFragment.AddressDetailsHandler {
     private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
@@ -77,6 +79,11 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
         startActivity(Intent(this, UtxoDetailsActivity::class.java)
                 .putExtra(UtxoDetailsActivity.EXTRA_UTXO_DETAILS, item)
                 .putParcelableArrayListExtra(UtxoDetailsActivity.EXTRA_RELATED_TRANSACTIONS, relatedTransactions))
+    }
+
+    override fun onShowAddressDetails(item: WalletAddress) {
+        startActivity(Intent(this, AddressActivity::class.java)
+                .putExtra(AddressActivity.EXTRA_ADDRESS, item))
     }
 
     override fun showReceiveScreen() {

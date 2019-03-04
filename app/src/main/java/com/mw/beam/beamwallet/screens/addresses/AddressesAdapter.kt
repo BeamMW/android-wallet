@@ -38,6 +38,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
     private val defaultLabel = context.getString(R.string.addresses_label_default)
     private val expiredDate = context.getString(R.string.addresses_expired)
     private val expiresDate = context.getString(R.string.addresses_expires)
+    private val expiresNever = context.getString(R.string.addresses_never)
 
     private var data: List<WalletAddress> = listOf()
 
@@ -53,9 +54,9 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         holder.apply {
             label.text = if (address.label.isBlank()) defaultLabel else address.label
             id.text = address.walletID
-            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
+            itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             date.text = String.format(if (address.isExpired) expiredDate else expiresDate,
-                    CalendarUtils.fromTimestamp(address.createTime + address.duration))
+                    if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration))
         }
     }
 

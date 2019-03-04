@@ -22,9 +22,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.utils.LogUtils
 import kotlinx.android.synthetic.main.fragment_addresses.*
 
 /**
@@ -47,8 +45,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         pagerAdapter = AddressesPagerAdapter(context, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
-                // presenter.onUtxoPressed(item)
-                LogUtils.log(item.walletID)
+                presenter.onAddressPressed(item)
             }
         })
 
@@ -56,7 +53,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         tabLayout.setupWithViewPager(pager)
     }
 
-    override fun showAddressDetails(address: WalletAddress, relatedTransactions: ArrayList<TxDescription>) = (activity as AddressDetailsHandler).onShowAddressDetails(address, relatedTransactions)
+    override fun showAddressDetails(address: WalletAddress) = (activity as AddressDetailsHandler).onShowAddressDetails(address)
 
     override fun updateAddresses(tab: Tab, addresses: List<WalletAddress>) {
         pagerAdapter.setData(tab, addresses)
@@ -68,6 +65,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     interface AddressDetailsHandler {
-        fun onShowAddressDetails(item: WalletAddress, relatedTransactions: ArrayList<TxDescription>)
+        fun onShowAddressDetails(item: WalletAddress)
     }
 }

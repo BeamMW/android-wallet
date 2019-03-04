@@ -36,8 +36,8 @@ import kotlinx.android.synthetic.main.item_transaction.*
 class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
-    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
+    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
     private val sendText = context.getString(R.string.wallet_transactions_send)
     private val swapText = context.getString(R.string.wallet_transactions_swap)
@@ -60,7 +60,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
                     },
                     currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
 
-            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
+            itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             icon.setImageResource(beamResId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)
