@@ -5,6 +5,6 @@
     <color name="colorPrimaryDark">#1e172c</color>
     <color name="navigation_drawer_color">#191226</color>
 
-    <color name="wallet_adapter_multiply_color">#292236</color>
-    <color name="wallet_adapter_not_multiply_color">#332d40</color>
+    <color name="wallet_adapter_not_multiply_color">#292236</color>
+    <color name="wallet_adapter_multiply_color">#332d40</color>
 </resources>

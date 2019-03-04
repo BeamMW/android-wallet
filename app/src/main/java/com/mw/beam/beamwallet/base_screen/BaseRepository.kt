@@ -15,6 +15,7 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
@@ -33,9 +34,9 @@ open class BaseRepository : MvpRepository {
 
     override fun closeWallet() {
         getResult({
-//            if (Api.isWalletRunning()) {
-//                Api.closeWallet()
-//            }
+            if (Api.isWalletRunning()) {
+                Api.closeWallet()
+            }
         }, object {}.javaClass.enclosingMethod.name)
     }
 

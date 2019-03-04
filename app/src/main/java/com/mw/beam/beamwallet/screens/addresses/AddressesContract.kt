@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.subjects.Subject
 
@@ -32,7 +31,7 @@ interface AddressesContract {
     interface View : MvpView {
         fun init()
         fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
-        fun showAddressDetails(address: WalletAddress, relatedTransactions: ArrayList<TxDescription>)
+        fun showAddressDetails(address: WalletAddress)
     }
 
     interface Presenter : MvpPresenter<View> {

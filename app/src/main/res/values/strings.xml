@@ -11,6 +11,7 @@
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_done">done</string>
+    <string name="common_menu_more">more</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
 
@@ -168,7 +169,6 @@
     <string name="transaction_details_menu_copy_address">Copy address</string>
     <string name="transaction_details_menu_cancel">Cancel transaction</string>
     <string name="transaction_details_menu_delete">Delete transaction</string>
-    <string name="transaction_details_menu_more">more</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
@@ -215,4 +215,12 @@
     <string name="addresses_label_default">Default</string>
     <string name="addresses_expires">Expires: %1$s</string>
     <string name="addresses_expired">Expired: %1$s</string>
+    <string name="addresses_never">never</string>
+
+    <!--AddressActivity-->
+    <string name="address_title">Address</string>
+    <string name="address_menu_qr">Show QR code</string>
+    <string name="address_menu_edit">Edit address</string>
+    <string name="address_menu_delete">Delete address</string>
+    <string name="address_transactions_title">Transactions list</string>
 </resources>

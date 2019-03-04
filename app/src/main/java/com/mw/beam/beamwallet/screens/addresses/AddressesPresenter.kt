@@ -35,7 +35,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     override fun onAddressPressed(address: WalletAddress) {
-        //  view?.showAddressDetails(address, state.configTransactions().filter { it.id == utxo.createTxId || it.id == utxo.spentTxId } as ArrayList<TxDescription>)
+          view?.showAddressDetails(address)
     }
 
     override fun initSubscriptions() {

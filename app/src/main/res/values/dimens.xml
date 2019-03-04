@@ -169,4 +169,8 @@
     <dimen name="addresses_label_text_size">20sp</dimen>
     <dimen name="addresses_label_offset">10dp</dimen>
     <dimen name="addresses_label_id_width">85dp</dimen>
+
+    <!--AddressActivity-->
+    <dimen name="address_transaction_title_padding_top">31dp</dimen>
+    <dimen name="address_transaction_title_padding_bottom">20dp</dimen>
 </resources>

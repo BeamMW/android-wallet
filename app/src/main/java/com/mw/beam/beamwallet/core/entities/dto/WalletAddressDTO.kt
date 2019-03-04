@@ -16,12 +16,16 @@
 
 package com.mw.beam.beamwallet.core.entities.dto
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by vain onnellinen on 1/4/19.
  */
+@Parcelize
 data class WalletAddressDTO(val walletID: String,
                             var label: String,
                             val category: String,
                             val createTime: Long,
                             var duration: Long,
-                            val own: Long)
+                            val own: Long) : Parcelable
