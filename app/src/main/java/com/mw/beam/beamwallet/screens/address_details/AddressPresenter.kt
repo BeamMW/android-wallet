@@ -40,7 +40,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onEditAddress() {
-
+        view?.showEditAddressScreen(state.address ?: return)
     }
 
     override fun onDeleteAddress() {

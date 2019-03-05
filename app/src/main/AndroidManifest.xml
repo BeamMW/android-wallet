@@ -44,6 +44,9 @@
         <activity
             android:name=".screens.address_details.AddressActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.address_edit.EditAddressActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

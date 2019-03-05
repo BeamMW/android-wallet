@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.screens.address_edit.EditAddressActivity
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.activity_address.*
@@ -61,7 +62,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.showQR -> presenter.onShowQR()
+            //   R.id.showQR -> presenter.onShowQR()
             R.id.edit -> presenter.onEditAddress()
             R.id.delete -> presenter.onDeleteAddress()
         }
@@ -98,6 +99,11 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     override fun showTransactionDetails(txDescription: TxDescription) {
         startActivity(Intent(this, TransactionDetailsActivity::class.java)
                 .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, txDescription))
+    }
+
+    override fun showEditAddressScreen(address: WalletAddress) {
+        startActivity(Intent(this, EditAddressActivity::class.java)
+                .putExtra(EditAddressActivity.EXTRA_ADDRESS_FOR_EDIT, address))
     }
 
     override fun finishScreen() {
