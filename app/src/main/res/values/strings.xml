@@ -223,4 +223,7 @@
     <string name="address_menu_edit">Edit address</string>
     <string name="address_menu_delete">Delete address</string>
     <string name="address_transactions_title">Transactions list</string>
+
+    <!--EditAddressActivity-->
+    <string name="edit_address_title">Edit address</string>
 </resources>

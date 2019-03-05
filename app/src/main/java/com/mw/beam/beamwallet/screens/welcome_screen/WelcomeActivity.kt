@@ -78,6 +78,7 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
 
     override fun onBackPressed() {
         val fragment = this.supportFragmentManager.findFragmentById(R.id.container)
+        hideKeyboard()
 
         if (fragment != null && fragment is OnBackPressedHandler) {
             (fragment as? OnBackPressedHandler)?.onBackPressed()
