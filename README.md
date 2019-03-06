@@ -2,7 +2,7 @@
 
 [twitter](https://twitter.com/beamprivacy) | [medium](https://medium.com/beam-mw) | [reddit](https://www.reddit.com/r/beamprivacy/) | [beam forum](http://forum.beam-mw.com) | [gitter](https://gitter.im/beamprivacy/Lobby) | [telegram](https://t.me/BeamPrivacy) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
 
-Beam wallet mobile application allows to confidentially exchange funds anywhere you are.
+Beam wallet app for Android allows to confidentially exchange funds anywhere you are.
 
 Read documentation [here](https://documentation.beam.mw).
 
