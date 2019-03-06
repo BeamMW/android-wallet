@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -34,13 +35,16 @@ interface AddressContract {
         fun configTransactions(transactions: List<TxDescription>)
         fun showTransactionDetails(txDescription: TxDescription)
         fun showEditAddressScreen(address: WalletAddress)
+        fun configMenuItems(menu: Menu?, address: WalletAddress)
         fun finishScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShowQR()
         fun onEditAddress()
+        fun onAddressWasEdited()
         fun onDeleteAddress()
+        fun onMenuCreate(menu: Menu?)
         fun onTransactionPressed(txDescription: TxDescription)
     }
 

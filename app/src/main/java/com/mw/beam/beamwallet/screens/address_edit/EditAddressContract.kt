@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
  * Created by vain onnellinen on 3/5/19.
@@ -28,11 +29,20 @@ interface EditAddressContract {
     interface View : MvpView {
         fun getAddress(): WalletAddress
         fun init(address: WalletAddress)
+        fun configExpireSpinnerVisibility(shouldShow: Boolean)
+        fun configExpireSpinnerTime(shouldExpireNow: Boolean)
+        fun configSaveButton(shouldEnable: Boolean)
+        fun finishScreen()
+
     }
 
     interface Presenter : MvpPresenter<View> {
+        fun onSwitchCheckedChange(isChecked: Boolean)
+        fun onExpirePeriodChanged(period : ExpirePeriod)
+        fun onSavePressed()
     }
 
     interface Repository : MvpRepository {
+        fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
     }
 }

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
  * Created by vain onnellinen on 3/5/19.
@@ -28,7 +29,66 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
     override fun onViewCreated() {
         super.onViewCreated()
         state.address = view?.getAddress()
+        state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
         view?.init(state.address ?: return)
+    }
+
+    override fun onSwitchCheckedChange(isChecked: Boolean) {
+        val isExpired = state.address?.isExpired ?: return
+
+        if (isExpired) {
+            state.shouldActivateNow = isChecked
+            view?.configExpireSpinnerVisibility(isChecked)
+            view?.configSaveButton(shouldEnableButton())
+        } else {
+            state.shouldExpireNow = isChecked
+            view?.configExpireSpinnerTime(isChecked)
+            view?.configSaveButton(shouldEnableButton())
+        }
+    }
+
+    override fun onExpirePeriodChanged(period: ExpirePeriod) {
+        state.chosenPeriod = period
+        view?.configSaveButton(shouldEnableButton())
+    }
+
+    private fun shouldEnableButton(): Boolean {
+        val isExpired = state.address?.isExpired ?: return false
+
+        return if (isExpired) {
+            state.shouldActivateNow
+        } else {
+            if (state.shouldExpireNow) {
+                true
+            } else {
+                when {
+                    state.address!!.duration == 0L && state.chosenPeriod == ExpirePeriod.DAY -> true
+                    state.address!!.duration != 0L && state.chosenPeriod == ExpirePeriod.NEVER -> true
+                    else -> false
+                }
+            }
+        }
+    }
+
+    override fun onSavePressed() {
+        val address = state.address ?: return
+
+        if (address.isExpired) {
+            if (state.shouldActivateNow) {
+                repository.saveAddress(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
+            }
+        } else {
+            if (state.shouldExpireNow) {
+                repository.saveAddress(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = address.duration == 0L)
+            } else {
+                when {
+                    state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddress(addr = address.walletID, name = address.label, makeActive = false, makeExpired = false, isNever = true)
+                    state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddress(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = false)
+                }
+            }
+        }
+
+        view?.finishScreen()
     }
 }
 

@@ -17,10 +17,14 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
  * Created by vain onnellinen on 3/5/19.
  */
 class EditAddressState {
     var address: WalletAddress? = null
+    var shouldExpireNow = false
+    var shouldActivateNow = false
+    lateinit var chosenPeriod: ExpirePeriod
 }

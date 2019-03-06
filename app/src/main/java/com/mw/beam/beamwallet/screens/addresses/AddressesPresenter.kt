@@ -27,7 +27,6 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     : BasePresenter<AddressesContract.View, AddressesContract.Repository>(currentView, currentRepository),
         AddressesContract.Presenter {
     private lateinit var addressesSubscription: Disposable
-    private lateinit var txStatusSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -35,7 +34,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     override fun onAddressPressed(address: WalletAddress) {
-          view?.showAddressDetails(address)
+        view?.showAddressDetails(address)
     }
 
     override fun initSubscriptions() {
@@ -49,13 +48,9 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
                 view?.updateAddresses(Tab.CONTACTS, it.addresses ?: listOf())
             }
         }
-
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            // state.configTransactions(data.tx)
-        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

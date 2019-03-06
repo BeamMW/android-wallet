@@ -16,18 +16,38 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
+import android.app.Activity
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
+import kotlinx.android.synthetic.main.activity_edit_address.*
+
 
 /**
  * Created by vain onnellinen on 3/5/19.
  */
 class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressContract.View {
     private lateinit var presenter: EditAddressPresenter
+    private lateinit var expireNowString: String
+    private lateinit var activateString: String
+
+    private val expireListener = object : OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            presenter.onExpirePeriodChanged(when (position) {
+                ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
+                else -> ExpirePeriod.NEVER
+            })
+        }
+    }
 
     companion object {
         const val EXTRA_ADDRESS_FOR_EDIT = "EXTRA_ADDRESS_FOR_EDIT"
@@ -38,7 +58,82 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
     override fun getAddress(): WalletAddress = intent.getParcelableExtra(EXTRA_ADDRESS_FOR_EDIT)
 
     override fun init(address: WalletAddress) {
+        expireNowString = getString(R.string.edit_address_expire_now)
+        activateString = getString(R.string.edit_address_expire_activate)
 
+        id.text = address.walletID
+        expiresSwitchTitle.text = if (address.isExpired) activateString else expireNowString
+        comment.setText(address.label)
+        btnSave.isEnabled = false
+
+        if (address.isExpired) {
+            expiredTitle.visibility = View.VISIBLE
+            expiredTime.visibility = View.VISIBLE
+            expiredTime.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
+            expiresTitle.visibility = View.GONE
+            expiresSpinner.visibility = View.GONE
+        }
+
+        ArrayAdapter.createFromResource(
+                this,
+                R.array.receive_expires_periods,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            expiresSpinner.adapter = adapter
+            expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
+        }
+    }
+
+    override fun addListeners() {
+        expiresSpinner.onItemSelectedListener = expireListener
+
+        expiresSwitch.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onSwitchCheckedChange(isChecked)
+        }
+
+        btnSave.setOnClickListener {
+            presenter.onSavePressed()
+        }
+    }
+
+    override fun configExpireSpinnerVisibility(shouldShow: Boolean) {
+        if (shouldShow) {
+            View.VISIBLE.apply {
+                expiresTitle.visibility = this
+                expiresSpinner.visibility = this
+            }
+        } else {
+            View.GONE.apply {
+                expiresTitle.visibility = this
+                expiresSpinner.visibility = this
+            }
+        }
+    }
+
+    override fun configExpireSpinnerTime(shouldExpireNow: Boolean) {
+        if (shouldExpireNow) {
+            expiresSpinner.visibility = View.GONE
+            expiresNow.visibility = View.VISIBLE
+        } else {
+            expiresSpinner.visibility = View.VISIBLE
+            expiresNow.visibility = View.GONE
+        }
+    }
+
+    override fun configSaveButton(shouldEnable: Boolean) {
+        btnSave.isEnabled = shouldEnable
+    }
+
+    override fun finishScreen() {
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
+    override fun clearListeners() {
+        expiresSwitch.setOnCheckedChangeListener(null)
+        btnSave.setOnClickListener(null)
+        expiresSpinner.onItemSelectedListener = null
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
