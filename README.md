@@ -17,6 +17,10 @@ Things that make BEAM special include:
 * Superior scalability through compact blockchain size - using the “cut-through” feature of Mimblewimble makes the BEAM blockchain orders of magnitude smaller than any other blockchain implementation.
 * BEAM supports many transaction types such as escrow transactions, time locked transactions, atomic swaps and more.
 
+Known limitation:
+
+* Restore flow is not implemented on mobile, yet the funds can be restored from the desktop wallet using the same seed the mobile wallet was created with
+
 # Roadmap
 - February-March 2019    : Tesnet Betas
 - March 2019       : Mainnet release
