@@ -21,5 +21,10 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 /**
  * Created by vain onnellinen on 3/5/19.
  */
+@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
+
+    override fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
+        getResult({ wallet?.saveAddressChanges(addr, name, isNever, makeActive, makeExpired) }, object {}.javaClass.enclosingMethod.name)
+    }
 }

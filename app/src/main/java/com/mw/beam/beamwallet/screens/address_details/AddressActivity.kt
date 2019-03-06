@@ -44,6 +44,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     companion object {
         const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
+        const val CODE_EDIT_ADDRESS = 1
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_address
@@ -57,7 +58,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.address_menu, menu)
+        presenter.onMenuCreate(menu)
+
         return true
+    }
+
+    override fun configMenuItems(menu: Menu?, address: WalletAddress) {
+        menu?.findItem(R.id.edit)?.isVisible = address.own != 0L
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -82,10 +89,12 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        label.text = if (address.label.isBlank()) getString(R.string.addresses_label_default) else address.label
+        label.text = address.label
         id.text = address.walletID
-        date.text = String.format(if (address.isExpired) getString(R.string.addresses_expired) else getString(R.string.addresses_expires),
-                if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+        if (!address.isContact) {
+            date.text = String.format(if (address.isExpired) getString(R.string.addresses_expired) else getString(R.string.addresses_expires),
+                    if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+        }
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
@@ -102,12 +111,20 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     override fun showEditAddressScreen(address: WalletAddress) {
-        startActivity(Intent(this, EditAddressActivity::class.java)
-                .putExtra(EditAddressActivity.EXTRA_ADDRESS_FOR_EDIT, address))
+        startActivityForResult(Intent(this, EditAddressActivity::class.java)
+                .putExtra(EditAddressActivity.EXTRA_ADDRESS_FOR_EDIT, address), CODE_EDIT_ADDRESS)
     }
 
     override fun finishScreen() {
         finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == CODE_EDIT_ADDRESS && resultCode == RESULT_OK) {
+            presenter.onAddressWasEdited()
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

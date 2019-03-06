@@ -52,11 +52,13 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         val address = data[position]
 
         holder.apply {
-            label.text = if (address.label.isBlank()) defaultLabel else address.label
+            label.text = address.label
             id.text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
-            date.text = String.format(if (address.isExpired) expiredDate else expiresDate,
-                    if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+            if (!address.isContact) {
+                date.text = String.format(if (address.isExpired) expiredDate else expiresDate,
+                        if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+            }
         }
     }
 

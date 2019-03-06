@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
@@ -39,8 +40,16 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     }
 
+    override fun onMenuCreate(menu: Menu?) {
+        view?.configMenuItems(menu, state.address ?: return)
+    }
+
     override fun onEditAddress() {
         view?.showEditAddressScreen(state.address ?: return)
+    }
+
+    override fun onAddressWasEdited() {
+        view?.finishScreen()
     }
 
     override fun onDeleteAddress() {

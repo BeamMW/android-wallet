@@ -183,7 +183,7 @@
     <string name="receive_token_description">Send this address to the sender over an external secure channel</string>
     <string name="receive_token_via_qr_description">Scan this QR code \n or send this address to the sender over an external secure channel</string>
     <string-array name="receive_expires_periods">
-        <item>24 hours</item>
+        <item>in 24 hours</item>
         <item>Never</item>
     </string-array>
 
@@ -226,4 +226,11 @@
 
     <!--EditAddressActivity-->
     <string name="edit_address_title">Edit address</string>
+    <string name="edit_address_id">Address ID:</string>
+    <string name="edit_address_expire_title">Expires</string>
+    <string name="edit_address_expire_now">Expire address now</string>
+    <string name="edit_address_expire_activate">Activate address</string>
+    <string name="edit_address_btn_save">save</string>
+    <string name="edit_address_expired_title">Expired:</string>
+    <string name="edit_address_expires_now_value">now</string>
 </resources>
