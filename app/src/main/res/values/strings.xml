@@ -201,8 +201,11 @@
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>
     <string name="settings_report">Report a problem</string>
+    <string name="settings_change_pass">Change wallet password</string>
     <string name="settings_version">App Version:&#160;</string>
     <string name="settings_send_logs_description">Send logs…</string>
+    <string name="settings_node">Node</string>
+    <string name="settings_ip_title">ip:port:</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

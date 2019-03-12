@@ -34,6 +34,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.sendMailWithLogs()
     }
 
+    override fun onChangePass() {
+
+    }
+
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true
 }
