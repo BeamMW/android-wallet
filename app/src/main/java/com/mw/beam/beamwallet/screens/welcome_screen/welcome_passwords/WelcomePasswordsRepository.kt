@@ -39,6 +39,7 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
                 removeDatabase()
             }
 
+            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
 
             if (wallet != null) {

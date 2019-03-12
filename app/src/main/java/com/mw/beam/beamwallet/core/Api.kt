@@ -34,4 +34,5 @@ object Api {
     external fun checkReceiverAddress(address: String?): Boolean
     external fun closeWallet()
     external fun isWalletRunning(): Boolean
+    external fun getDefaultPeers(): Array<String>
 }
