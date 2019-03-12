@@ -46,6 +46,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun init() {
         appVersion.text = BuildConfig.VERSION_NAME
+        ip.text = BuildConfig.NODE_ADDRESS
     }
 
     override fun sendMailWithLogs() {
@@ -69,12 +70,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun addListeners() {
+        changePass.setOnClickListener {
+            presenter.onChangePass()
+        }
+
         reportProblem.setOnClickListener {
             presenter.onReportProblem()
         }
     }
 
     override fun clearListeners() {
+        changePass.setOnClickListener(null)
         reportProblem.setOnClickListener(null)
     }
 

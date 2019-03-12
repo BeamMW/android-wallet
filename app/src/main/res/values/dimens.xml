@@ -163,6 +163,7 @@
     <!--SettingsFragment-->
     <dimen name="settings_card_offset">10dp</dimen>
     <dimen name="settings_version_offset">30dp</dimen>
+    <dimen name="settings_common_offset">20dp</dimen>
 
     <!--AddressesFragment-->
     <dimen name="addresses_tab_padding">25dp</dimen>

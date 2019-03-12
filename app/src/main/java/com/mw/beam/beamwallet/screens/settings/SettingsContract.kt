@@ -31,6 +31,7 @@ interface SettingsContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onReportProblem()
+        fun onChangePass()
     }
 
     interface Repository : MvpRepository
