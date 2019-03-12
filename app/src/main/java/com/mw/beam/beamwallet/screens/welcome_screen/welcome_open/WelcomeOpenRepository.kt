@@ -34,6 +34,7 @@ class WelcomeOpenRepository : BaseRepository(), WelcomeOpenContract.Repository {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
+            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             App.wallet = Api.openWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
             if (wallet != null) {

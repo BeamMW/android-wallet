@@ -46,7 +46,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun init() {
         appVersion.text = BuildConfig.VERSION_NAME
-        ip.text = BuildConfig.NODE_ADDRESS
+        ip.text = AppConfig.NODE_ADDRESS
     }
 
     override fun sendMailWithLogs() {
