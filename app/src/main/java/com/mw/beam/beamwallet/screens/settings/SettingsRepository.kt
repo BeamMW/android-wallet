@@ -21,5 +21,4 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 /**
  * Created by vain onnellinen on 1/21/19.
  */
-class SettingsRepository : BaseRepository(), SettingsContract.Repository {
-}
+class SettingsRepository : BaseRepository(), SettingsContract.Repository

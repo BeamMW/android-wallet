@@ -24,8 +24,8 @@ import com.elvishew.xlog.XLog
 object LogUtils {
     private const val LOG_TAG = "BeamWallet"
     private const val LOG_TAG_ERROR = "ERROR"
+    private const val LOG_RESPONSE = "Response"
     const val LOG_REQUEST = "Request"
-    const val LOG_RESPONSE = "Response"
 
     fun log(message: String) {
         // if (BuildConfig.DEBUG) {

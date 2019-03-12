@@ -60,7 +60,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = AddressesPresenter(this, AddressesRepository(), AddressesState())
+        presenter = AddressesPresenter(this, AddressesRepository())
         return presenter
     }
 

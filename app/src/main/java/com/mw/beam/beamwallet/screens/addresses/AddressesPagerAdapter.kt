@@ -26,11 +26,10 @@ import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
-
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, private val onAddressClickListener: AddressesAdapter.OnItemClickListener) : PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener) : PagerAdapter() {
     private val activeAdapter = AddressesAdapter(context, onAddressClickListener)
     private val expiredAdapter = AddressesAdapter(context, onAddressClickListener)
     private val contactsAdapter = AddressesAdapter(context, onAddressClickListener)

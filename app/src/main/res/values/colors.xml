@@ -38,7 +38,6 @@
     <color name="phrase_error_number_text_color">@color/colorPrimaryDark</color>
 
     <!--WalletFragment-->
-    <color name="transaction_common_status_color">@color/common_text_color</color>
     <color name="btn_drop_down_color">#8da1ad</color>
     <color name="wallet_adapter_not_multiply_color">#0a344d</color>
     <color name="wallet_adapter_multiply_color">#0e3850</color>

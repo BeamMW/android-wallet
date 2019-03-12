@@ -37,7 +37,7 @@ class BeamToolbar : LinearLayout {
     lateinit var toolbar: Toolbar
     lateinit var status: TextView
     lateinit var statusIcon: ImageView
-    lateinit var statusLayout: LinearLayout
+    private lateinit var statusLayout: LinearLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)

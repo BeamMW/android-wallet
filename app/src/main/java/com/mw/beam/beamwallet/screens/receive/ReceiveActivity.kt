@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -47,8 +48,7 @@ import kotlinx.android.synthetic.main.activity_receive.*
 class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     private lateinit var presenter: ReceivePresenter
     private var dialog: AlertDialog? = null
-    private val COPY_TAG = "TOKEN"
-    private val QR_SIZE = 160.0
+
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             presenter.onExpirePeriodChanged(when (position) {
@@ -56,6 +56,11 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
                 else -> ExpirePeriod.NEVER
             })
         }
+    }
+
+    companion object {
+        private const val COPY_TAG = "TOKEN"
+        private const val QR_SIZE = 160.0
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_receive
@@ -83,6 +88,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         token.text = receiveToken
     }
 
+    @SuppressLint("InflateParams")
     override fun showQR(receiveToken: String) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)

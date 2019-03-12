@@ -28,7 +28,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private val tokenRegex = Regex("[^A-Fa-f0-9]")
-    private val MAX_TOKEN_LENGTH = 80
+
+    companion object {
+        private const val MAX_TOKEN_LENGTH = 80
+    }
 
     override fun onViewCreated() {
         super.onViewCreated()

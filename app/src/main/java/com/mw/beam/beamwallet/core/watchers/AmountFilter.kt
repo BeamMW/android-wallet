@@ -23,7 +23,7 @@ import android.text.Spanned
  * Created by vain onnellinen on 2/11/19.
  */
 class AmountFilter : InputFilter {
-    var regExp = "^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\\.[0-9]{0,7}[1-9]?)?$".toRegex()
+    private val regExp = "^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\\.[0-9]{0,7}[1-9]?)?$".toRegex()
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
         if (source.isNotEmpty()) {

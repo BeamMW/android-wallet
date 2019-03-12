@@ -26,9 +26,12 @@ import com.mw.beam.beamwallet.R
  * Created by vain onnellinen on 12/4/18.
  */
 class BeamEditText : AppCompatEditText {
-    private val STATE_ACCENT = intArrayOf(R.attr.state_accent)
-    private val STATE_NORMAL = intArrayOf(R.attr.state_normal)
-    private val STATE_ERROR = intArrayOf(R.attr.state_error)
+    companion object {
+        private val STATE_ACCENT = intArrayOf(R.attr.state_accent)
+        private val STATE_NORMAL = intArrayOf(R.attr.state_normal)
+        private val STATE_ERROR = intArrayOf(R.attr.state_error)
+    }
+
     var isStateAccent: Boolean = false
         set(value) {
             field = value

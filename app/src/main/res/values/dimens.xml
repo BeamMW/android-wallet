@@ -13,9 +13,7 @@
     <dimen name="common_card_corner_radius">10dp</dimen>
     <dimen name="common_card_padding">20dp</dimen>
     <dimen name="common_currency_offset">8dp</dimen>
-    <dimen name="toolbar_title_text_size">18sp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
-    <dimen name="toolbar_padding_bottom">10dp</dimen>
     <dimen name="toolbar_padding_end">30dp</dimen>
     <dimen name="toolbar_padding_for_status_start">16dp</dimen>
     <dimen name="toolbar_padding_for_status">10dp</dimen>
@@ -52,7 +50,6 @@
     <dimen name="welcome_passwords_items_offset">9dp</dimen>
     <dimen name="welcome_password_title_padding_bottom">15dp</dimen>
     <item name="welcome_password_dots_space" format="float" type="dimen">0.28</item>
-    <item name="welcome_password_letters_space" format="float" type="dimen">0.1</item>
 
     <!--WelcomeOpenFragment-->
     <dimen name="welcome_open_margin_side">30dp</dimen>
@@ -103,7 +100,6 @@
     <dimen name="wallet_in_progress_margin_top">9dp</dimen>
     <dimen name="wallet_in_progress_sum_padding">6dp</dimen>
     <dimen name="wallet_in_progress_title_margin_top">20dp</dimen>
-    <dimen name="wallet_in_progress_title_margin_side">20dp</dimen>
     <dimen name="wallet_in_progress_element_margin_top">6dp</dimen>
     <dimen name="wallet_expandable_icon_padding">9dp</dimen>
     <dimen name="wallet_expandable_icon_size">20dp</dimen>
@@ -142,7 +138,6 @@
     <dimen name="send_title_margin_top">30dp</dimen>
     <dimen name="send_receive_common_margin">10dp</dimen>
     <dimen name="send_amount_margin_end">30dp</dimen>
-    <dimen name="send_currency_margin_end">10dp</dimen>
     <dimen name="send_currency_text_size">24sp</dimen>
     <dimen name="send_amount_text_size">36sp</dimen>
     <dimen name="send_amount_error_margin_top">8dp</dimen>

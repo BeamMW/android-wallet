@@ -25,7 +25,8 @@
         android:text="@string/utxo_time_title"
         app:layout_constraintEnd_toStartOf="@id/idTitle"
         app:layout_constraintHorizontal_weight="1.4"
-        app:layout_constraintStart_toEndOf="@id/icon" />
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/idTitle"
@@ -38,6 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/timeTitle"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
     <TextView
