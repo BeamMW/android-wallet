@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/alertText"
         style="@style/common_text_big_light"
         android:layout_width="wrap_content"

@@ -19,5 +19,4 @@ package com.mw.beam.beamwallet.screens.addresses
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesState {
-}
+class AddressesState

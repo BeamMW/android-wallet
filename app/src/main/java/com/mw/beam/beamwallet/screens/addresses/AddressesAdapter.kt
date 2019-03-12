@@ -35,7 +35,6 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
-    private val defaultLabel = context.getString(R.string.addresses_label_default)
     private val expiredDate = context.getString(R.string.addresses_expired)
     private val expiresDate = context.getString(R.string.addresses_expires)
     private val expiresNever = context.getString(R.string.addresses_never)

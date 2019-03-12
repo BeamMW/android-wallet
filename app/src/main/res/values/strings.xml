@@ -215,7 +215,6 @@
     <string name="addresses_tab_active">My active addresses</string>
     <string name="addresses_tab_expired">My expired addresses</string>
     <string name="addresses_tab_contacts">Contacts</string>
-    <string name="addresses_label_default">Default</string>
     <string name="addresses_expires">Expires: %1$s</string>
     <string name="addresses_expired">Expired: %1$s</string>
     <string name="addresses_never">never</string>

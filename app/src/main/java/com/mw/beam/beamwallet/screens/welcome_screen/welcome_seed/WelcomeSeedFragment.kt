@@ -35,13 +35,13 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  * Created by vain onnellinen on 10/30/18.
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
-    private val COPY_TAG = "RECOVERY SEED"
     private lateinit var presenter: WelcomeSeedPresenter
     private lateinit var copiedAlert: String
 
     companion object {
         fun newInstance() = WelcomeSeedFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WelcomeSeedFragment::class.java.simpleName
+        private const val COPY_TAG = "RECOVERY SEED"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed

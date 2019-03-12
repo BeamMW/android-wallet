@@ -29,7 +29,7 @@ import io.reactivex.subjects.Subject
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 open class BaseRepository : MvpRepository {
 
-    override var wallet: Wallet? = null
+    override val wallet: Wallet?
         get() = App.wallet
 
     override fun closeWallet() {

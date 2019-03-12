@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository, private val state: AddressesState)
+class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository)
     : BasePresenter<AddressesContract.View, AddressesContract.Repository>(currentView, currentRepository),
         AddressesContract.Presenter {
     private lateinit var addressesSubscription: Disposable

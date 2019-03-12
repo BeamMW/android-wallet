@@ -1,5 +1,6 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:tools="http://schemas.android.com/tools"
     android:width="238dp"
     android:height="208dp"
     android:viewportWidth="238"
@@ -21,7 +22,8 @@
       android:strokeWidth="1"
       android:fillColor="#25C1FF"
       android:fillType="evenOdd"
-      android:strokeColor="#00000000"/>
+      android:strokeColor="#00000000"
+      tools:ignore="VectorPath" />
   <path
       android:pathData="M121,74l0,54.939l-31,0.061z"
       android:strokeWidth="1"
@@ -40,7 +42,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="85.5"
           android:startX="0"
           android:endY="85.5"
@@ -57,7 +59,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="59.049194"
           android:startX="238.16953"
           android:endY="61.399483"
@@ -74,7 +76,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="96.21295"
           android:startX="237.00691"
           android:endY="96.21295"
@@ -91,7 +93,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="78.38884"
           android:startX="238.32872"
           android:endY="81.98095"

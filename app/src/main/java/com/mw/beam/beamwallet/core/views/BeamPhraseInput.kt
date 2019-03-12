@@ -31,9 +31,9 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""
     var isForEnsure: Boolean = false
-    var isEmpty: Boolean = true
+    val isEmpty: Boolean
         get() = phraseView.text?.toString()?.isEmpty() ?: true
-    var isValid: Boolean = false
+    val isValid: Boolean
         get() = phrase == phraseView.text?.toString()?.trim()
     var number: Int = Int.MIN_VALUE
         set(value) {

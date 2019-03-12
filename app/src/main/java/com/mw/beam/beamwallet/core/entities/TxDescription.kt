@@ -51,7 +51,7 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
                 "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender=${sender.name} selfTx=$selfTx failureReason=$failureReason)"
     }
 
-    val statusString = when (status) {
+    val statusString : String = when (status) {
         TxStatus.Pending -> App.self.getString(R.string.wallet_status_pending)
         TxStatus.InProgress -> {
             when (sender) {

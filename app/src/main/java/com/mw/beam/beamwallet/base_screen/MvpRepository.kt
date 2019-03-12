@@ -24,7 +24,7 @@ import io.reactivex.subjects.Subject
  * Created by vain onnellinen on 10/8/18.
  */
 interface MvpRepository {
-    var wallet: Wallet?
+    val wallet: Wallet?
 
     fun getNodeConnectionStatusChanged(): Subject<Boolean>
     fun getNodeConnectionFailed(): Subject<Any>
