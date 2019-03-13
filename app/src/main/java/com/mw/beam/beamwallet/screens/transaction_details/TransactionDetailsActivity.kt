@@ -53,15 +53,21 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.transaction_menu, menu)
         presenter.onMenuCreate(menu)
 
         return true
     }
 
     override fun configMenuItems(menu: Menu?, txStatus: TxStatus) {
-        menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
-        menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+        if (TxStatus.InProgress == txStatus
+                || TxStatus.Pending == txStatus
+                || TxStatus.Failed == txStatus
+                || TxStatus.Completed == txStatus
+                || TxStatus.Cancelled == txStatus) {
+            menuInflater.inflate(R.menu.transaction_menu, menu)
+            menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
+            menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
