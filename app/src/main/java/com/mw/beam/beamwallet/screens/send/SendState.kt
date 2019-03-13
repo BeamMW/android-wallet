@@ -16,13 +16,15 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 
 /**
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
-    var walletStatus : WalletStatus? = null
+    var walletStatus: WalletStatus? = null
     var isTokenEmpty = true
     var isTokenValid = true
+    var expiredAddresses = listOf<WalletAddress>()
 }

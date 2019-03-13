@@ -27,7 +27,7 @@ interface MvpView {
     fun hideKeyboard()
     fun showSnackBar(status: Status)
     fun showSnackBar(message: String)
-    fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String? = null, onConfirm: () -> Unit = {}, onCancel: () -> Unit = {}): AlertDialog?
+    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
     fun initPresenter(): BasePresenter<out MvpView, out MvpRepository>
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)

@@ -53,8 +53,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         (activity as BaseActivity<*>).configStatus(isConnected)
     }
 
-    override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
-        return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, context
+    override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null)
     }
 

@@ -27,6 +27,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
+    private lateinit var cantSendToExpiredSubscription: Disposable
+    private lateinit var addressesSubscription: Disposable
     private val tokenRegex = Regex("[^A-Fa-f0-9]")
 
     companion object {
@@ -46,8 +48,13 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && state.isTokenValid) {
-                repository.sendMoney(token, comment, amount.convertToGroth(), fee)
-                view?.close()
+                // we can't send money to own expired address
+                if (state.expiredAddresses.find { it.walletID == token } != null) {
+                    view?.showCantSendToExpiredError()
+                } else {
+                    repository.sendMoney(token, comment, amount.convertToGroth(), fee)
+                    view?.close()
+                }
             }
         }
     }
@@ -94,9 +101,19 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
         }
+
+        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
+            // just for case when address was expired directly before sendMoney() was called
+            view?.close()
+        }
+
+        addressesSubscription = repository.getAddresses().subscribe {
+            state.expiredAddresses = it.addresses?.filter { address -> address.isExpired }
+                    ?: listOf()
+        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, cantSendToExpiredSubscription, addressesSubscription)
 
     override fun hasStatus(): Boolean = true
 }

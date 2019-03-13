@@ -11,6 +11,7 @@
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_done">done</string>
+    <string name="common_ok">ok</string>
     <string name="common_menu_more">more</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
@@ -197,6 +198,7 @@
     <string name="send_amount_overflow_error">Maximum available amount is %1$s B</string>
     <string name="send_zero_fee">0</string>
     <string name="send_error_invalid_address">Invalid address</string>
+    <string name="send_error_expired_address">Can\'t send to the expired address</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>

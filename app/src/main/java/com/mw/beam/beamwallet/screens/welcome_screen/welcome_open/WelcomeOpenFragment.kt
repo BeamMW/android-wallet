@@ -103,18 +103,18 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun showChangeAlert() {
         showAlert(getString(R.string.welcome_change_alert),
-                getString(R.string.welcome_title_change_alert),
                 getString(R.string.welcome_btn_change_alert),
-                getString(R.string.common_cancel),
-                { presenter.onChangeConfirm() })
+                { presenter.onChangeConfirm() },
+                getString(R.string.welcome_title_change_alert),
+                getString(R.string.common_cancel))
     }
 
     override fun showForgotAlert() {
         showAlert(getString(R.string.welcome_forgot_alert),
-                getString(R.string.welcome_title_forgot_alert),
                 getString(R.string.welcome_btn_forgot_alert),
-                getString(R.string.common_cancel),
-                { presenter.onForgotConfirm() })
+                { presenter.onForgotConfirm() },
+                getString(R.string.welcome_title_forgot_alert),
+                getString(R.string.common_cancel))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
