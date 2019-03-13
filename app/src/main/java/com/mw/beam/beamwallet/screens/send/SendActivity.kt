@@ -84,7 +84,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
             if (!isFocused) {
                 if (fee.text.toString().isEmpty()) {
-                    fee.setText(getString(R.string.send_zero_fee))
+                    fee.setText(getString(R.string.send_common_fee))
                 }
             }
         }
@@ -158,6 +158,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             //clear previous input before showing to user
             amount.text = null
             comment.text = null
+            fee.setText(getString(R.string.send_common_fee))
         } else {
             //can't attach this view to the params because constraint group forbid to change visibility of it's children
             amountError.visibility = View.GONE
