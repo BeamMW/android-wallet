@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.send
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import io.reactivex.subjects.Subject
 
@@ -40,6 +41,7 @@ interface SendContract {
         fun close()
         fun setAddressError()
         fun clearAddressError()
+        fun showCantSendToExpiredError()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -51,6 +53,8 @@ interface SendContract {
     interface Repository : MvpRepository {
         fun sendMoney(token: String, comment: String?, amount: Long, fee: Long)
         fun getWalletStatus(): Subject<WalletStatus>
+        fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?) : Boolean
+        fun getAddresses(): Subject<OnAddressesData>
     }
 }

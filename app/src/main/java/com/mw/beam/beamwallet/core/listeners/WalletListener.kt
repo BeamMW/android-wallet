@@ -47,6 +47,7 @@ object WalletListener {
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), object {}.javaClass.enclosingMethod.name)
@@ -78,6 +79,9 @@ object WalletListener {
 
     @JvmStatic
     fun onNodeConnectionFailed() = returnResult(subOnNodeConnectionFailed, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+
+    @JvmStatic
+    fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

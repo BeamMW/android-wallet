@@ -96,9 +96,11 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun showSaveAlert() {
-        showAlert(getString(R.string.welcome_seed_save_description), getString(R.string.welcome_seed_save_title),
-                getString(R.string.common_done), getString(R.string.common_cancel),
-                { presenter.onDonePressed() })
+        showAlert(getString(R.string.welcome_seed_save_description),
+                getString(R.string.common_done),
+                { presenter.onDonePressed() },
+                getString(R.string.welcome_seed_save_title),
+                getString(R.string.common_cancel))
     }
 
     override fun showConfirmFragment(seed: Array<String>) = (activity as SeedHandler).proceedToValidation(seed)

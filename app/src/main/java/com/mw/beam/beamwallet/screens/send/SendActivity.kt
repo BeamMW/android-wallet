@@ -128,6 +128,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    override fun showCantSendToExpiredError() {
+        showAlert(getString(R.string.send_error_expired_address), getString(R.string.common_ok), {})
+    }
+
     override fun setAddressError() {
         tokenError.visibility = View.VISIBLE
     }
