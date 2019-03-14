@@ -34,4 +34,6 @@ data class Wallet(val _this: Long) {
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)
     external fun deleteAddress(walletID: String)
+    external fun changeWalletPassword(password: String)
+    external fun checkWalletPassword(password: String): Boolean
 }

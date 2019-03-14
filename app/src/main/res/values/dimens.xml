@@ -13,6 +13,10 @@
     <dimen name="common_card_corner_radius">10dp</dimen>
     <dimen name="common_card_padding">20dp</dimen>
     <dimen name="common_currency_offset">8dp</dimen>
+    <dimen name="common_passwords_screen_padding">30dp</dimen>
+    <dimen name="common_passwords_screen_description_padding_top">20dp</dimen>
+    <dimen name="common_passwords_screen_button_margin">60dp</dimen>
+    <dimen name="common_btn_width">254dp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
     <dimen name="toolbar_padding_end">30dp</dimen>
     <dimen name="toolbar_padding_for_status_start">16dp</dimen>
@@ -41,10 +45,7 @@
     <dimen name="welcome_logo_margin_top">98dp</dimen>
     <dimen name="welcome_logo_text_margin_top">30dp</dimen>
     <dimen name="welcome_testnet_text_margin_top">40dp</dimen>
-    <dimen name="welcome_passwords_padding">44dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
-    <dimen name="welcome_passwords_description_padding_top">14dp</dimen>
-    <dimen name="welcome_passwords_button_margin_bottom">60dp</dimen>
     <dimen name="welcome_passwords_group_padding_top">60dp</dimen>
     <dimen name="welcome_passwords_progress_item_margin">8dp</dimen>
     <dimen name="welcome_passwords_items_offset">9dp</dimen>

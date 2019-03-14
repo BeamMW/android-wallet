@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.common_button.view.*
  * Created by vain onnellinen on 10/22/18.
  */
 class BeamButton : LinearLayout {
-    private var iconResId: Int = Integer.MIN_VALUE
+    var iconResId: Int = Integer.MIN_VALUE
         set(value) {
             field = value
             if (field != Integer.MIN_VALUE) {

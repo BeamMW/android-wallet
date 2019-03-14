@@ -56,7 +56,7 @@
         android:layout_marginEnd="@dimen/welcome_open_margin_side"
         android:fontFamily="sans-serif"
         android:paddingTop="@dimen/welcome_passwords_items_offset"
-        android:text="@string/welcome_pass_not_much"
+        android:text="@string/pass_not_much"
         android:textColor="@color/common_error_color"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/btnOpen"

@@ -30,12 +30,14 @@ interface MainContract {
         fun showReceiveScreen()
         fun showSendScreen()
         fun configNavDrawer()
+        fun showChangePasswordScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShowTransactionDetails(item: TxDescription)
         fun onReceive()
         fun onSend()
+        fun onChangePass()
     }
 
     interface Repository : MvpRepository

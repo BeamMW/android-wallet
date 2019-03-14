@@ -47,6 +47,9 @@
         <activity
             android:name=".screens.address_edit.EditAddressActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.change_password.ChangePassActivity"
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

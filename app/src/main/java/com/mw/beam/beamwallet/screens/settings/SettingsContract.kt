@@ -27,6 +27,7 @@ interface SettingsContract {
     interface View : MvpView {
         fun init()
         fun sendMailWithLogs()
+        fun changePass()
     }
 
     interface Presenter : MvpPresenter<View> {

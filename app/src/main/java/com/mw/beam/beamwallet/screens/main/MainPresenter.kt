@@ -35,6 +35,10 @@ class MainPresenter(currentView: MainContract.View, currentRepository: MainContr
         repository.closeWallet()
     }
 
+    override fun onChangePass() {
+        view?.showChangePasswordScreen()
+    }
+
     override fun onShowTransactionDetails(item: TxDescription) {
         view?.showTransactionDetails(item)
     }

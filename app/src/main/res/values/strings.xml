@@ -33,7 +33,6 @@
     <string name="welcome_next">next</string>
     <string name="welcome_recover">restore wallet</string>
     <string name="welcome_copy_to_clipboard">copy</string>
-    <string name="welcome_proceed_to_wallet">start using your wallet</string>
     <string name="welcome_title">Create new wallet</string>
     <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers. Never save it in your local or remote folders in any form.</string>
     <string name="welcome_no_see">Do not let anyone see your seed phrase.</string>
@@ -47,6 +46,10 @@
     <string name="welcome_title_forgot_alert">Forgot password</string>
     <string name="welcome_forgot_alert">Only your funds can be fully restored from the blockchain. The transaction history is stored locally and is encrypted with your password, hence it can\'t be restored.\n\nThat\'s the final version until the future validation and process.</string>
     <string name="welcome_btn_forgot_alert">Restore wallet</string>
+
+    <!--PasswordFragment-->
+    <string name="pass_proceed_to_wallet">start using your wallet</string>
+    <string name="pass_save_new">save new password</string>
 
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">open my wallet</string>
@@ -74,22 +77,24 @@
     <string name="welcome_progress_restore">Restoring wallet</string>
     <string name="welcome_progress_open_description">Scanning UTXO %1$d/%2$d</string>
 
-    <!--WelcomePasswordsFragment-->
-    <string name="welcome_passwords_title">Password</string>
-    <string name="welcome_passwords_description">Create password to access your wallet</string>
-    <string name="welcome_passwords_not_match">Passwords do not match</string>
-    <string name="welcome_pass_description">Strong password needs to meet the following requirements:\n
+    <!--PasswordFragment-->
+    <string name="pass_title">Password</string>
+    <string name="pass_screen_description">Create password to access your wallet</string>
+    <string name="pass_screen_change_description">Create new password to access your wallet</string>
+    <string name="pass_not_match">Passwords do not match</string>
+    <string name="pass_description">Strong password needs to meet the following requirements:\n
 •  the length must be at least 10 characters\n
 •  must contain at least one lowercase letter\n
 •  must contain at least one uppercase letter\n
 •  must contain at least one number</string>
-    <string name="welcome_pass_not_much">Passwords do not match</string>
-    <string name="welcome_pass_empty_error">Password should not be empty</string>
-    <string name="welcome_pass_wrong">Wrong password</string>
-    <string name="welcome_confirm_pass_hint">Confirm password</string>
-    <string name="welcome_pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won\’t be saved.</string>
-    <string name="welcome_pass_return_seed_title">Return to seed phrase</string>
-    <string name="welcome_pass_return_seed_btn_create_new">create new phrase</string>
+    <string name="pass_not_much">Passwords do not match</string>
+    <string name="pass_empty_error">Password should not be empty</string>
+    <string name="pass_old_pass_error">New password cannot be the same as old</string>
+    <string name="pass_wrong">Wrong password</string>
+    <string name="confirm_pass_hint">Confirm password</string>
+    <string name="pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won\’t be saved.</string>
+    <string name="pass_return_seed_title">Return to seed phrase</string>
+    <string name="pass_return_seed_btn_create_new">create new phrase</string>
 
     <!--WalletFragment-->
     <string name="wallet_title">Wallet</string>
@@ -237,4 +242,12 @@
     <string name="edit_address_btn_save">save</string>
     <string name="edit_address_expired_title">Expired:</string>
     <string name="edit_address_expires_now_value">now</string>
+
+    <!--CheckOldPassActivity-->
+    <string name="check_old_pass_title">Change password</string>
+    <string name="check_old_pass_description">Enter your current password</string>
+    <string name="check_old_pass_next">next</string>
+    <string name="check_old_pass_empty_error">Password should not be empty</string>
+    <string name="check_old_pass_wrong_pass_error">The ols password you have entered is incorrect</string>
+
 </resources>

@@ -35,7 +35,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onChangePass() {
-
+        view?.changePass()
     }
 
     override fun hasBackArrow(): Boolean? = null

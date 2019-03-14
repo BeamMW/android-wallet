@@ -69,6 +69,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         startActivity(Intent.createChooser(shareIntent, getString(R.string.settings_send_logs_description)))
     }
 
+    override fun changePass() = (activity as SettingsHandler).onChangePassword()
+
     override fun addListeners() {
         changePass.setOnClickListener {
             presenter.onChangePass()
@@ -87,5 +89,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = SettingsPresenter(this, SettingsRepository())
         return presenter
+    }
+
+    interface SettingsHandler {
+        fun onChangePassword()
     }
 }
