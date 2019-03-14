@@ -18,23 +18,27 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.methodName
 
 /**
  * Created by vain onnellinen on 10/18/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository {
     override var txDescription: TxDescription? = null
 
     override fun deleteTransaction() {
         if (txDescription != null) {
-            getResult({ wallet?.deleteTx(txDescription?.id!!) }, object {}.javaClass.enclosingMethod.name, "kernelID = ${txDescription!!.kernelId}")
+            getResult(object {}.methodName(), "kernelID = ${txDescription!!.kernelId}") {
+                wallet?.deleteTx(txDescription?.id!!)
+            }
         }
     }
 
     override fun cancelTransaction() {
         if (txDescription != null) {
-            getResult({ wallet?.cancelTx(txDescription?.id!!) }, object {}.javaClass.enclosingMethod.name, "kernelID = ${txDescription!!.kernelId}")
+            getResult(object {}.methodName(), "kernelID = ${txDescription!!.kernelId}") {
+                wallet?.cancelTx(txDescription?.id!!)
+            }
         }
     }
 }

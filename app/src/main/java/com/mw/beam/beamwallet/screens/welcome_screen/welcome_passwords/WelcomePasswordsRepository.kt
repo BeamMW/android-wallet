@@ -21,13 +21,13 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Repository {
     override var phrases: Array<String>? = null
 
@@ -49,7 +49,7 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
             }
         }
 
-        LogUtils.logResponse(result, object {}.javaClass.enclosingMethod.name)
+        LogUtils.logResponse(result, object {}.methodName())
         return result
     }
 }

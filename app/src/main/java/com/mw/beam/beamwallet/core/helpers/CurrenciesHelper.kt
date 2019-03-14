@@ -14,22 +14,14 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen
+package com.mw.beam.beamwallet.core.helpers
 
-import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.methodName
-import com.mw.beam.beamwallet.core.utils.LogUtils
+import java.text.DecimalFormat
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ * Created by vain onnellinen on 3/14/19.
  */
-class WelcomeRepository : BaseRepository(), WelcomeContract.Repository {
-
-    override fun isWalletInitialized(): Boolean {
-        val result = Api.isWalletInitialized(AppConfig.DB_PATH)
-        LogUtils.logResponse(result, object {}.methodName())
-        return result
-    }
-}
+fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
+fun Long.convertToBeam(): Double = this.toDouble() / 100000000
+fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
+fun Double.convertToGroth() = (this * 100000000).toLong()

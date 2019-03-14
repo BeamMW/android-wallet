@@ -18,20 +18,24 @@ package com.mw.beam.beamwallet.screens.receive
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 11/13/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
     override fun generateNewAddress(): Subject<WalletAddress> {
-        return getResult({ wallet?.generateNewAddress() }, WalletListener.subOnGeneratedNewAddress, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnGeneratedNewAddress, object {}.methodName()) {
+            wallet?.generateNewAddress()
+        }
     }
 
     override fun saveAddress(address: WalletAddress) {
-        getResult({ wallet?.saveAddress(address.toDTO(), true) }, object {}.javaClass.enclosingMethod.name)
+        getResult(object {}.methodName()) {
+            wallet?.saveAddress(address.toDTO(), true)
+        }
     }
 }

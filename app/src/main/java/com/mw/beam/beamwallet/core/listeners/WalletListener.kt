@@ -23,16 +23,15 @@ import com.mw.beam.beamwallet.core.entities.dto.UtxoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 
-
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 object WalletListener {
     private var uiHandler = Handler(Looper.getMainLooper())
     private val DUMMY_OBJECT = Any()
@@ -50,38 +49,37 @@ object WalletListener {
     var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
 
     @JvmStatic
-    fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), object {}.javaClass.enclosingMethod.name)
+    fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), object {}.methodName())
 
     @JvmStatic
-    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), object {}.javaClass.enclosingMethod.name)
+    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), object {}.methodName())
 
     @JvmStatic
-    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), object {}.javaClass.enclosingMethod.name)
+    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), object {}.methodName())
 
     @JvmStatic
-    fun onRecoverProgressUpdated(done: Int, total: Int, message: String) = returnResult(subOnRecoverProgressUpdated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onRecoverProgressUpdated(done: Int, total: Int, message: String) = returnResult(subOnRecoverProgressUpdated, DUMMY_OBJECT, object {}.methodName())
 
     @JvmStatic
-    fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, object {}.methodName())
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
-            ?: emptyList(), object {}.javaClass.enclosingMethod.name)
+    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) } ?: emptyList(), object {}.methodName())
 
     @JvmStatic
-    fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), object {}.javaClass.enclosingMethod.name)
+    fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), object {}.methodName())
 
     @JvmStatic
-    fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), object {}.javaClass.enclosingMethod.name)
+    fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), object {}.methodName())
 
     @JvmStatic
-    fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, object {}.javaClass.enclosingMethod.name)
+    fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, object {}.methodName())
 
     @JvmStatic
-    fun onNodeConnectionFailed() = returnResult(subOnNodeConnectionFailed, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onNodeConnectionFailed() = returnResult(subOnNodeConnectionFailed, DUMMY_OBJECT, object {}.methodName())
 
     @JvmStatic
-    fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, object {}.javaClass.enclosingMethod.name)
+    fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, object {}.methodName())
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {
