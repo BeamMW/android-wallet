@@ -14,30 +14,27 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.settings
+package com.mw.beam.beamwallet.screens.change_password
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ * Created by vain onnellinen on 3/14/19.
  */
-class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository)
-    : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
-        SettingsContract.Presenter {
+class ChangePassPresenter(currentView: ChangePassContract.View, currentRepository: ChangePassContract.Repository)
+    : BasePresenter<ChangePassContract.View, ChangePassContract.Repository>(currentView, currentRepository),
+        ChangePassContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init()
+        view?.showCheckOldPassFragment()
     }
 
-    override fun onReportProblem() {
-        view?.sendMailWithLogs()
+    override fun onCreateNewPass() {
+        view?.showCreatePasswordFragment()
     }
 
-    override fun onChangePass() {
-        view?.changePass()
+    override fun onPassChanged() {
+        view?.finishScreen()
     }
-
-    override fun hasBackArrow(): Boolean? = null
-    override fun hasStatus(): Boolean = true
 }

@@ -68,7 +68,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         pass.isStateAccent = true
 
         if (pass.text.isNullOrBlank()) {
-            passError.text = getString(R.string.welcome_pass_empty_error)
+            passError.text = getString(R.string.pass_empty_error)
             passError.visibility = View.VISIBLE
             pass.isStateError = true
             hasErrors = true
@@ -97,7 +97,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun showOpenWalletError() {
         pass.isStateError = true
-        passError.text = getString(R.string.welcome_pass_wrong)
+        passError.text = getString(R.string.pass_wrong)
         passError.visibility = View.VISIBLE
     }
 

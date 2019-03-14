@@ -14,39 +14,26 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_passwords
+package com.mw.beam.beamwallet.screens.change_password
 
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ * Created by vain onnellinen on 3/14/19.
  */
-interface WelcomePasswordsContract {
+interface ChangePassContract {
     interface View : MvpView {
-        fun hasErrors() : Boolean
-        fun setStrengthLevel(strength : PasswordStrengthView.Strength)
-        fun clearErrors()
-        fun getPass(): String
-        fun getSeed() : Array<String>?
-        fun proceedToWallet()
-        fun showSeedAlert()
-        fun showSeedFragment()
+        fun showCheckOldPassFragment()
+        fun showCreatePasswordFragment()
+        fun finishScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onPassChanged(pass : String?)
-        fun onConfirmPassChanged()
-        fun onProceed()
-        fun onBackPressed()
-        fun onCreateNewSeed()
+        fun onCreateNewPass()
+        fun onPassChanged()
     }
 
-    interface Repository : MvpRepository {
-        var phrases : Array<String>?
-        fun createWallet(pass: String?, phrases : String?): Status
-    }
+    interface Repository : MvpRepository
 }

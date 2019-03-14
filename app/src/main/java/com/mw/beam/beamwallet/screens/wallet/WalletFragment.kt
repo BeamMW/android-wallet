@@ -245,9 +245,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun showTransactionDetails(txDescription: TxDescription) = (activity as TransactionDetailsHandler).onShowTransactionDetails(txDescription)
-    override fun showReceiveScreen() = (activity as TransactionDetailsHandler).onReceive()
-    override fun showSendScreen() = (activity as TransactionDetailsHandler).onSend()
+    override fun showTransactionDetails(txDescription: TxDescription) = (activity as WalletHandler).onShowTransactionDetails(txDescription)
+    override fun showReceiveScreen() = (activity as WalletHandler).onReceive()
+    override fun showSendScreen() = (activity as WalletHandler).onSend()
 
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
@@ -283,7 +283,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         return presenter
     }
 
-    interface TransactionDetailsHandler {
+    interface WalletHandler {
         fun onShowTransactionDetails(item: TxDescription)
         fun onReceive()
         fun onSend()

@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_passwords
+package com.mw.beam.beamwallet.screens.create_password
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
@@ -28,8 +28,7 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Repository {
-    override var phrases: Array<String>? = null
+class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
     override fun createWallet(pass: String?, phrases: String?): Status {
         var result = Status.STATUS_ERROR
@@ -51,5 +50,13 @@ class WelcomePasswordsRepository : BaseRepository(), WelcomePasswordsContract.Re
 
         LogUtils.logResponse(result, object {}.methodName())
         return result
+    }
+
+    override fun checkPass(pass: String?): Boolean {
+        return wallet?.checkWalletPassword(pass ?: return false) ?: false
+    }
+
+    override fun changePass(pass: String?) {
+        wallet?.changeWalletPassword(pass ?: return)
     }
 }

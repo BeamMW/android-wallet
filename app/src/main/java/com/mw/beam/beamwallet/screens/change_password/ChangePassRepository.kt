@@ -14,26 +14,11 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.settings
+package com.mw.beam.beamwallet.screens.change_password
 
-import com.mw.beam.beamwallet.base_screen.MvpPresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.BaseRepository
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ * Created by vain onnellinen on 3/14/19.
  */
-interface SettingsContract {
-    interface View : MvpView {
-        fun init()
-        fun sendMailWithLogs()
-        fun changePass()
-    }
-
-    interface Presenter : MvpPresenter<View> {
-        fun onReportProblem()
-        fun onChangePass()
-    }
-
-    interface Repository : MvpRepository
-}
+class ChangePassRepository: BaseRepository(), ChangePassContract.Repository

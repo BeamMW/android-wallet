@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.welcome_screen.welcome_passwords
+package com.mw.beam.beamwallet.screens.create_password
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -23,9 +23,9 @@ import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, currentRepository: WelcomePasswordsContract.Repository)
-    : BasePresenter<WelcomePasswordsContract.View, WelcomePasswordsContract.Repository>(currentView, currentRepository),
-        WelcomePasswordsContract.Presenter {
+class PasswordPresenter(currentView: PasswordContract.View, currentRepository: PasswordContract.Repository, private val state: PasswordState)
+    : BasePresenter<PasswordContract.View, PasswordContract.Repository>(currentView, currentRepository),
+        PasswordContract.Presenter {
     private val strengthVeryWeak = Regex("(?=.+)")
     private val strengthWeak = Regex("((?=.{6,})(?=.*[0-9]))|((?=.{6,})(?=.*[A-Z]))|((?=.{6,})(?=.*[a-z]))")
     private val strengthMedium = Regex("((?=.{6,})(?=.*[A-Z])(?=.*[a-z]))|((?=.{6,})(?=.*[0-9])(?=.*[a-z]))")
@@ -35,15 +35,36 @@ class WelcomePasswordsPresenter(currentView: WelcomePasswordsContract.View, curr
 
     override fun onCreate() {
         super.onCreate()
-        repository.phrases = view?.getSeed()
+
+        if (view != null) {
+            if (view!!.isModeChangePass()) {
+                state.isModeChangePass = true
+            } else {
+                state.phrases = view?.getSeed()
+            }
+        }
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init(state.isModeChangePass)
     }
 
     override fun onProceed() {
         if (view != null && !view!!.hasErrors()) {
-            if (Status.STATUS_OK == repository.createWallet(view?.getPass(), repository.phrases?.joinToString(separator = ";", postfix = ";"))) {
-                view?.proceedToWallet()
+            if (state.isModeChangePass) {
+                if (repository.checkPass(view?.getPass())) {
+                    view?.showOldPassError()
+                } else {
+                    repository.changePass(view?.getPass())
+                    view?.completePassChanging()
+                }
             } else {
-                view?.showSnackBar(Status.STATUS_ERROR)
+                if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"))) {
+                    view?.proceedToWallet()
+                } else {
+                    view?.showSnackBar(Status.STATUS_ERROR)
+                }
             }
         }
     }

@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.screens.address_details.AddressActivity
 import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
+import com.mw.beam.beamwallet.screens.change_password.ChangePassActivity
 import com.mw.beam.beamwallet.screens.receive.ReceiveActivity
 import com.mw.beam.beamwallet.screens.send.SendActivity
 import com.mw.beam.beamwallet.screens.settings.SettingsFragment
@@ -48,7 +49,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFragment.TransactionDetailsHandler, UtxoFragment.UtxoDetailsHandler, AddressesFragment.AddressDetailsHandler {
+class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
+        WalletFragment.WalletHandler,
+        UtxoFragment.UtxoDetailsHandler,
+        AddressesFragment.AddressDetailsHandler,
+        SettingsFragment.SettingsHandler {
     private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
@@ -58,6 +63,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
     override fun onShowTransactionDetails(item: TxDescription) = presenter.onShowTransactionDetails(item)
     override fun onReceive() = presenter.onReceive()
     override fun onSend() = presenter.onSend()
+    override fun onChangePassword() = presenter.onChangePass()
 
     override fun configNavDrawer() {
         val toolbar = toolbarLayout.toolbar
@@ -86,13 +92,9 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View, WalletFra
                 .putExtra(AddressActivity.EXTRA_ADDRESS, item))
     }
 
-    override fun showReceiveScreen() {
-        startActivity(Intent(this, ReceiveActivity::class.java))
-    }
-
-    override fun showSendScreen() {
-        startActivity(Intent(this, SendActivity::class.java))
-    }
+    override fun showReceiveScreen() = startActivity(Intent(this, ReceiveActivity::class.java))
+    override fun showSendScreen() = startActivity(Intent(this, SendActivity::class.java))
+    override fun showChangePasswordScreen() = startActivity(Intent(this, ChangePassActivity::class.java))
 
     override fun onBackPressed() {
         if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
