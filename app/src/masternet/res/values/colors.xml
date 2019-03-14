@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#342e41</color>
-    <color name="colorPrimaryPicked">#2c2638</color>
-    <color name="colorPrimaryDark">#1e172c</color>
-    <color name="navigation_drawer_color">#191226</color>
+    <color name="colorPrimary">#242424</color>
+    <color name="colorPrimaryPicked">#161616</color>
+    <color name="colorPrimaryDark">#171717</color>
+    <color name="navigation_drawer_color">#101010</color>
 
-    <color name="wallet_adapter_not_multiply_color">#292236</color>
-    <color name="wallet_adapter_multiply_color">#332d40</color>
+    <color name="wallet_adapter_not_multiply_color">#1d1d1d</color>
+    <color name="wallet_adapter_multiply_color">#242424</color>
 </resources>
