@@ -19,23 +19,25 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
     override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult({
+        return getResult(WalletListener.subOnAddresses, object {}.methodName()) {
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
-        }, WalletListener.subOnAddresses, object {}.javaClass.enclosingMethod.name)
+        }
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult({ wallet?.getWalletStatus() }, WalletListener.subOnTxStatus, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnTxStatus, object {}.methodName()) {
+            wallet?.getWalletStatus()
+        }
     }
 }

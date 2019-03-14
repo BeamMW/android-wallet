@@ -16,20 +16,9 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
-import com.mw.beam.beamwallet.core.AppConfig
-import java.io.File
-import java.text.DecimalFormat
-
 /**
  * Created by vain onnellinen on 10/3/18.
  */
-
-
-fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
-fun Long.convertToBeam(): Double = this.toDouble() / 100000000
-fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
-fun Double.convertToGroth() = (this * 100000000).toLong()
-fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 
 fun Int.convertToString(): String {
     val hex = Integer.toHexString(this)
@@ -157,30 +146,4 @@ enum class ChangeAction(val value: Int) {
             return map[type] ?: throw IllegalArgumentException("Unknown type of ChangeAction")
         }
     }
-}
-
-enum class WelcomeMode {
-    OPEN, CREATE, RESTORE
-}
-
-enum class Status(val value: Int) {
-    STATUS_OK(0), STATUS_ERROR(-1);
-
-    companion object {
-        private val map: MutableMap<Int, Status> = java.util.HashMap()
-
-        init {
-            Status.values().forEach {
-                map[it.value] = it
-            }
-        }
-
-        fun fromValue(type: Int?): Status {
-            return map[type] ?: STATUS_ERROR
-        }
-    }
-}
-
-fun removeDatabase() {
-    File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
 }

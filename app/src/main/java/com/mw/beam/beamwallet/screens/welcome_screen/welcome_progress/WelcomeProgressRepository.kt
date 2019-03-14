@@ -21,6 +21,5 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 /**
  * Created by vain onnellinen on 1/24/19.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repository
 

@@ -19,6 +19,7 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.Subject
@@ -26,33 +27,32 @@ import io.reactivex.subjects.Subject
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 open class BaseRepository : MvpRepository {
 
     override val wallet: Wallet?
         get() = App.wallet
 
     override fun closeWallet() {
-        getResult({
+        getResult(object {}.methodName()) {
             if (Api.isWalletRunning()) {
                 Api.closeWallet()
             }
-        }, object {}.javaClass.enclosingMethod.name)
+        }
     }
 
     override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
-        return getResult({}, WalletListener.subOnNodeConnectedStatusChanged, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnNodeConnectedStatusChanged, object {}.methodName())
     }
 
     override fun getNodeConnectionFailed(): Subject<Any> {
-        return getResult({}, WalletListener.subOnNodeConnectionFailed, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnNodeConnectionFailed, object {}.methodName())
     }
 
     override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
-        return getResult({}, WalletListener.subOnSyncProgressUpdated, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnSyncProgressUpdated, object {}.methodName())
     }
 
-    fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String, additionalInfo: String = ""): Subject<T> {
+    fun <T> getResult(subject: Subject<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Subject<T> {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
@@ -66,7 +66,7 @@ open class BaseRepository : MvpRepository {
         return subject
     }
 
-    fun getResult(block: () -> Unit, requestName: String, additionalInfo: String = "") {
+    fun getResult(requestName: String, additionalInfo: String = "", block: () -> Unit = {}) {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
