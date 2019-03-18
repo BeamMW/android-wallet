@@ -7,11 +7,11 @@
         android:title="@string/common_menu_more"
         app:showAsAction="ifRoom">
         <menu>
-            <!--<item-->
-                <!--android:id="@+id/showQR"-->
-                <!--android:icon="@drawable/address_qr"-->
-                <!--android:title="@string/address_menu_qr"-->
-                <!--app:showAsAction="never" />-->
+            <item
+                android:id="@+id/showQR"
+                android:icon="@drawable/address_qr"
+                android:title="@string/address_menu_qr"
+                app:showAsAction="never" />
             <item
                 android:id="@+id/edit"
                 android:icon="@drawable/address_edit"
