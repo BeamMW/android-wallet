@@ -70,6 +70,7 @@
         app:button_icon="@drawable/ic_btn_show"
         app:button_text="@string/welcome_open"
         app:layout_constraintBottom_toTopOf="@id/btnChange"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
@@ -81,6 +82,7 @@
         app:button_text="@string/welcome_login_to_another"
         app:button_text_color="@color/common_text_color"
         app:layout_constraintBottom_toTopOf="@id/forgotPass"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

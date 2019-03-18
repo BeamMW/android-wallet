@@ -58,7 +58,6 @@
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnCancel"
         style="@style/common_button_style"
-        android:layout_width="@dimen/welcome_progress_btn_size"
         android:layout_marginBottom="@dimen/welcome_progress_button_margin"
         android:visibility="gone"
         app:button_icon="@drawable/ic_btn_cancel"

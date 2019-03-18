@@ -36,6 +36,7 @@
             app:button_icon="@drawable/ic_btn_recover"
             app:button_text="@string/welcome_recover"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

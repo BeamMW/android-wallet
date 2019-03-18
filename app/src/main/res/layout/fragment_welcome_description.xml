@@ -85,9 +85,7 @@
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnGenerate"
             style="@style/common_button_style"
-            android:layout_marginStart="@dimen/welcome_description_button_side_offset"
             android:layout_marginTop="@dimen/welcome_description_button_offset"
-            android:layout_marginEnd="@dimen/welcome_description_button_side_offset"
             android:layout_marginBottom="@dimen/welcome_description_button_offset"
             app:button_icon="@drawable/ic_btn_generate"
             app:button_text="@string/welcome_generate_seed_phrase"

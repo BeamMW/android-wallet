@@ -38,20 +38,22 @@
         app:button_icon="@drawable/ic_btn_create"
         app:button_text="@string/welcome_create_wallet"
         app:layout_constraintBottom_toTopOf="@id/btnRestore"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoText"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnRestore"
-        android:visibility="gone"
         style="@style/common_button_style"
         android:layout_marginTop="@dimen/welcome_button_margin_offset"
+        android:visibility="gone"
         app:button_icon="@drawable/ic_btn_restore"
         app:button_state_list="@color/primary_selector"
         app:button_text="@string/welcome_restore"
         app:button_text_color="@color/common_text_color"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnCreate" />
 </android.support.constraint.ConstraintLayout>
