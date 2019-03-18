@@ -26,13 +26,38 @@
     <EditText
         android:id="@+id/token"
         style="@style/common_text_big_light"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_offset"
         android:layout_marginEnd="@dimen/common_offset"
         android:background="@drawable/edit_text_selector"
+        app:layout_constraintEnd_toStartOf="@id/scanQR"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tokenTitle"
         tools:ignore="Autofill,LabelFor,TextFields" />
+
+    <ImageView
+        android:id="@+id/scanQR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@id/token"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/token"
+        app:srcCompat="@drawable/ic_scan_qr" />
+
+    <TextView
+        android:id="@+id/tokenDescription"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginTop="@dimen/send_amount_error_margin_top"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:text="@string/send_token_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/token" />
 
     <TextView
         android:id="@+id/tokenError"

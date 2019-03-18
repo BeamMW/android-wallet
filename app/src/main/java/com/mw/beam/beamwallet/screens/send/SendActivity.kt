@@ -16,19 +16,27 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
 import android.view.View
+import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.PermissionsHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.activity_send.*
 import java.text.DecimalFormat
 
@@ -65,6 +73,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             presenter.onSend()
         }
 
+        scanQR.setOnClickListener {
+            presenter.onScanQrPressed()
+        }
+
         tokenWatcher = object : TextWatcher {
             override fun afterTextChanged(token: Editable?) {
                 presenter.onTokenChanged(token.toString())
@@ -89,6 +101,50 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             }
         }
         fee.onFocusChangeListener = feeFocusListener
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        presenter.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents)
+    }
+
+    override fun isPermissionGranted(): Boolean {
+        return PermissionsHelper.requestPermissions(this, PermissionsHelper.PERMISSIONS_CAMERA, PermissionsHelper.REQUEST_CODE_PERMISSION)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        var isGranted = true
+
+        for ((index, permission) in permissions.withIndex()) {
+            if (grantResults[index] == PackageManager.PERMISSION_DENIED) {
+                isGranted = false
+                if (!shouldShowRequestPermissionRationale(permission)) {
+                    presenter.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN)
+                } else if (PermissionsHelper.PERMISSIONS_CAMERA == permission) {
+                    presenter.onRequestPermissionsResult(PermissionStatus.DECLINED)
+                }
+            }
+        }
+
+        if (isGranted) {
+            presenter.onRequestPermissionsResult(PermissionStatus.GRANTED)
+        }
+    }
+
+    override fun showPermissionRequiredAlert() {
+        showAlert(message = getString(R.string.send_permission_required_message),
+                btnConfirmText = getString(R.string.send_permission_required_settings),
+                onConfirm = { showAppDetailsPage() },
+                title = getString(R.string.send_permission_required_title),
+                btnCancelText = getString(R.string.common_cancel))
+
+    }
+
+    override fun scanQR() {
+        val integrator = IntentIntegrator(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+        integrator.captureActivity = ScanQrActivity::class.java
+        integrator.setBeepEnabled(false)
+        integrator.initiateScan()
     }
 
     override fun hasErrors(availableAmount: Long): Boolean {
@@ -128,16 +184,22 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    override fun setAddress(address: String) {
+        token.setText(address)
+    }
+
     override fun showCantSendToExpiredError() {
         showAlert(getString(R.string.send_error_expired_address), getString(R.string.common_ok), {})
     }
 
     override fun setAddressError() {
         tokenError.visibility = View.VISIBLE
+        tokenDescription.visibility = View.GONE
     }
 
     override fun clearAddressError() {
-        tokenError.visibility = View.GONE
+        tokenError.visibility = View.INVISIBLE
+        tokenDescription.visibility = View.VISIBLE
     }
 
     override fun clearToken(clearedToken: String?) {
@@ -162,7 +224,8 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         } else {
             //can't attach this view to the params because constraint group forbid to change visibility of it's children
             amountError.visibility = View.GONE
-            tokenError.visibility = View.GONE
+            tokenError.visibility = View.INVISIBLE
+            tokenDescription.visibility = View.VISIBLE
         }
     }
 
@@ -178,16 +241,21 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         fee.onFocusChangeListener = null
     }
 
-    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = SendPresenter(this, SendRepository(), SendState())
-        return presenter
-    }
-
-
     private fun configAmountError(errorString: String) {
         amountError.visibility = View.VISIBLE
         amountError.text = errorString
         amount.setTextColor(ContextCompat.getColorStateList(this, R.color.text_color_selector))
         amount.isStateError = true
+    }
+
+    private fun showAppDetailsPage() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
+    }
+
+    override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
+        presenter = SendPresenter(this, SendRepository(), SendState())
+        return presenter
     }
 }

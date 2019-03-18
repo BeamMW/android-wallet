@@ -80,7 +80,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     override fun addListeners() {
         btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
-      //  btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
+        btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
     }
 
@@ -105,8 +105,8 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
             qrView.setImageBitmap(QrHelper.textToImage(receiveToken, px, px,
-                    ContextCompat.getColor(this, R.color.colorPrimary),
-                    ContextCompat.getColor(this, R.color.common_text_color)))
+                    ContextCompat.getColor(this, R.color.common_text_color),
+                    ContextCompat.getColor(this, R.color.colorPrimary)))
         } catch (e: Exception) {
             return
         }
@@ -143,7 +143,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     override fun clearListeners() {
         btnCopyToken.setOnClickListener(null)
-      //  btnShowQR.setOnClickListener(null)
+        btnShowQR.setOnClickListener(null)
         expiresOnSpinner.onItemSelectedListener = null
     }
 
