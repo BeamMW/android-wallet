@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import io.reactivex.subjects.Subject
 
 /**
@@ -34,27 +35,34 @@ interface SendContract {
         fun getToken(): String
         fun getComment(): String?
         fun updateUI(shouldShowParams: Boolean)
-        fun hasErrors(availableAmount : Long) : Boolean
+        fun hasErrors(availableAmount: Long): Boolean
         fun clearErrors()
-        fun clearToken(clearedToken : String?)
+        fun clearToken(clearedToken: String?)
         fun init()
         fun close()
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
+        fun setAddress(address: String)
+        fun scanQR()
+        fun isPermissionGranted(): Boolean
+        fun showPermissionRequiredAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSend()
-        fun onTokenChanged(rawToken : String?)
+        fun onTokenChanged(rawToken: String?)
         fun onAmountChanged()
+        fun onScannedQR(address: String?)
+        fun onScanQrPressed()
+        fun onRequestPermissionsResult(result: PermissionStatus)
     }
 
     interface Repository : MvpRepository {
         fun sendMoney(token: String, comment: String?, amount: Long, fee: Long)
         fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
-        fun checkAddress(address: String?) : Boolean
+        fun checkAddress(address: String?): Boolean
         fun getAddresses(): Subject<OnAddressesData>
     }
 }

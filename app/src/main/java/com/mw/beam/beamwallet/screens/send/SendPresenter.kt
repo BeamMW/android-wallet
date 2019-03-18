@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.convertToGroth
 import io.reactivex.disposables.Disposable
 
@@ -55,6 +56,31 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     repository.sendMoney(token, comment, amount.convertToGroth(), fee)
                     view?.close()
                 }
+            }
+        }
+    }
+
+    override fun onScanQrPressed() {
+        if (view?.isPermissionGranted() == true) {
+            view?.scanQR()
+        }
+    }
+
+    override fun onScannedQR(address: String?) {
+        if (!address.isNullOrEmpty()) {
+            view?.setAddress(address)
+            onTokenChanged(address)
+        }
+    }
+
+    override fun onRequestPermissionsResult(result: PermissionStatus) {
+        when (result) {
+            PermissionStatus.GRANTED -> view?.scanQR()
+            PermissionStatus.NEVER_ASK_AGAIN -> {
+                view?.showPermissionRequiredAlert()
+            }
+            PermissionStatus.DECLINED -> {
+                //do nothing
             }
         }
     }

@@ -82,6 +82,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
     implementation "com.elvishew:xlog:$ver_xlog"
     implementation "com.google.zxing:core:$ver_qr"
+    implementation "com.journeyapps:zxing-android-embedded:$ver_qr_android_embedded"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
