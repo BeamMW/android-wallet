@@ -37,7 +37,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onShowQR() {
-
+        view?.showQR(state.address?.walletID ?: return)
     }
 
     override fun onMenuCreate(menu: Menu?) {
@@ -59,6 +59,22 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription)
+    }
+
+    override fun onDialogCopyPressed() {
+        if (state.address != null) {
+            view?.copyToClipboard(state.address!!.walletID)
+            view?.dismissDialog()
+        }
+    }
+
+    override fun onDialogClosePressed() {
+        view?.dismissDialog()
+    }
+
+    override fun onDestroy() {
+        view?.dismissDialog()
+        super.onDestroy()
     }
 
     override fun initSubscriptions() {

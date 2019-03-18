@@ -36,7 +36,10 @@ interface AddressContract {
         fun showTransactionDetails(txDescription: TxDescription)
         fun showEditAddressScreen(address: WalletAddress)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
+        fun showQR(address : String)
+        fun copyToClipboard(address : String)
         fun finishScreen()
+        fun dismissDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -45,6 +48,8 @@ interface AddressContract {
         fun onAddressWasEdited()
         fun onDeleteAddress()
         fun onMenuCreate(menu: Menu?)
+        fun onDialogCopyPressed()
+        fun onDialogClosePressed()
         fun onTransactionPressed(txDescription: TxDescription)
     }
 

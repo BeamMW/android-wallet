@@ -59,7 +59,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     companion object {
-        private const val COPY_TAG = "TOKEN"
+        private const val COPY_TAG = "ADDRESS"
         private const val QR_SIZE = 160.0
     }
 

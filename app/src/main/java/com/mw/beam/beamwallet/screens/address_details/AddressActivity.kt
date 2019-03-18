@@ -16,11 +16,23 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
+import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -28,7 +40,9 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.screens.address_edit.EditAddressActivity
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
@@ -41,8 +55,11 @@ import kotlinx.android.synthetic.main.item_address.*
 class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     private lateinit var presenter: AddressPresenter
     private lateinit var adapter: TransactionsAdapter
+    private var dialog: AlertDialog? = null
 
     companion object {
+        private const val QR_SIZE = 160.0
+        private const val COPY_TAG = "ADDRESS"
         const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
         const val CODE_EDIT_ADDRESS = 1
     }
@@ -69,7 +86,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            //   R.id.showQR -> presenter.onShowQR()
+            R.id.showQR -> presenter.onShowQR()
             R.id.edit -> presenter.onEditAddress()
             R.id.delete -> presenter.onDeleteAddress()
         }
@@ -95,6 +112,41 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             date.text = String.format(if (address.isExpired) getString(R.string.addresses_expired) else getString(R.string.addresses_expires),
                     if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration))
         }
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showQR(address: String) {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
+        val qrView = view.findViewById<ImageView>(R.id.qrView)
+        val token = view.findViewById<TextView>(R.id.tokenView)
+        val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
+        val close = view.findViewById<ImageView>(R.id.close)
+
+        token.text = address
+
+        try {
+            val metrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(metrics)
+            val logicalDensity = metrics.density
+            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+
+            qrView.setImageBitmap(QrHelper.textToImage(address, px, px,
+                    ContextCompat.getColor(this, R.color.common_text_color),
+                    ContextCompat.getColor(this, R.color.colorPrimary)))
+        } catch (e: Exception) {
+            return
+        }
+
+        btnCopy.setOnClickListener { presenter.onDialogCopyPressed() }
+        close.setOnClickListener { presenter.onDialogClosePressed() }
+
+        dialog = AlertDialog.Builder(this).setView(view).show()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    override fun copyToClipboard(address: String) {
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, address)
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
@@ -124,6 +176,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             presenter.onAddressWasEdited()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun dismissDialog() {
+        if (dialog != null) {
+            dialog?.dismiss()
+            dialog = null
         }
     }
 
