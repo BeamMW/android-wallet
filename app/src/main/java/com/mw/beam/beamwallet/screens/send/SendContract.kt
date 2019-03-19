@@ -40,6 +40,8 @@ interface SendContract {
         fun close()
         fun setAddressError()
         fun clearAddressError()
+        fun scanQrCode()
+        fun setToken(newToken: String)
     }
 
     interface Presenter : MvpPresenter<View> {

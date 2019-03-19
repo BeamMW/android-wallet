@@ -4,6 +4,7 @@
     package="com.mw.beam.beamwallet">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".core.App"
@@ -13,8 +14,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".screens.qr_scann.QrScannerActivity" android:screenOrientation="portrait"/>
         <activity
             android:name="com.mw.beam.beamwallet.screens.main.MainActivity"
             android:screenOrientation="portrait" />

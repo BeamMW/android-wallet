@@ -22,6 +22,7 @@ buildscript {
     ext.ver_google_services = '4.2.0'
     ext.ver_firebase_core = '16.0.7'
     ext.ver_qr = '3.3.3'
+    ext.ver_zxing_android='3.6.0'
 
     repositories {
         google()

@@ -148,6 +148,10 @@
     <dimen name="send_amount_error_margin_top">8dp</dimen>
     <dimen name="send_btn_margin_bottom">22dp</dimen>
     <dimen name="send_transfer_btn_width">156dp</dimen>
+    <dimen name="qr_icon_size">24dp</dimen>
+
+    <!-- QrCodeActivity -->
+    <dimen name="description_container_size">74dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>

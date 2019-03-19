@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.app.Activity
+import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
@@ -29,6 +31,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.screens.qr_scann.QrScannerActivity
 import kotlinx.android.synthetic.main.activity_send.*
 import java.text.DecimalFormat
 
@@ -37,6 +40,7 @@ import java.text.DecimalFormat
  * Created by vain onnellinen on 11/13/18.
  */
 class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
+    private val qrRequestCode = 13
     private lateinit var presenter: SendPresenter
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
@@ -63,6 +67,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun addListeners() {
         btnSend.setOnClickListener {
             presenter.onSend()
+        }
+
+        qrScanButton.setOnClickListener {
+            scanQrCode()
         }
 
         tokenWatcher = object : TextWatcher {
@@ -184,5 +192,21 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amountError.text = errorString
         amount.setTextColor(ContextCompat.getColorStateList(this, R.color.text_color_selector))
         amount.isStateError = true
+    }
+
+    override fun scanQrCode() {
+        startActivityForResult(Intent(this, QrScannerActivity::class.java), qrRequestCode)
+    }
+
+    override fun setToken(newToken: String) {
+        token.setText(newToken)
+        presenter.onTokenChanged(newToken)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == qrRequestCode && resultCode == Activity.RESULT_OK) {
+            setToken(data?.getStringExtra(QrScannerActivity.RESULT_KEY) ?: "")
+        }
     }
 }
