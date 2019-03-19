@@ -139,6 +139,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     }
 
+    override fun showNotBeamAddressError() {
+        showSnackBar(getString(R.string.send_error_not_beam_address))
+    }
+
     override fun scanQR() {
         val integrator = IntentIntegrator(this)
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)

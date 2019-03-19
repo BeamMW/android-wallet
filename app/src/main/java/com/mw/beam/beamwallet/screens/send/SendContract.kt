@@ -43,6 +43,7 @@ interface SendContract {
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
+        fun showNotBeamAddressError()
         fun setAddress(address: String)
         fun scanQR()
         fun isPermissionGranted(): Boolean
