@@ -77,8 +77,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onScannedQR(address: String?) {
-        if (!address.isNullOrEmpty()) {
-            state.scannedAddress = address
+        val clearedAddress = address?.replace(tokenRegex, "")
+
+        when {
+            address != null && address != clearedAddress -> view?.showNotBeamAddressError()
+            address != null && address == clearedAddress -> state.scannedAddress = address
         }
     }
 

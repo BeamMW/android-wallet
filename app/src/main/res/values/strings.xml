@@ -183,6 +183,7 @@
     <string name="receive_expires_on">Expires</string>
     <string name="receive_send_comment_description">Comments are local and won\'t be shared.</string>
     <string name="receive_btn_copy">copy</string>
+    <string name="receive_btn_copy_address">copy address</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
     <string name="receive_token_title">My address:</string>
@@ -208,6 +209,7 @@
     <string name="send_permission_required_title">Permission is required</string>
     <string name="send_permission_required_message">Please, grant camera permission for using QR scanner</string>
     <string name="send_permission_required_settings">settings</string>
+    <string name="send_error_not_beam_address">The scanned code is not a Beam wallet address</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>

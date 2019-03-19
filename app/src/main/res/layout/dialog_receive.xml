@@ -72,7 +72,7 @@
         android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
         app:button_icon="@drawable/ic_btn_copy_dark"
         app:button_state_list="@color/receive_selector"
-        app:button_text="@string/receive_btn_copy"
+        app:button_text="@string/receive_btn_copy_address"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
