@@ -232,7 +232,9 @@
 
     <!--AddressActivity-->
     <string name="address_title">Address</string>
+    <string name="address_contact_token_title">Contact:</string>
     <string name="address_menu_qr">Show QR code</string>
+    <string name="address_menu_copy">Copy address</string>
     <string name="address_menu_edit">Edit address</string>
     <string name="address_menu_delete">Delete address</string>
     <string name="address_transactions_title">Transactions list</string>
