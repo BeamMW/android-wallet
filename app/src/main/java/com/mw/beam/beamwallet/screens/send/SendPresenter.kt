@@ -41,6 +41,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.init()
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        // we need to apply scanned address after watchers were added
+        if (state.scannedAddress != null) {
+            view?.setAddress(state.scannedAddress!!)
+            state.scannedAddress = null
+        }
+    }
+
     override fun onSend() {
         if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
             val amount = view?.getAmount()
@@ -68,8 +78,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onScannedQR(address: String?) {
         if (!address.isNullOrEmpty()) {
-            view?.setAddress(address)
-            onTokenChanged(address)
+            state.scannedAddress = address
         }
     }
 

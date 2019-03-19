@@ -27,4 +27,5 @@ class SendState {
     var isTokenEmpty = true
     var isTokenValid = true
     var expiredAddresses = listOf<WalletAddress>()
+    var scannedAddress : String? = null
 }

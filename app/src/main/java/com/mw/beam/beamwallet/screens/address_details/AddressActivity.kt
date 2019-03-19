@@ -82,11 +82,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
         menu?.findItem(R.id.edit)?.isVisible = address.own != 0L
+        menu?.findItem(R.id.showQR)?.isVisible = address.isContact || !address.isExpired
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.showQR -> presenter.onShowQR()
+            R.id.copy -> presenter.onCopyAddress()
             R.id.edit -> presenter.onEditAddress()
             R.id.delete -> presenter.onDeleteAddress()
         }
@@ -115,14 +117,19 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     @SuppressLint("InflateParams")
-    override fun showQR(address: String) {
+    override fun showQR(address: WalletAddress) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
         val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
         val close = view.findViewById<ImageView>(R.id.close)
+        val tokenTitle = view.findViewById<TextView>(R.id.tokenTitle)
 
-        token.text = address
+        token.text = address.walletID
+
+        if (address.isContact) {
+            tokenTitle.text = getString(R.string.address_contact_token_title)
+        }
 
         try {
             val metrics = DisplayMetrics()
@@ -130,7 +137,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             val logicalDensity = metrics.density
             val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
-            qrView.setImageBitmap(QrHelper.textToImage(address, px, px,
+            qrView.setImageBitmap(QrHelper.textToImage(address.walletID, px, px,
                     ContextCompat.getColor(this, R.color.common_text_color),
                     ContextCompat.getColor(this, R.color.colorPrimary)))
         } catch (e: Exception) {

@@ -37,7 +37,11 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onShowQR() {
-        view?.showQR(state.address?.walletID ?: return)
+        view?.showQR(state.address ?: return)
+    }
+
+    override fun onCopyAddress() {
+        view?.copyToClipboard(state.address?.walletID ?: return)
     }
 
     override fun onMenuCreate(menu: Menu?) {

@@ -13,6 +13,11 @@
                 android:title="@string/address_menu_qr"
                 app:showAsAction="never" />
             <item
+                android:id="@+id/copy"
+                android:icon="@drawable/address_copy"
+                android:title="@string/address_menu_copy"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/edit"
                 android:icon="@drawable/address_edit"
                 android:title="@string/address_menu_edit"
