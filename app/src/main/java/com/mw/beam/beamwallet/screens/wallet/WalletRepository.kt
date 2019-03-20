@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.wallet
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -30,11 +29,11 @@ import io.reactivex.subjects.Subject
 class WalletRepository : BaseRepository(), WalletContract.Repository {
 
     override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, object {}.methodName())
+        return getResult(WalletListener.subOnStatus, "getWalletStatus")
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, object {}.methodName()) {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
     }

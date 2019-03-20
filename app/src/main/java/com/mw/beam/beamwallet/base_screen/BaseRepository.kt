@@ -19,7 +19,6 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.Subject
@@ -33,7 +32,7 @@ open class BaseRepository : MvpRepository {
         get() = App.wallet
 
     override fun closeWallet() {
-        getResult(object {}.methodName()) {
+        getResult("closeWallet") {
             if (Api.isWalletRunning()) {
                 Api.closeWallet()
             }
@@ -41,15 +40,15 @@ open class BaseRepository : MvpRepository {
     }
 
     override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
-        return getResult(WalletListener.subOnNodeConnectedStatusChanged, object {}.methodName())
+        return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
     }
 
     override fun getNodeConnectionFailed(): Subject<Any> {
-        return getResult(WalletListener.subOnNodeConnectionFailed, object {}.methodName())
+        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
     }
 
     override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
-        return getResult(WalletListener.subOnSyncProgressUpdated, object {}.methodName())
+        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
     }
 
     fun <T> getResult(subject: Subject<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Subject<T> {

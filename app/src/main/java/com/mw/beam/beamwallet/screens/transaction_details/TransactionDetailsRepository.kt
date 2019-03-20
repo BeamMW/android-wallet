@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.methodName
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -28,7 +27,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
 
     override fun deleteTransaction() {
         if (txDescription != null) {
-            getResult(object {}.methodName(), "kernelID = ${txDescription!!.kernelId}") {
+            getResult("deleteTransaction", "kernelID = ${txDescription!!.kernelId}") {
                 wallet?.deleteTx(txDescription?.id!!)
             }
         }
@@ -36,7 +35,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
 
     override fun cancelTransaction() {
         if (txDescription != null) {
-            getResult(object {}.methodName(), "kernelID = ${txDescription!!.kernelId}") {
+            getResult("cancelTransaction", "kernelID = ${txDescription!!.kernelId}") {
                 wallet?.cancelTx(txDescription?.id!!)
             }
         }

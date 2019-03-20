@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -29,14 +28,14 @@ import io.reactivex.subjects.Subject
 class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
     override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, object {}.methodName()) {
+        return getResult(WalletListener.subOnAddresses, "getAddresses") {
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
         }
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, object {}.methodName()) {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
     }

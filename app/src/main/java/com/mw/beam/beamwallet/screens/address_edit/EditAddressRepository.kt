@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.helpers.methodName
 
 /**
  * Created by vain onnellinen on 3/5/19.
@@ -25,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.methodName
 class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 
     override fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
-        getResult(object {}.methodName()) {
+        getResult("saveAddress") {
             wallet?.saveAddressChanges(addr, name, isNever, makeActive, makeExpired)
         }
     }

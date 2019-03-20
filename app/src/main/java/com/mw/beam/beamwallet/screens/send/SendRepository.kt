@@ -20,7 +20,6 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -30,13 +29,13 @@ import io.reactivex.subjects.Subject
 class SendRepository : BaseRepository(), SendContract.Repository {
 
     override fun sendMoney(token: String, comment: String?, amount: Long, fee: Long) {
-        getResult(object {}.methodName()) {
+        getResult("sendMoney") {
             wallet?.sendMoney(token, comment, amount, fee)
         }
     }
 
     override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, object {}.methodName())
+        return getResult(WalletListener.subOnStatus, "getWalletStatus")
     }
 
     override fun checkAddress(address: String?): Boolean {
@@ -44,11 +43,11 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     }
 
     override fun onCantSendToExpired(): Subject<Any> {
-        return getResult(WalletListener.subOnCantSendToExpired, object {}.methodName())
+        return getResult(WalletListener.subOnCantSendToExpired, "onCantSendToExpired")
     }
 
     override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, object {}.methodName()) {
+        return getResult(WalletListener.subOnAddresses, "getAddresses") {
             wallet?.getAddresses(true)
         }
     }

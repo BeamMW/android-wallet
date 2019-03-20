@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -28,13 +27,13 @@ import io.reactivex.subjects.Subject
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
     override fun deleteAddress(addressId: String) {
-        getResult(object {}.methodName()) {
+        getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, object {}.methodName()) {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
     }

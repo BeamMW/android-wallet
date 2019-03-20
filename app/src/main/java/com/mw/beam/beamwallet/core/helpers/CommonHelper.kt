@@ -22,8 +22,6 @@ import java.io.File
 /**
  * Created by vain onnellinen on 3/14/19.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-fun Any.methodName(): String = this.javaClass.enclosingMethod.name
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 
 enum class WelcomeMode {
