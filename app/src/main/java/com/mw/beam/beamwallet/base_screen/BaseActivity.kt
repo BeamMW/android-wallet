@@ -15,19 +15,29 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.util.DisplayMetrics
 import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -165,5 +175,13 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
+    }
+
+    override fun dismissQrCodeDialog() {
+        delegate.dismissQrCodeDialog()
+    }
+
+    override fun showQrCodeDialog(context: Context, token: String, copyClickListener: View.OnClickListener): AlertDialog? {
+        return delegate.showQrCodeDialog(context, token, copyClickListener)
     }
 }

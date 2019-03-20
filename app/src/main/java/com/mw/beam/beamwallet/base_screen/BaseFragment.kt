@@ -16,8 +16,10 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.view.View
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.core.helpers.Status
 
@@ -103,5 +105,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
+    }
+
+    override fun dismissQrCodeDialog() {
+        delegate.dismissQrCodeDialog()
+    }
+
+    override fun showQrCodeDialog(context: Context, token: String, copyClickListener: View.OnClickListener): AlertDialog? {
+        return delegate.showQrCodeDialog(context, token, copyClickListener)
     }
 }

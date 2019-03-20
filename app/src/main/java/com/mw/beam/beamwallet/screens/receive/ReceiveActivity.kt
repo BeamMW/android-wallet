@@ -46,9 +46,7 @@ import kotlinx.android.synthetic.main.activity_receive.*
  */
 class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     private lateinit var presenter: ReceivePresenter
-    private var dialog: AlertDialog? = null
     private val COPY_TAG = "TOKEN"
-    private val QR_SIZE = 160.0
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             presenter.onExpirePeriodChanged(when (position) {
@@ -75,7 +73,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     override fun addListeners() {
         btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
-      //  btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
+        btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
     }
 
@@ -84,32 +82,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun showQR(receiveToken: String) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
-        val qrView = view.findViewById<ImageView>(R.id.qrView)
-        val token = view.findViewById<TextView>(R.id.tokenView)
-        val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
-        val close = view.findViewById<ImageView>(R.id.close)
-
-        token.text = receiveToken
-
-        try {
-            val metrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(metrics)
-            val logicalDensity = metrics.density
-            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
-
-            qrView.setImageBitmap(QrHelper.textToImage(receiveToken, px, px,
-                    ContextCompat.getColor(this, R.color.colorPrimary),
-                    ContextCompat.getColor(this, R.color.common_text_color)))
-        } catch (e: Exception) {
-            return
-        }
-
-        btnCopy.setOnClickListener { presenter.onDialogCopyPressed() }
-        close.setOnClickListener { presenter.onDialogClosePressed() }
-
-        dialog = AlertDialog.Builder(this).setView(view).show()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        showQrCodeDialog(this, receiveToken, View.OnClickListener { presenter.onDialogCopyPressed() })
     }
 
     override fun getComment(): String? = comment.text?.toString()
@@ -124,10 +97,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun dismissDialog() {
-        if (dialog != null) {
-            dialog?.dismiss()
-            dialog = null
-        }
+        dismissQrCodeDialog()
     }
 
     override fun onBackPressed() {
@@ -137,7 +107,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     override fun clearListeners() {
         btnCopyToken.setOnClickListener(null)
-      //  btnShowQR.setOnClickListener(null)
+        btnShowQR.setOnClickListener(null)
         expiresOnSpinner.onItemSelectedListener = null
     }
 

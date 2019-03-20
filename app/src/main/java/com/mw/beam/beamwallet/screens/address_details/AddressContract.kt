@@ -37,10 +37,13 @@ interface AddressContract {
         fun showEditAddressScreen(address: WalletAddress)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
         fun finishScreen()
+        fun showQrCode()
+        fun copyToClipboard()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShowQR()
+        fun onDialogCopyPressed()
         fun onEditAddress()
         fun onAddressWasEdited()
         fun onDeleteAddress()

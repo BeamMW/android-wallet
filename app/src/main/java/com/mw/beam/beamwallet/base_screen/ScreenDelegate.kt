@@ -25,18 +25,25 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.SupportActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.views.BeamButton
 
 /**
  * Created by vain onnellinen on 12/4/18.
  */
 class ScreenDelegate {
     private var alert: AlertDialog? = null
+    private val QR_SIZE = 160.0
+    private var qrDialog: AlertDialog? = null
 
     fun hideKeyboard(activity: SupportActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -94,10 +101,50 @@ class ScreenDelegate {
         return alert
     }
 
+    fun showQrCodeDialog(context: Context, token: String, copyClickListener: View.OnClickListener): AlertDialog? {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_receive, null)
+        val qrView = view.findViewById<ImageView>(R.id.qrView)
+        val tokenView = view.findViewById<TextView>(R.id.tokenView)
+        val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
+        val close = view.findViewById<ImageView>(R.id.close)
+
+        tokenView.text = token
+
+        try {
+            val metrics = DisplayMetrics()
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            windowManager.defaultDisplay.getMetrics(metrics)
+            val logicalDensity = metrics.density
+            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+
+            qrView.setImageBitmap(QrHelper.textToImage(token, px, px,
+                    ContextCompat.getColor(context, R.color.colorPrimary),
+                    ContextCompat.getColor(context, R.color.common_text_color)))
+        } catch (e: Exception) {
+            return null
+        }
+
+        val dialog = AlertDialog.Builder(context).setView(view).show()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        btnCopy.setOnClickListener(copyClickListener)
+        close.setOnClickListener { dialog?.dismiss() }
+
+        qrDialog = dialog
+        return qrDialog
+    }
+
     fun dismissAlert() {
         if (alert != null) {
             alert?.dismiss()
             alert = null
+        }
+    }
+
+    fun dismissQrCodeDialog() {
+        qrDialog?.let {
+            it.dismiss()
+            qrDialog = null
         }
     }
 }

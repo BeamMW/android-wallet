@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
@@ -41,6 +44,7 @@ import kotlinx.android.synthetic.main.item_address.*
 class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     private lateinit var presenter: AddressPresenter
     private lateinit var adapter: TransactionsAdapter
+    private val COPY_TAG = "TOKEN"
 
     companion object {
         const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
@@ -69,12 +73,23 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            //   R.id.showQR -> presenter.onShowQR()
+            R.id.showQR -> presenter.onShowQR()
             R.id.edit -> presenter.onEditAddress()
             R.id.delete -> presenter.onDeleteAddress()
         }
 
         return true
+    }
+
+    override fun showQrCode() {
+        showQrCodeDialog(this, getAddress().walletID, View.OnClickListener {
+            presenter.onDialogCopyPressed()
+        })
+    }
+
+    override fun copyToClipboard() {
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, getAddress().walletID)
     }
 
     private fun initTransactionsList() {

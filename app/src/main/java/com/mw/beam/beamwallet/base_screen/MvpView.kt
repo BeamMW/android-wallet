@@ -16,7 +16,9 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
 import android.support.v7.app.AlertDialog
+import android.view.View
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
@@ -35,4 +37,6 @@ interface MvpView {
     fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
+    fun showQrCodeDialog(context: Context, token: String, copyClickListener: View.OnClickListener): AlertDialog?
+    fun dismissQrCodeDialog()
 }

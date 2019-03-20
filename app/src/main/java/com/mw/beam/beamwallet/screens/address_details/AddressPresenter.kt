@@ -37,7 +37,12 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onShowQR() {
+        view?.showQrCode()
+    }
 
+    override fun onDialogCopyPressed() {
+        view?.copyToClipboard()
+        view?.dismissQrCodeDialog()
     }
 
     override fun onMenuCreate(menu: Menu?) {
