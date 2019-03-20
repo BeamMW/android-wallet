@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.welcome_screen
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -29,7 +28,7 @@ class WelcomeRepository : BaseRepository(), WelcomeContract.Repository {
 
     override fun isWalletInitialized(): Boolean {
         val result = Api.isWalletInitialized(AppConfig.DB_PATH)
-        LogUtils.logResponse(result, object {}.methodName())
+        LogUtils.logResponse(result, "isWalletInitialized")
         return result
     }
 }

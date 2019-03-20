@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.utils
 
+import com.elvishew.xlog.BuildConfig
 import com.elvishew.xlog.XLog
 
 /**
@@ -28,10 +29,10 @@ object LogUtils {
     const val LOG_REQUEST = "Request"
 
     fun log(message: String) {
-        // if (BuildConfig.DEBUG) {
-        android.util.Log.e(LOG_TAG, message)
-        // }
-        XLog.e(message)
+        if (BuildConfig.FLAVOR != "mainnet" || BuildConfig.DEBUG) {
+            android.util.Log.e(LOG_TAG, message)
+            XLog.e(message)
+        }
     }
 
     fun <T> logResponse(result: T, responseName: String) {

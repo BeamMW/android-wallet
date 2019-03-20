@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.helpers.methodName
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -48,7 +47,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
             }
         }
 
-        LogUtils.logResponse(result, object {}.methodName())
+        LogUtils.logResponse(result, "createWallet")
         return result
     }
 

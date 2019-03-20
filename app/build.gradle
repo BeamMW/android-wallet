@@ -31,7 +31,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,16 +44,17 @@ android {
     productFlavors {
         mainnet {
             dimension "api"
-            //change to mainnet
             applicationIdSuffix ".mainnet"
-
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-mainnet.pro'
         }
         masternet {
             dimension "api"
             applicationIdSuffix ".masternet"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-masternet.pro'
         }
         beamtestnet {
             dimension "api"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-testnet.pro'
         }
     }
 }
@@ -80,6 +81,7 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$ver_rx_java"
     implementation "com.github.restorer:holycycle:$ver_holycycle"
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
+    implementation "com.google.firebase:firebase-messaging:$ver_firebase_messaging"
     implementation "com.elvishew:xlog:$ver_xlog"
     implementation "com.google.zxing:core:$ver_qr"
     implementation "com.journeyapps:zxing-android-embedded:$ver_qr_android_embedded"

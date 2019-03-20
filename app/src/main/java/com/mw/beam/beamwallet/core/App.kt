@@ -46,7 +46,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
+        if (BuildConfig.FLAVOR != "mainnet") {
+            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+        }
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

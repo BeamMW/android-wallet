@@ -103,7 +103,9 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()
-            id.text = utxo.stringId
+            //TODO hidden till correct id
+           // id.text = utxo.stringId
+            id.visibility = View.GONE
         }
     }
 
