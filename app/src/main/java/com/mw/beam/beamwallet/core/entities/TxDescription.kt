@@ -47,8 +47,8 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
 
     override fun toString(): String {
-        return "TxDescription(id=$id amount=$amount fee=$fee status=${status.name} kernelId=$kernelId change=$change minHeight=$minHeight " +
-                "peerId=$peerId myId=$myId message=$message createTime=$createTime modifyTime=$modifyTime sender=${sender.name} selfTx=$selfTx failureReason=$failureReason)"
+        return "\n\nTxDescription(\n id=$id\n amount=$amount\n fee=$fee\n status=${status.name}\n kernelId=$kernelId\n change=$change\n minHeight=$minHeight\n " +
+                "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
     }
 
     val statusString : String = when (status) {
