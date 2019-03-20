@@ -37,4 +37,9 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     val confirmHeight: Long = source.confirmHeight
     val createTxId: String? = source.createTxId
     val spentTxId: String? = source.spentTxId
+
+    override fun toString(): String {
+        return "\n\nUTXO(\n id=$id\n stringId=$stringId\n amount=$amount\n status=${status.name}\n maturity=$maturity\n keyType=${keyType.name}\n confirmHeight=$confirmHeight\n " +
+                "createTxId=$createTxId\n spentTxId=$spentTxId)"
+    }
 }
