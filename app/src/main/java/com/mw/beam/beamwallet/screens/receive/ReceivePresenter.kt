@@ -76,8 +76,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         super.initSubscriptions()
 
         walletIdSubscription = repository.generateNewAddress().subscribe {
-            state.address = it
-            view?.showToken(state.address!!.walletID)
+            if (state.address == null) {
+                state.address = it
+                view?.showToken(state.address!!.walletID)
+            }
         }
     }
 
