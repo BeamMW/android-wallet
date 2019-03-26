@@ -142,7 +142,7 @@
     <dimen name="send_currency_text_size">24sp</dimen>
     <dimen name="send_amount_text_size">36sp</dimen>
     <dimen name="send_amount_error_margin_top">8dp</dimen>
-    <dimen name="send_btn_margin_bottom">22dp</dimen>
+    <dimen name="send_btn_margin">22dp</dimen>
     <dimen name="send_transfer_btn_width">156dp</dimen>
 
     <!--UtxoFragment-->
