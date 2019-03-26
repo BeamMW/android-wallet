@@ -34,9 +34,6 @@ import kotlinx.android.synthetic.main.item_utxo.*
  */
 class UtxosAdapter(private val context: Context, private var data: List<Utxo>, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
-    private val sentBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_send)
-    private val receivedBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam_receive)
-    private val unavailableBeamCurrency = ContextCompat.getDrawable(context, R.drawable.currency_beam)
     private val spentStatus = context.getString(R.string.utxo_status_spent)
     private val inProgressStatus = context.getString(R.string.utxo_status_in_progress)
     private val incomingStatus = context.getString(R.string.utxo_status_incoming)
@@ -63,23 +60,11 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
         val utxo = data[position]
 
         holder.apply {
-            when (utxo.status) {
-                UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> {
-                    amount.setTextColor(receivedColor)
-                    status.setTextColor(receivedColor)
-                    currency.setImageDrawable(receivedBeamCurrency)
-                }
-                UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> {
-                    amount.setTextColor(sentColor)
-                    status.setTextColor(sentColor)
-                    currency.setImageDrawable(sentBeamCurrency)
-                }
-                UtxoStatus.Unavailable -> {
-                    amount.setTextColor(unavailableColor)
-                    status.setTextColor(unavailableColor)
-                    currency.setImageDrawable(unavailableBeamCurrency)
-                }
-            }
+            status.setTextColor(when (utxo.status) {
+                UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> sentColor
+                UtxoStatus.Unavailable -> unavailableColor
+            })
 
             status.text = when (utxo.status) {
                 UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> inProgressStatus
@@ -104,7 +89,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()
             //TODO hidden till correct id
-           // id.text = utxo.stringId
+            // id.text = utxo.stringId
             id.visibility = View.GONE
         }
     }
