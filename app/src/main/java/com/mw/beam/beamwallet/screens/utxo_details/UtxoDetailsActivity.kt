@@ -60,29 +60,11 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     private fun configUtxoInfo(utxo: Utxo) {
-        when (utxo.status) {
-            UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> {
-                ContextCompat.getColor(this, R.color.received_color).apply {
-                    amount.setTextColor(this)
-                    status.setTextColor(this)
-                }
-                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_receive))
-            }
-            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> {
-                ContextCompat.getColor(this, R.color.sent_color).apply {
-                    amount.setTextColor(this)
-                    status.setTextColor(this)
-                }
-                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam_send))
-            }
-            UtxoStatus.Unavailable -> {
-                ContextCompat.getColor(this, R.color.common_text_color).apply {
-                    amount.setTextColor(this)
-                    status.setTextColor(this)
-                }
-                currency.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.currency_beam))
-            }
-        }
+        status.setTextColor(when (utxo.status) {
+            UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(this, R.color.received_color)
+            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> ContextCompat.getColor(this, R.color.sent_color)
+            UtxoStatus.Unavailable -> ContextCompat.getColor(this, R.color.common_text_color)
+        })
 
         status.text = when (utxo.status) {
             UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> getString(R.string.utxo_status_in_progress)
