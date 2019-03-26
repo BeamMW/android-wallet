@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
         tools:ignore="RtlSymmetry" />
 
-    <EditText
+    <com.mw.beam.beamwallet.core.views.SendEditText
         android:id="@+id/token"
         style="@style/common_text_big_light"
         android:layout_width="0dp"

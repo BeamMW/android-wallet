@@ -24,8 +24,10 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
  */
 class SendState {
     var walletStatus: WalletStatus? = null
+    var isChangeForbidden = false
     var isTokenEmpty = true
     var isTokenValid = true
     var expiredAddresses = listOf<WalletAddress>()
     var scannedAddress : String? = null
+    var oldToken : String? = null
 }

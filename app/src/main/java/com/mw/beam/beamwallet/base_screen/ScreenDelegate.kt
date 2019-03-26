@@ -58,10 +58,14 @@ class ScreenDelegate {
     }
 
     fun showSnackBar(message: String, activity: SupportActivity) {
+        showSnackBar(message, R.color.colorAccent, activity)
+    }
+
+    fun showSnackBar(message: String, textColor: Int, activity: SupportActivity) {
         val snackBar = Snackbar.make(activity.findViewById(android.R.id.content) ?: return,
                 message, Snackbar.LENGTH_LONG)
         snackBar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.snack_bar_color))
-        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, R.color.colorAccent))
+        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
         snackBar.show()
     }
 

@@ -97,35 +97,51 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onTokenChanged(rawToken: String?) {
-        var clearedToken = rawToken?.replace(tokenRegex, "")
+    override fun onTokenPasted(token: String?, oldToken: String?) {
+        state.oldToken = oldToken
+        state.isChangeForbidden = token?.replace(tokenRegex, "") != token
 
-        if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
-            clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
+        if (token?.replace(tokenRegex, "") != token) {
+            state.isChangeForbidden = true
+            view?.showCantPasteError()
         }
+    }
 
-        if (rawToken == clearedToken) {
-            val isTokenEmpty = rawToken.isNullOrEmpty()
+    override fun onTokenChanged(rawToken: String?) {
+        if (state.isChangeForbidden) {
+            state.isChangeForbidden = false
+            view?.clearToken(state.oldToken)
+        } else {
+            state.isChangeForbidden = false
+            var clearedToken = rawToken?.replace(tokenRegex, "")
 
-            if (isTokenEmpty != state.isTokenEmpty) {
-                view?.updateUI(!isTokenEmpty)
+            if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
+                clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
             }
 
-            if (!isTokenEmpty) {
-                if (repository.checkAddress(rawToken)) {
-                    view?.clearAddressError()
-                    state.isTokenValid = true
+            if (rawToken == clearedToken) {
+                val isTokenEmpty = rawToken.isNullOrEmpty()
+
+                if (isTokenEmpty != state.isTokenEmpty) {
+                    view?.updateUI(!isTokenEmpty)
+                }
+
+                if (!isTokenEmpty) {
+                    if (repository.checkAddress(rawToken)) {
+                        view?.clearAddressError()
+                        state.isTokenValid = true
+                    } else {
+                        view?.setAddressError()
+                        state.isTokenValid = false
+                    }
                 } else {
-                    view?.setAddressError()
                     state.isTokenValid = false
                 }
-            } else {
-                state.isTokenValid = false
-            }
 
-            state.isTokenEmpty = isTokenEmpty
-        } else {
-            view?.clearToken(clearedToken)
+                state.isTokenEmpty = isTokenEmpty
+            } else {
+                view?.clearToken(clearedToken)
+            }
         }
     }
 

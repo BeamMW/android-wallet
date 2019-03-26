@@ -43,6 +43,7 @@ interface SendContract {
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
+        fun showCantPasteError()
         fun showNotBeamAddressError()
         fun setAddress(address: String)
         fun scanQR()
@@ -53,6 +54,7 @@ interface SendContract {
     interface Presenter : MvpPresenter<View> {
         fun onSend()
         fun onTokenChanged(rawToken: String?)
+        fun onTokenPasted(token: String?, oldToken : String?)
         fun onAmountChanged()
         fun onScannedQR(address: String?)
         fun onScanQrPressed()
