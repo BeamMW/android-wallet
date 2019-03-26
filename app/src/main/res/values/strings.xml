@@ -209,6 +209,7 @@
     <string name="send_permission_required_message">Please, grant camera permission for using QR scanner</string>
     <string name="send_permission_required_settings">settings</string>
     <string name="send_error_not_beam_address">The scanned code is not a Beam wallet address</string>
+    <string name="send_error_paste">Can\'t paste an invalid address</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>

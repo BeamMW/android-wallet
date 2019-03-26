@@ -71,6 +71,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun showSnackBar(status: Status) = delegate.showSnackBar(status, this)
     override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
+    override fun showSnackBar(message: String, textColor : Int) = delegate.showSnackBar(message, textColor, this)
     override fun showKeyboard() = delegate.showKeyboard(this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()

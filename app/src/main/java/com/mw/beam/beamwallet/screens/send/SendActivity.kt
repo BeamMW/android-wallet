@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -34,6 +36,7 @@ import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.PermissionsHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
@@ -77,12 +80,22 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             presenter.onScanQrPressed()
         }
 
-        tokenWatcher = object : TextWatcher {
-            override fun afterTextChanged(token: Editable?) {
-                presenter.onTokenChanged(token.toString())
+        tokenWatcher = object : PasteEditTextWatcher {
+            override fun onPaste() {
+                val clipboardManager = baseContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+                if (clipboardManager.hasPrimaryClip()) {
+                    val item = clipboardManager.primaryClip?.getItemAt(0)
+                    presenter.onTokenPasted(token = item?.text.toString(), oldToken = token.text?.toString())
+                }
+            }
+
+            override fun afterTextChanged(rawToken: Editable?) {
+                presenter.onTokenChanged(rawToken.toString())
             }
         }
-        token.addTextChangedListener(tokenWatcher)
+
+        token.addListener(tokenWatcher)
 
         amountWatcher = object : TextWatcher {
             override fun afterTextChanged(token: Editable?) {
@@ -136,11 +149,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
                 onConfirm = { showAppDetailsPage() },
                 title = getString(R.string.send_permission_required_title),
                 btnCancelText = getString(R.string.common_cancel))
-
     }
 
     override fun showNotBeamAddressError() {
         showSnackBar(getString(R.string.send_error_not_beam_address))
+    }
+
+    override fun showCantPasteError() {
+        showSnackBar(getString(R.string.send_error_paste), R.color.common_text_color)
     }
 
     override fun scanQR() {
@@ -208,7 +224,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun clearToken(clearedToken: String?) {
         token.setText(clearedToken)
-        token.setSelection(token.text.length)
+        token.setSelection(token.text?.length ?: 0)
     }
 
     override fun clearErrors() {
@@ -239,7 +255,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun clearListeners() {
         btnSend.setOnClickListener(null)
-        token.removeTextChangedListener(tokenWatcher)
+        token.removeListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
         fee.onFocusChangeListener = null
