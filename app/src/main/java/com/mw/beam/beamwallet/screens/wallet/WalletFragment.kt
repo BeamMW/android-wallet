@@ -168,11 +168,27 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnReceive.setOnClickListener { presenter.onReceivePressed() }
         btnSend.setOnClickListener { presenter.onSendPressed() }
 
+        availableTitle.setOnClickListener {
+            presenter.onExpandAvailablePressed()
+        }
+
         btnExpandAvailable.setOnClickListener {
             presenter.onExpandAvailablePressed()
         }
 
+        clickableAvailableArea.setOnClickListener {
+            presenter.onExpandAvailablePressed()
+        }
+
+        inProgressTitle.setOnClickListener {
+            presenter.onExpandInProgressPressed()
+        }
+
         btnExpandInProgress.setOnClickListener {
+            presenter.onExpandInProgressPressed()
+        }
+
+        clickableInProgressArea.setOnClickListener {
             presenter.onExpandInProgressPressed()
         }
 
@@ -255,6 +271,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnExpandAvailable.setOnClickListener(null)
         btnExpandInProgress.setOnClickListener(null)
         btnTransactionsMenu.setOnClickListener(null)
+        availableTitle.setOnClickListener(null)
+        clickableAvailableArea.setOnClickListener(null)
+        inProgressTitle.setOnClickListener(null)
+        clickableInProgressArea.setOnClickListener(null)
     }
 
     private fun configSeparateAmount(title: String, icon: Drawable?, amount: String, currency: Drawable?, textColor: Int) {

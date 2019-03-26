@@ -66,6 +66,14 @@
                 app:layout_constraintStart_toEndOf="@id/availableTitle"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:id="@+id/clickableAvailableArea"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/wallet_expandable_icon_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnExpandAvailable"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/availableIcon"
                 android:layout_width="wrap_content"
@@ -144,6 +152,14 @@
                 android:contentDescription="@null"
                 app:layout_constraintBottom_toBottomOf="@id/inProgressTitle"
                 app:layout_constraintStart_toEndOf="@id/inProgressTitle"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/clickableInProgressArea"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/wallet_expandable_icon_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnExpandInProgress"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!--Separate-->
