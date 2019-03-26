@@ -1,118 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mw.beam.beamwallet.core.views.BeamToolbar
-        android:id="@+id/toolbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <include
-        android:id="@+id/transactionLayout"
-        layout="@layout/item_transaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/common_offset"
-        app:layout_constraintTop_toBottomOf="@id/transactionLayout">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/generalInfoTitle"
-            style="@style/transaction_details_title"
-            android:paddingTop="@dimen/transaction_details_title_padding_top"
-            android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
-            android:text="@string/transaction_details_general_info"
-            app:layout_constraintStart_toStartOf="parent"
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/startAddressTitle"
-            style="@style/transaction_details_sub_title"
-            android:text="@string/transaction_details_start_address"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
-
-        <TextView
-            android:id="@+id/startAddress"
-            style="@style/transaction_details_value"
-            android:textIsSelectable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
-
-        <TextView
-            android:id="@+id/endAddressTitle"
-            style="@style/transaction_details_sub_title"
-            android:text="@string/transaction_details_end_address"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/startAddress" />
-
-        <TextView
-            android:id="@+id/endAddress"
-            style="@style/transaction_details_value"
-            android:textIsSelectable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/startAddress" />
-
-        <TextView
-            android:id="@+id/transactionFeeTitle"
-            style="@style/transaction_details_sub_title"
-            android:text="@string/transaction_details_transaction_fee"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/endAddress" />
-
-        <TextView
-            android:id="@+id/transactionFee"
-            style="@style/transaction_details_value"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/endAddress" />
-
-        <TextView
-            android:id="@+id/commentTitle"
-            style="@style/transaction_details_sub_title"
-            android:text="@string/transaction_details_comment"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transactionFee" />
-
-        <TextView
-            android:id="@+id/comment"
-            style="@style/transaction_details_value"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/transactionFee" />
-
-        <TextView
-            android:id="@+id/kernelTitle"
-            style="@style/transaction_details_sub_title"
-            android:text="@string/transaction_details_kernel_id"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comment" />
-
-        <TextView
-            android:id="@+id/kernel"
-            style="@style/transaction_details_value"
-            android:textIsSelectable="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintTop_toBottomOf="@id/comment" />
-
-        <android.support.constraint.Barrier
-            android:id="@+id/titlesBarrier"
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/transactionLayout"
+            layout="@layout/item_transaction"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:barrierDirection="end"
-            app:constraint_referenced_ids="startAddressTitle, endAddressTitle, transactionFeeTitle, commentTitle, kernelTitle" />
-    </android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/common_offset"
+            app:layout_constraintTop_toBottomOf="@id/transactionLayout">
+
+            <TextView
+                android:id="@+id/generalInfoTitle"
+                style="@style/transaction_details_title"
+                android:paddingTop="@dimen/transaction_details_title_padding_top"
+                android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
+                android:text="@string/transaction_details_general_info"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/startAddressTitle"
+                style="@style/transaction_details_sub_title"
+                android:text="@string/transaction_details_start_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+
+            <TextView
+                android:id="@+id/startAddress"
+                style="@style/transaction_details_value"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+
+            <TextView
+                android:id="@+id/endAddressTitle"
+                style="@style/transaction_details_sub_title"
+                android:text="@string/transaction_details_end_address"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/startAddress" />
+
+            <TextView
+                android:id="@+id/endAddress"
+                style="@style/transaction_details_value"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                app:layout_constraintTop_toBottomOf="@id/startAddress" />
+
+            <TextView
+                android:id="@+id/transactionFeeTitle"
+                style="@style/transaction_details_sub_title"
+                android:text="@string/transaction_details_transaction_fee"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/endAddress" />
+
+            <TextView
+                android:id="@+id/transactionFee"
+                style="@style/transaction_details_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                app:layout_constraintTop_toBottomOf="@id/endAddress" />
+
+            <TextView
+                android:id="@+id/commentTitle"
+                style="@style/transaction_details_sub_title"
+                android:text="@string/transaction_details_comment"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transactionFee" />
+
+            <TextView
+                android:id="@+id/comment"
+                style="@style/transaction_details_value"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                app:layout_constraintTop_toBottomOf="@id/transactionFee" />
+
+            <TextView
+                android:id="@+id/kernelTitle"
+                style="@style/transaction_details_sub_title"
+                android:text="@string/transaction_details_kernel_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/comment" />
+
+            <TextView
+                android:id="@+id/kernel"
+                style="@style/transaction_details_value"
+                android:textIsSelectable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                app:layout_constraintTop_toBottomOf="@id/comment" />
+
+            <android.support.constraint.Barrier
+                android:id="@+id/titlesBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="end"
+                app:constraint_referenced_ids="startAddressTitle, endAddressTitle, transactionFeeTitle, commentTitle, kernelTitle" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
