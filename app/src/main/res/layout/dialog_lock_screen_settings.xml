@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_gravity="center"
+    android:minWidth="@dimen/dialog_min_width"
+    android:layout_height="wrap_content"
+    android:background="@drawable/common_receive_dialog_background">
+
+    <TextView
+        android:id="@+id/lockScreenTitleDialog"
+        android:layout_width="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:text="@string/lock_screen"
+        android:layout_marginTop="@dimen/settings_common_offset"
+        android:layout_marginStart="@dimen/settings_common_offset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLockSettings"
+        app:layout_constraintTop_toBottomOf="@id/lockScreenTitleDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/settings_common_offset"
+        android:layout_marginStart="@dimen/settings_common_offset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/lockNever"
+            android:checked="true"
+            android:text="@string/never"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/lockAfter15sec"
+            android:checked="false"
+            android:text="@string/after_15_seconds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/lockAfter1m"
+            android:checked="false"
+            android:text="@string/after_1_minute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/lockAfter5m"
+            android:checked="false"
+            android:text="@string/after_5_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/lockAfter10m"
+            android:checked="false"
+            android:text="@string/after_10_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/lockAfter30m"
+            android:checked="false"
+            android:text="@string/after_30_minutes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        android:text="@string/common_cancel"
+        android:padding="@dimen/settings_card_offset"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupLockSettings"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</android.support.constraint.ConstraintLayout>

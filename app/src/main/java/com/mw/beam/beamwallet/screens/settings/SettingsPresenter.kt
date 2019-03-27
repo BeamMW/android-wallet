@@ -16,7 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import android.content.Context
+import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.utils.Consts
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -40,4 +45,26 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true
+
+    override fun showLockScreenSettings() {
+        view?.showLockScreenSettingsDialog()
+    }
+
+    override fun onChangeLockSettings(context: Context, settingsId: Int) {
+        val time = when (settingsId) {
+            R.id.lockNever -> Consts.Preferences.LOCK_SCREEN_NEVER_VALUE
+            R.id.lockAfter15sec -> TimeUnit.SECONDS.toMillis(15)
+            R.id.lockAfter1m -> TimeUnit.MINUTES.toMillis(1)
+            R.id.lockAfter5m -> TimeUnit.MINUTES.toMillis(5)
+            R.id.lockAfter10m -> TimeUnit.MINUTES.toMillis(10)
+            R.id.lockAfter30m -> TimeUnit.MINUTES.toMillis(30)
+            else -> Consts.Preferences.LOCK_SCREEN_NEVER_VALUE
+        }
+        LockScreenManager.updateLockScreenSettings(context, time)
+        view?.updateLockScreenValue()
+    }
+
+    override fun onDialogClosePressed() {
+        view?.closeDialog()
+    }
 }
