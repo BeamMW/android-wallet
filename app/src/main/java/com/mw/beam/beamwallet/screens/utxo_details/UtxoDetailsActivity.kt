@@ -61,9 +61,9 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     private fun configUtxoInfo(utxo: Utxo) {
         status.setTextColor(when (utxo.status) {
-            UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(this, R.color.received_color)
+            UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(this, R.color.received_color)
             UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> ContextCompat.getColor(this, R.color.sent_color)
-            UtxoStatus.Unavailable -> ContextCompat.getColor(this, R.color.common_text_color)
+            UtxoStatus.Available, UtxoStatus.Unavailable -> ContextCompat.getColor(this, R.color.common_text_color)
         })
 
         status.text = when (utxo.status) {
