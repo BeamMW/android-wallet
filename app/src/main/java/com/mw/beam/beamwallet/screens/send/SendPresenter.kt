@@ -31,6 +31,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private val tokenRegex = Regex("[^A-Fa-f0-9]")
+    private val defaultFee = 10
+    private val zeroFee = 0
 
     companion object {
         private const val MAX_TOKEN_LENGTH = 80
@@ -38,7 +40,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init()
+        view?.init(defaultFee)
     }
 
     override fun onStart() {
@@ -66,6 +68,26 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     repository.sendMoney(token, comment, amount.convertToGroth(), fee)
                     view?.close()
                 }
+            }
+        }
+    }
+
+    override fun onFeeFocusChanged(isFocused: Boolean,  fee: String) {
+        if (!isFocused) {
+            if (fee.isEmpty()) {
+                view?.setFee(defaultFee)
+                return
+            }
+
+            val feeAmount = try {
+                fee.toLong()
+            } catch (exception: NumberFormatException) {
+                0L
+            }
+
+            if (feeAmount == 0L) {
+                //to prevent multizero input
+                view?.setFee(zeroFee)
             }
         }
     }
@@ -123,7 +145,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 val isTokenEmpty = rawToken.isNullOrEmpty()
 
                 if (isTokenEmpty != state.isTokenEmpty) {
-                    view?.updateUI(!isTokenEmpty)
+                    view?.updateUI(!isTokenEmpty, defaultFee)
                 }
 
                 if (!isTokenEmpty) {
