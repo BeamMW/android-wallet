@@ -15,8 +15,12 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
@@ -25,12 +29,15 @@ import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -38,6 +45,19 @@ import kotlinx.android.synthetic.main.activity_main.*
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
+    private var isActivityStopped = false
+    private var isExpireLockScreenTime = false
+    private val lockScreenReceiver=  object: BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (ensureState()) {
+                if (isActivityStopped) {
+                    isExpireLockScreenTime = true
+                } else {
+                    closeWallet()
+                }
+            }
+        }
+    }
 
     protected fun showFragment(
             fragment: Fragment,
@@ -136,6 +156,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         } else {
             presenter.onCreate()
         }
+        registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
     }
 
     override fun onControllerContentViewCreated() {
@@ -149,6 +170,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerResume() {
+        if (isExpireLockScreenTime) {
+            closeWallet()
+        } else {
+            isActivityStopped = false
+        }
         super.onControllerResume()
         presenter.onResume()
     }
@@ -159,12 +185,26 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStop() {
+        isActivityStopped = true
         presenter.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
         presenter.onDestroy()
+        unregisterReceiver(lockScreenReceiver)
         super.onDestroy()
+    }
+
+    private fun closeWallet() {
+        startActivity(Intent(applicationContext, WelcomeActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        finish()
+        Handler().postDelayed(Api::closeWallet, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        LockScreenManager.restartTimer(applicationContext)
     }
 }

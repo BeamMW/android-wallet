@@ -218,6 +218,14 @@
     <string name="settings_send_logs_description">Send logs…</string>
     <string name="settings_node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
+    <string name="general_settings">General settings</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="never">Never</string>
+    <string name="after_15_seconds">After 15 seconds</string>
+    <string name="after_1_minute">After 1 minute</string>
+    <string name="after_5_minutes">After 5 minutes</string>
+    <string name="after_10_minutes">After 10 minutes</string>
+    <string name="after_30_minutes">After 30 minutes</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

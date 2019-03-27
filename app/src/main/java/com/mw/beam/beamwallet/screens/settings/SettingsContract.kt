@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -28,11 +29,17 @@ interface SettingsContract {
         fun init()
         fun sendMailWithLogs()
         fun changePass()
+        fun showLockScreenSettingsDialog()
+        fun closeDialog()
+        fun updateLockScreenValue()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onReportProblem()
         fun onChangePass()
+        fun showLockScreenSettings()
+        fun onChangeLockSettings(context: Context, settingsId: Int)
+        fun onDialogClosePressed()
     }
 
     interface Repository : MvpRepository
