@@ -34,11 +34,11 @@ interface SendContract {
         fun getFee(): Long
         fun getToken(): String
         fun getComment(): String?
-        fun updateUI(shouldShowParams: Boolean)
+        fun updateUI(shouldShowParams: Boolean, defaultFee: Int)
         fun hasErrors(availableAmount: Long): Boolean
         fun clearErrors()
         fun clearToken(clearedToken: String?)
-        fun init()
+        fun init(defaultFee: Int)
         fun close()
         fun setAddressError()
         fun clearAddressError()
@@ -46,6 +46,7 @@ interface SendContract {
         fun showCantPasteError()
         fun showNotBeamAddressError()
         fun setAddress(address: String)
+        fun setFee(feeAmount: Int)
         fun scanQR()
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
@@ -54,11 +55,12 @@ interface SendContract {
     interface Presenter : MvpPresenter<View> {
         fun onSend()
         fun onTokenChanged(rawToken: String?)
-        fun onTokenPasted(token: String?, oldToken : String?)
+        fun onTokenPasted(token: String?, oldToken: String?)
         fun onAmountChanged()
         fun onScannedQR(address: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
+        fun onFeeFocusChanged(isFocused: Boolean, fee: String)
     }
 
     interface Repository : MvpRepository {

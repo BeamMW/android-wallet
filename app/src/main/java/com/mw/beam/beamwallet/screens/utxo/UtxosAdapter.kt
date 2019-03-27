@@ -46,7 +46,7 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
 
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
-    private val unavailableColor = ContextCompat.getColor(context, R.color.common_text_color)
+    private val commonStatusColor = ContextCompat.getColor(context, R.color.common_text_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
 
@@ -61,9 +61,9 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
 
         holder.apply {
             status.setTextColor(when (utxo.status) {
-                UtxoStatus.Available, UtxoStatus.Maturing, UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Maturing, UtxoStatus.Incoming -> receivedColor
                 UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> sentColor
-                UtxoStatus.Unavailable -> unavailableColor
+                UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
             })
 
             status.text = when (utxo.status) {
