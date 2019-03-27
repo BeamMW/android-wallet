@@ -72,23 +72,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onFeeFocusChanged(isFocused: Boolean,  fee: String) {
+    override fun onFeeFocusChanged(isFocused: Boolean, fee: String) {
         if (!isFocused) {
-            if (fee.isEmpty()) {
-                view?.setFee(defaultFee)
-                return
-            }
-
             val feeAmount = try {
-                fee.toLong()
+                fee.toInt()
             } catch (exception: NumberFormatException) {
-                0L
+                0
             }
 
-            if (feeAmount == 0L) {
-                //to prevent multizero input
-                view?.setFee(zeroFee)
-            }
+            //to prevent multizero input
+            view?.setFee(feeAmount)
         }
     }
 
