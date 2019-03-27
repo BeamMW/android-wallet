@@ -67,8 +67,9 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun init() {
+    override fun init(defaultFee: Int) {
         token.requestFocus()
+        fee.setText(defaultFee.toString())
     }
 
     override fun addListeners() {
@@ -105,13 +106,8 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
-        //TODO presenter
         feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
-            if (!isFocused) {
-                if (fee.text.toString().isEmpty()) {
-                    fee.setText(getString(R.string.send_common_fee))
-                }
-            }
+            presenter.onFeeFocusChanged(isFocused, fee.text.toString())
         }
         fee.onFocusChangeListener = feeFocusListener
     }
@@ -165,6 +161,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         integrator.captureActivity = ScanQrActivity::class.java
         integrator.setBeepEnabled(false)
         integrator.initiateScan()
+    }
+
+    override fun setFee(feeAmount: Int) {
+        fee.setText(feeAmount.toString())
     }
 
     override fun hasErrors(availableAmount: Long): Boolean {
@@ -233,14 +233,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.isStateNormal = true
     }
 
-    override fun updateUI(shouldShowParams: Boolean) {
+    override fun updateUI(shouldShowParams: Boolean, defaultFee: Int) {
         params.visibility = if (shouldShowParams) View.VISIBLE else View.GONE
 
         if (shouldShowParams) {
             //clear previous input before showing to user
             amount.text = null
             comment.text = null
-            fee.setText(getString(R.string.send_common_fee))
+            fee.setText(defaultFee.toString())
         } else {
             //can't attach this view to the params because constraint group forbid to change visibility of it's children
             amountError.visibility = View.GONE
