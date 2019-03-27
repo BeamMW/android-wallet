@@ -7,9 +7,9 @@
     android:fillViewport="true">
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animateLayoutChanges="true">
+        android:layout_height="wrap_content">
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnReceive"
@@ -41,7 +41,6 @@
             android:id="@+id/availableLayout"
             style="@style/common_card_style"
             android:layout_marginTop="@dimen/wallet_available_margin_top"
-            android:animateLayoutChanges="true"
             app:cardCornerRadius="@dimen/common_card_corner_radius"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnReceive">
@@ -49,7 +48,6 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:background="@color/colorPrimary"
                 android:padding="@dimen/common_card_padding">
 
@@ -129,7 +127,6 @@
             android:id="@+id/inProgressLayout"
             style="@style/common_card_style"
             android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
-            android:animateLayoutChanges="true"
             app:cardCornerRadius="@dimen/common_card_corner_radius"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/availableLayout">
@@ -137,7 +134,6 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true"
                 android:background="@color/colorPrimary"
                 android:padding="@dimen/common_card_padding">
 
