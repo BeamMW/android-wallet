@@ -51,6 +51,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var presenter: SendPresenter
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
+    private lateinit var feeWatcher: TextWatcher
     private lateinit var feeFocusListener: View.OnFocusChangeListener
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
@@ -106,6 +107,12 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
+        feeWatcher = object : TextWatcher {
+            override fun afterTextChanged(token: Editable?) {
+                presenter.onFeeChanged(token.toString())
+            }
+        }
+        fee.addTextChangedListener(feeWatcher)
         feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
             presenter.onFeeFocusChanged(isFocused, fee.text.toString())
         }
@@ -163,8 +170,9 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         integrator.initiateScan()
     }
 
-    override fun setFee(feeAmount: Int) {
-        fee.setText(feeAmount.toString())
+    override fun setFee(feeAmount: String) {
+        fee.setText(feeAmount)
+        fee.setSelection(fee.text?.length ?: 0)
     }
 
     override fun hasErrors(availableAmount: Long): Boolean {
@@ -206,6 +214,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun setAddress(address: String) {
         token.setText(address)
+        token.setSelection(token.text?.length ?: 0)
     }
 
     override fun showCantSendToExpiredError() {
@@ -259,6 +268,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
         fee.onFocusChangeListener = null
+        fee.removeTextChangedListener(feeWatcher)
     }
 
     private fun configAmountError(errorString: String) {
