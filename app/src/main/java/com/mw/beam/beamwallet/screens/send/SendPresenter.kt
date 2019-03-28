@@ -31,16 +31,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private val tokenRegex = Regex("[^A-Fa-f0-9]")
-    private val defaultFee = 10
-    private val zeroFee = 0
+
 
     companion object {
         private const val MAX_TOKEN_LENGTH = 80
+        private const val DEFAULT_FEE = 10
+        private const val ZERO_FEE = 0
+        private const val MAX_FEE_LENGTH = 15
     }
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(defaultFee)
+        view?.init(DEFAULT_FEE)
     }
 
     override fun onStart() {
@@ -77,11 +79,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val feeAmount = try {
                 fee.toInt()
             } catch (exception: NumberFormatException) {
-                0
+                ZERO_FEE
             }
 
             //to prevent multizero input
-            view?.setFee(feeAmount)
+            view?.setFee(feeAmount.toString())
         }
     }
 
@@ -138,7 +140,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 val isTokenEmpty = rawToken.isNullOrEmpty()
 
                 if (isTokenEmpty != state.isTokenEmpty) {
-                    view?.updateUI(!isTokenEmpty, defaultFee)
+                    view?.updateUI(!isTokenEmpty, DEFAULT_FEE)
                 }
 
                 if (!isTokenEmpty) {
@@ -162,6 +164,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onAmountChanged() {
         view?.clearErrors()
+    }
+
+    override fun onFeeChanged(rawFee: String?) {
+        if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
+            view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
+        }
     }
 
     override fun initSubscriptions() {

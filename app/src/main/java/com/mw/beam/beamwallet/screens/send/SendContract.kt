@@ -46,7 +46,7 @@ interface SendContract {
         fun showCantPasteError()
         fun showNotBeamAddressError()
         fun setAddress(address: String)
-        fun setFee(feeAmount: Int)
+        fun setFee(feeAmount: String)
         fun scanQR()
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
@@ -57,6 +57,7 @@ interface SendContract {
         fun onTokenChanged(rawToken: String?)
         fun onTokenPasted(token: String?, oldToken: String?)
         fun onAmountChanged()
+        fun onFeeChanged(rawFee: String?)
         fun onScannedQR(address: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
