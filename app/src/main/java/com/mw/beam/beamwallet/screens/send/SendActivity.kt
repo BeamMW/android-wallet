@@ -51,6 +51,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var presenter: SendPresenter
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
+    private lateinit var feeWatcher: TextWatcher
     private lateinit var feeFocusListener: View.OnFocusChangeListener
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
@@ -67,8 +68,9 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun init() {
+    override fun init(defaultFee: Int) {
         token.requestFocus()
+        fee.setText(defaultFee.toString())
     }
 
     override fun addListeners() {
@@ -105,13 +107,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
-        //TODO presenter
-        feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
-            if (!isFocused) {
-                if (fee.text.toString().isEmpty()) {
-                    fee.setText(getString(R.string.send_common_fee))
-                }
+        feeWatcher = object : TextWatcher {
+            override fun afterTextChanged(token: Editable?) {
+                presenter.onFeeChanged(token.toString())
             }
+        }
+        fee.addTextChangedListener(feeWatcher)
+        feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
+            presenter.onFeeFocusChanged(isFocused, fee.text.toString())
         }
         fee.onFocusChangeListener = feeFocusListener
     }
@@ -167,6 +170,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         integrator.initiateScan()
     }
 
+    override fun setFee(feeAmount: String) {
+        fee.setText(feeAmount)
+        fee.setSelection(fee.text?.length ?: 0)
+    }
+
     override fun hasErrors(availableAmount: Long): Boolean {
         val feeAmount = try {
             fee.text.toString().toLong().convertToBeam()
@@ -206,6 +214,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun setAddress(address: String) {
         token.setText(address)
+        token.setSelection(token.text?.length ?: 0)
     }
 
     override fun showCantSendToExpiredError() {
@@ -233,14 +242,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.isStateNormal = true
     }
 
-    override fun updateUI(shouldShowParams: Boolean) {
+    override fun updateUI(shouldShowParams: Boolean, defaultFee: Int) {
         params.visibility = if (shouldShowParams) View.VISIBLE else View.GONE
 
         if (shouldShowParams) {
             //clear previous input before showing to user
             amount.text = null
             comment.text = null
-            fee.setText(getString(R.string.send_common_fee))
+            fee.setText(defaultFee.toString())
         } else {
             //can't attach this view to the params because constraint group forbid to change visibility of it's children
             amountError.visibility = View.GONE
@@ -259,6 +268,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
         fee.onFocusChangeListener = null
+        fee.removeTextChangedListener(feeWatcher)
     }
 
     private fun configAmountError(errorString: String) {
