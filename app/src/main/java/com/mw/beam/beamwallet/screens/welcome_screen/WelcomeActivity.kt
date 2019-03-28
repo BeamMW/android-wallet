@@ -89,10 +89,6 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
 
     override fun ensureState(): Boolean = true
 
-    override fun isEnableLockScreen(): Boolean {
-        return false
-    }
-
     override fun finishNotRootTask() {
         // solves issue with extra tasks on some custom launchers https://issuetracker.google.com/issues/36907463
         if (!isTaskRoot) {

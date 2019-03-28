@@ -16,8 +16,13 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
+import android.os.Handler
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -27,6 +32,8 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     private var nodeConnectionSubscription: Disposable? = null
     private var nodeConnectionFailedSubscription: Disposable? = null
     private var syncProgressUpdatedSubscription: Disposable? = null
+    private var isActivityStopped = false
+    private var isExpireLockScreenTime = false
 
     override fun onCreate() {
     }
@@ -58,7 +65,11 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
                 add(syncProgressUpdatedSubscription!!)
             }
         }
-
+        if (isExpireLockScreenTime) {
+            lockApp()
+        } else {
+            isActivityStopped = false
+        }
         view?.addListeners()
     }
 
@@ -70,6 +81,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     // Why you need to unregister listeners? See https://stackoverflow.com/q/38368391
     override fun onStop() {
+        isActivityStopped = true
         disposable.dispose()
         view?.dismissAlert()
         view?.clearListeners()
@@ -101,6 +113,31 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     private fun detachView() {
         view = null
+    }
+
+    override fun tryLockApp() {
+        if (App.wallet != null) {
+            if (isActivityStopped) {
+                isExpireLockScreenTime = true
+            } else {
+                lockApp()
+            }
+        }
+    }
+
+    override fun lockApp() {
+        if (isLockScreenEnabled()) {
+            view?.logOut()
+            Handler().postDelayed(repository::closeWallet, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
+        }
+    }
+
+    override fun onUserInteraction(context: Context) {
+        LockScreenManager.restartTimer(context)
+    }
+
+    override fun isLockScreenEnabled(): Boolean {
+        return true
     }
 
     override fun hasStatus(): Boolean = false

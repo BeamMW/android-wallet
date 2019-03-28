@@ -44,17 +44,9 @@ import java.util.concurrent.TimeUnit
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
-    private var isActivityStopped = false
-    private var isExpireLockScreenTime = false
     private val lockScreenReceiver=  object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            if (ensureState()) {
-                if (isActivityStopped) {
-                    isExpireLockScreenTime = true
-                } else {
-                    lockApp()
-                }
-            }
+            presenter.tryLockApp()
         }
     }
 
@@ -164,11 +156,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStart() {
-        if (isExpireLockScreenTime) {
-            lockApp()
-        } else {
-            isActivityStopped = false
-        }
         super.onControllerStart()
         presenter.onStart()
     }
@@ -184,7 +171,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStop() {
-        isActivityStopped = true
         presenter.onStop()
         super.onControllerStop()
     }
@@ -195,20 +181,14 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         super.onDestroy()
     }
 
-    private fun lockApp() {
-        if (!isEnableLockScreen()) return
+    override fun logOut() {
         startActivity(Intent(applicationContext, WelcomeActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
         finish()
-        Handler().postDelayed(presenter::onClose, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
-    }
-
-    open fun isEnableLockScreen(): Boolean {
-        return true
     }
 
     override fun onUserInteraction() {
         super.onUserInteraction()
-        LockScreenManager.restartTimer(applicationContext)
+        presenter.onUserInteraction(applicationContext)
     }
 }
