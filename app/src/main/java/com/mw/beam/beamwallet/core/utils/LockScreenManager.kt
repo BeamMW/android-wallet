@@ -16,8 +16,7 @@ object LockScreenManager {
         val lockScreenPendingIntent = PendingIntent
                 .getBroadcast(context, requestCode, lockScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val time = pref.getLong(Consts.Preferences.LOCK_SCREEN_KEY, Consts.Preferences.LOCK_SCREEN_NEVER_VALUE)
+        val time = getCurrentValue(context)
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(lockScreenPendingIntent)
@@ -25,6 +24,11 @@ object LockScreenManager {
             val alarmTime = System.currentTimeMillis() + time
             AlarmManagerCompat.setExact(alarmManager, AlarmManager.RTC_WAKEUP, alarmTime, lockScreenPendingIntent)
         }
+    }
+
+    fun getCurrentValue(context: Context): Long {
+        val pref = PreferenceManager.getDefaultSharedPreferences(context)
+        return pref.getLong(Consts.Preferences.LOCK_SCREEN_KEY, Consts.Preferences.LOCK_SCREEN_NEVER_VALUE)
     }
 
     fun updateLockScreenSettings(context: Context, millisecond: Long) {
