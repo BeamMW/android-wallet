@@ -21,7 +21,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -33,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.Consts
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
@@ -56,7 +56,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun init() {
         appVersion.text = BuildConfig.VERSION_NAME
         ip.text = AppConfig.NODE_ADDRESS
-        updateLockScreenValue()
+        context?.let { updateLockScreenValue(presenter.getLockScreenStringIdValue(it)) }
     }
 
     override fun sendMailWithLogs() {
@@ -98,8 +98,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun showLockScreenSettingsDialog() {
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_lock_screen_settings, null)
-            val pref = PreferenceManager.getDefaultSharedPreferences(context)
-            val time = pref.getLong(Consts.Preferences.LOCK_SCREEN_KEY, Consts.Preferences.LOCK_SCREEN_NEVER_VALUE)
+
+            val time = LockScreenManager.getCurrentValue(it)
             val valueId = when (time) {
                 Consts.Preferences.LOCK_SCREEN_NEVER_VALUE -> R.id.lockNever
                 TimeUnit.SECONDS.toMillis(15) -> R.id.lockAfter15sec
@@ -117,19 +117,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun updateLockScreenValue() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val time = pref.getLong(Consts.Preferences.LOCK_SCREEN_KEY, Consts.Preferences.LOCK_SCREEN_NEVER_VALUE)
-        val valueId = when (time) {
-            Consts.Preferences.LOCK_SCREEN_NEVER_VALUE -> R.string.never
-            TimeUnit.SECONDS.toMillis(15) -> R.string.after_15_seconds
-            TimeUnit.MINUTES.toMillis(1) -> R.string.after_1_minute
-            TimeUnit.MINUTES.toMillis(5) -> R.string.after_5_minutes
-            TimeUnit.MINUTES.toMillis(10) -> R.string.after_10_minutes
-            TimeUnit.MINUTES.toMillis(30) -> R.string.after_30_minutes
-            else -> R.string.never
-        }
-        lockScreenValue.setText(valueId)
+    override fun updateLockScreenValue(stringResId: Int) {
+        lockScreenValue.setText(stringResId)
     }
 
     override fun closeDialog() {
@@ -137,6 +126,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             it.dismiss()
             dialog = null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        closeDialog()
     }
 
     override fun clearListeners() {

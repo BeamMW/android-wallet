@@ -61,7 +61,23 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             else -> Consts.Preferences.LOCK_SCREEN_NEVER_VALUE
         }
         LockScreenManager.updateLockScreenSettings(context, time)
-        view?.updateLockScreenValue()
+        view?.apply {
+            updateLockScreenValue(getLockScreenStringIdValue(context))
+            closeDialog()
+        }
+    }
+
+    override fun getLockScreenStringIdValue(context: Context): Int {
+        val time = LockScreenManager.getCurrentValue(context)
+        return when (time) {
+            Consts.Preferences.LOCK_SCREEN_NEVER_VALUE -> R.string.never
+            TimeUnit.SECONDS.toMillis(15) -> R.string.after_15_seconds
+            TimeUnit.MINUTES.toMillis(1) -> R.string.after_1_minute
+            TimeUnit.MINUTES.toMillis(5) -> R.string.after_5_minutes
+            TimeUnit.MINUTES.toMillis(10) -> R.string.after_10_minutes
+            TimeUnit.MINUTES.toMillis(30) -> R.string.after_30_minutes
+            else -> R.string.never
+        }
     }
 
     override fun onDialogClosePressed() {

@@ -29,7 +29,6 @@ import android.support.v7.app.AlertDialog
 import android.view.Gravity
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -53,7 +52,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
                 if (isActivityStopped) {
                     isExpireLockScreenTime = true
                 } else {
-                    closeWallet()
+                    lockApp()
                 }
             }
         }
@@ -165,16 +164,16 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStart() {
+        if (isExpireLockScreenTime) {
+            lockApp()
+        } else {
+            isActivityStopped = false
+        }
         super.onControllerStart()
         presenter.onStart()
     }
 
     override fun onControllerResume() {
-        if (isExpireLockScreenTime) {
-            closeWallet()
-        } else {
-            isActivityStopped = false
-        }
         super.onControllerResume()
         presenter.onResume()
     }
@@ -196,11 +195,16 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         super.onDestroy()
     }
 
-    private fun closeWallet() {
+    private fun lockApp() {
+        if (!isEnableLockScreen()) return
         startActivity(Intent(applicationContext, WelcomeActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
         finish()
-        Handler().postDelayed(Api::closeWallet, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
+        Handler().postDelayed(presenter::onClose, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
+    }
+
+    open fun isEnableLockScreen(): Boolean {
+        return true
     }
 
     override fun onUserInteraction() {

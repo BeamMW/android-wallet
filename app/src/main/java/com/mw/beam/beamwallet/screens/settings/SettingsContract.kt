@@ -31,7 +31,7 @@ interface SettingsContract {
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun closeDialog()
-        fun updateLockScreenValue()
+        fun updateLockScreenValue(stringResId: Int)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -40,6 +40,7 @@ interface SettingsContract {
         fun showLockScreenSettings()
         fun onChangeLockSettings(context: Context, settingsId: Int)
         fun onDialogClosePressed()
+        fun getLockScreenStringIdValue(context: Context): Int
     }
 
     interface Repository : MvpRepository
