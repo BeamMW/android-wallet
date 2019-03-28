@@ -20,6 +20,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.view.ContextThemeWrapper
 import android.support.v7.view.menu.MenuBuilder
@@ -212,11 +213,13 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
+        TransitionManager.beginDelayedTransition(content_layout)
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
         animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
+        TransitionManager.beginDelayedTransition(content_layout)
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
