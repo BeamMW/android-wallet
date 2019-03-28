@@ -161,7 +161,10 @@
     <dimen name="settings_version_offset">30dp</dimen>
     <dimen name="settings_common_offset">20dp</dimen>
     <dimen name="settings_small_text_margin">4dp</dimen>
-    <dimen name="dialog_min_width">300dp</dimen>
+    <dimen name="settings_dialog_button_group_top_margin">30dp</dimen>
+    <dimen name="settings_dialog_button_group_start_margin">16dp</dimen>
+    <dimen name="settings_dialog_cancel_margin">15dp</dimen>
+    <dimen name="settings_dialog_button_top_margin">10dp</dimen>
     <!--AddressesFragment-->
     <dimen name="addresses_tab_padding">25dp</dimen>
     <dimen name="addresses_label_text_size">20sp</dimen>

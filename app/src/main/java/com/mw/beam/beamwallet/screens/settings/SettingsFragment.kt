@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
+import android.view.View
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -31,7 +32,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.utils.Consts
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -56,7 +56,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun init() {
         appVersion.text = BuildConfig.VERSION_NAME
         ip.text = AppConfig.NODE_ADDRESS
-        context?.let { updateLockScreenValue(presenter.getLockScreenStringIdValue(it)) }
     }
 
     override fun sendMailWithLogs() {
@@ -90,9 +89,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter.onReportProblem()
         }
 
-        lockScreenContainer.setOnClickListener {
+        val lockScreenSettingsOnClick = View.OnClickListener {
             presenter.showLockScreenSettings()
         }
+        lockScreenTitle.setOnClickListener(lockScreenSettingsOnClick)
+        lockScreenValue.setOnClickListener(lockScreenSettingsOnClick)
     }
 
     override fun showLockScreenSettingsDialog() {
@@ -101,7 +102,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             val time = LockScreenManager.getCurrentValue(it)
             val valueId = when (time) {
-                Consts.Preferences.LOCK_SCREEN_NEVER_VALUE -> R.id.lockNever
+                LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> R.id.lockNever
                 TimeUnit.SECONDS.toMillis(15) -> R.id.lockAfter15sec
                 TimeUnit.MINUTES.toMillis(1) -> R.id.lockAfter1m
                 TimeUnit.MINUTES.toMillis(5) -> R.id.lockAfter5m
@@ -126,11 +127,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             it.dismiss()
             dialog = null
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        closeDialog()
     }
 
     override fun clearListeners() {

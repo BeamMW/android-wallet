@@ -31,6 +31,7 @@ interface SettingsContract {
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun closeDialog()
+        fun getContext(): Context?
         fun updateLockScreenValue(stringResId: Int)
     }
 
