@@ -213,13 +213,13 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
-        TransitionManager.beginDelayedTransition(content_layout)
+        TransitionManager.beginDelayedTransition(contentLayout)
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
         animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
-        TransitionManager.beginDelayedTransition(content_layout)
+        TransitionManager.beginDelayedTransition(contentLayout)
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
