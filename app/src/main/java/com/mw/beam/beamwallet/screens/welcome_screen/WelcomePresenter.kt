@@ -49,6 +49,8 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
         view?.showSeedFragment()
     }
 
+    override fun isLockScreenEnabled(): Boolean = false
+
     override fun onOpenWallet(mode: WelcomeMode) {
         when (mode) {
             WelcomeMode.OPEN -> view?.showProgressFragment(mode)

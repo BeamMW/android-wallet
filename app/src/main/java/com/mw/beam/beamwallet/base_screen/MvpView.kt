@@ -36,4 +36,5 @@ interface MvpView {
     fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
+    fun logOut()
 }
