@@ -17,11 +17,9 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.content.Context
-import android.os.Handler
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -64,11 +62,13 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
                 add(syncProgressUpdatedSubscription!!)
             }
         }
+
         if (isExpireLockScreenTime) {
-            onLockApp()
+            lockApp()
         } else {
             isActivityStopped = false
         }
+
         view?.addListeners()
     }
 
@@ -114,20 +114,20 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view = null
     }
 
+    private fun lockApp() {
+        if (isLockScreenEnabled()) {
+            repository.closeWallet()
+            view?.logOut()
+        }
+    }
+
     override fun onLockBroadcastReceived() {
         if (repository.wallet != null) {
             if (isActivityStopped) {
                 isExpireLockScreenTime = true
             } else {
-                onLockApp()
+                lockApp()
             }
-        }
-    }
-
-    override fun onLockApp() {
-        if (isLockScreenEnabled()) {
-            view?.logOut()
-            Handler().postDelayed(repository::closeWallet, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
         }
     }
 

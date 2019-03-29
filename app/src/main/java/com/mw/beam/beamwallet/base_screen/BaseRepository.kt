@@ -34,6 +34,7 @@ open class BaseRepository : MvpRepository {
     override fun closeWallet() {
         getResult("closeWallet") {
             if (Api.isWalletRunning()) {
+                App.wallet = null
                 Api.closeWallet()
             }
         }

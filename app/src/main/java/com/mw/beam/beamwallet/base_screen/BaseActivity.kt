@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
-    private val lockScreenReceiver=  object: BroadcastReceiver() {
+    private val lockScreenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             presenter.onLockBroadcastReceived()
         }
@@ -80,7 +80,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun showSnackBar(status: Status) = delegate.showSnackBar(status, this)
     override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
-    override fun showSnackBar(message: String, textColor : Int) = delegate.showSnackBar(message, textColor, this)
+    override fun showSnackBar(message: String, textColor: Int) = delegate.showSnackBar(message, textColor, this)
     override fun showKeyboard() = delegate.showKeyboard(this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
@@ -141,6 +141,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         } else {
             presenter.onCreate()
         }
+
         registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
     }
 
