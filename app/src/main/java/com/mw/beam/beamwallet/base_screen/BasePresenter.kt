@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.content.Context
 import android.os.Handler
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -66,7 +65,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             }
         }
         if (isExpireLockScreenTime) {
-            lockApp()
+            onLockApp()
         } else {
             isActivityStopped = false
         }
@@ -115,21 +114,25 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view = null
     }
 
-    override fun tryLockApp() {
-        if (App.wallet != null) {
+    override fun onLockBroadcastReceived() {
+        if (repository.wallet != null) {
             if (isActivityStopped) {
                 isExpireLockScreenTime = true
             } else {
-                lockApp()
+                onLockApp()
             }
         }
     }
 
-    override fun lockApp() {
+    override fun onLockApp() {
         if (isLockScreenEnabled()) {
             view?.logOut()
             Handler().postDelayed(repository::closeWallet, TimeUnit.SECONDS.toMillis(1)) //TODO: crash in native lib without delay
         }
+    }
+
+    override fun onStateIsNotEnsured() {
+        view?.logOut()
     }
 
     override fun onUserInteraction(context: Context) {
