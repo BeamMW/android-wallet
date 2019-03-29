@@ -28,6 +28,10 @@ enum class WelcomeMode {
     OPEN, CREATE, RESTORE
 }
 
+enum class NetworkStatus {
+    ONLINE, OFFLINE, UPDATING
+}
+
 enum class Status(val value: Int) {
     STATUS_OK(0), STATUS_ERROR(-1);
 

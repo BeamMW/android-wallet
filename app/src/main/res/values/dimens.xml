@@ -19,8 +19,9 @@
     <dimen name="common_btn_width">254dp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
     <dimen name="toolbar_padding_end">30dp</dimen>
-    <dimen name="toolbar_padding_for_status_start">16dp</dimen>
-    <dimen name="toolbar_padding_for_status">10dp</dimen>
+    <dimen name="toolbar_status_start_offset">16dp</dimen>
+    <dimen name="toolbar_status_offset">10dp</dimen>
+    <dimen name="toolbar_progress_size">12dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
     <dimen name="navigation_padding_top">29dp</dimen>
     <dimen name="navigation_accent_size">6dp</dimen>

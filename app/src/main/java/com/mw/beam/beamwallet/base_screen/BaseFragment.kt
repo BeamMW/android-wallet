@@ -20,6 +20,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 
@@ -55,8 +56,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
     }
 
-    override fun configStatus(isConnected: Boolean) {
-        (activity as BaseActivity<*>).configStatus(isConnected)
+    override fun configStatus(networkStatus: NetworkStatus) {
+        (activity as BaseActivity<*>).configStatus(networkStatus)
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {

@@ -6,6 +6,7 @@
     <string name="common_successful">done!</string>
     <string name="common_error">Oops, something went wrong…</string>
     <string name="common_status_online">online</string>
+    <string name="common_status_updating">updating</string>
     <string name="common_status_error">Cannot connect to node: %s</string>
     <string name="common_drawer_open">open</string>
     <string name="common_drawer_close">close</string>

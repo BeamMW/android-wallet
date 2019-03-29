@@ -26,10 +26,12 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Gravity
+import android.view.View
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
@@ -120,15 +122,22 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun clearListeners() {
     }
 
-    override fun configStatus(isConnected: Boolean) {
+    override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
 
-        toolbarLayout.statusIcon.setImageDrawable(
-                if (isConnected) ContextCompat.getDrawable(this, R.drawable.status_connected)
-                else ContextCompat.getDrawable(this, R.drawable.status_error))
-        toolbarLayout.status.text =
-                if (isConnected) getString(R.string.common_status_online)
-                else String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        when (networkStatus) {
+            NetworkStatus.ONLINE -> {
+                handleStatus(true, toolbarLayout)
+            }
+            NetworkStatus.OFFLINE -> {
+                handleStatus(false, toolbarLayout)
+            }
+            NetworkStatus.UPDATING -> {
+                toolbarLayout.progressBar.visibility = View.VISIBLE
+                toolbarLayout.statusIcon.visibility = View.INVISIBLE
+                toolbarLayout.status.text = getString(R.string.common_status_updating)
+            }
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -185,5 +194,18 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onUserInteraction() {
         super.onUserInteraction()
         presenter.onUserInteraction(applicationContext)
+    }
+
+    private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
+        toolbarLayout.progressBar.visibility = View.INVISIBLE
+        toolbarLayout.statusIcon.visibility = View.VISIBLE
+
+        if (isOnline) {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
+            toolbarLayout.status.text = getString(R.string.common_status_online)
+        } else {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_error))
+            toolbarLayout.status.text = String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        }
     }
 }

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.content.Context
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -98,15 +99,15 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     override fun initSubscriptions() {
         nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
-            view?.configStatus(it)
+            view?.configStatus(if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE)
         }
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            view?.configStatus(false)
+            view?.configStatus(NetworkStatus.OFFLINE)
         }
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            view?.configStatus(it.done == it.total)
+            view?.configStatus(if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING)
         }
     }
 

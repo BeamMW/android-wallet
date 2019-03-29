@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.support.v7.app.AlertDialog
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
@@ -32,7 +33,7 @@ interface MvpView {
     fun dismissAlert()
     fun initPresenter(): BasePresenter<out MvpView, out MvpRepository>
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
-    fun configStatus(isConnected: Boolean)
+    fun configStatus(networkStatus: NetworkStatus)
     fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
