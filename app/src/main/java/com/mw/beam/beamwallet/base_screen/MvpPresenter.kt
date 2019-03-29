@@ -36,7 +36,6 @@ interface MvpPresenter<V : MvpView> {
     fun getSubscriptions(): Array<Disposable>?
     fun initSubscriptions()
     fun onLockBroadcastReceived()
-    fun onLockApp()
     fun onUserInteraction(context: Context)
     fun isLockScreenEnabled(): Boolean
     fun onStateIsNotEnsured()
