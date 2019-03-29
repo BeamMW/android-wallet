@@ -29,6 +29,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         UtxoContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var blockchainInfoSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -49,9 +50,14 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
             state.configTransactions(data.tx)
         }
+
+        blockchainInfoSubscription = repository.getWalletStatus().subscribe { walletStatus ->
+            view?.updateBlockchainInfo(walletStatus.system)
+        }
+
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription, blockchainInfoSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

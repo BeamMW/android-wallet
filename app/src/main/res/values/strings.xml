@@ -139,6 +139,8 @@
     <string name="utxo_status_spent">spent</string>
     <string name="utxo_status_unavailable">unavailable</string>
     <string name="utxo_status_result_rollback">(mining result rollback)</string>
+    <string name="blockchain_height">Blockchain Height:</string>
+    <string name="last_block_hash">Last block hash:</string>
 
     <!--UtxoDetailsFragment-->
     <string name="utxo_details_title">UTXO details</string>
