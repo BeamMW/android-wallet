@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.SystemState
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
@@ -85,6 +86,11 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     override fun updateUtxos(utxos: List<Utxo>) {
         activeUtxosAdapter.setData(utxos.filter { it.status == UtxoStatus.Available || it.status == UtxoStatus.Maturing })
         allUtxosAdapter.setData(utxos)
+    }
+
+    override fun updateBlockchainInfo(systemState: SystemState) {
+        blockchainHeightValue.text = systemState.height.toString()
+        blockchainHashValue.text = systemState.hash
     }
 
     override fun clearListeners() {
