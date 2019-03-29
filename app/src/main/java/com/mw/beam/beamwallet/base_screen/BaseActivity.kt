@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
@@ -36,7 +35,6 @@ import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -46,7 +44,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     private val delegate = ScreenDelegate()
     private val lockScreenReceiver=  object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            presenter.tryLockApp()
+            presenter.onLockBroadcastReceived()
         }
     }
 
@@ -139,11 +137,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         presenter = initPresenter() as T
 
         if (!ensureState()) {
-            startActivity(Intent(this, WelcomeActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            )
-
-            finish()
+            presenter.onStateIsNotEnsured()
         } else {
             presenter.onCreate()
         }

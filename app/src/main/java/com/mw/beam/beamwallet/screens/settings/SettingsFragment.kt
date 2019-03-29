@@ -132,6 +132,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun clearListeners() {
         changePass.setOnClickListener(null)
         reportProblem.setOnClickListener(null)
+        lockScreenTitle.setOnClickListener(null)
+        lockScreenValue.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
