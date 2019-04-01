@@ -37,6 +37,6 @@ class UtxoRepository : BaseRepository(), UtxoContract.Repository {
     }
 
     override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, "getWalletStatus") {wallet?.getWalletStatus() }
+        return getResult(WalletListener.subOnStatus, "getWalletStatus") { wallet?.getWalletStatus() }
     }
 }
