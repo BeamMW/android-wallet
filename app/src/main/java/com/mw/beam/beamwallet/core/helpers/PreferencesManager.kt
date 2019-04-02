@@ -37,6 +37,7 @@ object PreferencesManager {
     }
 
     const val KEY_IS_SENDING_CONFIRM_ENABLED = "KEY_IS_SENDING_CONFIRM_ENABLED"
+    const val KEY_PASSWORD = "KEY_PASSWORD"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)

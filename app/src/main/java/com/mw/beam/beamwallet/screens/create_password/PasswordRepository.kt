@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -42,6 +43,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
             if (wallet != null) {
                 //TODO handle statuses of process
+                PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                 wallet!!.syncWithNode()
                 result = Status.STATUS_OK
             }
@@ -57,5 +59,6 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
     override fun changePass(pass: String?) {
         wallet?.changeWalletPassword(pass ?: return)
+        PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass ?: return)
     }
 }
