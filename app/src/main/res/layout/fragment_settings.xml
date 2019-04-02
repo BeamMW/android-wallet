@@ -52,6 +52,22 @@
                     android:layout_marginTop="@dimen/settings_small_text_margin"
                     tools:text="Never" />
 
+            <TextView
+                style="@style/common_menu_item"
+                android:id="@+id/confirmTransactionTitle"
+                android:layout_marginTop="@dimen/settings_common_offset"
+                app:layout_constraintTop_toBottomOf="@id/lockScreenValue"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password_request_on_send" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/confirmTransactionSwitch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/confirmTransactionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>

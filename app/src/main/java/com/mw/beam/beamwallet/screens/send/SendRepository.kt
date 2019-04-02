@@ -18,8 +18,10 @@ package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -40,6 +42,14 @@ class SendRepository : BaseRepository(), SendContract.Repository {
 
     override fun checkAddress(address: String?): Boolean {
         return Api.checkReceiverAddress(address)
+    }
+
+    override fun checkPassword(password: String): Boolean {
+        return wallet?.checkWalletPassword(password) ?: false
+    }
+
+    override fun isConfirmTransactionEnabled(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
     }
 
     override fun onCantSendToExpired(): Subject<Any> {

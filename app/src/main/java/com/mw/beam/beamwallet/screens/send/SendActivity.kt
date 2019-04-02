@@ -20,12 +20,17 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.provider.Settings
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.text.Editable
 import android.text.InputFilter
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -36,11 +41,13 @@ import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.PermissionsHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.BeamEditText
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.activity_send.*
+import kotlinx.android.synthetic.main.dialog_confirm_send.view.*
 import java.text.DecimalFormat
 
 
@@ -53,6 +60,12 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var amountWatcher: TextWatcher
     private lateinit var feeWatcher: TextWatcher
     private lateinit var feeFocusListener: View.OnFocusChangeListener
+    private var dialog: AlertDialog? = null
+    private val passWatcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+            presenter.onPasswordChanged()
+        }
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
@@ -75,7 +88,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun addListeners() {
         btnSend.setOnClickListener {
-            presenter.onSend()
+            presenter.onConfirm()
         }
 
         scanQR.setOnClickListener {
@@ -210,6 +223,40 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
 
         return hasErrors
+    }
+
+    override fun showConfirmDialog() {
+        val view = LayoutInflater.from(this).inflate(R.layout.dialog_confirm_send, null)
+
+        view.recipientValue.text = token.text
+        val amountStringValue = amount.text.toString() + " ${getString(R.string.currency_beam).toUpperCase()}"
+        view.amountValue.text = amountStringValue
+        val transactionFeeStringValue = fee.text.toString() + " ${getString(R.string.currency_groth).toUpperCase()}"
+        view.transactionFeeValue.text = transactionFeeStringValue
+        view.pass.addTextChangedListener(passWatcher)
+        view.btnConfirmSend.setOnClickListener { presenter.onSend(view.pass.text.toString()) }
+        view.close.setOnClickListener { presenter.onDialogClosePressed() }
+        dialog = AlertDialog.Builder(this).setView(view).show()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    override fun dismissDialog() {
+        if (dialog != null) {
+            dialog?.dismiss()
+            dialog = null
+        }
+    }
+
+    override fun clearPasswordError() {
+        dialog?.findViewById<TextView>(R.id.passError)?.visibility = View.INVISIBLE
+        dialog?.findViewById<BeamEditText>(R.id.pass)?.isStateAccent = true
+    }
+
+    override fun showPasswordError() {
+        dialog?.findViewById<BeamEditText>(R.id.pass)?.isStateError = true
+        val passError = dialog?.findViewById<TextView>(R.id.passError)
+        passError?.text = getString(R.string.pass_wrong)
+        passError?.visibility = View.VISIBLE
     }
 
     override fun setAddress(address: String) {

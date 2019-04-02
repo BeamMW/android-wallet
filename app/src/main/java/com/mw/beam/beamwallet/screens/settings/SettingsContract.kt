@@ -33,6 +33,7 @@ interface SettingsContract {
         fun closeDialog()
         fun getContext(): Context?
         fun updateLockScreenValue(stringResId: Int)
+        fun updateConfirmTransactionValue(isConfirm: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -42,6 +43,7 @@ interface SettingsContract {
         fun onChangeLockSettings(context: Context, settingsId: Int)
         fun onDialogClosePressed()
         fun getLockScreenStringIdValue(context: Context): Int
+        fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
     }
 
     interface Repository : MvpRepository
