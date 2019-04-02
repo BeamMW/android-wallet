@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -38,6 +39,7 @@ class WelcomeOpenRepository : BaseRepository(), WelcomeOpenContract.Repository {
 
             if (wallet != null) {
                 //TODO handle statuses
+                PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                 result = Status.STATUS_OK
             }
         }

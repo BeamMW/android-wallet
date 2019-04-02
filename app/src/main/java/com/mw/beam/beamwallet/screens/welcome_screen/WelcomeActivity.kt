@@ -23,12 +23,12 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.screens.create_password.PasswordFragment
 import com.mw.beam.beamwallet.screens.main.MainActivity
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm.WelcomeConfirmFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_create.WelcomeCreateFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_description.WelcomeDescriptionFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment
-import com.mw.beam.beamwallet.screens.create_password.PasswordFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress.WelcomeProgressFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore.WelcomeRestoreFragment
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed.WelcomeSeedFragment
