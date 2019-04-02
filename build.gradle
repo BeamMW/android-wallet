@@ -21,9 +21,10 @@ buildscript {
     ext.ver_leak_canary = '1.6.1' //https://github.com/square/leakcanary
     ext.ver_google_services = '4.2.0'
     ext.ver_firebase_core = '16.0.8'
-    ext.ver_firebase_messaging = '17.4.0'
+    ext.ver_firebase_messaging = '17.5.0'
     ext.ver_qr = '3.3.3'
     ext.ver_qr_android_embedded = '3.6.0'
+    ext.ver_secured_store = '0.7.4' //https://github.com/iamMehedi/Secured-Preference-Store
 
     repositories {
         google()
