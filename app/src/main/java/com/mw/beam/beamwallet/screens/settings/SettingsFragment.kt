@@ -94,6 +94,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
         lockScreenTitle.setOnClickListener(lockScreenSettingsOnClick)
         lockScreenValue.setOnClickListener(lockScreenSettingsOnClick)
+
+        confirmTransactionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onChangeConfirmTransactionSettings(isChecked)
+        }
     }
 
     override fun showLockScreenSettingsDialog() {
@@ -122,6 +126,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         lockScreenValue.setText(stringResId)
     }
 
+    override fun updateConfirmTransactionValue(isConfirm: Boolean) {
+        confirmTransactionSwitch.isChecked = isConfirm
+    }
+
     override fun closeDialog() {
         dialog?.let {
             it.dismiss()
@@ -130,6 +138,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun clearListeners() {
+        confirmTransactionSwitch.setOnCheckedChangeListener(null)
         changePass.setOnClickListener(null)
         reportProblem.setOnClickListener(null)
         lockScreenTitle.setOnClickListener(null)

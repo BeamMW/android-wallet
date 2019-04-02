@@ -41,4 +41,6 @@ object PreferencesManager {
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)
+    fun putBoolean(key: String, value: Boolean) = preferenceStore.edit().putBoolean(key, value).apply()
+    fun getBoolean(key: String, defValue: Boolean = false): Boolean = preferenceStore.getBoolean(key, defValue)
 }

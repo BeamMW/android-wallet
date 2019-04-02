@@ -229,6 +229,11 @@
     <string name="after_5_minutes">After 5 minutes</string>
     <string name="after_10_minutes">After 10 minutes</string>
     <string name="after_30_minutes">After 30 minutes</string>
+    <string name="confirm_transaction_details">Confirm transaction details</string>
+    <string name="recipient">Recipient:</string>
+    <string name="amount">Amount:</string>
+    <string name="to_broadcast_your_transaction_please_enter_your_password">To broadcast your transaction please enter your password</string>
+    <string name="password_request_on_send">Password request on send</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.settings
 import android.content.Context
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import java.util.concurrent.TimeUnit
 
@@ -35,6 +36,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.getContext()?.let {
             view?.updateLockScreenValue(getLockScreenStringIdValue(it))
         }
+        val isConfirmTransaction = PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
+        view?.updateConfirmTransactionValue(isConfirmTransaction)
     }
 
     override fun onReportProblem() {
@@ -67,6 +70,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             updateLockScreenValue(getLockScreenStringIdValue(context))
             closeDialog()
         }
+    }
+
+    override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED, isConfirm)
     }
 
     override fun getLockScreenStringIdValue(context: Context): Int {

@@ -55,7 +55,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onSend() {
+    override fun onSend(password: String) {
         if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
@@ -65,13 +65,43 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if (amount != null && fee != null && token != null && state.isTokenValid) {
                 // we can't send money to own expired address
                 if (state.expiredAddresses.find { it.walletID == token } != null) {
+                    view?.close()
                     view?.showCantSendToExpiredError()
                 } else {
-                    repository.sendMoney(token, comment, amount.convertToGroth(), fee)
-                    view?.close()
+                    if (repository.checkPassword(password) || !repository.isConfirmTransactionEnabled()) {
+                        repository.sendMoney(token, comment, amount.convertToGroth(), fee)
+                        view?.dismissDialog()
+                        view?.close()
+                    } else {
+                        view?.showPasswordError()
+                    }
                 }
             }
         }
+    }
+
+    override fun onPasswordChanged() {
+        view?.clearPasswordError()
+    }
+
+    override fun onConfirm() {
+        if (!repository.isConfirmTransactionEnabled()) {
+            onSend()
+            return
+        }
+        if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
+            val amount = view?.getAmount()
+            val fee = view?.getFee()
+            val token = view?.getToken()
+
+            if (amount != null && fee != null && token != null && state.isTokenValid) {
+                view?.showConfirmDialog()
+            }
+        }
+    }
+
+    override fun onDialogClosePressed() {
+        view?.dismissDialog()
     }
 
     override fun onFeeFocusChanged(isFocused: Boolean, fee: String) {
@@ -170,6 +200,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
+    }
+
+    override fun onDestroy() {
+        view?.dismissDialog()
+        super.onDestroy()
     }
 
     override fun initSubscriptions() {

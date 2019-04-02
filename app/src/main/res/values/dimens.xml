@@ -145,6 +145,9 @@
     <dimen name="send_amount_error_margin_top">8dp</dimen>
     <dimen name="send_btn_margin">22dp</dimen>
     <dimen name="send_transfer_btn_width">156dp</dimen>
+    <dimen name="send_dialog_card_offset">10dp</dimen>
+    <dimen name="send_dialog_content_offset">20dp</dimen>
+    <dimen name="send_dialog_value_offset">16dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>
