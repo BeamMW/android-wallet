@@ -56,7 +56,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         }
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
-                showWallet()
+                view?.showFailedNetworkConnectionMessage()
+                repository.closeWallet()
+                view?.cancel()
             }
         }
     }

@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -70,6 +71,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private fun countProgress(progressData: OnSyncProgressData): Int {
         return progressData.done / progressData.total * 100
 
+    }
+
+    override fun showFailedNetworkConnectionMessage() {
+        Toast.makeText(context?.applicationContext, R.string.failed_network_connection_message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun cancel() {
+        activity?.finish()
+        logOut()
     }
 
     //TODO decide what should be by default (arguments == null), when all modes will be available
