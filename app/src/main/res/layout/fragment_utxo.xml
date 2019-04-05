@@ -69,32 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
         app:layout_constraintTop_toBottomOf="@id/blockchainInfoCard"
-        app:tabSelectedTextColor="@color/colorAccent">
+        app:tabSelectedTextColor="@color/colorAccent"/>
 
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/utxo_tab_active" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/utxo_tab_all" />
-    </android.support.design.widget.TabLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/allUtxos"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        app:layout_constraintVertical_weight="1" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activeUtxos"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        app:layout_constraintVertical_weight="1" />
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 </android.support.constraint.ConstraintLayout>
