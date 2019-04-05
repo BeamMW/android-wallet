@@ -255,7 +255,7 @@
     <string name="check_old_pass_description">Enter your current password</string>
     <string name="check_old_pass_next">next</string>
     <string name="check_old_pass_empty_error">Password should not be empty</string>
-    <string name="check_old_pass_wrong_pass_error">The ols password you have entered is incorrect</string>
+    <string name="check_old_pass_wrong_pass_error">The old password you have entered is incorrect</string>
 
     <!--ScanQrActivity-->
     <string name="scan_qr_title">Scan QR code</string>
