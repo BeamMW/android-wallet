@@ -200,7 +200,7 @@
     <string name="send_amount_title">Transaction amount</string>
     <string name="send_btn_title">send</string>
     <string name="send_amount_empty_error">Amount field can\'t be empty</string>
-    <string name="send_amount_zero_error">Amount can\'t be 0 B</string>
+    <string name="send_amount_zero_error">Amount can\'t be 0 BEAM</string>
     <string name="send_amount_overflow_error">Maximum available amount is %1$s B</string>
     <string name="send_error_invalid_address">Invalid address</string>
     <string name="send_error_expired_address">Can\'t send to the expired address</string>
