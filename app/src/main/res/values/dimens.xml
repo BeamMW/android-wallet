@@ -149,6 +149,7 @@
     <dimen name="utxo_item_padding">20dp</dimen>
     <dimen name="utxo_item_offset_top">10dp</dimen>
     <dimen name="utxo_item_amount_text_size">24sp</dimen>
+    <dimen name="utxo_info_card_vertical_margin">10dp</dimen>
 
     <!--UtxoDetailsActivity-->
     <dimen name="utxo_history_offset">20dp</dimen>

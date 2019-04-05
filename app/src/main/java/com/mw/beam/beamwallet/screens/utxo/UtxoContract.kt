@@ -19,9 +19,7 @@ package com.mw.beam.beamwallet.screens.utxo
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.entities.*
 import io.reactivex.subjects.Subject
 
 /**
@@ -32,6 +30,7 @@ interface UtxoContract {
         fun init()
         fun updateUtxos(utxos: List<Utxo>)
         fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>)
+        fun updateBlockchainInfo(systemState: SystemState)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -41,5 +40,6 @@ interface UtxoContract {
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
+        fun getWalletStatus(): Subject<WalletStatus>
     }
 }

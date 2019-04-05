@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.item_utxo.*
 /**
  * Created by vain onnellinen on 12/18/18.
  */
-class UtxosAdapter(private val context: Context, private var data: List<Utxo>, private val clickListener: OnItemClickListener) :
+class UtxosAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
         RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
     private val spentStatus = context.getString(R.string.utxo_status_spent)
     private val inProgressStatus = context.getString(R.string.utxo_status_in_progress)
@@ -49,6 +49,8 @@ class UtxosAdapter(private val context: Context, private var data: List<Utxo>, p
     private val commonStatusColor = ContextCompat.getColor(context, R.color.common_text_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
+
+    private var data: List<Utxo> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_utxo, parent, false)).apply {
         this.containerView.setOnClickListener {

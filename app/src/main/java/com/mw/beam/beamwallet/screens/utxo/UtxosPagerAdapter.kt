@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.addresses
+package com.mw.beam.beamwallet.screens.utxo
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -24,15 +24,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.entities.Utxo
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ * Created by vain onnellinen on 4/5/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener) : PagerAdapter() {
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener)
+class UtxosPagerAdapter (val context: Context, onUtxoClickListener: UtxosAdapter.OnItemClickListener) : PagerAdapter() {
+    private val activeAdapter = UtxosAdapter(context, onUtxoClickListener)
+    private val allAdapter = UtxosAdapter(context, onUtxoClickListener)
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
@@ -40,8 +39,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             layoutManager = LinearLayoutManager(context)
             adapter = when (Tab.values()[position]) {
                 Tab.ACTIVE -> activeAdapter
-                Tab.EXPIRED -> expiredAdapter
-                Tab.CONTACTS -> contactsAdapter
+                Tab.ALL -> allAdapter
             }
         }
         container.addView(layout)
@@ -62,18 +60,14 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
         return context.getString(Tab.values()[position].value)
     }
 
-    fun setData(tab: Tab, addresses: List<WalletAddress>) {
+    fun setData(tab: Tab, utxos: List<Utxo>) {
         when (tab) {
             Tab.ACTIVE -> activeAdapter.apply {
-                setData(addresses)
+                setData(utxos)
                 notifyDataSetChanged()
             }
-            Tab.EXPIRED -> expiredAdapter.apply {
-                setData(addresses)
-                notifyDataSetChanged()
-            }
-            Tab.CONTACTS -> contactsAdapter.apply {
-                setData(addresses)
+            Tab.ALL -> allAdapter.apply {
+                setData(utxos)
                 notifyDataSetChanged()
             }
         }
@@ -81,7 +75,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
 }
 
 enum class Tab(val value: Int) {
-    ACTIVE(R.string.addresses_tab_active), EXPIRED(R.string.addresses_tab_expired), CONTACTS(R.string.addresses_tab_contacts);
+    ALL(R.string.utxo_tab_all), ACTIVE(R.string.utxo_tab_active);
 
     companion object {
         private val map: HashMap<Int, Tab> = HashMap()
@@ -97,3 +91,4 @@ enum class Tab(val value: Int) {
         }
     }
 }
+
