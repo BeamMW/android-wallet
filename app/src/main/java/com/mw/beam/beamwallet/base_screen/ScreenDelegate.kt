@@ -104,8 +104,8 @@ class ScreenDelegate {
         return alert
     }
 
-    fun showNoInternetConnectionMessage(context: Context) {
-        Toast.makeText(context.applicationContext, R.string.no_internet_connection, Toast.LENGTH_LONG).show()
+    fun showToast(context: Context?, message: String, duration: Int) {
+        Toast.makeText(context?.applicationContext, message, duration).show()
     }
 
     fun dismissAlert() {
