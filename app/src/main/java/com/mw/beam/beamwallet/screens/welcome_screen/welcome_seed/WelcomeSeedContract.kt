@@ -30,7 +30,6 @@ interface WelcomeSeedContract {
         fun copyToClipboard(data: String)
         fun showCopiedAlert()
         fun showSaveAlert()
-        fun forbidScreenshot()
     }
 
     interface Presenter : MvpPresenter<View> {
