@@ -21,6 +21,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -66,6 +67,10 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
         btnCopy.setOnClickListener(null)
+    }
+
+    override fun forbidScreenshot() {
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun configSeed(seed: Array<String>) {
