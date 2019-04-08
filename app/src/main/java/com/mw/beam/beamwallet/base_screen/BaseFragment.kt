@@ -65,6 +65,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
                 ?: return null)
     }
 
+    override fun showNoInternetConnectionMessage() {
+        context?.let { delegate.showNoInternetConnectionMessage(it) }
+    }
+
     override fun dismissAlert() {
         delegate.dismissAlert()
     }
@@ -113,7 +117,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun logOut() {
-        startActivity(Intent(context, WelcomeActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        val baseActivity = activity as BaseActivity<*>
+        baseActivity.logOut()
     }
 }

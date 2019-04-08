@@ -86,6 +86,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun showKeyboard() = delegate.showKeyboard(this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
+    override fun showNoInternetConnectionMessage() = delegate.showNoInternetConnectionMessage(this)
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
