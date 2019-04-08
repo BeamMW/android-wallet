@@ -30,7 +30,6 @@ interface MvpView {
     fun showSnackBar(message: String, textColor: Int)
     fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
-    fun showNoInternetConnectionMessage()
     fun initPresenter(): BasePresenter<out MvpView, out MvpRepository>
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
     fun configStatus(isConnected: Boolean)
