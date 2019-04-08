@@ -46,7 +46,6 @@
     <string name="welcome_title_forgot_alert">Forgot password</string>
     <string name="welcome_forgot_alert">Only your funds can be fully restored from the blockchain. The transaction history is stored locally and is encrypted with your password, hence it can\'t be restored.\n\nThat\'s the final version until the future validation and process.</string>
     <string name="welcome_btn_forgot_alert">Restore wallet</string>
-    <string name="failed_network_connection_message">Failed network connection</string>
 
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">start using your wallet</string>
@@ -178,7 +177,6 @@
     <string name="transaction_details_menu_copy_address">Copy address</string>
     <string name="transaction_details_menu_cancel">Cancel transaction</string>
     <string name="transaction_details_menu_delete">Delete transaction</string>
-    <string name="transaction_utxo_list">Transaction UTXO list:</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
