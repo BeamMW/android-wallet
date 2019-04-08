@@ -31,8 +31,7 @@ interface SettingsContract {
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun closeDialog()
-        fun getContext(): Context?
-        fun updateLockScreenValue(stringResId: Int)
+        fun updateLockScreenValue(value: String)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
     }
 
@@ -40,11 +39,15 @@ interface SettingsContract {
         fun onReportProblem()
         fun onChangePass()
         fun showLockScreenSettings()
-        fun onChangeLockSettings(context: Context, settingsId: Int)
+        fun onChangeLockSettings(millis: Long)
         fun onDialogClosePressed()
-        fun getLockScreenStringIdValue(context: Context): Int
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
     }
 
-    interface Repository : MvpRepository
+    interface Repository : MvpRepository {
+        fun getLockScreenStringValue(): String
+        fun saveLockSettings(millis: Long)
+        fun saveConfirmTransactionSettings(isConfirm: Boolean)
+        fun isConfirmTransaction(): Boolean
+    }
 }

@@ -225,11 +225,8 @@
     <string name="general_settings">General settings</string>
     <string name="lock_screen">Lock screen</string>
     <string name="never">Never</string>
-    <string name="after_15_seconds">After 15 seconds</string>
-    <string name="after_1_minute">After 1 minute</string>
-    <string name="after_5_minutes">After 5 minutes</string>
-    <string name="after_10_minutes">After 10 minutes</string>
-    <string name="after_30_minutes">After 30 minutes</string>
+    <string name="after_seconds">After %1$s seconds</string>
+    <string name="after_minute">After %1$s minute</string>
     <string name="confirm_transaction_details">Confirm transaction details</string>
     <string name="recipient">Recipient:</string>
     <string name="amount">Amount:</string>
