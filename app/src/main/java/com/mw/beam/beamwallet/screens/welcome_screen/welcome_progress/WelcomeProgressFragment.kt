@@ -68,10 +68,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         }
     }
 
-    override fun showNoInternetConnectionMessage() {
-        showToast(getString(R.string.no_internet_connection), Toast.LENGTH_LONG)
-    }
-
     private fun countProgress(progressData: OnSyncProgressData): Int {
         return progressData.done / progressData.total * 100
 

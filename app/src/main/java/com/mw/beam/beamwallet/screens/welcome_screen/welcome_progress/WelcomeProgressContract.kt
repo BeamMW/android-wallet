@@ -30,7 +30,6 @@ interface WelcomeProgressContract {
         fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode)
         fun getMode(): WelcomeMode?
         fun showWallet()
-        fun showNoInternetConnectionMessage()
     }
 
     interface Presenter : MvpPresenter<View>
