@@ -27,7 +27,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
     private lateinit var syncProgressUpdatedSubscription: Disposable
-    private lateinit var nodeConnectionFailedSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
@@ -54,15 +53,10 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 }
             }
         }
-        nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
-                showWallet()
-            }
-        }
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
-        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription)
+        return arrayOf(syncProgressUpdatedSubscription)
     }
 
     private fun showWallet() {
