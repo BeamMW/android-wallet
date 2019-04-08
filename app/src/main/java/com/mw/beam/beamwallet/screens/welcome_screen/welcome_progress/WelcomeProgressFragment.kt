@@ -73,6 +73,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     }
 
+    override fun showFailedNetworkConnectionMessage() {
+        Toast.makeText(context?.applicationContext, R.string.failed_network_connection_message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun cancel() {
+        activity?.finish()
+        logOut()
+    }
+
     //TODO decide what should be by default (arguments == null), when all modes will be available
     override fun getMode(): WelcomeMode? = WelcomeMode.valueOf(arguments?.getString(ARG_MODE)
             ?: WelcomeMode.CREATE.name)

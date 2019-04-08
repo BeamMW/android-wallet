@@ -29,7 +29,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import android.widget.Toast
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.Status
 
@@ -102,10 +101,6 @@ class ScreenDelegate {
         alert = dialog
 
         return alert
-    }
-
-    fun showNoInternetConnectionMessage(context: Context) {
-        Toast.makeText(context.applicationContext, R.string.no_internet_connection, Toast.LENGTH_LONG).show()
     }
 
     fun dismissAlert() {
