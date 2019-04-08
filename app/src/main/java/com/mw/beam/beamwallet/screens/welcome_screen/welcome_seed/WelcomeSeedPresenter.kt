@@ -27,11 +27,6 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     : BasePresenter<WelcomeSeedContract.View, WelcomeSeedContract.Repository>(currentView, currentRepository),
         WelcomeSeedContract.Presenter {
 
-    override fun onCreate() {
-        super.onCreate()
-        view?.forbidScreenshot()
-    }
-
     override fun onViewCreated() {
         super.onViewCreated()
         view?.configSeed(repository.seed)

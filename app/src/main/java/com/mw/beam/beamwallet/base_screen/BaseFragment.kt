@@ -62,8 +62,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
                 ?: return null)
     }
 
-    override fun showToast(message: String, duration: Int) {
-        delegate.showToast(context, message, duration)
+    override fun showNoInternetConnectionMessage() {
+        context?.let { delegate.showNoInternetConnectionMessage(it) }
     }
 
     override fun dismissAlert() {
@@ -114,6 +114,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun logOut() {
-        (activity as BaseActivity<*>).logOut()
+        val baseActivity = activity as BaseActivity<*>
+        baseActivity.logOut()
     }
 }
