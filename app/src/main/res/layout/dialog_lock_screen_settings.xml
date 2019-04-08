@@ -29,53 +29,6 @@
         android:layout_marginStart="@dimen/settings_dialog_button_group_start_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/lockNever"
-            android:checked="true"
-            android:textSize="@dimen/common_settings_size"
-            android:text="@string/never"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/lockAfter15sec"
-            android:checked="false"
-            android:textSize="@dimen/common_settings_size"
-            android:layout_marginTop="@dimen/settings_dialog_button_top_margin"
-            android:text="@string/after_15_seconds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/lockAfter1m"
-            android:checked="false"
-            android:textSize="@dimen/common_settings_size"
-            android:layout_marginTop="@dimen/settings_dialog_button_top_margin"
-            android:text="@string/after_1_minute"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/lockAfter5m"
-            android:checked="false"
-            android:textSize="@dimen/common_settings_size"
-            android:layout_marginTop="@dimen/settings_dialog_button_top_margin"
-            android:text="@string/after_5_minutes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/lockAfter10m"
-            android:checked="false"
-            android:textSize="@dimen/common_settings_size"
-            android:layout_marginTop="@dimen/settings_dialog_button_top_margin"
-            android:text="@string/after_10_minutes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/lockAfter30m"
-            android:checked="false"
-            android:textSize="@dimen/common_settings_size"
-            android:layout_marginTop="@dimen/settings_dialog_button_top_margin"
-            android:text="@string/after_30_minutes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </RadioGroup>
 
     <TextView

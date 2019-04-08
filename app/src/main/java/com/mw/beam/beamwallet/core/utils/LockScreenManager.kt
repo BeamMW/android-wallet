@@ -6,10 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import android.support.v4.app.AlarmManagerCompat
+import java.util.concurrent.TimeUnit
 
 object LockScreenManager {
     const val LOCK_SCREEN_ACTION = "com.mw.beam.beamwallet.core.utils.LockScreen"
-    const val LOCK_SCREEN_KEY = "lock_screen"
+    private const val LOCK_SCREEN_KEY = "lock_screen"
     const val LOCK_SCREEN_NEVER_VALUE = 0L
 
     private const val requestCode = 721
@@ -42,3 +43,5 @@ object LockScreenManager {
         restartTimer(context)
     }
 }
+
+fun Long.isLessMinute() = this < TimeUnit.MINUTES.toMillis(1)

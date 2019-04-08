@@ -25,6 +25,7 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.RadioButton
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -33,6 +34,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
+import com.mw.beam.beamwallet.core.utils.isLessMinute
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
@@ -105,25 +107,31 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_lock_screen_settings, null)
 
             val time = LockScreenManager.getCurrentValue(it)
-            val valueId = when (time) {
-                LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> R.id.lockNever
-                TimeUnit.SECONDS.toMillis(15) -> R.id.lockAfter15sec
-                TimeUnit.MINUTES.toMillis(1) -> R.id.lockAfter1m
-                TimeUnit.MINUTES.toMillis(5) -> R.id.lockAfter5m
-                TimeUnit.MINUTES.toMillis(10) -> R.id.lockAfter10m
-                TimeUnit.MINUTES.toMillis(30) -> R.id.lockAfter30m
-                else -> R.id.lockNever
+            val valuesArray = resources.getIntArray(R.array.lock_screen_values)
+
+            valuesArray.forEach { millisInt ->
+                val value = millisInt.toLong()
+                val button = LayoutInflater.from(context).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+                (button as RadioButton).apply {
+                    text = when {
+                        value <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.never)
+                        value.isLessMinute() -> context.getString(R.string.after_seconds, TimeUnit.MILLISECONDS.toSeconds(value).toString())
+                        else -> context.getString(R.string.after_minute, TimeUnit.MILLISECONDS.toMinutes(value).toString())
+                    }
+                    isChecked = value == time
+                    setOnClickListener { presenter.onChangeLockSettings(value) }
+                }
+                view.radioGroupLockSettings.addView(button)
             }
-            view.radioGroupLockSettings.check(valueId)
-            view.radioGroupLockSettings.setOnCheckedChangeListener { _, checkedId -> presenter.onChangeLockSettings(it, checkedId) }
+
             view.btnCancel.setOnClickListener { presenter.onDialogClosePressed() }
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
 
-    override fun updateLockScreenValue(stringResId: Int) {
-        lockScreenValue.setText(stringResId)
+    override fun updateLockScreenValue(value: String) {
+        lockScreenValue.text = value
     }
 
     override fun updateConfirmTransactionValue(isConfirm: Boolean) {
