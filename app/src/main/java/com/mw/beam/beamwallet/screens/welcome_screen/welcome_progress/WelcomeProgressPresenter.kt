@@ -26,6 +26,8 @@ import io.reactivex.disposables.Disposable
 class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository, private val state: WelcomeProgressState)
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
+    private val maxCountConnectionAttempts = 3
+    private var failedConnectionCount = 0
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
 
@@ -46,8 +48,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             if (it.total == 0) {
                 //TODO maybe we should show "100%" progress before moving further
                 showWallet()
+                failedConnectionCount = 0
             } else {
                 view?.updateProgress(it, state.mode)
+
+                failedConnectionCount = 0
 
                 if (it.done == it.total) {
                     showWallet()
@@ -56,7 +61,12 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         }
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
-                showWallet()
+                if (failedConnectionCount >= maxCountConnectionAttempts) {
+                    view?.showFailedNetworkConnectionMessage()
+                    repository.closeWallet()
+                    view?.cancel()
+                }
+                failedConnectionCount++
             }
         }
     }
