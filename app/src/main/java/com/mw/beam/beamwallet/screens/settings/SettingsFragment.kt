@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -92,7 +93,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
 
         val lockScreenSettingsOnClick = View.OnClickListener {
-            presenter.showLockScreenSettings()
+            presenter.onShowLockScreenSettings()
         }
         lockScreenTitle.setOnClickListener(lockScreenSettingsOnClick)
         lockScreenValue.setOnClickListener(lockScreenSettingsOnClick)
@@ -102,25 +103,25 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    @SuppressLint("InflateParams")
     override fun showLockScreenSettingsDialog() {
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_lock_screen_settings, null)
 
-            val time = LockScreenManager.getCurrentValue(it)
+            val time = LockScreenManager.getCurrentValue()
             val valuesArray = resources.getIntArray(R.array.lock_screen_values)
 
             valuesArray.forEach { millisInt ->
                 val value = millisInt.toLong()
+
                 val button = LayoutInflater.from(context).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+
                 (button as RadioButton).apply {
-                    text = when {
-                        value <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.never)
-                        value.isLessMinute() -> context.getString(R.string.after_seconds, TimeUnit.MILLISECONDS.toSeconds(value).toString())
-                        else -> context.getString(R.string.after_minute, TimeUnit.MILLISECONDS.toMinutes(value).toString())
-                    }
+                    text = getLockScreenStringValue(value)
                     isChecked = value == time
                     setOnClickListener { presenter.onChangeLockSettings(value) }
                 }
+
                 view.radioGroupLockSettings.addView(button)
             }
 
@@ -130,8 +131,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun updateLockScreenValue(value: String) {
-        lockScreenValue.text = value
+    private fun getLockScreenStringValue(millis: Long): String {
+        return when {
+            millis <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.settings_never)
+            millis.isLessMinute() -> getString(R.string.settings_after_seconds, TimeUnit.MILLISECONDS.toSeconds(millis).toString())
+            else -> getString(R.string.settings_after_minute, TimeUnit.MILLISECONDS.toMinutes(millis).toString())
+        }
+    }
+
+    override fun updateLockScreenValue(millis: Long) {
+        lockScreenValue.text = getLockScreenStringValue(millis)
     }
 
     override fun updateConfirmTransactionValue(isConfirm: Boolean) {

@@ -4,23 +4,22 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.preference.PreferenceManager
 import android.support.v4.app.AlarmManagerCompat
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import java.util.concurrent.TimeUnit
 
 object LockScreenManager {
-    const val LOCK_SCREEN_ACTION = "com.mw.beam.beamwallet.core.utils.LockScreen"
-    private const val LOCK_SCREEN_KEY = "lock_screen"
-    const val LOCK_SCREEN_NEVER_VALUE = 0L
+    private const val REQUEST_CODE = 721
 
-    private const val requestCode = 721
+    const val LOCK_SCREEN_ACTION = "com.mw.beam.beamwallet.core.utils.LockScreen"
+    const val LOCK_SCREEN_NEVER_VALUE = 0L
 
     fun restartTimer(context: Context) {
         val lockScreenIntent = Intent(LOCK_SCREEN_ACTION)
         val lockScreenPendingIntent = PendingIntent
-                .getBroadcast(context, requestCode, lockScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                .getBroadcast(context, REQUEST_CODE, lockScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val time = getCurrentValue(context)
+        val time = getCurrentValue()
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(lockScreenPendingIntent)
@@ -30,17 +29,10 @@ object LockScreenManager {
         }
     }
 
-    fun getCurrentValue(context: Context): Long {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        return pref.getLong(LOCK_SCREEN_KEY, LOCK_SCREEN_NEVER_VALUE)
-    }
+    fun getCurrentValue(): Long = PreferencesManager.getLong(PreferencesManager.KEY_LOCK_SCREEN, LOCK_SCREEN_NEVER_VALUE)
 
-    fun updateLockScreenSettings(context: Context, millisecond: Long) {
-        val pref = PreferenceManager.getDefaultSharedPreferences(context)
-        val editor = pref.edit()
-        editor.putLong(LOCK_SCREEN_KEY, millisecond)
-        editor.apply()
-        restartTimer(context)
+    fun updateLockScreenSettings(millisecond: Long) {
+        PreferencesManager.putLong(PreferencesManager.KEY_LOCK_SCREEN, millisecond)
     }
 }
 

@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:paddingBottom="@dimen/settings_common_offset"
-                android:text="@string/general_settings"
+                android:text="@string/settings_general_settings"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/lock_screen" />
+                    android:text="@string/settings_lock_screen" />
 
                 <TextView
                     android:id="@+id/lockScreenValue"
@@ -60,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/password_request_on_send" />
+                android:text="@string/settings_password_request_on_send" />
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/confirmTransactionSwitch"
