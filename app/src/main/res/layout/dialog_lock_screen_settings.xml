@@ -15,7 +15,7 @@
         android:textSize="@dimen/common_alert_title_text_size"
         android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:text="@string/lock_screen"
+        android:text="@string/settings_lock_screen"
         android:layout_marginTop="@dimen/settings_common_offset"
         android:layout_marginStart="@dimen/settings_common_offset"
         app:layout_constraintStart_toStartOf="parent"

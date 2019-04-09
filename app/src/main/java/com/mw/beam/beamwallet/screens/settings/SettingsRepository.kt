@@ -28,25 +28,17 @@ import java.util.concurrent.TimeUnit
  * Created by vain onnellinen on 1/21/19.
  */
 class SettingsRepository : BaseRepository(), SettingsContract.Repository {
-    override fun getLockScreenStringValue(): String {
-        val context = App.self.applicationContext
-        val time = LockScreenManager.getCurrentValue(context)
-        return when {
-            time <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> context.getString(R.string.never)
-            time.isLessMinute() -> context.getString(R.string.after_seconds, TimeUnit.MILLISECONDS.toSeconds(time).toString())
-            else -> context.getString(R.string.after_minute, TimeUnit.MILLISECONDS.toMinutes(time).toString())
-        }
-    }
+    override fun getLockScreenValue(): Long = LockScreenManager.getCurrentValue()
 
     override fun saveLockSettings(millis: Long) {
-        LockScreenManager.updateLockScreenSettings(App.self, millis)
+        LockScreenManager.updateLockScreenSettings(millis)
     }
 
-    override fun saveConfirmTransactionSettings(isConfirm: Boolean) {
-        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED, isConfirm)
+    override fun saveConfirmTransactionSettings(shouldConfirm: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED, shouldConfirm)
     }
 
-    override fun isConfirmTransaction(): Boolean {
+    override fun shouldConfirmTransaction(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
     }
 }

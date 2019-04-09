@@ -31,23 +31,23 @@ interface SettingsContract {
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun closeDialog()
-        fun updateLockScreenValue(value: String)
+        fun updateLockScreenValue(millis: Long)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onReportProblem()
         fun onChangePass()
-        fun showLockScreenSettings()
+        fun onShowLockScreenSettings()
         fun onChangeLockSettings(millis: Long)
         fun onDialogClosePressed()
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
     }
 
     interface Repository : MvpRepository {
-        fun getLockScreenStringValue(): String
+        fun getLockScreenValue(): Long
         fun saveLockSettings(millis: Long)
-        fun saveConfirmTransactionSettings(isConfirm: Boolean)
-        fun isConfirmTransaction(): Boolean
+        fun saveConfirmTransactionSettings(shouldConfirm: Boolean)
+        fun shouldConfirmTransaction(): Boolean
     }
 }

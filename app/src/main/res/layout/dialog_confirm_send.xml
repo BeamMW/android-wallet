@@ -28,7 +28,7 @@
         android:textSize="@dimen/common_alert_title_text_size"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/send_dialog_card_offset"
-        android:text="@string/confirm_transaction_details"
+        android:text="@string/send_confirm_transaction_details"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/send_dialog_card_offset"
         android:layout_marginTop="@dimen/send_dialog_content_offset"
-        android:text="@string/recipient"
+        android:text="@string/send_recipient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 
@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/send_dialog_card_offset"
         android:layout_marginTop="@dimen/send_dialog_content_offset"
-        android:text="@string/amount"
+        android:text="@string/send_amount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipientValue" />
 
@@ -109,7 +109,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="@dimen/send_dialog_content_offset"
         android:textAlignment="center"
-        android:text="@string/to_broadcast_your_transaction_please_enter_your_password"
+        android:text="@string/send_to_broadcast_your_transaction_please_enter_your_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionFeeValue" />

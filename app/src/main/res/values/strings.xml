@@ -213,6 +213,10 @@
     <string name="send_permission_required_settings">settings</string>
     <string name="send_error_not_beam_address">The scanned code is not a Beam wallet address</string>
     <string name="send_error_paste">Can\'t paste an invalid address</string>
+    <string name="send_confirm_transaction_details">Confirm transaction details</string>
+    <string name="send_recipient">Recipient:</string>
+    <string name="send_amount">Amount:</string>
+    <string name="send_to_broadcast_your_transaction_please_enter_your_password">To broadcast your transaction please enter your password</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>
@@ -222,16 +226,12 @@
     <string name="settings_send_logs_description">Send logs…</string>
     <string name="settings_node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="general_settings">General settings</string>
-    <string name="lock_screen">Lock screen</string>
-    <string name="never">Never</string>
-    <string name="after_seconds">After %1$s seconds</string>
-    <string name="after_minute">After %1$s minute</string>
-    <string name="confirm_transaction_details">Confirm transaction details</string>
-    <string name="recipient">Recipient:</string>
-    <string name="amount">Amount:</string>
-    <string name="to_broadcast_your_transaction_please_enter_your_password">To broadcast your transaction please enter your password</string>
-    <string name="password_request_on_send">Password request on send</string>
+    <string name="settings_general_settings">General settings</string>
+    <string name="settings_lock_screen">Lock screen</string>
+    <string name="settings_never">Never</string>
+    <string name="settings_after_seconds">After %1$s seconds</string>
+    <string name="settings_after_minute">After %1$s minute</string>
+    <string name="settings_password_request_on_send">Password request on send</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>
