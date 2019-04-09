@@ -55,7 +55,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onSend(password: String) {
+    override fun onSend() {
         if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
@@ -68,20 +68,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     view?.close()
                     view?.showCantSendToExpiredError()
                 } else {
-                    if (repository.checkPassword(password) || !repository.isConfirmTransactionEnabled()) {
-                        repository.sendMoney(token, comment, amount.convertToGroth(), fee)
-                        view?.dismissDialog()
-                        view?.close()
-                    } else {
-                        view?.showPasswordError()
-                    }
+                    repository.sendMoney(token, comment, amount.convertToGroth(), fee)
+                    view?.dismissDialog()
+                    view?.close()
                 }
             }
         }
-    }
-
-    override fun onPasswordChanged() {
-        view?.clearPasswordError()
     }
 
     override fun onConfirm() {

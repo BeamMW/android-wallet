@@ -52,12 +52,10 @@ interface SendContract {
         fun showPermissionRequiredAlert()
         fun showConfirmDialog()
         fun dismissDialog()
-        fun clearPasswordError()
-        fun showPasswordError()
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onSend(password: String = "")
+        fun onSend()
         fun onTokenChanged(rawToken: String?)
         fun onTokenPasted(token: String?, oldToken: String?)
         fun onAmountChanged()
@@ -68,7 +66,6 @@ interface SendContract {
         fun onFeeFocusChanged(isFocused: Boolean, fee: String)
         fun onConfirm()
         fun onDialogClosePressed()
-        fun onPasswordChanged()
     }
 
     interface Repository : MvpRepository {
@@ -76,7 +73,6 @@ interface SendContract {
         fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean
-        fun checkPassword(password: String): Boolean
         fun isConfirmTransactionEnabled(): Boolean
         fun getAddresses(): Subject<OnAddressesData>
     }
