@@ -16,9 +16,25 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     }
 
     override fun onSend(password: String) {
-        if (repository.checkPassword(password))
+        if (!hasError(password)) {
             view?.confirm()
-        else view?.showPasswordError()
+        }
+    }
+
+    private fun hasError(password: String): Boolean {
+        var hasError = false
+
+        if (password.isBlank()) {
+            view?.showEmptyPasswordError()
+            hasError = true
+        }
+
+        if (password.isNotBlank() && !repository.checkPassword(password)) {
+            view?.showPasswordError()
+            hasError = true
+        }
+
+        return hasError
     }
 
     override fun onCloseDialog() {

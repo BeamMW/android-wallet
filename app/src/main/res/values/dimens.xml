@@ -3,7 +3,7 @@
     <dimen name="common_offset">16dp</dimen>
     <dimen name="common_margin">5dp</dimen>
     <dimen name="common_button_margin">53dp</dimen>
-    <dimen name="common_alert_dialog_margin">20dp</dimen>
+    <dimen name="common_alert_dialog_margin">30dp</dimen>
     <dimen name="common_alert_title_text_size">16sp</dimen>
     <dimen name="common_header_big_text_size">18sp</dimen>
     <dimen name="common_header_small_size">12sp</dimen>
@@ -118,6 +118,13 @@
     <dimen name="transaction_details_title_padding_top">30dp</dimen>
     <dimen name="transaction_details_title_padding_bottom">22dp</dimen>
     <dimen name="transaction_details_padding">20dp</dimen>
+    <dimen name="transaction_details_utxo_list_title_margin_top">34dp</dimen>
+    <dimen name="transaction_details_utxo_value_margin">14dp</dimen>
+    <dimen name="transaction_details_utxo_amount_margin_top">30dp</dimen>
+    <dimen name="transaction_details_utxo_icon_size">16dp</dimen>
+    <dimen name="transaction_details_beam_icon_width">10dp</dimen>
+    <dimen name="transaction_details_beam_icon_height">15dp</dimen>
+    <dimen name="transaction_details_beam_icon_margin_start">6dp</dimen>
 
     <!--ReceiveActivity-->
     <dimen name="receive_title_margin_top">35dp</dimen>
@@ -148,6 +155,9 @@
     <dimen name="send_dialog_card_offset">10dp</dimen>
     <dimen name="send_dialog_content_offset">20dp</dimen>
     <dimen name="send_dialog_value_offset">16dp</dimen>
+    <dimen name="send_dialog_description_margin_top">50dp</dimen>
+    <dimen name="send_dialog_transaction_fee_margin_top">20dp</dimen>
+    <dimen name="send_dialog_amount_value_margin_top">16dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>

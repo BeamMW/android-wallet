@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.screens.utxo.UtxoState
 import kotlinx.android.synthetic.main.activity_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
 
@@ -110,6 +111,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     private fun configUtxoHistory(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) {
         val offset: Int = resources.getDimensionPixelSize(R.dimen.utxo_history_offset)
 
+        transactionHistoryList.removeAllViews()
         relatedTransactions.forEach {
             transactionHistoryList.addView(configTransaction(
                     isReceived = it.id == utxo.createTxId,
@@ -143,7 +145,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository())
+        presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository(), UtxoState())
         return presenter
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/transaction_details_utxo_value_margin"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/utxoIcon"
+        tools:src="@drawable/menu_utxo"
+        android:layout_gravity="center_vertical"
+        android:contentDescription="@null"
+        android:layout_width="@dimen/transaction_details_utxo_icon_size"
+        android:layout_height="@dimen/transaction_details_utxo_icon_size" />
+
+    <TextView
+        android:id="@+id/utxoAmount"
+        style="@style/common_text_big_light"
+        android:layout_marginStart="@dimen/transaction_details_utxo_value_margin"
+        tools:text="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:src="@drawable/currency_beam"
+        android:contentDescription="@null"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/transaction_details_beam_icon_margin_start"
+        android:layout_width="@dimen/transaction_details_beam_icon_width"
+        android:layout_height="@dimen/transaction_details_beam_icon_height" />
+</LinearLayout>

@@ -179,6 +179,7 @@
     <string name="transaction_details_menu_copy_address">Copy address</string>
     <string name="transaction_details_menu_cancel">Cancel transaction</string>
     <string name="transaction_details_menu_delete">Delete transaction</string>
+    <string name="transaction_details_utxo_list">Transaction UTXO list:</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
@@ -216,7 +217,9 @@
     <string name="send_confirm_transaction_details">Confirm transaction details</string>
     <string name="send_recipient">Recipient:</string>
     <string name="send_amount">Amount:</string>
-    <string name="send_to_broadcast_your_transaction_please_enter_your_password">To broadcast your transaction please enter your password</string>
+    <string name="send_title_enter_password">To broadcast your transaction please enter your password</string>
+    <string name="send_amount_beam">%1$s BEAM</string>
+    <string name="send_fee_groth">%1$s GROTH</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>

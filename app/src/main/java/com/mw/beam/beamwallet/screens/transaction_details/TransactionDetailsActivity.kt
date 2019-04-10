@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
+import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -25,13 +27,12 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
+import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -79,6 +80,36 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
 
         return true
+    }
+
+    @SuppressLint("InflateParams")
+    override fun updateUtxo(utxoList: List<Utxo>, txDescription: TxDescription?) {
+        transactionUtxoContainer.visibility = if (utxoList.isEmpty()) View.GONE else View.VISIBLE
+        transactionUtxoList.removeAllViews()
+
+        if (utxoList.count() > 1) {
+            var totalAmount = 0L
+            utxoList.forEach {totalAmount += it.amount }
+
+            val utxoView = LayoutInflater.from(applicationContext).inflate(R.layout.item_transaction_utxo, null)
+
+            utxoView.utxoIcon.setImageDrawable(getDrawable(R.drawable.menu_utxo))
+            utxoView.utxoAmount.text = totalAmount.convertToBeamString()
+
+            transactionUtxoList.addView(utxoView)
+        }
+
+        utxoList.forEach { utxo ->
+            val utxoView = LayoutInflater.from(applicationContext).inflate(R.layout.item_transaction_utxo, null)
+
+            val isReceived = txDescription?.id == utxo.createTxId
+            val drawableId = if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent
+
+            utxoView.utxoIcon.setImageDrawable(getDrawable(drawableId))
+            utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
+
+            transactionUtxoList.addView(utxoView)
+        }
     }
 
     private fun configTransactionDetails(txDescription: TxDescription) {

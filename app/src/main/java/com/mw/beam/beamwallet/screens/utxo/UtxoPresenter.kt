@@ -44,7 +44,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            view?.updateUtxos(utxos)
+            view?.updateUtxos(utxos.reversed())
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
