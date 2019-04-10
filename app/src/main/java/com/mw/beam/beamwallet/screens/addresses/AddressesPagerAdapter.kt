@@ -35,7 +35,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
     private val contactsAdapter = AddressesAdapter(context, onAddressClickListener)
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layout = LayoutInflater.from(context).inflate(R.layout.item_addresses_list, container, false) as ViewGroup
+        val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
         layout.findViewById<RecyclerView>(R.id.list).apply {
             layoutManager = LinearLayoutManager(context)
             adapter = when (Tab.values()[position]) {
