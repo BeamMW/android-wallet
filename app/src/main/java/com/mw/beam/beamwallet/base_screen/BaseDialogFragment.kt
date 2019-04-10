@@ -39,9 +39,7 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
 
     override fun getToolbarTitle(): String? = null
 
-    override fun configStatus(networkStatus: NetworkStatus) {
-        (activity as BaseActivity<*>).configStatus(networkStatus)
-    }
+    override fun configStatus(networkStatus: NetworkStatus) {}
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
@@ -105,7 +103,5 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         super.onDestroy()
     }
 
-    override fun logOut() {
-        (activity as BaseActivity<*>).logOut()
-    }
+    override fun logOut() {}
 }

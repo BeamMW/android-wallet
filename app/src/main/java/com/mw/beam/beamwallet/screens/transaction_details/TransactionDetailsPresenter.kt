@@ -16,8 +16,10 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
+import android.util.Log
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -25,11 +27,31 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
+    private lateinit var utxoUpdatedSubscription: Disposable
+    private lateinit var txUpdateSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
         repository.txDescription = view?.getTransactionDetails()
     }
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
+            utxos.filter { it.createTxId == repository.txDescription?.id || it.spentTxId == repository.txDescription?.id}
+                    .let { view?.updateUtxo(it, repository.txDescription) }
+        }
+
+        txUpdateSubscription = repository.getTxStatus().subscribe { data ->
+            data.tx?.first { it.id == repository.txDescription?.id }?.let {
+                repository.txDescription = it
+                view?.init(it)
+            }
+        }
+    }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription)
 
     override fun onMenuCreate(menu: Menu?) {
         view?.configMenuItems(menu, repository.txDescription?.status ?: return)

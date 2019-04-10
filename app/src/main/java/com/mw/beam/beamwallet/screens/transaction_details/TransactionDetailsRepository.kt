@@ -17,7 +17,11 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -31,6 +35,14 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
                 wallet?.deleteTx(txDescription?.id!!)
             }
         }
+    }
+
+    override fun getUtxoUpdated(): Subject<List<Utxo>> {
+        return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
+    }
+
+    override fun getTxStatus(): Subject<OnTxStatusData> {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
     }
 
     override fun cancelTransaction() {

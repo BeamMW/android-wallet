@@ -62,7 +62,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             presenter.onSend()
         }
 
-        override fun onClosed() {
+        override fun onDismissed() {
             presenter.onDialogClosePressed()
         }
     }
@@ -226,7 +226,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun showConfirmDialog() {
-        dialog = SendConfirmationDialog.newInstance(token.text.toString(), amount.text.toString(), fee.text.toString(), dialogListener)
+        dialog = SendConfirmationDialog.newInstance(getToken(), getAmount(), getFee(), dialogListener)
         dialog?.show(supportFragmentManager, SendConfirmationDialog.getFragmentTag())
     }
 

@@ -5,18 +5,22 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 interface SendConfirmationContract {
+
     interface View : MvpView {
         fun init()
         fun confirm()
         fun close()
         fun showPasswordError()
         fun clearPasswordError()
+        fun showEmptyPasswordError()
     }
+
     interface Presenter: MvpPresenter<View> {
         fun onPasswordChanged()
         fun onSend(password: String)
         fun onCloseDialog()
     }
+
     interface Repository: MvpRepository {
         fun checkPassword(password: String): Boolean
     }

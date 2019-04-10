@@ -27,15 +27,14 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         private const val KEY_AMOUNT = "KEY_AMOUNT"
         private const val KEY_FEE = "KEY_FEE"
 
-        fun newInstance(token: String?, amount: String?, fee: String?, dialogListener: OnConfirmedDialogListener): SendConfirmationDialog {
+        fun newInstance(token: String?, amount: Double?, fee: Long?, dialogListener: OnConfirmedDialogListener): SendConfirmationDialog {
             return SendConfirmationDialog().apply {
-                val bundle = Bundle().apply {
+                arguments = Bundle().apply {
                     putString(KEY_TOKEN, token)
-                    putString(KEY_AMOUNT, amount)
-                    putString(KEY_FEE, fee)
+                    putDouble(KEY_AMOUNT, amount ?: 0.0)
+                    putLong(KEY_FEE, fee ?: 0)
                 }
 
-                arguments = bundle
                 onConfirmedDialogListener = dialogListener
             }
         }
@@ -47,16 +46,21 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
 
     override fun init() {
         recipientValue.text = arguments?.getString(KEY_TOKEN)
-
-        val amountStringValue = arguments?.getString(KEY_AMOUNT) + " ${getString(R.string.currency_beam).toUpperCase()}"
-        amountValue.text = amountStringValue
-
-        val transactionFeeStringValue = arguments?.getString(KEY_FEE) + " ${getString(R.string.currency_groth).toUpperCase()}"
-        transactionFeeValue.text = transactionFeeStringValue
+        amountValue.text = getString(R.string.send_amount_beam, arguments?.getDouble(KEY_AMOUNT).toString())
+        transactionFeeValue.text = getString(R.string.send_fee_groth, arguments?.getLong(KEY_FEE).toString())
 
         pass.addTextChangedListener(passWatcher)
+        pass.requestFocus()
+    }
+
+    override fun addListeners() {
         btnConfirmSend.setOnClickListener { presenter.onSend(pass.text.toString()) }
         close.setOnClickListener { presenter.onCloseDialog() }
+    }
+
+    override fun clearListeners() {
+        btnConfirmSend.setOnClickListener(null)
+        close.setOnClickListener(null)
     }
 
     override fun clearPasswordError() {
@@ -70,6 +74,12 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         passError.visibility = View.VISIBLE
     }
 
+    override fun showEmptyPasswordError() {
+        pass.isStateError = true
+        passError.text = getString(R.string.pass_empty_error)
+        passError.visibility = View.VISIBLE
+    }
+
     override fun confirm() {
         onConfirmedDialogListener?.onConfirmed()
     }
@@ -79,7 +89,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        onConfirmedDialogListener?.onClosed()
+        onConfirmedDialogListener?.onDismissed()
         onConfirmedDialogListener = null
         super.onDismiss(dialog)
     }
@@ -91,6 +101,6 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
 
     interface OnConfirmedDialogListener {
         fun onConfirmed()
-        fun onClosed()
+        fun onDismissed()
     }
 }

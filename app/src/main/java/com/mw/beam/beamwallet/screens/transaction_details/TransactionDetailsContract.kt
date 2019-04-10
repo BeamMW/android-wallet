@@ -20,8 +20,11 @@ import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxStatus
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -32,6 +35,7 @@ interface TransactionDetailsContract {
         fun init(txDescription: TxDescription)
         fun configMenuItems(menu: Menu?, txStatus: TxStatus)
         fun finishScreen()
+        fun updateUtxo(utxoList: List<Utxo>, txDescription: TxDescription?)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -44,5 +48,7 @@ interface TransactionDetailsContract {
         var txDescription: TxDescription?
         fun deleteTransaction()
         fun cancelTransaction()
+        fun getUtxoUpdated(): Subject<List<Utxo>>
+        fun getTxStatus(): Subject<OnTxStatusData>
     }
 }
