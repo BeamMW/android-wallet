@@ -56,9 +56,7 @@
     <!--WelcomeOpenFragment-->
     <dimen name="welcome_open_margin_side">30dp</dimen>
     <dimen name="welcome_open_description_top_offset">40dp</dimen>
-    <dimen name="welcome_open_forgot_padding_bottom">30dp</dimen>
-    <dimen name="welcome_open_forgot_padding_top">60dp</dimen>
-    <dimen name="welcome_open_forgot_text_size">14sp</dimen>
+    <dimen name="welcome_open_button_margin_bottom">60dp</dimen>
 
     <!--WelcomeDescriptionFragment-->
     <dimen name="welcome_description_padding_top">20dp</dimen>
@@ -88,6 +86,7 @@
     <dimen name="welcome_progress_description_top_offset">32dp</dimen>
     <dimen name="welcome_progress_description_side_offset">44dp</dimen>
     <dimen name="welcome_progress_progress_top_offset">30dp</dimen>
+    <dimen name="welcome_progress_progress_description_top_offset">20dp</dimen>
 
     <!--WalletFragment-->
     <dimen name="wallet_sum_text_size">24sp</dimen>

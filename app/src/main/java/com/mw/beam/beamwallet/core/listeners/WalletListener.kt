@@ -38,7 +38,7 @@ object WalletListener {
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
-    var subOnRecoverProgressUpdated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
@@ -46,6 +46,9 @@ object WalletListener {
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnStartedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnFailedToStartNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), "onStatus")
@@ -57,7 +60,7 @@ object WalletListener {
     fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), "onSyncProgressUpdated")
 
     @JvmStatic
-    fun onRecoverProgressUpdated(done: Int, total: Int, message: String) = returnResult(subOnRecoverProgressUpdated, DUMMY_OBJECT, "onRecoverProgressUpdated")
+    fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total), "onNodeSyncProgressUpdated")
 
     @JvmStatic
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, "onChangeCalculated")
@@ -79,6 +82,15 @@ object WalletListener {
 
     @JvmStatic
     fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, "onCantSendToExpired")
+
+    @JvmStatic
+    fun onStartedNode() = returnResult(subOnStartedNode, DUMMY_OBJECT, "onStartedNode")
+
+    @JvmStatic
+    fun onStoppedNode() = returnResult(subOnStoppedNode, DUMMY_OBJECT, "onStoppedNode")
+
+    @JvmStatic
+    fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

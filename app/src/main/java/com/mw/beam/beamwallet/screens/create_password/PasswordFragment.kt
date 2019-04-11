@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
@@ -51,10 +52,17 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     companion object {
         private const val ARG_PHRASES = "ARG_PHRASES"
         private const val ARG_MODE_PASS_CHANGE = "ARG_MODE_PASS_CHANGE"
+        private const val ARG_WELCOME_MODE = "ARG_WELCOME_MODE"
 
-        fun newInstance(phrases: Array<String>) = PasswordFragment().apply { arguments = Bundle().apply { putStringArray(ARG_PHRASES, phrases) } }
-        fun newInstance() = PasswordFragment().apply { arguments = Bundle().apply { putBoolean(ARG_MODE_PASS_CHANGE, true) } }
         fun getFragmentTag(): String = PasswordFragment::class.java.simpleName
+        fun newInstance() = PasswordFragment().apply { arguments = Bundle().apply { putBoolean(ARG_MODE_PASS_CHANGE, true) } }
+        fun newInstance(phrases: Array<String>, mode: WelcomeMode) = PasswordFragment().apply {
+            arguments = Bundle()
+                    .apply {
+                        putStringArray(ARG_PHRASES, phrases)
+                        putString(ARG_WELCOME_MODE, mode.name)
+                    }
+        }
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_passwords
@@ -84,8 +92,13 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
     override fun getPass(): String = pass.text?.trim().toString()
     override fun isModeChangePass(): Boolean = arguments?.getBoolean(ARG_MODE_PASS_CHANGE, false) ?: false
+    override fun getWelcomeMode(): WelcomeMode? {
+        val argument = arguments?.getString(ARG_WELCOME_MODE)
 
-    override fun proceedToWallet() = (activity as PasswordsHandler).proceedToWallet()
+        return if (argument.isNullOrEmpty()) null else  WelcomeMode.valueOf(argument)
+    }
+
+    override fun proceedToWallet(mode: WelcomeMode, pass: String) = (activity as PasswordsHandler).proceedToWallet(mode, pass)
     override fun showSeedFragment() = (activity as PasswordsHandler).showSeedFragment()
     override fun completePassChanging() = (activity as PassChangedHandler).onPassChanged()
 
@@ -167,7 +180,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     interface PasswordsHandler {
-        fun proceedToWallet()
+        fun proceedToWallet(mode: WelcomeMode, pass: String)
         fun showSeedFragment()
     }
 

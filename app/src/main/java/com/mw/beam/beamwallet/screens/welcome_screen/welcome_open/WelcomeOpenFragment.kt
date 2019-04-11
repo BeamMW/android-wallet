@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -46,6 +47,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
     override fun getToolbarTitle(): String? = ""
 
+    override fun init() {
+        //TODO remove it when complete restore should be available everywhere
+        if (BuildConfig.FLAVOR == "mainnet" || BuildConfig.FLAVOR == "testnet") {
+            btnChange.visibility = View.GONE
+        }
+    }
+
     override fun addListeners() {
         btnOpen.setOnClickListener {
             presenter.onOpenWallet()
@@ -53,10 +61,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
         btnChange.setOnClickListener {
             presenter.onChangeWallet()
-        }
-
-        forgotPass.setOnClickListener {
-            presenter.onForgotPassword()
         }
 
         pass.addTextChangedListener(passWatcher)
@@ -85,15 +89,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun clearListeners() {
         btnOpen.setOnClickListener(null)
         btnChange.setOnClickListener(null)
-        forgotPass.setOnClickListener(null)
 
         pass.removeTextChangedListener(passWatcher)
     }
 
     override fun getPass(): String = pass.text?.trim().toString()
-    override fun openWallet() = (activity as OpenHandler).openWallet()
+    override fun openWallet(pass: String) = (activity as OpenHandler).openWallet(pass)
     override fun changeWallet() = (activity as OpenHandler).changeWallet()
-    override fun restoreWallet() = (activity as OpenHandler).restoreWallet()
 
     override fun showOpenWalletError() {
         pass.isStateError = true
@@ -109,22 +111,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                 getString(R.string.common_cancel))
     }
 
-    override fun showForgotAlert() {
-        showAlert(getString(R.string.welcome_forgot_alert),
-                getString(R.string.welcome_btn_forgot_alert),
-                { presenter.onForgotConfirm() },
-                getString(R.string.welcome_title_forgot_alert),
-                getString(R.string.common_cancel))
-    }
-
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = WelcomeOpenPresenter(this, WelcomeOpenRepository())
         return presenter
     }
 
     interface OpenHandler {
-        fun openWallet()
-        fun restoreWallet()
+        fun openWallet(pass: String)
         fun changeWallet()
     }
 }

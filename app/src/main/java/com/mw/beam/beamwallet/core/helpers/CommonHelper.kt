@@ -53,3 +53,8 @@ enum class Status(val value: Int) {
 fun removeDatabase() {
     File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
 }
+
+fun removeNodeDatabase() {
+    File(AppConfig.DB_PATH, AppConfig.NODE_DB_FILE_NAME).delete()
+    File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME).delete()
+}
