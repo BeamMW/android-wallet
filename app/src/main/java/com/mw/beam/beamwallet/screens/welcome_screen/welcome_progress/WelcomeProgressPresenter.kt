@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.disposables.Disposable
 
@@ -27,15 +29,22 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
     private lateinit var syncProgressUpdatedSubscription: Disposable
+    private lateinit var nodeProgressUpdatedSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
+    private lateinit var nodeStoppedSubscription: Disposable
+
+    private var isNodeSyncFinished = false
 
     override fun onCreate() {
         super.onCreate()
         state.mode = view?.getMode() ?: return
+        state.password = view?.getPassword() ?: return
     }
 
     override fun onViewCreated() {
         super.onViewCreated()
+        view?.init(state.mode)
+
         if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
             repository.wallet?.syncWithNode()
         }
@@ -43,19 +52,45 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun initSubscriptions() {
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            state.failedConnectionCount = 0
+            if (WelcomeMode.RESTORE != state.mode) {
+                state.failedConnectionCount = 0
 
-            if (it.total == 0) {
-                //TODO maybe we should show "100%" progress before moving further
-                showWallet()
-            } else {
-                view?.updateProgress(it, state.mode)
+                if (it.total == 0) {
+                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+                    showWallet()
+                } else {
+                    view?.updateProgress(it, state.mode)
+
+                    if (it.done == it.total) {
+                        showWallet()
+                    }
+                }
+            } else if (isNodeSyncFinished && it.total > 0) {
+                view?.updateProgress(it, state.mode, true)
 
                 if (it.done == it.total) {
-                    showWallet()
+                    //sometimes lib notifies us few times about end of progress
+                    //so we need to unsubscribe from events to prevent unexpected behaviour
+                    syncProgressUpdatedSubscription.dispose()
+                    repository.closeWallet()
                 }
             }
         }
+
+        nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
+            if (WelcomeMode.RESTORE == state.mode) {
+                if (it.total == 0) {
+                    finishNodeProgressSubscription()
+                } else {
+                    view?.updateProgress(it, state.mode)
+
+                    if (it.done == it.total) {
+                        finishNodeProgressSubscription()
+                    }
+                }
+            }
+        }
+
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
                 if (state.failedConnectionCount >= state.maxCountConnectionAttempts) {
@@ -66,10 +101,20 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 state.failedConnectionCount++
             }
         }
+
+        nodeStoppedSubscription = repository.getNodeStopped().subscribe {
+            repository.removeNode()
+
+            if (Status.STATUS_OK == repository.openWallet(state.password)) {
+                view?.showWallet()
+            } else {
+                //todo
+            }
+        }
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
-        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription)
+        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription)
     }
 
     private fun showWallet() {
@@ -77,6 +122,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         //so we need to unsubscribe from events to prevent unexpected behaviour
         disposable.dispose()
         view?.showWallet()
+    }
+
+    private fun finishNodeProgressSubscription() {
+        //sometimes lib notifies us few times about end of progress
+        //so we need to unsubscribe from events to prevent unexpected behaviour
+        nodeProgressUpdatedSubscription.dispose()
+        isNodeSyncFinished = true
     }
 
     override fun hasBackArrow(): Boolean? = false

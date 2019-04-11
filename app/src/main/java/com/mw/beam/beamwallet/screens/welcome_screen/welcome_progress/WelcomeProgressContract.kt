@@ -21,18 +21,26 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
 interface WelcomeProgressContract {
     interface View : MvpView {
-        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode)
+        fun init(mode: WelcomeMode)
+        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean = false)
         fun getMode(): WelcomeMode?
+        fun getPassword(): String?
         fun showWallet()
         fun showNoInternetConnectionMessage()
     }
 
     interface Presenter : MvpPresenter<View>
-    interface Repository : MvpRepository
+
+    interface Repository : MvpRepository {
+        fun getNodeProgressUpdated(): Subject<OnSyncProgressData>
+        fun getNodeStopped(): Subject<Any>
+        fun removeNode()
+    }
 }

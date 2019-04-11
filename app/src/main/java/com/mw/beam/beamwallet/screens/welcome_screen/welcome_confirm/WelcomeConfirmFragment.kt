@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
@@ -81,7 +82,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun getData(): Array<String>? = arguments?.getStringArray(ARG_SEED)
-    override fun showPasswordsFragment(seed: Array<String>) = (activity as ConfirmHandler).proceedToPasswords(seed)
+    override fun showPasswordsFragment(seed: Array<String>) = (activity as ConfirmHandler).proceedToPasswords(seed, WelcomeMode.CREATE)
     override fun showSeedFragment() = (activity as WelcomeConfirmFragment.ConfirmHandler).showSeedFragment()
 
     override fun handleNextButton() {
@@ -163,7 +164,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     interface ConfirmHandler {
-        fun proceedToPasswords(seed: Array<String>)
+        fun proceedToPasswords(seed: Array<String>, mode: WelcomeMode)
         fun showSeedFragment()
     }
 }

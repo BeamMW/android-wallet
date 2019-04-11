@@ -53,27 +53,27 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
 
     override fun showOpenFragment() = showFragment(WelcomeOpenFragment.newInstance(), WelcomeOpenFragment.getFragmentTag(), WelcomeOpenFragment.getFragmentTag(), true)
     override fun showDescriptionFragment() = showFragment(WelcomeDescriptionFragment.newInstance(), WelcomeDescriptionFragment.getFragmentTag(), null, false)
-    override fun showPasswordsFragment(phrases: Array<String>) = showFragment(PasswordFragment.newInstance(phrases), PasswordFragment.getFragmentTag(), null, false)
+    override fun showPasswordsFragment(phrases: Array<String>, mode: WelcomeMode) = showFragment(PasswordFragment.newInstance(phrases, mode), PasswordFragment.getFragmentTag(), null, false)
     override fun showSeedFragment() = showFragment(WelcomeSeedFragment.newInstance(), WelcomeSeedFragment.getFragmentTag(), WelcomeSeedFragment.getFragmentTag(), true)
     override fun showValidationFragment(phrases: Array<String>) = showFragment(WelcomeConfirmFragment.newInstance(phrases), WelcomeConfirmFragment.getFragmentTag(), null, false)
     override fun showRestoreFragment() = showFragment(WelcomeRestoreFragment.newInstance(), WelcomeRestoreFragment.getFragmentTag(), null, false)
     override fun showCreateFragment() = showFragment(WelcomeCreateFragment.newInstance(), WelcomeCreateFragment.getFragmentTag(), WelcomeCreateFragment.getFragmentTag(), true)
-    override fun showProgressFragment(mode: WelcomeMode) = showFragment(WelcomeProgressFragment.newInstance(mode), WelcomeProgressFragment.getFragmentTag(), null, true)
+    override fun showProgressFragment(mode: WelcomeMode, pass: String) = showFragment(WelcomeProgressFragment.newInstance(mode, pass), WelcomeProgressFragment.getFragmentTag(), null, true)
 
     override fun createWallet() = presenter.onCreateWallet() //calls from WelcomeCreateFragment
     override fun generateSeed() = presenter.onGenerateSeed()
-    override fun openWallet() = presenter.onOpenWallet(WelcomeMode.OPEN) //calls from WelcomeOpenFragment
+    override fun openWallet(pass : String) = presenter.onOpenWallet(WelcomeMode.OPEN, pass) //calls from WelcomeOpenFragment
     override fun restoreWallet() = presenter.onRestoreWallet()
-    override fun proceedToWallet() = presenter.onOpenWallet(WelcomeMode.CREATE) //calls from PasswordFragment
+    override fun proceedToWallet(mode: WelcomeMode, pass: String) = presenter.onOpenWallet(mode, pass) //calls from PasswordFragment
     override fun changeWallet() = presenter.onChangeWallet()
     override fun showWallet() = presenter.onShowWallet()
 
-    override fun proceedToPasswords(seed: Array<String>) = presenter.onProceedToPasswords(seed)
+    override fun proceedToPasswords(seed: Array<String>, mode: WelcomeMode) = presenter.onProceedToPasswords(seed, mode)
     override fun proceedToValidation(seed: Array<String>) = presenter.onProceedToValidation(seed)
 
     override fun showMainActivity() {
-        finish()
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     override fun onBackPressed() {

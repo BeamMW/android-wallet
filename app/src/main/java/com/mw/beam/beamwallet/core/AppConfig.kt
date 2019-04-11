@@ -31,6 +31,8 @@ object AppConfig {
     const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
     const val SUPPORT_EMAIL = "support@beam.mw"
     const val DB_FILE_NAME = "wallet.db"
+    const val NODE_DB_FILE_NAME = "node.db"
+    const val NODE_JOURNAL_FILE_NAME = "node.db-journal"
     var NODE_ADDRESS = ""
     var DB_PATH = ""
     var LOG_PATH = ""
