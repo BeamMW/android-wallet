@@ -34,13 +34,18 @@ interface WelcomeProgressContract {
         fun getPassword(): String?
         fun showWallet()
         fun showNoInternetConnectionMessage()
+        fun showFailedRestoreAlert()
     }
 
-    interface Presenter : MvpPresenter<View>
+    interface Presenter : MvpPresenter<View> {
+        fun onTryAgain()
+        fun onCancel()
+    }
 
     interface Repository : MvpRepository {
         fun getNodeProgressUpdated(): Subject<OnSyncProgressData>
         fun getNodeStopped(): Subject<Any>
+        fun getFailedNodeStart(): Subject<Any>
         fun removeNode()
     }
 }

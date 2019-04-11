@@ -32,6 +32,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeProgressUpdatedSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
     private lateinit var nodeStoppedSubscription: Disposable
+    private lateinit var failedToStartNodeSubscription: Disposable
 
     private var isNodeSyncFinished = false
 
@@ -48,6 +49,14 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
             repository.wallet?.syncWithNode()
         }
+    }
+
+    override fun onTryAgain() {
+        view?.showSnackBar("Coming soon...")
+    }
+
+    override fun onCancel() {
+        view?.showSnackBar("Coming soon...")
     }
 
     override fun initSubscriptions() {
@@ -110,6 +119,10 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             } else {
                 //todo
             }
+        }
+
+        failedToStartNodeSubscription = repository.getFailedNodeStart().subscribe {
+            view?.showFailedRestoreAlert()
         }
     }
 

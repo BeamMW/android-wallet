@@ -35,6 +35,10 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return getResult(WalletListener.subOnStoppedNode, "getNodeStopped")
     }
 
+    override fun getFailedNodeStart(): Subject<Any> {
+        return getResult(WalletListener.subOnFailedToStartNode, "getFailedNodeStart")
+    }
+
     override fun removeNode() {
         removeNodeDatabase()
     }
