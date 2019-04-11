@@ -98,9 +98,17 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         showToast(getString(R.string.no_internet_connection), Toast.LENGTH_LONG)
     }
 
+    override fun showFailedRestoreAlert() {
+        showAlert(message = getString(R.string.welcome_progress_restore_error_description),
+                btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
+                onConfirm = { presenter.onTryAgain() },
+                title = getString(R.string.welcome_progress_restore_error_title),
+                btnCancelText = getString(R.string.common_cancel),
+                onCancel = { presenter.onCancel() })
+    }
+
     private fun countProgress(progressData: OnSyncProgressData): Int {
         return (progressData.done * 100.0 / progressData.total).toInt()
-
     }
 
     //TODO decide what should be by default (arguments == null), when all modes will be available
