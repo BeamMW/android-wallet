@@ -62,7 +62,7 @@ class BeamToolbar : LinearLayout {
         statusLayout = this.findViewById(R.id.statusLayout)
         progressBar = this.findViewById(R.id.progress)
 
-        this.orientation = LinearLayout.VERTICAL
+        this.orientation = VERTICAL
 
         if (attrs != null) {
             val a = context.theme.obtainStyledAttributes(
