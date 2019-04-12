@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -27,12 +28,11 @@ import io.reactivex.subjects.Subject
  * Created by vain onnellinen on 10/18/18.
  */
 class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository {
-    override var txDescription: TxDescription? = null
 
-    override fun deleteTransaction() {
+    override fun deleteTransaction(txDescription: TxDescription?) {
         if (txDescription != null) {
-            getResult("deleteTransaction", "kernelID = ${txDescription!!.kernelId}") {
-                wallet?.deleteTx(txDescription?.id!!)
+            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
+                wallet?.deleteTx(txDescription.id)
             }
         }
     }
@@ -45,11 +45,23 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
     }
 
-    override fun cancelTransaction() {
+    override fun cancelTransaction(txDescription: TxDescription?) {
         if (txDescription != null) {
-            getResult("cancelTransaction", "kernelID = ${txDescription!!.kernelId}") {
-                wallet?.cancelTx(txDescription?.id!!)
+            getResult("cancelTransaction", "kernelID = ${txDescription.kernelId}") {
+                wallet?.cancelTx(txDescription.id)
             }
         }
+    }
+
+    override fun getPaymetProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof> {
+        return getResult(WalletListener.subOnPaymentProofExported, "getPaymentProofs") {
+            if (canRequestProof) {
+                requestProof(txId)
+            }
+        }
+    }
+
+    override fun requestProof(txId: String) {
+        wallet?.getPaymentInfo(txId)
     }
 }

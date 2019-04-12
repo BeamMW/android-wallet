@@ -225,8 +225,8 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
-    override fun showConfirmDialog() {
-        dialog = SendConfirmationDialog.newInstance(getToken(), getAmount(), getFee(), dialogListener)
+    override fun showConfirmDialog(token: String, amount: Double, fee: Long) {
+        dialog = SendConfirmationDialog.newInstance(token, amount, fee, dialogListener)
         dialog?.show(supportFragmentManager, SendConfirmationDialog.getFragmentTag())
     }
 

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <android.support.constraint.ConstraintLayout
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mw.beam.beamwallet.core.views.BeamToolbar
-            android:id="@+id/toolbarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" />
+    <include
+        android:id="@+id/utxoLayout"
+        layout="@layout/item_utxo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
-        <include
-            android:id="@+id/utxoLayout"
-            layout="@layout/item_utxo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+    <ScrollView
+        app:layout_constraintTop_toBottomOf="@id/utxoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/common_offset"
-            app:layout_constraintTop_toBottomOf="@id/utxoLayout">
+            android:padding="@dimen/common_offset">
 
             <TextView
                 android:id="@+id/utxoDetailsTitle"
@@ -100,6 +100,13 @@
                 app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                 app:layout_constraintTop_toBottomOf="@id/completionTime" />
 
+            <android.support.constraint.Group
+                android:id="@+id/utxoHistoryGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="utxoHistoryTitle,transactionHistoryList" />
+
             <TextView
                 android:id="@+id/utxoHistoryTitle"
                 style="@style/transaction_details_title"
@@ -122,6 +129,5 @@
                 app:barrierDirection="end"
                 app:constraint_referenced_ids="transactionIdTitle, utxoTypeTitle, completionTimeTitle, contactTitle" />
         </android.support.constraint.ConstraintLayout>
-
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>

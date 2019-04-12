@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/transaction_details_utxo_value_margin"
+    android:paddingBottom="@dimen/transaction_details_utxo_value_offset"
     xmlns:tools="http://schemas.android.com/tools">
     <ImageView
         android:id="@+id/utxoIcon"
@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/utxoAmount"
         style="@style/common_text_big_light"
-        android:layout_marginStart="@dimen/transaction_details_utxo_value_margin"
+        android:layout_marginStart="@dimen/transaction_details_utxo_value_offset"
         tools:text="2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

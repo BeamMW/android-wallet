@@ -34,7 +34,6 @@ import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.screens.utxo.UtxoState
 import kotlinx.android.synthetic.main.activity_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
 
@@ -46,18 +45,15 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     companion object {
         const val EXTRA_UTXO_DETAILS = "EXTRA_UTXO_DETAILS"
-        const val EXTRA_RELATED_TRANSACTIONS = "EXTRA_RELATED_TRANSACTIONS"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details_title)
     override fun getUtxoDetails(): Utxo = intent.getParcelableExtra(EXTRA_UTXO_DETAILS)
-    override fun getRelatedTransactions(): ArrayList<TxDescription> = intent.getParcelableArrayListExtra<TxDescription>(EXTRA_RELATED_TRANSACTIONS)
 
-    override fun init(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) {
+    override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
         configUtxoDetails(utxo)
-        configUtxoHistory(utxo, relatedTransactions)
     }
 
     private fun configUtxoInfo(utxo: Utxo) {
@@ -108,11 +104,13 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
     }
 
-    private fun configUtxoHistory(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) {
+    override fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?) {
         val offset: Int = resources.getDimensionPixelSize(R.dimen.utxo_history_offset)
 
+        utxoHistoryGroup.visibility = if (relatedTransactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+
         transactionHistoryList.removeAllViews()
-        relatedTransactions.forEach {
+        relatedTransactions?.forEach {
             transactionHistoryList.addView(configTransaction(
                     isReceived = it.id == utxo.createTxId,
                     time = CalendarUtils.fromTimestamp(it.modifyTime),
@@ -145,7 +143,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository(), UtxoState())
+        presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository(), UtxoDetailsState())
         return presenter
     }
 }

@@ -87,7 +87,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && state.isTokenValid) {
-                view?.showConfirmDialog()
+                view?.apply {
+                    showConfirmDialog(getToken(), getAmount(), getFee())
+                }
             }
         }
     }

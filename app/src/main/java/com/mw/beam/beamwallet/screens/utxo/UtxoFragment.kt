@@ -23,7 +23,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.SystemState
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import kotlinx.android.synthetic.main.fragment_utxo.*
@@ -56,7 +55,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         tabLayout.setupWithViewPager(pager)
     }
 
-    override fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo, relatedTransactions)
+    override fun showUtxoDetails(utxo: Utxo) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo)
 
     override fun updateUtxos(utxos: List<Utxo>) {
         pagerAdapter.setData(Tab.ACTIVE, utxos.filter { it.status == UtxoStatus.Available || it.status == UtxoStatus.Maturing })
@@ -69,11 +68,11 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoPresenter(this, UtxoRepository(), UtxoState())
+        presenter = UtxoPresenter(this, UtxoRepository())
         return presenter
     }
 
     interface UtxoDetailsHandler {
-        fun onShowUtxoDetails(item: Utxo, relatedTransactions: ArrayList<TxDescription>)
+        fun onShowUtxoDetails(item: Utxo)
     }
 }

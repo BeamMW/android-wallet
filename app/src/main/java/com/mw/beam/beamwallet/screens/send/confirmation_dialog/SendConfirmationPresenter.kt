@@ -30,7 +30,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         }
 
         if (password.isNotBlank() && !repository.checkPassword(password)) {
-            view?.showPasswordError()
+            view?.showWrongPasswordError()
             hasError = true
         }
 
