@@ -75,13 +75,13 @@ class UtxosPagerAdapter (val context: Context, onUtxoClickListener: UtxosAdapter
 }
 
 enum class Tab(val value: Int) {
-    ALL(R.string.utxo_tab_all), ACTIVE(R.string.utxo_tab_active);
+    ACTIVE(R.string.utxo_tab_active), ALL(R.string.utxo_tab_all);
 
     companion object {
         private val map: HashMap<Int, Tab> = HashMap()
 
         init {
-            Tab.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
