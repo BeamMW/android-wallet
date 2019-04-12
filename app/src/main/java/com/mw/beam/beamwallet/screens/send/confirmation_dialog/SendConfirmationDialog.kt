@@ -11,6 +11,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_send.*
+import java.text.NumberFormat
 
 class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private lateinit var presenter: SendConfirmationPresenter
@@ -27,12 +28,12 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         private const val KEY_AMOUNT = "KEY_AMOUNT"
         private const val KEY_FEE = "KEY_FEE"
 
-        fun newInstance(token: String?, amount: Double?, fee: Long?, dialogListener: OnConfirmedDialogListener): SendConfirmationDialog {
+        fun newInstance(token: String, amount: Double, fee: Long, dialogListener: OnConfirmedDialogListener): SendConfirmationDialog {
             return SendConfirmationDialog().apply {
                 arguments = Bundle().apply {
                     putString(KEY_TOKEN, token)
-                    putDouble(KEY_AMOUNT, amount ?: 0.0)
-                    putLong(KEY_FEE, fee ?: 0)
+                    putDouble(KEY_AMOUNT, amount)
+                    putLong(KEY_FEE, fee)
                 }
 
                 onConfirmedDialogListener = dialogListener
@@ -46,21 +47,26 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
 
     override fun init() {
         recipientValue.text = arguments?.getString(KEY_TOKEN)
-        amountValue.text = getString(R.string.send_amount_beam, arguments?.getDouble(KEY_AMOUNT).toString())
+
+        val numberFormat = NumberFormat.getNumberInstance()
+        numberFormat.maximumFractionDigits = Int.MAX_VALUE
+
+        amountValue.text = getString(R.string.send_amount_beam, numberFormat.format(arguments?.getDouble(KEY_AMOUNT)))
         transactionFeeValue.text = getString(R.string.send_fee_groth, arguments?.getLong(KEY_FEE).toString())
 
-        pass.addTextChangedListener(passWatcher)
         pass.requestFocus()
     }
 
     override fun addListeners() {
         btnConfirmSend.setOnClickListener { presenter.onSend(pass.text.toString()) }
         close.setOnClickListener { presenter.onCloseDialog() }
+        pass.addTextChangedListener(passWatcher)
     }
 
     override fun clearListeners() {
         btnConfirmSend.setOnClickListener(null)
         close.setOnClickListener(null)
+        pass.addTextChangedListener(null)
     }
 
     override fun clearPasswordError() {
@@ -68,7 +74,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         pass.isStateAccent = true
     }
 
-    override fun showPasswordError() {
+    override fun showWrongPasswordError() {
         pass.isStateError = true
         passError.text = getString(R.string.pass_wrong)
         passError.visibility = View.VISIBLE

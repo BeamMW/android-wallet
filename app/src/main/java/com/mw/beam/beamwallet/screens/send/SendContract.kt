@@ -50,7 +50,7 @@ interface SendContract {
         fun scanQR()
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
-        fun showConfirmDialog()
+        fun showConfirmDialog(token: String, amount: Double, fee: Long)
         fun dismissDialog()
     }
 

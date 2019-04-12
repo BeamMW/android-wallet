@@ -10,7 +10,7 @@ interface SendConfirmationContract {
         fun init()
         fun confirm()
         fun close()
-        fun showPasswordError()
+        fun showWrongPasswordError()
         fun clearPasswordError()
         fun showEmptyPasswordError()
     }

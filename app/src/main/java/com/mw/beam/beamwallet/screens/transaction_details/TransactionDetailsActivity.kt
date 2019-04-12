@@ -17,6 +17,11 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -26,10 +31,12 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
@@ -42,15 +49,17 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     companion object {
         const val EXTRA_TRANSACTION_DETAILS = "EXTRA_TRANSACTION_DETAILS"
+        private const val COPY_TAG = "PROOF"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
     override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(EXTRA_TRANSACTION_DETAILS)
 
-    override fun init(txDescription: TxDescription) {
+    override fun init(txDescription: TxDescription, isShowProof: Boolean) {
         configTransactionDetails(txDescription)
         configGeneralTransactionInfo(txDescription)
+        configPaymentProof(isShowProof)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -83,24 +92,15 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     @SuppressLint("InflateParams")
-    override fun updateUtxo(utxoList: List<Utxo>, txDescription: TxDescription?) {
+    override fun updateUtxos(utxoList: List<Utxo>, txDescription: TxDescription?) {
         transactionUtxoContainer.visibility = if (utxoList.isEmpty()) View.GONE else View.VISIBLE
         transactionUtxoList.removeAllViews()
 
-        if (utxoList.count() > 1) {
-            var totalAmount = 0L
-            utxoList.forEach {totalAmount += it.amount }
-
-            val utxoView = LayoutInflater.from(applicationContext).inflate(R.layout.item_transaction_utxo, null)
-
-            utxoView.utxoIcon.setImageDrawable(getDrawable(R.drawable.menu_utxo))
-            utxoView.utxoAmount.text = totalAmount.convertToBeamString()
-
-            transactionUtxoList.addView(utxoView)
-        }
-
+        var totalAmount = 0L
         utxoList.forEach { utxo ->
-            val utxoView = LayoutInflater.from(applicationContext).inflate(R.layout.item_transaction_utxo, null)
+            totalAmount += utxo.amount
+
+            val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
 
             val isReceived = txDescription?.id == utxo.createTxId
             val drawableId = if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent
@@ -109,6 +109,15 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
             utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
 
             transactionUtxoList.addView(utxoView)
+        }
+
+        if (utxoList.count() > 1) {
+            val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
+
+            utxoView.utxoIcon.setImageDrawable(getDrawable(R.drawable.menu_utxo))
+            utxoView.utxoAmount.text = totalAmount.convertToBeamString()
+
+            transactionUtxoList.addView(utxoView, 0)
         }
     }
 
@@ -131,6 +140,16 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         status.text = txDescription.statusString
     }
 
+    private fun configPaymentProof(isShowProof: Boolean) {
+        val newVisibility = if (isShowProof) View.VISIBLE else View.GONE
+
+        if (paymentProofContainer.visibility != newVisibility) {
+            TransitionManager.beginDelayedTransition(transactionDetailsMainContainer)
+        }
+
+        paymentProofContainer.visibility = newVisibility
+    }
+
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender.value) {
             startAddress.text = txDescription.myId
@@ -150,7 +169,31 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
     }
 
-    private fun configTransactionHistory(txDescription: TxDescription) {
+    override fun addListeners() {
+        btnPaymentProofDetails.setOnClickListener {
+            presenter.onShowPaymetProof()
+        }
+        btnPaymentProofCopy.setOnClickListener {
+            presenter.onCopyPaymentProof()
+        }
+    }
+
+    override fun showPaymetProof(txDescription: TxDescription) {
+        val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
+            putExtra(PaymentProofDetailsActivity.TRANSACTION_ID, txDescription.id)
+        }
+
+        startActivity(intent)
+    }
+
+    override fun copePaymetProofToClipboard(paymentProof: PaymentProof) {
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, paymentProof.proof)
+    }
+
+    override fun clearListeners() {
+        btnPaymentProofDetails.setOnClickListener(null)
+        btnPaymentProofCopy.setOnClickListener(null)
     }
 
     override fun finishScreen() {
@@ -158,7 +201,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository())
+        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
         return presenter
     }
 }

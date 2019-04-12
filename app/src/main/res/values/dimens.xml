@@ -118,12 +118,13 @@
     <dimen name="transaction_details_title_padding_bottom">22dp</dimen>
     <dimen name="transaction_details_padding">20dp</dimen>
     <dimen name="transaction_details_utxo_list_title_margin_top">34dp</dimen>
-    <dimen name="transaction_details_utxo_value_margin">14dp</dimen>
+    <dimen name="transaction_details_utxo_value_offset">14dp</dimen>
     <dimen name="transaction_details_utxo_amount_margin_top">30dp</dimen>
     <dimen name="transaction_details_utxo_icon_size">16dp</dimen>
     <dimen name="transaction_details_beam_icon_width">10dp</dimen>
     <dimen name="transaction_details_beam_icon_height">15dp</dimen>
     <dimen name="transaction_details_beam_icon_margin_start">6dp</dimen>
+    <dimen name="transaction_details_button_width">155dp</dimen>
 
     <!--ReceiveActivity-->
     <dimen name="receive_title_margin_top">35dp</dimen>
@@ -196,4 +197,13 @@
 
     <!--ScanQrActivity-->
     <dimen name="scan_qr_toolbar_offset">20dp</dimen>
+
+    <!--PaymentProofDetailsActivity-->
+    <dimen name="payment_proof_details_content_vertical_padding">16dp</dimen>
+    <dimen name="payment_proof_details_content_horizontal_padding">25dp</dimen>
+    <dimen name="payment_proof_details_code_value_margin_start">32dp</dimen>
+    <dimen name="payment_proof_details_section_margin_top">30dp</dimen>
+    <dimen name="payment_proof_details_send_margin_top">20dp</dimen>
+    <dimen name="payment_proof_details_send_value_margin_start">45dp</dimen>
+    <dimen name="payment_proof_details_values_margin_top">14dp</dimen>
 </resources>

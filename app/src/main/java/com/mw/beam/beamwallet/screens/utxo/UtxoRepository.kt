@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.utxo
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -30,10 +29,6 @@ class UtxoRepository : BaseRepository(), UtxoContract.Repository {
 
     override fun getUtxoUpdated(): Subject<List<Utxo>> {
         return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
-    }
-
-    override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
     }
 
     override fun getWalletStatus(): Subject<WalletStatus> {

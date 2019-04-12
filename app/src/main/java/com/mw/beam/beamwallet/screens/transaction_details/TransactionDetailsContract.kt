@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -32,23 +33,28 @@ import io.reactivex.subjects.Subject
 interface TransactionDetailsContract {
     interface View : MvpView {
         fun getTransactionDetails(): TxDescription
-        fun init(txDescription: TxDescription)
+        fun init(txDescription: TxDescription, isShowProof: Boolean)
         fun configMenuItems(menu: Menu?, txStatus: TxStatus)
         fun finishScreen()
-        fun updateUtxo(utxoList: List<Utxo>, txDescription: TxDescription?)
+        fun updateUtxos(utxoList: List<Utxo>, txDescription: TxDescription?)
+        fun showPaymetProof(txDescription: TxDescription)
+        fun copePaymetProofToClipboard(paymentProof: PaymentProof)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onMenuCreate(menu: Menu?)
         fun onCancelTransaction()
         fun onDeleteTransaction()
+        fun onShowPaymetProof()
+        fun onCopyPaymentProof()
     }
 
     interface Repository : MvpRepository {
-        var txDescription: TxDescription?
-        fun deleteTransaction()
-        fun cancelTransaction()
+        fun deleteTransaction(txDescription: TxDescription?)
+        fun cancelTransaction(txDescription: TxDescription?)
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
+        fun getPaymetProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
+        fun requestProof(txId: String)
     }
 }

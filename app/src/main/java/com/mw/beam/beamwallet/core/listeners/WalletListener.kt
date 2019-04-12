@@ -49,6 +49,7 @@ object WalletListener {
     var subOnStartedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnFailedToStartNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), "onStatus")
@@ -91,6 +92,9 @@ object WalletListener {
 
     @JvmStatic
     fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")
+
+    @JvmStatic
+    fun onPaymentProofExported(txId: String, proof: String) = returnResult(subOnPaymentProofExported, PaymentProof(txId, proof), "onPaymentProofExported")
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

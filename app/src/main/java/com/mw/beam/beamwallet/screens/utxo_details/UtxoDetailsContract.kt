@@ -30,15 +30,13 @@ import io.reactivex.subjects.Subject
 interface UtxoDetailsContract {
     interface View : MvpView {
         fun getUtxoDetails(): Utxo
-        fun getRelatedTransactions(): ArrayList<TxDescription>
-        fun init(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>)
+        fun init(utxo: Utxo)
+        fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
     }
 
     interface Presenter : MvpPresenter<View>
 
     interface Repository : MvpRepository {
-        var utxo: Utxo?
-        var relatedTransactions: ArrayList<TxDescription>?
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
     }

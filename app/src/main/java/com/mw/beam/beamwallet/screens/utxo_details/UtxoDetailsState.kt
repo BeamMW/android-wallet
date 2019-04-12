@@ -14,14 +14,16 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.utxo
+package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.Utxo
 
 /**
  * Created by vain onnellinen on 12/28/18.
  */
-class UtxoState {
+class UtxoDetailsState {
+    var utxo: Utxo? = null
     private val transactions = HashMap<String, TxDescription>()
 
     fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {

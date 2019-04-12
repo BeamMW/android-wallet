@@ -182,6 +182,9 @@ and never kept in the blockchain.</string>
     <string name="transaction_details_menu_cancel">Cancel transaction</string>
     <string name="transaction_details_menu_delete">Delete transaction</string>
     <string name="transaction_details_utxo_list">Transaction UTXO list:</string>
+    <string name="transaction_details_payment_proof">Payment proof</string>
+    <string name="transaction_details_details_btn_text">details</string>
+    <string name="transaction_details_copy_to_clipboard">copy</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
@@ -278,5 +281,17 @@ and never kept in the blockchain.</string>
 
     <!--ScanQrActivity-->
     <string name="scan_qr_title">Scan QR code</string>
+
+    <!--PaymentProofDetails-->
+    <string name="payment_proof_details_toolbar_title">Payment proof</string>
+    <string name="payment_proof_details_copy_details">copy details</string>
+    <string name="payment_proof_details_copy_code">copy code</string>
+    <string name="payment_proof_details_beam">%1$s beam</string>
+    <string name="payment_proof_details_code">Code:</string>
+    <string name="payment_proof_details_title">Details</string>
+    <string name="payment_proof_details_sender">Sender:</string>
+    <string name="payment_proof_details_receiver">Receiver:</string>
+    <string name="payment_proof_details_amount">Amount:</string>
+    <string name="payment_proof_details_kernel_id">Kernel ID:</string>
 
 </resources>

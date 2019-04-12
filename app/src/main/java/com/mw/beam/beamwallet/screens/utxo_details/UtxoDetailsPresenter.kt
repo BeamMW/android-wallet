@@ -17,14 +17,12 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.screens.utxo.UtxoState
 import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
-class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, private val state: UtxoState)
+class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, private val state: UtxoDetailsState)
     : BasePresenter<UtxoDetailsContract.View, UtxoDetailsContract.Repository>(currentView, currentRepository),
         UtxoDetailsContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
@@ -32,35 +30,29 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
     override fun onCreate() {
         super.onCreate()
-        repository.utxo = view?.getUtxoDetails()
-        repository.relatedTransactions = view?.getRelatedTransactions()
+        state.utxo = view?.getUtxoDetails()
     }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            utxos.firstOrNull { it.id == repository.utxo?.id }?.let {
-                repository.utxo = it
-                updateView()
+            utxos.firstOrNull { it.id == state.utxo?.id }?.let {
+                state.utxo = it
+                view?.init(it)
             }
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            val utxo = repository.utxo
+            val utxo = state.utxo
 
             data.tx?.filter { it.id == utxo?.createTxId || it.id == utxo?.spentTxId }?.let {
-                repository.relatedTransactions = ArrayList(state.configTransactions(it))
-                updateView()
-            }
-        }
-    }
+                state.configTransactions(it)
 
-    private fun updateView() {
-        val utxo = repository.utxo
-        val transactions = repository.relatedTransactions
-        if (transactions != null && utxo != null) {
-            view?.init(utxo, transactions)
+                if (state.utxo != null) {
+                    view?.configUtxoHistory(state.utxo!!, state.configTransactions())
+                }
+            }
         }
     }
 
@@ -68,6 +60,6 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
     override fun onStart() {
         super.onStart()
-        view?.init(repository.utxo ?: return, repository.relatedTransactions ?: return)
+        view?.init(state.utxo ?: return)
     }
 }
