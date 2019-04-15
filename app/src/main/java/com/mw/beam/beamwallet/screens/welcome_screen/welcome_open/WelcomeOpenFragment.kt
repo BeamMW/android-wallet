@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
 
@@ -49,7 +50,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun init() {
         //TODO remove it when complete restore should be available everywhere
-        if (BuildConfig.FLAVOR == "mainnet" || BuildConfig.FLAVOR == "testnet") {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET || BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
             btnChange.visibility = View.GONE
         }
     }
