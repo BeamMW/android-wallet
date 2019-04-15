@@ -30,6 +30,10 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         AddressContract.Presenter {
     private lateinit var txStatusSubscription: Disposable
 
+    companion object {
+        private const val COPY_TAG = "ADDRESS"
+    }
+
     override fun onViewCreated() {
         super.onViewCreated()
         state.address = view?.getAddress()
@@ -41,7 +45,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onCopyAddress() {
-        view?.copyToClipboard(state.address?.walletID ?: return)
+        view?.copyToClipboard(state.address?.walletID ?: return, COPY_TAG)
     }
 
     override fun onMenuCreate(menu: Menu?) {
@@ -67,7 +71,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     override fun onDialogCopyPressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.dismissDialog()
         }
     }

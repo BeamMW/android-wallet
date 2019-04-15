@@ -13,53 +13,42 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.synthetic.main.activity_payment_proof_details.*
 
-class PaymentProofDetailsActivity: BaseActivity<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
+class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
     private lateinit var presenter: PaymentProofDetailsPresenter
 
     companion object {
-        const val TRANSACTION_ID = "TRANSACTION_ID"
-        private const val COPY_TAG = "PROOF"
+        const val KEY_TRANSACTION_ID = "KEY_TRANSACTION_ID"
+        const val KEY_AMOUNT = "KEY_AMOUNT"
+        const val KEY_SENDER = "KEY_SENDER"
+        const val KEY_RECEIVER = "KEY_RECEIVER"
+        const val KEY_KERNEL_ID = "KEY_KERNEL_ID"
+        const val KEY_PROOF = "KEY_PROOF"
     }
 
-    override fun getTransactionId(): String = intent.getStringExtra(TRANSACTION_ID)
+    override fun getTransactionId(): String = intent.getStringExtra(KEY_TRANSACTION_ID)
+    override fun getAmount(): Long = intent.getLongExtra(KEY_AMOUNT, 0L)
+    override fun getKernelId(): String = intent.getStringExtra(KEY_KERNEL_ID)
+    override fun getSender(): String = intent.getStringExtra(KEY_SENDER)
+    override fun getReceiver(): String = intent.getStringExtra(KEY_RECEIVER)
+    override fun getProof(): String = intent.getStringExtra(KEY_PROOF)
 
-    override fun copyToClipboard(content: String?) {
-        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, content)
+    override fun init(proof: String, sender: String, receiver: String, amount: Long, kernelId: String) {
+        proofDetailsSenderValue.text = sender
+        proofDetailsReceiverValue.text = receiver
+        proofDetailsAmountValue.text = getString(R.string.payment_proof_details_beam, amount.convertToBeamString())
+        proofDetailsKernelIdValue.text = kernelId
+        proofDetailsCodeValue.text = proof
     }
 
-    override fun initDetails(txDescription: TxDescription) {
-        if (txDescription.sender.value) {
-            proofDetailsSenderValue.text = txDescription.myId
-            proofDetailsReceiverValue.text = txDescription.peerId
-        } else {
-            proofDetailsSenderValue.text = txDescription.peerId
-            proofDetailsReceiverValue.text = txDescription.myId
-        }
-
-        proofDetailsAmountValue.text = getString(R.string.payment_proof_details_beam, txDescription.amount.convertToBeamString())
-        proofDetailsKernelIdValue.text = txDescription.kernelId
-    }
-
-    override fun getDetailsContent(txDescription: TxDescription?): String {
-        if (txDescription == null) return ""
-        val sender: String
-        val receiver: String
-        if (txDescription.sender.value) {
-            sender = txDescription.myId
-            receiver = txDescription.peerId
-        } else {
-            sender = txDescription.peerId
-            receiver = txDescription.myId
-        }
+    override fun getDetailsContent(sender: String, receiver: String, amount: Long, kernelId: String): String {
         return "${getString(R.string.payment_proof_details_sender)} \n" +
                 "$sender \n" +
                 "${getString(R.string.payment_proof_details_receiver)} \n" +
                 "$receiver \n" +
                 getString(R.string.payment_proof_details_amount) +
-                "${getString(R.string.payment_proof_details_beam, txDescription.amount.convertToBeamString())} \n" +
+                "${getString(R.string.payment_proof_details_beam, amount.convertToBeamString())} \n" +
                 "${getString(R.string.payment_proof_details_kernel_id)} \n" +
-                txDescription.kernelId
+                kernelId
     }
 
     override fun addListeners() {
@@ -76,16 +65,12 @@ class PaymentProofDetailsActivity: BaseActivity<PaymentProofDetailsPresenter>(),
         btnProofCodeCopy.setOnClickListener(null)
     }
 
-    override fun initProof(paymentProof: PaymentProof) {
-        proofDetailsCodeValue.text = paymentProof.proof
-    }
-
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_details_toolbar_title)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_payment_proof_details
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = PaymentProofDetailsPresenter(this, PaymentProofDetailsRepository(), PaymetProofDetailsState())
+        presenter = PaymentProofDetailsPresenter(this, PaymentProofDetailsRepository())
         return presenter
     }
 }

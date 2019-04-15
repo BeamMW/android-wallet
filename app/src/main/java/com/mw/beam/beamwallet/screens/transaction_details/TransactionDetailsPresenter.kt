@@ -18,7 +18,9 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.disposables.Disposable
 
 /**
@@ -40,11 +42,11 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id}
-                    .let { view?.updateUtxos(it, state.txDescription) }
+            updateUtxo(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id})
         }
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
+            state.configTransactions(data.tx)
             data.tx?.firstOrNull { it.id == state.txDescription?.id }?.let {
                 state.txDescription = it
 
@@ -58,26 +60,47 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             }
         }
 
-        pymentProofSubscription = repository.getPaymetProofs(state.txDescription!!.id, canRequestProof()).subscribe {
+        pymentProofSubscription = repository.getPaymentProofs(state.txDescription!!.id, canRequestProof()).subscribe {
             if (it.txId == state.txDescription?.id) {
                 state.paymentProof = it
             }
         }
     }
 
+    private fun updateUtxo(utxos: List<Utxo>) {
+        view?.updateUtxos(utxos.map { utxo ->
+            var type = UtxoType.Exchange
+
+            if (state.txDescription?.selfTx == false && !isExchangeUtxo(utxo)) {
+                type = if (state.txDescription?.id == utxo.createTxId) {
+                    UtxoType.Receive
+                } else {
+                    UtxoType.Send
+                }
+            }
+
+            UtxoInfoItem(type, utxo.amount)
+        })
+    }
+
+    private fun isExchangeUtxo(utxo: Utxo): Boolean {
+        return state.configTransactions().any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx}
+    }
+
     private fun canRequestProof(): Boolean {
         if (state.txDescription == null) {
             return false
         }
-        return state.txDescription!!.sender == TxSender.SENT && !state.txDescription!!.selfTx
+        return state.txDescription!!.sender == TxSender.SENT && !state.txDescription!!.selfTx && state.txDescription!!.status == TxStatus.Completed
     }
 
     override fun onCopyPaymentProof() {
-        state.paymentProof?.let { view?.copePaymetProofToClipboard(it) }
+        state.paymentProof?.let { view?.copyPaymentProofToClipboard(it) }
     }
 
-    override fun onShowPaymetProof() {
-        state.txDescription?.let { view?.showPaymetProof(it) }
+    override fun onShowPaymentProof() {
+        if (state.paymentProof == null) return
+        state.txDescription?.let { view?.showPaymentProof(it, state.paymentProof!!) }
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription, pymentProofSubscription)

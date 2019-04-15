@@ -17,9 +17,6 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import android.transition.TransitionManager
 import android.view.LayoutInflater
@@ -33,7 +30,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
@@ -92,32 +88,23 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     @SuppressLint("InflateParams")
-    override fun updateUtxos(utxoList: List<Utxo>, txDescription: TxDescription?) {
-        transactionUtxoContainer.visibility = if (utxoList.isEmpty()) View.GONE else View.VISIBLE
+    override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>) {
+        transactionUtxoContainer.visibility = if (utxoInfoList.isEmpty()) View.GONE else View.VISIBLE
         transactionUtxoList.removeAllViews()
 
-        var totalAmount = 0L
-        utxoList.forEach { utxo ->
-            totalAmount += utxo.amount
-
+        utxoInfoList.forEach { utxo ->
             val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
 
-            val isReceived = txDescription?.id == utxo.createTxId
-            val drawableId = if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent
+            val drawableId = when(utxo.type) {
+                UtxoType.Send -> R.drawable.ic_history_sent
+                UtxoType.Receive -> R.drawable.ic_history_received
+                UtxoType.Exchange -> R.drawable.menu_utxo
+            }
 
             utxoView.utxoIcon.setImageDrawable(getDrawable(drawableId))
             utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
 
             transactionUtxoList.addView(utxoView)
-        }
-
-        if (utxoList.count() > 1) {
-            val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
-
-            utxoView.utxoIcon.setImageDrawable(getDrawable(R.drawable.menu_utxo))
-            utxoView.utxoAmount.text = totalAmount.convertToBeamString()
-
-            transactionUtxoList.addView(utxoView, 0)
         }
     }
 
@@ -171,24 +158,28 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     override fun addListeners() {
         btnPaymentProofDetails.setOnClickListener {
-            presenter.onShowPaymetProof()
+            presenter.onShowPaymentProof()
         }
         btnPaymentProofCopy.setOnClickListener {
             presenter.onCopyPaymentProof()
         }
     }
 
-    override fun showPaymetProof(txDescription: TxDescription) {
+    override fun showPaymentProof(txDescription: TxDescription, paymentProof: PaymentProof) {
         val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
-            putExtra(PaymentProofDetailsActivity.TRANSACTION_ID, txDescription.id)
+            putExtra(PaymentProofDetailsActivity.KEY_TRANSACTION_ID, txDescription.id)
+            putExtra(PaymentProofDetailsActivity.KEY_SENDER,  if (txDescription.sender.value) txDescription.myId else txDescription.peerId)
+            putExtra(PaymentProofDetailsActivity.KEY_RECEIVER,  if (txDescription.sender.value) txDescription.peerId else txDescription.myId)
+            putExtra(PaymentProofDetailsActivity.KEY_KERNEL_ID, txDescription.kernelId)
+            putExtra(PaymentProofDetailsActivity.KEY_AMOUNT, txDescription.amount)
+            putExtra(PaymentProofDetailsActivity.KEY_PROOF, paymentProof.proof)
         }
 
         startActivity(intent)
     }
 
-    override fun copePaymetProofToClipboard(paymentProof: PaymentProof) {
-        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, paymentProof.proof)
+    override fun copyPaymentProofToClipboard(paymentProof: PaymentProof) {
+        copyToClipboard(paymentProof.proof, COPY_TAG)
     }
 
     override fun clearListeners() {

@@ -28,6 +28,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
 
+    companion object {
+        private const val COPY_TAG = "ADDRESS"
+    }
+
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
@@ -37,7 +41,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         saveAddress()
 
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.close()
         }
     }
@@ -49,7 +53,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onDialogCopyPressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.dismissDialog()
             view?.close()
         }

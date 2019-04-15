@@ -124,9 +124,11 @@
             <TextView
                 android:id="@+id/confirmTransactionTitle"
                 style="@style/common_menu_item"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/settings_common_offset"
                 android:text="@string/settings_ask_password_on_send"
+                app:layout_constraintEnd_toStartOf="@+id/confirmTransactionSwitch"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -172,8 +174,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:text="@string/settings_report"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/changePass" />
+                app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

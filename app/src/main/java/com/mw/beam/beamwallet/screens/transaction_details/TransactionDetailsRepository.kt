@@ -53,7 +53,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-    override fun getPaymetProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof> {
+    override fun getPaymentProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof> {
         return getResult(WalletListener.subOnPaymentProofExported, "getPaymentProofs") {
             if (canRequestProof) {
                 requestProof(txId)
