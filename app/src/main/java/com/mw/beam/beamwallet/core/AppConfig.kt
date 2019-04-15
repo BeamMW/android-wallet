@@ -24,6 +24,9 @@ import java.util.*
  */
 object AppConfig {
     const val APP_TAG = "BeamWallet"
+    const val FLAVOR_MAINNET = "mainnet"
+    const val FLAVOR_MASTERNET = "masternet"
+    const val FLAVOR_TESTNET = "beamtestnet"
     const val LOG_CLEAN_TIME: Long = 259200000
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
     const val SHARE_TYPE = "text/plain"
