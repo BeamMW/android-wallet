@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -114,6 +117,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) {
+        context?.let {
+            val clipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.primaryClip = ClipData.newPlainText(tag, content)
+        }
     }
 
     override fun logOut() {

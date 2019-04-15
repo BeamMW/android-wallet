@@ -15,10 +15,7 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -195,6 +192,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onUserInteraction() {
         super.onUserInteraction()
         presenter.onUserInteraction(applicationContext)
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) {
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(tag, content)
     }
 
     private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {

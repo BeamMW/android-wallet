@@ -14,7 +14,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -144,9 +145,11 @@
                 app:button_state_list="@color/primary_selector"
                 app:button_text="@string/payment_proof_details_copy_details"
                 app:button_text_color="@color/common_text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnProofCodeCopy"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/proofDetailsKernelIdValue" />
+                app:layout_constraintTop_toBottomOf="@id/proofDetailsKernelIdValue"
+                app:layout_constraintVertical_bias="1" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnProofCodeCopy"
@@ -155,7 +158,6 @@
                 app:button_icon="@drawable/ic_btn_copy_dark"
                 app:button_text="@string/payment_proof_details_copy_code"
                 app:button_text_color="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnProofDetailsCopy"
                 app:layout_constraintTop_toTopOf="@id/btnProofDetailsCopy" />

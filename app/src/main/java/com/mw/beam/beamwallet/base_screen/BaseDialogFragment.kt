@@ -1,5 +1,8 @@
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -101,6 +104,13 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) {
+        context?.let {
+            val clipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            clipboard.primaryClip = ClipData.newPlainText(tag, content)
+        }
     }
 
     override fun logOut() {}

@@ -32,7 +32,6 @@ interface ReceiveContract {
         fun getComment() : String?
         fun showToken(receiveToken : String)
         fun showQR(receiveToken : String)
-        fun copyToClipboard(receiveToken : String)
         fun close()
         fun dismissDialog()
     }

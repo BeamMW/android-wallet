@@ -59,7 +59,6 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     companion object {
         private const val QR_SIZE = 160.0
-        private const val COPY_TAG = "ADDRESS"
         const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
         const val CODE_EDIT_ADDRESS = 1
     }
@@ -149,11 +148,6 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
         dialog = AlertDialog.Builder(this).setView(view).show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-    }
-
-    override fun copyToClipboard(address: String) {
-        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, address)
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {

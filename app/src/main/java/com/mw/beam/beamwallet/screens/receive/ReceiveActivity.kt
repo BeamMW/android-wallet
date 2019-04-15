@@ -59,7 +59,6 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     companion object {
-        private const val COPY_TAG = "ADDRESS"
         private const val QR_SIZE = 160.0
     }
 
@@ -119,11 +118,6 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun getComment(): String? = comment.text?.toString()
-
-    override fun copyToClipboard(receiveToken: String) {
-        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, receiveToken)
-    }
 
     override fun close() {
         finish()

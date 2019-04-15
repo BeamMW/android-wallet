@@ -12,10 +12,13 @@ interface PaymentProofDetailsContract {
 
     interface View: MvpView {
         fun getTransactionId(): String
-        fun initDetails(txDescription: TxDescription)
-        fun initProof(paymentProof: PaymentProof)
-        fun copyToClipboard(content: String?)
-        fun getDetailsContent(txDescription: TxDescription?): String
+        fun getSender(): String
+        fun getReceiver(): String
+        fun getKernelId(): String
+        fun getProof(): String
+        fun getAmount(): Long
+        fun init(proof: String, sender: String, receiver: String, amount: Long, kernelId: String)
+        fun getDetailsContent(sender: String, receiver: String, amount: Long, kernelId: String): String
     }
 
     interface Presenter: MvpPresenter<View> {
@@ -23,8 +26,5 @@ interface PaymentProofDetailsContract {
         fun onCopyProof()
     }
 
-    interface Repository: MvpRepository {
-        fun getTxStatus(): Subject<OnTxStatusData>
-        fun getPaymentProofs(txId: String): Subject<PaymentProof>
-    }
+    interface Repository: MvpRepository
 }

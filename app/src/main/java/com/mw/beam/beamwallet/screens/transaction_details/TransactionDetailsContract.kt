@@ -36,16 +36,16 @@ interface TransactionDetailsContract {
         fun init(txDescription: TxDescription, isShowProof: Boolean)
         fun configMenuItems(menu: Menu?, txStatus: TxStatus)
         fun finishScreen()
-        fun updateUtxos(utxoList: List<Utxo>, txDescription: TxDescription?)
-        fun showPaymetProof(txDescription: TxDescription)
-        fun copePaymetProofToClipboard(paymentProof: PaymentProof)
+        fun updateUtxos(utxoInfoList: List<UtxoInfoItem>)
+        fun showPaymentProof(txDescription: TxDescription, paymentProof: PaymentProof)
+        fun copyPaymentProofToClipboard(paymentProof: PaymentProof)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onMenuCreate(menu: Menu?)
         fun onCancelTransaction()
         fun onDeleteTransaction()
-        fun onShowPaymetProof()
+        fun onShowPaymentProof()
         fun onCopyPaymentProof()
     }
 
@@ -54,7 +54,7 @@ interface TransactionDetailsContract {
         fun cancelTransaction(txDescription: TxDescription?)
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
-        fun getPaymetProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
+        fun getPaymentProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
         fun requestProof(txId: String)
     }
 }
