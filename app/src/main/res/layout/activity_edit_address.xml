@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
@@ -24,8 +25,8 @@
             style="@style/common_text_big_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/edit_address_element_offset"
             android:paddingTop="@dimen/edit_address_element_offset"
+            android:paddingEnd="@dimen/edit_address_element_offset"
             android:text="@string/edit_address_id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,8 +48,8 @@
             style="@style/common_text_big_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/edit_address_element_offset"
             android:paddingTop="@dimen/edit_address_element_offset"
+            android:paddingEnd="@dimen/edit_address_element_offset"
             android:text="@string/edit_address_expired_title"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,8 +73,8 @@
             style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/edit_address_element_offset"
             android:paddingTop="@dimen/edit_address_element_offset"
+            android:paddingEnd="@dimen/edit_address_element_offset"
             android:text="@string/edit_address_expire_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/expiredTime"
@@ -83,8 +84,8 @@
             android:id="@+id/expiresSpinner"
             android:layout_width="@dimen/receive_spinner_width"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-            app:layout_constraintBottom_toBottomOf="@id/expiresTitle" />
+            app:layout_constraintBottom_toBottomOf="@id/expiresTitle"
+            app:layout_constraintStart_toEndOf="@id/titlesBarrier" />
 
         <TextView
             android:id="@+id/expiresNow"
@@ -117,8 +118,8 @@
             style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingEnd="@dimen/edit_address_element_offset"
             android:paddingTop="@dimen/edit_address_element_offset"
+            android:paddingEnd="@dimen/edit_address_element_offset"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/expiresTitle"
             tools:ignore="RtlSymmetry"
@@ -133,11 +134,11 @@
             app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
 
         <TextView
-            android:paddingTop="@dimen/edit_address_element_offset"
             android:id="@+id/commentTitle"
             style="@style/common_subheader_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="@dimen/edit_address_element_offset"
             android:text="@string/transaction_details_comment"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"

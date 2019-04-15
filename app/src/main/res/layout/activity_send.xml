@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:filterTouchesWhenObscured="true">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -207,8 +208,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_offset"
             android:layout_marginEnd="@dimen/common_offset"
-            android:singleLine="true"
             android:background="@drawable/edit_text_selector"
+            android:singleLine="true"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commentTitle"
             tools:ignore="Autofill,LabelFor,TextFields" />

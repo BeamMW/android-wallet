@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
 
     <ImageView
         android:id="@+id/logo"
@@ -67,11 +68,11 @@
         style="@style/common_button_style"
         android:layout_marginBottom="@dimen/welcome_button_margin_offset"
         app:button_icon="@drawable/ic_btn_show"
-        app:layout_goneMarginBottom="@dimen/welcome_open_button_margin_bottom"
         app:button_text="@string/welcome_open"
         app:layout_constraintBottom_toTopOf="@id/btnChange"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginBottom="@dimen/welcome_open_button_margin_bottom" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnChange"
