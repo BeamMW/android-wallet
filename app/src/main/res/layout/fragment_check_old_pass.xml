@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_passwords_screen_padding"
     android:paddingEnd="@dimen/common_passwords_screen_padding">
 
@@ -56,8 +57,8 @@
         app:button_icon="@drawable/ic_btn_proceed"
         app:button_text="@string/check_old_pass_next"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passError"
         app:layout_constraintVertical_bias="1" />
 

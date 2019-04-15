@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
 
     <android.support.v7.widget.CardView
         android:id="@+id/blockchainInfoCard"
@@ -69,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
         app:layout_constraintTop_toBottomOf="@id/blockchainInfoCard"
-        app:tabSelectedTextColor="@color/colorAccent"/>
+        app:tabSelectedTextColor="@color/colorAccent" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

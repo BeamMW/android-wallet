@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
+    android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_offset"
     android:paddingTop="@dimen/utxo_item_padding"
     android:paddingEnd="@dimen/common_offset"
@@ -45,7 +47,8 @@
         app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amount" />
+        app:layout_constraintTop_toBottomOf="@id/amount"
+        tools:ignore="RtlSymmetry" />
 
     <TextView
         android:id="@+id/label"

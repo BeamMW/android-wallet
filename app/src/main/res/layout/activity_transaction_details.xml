@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true"
+    android:orientation="vertical">
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
@@ -130,21 +130,21 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/paymentProofContainer"
-                app:layout_constraintTop_toBottomOf="@id/transactionInfoLayout"
-                android:visibility="gone"
-                android:padding="@dimen/common_offset"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_offset"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@id/transactionInfoLayout">
 
                 <TextView
                     android:id="@+id/paymentProofTitle"
-                    android:text="@string/transaction_details_payment_proof"
-                    android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     style="@style/transaction_details_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
+                    android:text="@string/transaction_details_payment_proof"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnPaymentProofDetails"
@@ -155,9 +155,9 @@
                     app:button_state_list="@color/primary_selector"
                     app:button_text="@string/transaction_details_details_btn_text"
                     app:button_text_color="@color/common_text_color"
-                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle"
                     app:layout_constraintEnd_toStartOf="@id/btnPaymentProofCopy"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnPaymentProofCopy"
@@ -169,41 +169,40 @@
                     app:button_text="@string/transaction_details_copy_to_clipboard"
                     app:button_text_color="@color/common_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnPaymentProofDetails" />
+                    app:layout_constraintStart_toEndOf="@id/btnPaymentProofDetails"
+                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle" />
 
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
-                app:layout_constraintStart_toStartOf="parent"
                 android:id="@+id/transactionUtxoContainer"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/paymentProofContainer"
-                android:padding="@dimen/common_offset"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_offset"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/paymentProofContainer">
 
                 <TextView
                     android:id="@+id/transactionUtxoListTitle"
-                    android:text="@string/transaction_details_utxo_list"
-                    android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     style="@style/transaction_details_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
+                    android:text="@string/transaction_details_utxo_list"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:id="@+id/transactionUtxoList"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/transaction_details_utxo_amount_margin_top"
                     android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </LinearLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"></LinearLayout>
             </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
