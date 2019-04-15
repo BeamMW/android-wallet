@@ -239,7 +239,7 @@ and never kept in the blockchain.</string>
     <string name="settings_never">Never</string>
     <string name="settings_after_seconds">After %1$s seconds</string>
     <string name="settings_after_minute">After %1$s minute</string>
-    <string name="settings_password_request_on_send">Password request on send</string>
+    <string name="settings_ask_password_on_send">Ask for password on every Send</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>
