@@ -53,8 +53,8 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-    override fun getPaymentProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof> {
-        return getResult(WalletListener.subOnPaymentProofExported, "getPaymentProofs") {
+    override fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof> {
+        return getResult(WalletListener.subOnPaymentProofExported, "getPaymentProof") {
             if (canRequestProof) {
                 requestProof(txId)
             }
@@ -62,6 +62,8 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     }
 
     override fun requestProof(txId: String) {
-        wallet?.getPaymentInfo(txId)
+        getResult("requestProof") {
+            wallet?.getPaymentInfo(txId)
+        }
     }
 }

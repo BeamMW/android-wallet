@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentRepository: WelcomeSeedContract.Repository)
     : BasePresenter<WelcomeSeedContract.View, WelcomeSeedContract.Repository>(currentView, currentRepository),
         WelcomeSeedContract.Presenter {
+    private val copyTag = "RECOVERY SEED"
 
     override fun onCreate() {
         super.onCreate()
@@ -50,7 +51,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     }
 
     override fun onCopyPressed() {
-        view?.copyToClipboard(prepareSeed(repository.seed))
+        view?.copyToClipboard(prepareSeed(repository.seed), copyTag)
         view?.showCopiedAlert()
     }
 

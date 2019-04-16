@@ -21,7 +21,8 @@ import java.text.DecimalFormat
 /**
  * Created by vain onnellinen on 3/14/19.
  */
-fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
+fun Long.convertToBeamString(): String = (this.toDouble() / 100000000).convertToBeamString()
+fun Double.convertToBeamString(): String = DecimalFormat("#.########").format(this)
 fun Long.convertToBeam(): Double = this.toDouble() / 100000000
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
 fun Double.convertToGroth() = Math.round(this * 100000000)

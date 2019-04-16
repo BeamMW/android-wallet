@@ -29,9 +29,11 @@ import io.reactivex.disposables.Disposable
 class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, private val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
+    private val copyTag = "PROOF"
+
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txUpdateSubscription: Disposable
-    private lateinit var pymentProofSubscription: Disposable
+    private lateinit var paymentProofSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
@@ -42,7 +44,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            updateUtxo(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id})
+            updateUtxos(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id})
         }
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
@@ -50,24 +52,23 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             data.tx?.firstOrNull { it.id == state.txDescription?.id }?.let {
                 state.txDescription = it
 
-                val canRequestProof = canRequestProof()
+                view?.init(it)
 
-                view?.init(it, canRequestProof)
-
-                if (canRequestProof) {
+                if (canRequestProof()) {
                     repository.requestProof(it.id)
                 }
             }
         }
 
-        pymentProofSubscription = repository.getPaymentProofs(state.txDescription!!.id, canRequestProof()).subscribe {
+        paymentProofSubscription = repository.getPaymentProof(state.txDescription!!.id, canRequestProof()).subscribe {
             if (it.txId == state.txDescription?.id) {
                 state.paymentProof = it
+                view?.updatePaymentProof(it)
             }
         }
     }
 
-    private fun updateUtxo(utxos: List<Utxo>) {
+    private fun updateUtxos(utxos: List<Utxo>) {
         view?.updateUtxos(utxos.map { utxo ->
             var type = UtxoType.Exchange
 
@@ -91,11 +92,15 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         if (state.txDescription == null) {
             return false
         }
+
         return state.txDescription!!.sender == TxSender.SENT && !state.txDescription!!.selfTx && state.txDescription!!.status == TxStatus.Completed
     }
 
     override fun onCopyPaymentProof() {
-        state.paymentProof?.let { view?.copyPaymentProofToClipboard(it) }
+        state.paymentProof?.let {
+            view?.copyToClipboard(it.proof, copyTag)
+            view?.showCopiedAlert()
+        }
     }
 
     override fun onShowPaymentProof() {
@@ -103,7 +108,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         state.txDescription?.let { view?.showPaymentProof(it, state.paymentProof!!) }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription, pymentProofSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription, paymentProofSubscription)
 
     override fun onMenuCreate(menu: Menu?) {
         view?.configMenuItems(menu, state.txDescription?.status ?: return)
@@ -121,6 +126,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onStart() {
         super.onStart()
-        view?.init(state.txDescription ?: return, canRequestProof())
+        view?.init(state.txDescription ?: return)
     }
 }

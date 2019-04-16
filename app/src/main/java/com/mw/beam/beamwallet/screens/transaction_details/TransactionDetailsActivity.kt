@@ -45,17 +45,15 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     companion object {
         const val EXTRA_TRANSACTION_DETAILS = "EXTRA_TRANSACTION_DETAILS"
-        private const val COPY_TAG = "PROOF"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
     override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(EXTRA_TRANSACTION_DETAILS)
 
-    override fun init(txDescription: TxDescription, isShowProof: Boolean) {
+    override fun init(txDescription: TxDescription) {
         configTransactionDetails(txDescription)
         configGeneralTransactionInfo(txDescription)
-        configPaymentProof(isShowProof)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -127,14 +125,11 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         status.text = txDescription.statusString
     }
 
-    private fun configPaymentProof(isShowProof: Boolean) {
-        val newVisibility = if (isShowProof) View.VISIBLE else View.GONE
+    override fun updatePaymentProof(paymentProof: PaymentProof) {
+        if (paymentProofContainer.visibility == View.VISIBLE) return
 
-        if (paymentProofContainer.visibility != newVisibility) {
-            TransitionManager.beginDelayedTransition(transactionDetailsMainContainer)
-        }
-
-        paymentProofContainer.visibility = newVisibility
+        TransitionManager.beginDelayedTransition(transactionDetailsMainContainer)
+        paymentProofContainer.visibility = View.VISIBLE
     }
 
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
@@ -147,6 +142,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
 
         transactionFee.text = txDescription.fee.convertToBeamString()
+        transactionId.text = txDescription.id
         kernel.text = txDescription.kernelId
 
         if (txDescription.message.isNotEmpty()) {
@@ -160,6 +156,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         btnPaymentProofDetails.setOnClickListener {
             presenter.onShowPaymentProof()
         }
+
         btnPaymentProofCopy.setOnClickListener {
             presenter.onCopyPaymentProof()
         }
@@ -167,19 +164,15 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     override fun showPaymentProof(txDescription: TxDescription, paymentProof: PaymentProof) {
         val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
-            putExtra(PaymentProofDetailsActivity.KEY_TRANSACTION_ID, txDescription.id)
-            putExtra(PaymentProofDetailsActivity.KEY_SENDER,  if (txDescription.sender.value) txDescription.myId else txDescription.peerId)
-            putExtra(PaymentProofDetailsActivity.KEY_RECEIVER,  if (txDescription.sender.value) txDescription.peerId else txDescription.myId)
-            putExtra(PaymentProofDetailsActivity.KEY_KERNEL_ID, txDescription.kernelId)
-            putExtra(PaymentProofDetailsActivity.KEY_AMOUNT, txDescription.amount)
+            putExtra(PaymentProofDetailsActivity.KEY_TX_DESCRIPTION, txDescription)
             putExtra(PaymentProofDetailsActivity.KEY_PROOF, paymentProof.proof)
         }
 
         startActivity(intent)
     }
 
-    override fun copyPaymentProofToClipboard(paymentProof: PaymentProof) {
-        copyToClipboard(paymentProof.proof, COPY_TAG)
+    override fun showCopiedAlert() {
+        showSnackBar(getString(R.string.common_copied_alert))
     }
 
     override fun clearListeners() {

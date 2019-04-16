@@ -194,10 +194,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         presenter.onUserInteraction(applicationContext)
     }
 
-    override fun copyToClipboard(content: String?, tag: String) {
-        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(tag, content)
-    }
+    override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
 
     private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
         toolbarLayout.progressBar.visibility = View.INVISIBLE
