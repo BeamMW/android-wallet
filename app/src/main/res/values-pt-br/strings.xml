@@ -1,0 +1,265 @@
+<resources>
+    <string name="app_name">Carteira Beam</string>
+    <string name="common_logo_text">Criptomoeda escalável e confidencial</string>
+    <string name="common_testnet">Testnet</string>
+    <string name="common_masternet">Masternet</string>
+    <string name="common_successful">feito!</string>
+    <string name="common_error">Oops, algo deu errado…</string>
+    <string name="common_status_online">online</string>
+    <string name="common_status_error">Não é possível conectar ao nó: %s</string>
+    <string name="common_drawer_open">abrir</string>
+    <string name="common_drawer_close">fechar</string>
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_done">feito</string>
+    <string name="common_ok">ok</string>
+    <string name="common_menu_more">mais</string>
+    <string name="currency_beam">beam</string>
+    <string name="currency_groth">groth</string>
+
+    <!--NavigationDrawer-->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_wallet">Carteira</string>
+    <string name="nav_address_book">Livro de endereço</string>
+    <string name="nav_utxo">UTXO</string>
+    <string name="nav_notifications">Notificações</string>
+    <string name="nav_help">Ajuda</string>
+    <string name="nav_settings">Configurações</string>
+
+    <!--WelcomeActivity-->
+    <string name="welcome_create_wallet">criar nova carteira</string>
+    <string name="welcome_restore">restaurar carteira</string>
+    <string name="welcome_login_to_another">acessar outra carteira</string>
+    <string name="welcome_generate_seed_phrase">gerar semente (seed phrase)</string>
+    <string name="welcome_next">próximo</string>
+    <string name="welcome_recover">restaurar carteira</string>
+    <string name="welcome_copy_to_clipboard">copiar</string>
+    <string name="welcome_title">Criar nova carteira</string>
+    <string name="welcome_description">Criar nova carteira através da semente (seed phrase). Se voce perder seu dispositivo, precisará desta frase para recuperar sua carteira! Jamais escreva sua semente (seed phrase) em um chaveiro ou gerenciador de senhas. Nunca salve a semente na máquina local ou armazenamento remoto de qualquer natureza..</string>
+    <string name="welcome_no_see">Não deixe ninguém ver sua semente (seed phrase).</string>
+    <string name="welcome_no_type">Jamais escreva sua semente (seed phrase) em gerenciadores de senha ou similares.</string>
+    <string name="welcome_copy">Fala ao menos 2 copias da semente (seed phrase) para emergências.</string>
+    <string name="welcome_pass_hint">Senha</string>
+    <string name="welcome_forgot_pass">Esqueceu a senha?</string>
+    <string name="welcome_title_change_alert">Acessar outra carteira</string>
+    <string name="welcome_change_alert">Se voce acessar outra carteira, todo histórico das transações não salvas para esta carteira serão perdidas.</string>
+    <string name="welcome_btn_change_alert">Mudar carteira</string>
+    <string name="welcome_title_forgot_alert">Esqueci a senha</string>
+    <string name="welcome_forgot_alert">Somente seus fundos podem ser totalmente restaurados do blockchain. O histórico das transações é armazenado localmente e está criptografado com sua senha, por isso não pode ser restaurado. Essa é a versão final até futuras validações e processos.</string>
+    <string name="welcome_btn_forgot_alert">Restaurar carteira</string>
+
+    <!--PasswordFragment-->
+    <string name="pass_proceed_to_wallet">comece a usar sua carteira</string>
+    <string name="pass_save_new">salvar nova senha</string>
+
+    <!--WelcomeOpenFragment-->
+    <string name="welcome_open">abrir minha carteira</string>
+    <string name="welcome_open_description">Insira sua senha para acessar sua carteira.</string>
+
+    <!--WelcomeSeedFragment-->
+    <string name="welcome_seed_description">Sua semente (seed phrase) é a chave de acesso para todos os fundos na sua carteira. Escreva sua semente e mantenha ela em local seguro.</string>
+    <string name="welcome_seed_copied_alert">Copiado!</string>
+    <string name="welcome_seed_title">Semente (Seed phrase)</string>
+    <string name="welcome_seed_save_title">Salvar semente (seed phrase)</string>
+    <string name="welcome_seed_save_description">Por favor escreva a semente. Não capture a tela para salvar na sua galeria de fotos. Isso torna a frase propensa a ataques cibernéticos e, portanto, menos segura..</string>
+
+    <!--WelcomeConfirmFragment-->
+    <string name="welcome_validation_title">Confirme a semente (seed phrase)</string>
+    <string name="welcome_validation_description">Para garantir que a semente (seed phrase) seja escrita corretamente, preencha as palavras específicas abaixo.</string>
+    <string name="welcome_validation_return_seed_message">Sua semente atual semente (seed phrase) se tornará obsoleta e a nova semente será gerada</string>
+
+    <!--WelcomeRestoreFragment-->
+    <string name="welcome_restore_title">Restaurar carteira</string>
+    <string name="welcome_restore_description">Escreva sua semente (seed phrase)</string>
+
+    <!--WelcomeProgressFragment-->
+    <string name="welcome_progress_create">Criando carteira</string>
+    <string name="welcome_progress_open">Carregando carteira</string>
+    <string name="welcome_progress_restore">Restaurando carteira</string>
+    <string name="welcome_progress_open_description">Escaneando UTXO %1$d/%2$d</string>
+
+    <!--PasswordFragment-->
+    <string name="pass_title">Senha</string>
+    <string name="pass_screen_description">Crie a senha para acessar sua carteira</string>
+    <string name="pass_screen_change_description">Crie uma nova senha para acessar sua carteira</string>
+    <string name="pass_not_match">Senhas não conferem</string>
+    <string name="pass_description">Uma senha forte precisa atender os seguintes requisitos:\n
+•  o tamanho mínimo de 10 caracteres\n
+•  deve conter ao menos uma letra minúscula\n
+•  deve conter ao menos uma letra maiúscula\n
+•  deve conter ao menos um número</string>
+    <string name="pass_not_much">Senhas não conferem</string>
+    <string name="pass_empty_error">Senha não pode ser vazia</string>
+    <string name="pass_old_pass_error">Nova senha não pode ser a mesma que a anerior</string>
+    <string name="pass_wrong">Senha incorreta</string>
+    <string name="confirm_pass_hint">Confirme a senha</string>
+    <string name="pass_return_seed_message">Se você retornar para a semente (seed phrase), a senha será alterada e sua senha local não será salva..</string>
+    <string name="pass_return_seed_title">Retornar para semente (seed phrase)</string>
+    <string name="pass_return_seed_btn_create_new">criar nova frase</string>
+
+    <!--WalletFragment-->
+    <string name="wallet_title">Carteira</string>
+    <string name="wallet_available">Disponível</string>
+    <string name="wallet_in_progress">Em progresso</string>
+    <string name="wallet_receiving">Recebendo</string>
+    <string name="wallet_sending">Enviando</string>
+    <string name="wallet_maturing">Maturando</string>
+    <string name="wallet_btn_receive">receber</string>
+    <string name="wallet_btn_send">enviar</string>
+    <string name="wallet_status_completed">completado</string>
+    <string name="wallet_status_received">recebido</string>
+    <string name="wallet_status_sent">enviado</string>
+    <string name="wallet_status_receiving">recebendo</string>
+    <string name="wallet_status_sending">enviando</string>
+    <string name="wallet_status_in_progress_sender">aguarda remetente</string>
+    <string name="wallet_status_in_progress_receiver">aguarda recebimento</string>
+    <string name="wallet_status_failed">falha</string>
+    <string name="wallet_status_expired">expirado</string>
+    <string name="wallet_status_cancelled">cancelado</string>
+    <string name="wallet_status_pending">pendente</string>
+    <string name="wallet_transactions_title">Transações</string>
+    <string name="wallet_transactions_receive">Receber %s</string>
+    <string name="wallet_transactions_send">Enviar %s</string>
+    <string name="wallet_transactions_swap">Troca (Swap) %1$s to %2$s</string>
+    <string name="wallet_transactions_menu_search">Buscar</string>
+    <string name="wallet_transactions_menu_filter">Filrar</string>
+    <string name="wallet_transactions_menu_export">Exportar</string>
+    <string name="wallet_transactions_menu_delete">Apagar</string>
+
+    <!--UtxoFragment-->
+    <string name="utxo_title">UTXO</string>
+    <string name="utxo_tab_active">Ativa</string>
+    <string name="utxo_tab_all">Todas</string>
+    <string name="utxo_status_available">disponível</string>
+    <string name="utxo_status_incoming">(entrada)</string>
+    <string name="utxo_status_in_progress">em progresso</string>
+    <string name="utxo_status_change">(mudança)</string>
+    <string name="utxo_status_outgoing">(saída)</string>
+    <string name="utxo_status_maturing">maturando</string>
+    <string name="utxo_status_spent">gasto</string>
+    <string name="utxo_status_unavailable">indisponível</string>
+    <string name="utxo_status_result_rollback">(revesrão do resultado da mineração)</string>
+    <string name="utxo_blockchain_height">Altura do blockchain:</string>
+    <string name="utxo_last_block_hash">Último hash do bloco:</string>
+
+    <!--UtxoDetailsFragment-->
+    <string name="utxo_details_title">UTXO detalhes</string>
+    <string name="utxo_transaction_details">UTXO detalhes</string>
+    <string name="utxo_transaction_id">ID da transação:</string>
+    <string name="utxo_type">UTXO tipo:</string>
+    <string name="utxo_completion_time">Tempo de conclusão:</string>
+    <string name="utxo_contact">Contato:</string>
+    <string name="utxo_transaction_history">Histórico UTXO</string>
+    <string name="utxo_type_commission">Commissão</string>
+    <string name="utxo_type_coinbase">Coinbase</string>
+    <string name="utxo_type_decoy">Laço</string>
+    <string name="utxo_type_regular">Regular</string>
+    <string name="utxo_type_change">Mudança</string>
+    <string name="utxo_type_kernel">Kernel</string>
+    <string name="utxo_type_kernel2">Kernel2</string>
+    <string name="utxo_type_identity">Identidade</string>
+    <string name="utxo_type_childKey">ChildKey</string>
+    <string name="utxo_type_bbs">Bbs</string>
+    <string name="utxo_time_title">Data | tempo</string>
+    <string name="utxo_id_title">ID</string>
+
+    <!--TransactionDetailsActivity-->
+    <string name="transaction_details_title">Detalhes da transação</string>
+    <string name="transaction_details_general_info">Informações gerais da transação</string>
+    <string name="transaction_details_start_address">Endereço de envio:</string>
+    <string name="transaction_details_end_address">Endereço de recebimento:</string>
+    <string name="transaction_details_currencies_amount">Quantidade:</string>
+    <string name="transaction_details_transaction_fee">Taxa da transação (fee):</string>
+    <string name="transaction_details_comment">Comentário:</string>
+    <string name="transaction_details_kernel_id">Kernel ID:</string>
+    <string name="transaction_details_transaction_history">Histórico de transações</string>
+    <string name="transaction_details_menu_repeat">Repetir transação</string>
+    <string name="transaction_details_menu_save">Salvar o endereço dos pares (peers)</string>
+    <string name="transaction_details_menu_copy_address">Copiar endereço</string>
+    <string name="transaction_details_menu_cancel">Cancelar transações</string>
+    <string name="transaction_details_menu_delete">Apagar transações</string>
+
+    <!--ReceiveActivity-->
+    <string name="receive_title">Receber</string>
+    <string name="receive_switch_title">Troca (swap)</string>
+    <string name="receive_send_comment">Comentar</string>
+    <string name="receive_expires_on">Expira</string>
+    <string name="receive_send_comment_description">Comentários são locais e não serão compartilhados.</string>
+    <string name="receive_btn_copy">copiar endereço</string>
+    <string name="receive_btn_qr">mostrar QR</string>
+    <string name="receive_send_fee">Taxa de transação</string>
+    <string name="receive_token_title">Meu endereço:</string>
+    <string name="receive_token_description">Enviar este endereço para o remetente através de um canal seguro</string>
+    <string name="receive_token_via_qr_description">Escanear esse QR code \n ou enviar esse endereço para o destinatário através de um canal seguro</string>
+    <string-array name="receive_expires_periods">
+        <item>em 24 horas</item>
+        <item>Nunca</item>
+    </string-array>
+
+    <!--SendActivity-->
+    <string name="send_title">Enviar</string>
+    <string name="send_token_title">Enviar para</string>
+    <string name="send_token_description">Insira ou escaneie o endereço do destinatário</string>
+    <string name="send_amount_title">Quantidade da transação</string>
+    <string name="send_btn_title">enviar</string>
+    <string name="send_amount_empty_error">Campo Quantidade não pode ser vazio</string>
+    <string name="send_amount_zero_error">Quantidade não pode ser 0 BEAM</string>
+    <string name="send_amount_overflow_error">Quantidade máquima disponível é %1$s B</string>
+    <string name="send_error_invalid_address">Endereço inválido</string>
+    <string name="send_error_expired_address">Não é possível enviar para um endereço expirado</string>
+    <string name="send_permission_required_title">Requerida permissão</string>
+    <string name="send_permission_required_message">Por favor, garanta a permissão a câmera para escaneaar o código QR</string>
+    <string name="send_permission_required_settings">configurações</string>
+    <string name="send_error_not_beam_address">O código escaneado não é um endereço da carteira Beam</string>
+    <string name="send_error_paste">Não é possível colar um endereço inválido</string>
+
+    <!--SettingsFragment-->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_report">Notificar um problema</string>
+    <string name="settings_change_pass">Mudar senha da carteira</string>
+    <string name="settings_version">Versão do aplicativo:&#160;</string>
+    <string name="settings_send_logs_description">Enviar relatórios…</string>
+    <string name="settings_node">Nó</string>
+    <string name="settings_ip_title">ip:porta:</string>
+
+    <!--ProgressFragment-->
+    <string name="progress_loading">Carregando carteira</string>
+
+    <!--AddressesFragment-->
+    <string name="addresses_title">Endereços</string>
+    <string name="addresses_tab_active">Meus endereços ativos</string>
+    <string name="addresses_tab_expired">Meus endereços expirados</string>
+    <string name="addresses_tab_contacts">Contatos</string>
+    <string name="addresses_expires">Expira em: %1$s</string>
+    <string name="addresses_expired">Expirados: %1$s</string>
+    <string name="addresses_never">nunca</string>
+
+    <!--AddressActivity-->
+    <string name="address_title">Endereço</string>
+    <string name="address_contact_token_title">Contato:</string>
+    <string name="address_menu_qr">Mostrar código QR</string>
+    <string name="address_menu_copy">Copiar endereço</string>
+    <string name="address_menu_edit">Editar endereço</string>
+    <string name="address_menu_delete">Apagar endereço</string>
+    <string name="address_transactions_title">Lista de transações</string>
+
+    <!--EditAddressActivity-->
+    <string name="edit_address_title">Editar endereço</string>
+    <string name="edit_address_id">ID do endereço:</string>
+    <string name="edit_address_expire_title">Expira</string>
+    <string name="edit_address_expire_now">Endereço expira agora</string>
+    <string name="edit_address_expire_activate">Ativar endereço</string>
+    <string name="edit_address_btn_save">salvar</string>
+    <string name="edit_address_expired_title">Expirado:</string>
+    <string name="edit_address_expires_now_value">agora</string>
+
+    <!--CheckOldPassActivity-->
+    <string name="check_old_pass_title">Mudar senha</string>
+    <string name="check_old_pass_description">Insira sua senha atual</string>
+    <string name="check_old_pass_next">próximo</string>
+    <string name="check_old_pass_empty_error">Senha não pode ser vazia</string>
+    <string name="check_old_pass_wrong_pass_error">A senha antigo inserida está incorreta</string>
+
+    <!--ScanQrActivity-->
+    <string name="scan_qr_title">Escanear código QR</string>
+
+</resources>

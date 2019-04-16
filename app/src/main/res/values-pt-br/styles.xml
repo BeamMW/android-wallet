@@ -1,0 +1,147 @@
+<resources>
+
+    <!-- Base application theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+    </style>
+
+    <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/toolbar_title_color</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:background">@drawable/menu_background</item>
+    </style>
+
+    <style name="common_button_text_style">
+        <item name="android:textSize">@dimen/wallet_button_text_size</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingStart">@dimen/welcome_button_text_padding_start</item>
+        <item name="android:paddingTop">@dimen/welcome_button_text_padding_top</item>
+        <item name="android:paddingBottom">@dimen/welcome_button_text_padding_bottom</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/wallet_btn_font</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_button_style">
+        <item name="android:layout_width">@dimen/common_btn_width</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="common_currency_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">@dimen/common_currency_offset</item>
+    </style>
+
+    <style name="common_card_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="common_menu_item" parent="common_text_big_light">
+        <item name="android:textSize">@dimen/common_settings_size</item>
+    </style>
+
+    <style name="common_header_big">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_header_big_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_header_small">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/common_header_small_color</item>
+        <item name="android:textSize">@dimen/common_header_small_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_subheader_light" parent="common_text_big_light">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="common_text_big_light">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_text_big_size</item>
+    </style>
+
+    <style name="common_text_big_dark">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/common_text_dark_color</item>
+        <item name="android:textSize">@dimen/common_text_big_size</item>
+    </style>
+
+    <style name="common_text_small_light" parent="common_text_big_light">
+        <item name="android:textSize">@dimen/common_text_small_size</item>
+    </style>
+
+    <style name="common_text_small_dark" parent="common_text_big_dark">
+        <item name="android:textSize">@dimen/common_text_small_size</item>
+    </style>
+
+    <!-- WelcomeActivity -->
+    <style name="welcome_description_text_style" parent="common_text_big_light">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="welcome_description_item_text_style" parent="common_text_small_light">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="welcome_password_view_style" parent="common_header_big">
+        <item name="android:inputType">textPassword</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:letterSpacing">@dimen/welcome_password_dots_space</item>
+    </style>
+
+    <style name="welcome_password_label_style" parent="common_subheader_light">
+        <item name="android:paddingBottom">@dimen/welcome_password_title_padding_bottom</item>
+    </style>
+
+    <!-- WalletFragment -->
+    <style name="wallet_card_title_style" parent="common_header_big">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:paddingEnd">@dimen/wallet_expandable_icon_padding</item>
+    </style>
+
+    <style name="wallet_in_progress_categories_style" parent="common_header_small">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- TransactionDetails -->
+    <style name="transaction_details_title" parent="common_subheader_light">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+
+    <style name="transaction_details_sub_title" parent="common_text_big_dark">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingEnd">@dimen/transaction_details_padding</item>
+        <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
+    </style>
+
+    <style name="transaction_details_value" parent="common_text_big_light">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
+    </style>
+</resources>
