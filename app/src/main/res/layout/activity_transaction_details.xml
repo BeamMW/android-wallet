@@ -106,11 +106,38 @@
                     app:layout_constraintTop_toBottomOf="@id/transactionFee" />
 
                 <TextView
+                    android:id="@+id/transactionIdTitle"
+                    style="@style/transaction_details_sub_title"
+                    android:text="@string/transaction_details_transaction_id"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/comment" />
+
+                <TextView
+                    android:id="@+id/transactionId"
+                    style="@style/transaction_details_value"
+                    android:paddingBottom="0dp"
+                    android:textIsSelectable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/comment" />
+
+                <TextView
+                    style="@style/common_text_big_dark"
+                    android:text="@string/transaction_details_not_stored_on_blockchain"
+                    android:id="@+id/transactionIdComment"
+                    app:layout_constraintTop_toBottomOf="@id/transactionId"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    android:paddingBottom="@dimen/transaction_details_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
                     android:id="@+id/kernelTitle"
                     style="@style/transaction_details_sub_title"
                     android:text="@string/transaction_details_kernel_id"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/comment" />
+                    app:layout_constraintTop_toBottomOf="@id/transactionIdComment" />
 
                 <TextView
                     android:id="@+id/kernel"
@@ -118,7 +145,7 @@
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/comment" />
+                    app:layout_constraintTop_toBottomOf="@id/transactionIdComment" />
 
                 <android.support.constraint.Barrier
                     android:id="@+id/titlesBarrier"
@@ -202,7 +229,8 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"></LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle">
+                </LinearLayout>
             </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

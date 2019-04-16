@@ -7,7 +7,10 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 interface SendConfirmationContract {
 
     interface View : MvpView {
-        fun init()
+        fun init(token: String?, amount: Double?, fee: Long?)
+        fun getToken(): String?
+        fun getAmount(): Double?
+        fun getFee(): Long?
         fun confirm()
         fun close()
         fun showWrongPasswordError()

@@ -28,9 +28,10 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
 
-    override fun onCreate() {
-        super.onCreate()
-        state.utxo = view?.getUtxoDetails()
+    override fun onViewCreated() {
+        super.onViewCreated()
+        state.utxo = view?.getUtxo()
+        view?.init(state.utxo ?: return)
     }
 
     override fun initSubscriptions() {
@@ -44,9 +45,7 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            val utxo = state.utxo
-
-            data.tx?.filter { it.id == utxo?.createTxId || it.id == utxo?.spentTxId }?.let {
+            data.tx?.filter { it.id == state.utxo?.createTxId || it.id == state.utxo?.spentTxId }?.let {
                 state.configTransactions(it)
 
                 if (state.utxo != null) {
@@ -57,9 +56,4 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
-
-    override fun onStart() {
-        super.onStart()
-        view?.init(state.utxo ?: return)
-    }
 }

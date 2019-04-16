@@ -49,7 +49,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details_title)
-    override fun getUtxoDetails(): Utxo = intent.getParcelableExtra(EXTRA_UTXO_DETAILS)
+    override fun getUtxo(): Utxo = intent.getParcelableExtra(EXTRA_UTXO_DETAILS)
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)

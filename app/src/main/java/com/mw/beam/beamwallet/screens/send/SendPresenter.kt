@@ -81,15 +81,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             onSend()
             return
         }
+
         if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && state.isTokenValid) {
-                view?.apply {
-                    showConfirmDialog(getToken(), getAmount(), getFee())
-                }
+                view?.showConfirmDialog(token, amount, fee)
             }
         }
     }

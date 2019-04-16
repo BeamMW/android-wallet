@@ -33,12 +33,13 @@ import io.reactivex.subjects.Subject
 interface TransactionDetailsContract {
     interface View : MvpView {
         fun getTransactionDetails(): TxDescription
-        fun init(txDescription: TxDescription, isShowProof: Boolean)
+        fun init(txDescription: TxDescription)
+        fun updatePaymentProof(paymentProof: PaymentProof)
         fun configMenuItems(menu: Menu?, txStatus: TxStatus)
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>)
+        fun showCopiedAlert()
         fun showPaymentProof(txDescription: TxDescription, paymentProof: PaymentProof)
-        fun copyPaymentProofToClipboard(paymentProof: PaymentProof)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -54,7 +55,7 @@ interface TransactionDetailsContract {
         fun cancelTransaction(txDescription: TxDescription?)
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
-        fun getPaymentProofs(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
+        fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
         fun requestProof(txId: String)
     }
 }

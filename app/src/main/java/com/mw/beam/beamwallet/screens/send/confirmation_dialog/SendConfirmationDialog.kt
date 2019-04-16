@@ -9,9 +9,9 @@ import com.mw.beam.beamwallet.base_screen.BaseDialogFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_send.*
-import java.text.NumberFormat
 
 class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private lateinit var presenter: SendConfirmationPresenter
@@ -44,15 +44,14 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_confirm_send
+    override fun getToken(): String? = arguments?.getString(KEY_TOKEN)
+    override fun getAmount(): Double? = arguments?.getDouble(KEY_AMOUNT)
+    override fun getFee(): Long? = arguments?.getLong(KEY_FEE)
 
-    override fun init() {
-        recipientValue.text = arguments?.getString(KEY_TOKEN)
-
-        val numberFormat = NumberFormat.getNumberInstance()
-        numberFormat.maximumFractionDigits = Int.MAX_VALUE
-
-        amountValue.text = getString(R.string.send_amount_beam, numberFormat.format(arguments?.getDouble(KEY_AMOUNT)))
-        transactionFeeValue.text = getString(R.string.send_fee_groth, arguments?.getLong(KEY_FEE).toString())
+    override fun init(token: String?, amount: Double?, fee: Long?) {
+        recipientValue.text = token
+        amountValue.text = getString(R.string.send_amount_beam, amount?.convertToBeamString())
+        transactionFeeValue.text = getString(R.string.send_fee_groth, fee.toString())
 
         pass.requestFocus()
     }
@@ -66,7 +65,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     override fun clearListeners() {
         btnConfirmSend.setOnClickListener(null)
         close.setOnClickListener(null)
-        pass.addTextChangedListener(null)
+        pass.removeTextChangedListener(passWatcher)
     }
 
     override fun clearPasswordError() {

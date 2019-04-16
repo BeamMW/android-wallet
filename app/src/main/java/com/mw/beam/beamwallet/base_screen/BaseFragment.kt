@@ -16,17 +16,11 @@
 
 package com.mw.beam.beamwallet.base_screen
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
-
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -120,10 +114,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun copyToClipboard(content: String?, tag: String) {
-        context?.let {
-            val clipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            clipboard.primaryClip = ClipData.newPlainText(tag, content)
-        }
+        context?.let { delegate.copyToClipboard(it, content, tag) }
     }
 
     override fun logOut() {

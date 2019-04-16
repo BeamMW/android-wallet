@@ -29,7 +29,7 @@ import io.reactivex.subjects.Subject
  */
 interface UtxoDetailsContract {
     interface View : MvpView {
-        fun getUtxoDetails(): Utxo
+        fun getUtxo(): Utxo
         fun init(utxo: Utxo)
         fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
     }

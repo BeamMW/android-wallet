@@ -8,7 +8,9 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init()
+        view?.apply {
+            init(getToken(), getAmount(), getFee())
+        }
     }
 
     override fun onPasswordChanged() {

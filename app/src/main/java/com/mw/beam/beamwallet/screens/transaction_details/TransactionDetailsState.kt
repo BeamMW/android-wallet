@@ -13,6 +13,6 @@ class TransactionDetailsState {
             transactions[transaction.id] = transaction
         }
 
-        return transactions.values.sortedByDescending { it.modifyTime }
+        return transactions.values.toList()
     }
 }

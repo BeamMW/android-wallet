@@ -42,7 +42,6 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     companion object {
         fun newInstance() = WelcomeSeedFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WelcomeSeedFragment::class.java.simpleName
-        private const val COPY_TAG = "RECOVERY SEED"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed
@@ -51,7 +50,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
 
-        copiedAlert = getString(R.string.welcome_seed_copied_alert)
+        copiedAlert = getString(R.string.common_copied_alert)
     }
 
     override fun addListeners() {
@@ -89,11 +88,6 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             seedLayout.addView(configPhrase(value, index + 1, rowIndex, columnIndex, sideOffset, topOffset))
             columnIndex++
         }
-    }
-
-    override fun copyToClipboard(data: String) {
-        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(COPY_TAG, data)
     }
 
     override fun showCopiedAlert() {
