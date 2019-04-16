@@ -232,7 +232,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun dismissDialog() {
         if (dialog != null) {
-            dialog?.dismissAllowingStateLoss()
+            dialog?.dismiss()
             dialog = null
         }
     }

@@ -195,9 +195,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         view?.dismissDialog()
-        super.onDestroy()
+        super.onStop()
     }
 
     override fun initSubscriptions() {
