@@ -6,15 +6,13 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import com.eightsines.holycycle.app.ViewControllerDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
-abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: DialogFragment(), MvpView  {
+abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView  {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
 
@@ -62,43 +60,37 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun clearListeners() {}
 
     @Suppress("UNCHECKED_CAST")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onControllerCreate(extras: Bundle?) {
+        super.onControllerCreate(extras)
         presenter = initPresenter() as T
         presenter.onCreate()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(onControllerGetContentLayoutId(), null)
-    }
-
-    abstract fun onControllerGetContentLayoutId(): Int
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onControllerContentViewCreated() {
+        super.onControllerContentViewCreated()
         presenter.onViewCreated()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onControllerStart() {
+        super.onControllerStart()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         presenter.onStart()
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onControllerResume() {
+        super.onControllerResume()
         presenter.onResume()
     }
 
-    override fun onPause() {
+    override fun onControllerPause() {
         presenter.onPause()
-        super.onPause()
+        super.onControllerPause()
     }
 
-    override fun onStop() {
+    override fun onControllerStop() {
         presenter.onStop()
-        super.onStop()
+        super.onControllerStop()
     }
 
     override fun onDestroy() {
