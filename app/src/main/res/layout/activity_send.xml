@@ -139,6 +139,43 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
+                android:id="@+id/availableTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/send_available_margin_top"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/send_available_title"
+                app:layout_constraintEnd_toStartOf="@id/availableSum"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/amountError" />
+
+            <TextView
+                android:id="@+id/availableSum"
+                style="@style/common_text_big_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/send_available_margin_top"
+                android:textSize="@dimen/send_available_sum_text_size"
+                app:layout_constraintEnd_toStartOf="@id/availableCurrencyImage"
+                app:layout_constraintTop_toBottomOf="@id/amountError"
+                tools:text="1000000" />
+
+            <ImageView
+                android:id="@+id/availableCurrencyImage"
+                style="@style/common_currency_style"
+                android:layout_marginTop="@dimen/send_available_currency_top_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/availableSum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintTop_toTopOf="@id/availableSum"
+                app:layout_constraintVertical_bias="0"
+                app:srcCompat="@drawable/currency_beam" />
+
+            <TextView
                 android:id="@+id/feeTitle"
                 style="@style/common_subheader_light"
                 android:layout_width="wrap_content"
@@ -148,7 +185,7 @@
                 android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/receive_send_fee"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountError" />
+                app:layout_constraintTop_toBottomOf="@id/availableSum" />
 
             <EditText
                 android:id="@+id/fee"
@@ -248,7 +285,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend" />
+                app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend, availableTitle, availableSum, availableCurrencyImage" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

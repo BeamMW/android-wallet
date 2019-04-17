@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToGroth
 import io.reactivex.disposables.Disposable
 
@@ -205,6 +206,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
+            view?.updateAvailable(state.walletStatus!!.available.convertToBeamString())
+
+            if (view?.isAmountErrorShown() == true) {
+                view?.hasErrors(state.walletStatus?.available ?: 0)
+            }
         }
 
         cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {

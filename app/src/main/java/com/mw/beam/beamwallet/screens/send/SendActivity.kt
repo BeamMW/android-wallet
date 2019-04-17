@@ -283,6 +283,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
     }
 
+    override fun updateAvailable(availableString: String) {
+        availableSum.text = availableString
+    }
+
+    override fun isAmountErrorShown(): Boolean {
+        return amountError.visibility == View.VISIBLE
+    }
+
     override fun close() {
         finish()
     }

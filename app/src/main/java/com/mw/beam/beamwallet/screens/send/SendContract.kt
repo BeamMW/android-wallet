@@ -48,6 +48,8 @@ interface SendContract {
         fun setAddress(address: String)
         fun setFee(feeAmount: String)
         fun scanQR()
+        fun updateAvailable(availableString: String)
+        fun isAmountErrorShown() : Boolean
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
         fun showConfirmDialog(token: String, amount: Double, fee: Long)
