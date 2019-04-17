@@ -44,7 +44,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            updateUtxos(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id})
+            updateUtxos(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id })
         }
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
@@ -85,7 +85,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     private fun isExchangeUtxo(utxo: Utxo): Boolean {
-        return state.configTransactions().any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx}
+        return state.configTransactions().any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
     }
 
     private fun canRequestProof(): Boolean {
@@ -98,14 +98,14 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onCopyPaymentProof() {
         state.paymentProof?.let {
-            view?.copyToClipboard(it.proof, copyTag)
+            view?.copyToClipboard(it.paymentInfo.rawProof, copyTag)
             view?.showCopiedAlert()
         }
     }
 
     override fun onShowPaymentProof() {
         if (state.paymentProof == null) return
-        state.txDescription?.let { view?.showPaymentProof(it, state.paymentProof!!) }
+        view?.showPaymentProof(state.paymentProof!!)
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription, paymentProofSubscription)

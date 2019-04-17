@@ -8,22 +8,21 @@ class PaymentProofDetailsPresenter(view: PaymentProofDetailsContract.View, repos
 
     override fun onViewCreated() {
         super.onViewCreated()
-        state.txDescription = view?.getTransactionDetails()
-        state.paymentProof = view?.getProof()
-        if (state.paymentProof != null && state.txDescription != null) {
-            view?.init(state.paymentProof!!, state.txDescription!!)
+        state.paymentInfo = view?.getPaymentInfo()
+        if (state.paymentInfo != null) {
+            view?.init(state.paymentInfo!!)
         }
     }
 
     override fun onCopyDetails() {
-        if (state.txDescription != null) {
-            view?.copyToClipboard(view?.getDetailsContent(state.txDescription!!), copyTag)
+        if (state.paymentInfo != null) {
+            view?.copyToClipboard(view?.getDetailsContent(state.paymentInfo!!), copyTag)
             view?.showCopiedAlert()
         }
     }
 
     override fun onCopyProof() {
-        view?.copyToClipboard(view?.getProof(), copyTag)
+        view?.copyToClipboard(state.paymentInfo?.rawProof, copyTag)
         view?.showCopiedAlert()
     }
 
