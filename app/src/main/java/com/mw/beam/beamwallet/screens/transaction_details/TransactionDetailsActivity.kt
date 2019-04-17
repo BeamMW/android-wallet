@@ -164,7 +164,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     override fun showPaymentProof(paymentProof: PaymentProof) {
         val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
-            putExtra(PaymentProofDetailsActivity.KEY_PAYMENT_INFO, paymentProof.paymentInfo)
+            putExtra(PaymentProofDetailsActivity.KEY_PAYMENT_PROOF, paymentProof)
         }
 
         startActivity(intent)

@@ -7,6 +7,7 @@ class TransactionDetailsState {
     private val transactions = HashMap<String, TxDescription>()
     var txDescription: TxDescription? = null
     var paymentProof: PaymentProof? = null
+    val txList = transactions.values.toList()
 
     fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {
         tx?.forEach { transaction ->

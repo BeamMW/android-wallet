@@ -29,7 +29,7 @@ import io.reactivex.disposables.Disposable
 class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, private val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
-    private val copyTag = "PROOF"
+    private val COPY_TAG = "PROOF"
 
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txUpdateSubscription: Disposable
@@ -85,7 +85,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     private fun isExchangeUtxo(utxo: Utxo): Boolean {
-        return state.configTransactions().any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
+        return state.txList.any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
     }
 
     private fun canRequestProof(): Boolean {
@@ -98,7 +98,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onCopyPaymentProof() {
         state.paymentProof?.let {
-            view?.copyToClipboard(it.paymentInfo.rawProof, copyTag)
+            view?.copyToClipboard(it.rawProof, COPY_TAG)
             view?.showCopiedAlert()
         }
     }

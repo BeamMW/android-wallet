@@ -83,7 +83,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
 
     override fun onShowUtxoDetails(item: Utxo) {
         startActivity(Intent(this, UtxoDetailsActivity::class.java)
-                .putExtra(UtxoDetailsActivity.EXTRA_UTXO_DETAILS, item))
+                .putExtra(UtxoDetailsActivity.EXTRA_UTXO, item))
     }
 
     override fun onShowAddressDetails(item: WalletAddress) {

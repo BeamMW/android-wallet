@@ -5,7 +5,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.PaymentInfo
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.synthetic.main.activity_payment_proof_details.*
 
@@ -13,28 +13,28 @@ class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>()
     private lateinit var presenter: PaymentProofDetailsPresenter
 
     companion object {
-        const val KEY_PAYMENT_INFO = "KEY_PAYMENT_INFO"
+        const val KEY_PAYMENT_PROOF = "KEY_PAYMENT_PROOF"
     }
 
-    override fun getPaymentInfo(): PaymentInfo = intent.getParcelableExtra(KEY_PAYMENT_INFO)
+    override fun getPaymentProof(): PaymentProof = intent.getParcelableExtra(KEY_PAYMENT_PROOF)
 
-    override fun init(paymentInfo: PaymentInfo) {
-        senderValue.text = paymentInfo.senderId
-        receiverValue.text = paymentInfo.receiverId
-        amountValue.text = getString(R.string.payment_proof_details_beam, paymentInfo.amount.convertToBeamString())
-        kernelIdValue.text = paymentInfo.kernelId
-        codeValue.text = paymentInfo.rawProof
+    override fun init(paymentProof: PaymentProof) {
+        senderValue.text = paymentProof.senderId
+        receiverValue.text = paymentProof.receiverId
+        amountValue.text = getString(R.string.payment_proof_details_beam, paymentProof.amount.convertToBeamString())
+        kernelIdValue.text = paymentProof.kernelId
+        codeValue.text = paymentProof.rawProof
     }
 
-    override fun getDetailsContent(paymentInfo: PaymentInfo): String {
+    override fun getDetailsContent(paymentProof: PaymentProof): String {
         return "${getString(R.string.payment_proof_details_sender)} " +
-                "${paymentInfo.senderId} \n" +
+                "${paymentProof.senderId} \n" +
                 "${getString(R.string.payment_proof_details_receiver)} " +
-                "${paymentInfo.receiverId} \n" +
+                "${paymentProof.receiverId} \n" +
                 "${getString(R.string.payment_proof_details_amount)} " +
-                "${getString(R.string.payment_proof_details_beam, paymentInfo.amount.convertToBeamString()).toUpperCase()} \n" +
+                "${getString(R.string.payment_proof_details_beam, paymentProof.amount.convertToBeamString()).toUpperCase()} \n" +
                 "${getString(R.string.payment_proof_details_kernel_id)} " +
-                paymentInfo.kernelId
+                paymentProof.kernelId
     }
 
     override fun addListeners() {

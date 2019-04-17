@@ -26,7 +26,7 @@ import io.reactivex.disposables.Disposable
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
-    private val copyTag = "ADDRESS"
+    private val COPY_TAG = "ADDRESS"
     private lateinit var walletIdSubscription: Disposable
 
 
@@ -39,7 +39,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         saveAddress()
 
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID, copyTag)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.close()
         }
     }
@@ -51,7 +51,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onDialogCopyPressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID, copyTag)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.dismissDialog()
             view?.close()
         }
