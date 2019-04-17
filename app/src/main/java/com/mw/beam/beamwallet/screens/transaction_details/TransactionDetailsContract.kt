@@ -39,7 +39,7 @@ interface TransactionDetailsContract {
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>)
         fun showCopiedAlert()
-        fun showPaymentProof(txDescription: TxDescription, paymentProof: PaymentProof)
+        fun showPaymentProof(paymentProof: PaymentProof)
     }
 
     interface Presenter : MvpPresenter<View> {

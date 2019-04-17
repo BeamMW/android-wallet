@@ -18,10 +18,7 @@ package com.mw.beam.beamwallet.core.listeners
 import android.os.Handler
 import android.os.Looper
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
-import com.mw.beam.beamwallet.core.entities.dto.UtxoDTO
-import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
-import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
+import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -94,7 +91,7 @@ object WalletListener {
     fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")
 
     @JvmStatic
-    fun onPaymentProofExported(txId: String, proof: String) = returnResult(subOnPaymentProofExported, PaymentProof(txId, proof), "onPaymentProofExported")
+    fun onPaymentProofExported(txId: String, proof: PaymentInfoDTO) = returnResult(subOnPaymentProofExported, PaymentProof(txId, proof), "onPaymentProofExported")
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

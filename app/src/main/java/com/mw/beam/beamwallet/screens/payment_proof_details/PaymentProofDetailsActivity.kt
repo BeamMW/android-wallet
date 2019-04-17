@@ -5,7 +5,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.PaymentInfo
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.synthetic.main.activity_payment_proof_details.*
 
@@ -13,30 +13,28 @@ class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>()
     private lateinit var presenter: PaymentProofDetailsPresenter
 
     companion object {
-        const val KEY_TX_DESCRIPTION = "KEY_TX_DESCRIPTION"
-        const val KEY_PROOF = "KEY_PROOF"
+        const val KEY_PAYMENT_INFO = "KEY_PAYMENT_INFO"
     }
 
-    override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(KEY_TX_DESCRIPTION)
-    override fun getProof(): String = intent.getStringExtra(KEY_PROOF)
+    override fun getPaymentInfo(): PaymentInfo = intent.getParcelableExtra(KEY_PAYMENT_INFO)
 
-    override fun init(proof: String, txDescription: TxDescription) {
-        senderValue.text = if (txDescription.sender.value) txDescription.myId else txDescription.peerId
-        receiverValue.text = if (txDescription.sender.value) txDescription.peerId else txDescription.myId
-        amountValue.text = getString(R.string.payment_proof_details_beam, txDescription.amount.convertToBeamString())
-        kernelIdValue.text = txDescription.kernelId
-        codeValue.text = proof
+    override fun init(paymentInfo: PaymentInfo) {
+        senderValue.text = paymentInfo.senderId
+        receiverValue.text = paymentInfo.receiverId
+        amountValue.text = getString(R.string.payment_proof_details_beam, paymentInfo.amount.convertToBeamString())
+        kernelIdValue.text = paymentInfo.kernelId
+        codeValue.text = paymentInfo.rawProof
     }
 
-    override fun getDetailsContent(txDescription: TxDescription): String {
+    override fun getDetailsContent(paymentInfo: PaymentInfo): String {
         return "${getString(R.string.payment_proof_details_sender)} " +
-                "${if (txDescription.sender.value) txDescription.myId else txDescription.peerId} \n" +
+                "${paymentInfo.senderId} \n" +
                 "${getString(R.string.payment_proof_details_receiver)} " +
-                "${if (txDescription.sender.value) txDescription.peerId else txDescription.myId} \n" +
+                "${paymentInfo.receiverId} \n" +
                 "${getString(R.string.payment_proof_details_amount)} " +
-                "${getString(R.string.payment_proof_details_beam, txDescription.amount.convertToBeamString()).toUpperCase()} \n" +
+                "${getString(R.string.payment_proof_details_beam, paymentInfo.amount.convertToBeamString()).toUpperCase()} \n" +
                 "${getString(R.string.payment_proof_details_kernel_id)} " +
-                txDescription.kernelId
+                paymentInfo.kernelId
     }
 
     override fun addListeners() {
