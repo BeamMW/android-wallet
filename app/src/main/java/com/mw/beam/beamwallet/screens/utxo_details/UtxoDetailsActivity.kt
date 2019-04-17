@@ -44,12 +44,12 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     private lateinit var presenter: UtxoDetailsPresenter
 
     companion object {
-        const val EXTRA_UTXO_DETAILS = "EXTRA_UTXO_DETAILS"
+        const val EXTRA_UTXO = "EXTRA_UTXO"
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details_title)
-    override fun getUtxo(): Utxo = intent.getParcelableExtra(EXTRA_UTXO_DETAILS)
+    override fun getUtxo(): Utxo = intent.getParcelableExtra(EXTRA_UTXO)
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
