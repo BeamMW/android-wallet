@@ -1,9 +1,11 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:width="30dp"
     android:height="46dp"
     android:autoMirrored="true"
     android:viewportWidth="30"
-    android:viewportHeight="46">
+    android:viewportHeight="46"
+    tools:ignore="VectorRaster">
     <path
         android:fillColor="#0bccf7"
         android:fillType="evenOdd"

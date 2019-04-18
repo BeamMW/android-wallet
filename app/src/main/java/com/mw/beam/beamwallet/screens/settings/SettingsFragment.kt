@@ -64,8 +64,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun sendMailWithLogs() {
         val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
         shareIntent.type = AppConfig.SHARE_TYPE
-        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, AppConfig.SHARE_VALUE)
-        shareIntent.putExtra(android.content.Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfig.SHARE_VALUE)
+        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
 
         val uris = ArrayList<Uri>()
         val files = File(AppConfig.LOG_PATH).listFiles()

@@ -45,7 +45,7 @@ class PasswordStrengthView : ConstraintLayout {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        ConstraintLayout.inflate(context, R.layout.password_strength, this)
+        inflate(context, R.layout.password_strength, this)
 
         if (attrs != null) {
             val a = context.theme.obtainStyledAttributes(
@@ -94,7 +94,7 @@ class PasswordStrengthView : ConstraintLayout {
             private val map: HashMap<Int, Strength> = HashMap()
 
             init {
-                Strength.values().forEach {
+                values().forEach {
                     map[it.value] = it
                 }
             }

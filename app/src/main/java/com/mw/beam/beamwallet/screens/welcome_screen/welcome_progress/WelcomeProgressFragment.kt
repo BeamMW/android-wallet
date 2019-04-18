@@ -117,7 +117,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun getPassword(): String? = arguments?.getString(ARG_PASS)
 
-    override fun showWallet() = (activity as WelcomeProgressFragment.ProgressHandler).showWallet()
+    override fun showWallet() = (activity as ProgressHandler).showWallet()
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {
         description.text = descriptionString

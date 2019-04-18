@@ -83,7 +83,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun getData(): Array<String>? = arguments?.getStringArray(ARG_SEED)
     override fun showPasswordsFragment(seed: Array<String>) = (activity as ConfirmHandler).proceedToPasswords(seed, WelcomeMode.CREATE)
-    override fun showSeedFragment() = (activity as WelcomeConfirmFragment.ConfirmHandler).showSeedFragment()
+    override fun showSeedFragment() = (activity as ConfirmHandler).showSeedFragment()
 
     override fun handleNextButton() {
         btnNext.isEnabled = isSeedValid()

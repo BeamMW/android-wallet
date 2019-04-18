@@ -16,9 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager

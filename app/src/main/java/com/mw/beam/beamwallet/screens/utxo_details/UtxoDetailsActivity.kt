@@ -127,7 +127,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         view.findViewById<TextView>(R.id.id).text = id
         view.findViewById<ImageView>(R.id.icon).setImageResource(if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent)
         view.findViewById<TextView>(R.id.comment).apply {
-            if (!comment.isEmpty()) {
+            if (comment.isNotEmpty()) {
                 text = comment
                 visibility = View.VISIBLE
             }
