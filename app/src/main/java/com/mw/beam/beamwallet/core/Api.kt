@@ -27,8 +27,8 @@ object Api {
         System.loadLibrary("wallet-jni")
     }
 
-    external fun createWallet(nodeAddr: String, dbPath: String, pass: String, phrases: String, restore : Boolean): Wallet?
-    external fun openWallet(nodeAddr: String, dbPath: String, pass: String): Wallet?
+    external fun createWallet(appVersion: String, nodeAddr: String, dbPath: String, pass: String, phrases: String, restore : Boolean): Wallet?
+    external fun openWallet(appVersion: String, nodeAddr: String, dbPath: String, pass: String): Wallet?
     external fun isWalletInitialized(dbPath: String): Boolean
     external fun createMnemonic(): Array<String>
     external fun checkReceiverAddress(address: String?): Boolean

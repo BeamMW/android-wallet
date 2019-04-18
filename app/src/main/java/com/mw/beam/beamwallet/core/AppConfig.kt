@@ -24,6 +24,7 @@ import java.util.*
  */
 object AppConfig {
     const val APP_TAG = "BeamWallet"
+    const val APP_VERSION = "version: ${BuildConfig.VERSION_NAME} code: ${BuildConfig.VERSION_CODE}"
     const val FLAVOR_MAINNET = "mainnet"
     const val FLAVOR_MASTERNET = "masternet"
     const val FLAVOR_TESTNET = "beamtestnet"
