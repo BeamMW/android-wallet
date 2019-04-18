@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.base_screen
 
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.Status
 import io.reactivex.subjects.Subject
 
 /**
@@ -30,5 +31,6 @@ interface MvpRepository {
     fun getNodeConnectionFailed(): Subject<Any>
     fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
 
+    fun openWallet(pass: String?): Status
     fun closeWallet()
 }

@@ -26,12 +26,17 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     : BasePresenter<WelcomeOpenContract.View, WelcomeOpenContract.Repository>(currentView, currentRepository),
         WelcomeOpenContract.Presenter {
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
+
     override fun onOpenWallet() {
         view?.hideKeyboard()
 
         if (view != null && view!!.hasValidPass()) {
             if (Status.STATUS_OK == repository.openWallet(view?.getPass())) {
-                view?.openWallet()
+                view?.openWallet(view?.getPass() ?: return)
             } else {
                 view?.showOpenWalletError()
             }
@@ -49,15 +54,6 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
 
     override fun onChangeConfirm() {
         view?.changeWallet()
-    }
-
-    override fun onForgotPassword() {
-        view?.clearError()
-        view?.showForgotAlert()
-    }
-
-    override fun onForgotConfirm() {
-        view?.restoreWallet()
     }
 
     override fun hasBackArrow(): Boolean? = false

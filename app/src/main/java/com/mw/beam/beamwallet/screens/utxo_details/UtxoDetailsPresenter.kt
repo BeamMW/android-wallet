@@ -17,22 +17,43 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
-class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository)
+class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, private val state: UtxoDetailsState)
     : BasePresenter<UtxoDetailsContract.View, UtxoDetailsContract.Repository>(currentView, currentRepository),
         UtxoDetailsContract.Presenter {
+    private lateinit var utxoUpdatedSubscription: Disposable
+    private lateinit var txStatusSubscription: Disposable
 
-    override fun onCreate() {
-        super.onCreate()
-        repository.utxo = view?.getUtxoDetails()
-        repository.relatedTransactions = view?.getRelatedTransactions()
+    override fun onViewCreated() {
+        super.onViewCreated()
+        state.utxo = view?.getUtxo()
+        view?.init(state.utxo ?: return)
     }
 
-    override fun onStart() {
-        super.onStart()
-        view?.init(repository.utxo ?: return, repository.relatedTransactions ?: return)
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
+            utxos.firstOrNull { it.id == state.utxo?.id }?.let {
+                state.utxo = it
+                view?.init(it)
+            }
+        }
+
+        txStatusSubscription = repository.getTxStatus().subscribe { data ->
+            data.tx?.filter { it.id == state.utxo?.createTxId || it.id == state.utxo?.spentTxId }?.let {
+                state.configTransactions(it)
+
+                if (state.utxo != null) {
+                    view?.configUtxoHistory(state.utxo!!, state.configTransactions())
+                }
+            }
+        }
     }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
 }

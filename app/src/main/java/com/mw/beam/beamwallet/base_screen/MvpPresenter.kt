@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
 import io.reactivex.disposables.Disposable
 
 /**
@@ -34,4 +35,8 @@ interface MvpPresenter<V : MvpView> {
     fun hasBackArrow(): Boolean? = false
     fun getSubscriptions(): Array<Disposable>?
     fun initSubscriptions()
+    fun onLockBroadcastReceived()
+    fun onUserInteraction(context: Context)
+    fun isLockScreenEnabled(): Boolean
+    fun onStateIsNotEnsured()
 }

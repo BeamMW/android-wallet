@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/wallet_adapter_not_multiply_color"
+    android:filterTouchesWhenObscured="true"
     android:padding="@dimen/common_offset">
 
     <TextView

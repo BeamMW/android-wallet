@@ -22,6 +22,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
@@ -40,6 +41,7 @@ import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
+import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.activity_send.*
 import java.text.DecimalFormat
 
@@ -53,6 +55,17 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var amountWatcher: TextWatcher
     private lateinit var feeWatcher: TextWatcher
     private lateinit var feeFocusListener: View.OnFocusChangeListener
+    private var dialog: DialogFragment? = null
+
+    private val dialogListener = object : SendConfirmationDialog.OnConfirmedDialogListener {
+        override fun onConfirmed() {
+            presenter.onSend()
+        }
+
+        override fun onDismissed() {
+            presenter.onDialogClosePressed()
+        }
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
@@ -75,7 +88,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun addListeners() {
         btnSend.setOnClickListener {
-            presenter.onSend()
+            presenter.onConfirm()
         }
 
         scanQR.setOnClickListener {
@@ -212,6 +225,18 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    override fun showConfirmDialog(token: String, amount: Double, fee: Long) {
+        dialog = SendConfirmationDialog.newInstance(token, amount, fee, dialogListener)
+        dialog?.show(supportFragmentManager, SendConfirmationDialog.getFragmentTag())
+    }
+
+    override fun dismissDialog() {
+        if (dialog != null) {
+            dialog?.dismiss()
+            dialog = null
+        }
+    }
+
     override fun setAddress(address: String) {
         token.setText(address)
         token.setSelection(token.text?.length ?: 0)
@@ -256,6 +281,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             tokenError.visibility = View.INVISIBLE
             tokenDescription.visibility = View.VISIBLE
         }
+    }
+
+    override fun updateAvailable(availableString: String) {
+        availableSum.text = availableString
+    }
+
+    override fun isAmountErrorShown(): Boolean {
+        return amountError.visibility == View.VISIBLE
     }
 
     override fun close() {

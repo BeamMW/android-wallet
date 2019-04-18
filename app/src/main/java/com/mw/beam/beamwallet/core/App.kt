@@ -47,7 +47,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.FLAVOR != "mainnet") {
+        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
             Fabric.with(this, Crashlytics(), CrashlyticsNdk())
         }
 

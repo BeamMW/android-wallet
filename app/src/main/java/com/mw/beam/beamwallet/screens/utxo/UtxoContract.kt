@@ -29,7 +29,7 @@ interface UtxoContract {
     interface View : MvpView {
         fun init()
         fun updateUtxos(utxos: List<Utxo>)
-        fun showUtxoDetails(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>)
+        fun showUtxoDetails(utxo: Utxo)
         fun updateBlockchainInfo(systemState: SystemState)
     }
 
@@ -39,7 +39,6 @@ interface UtxoContract {
 
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<List<Utxo>>
-        fun getTxStatus(): Subject<OnTxStatusData>
         fun getWalletStatus(): Subject<WalletStatus>
     }
 }

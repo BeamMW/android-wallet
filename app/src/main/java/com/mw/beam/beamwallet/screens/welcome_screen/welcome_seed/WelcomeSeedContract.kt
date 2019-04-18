@@ -27,7 +27,6 @@ interface WelcomeSeedContract {
     interface View : MvpView {
         fun showConfirmFragment(seed: Array<String>)
         fun configSeed(seed: Array<String>)
-        fun copyToClipboard(data: String)
         fun showCopiedAlert()
         fun showSaveAlert()
         fun forbidScreenshot()

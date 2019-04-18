@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.Context
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -27,6 +30,8 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     private var nodeConnectionSubscription: Disposable? = null
     private var nodeConnectionFailedSubscription: Disposable? = null
     private var syncProgressUpdatedSubscription: Disposable? = null
+    private var isActivityStopped = false
+    private var isExpireLockScreenTime = false
 
     override fun onCreate() {
     }
@@ -59,6 +64,12 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             }
         }
 
+        if (isExpireLockScreenTime) {
+            lockApp()
+        } else {
+            isActivityStopped = false
+        }
+
         view?.addListeners()
     }
 
@@ -70,6 +81,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     // Why you need to unregister listeners? See https://stackoverflow.com/q/38368391
     override fun onStop() {
+        isActivityStopped = true
         disposable.dispose()
         view?.dismissAlert()
         view?.clearListeners()
@@ -87,20 +99,49 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     override fun initSubscriptions() {
         nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
-            view?.configStatus(it)
+            view?.configStatus(if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE)
         }
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            view?.configStatus(false)
+            view?.configStatus(NetworkStatus.OFFLINE)
         }
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            view?.configStatus(it.done == it.total)
+            view?.configStatus(if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING)
         }
     }
 
     private fun detachView() {
         view = null
+    }
+
+    private fun lockApp() {
+        if (isLockScreenEnabled()) {
+            repository.closeWallet()
+            view?.logOut()
+        }
+    }
+
+    override fun onLockBroadcastReceived() {
+        if (repository.wallet != null) {
+            if (isActivityStopped) {
+                isExpireLockScreenTime = true
+            } else {
+                lockApp()
+            }
+        }
+    }
+
+    override fun onStateIsNotEnsured() {
+        view?.logOut()
+    }
+
+    override fun onUserInteraction(context: Context) {
+        LockScreenManager.restartTimer(context)
+    }
+
+    override fun isLockScreenEnabled(): Boolean {
+        return true
     }
 
     override fun hasStatus(): Boolean = false

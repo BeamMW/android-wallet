@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToGroth
 import io.reactivex.disposables.Disposable
 
@@ -65,13 +66,36 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if (amount != null && fee != null && token != null && state.isTokenValid) {
                 // we can't send money to own expired address
                 if (state.expiredAddresses.find { it.walletID == token } != null) {
+                    view?.close()
                     view?.showCantSendToExpiredError()
                 } else {
                     repository.sendMoney(token, comment, amount.convertToGroth(), fee)
+                    view?.dismissDialog()
                     view?.close()
                 }
             }
         }
+    }
+
+    override fun onConfirm() {
+        if (!repository.isConfirmTransactionEnabled()) {
+            onSend()
+            return
+        }
+
+        if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
+            val amount = view?.getAmount()
+            val fee = view?.getFee()
+            val token = view?.getToken()
+
+            if (amount != null && fee != null && token != null && state.isTokenValid) {
+                view?.showConfirmDialog(token, amount, fee)
+            }
+        }
+    }
+
+    override fun onDialogClosePressed() {
+        view?.dismissDialog()
     }
 
     override fun onFeeFocusChanged(isFocused: Boolean, fee: String) {
@@ -172,11 +196,21 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
+    override fun onStop() {
+        view?.dismissDialog()
+        super.onStop()
+    }
+
     override fun initSubscriptions() {
         super.initSubscriptions()
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
+            view?.updateAvailable(state.walletStatus!!.available.convertToBeamString())
+
+            if (view?.isAmountErrorShown() == true) {
+                view?.hasErrors(state.walletStatus?.available ?: 0)
+            }
         }
 
         cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {

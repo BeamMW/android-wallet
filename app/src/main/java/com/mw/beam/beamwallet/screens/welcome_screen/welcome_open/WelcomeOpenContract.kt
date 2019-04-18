@@ -19,20 +19,18 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
  * Created by vain onnellinen on 10/19/18.
  */
 interface WelcomeOpenContract {
     interface View : MvpView {
+        fun init()
         fun hasValidPass(): Boolean
         fun getPass(): String
-        fun openWallet()
+        fun openWallet(pass: String)
         fun changeWallet()
-        fun restoreWallet()
         fun showChangeAlert()
-        fun showForgotAlert()
         fun showOpenWalletError()
         fun clearError()
     }
@@ -41,12 +39,8 @@ interface WelcomeOpenContract {
         fun onOpenWallet()
         fun onChangeWallet()
         fun onChangeConfirm()
-        fun onForgotPassword()
-        fun onForgotConfirm()
         fun onPassChanged()
     }
 
-    interface Repository : MvpRepository {
-        fun openWallet(pass: String?): Status
-    }
+    interface Repository : MvpRepository
 }

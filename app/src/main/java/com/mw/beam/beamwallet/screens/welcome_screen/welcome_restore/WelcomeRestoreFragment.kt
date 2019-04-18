@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
@@ -59,7 +60,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         }
     }
 
-    override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed)
+    override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed, WelcomeMode.RESTORE)
 
     override fun configSeed(phrasesCount: Int) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
@@ -152,6 +153,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     interface RestoreHandler {
-        fun proceedToPasswords(seed: Array<String>)
+        fun proceedToPasswords(seed: Array<String>, mode: WelcomeMode)
     }
 }

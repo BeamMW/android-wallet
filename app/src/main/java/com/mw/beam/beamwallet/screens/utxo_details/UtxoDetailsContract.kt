@@ -19,23 +19,25 @@ package com.mw.beam.beamwallet.screens.utxo_details
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
 interface UtxoDetailsContract {
     interface View : MvpView {
-        fun getUtxoDetails(): Utxo
-        fun getRelatedTransactions(): ArrayList<TxDescription>
-        fun init(utxo: Utxo, relatedTransactions: ArrayList<TxDescription>)
+        fun getUtxo(): Utxo
+        fun init(utxo: Utxo)
+        fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
     }
 
     interface Presenter : MvpPresenter<View>
 
     interface Repository : MvpRepository {
-        var utxo: Utxo?
-        var relatedTransactions: ArrayList<TxDescription>?
+        fun getUtxoUpdated(): Subject<List<Utxo>>
+        fun getTxStatus(): Subject<OnTxStatusData>
     }
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/common_receive_dialog_background"
+    android:filterTouchesWhenObscured="true">
+
+    <TextView
+        android:id="@+id/lockScreenTitleDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_common_offset"
+        android:layout_marginTop="@dimen/settings_common_offset"
+        android:fontFamily="sans-serif"
+        android:text="@string/settings_lock_screen"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupLockSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_dialog_button_group_start_margin"
+        android:layout_marginTop="@dimen/settings_dialog_button_group_top_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lockScreenTitleDialog" />
+
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_cancel_margin"
+        android:layout_marginEnd="@dimen/settings_dialog_cancel_margin"
+        android:layout_marginBottom="@dimen/settings_card_offset"
+        android:padding="@dimen/settings_card_offset"
+        android:text="@string/common_cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioGroupLockSettings" />
+</android.support.constraint.ConstraintLayout>

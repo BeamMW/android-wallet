@@ -97,7 +97,6 @@
 #crashlytics
 -keep,includedescriptorclasses class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
--dontwarn com.google.firebase.messaging.**
 -dontwarn com.google.firebase.crash.**
 
 #barcode

@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -29,6 +31,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.Status
 
@@ -101,6 +104,15 @@ class ScreenDelegate {
         alert = dialog
 
         return alert
+    }
+
+    fun showToast(context: Context?, message: String, duration: Int) {
+        Toast.makeText(context?.applicationContext, message, duration).show()
+    }
+
+    fun copyToClipboard(context: Context, message: String?, tag: String?) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(tag, message)
     }
 
     fun dismissAlert() {

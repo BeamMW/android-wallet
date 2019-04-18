@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".core.App"
@@ -54,6 +55,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".screens.qr.ScanQrActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".screens.payment_proof_details.PaymentProofDetailsActivity"
             android:screenOrientation="portrait" />
 
         <provider

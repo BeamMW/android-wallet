@@ -28,7 +28,9 @@ import io.reactivex.disposables.Disposable
 class AddressPresenter(currentView: AddressContract.View, currentRepository: AddressContract.Repository, private val state: AddressState)
     : BasePresenter<AddressContract.View, AddressContract.Repository>(currentView, currentRepository),
         AddressContract.Presenter {
+    private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
+
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -41,7 +43,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onCopyAddress() {
-        view?.copyToClipboard(state.address?.walletID ?: return)
+        view?.copyToClipboard(state.address?.walletID ?: return, COPY_TAG)
     }
 
     override fun onMenuCreate(menu: Menu?) {
@@ -67,7 +69,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     override fun onDialogCopyPressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID)
+            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
             view?.dismissDialog()
         }
     }

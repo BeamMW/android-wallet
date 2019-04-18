@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -29,7 +30,7 @@ import io.reactivex.subjects.Subject
 class SendRepository : BaseRepository(), SendContract.Repository {
 
     override fun sendMoney(token: String, comment: String?, amount: Long, fee: Long) {
-        getResult("sendMoney") {
+        getResult("sendMoney", " token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
             wallet?.sendMoney(token, comment, amount, fee)
         }
     }
@@ -40,6 +41,10 @@ class SendRepository : BaseRepository(), SendContract.Repository {
 
     override fun checkAddress(address: String?): Boolean {
         return Api.checkReceiverAddress(address)
+    }
+
+    override fun isConfirmTransactionEnabled(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
     }
 
     override fun onCantSendToExpired(): Subject<Any> {
