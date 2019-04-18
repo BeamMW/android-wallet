@@ -40,7 +40,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
             }
 
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
-            App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases, WelcomeMode.RESTORE == mode)
+            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases, WelcomeMode.RESTORE == mode)
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
