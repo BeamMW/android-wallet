@@ -28,7 +28,7 @@ class WalletState {
     var shouldExpandAvailable = false
     var shouldExpandInProgress = false
 
-    private val transactions = HashMap<String, TxDescription>()
+    val transactions = HashMap<String, TxDescription>()
 
     fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
         tx?.forEach { transaction ->

@@ -18,10 +18,12 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.support.v7.view.ContextThemeWrapper
 import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
@@ -35,11 +37,13 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
+import java.io.File
 
 
 /**
@@ -154,6 +158,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun configTransactions(transactions: List<TxDescription>) {
         transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        btnTransactionsMenu.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
             adapter.setData(transactions)
@@ -299,6 +304,20 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()
+    }
+
+    override fun showShareFileChooser(file: File) {
+        if (context == null) return
+
+        val uri = FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, file)
+
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/csv"
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
+
+        startActivity(Intent.createChooser(intent, "Share..."))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

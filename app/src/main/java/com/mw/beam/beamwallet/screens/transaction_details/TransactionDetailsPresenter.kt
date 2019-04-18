@@ -85,7 +85,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     private fun isExchangeUtxo(utxo: Utxo): Boolean {
-        return state.txList.any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
+        return state.transactions.values.any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
     }
 
     private fun canRequestProof(): Boolean {

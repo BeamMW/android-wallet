@@ -40,5 +40,6 @@ object AppConfig {
     var NODE_ADDRESS = ""
     var DB_PATH = ""
     var LOG_PATH = ""
+    var TRANSACTIONS_PATH = ""
     var LOCALE: Locale = Locale.US
 }

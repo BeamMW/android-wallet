@@ -14,6 +14,6 @@ data class PaymentProof(val txId: String, private val source: PaymentInfoDTO): P
     val rawProof: String = source.rawProof
 
     override fun toString(): String {
-        return "\n\nPaymentProof(\nsenderId=$senderId\n receiverId=$receiverId\n amount=$amount\n kernelId=$kernelId\n isValid=$isValid)"
+        return "\n\nPaymentProof(\ntxId=$txId\n senderId=$senderId\n receiverId=$receiverId\n amount=$amount\n kernelId=$kernelId\n isValid=$isValid)"
     }
 }

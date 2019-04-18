@@ -60,6 +60,7 @@ class App : Application() {
         self = this
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
+        AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
         AppConfig.LOCALE = Locale.getDefault()
 
         if (BuildConfig.DEBUG) {

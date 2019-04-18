@@ -3,4 +3,7 @@
     <files-path
         name="logs"
         path="logs/" />
+    <files-path
+        name="transactions"
+        path="transactions/"/>
 </paths>

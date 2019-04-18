@@ -21,6 +21,7 @@ import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
 
 
@@ -75,8 +76,18 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     override fun onSearchPressed() = toDo()
     override fun onFilterPressed() = toDo()
-    override fun onExportPressed() = toDo()
     override fun onDeletePressed() = toDo()
+
+    override fun onExportPressed() {
+        val file = repository.getTransactionsFile()
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(TransactionFields.HEAD_LINE)
+        state.transactions.values.forEach {
+            stringBuilder.append(TransactionFields.formatTransaction(it))
+        }
+        file.writeBytes(stringBuilder.toString().toByteArray())
+        view?.showShareFileChooser(file)
+    }
 
     override fun initSubscriptions() {
         super.initSubscriptions()

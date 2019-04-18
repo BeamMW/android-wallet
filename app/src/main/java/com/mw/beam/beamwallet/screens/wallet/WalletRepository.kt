@@ -17,10 +17,12 @@
 package com.mw.beam.beamwallet.screens.wallet
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
+import java.io.File
 
 
 /**
@@ -36,5 +38,14 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
+    }
+
+    override fun getTransactionsFile(): File {
+        val file = File(AppConfig.TRANSACTIONS_PATH, "transactions_" + System.currentTimeMillis() + ".csv")
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        }
+        file.createNewFile()
+        return file
     }
 }
