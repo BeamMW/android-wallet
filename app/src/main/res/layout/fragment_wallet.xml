@@ -421,7 +421,6 @@
             android:contentDescription="@null"
             android:paddingStart="@dimen/common_offset"
             android:paddingEnd="@dimen/common_offset"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/transactionsTitle"

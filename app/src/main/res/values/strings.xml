@@ -126,6 +126,7 @@ and never kept in the blockchain.</string>
     <string name="wallet_transactions_menu_search">Search</string>
     <string name="wallet_transactions_menu_filter">Filter</string>
     <string name="wallet_transactions_menu_export">Export</string>
+    <string name="wallet_transactions_menu_proof">Payment proof</string>
     <string name="wallet_transactions_menu_delete">Delete</string>
 
     <!--UtxoFragment-->

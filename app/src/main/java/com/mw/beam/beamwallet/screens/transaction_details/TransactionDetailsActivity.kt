@@ -30,7 +30,10 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
 import kotlinx.android.synthetic.main.activity_transaction_details.*

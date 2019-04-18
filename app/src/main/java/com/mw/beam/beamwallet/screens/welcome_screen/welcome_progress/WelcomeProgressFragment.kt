@@ -95,7 +95,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun showNoInternetConnectionMessage() {
-        showToast(getString(R.string.no_internet_connection), Toast.LENGTH_LONG)
+        showToast(getString(R.string.no_internet_connection), Toast.LENGTH_SHORT)
     }
 
     override fun showFailedRestoreAlert() {
