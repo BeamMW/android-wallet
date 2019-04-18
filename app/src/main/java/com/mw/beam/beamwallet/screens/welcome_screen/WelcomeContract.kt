@@ -28,12 +28,12 @@ interface WelcomeContract {
     interface View : MvpView {
         fun showOpenFragment()
         fun showDescriptionFragment()
-        fun showPasswordsFragment(phrases: Array<String>)
+        fun showPasswordsFragment(phrases: Array<String>, mode: WelcomeMode)
         fun showSeedFragment()
         fun showRestoreFragment()
         fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
-        fun showProgressFragment(mode: WelcomeMode)
+        fun showProgressFragment(mode: WelcomeMode, pass : String)
         fun showMainActivity()
         fun finishNotRootTask()
     }
@@ -43,9 +43,9 @@ interface WelcomeContract {
         fun onRestoreWallet()
         fun onGenerateSeed()
         fun onShowWallet()
-        fun onOpenWallet(mode: WelcomeMode)
+        fun onOpenWallet(mode: WelcomeMode, pass: String)
         fun onChangeWallet()
-        fun onProceedToPasswords(phrases: Array<String>)
+        fun onProceedToPasswords(phrases: Array<String>, mode: WelcomeMode)
         fun onProceedToValidation(phrases: Array<String>)
     }
 

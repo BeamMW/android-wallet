@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
@@ -32,8 +33,9 @@ interface PasswordContract {
         fun clearErrors()
         fun getPass(): String
         fun getSeed(): Array<String>?
+        fun getWelcomeMode(): WelcomeMode?
         fun isModeChangePass(): Boolean
-        fun proceedToWallet()
+        fun proceedToWallet(mode : WelcomeMode, pass: String)
         fun showSeedAlert()
         fun showSeedFragment()
         fun showOldPassError()
@@ -50,7 +52,7 @@ interface PasswordContract {
     }
 
     interface Repository : MvpRepository {
-        fun createWallet(pass: String?, phrases: String?): Status
+        fun createWallet(pass: String?, phrases: String?, mode : WelcomeMode): Status
         fun checkPass(pass: String?): Boolean
         fun changePass(pass: String?)
     }

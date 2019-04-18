@@ -49,15 +49,17 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
         view?.showSeedFragment()
     }
 
-    override fun onOpenWallet(mode: WelcomeMode) {
+    override fun isLockScreenEnabled(): Boolean = false
+
+    override fun onOpenWallet(mode: WelcomeMode, pass: String) {
         when (mode) {
-            WelcomeMode.OPEN -> view?.showProgressFragment(mode)
-            WelcomeMode.RESTORE, WelcomeMode.CREATE -> view?.showMainActivity()
+            WelcomeMode.OPEN, WelcomeMode.RESTORE  -> view?.showProgressFragment(mode, pass)
+            WelcomeMode.CREATE -> view?.showMainActivity()
         }
     }
 
-    override fun onProceedToPasswords(phrases: Array<String>) {
-        view?.showPasswordsFragment(phrases)
+    override fun onProceedToPasswords(phrases: Array<String>, mode: WelcomeMode) {
+        view?.showPasswordsFragment(phrases, mode)
     }
 
     override fun onProceedToValidation(phrases: Array<String>) {

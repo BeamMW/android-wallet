@@ -15,7 +15,7 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -23,11 +23,14 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Gravity
+import android.view.View
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -38,6 +41,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
     private lateinit var presenter: T
     private val delegate = ScreenDelegate()
+    private val lockScreenReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            presenter.onLockBroadcastReceived()
+        }
+    }
 
     protected fun showFragment(
             fragment: Fragment,
@@ -71,10 +79,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun showSnackBar(status: Status) = delegate.showSnackBar(status, this)
     override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
-    override fun showSnackBar(message: String, textColor : Int) = delegate.showSnackBar(message, textColor, this)
+    override fun showSnackBar(message: String, textColor: Int) = delegate.showSnackBar(message, textColor, this)
     override fun showKeyboard() = delegate.showKeyboard(this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
+    override fun showToast(message: String, duration: Int) = delegate.showToast(this, message, duration)
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
@@ -111,15 +120,22 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun clearListeners() {
     }
 
-    override fun configStatus(isConnected: Boolean) {
+    override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
 
-        toolbarLayout.statusIcon.setImageDrawable(
-                if (isConnected) ContextCompat.getDrawable(this, R.drawable.status_connected)
-                else ContextCompat.getDrawable(this, R.drawable.status_error))
-        toolbarLayout.status.text =
-                if (isConnected) getString(R.string.common_status_online)
-                else String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        when (networkStatus) {
+            NetworkStatus.ONLINE -> {
+                handleStatus(true, toolbarLayout)
+            }
+            NetworkStatus.OFFLINE -> {
+                handleStatus(false, toolbarLayout)
+            }
+            NetworkStatus.UPDATING -> {
+                toolbarLayout.progressBar.visibility = View.VISIBLE
+                toolbarLayout.statusIcon.visibility = View.INVISIBLE
+                toolbarLayout.status.text = getString(R.string.common_status_updating)
+            }
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -128,14 +144,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         presenter = initPresenter() as T
 
         if (!ensureState()) {
-            startActivity(Intent(this, WelcomeActivity::class.java)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            )
-
-            finish()
+            presenter.onStateIsNotEnsured()
         } else {
             presenter.onCreate()
         }
+
+        registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
     }
 
     override fun onControllerContentViewCreated() {
@@ -165,6 +179,33 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onDestroy() {
         presenter.onDestroy()
+        unregisterReceiver(lockScreenReceiver)
         super.onDestroy()
+    }
+
+    override fun logOut() {
+        startActivity(Intent(applicationContext, WelcomeActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        finish()
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        presenter.onUserInteraction(applicationContext)
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
+
+    private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
+        toolbarLayout.progressBar.visibility = View.INVISIBLE
+        toolbarLayout.statusIcon.visibility = View.VISIBLE
+
+        if (isOnline) {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
+            toolbarLayout.status.text = getString(R.string.common_status_online)
+        } else {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_error))
+            toolbarLayout.status.text = String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        }
     }
 }

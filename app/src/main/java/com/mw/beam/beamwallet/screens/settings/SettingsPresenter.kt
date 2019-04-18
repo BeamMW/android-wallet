@@ -28,6 +28,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        view?.updateLockScreenValue(repository.getLockScreenValue())
+        view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
     }
 
     override fun onReportProblem() {
@@ -40,4 +42,30 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true
+
+    override fun onShowLockScreenSettings() {
+        view?.showLockScreenSettingsDialog()
+    }
+
+    override fun onChangeLockSettings(millis: Long) {
+        repository.saveLockSettings(millis)
+
+        view?.apply {
+            updateLockScreenValue(repository.getLockScreenValue())
+            closeDialog()
+        }
+    }
+
+    override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
+        repository.saveConfirmTransactionSettings(isConfirm)
+    }
+
+    override fun onDialogClosePressed() {
+        view?.closeDialog()
+    }
+
+    override fun onDestroy() {
+        view?.closeDialog()
+        super.onDestroy()
+    }
 }

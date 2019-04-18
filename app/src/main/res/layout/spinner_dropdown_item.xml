@@ -6,6 +6,7 @@
     android:layout_height="?attr/dropdownListPreferredItemHeight"
     android:background="@color/colorPrimary"
     android:ellipsize="marquee"
+    android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_offset"
     android:paddingEnd="@dimen/common_offset"
     android:singleLine="true"

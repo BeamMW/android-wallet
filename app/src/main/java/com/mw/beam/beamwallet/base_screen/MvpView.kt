@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.support.v7.app.AlertDialog
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
@@ -30,10 +31,13 @@ interface MvpView {
     fun showSnackBar(message: String, textColor: Int)
     fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}): AlertDialog?
     fun dismissAlert()
+    fun copyToClipboard(content: String?, tag: String)
+    fun showToast(message: String, duration: Int)
     fun initPresenter(): BasePresenter<out MvpView, out MvpRepository>
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
-    fun configStatus(isConnected: Boolean)
+    fun configStatus(networkStatus: NetworkStatus)
     fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
+    fun logOut()
 }

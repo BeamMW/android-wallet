@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
 
     <ImageView
         android:id="@+id/logo"
@@ -37,7 +38,7 @@
         android:paddingStart="@dimen/welcome_progress_description_side_offset"
         android:paddingTop="@dimen/welcome_progress_description_top_offset"
         android:paddingEnd="@dimen/welcome_progress_description_side_offset"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,10 +51,27 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
         android:progressDrawable="@drawable/progress_bar"
-        app:layout_constraintBottom_toTopOf="@id/btnCancel"
+        app:layout_constraintBottom_toTopOf="@id/restoreFullDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/description" />
+
+    <TextView
+        android:id="@+id/restoreFullDescription"
+        style="@style/common_header_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingStart="@dimen/welcome_progress_description_side_offset"
+        android:paddingTop="@dimen/welcome_progress_description_top_offset"
+        android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+        android:text="@string/welcome_progress_restore_full_description"
+        android:textColor="@color/common_text_dark_color"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@id/progress"
+        app:layout_constraintVertical_bias="0" />
 
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnCancel"

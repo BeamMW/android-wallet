@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.create_password
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
@@ -41,6 +42,7 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
                 state.isModeChangePass = true
             } else {
                 state.phrases = view?.getSeed()
+                state.mode = view?.getWelcomeMode()
             }
         }
     }
@@ -60,8 +62,9 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
                     view?.completePassChanging()
                 }
             } else {
-                if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"))) {
-                    view?.proceedToWallet()
+                if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"), state.mode ?: WelcomeMode.CREATE)) {
+                    //if somehow we get mode null here - seems to be better to apply create mode instead of restore one
+                    view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return)
                 } else {
                     view?.showSnackBar(Status.STATUS_ERROR)
                 }

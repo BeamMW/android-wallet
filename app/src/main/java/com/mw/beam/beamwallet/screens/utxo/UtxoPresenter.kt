@@ -17,18 +17,16 @@
 package com.mw.beam.beamwallet.screens.utxo
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository, private val state: UtxoState)
+class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository)
     : BasePresenter<UtxoContract.View, UtxoContract.Repository>(currentView, currentRepository),
         UtxoContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
-    private lateinit var txStatusSubscription: Disposable
     private lateinit var blockchainInfoSubscription: Disposable
 
     override fun onViewCreated() {
@@ -37,18 +35,14 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     }
 
     override fun onUtxoPressed(utxo: Utxo) {
-        view?.showUtxoDetails(utxo, state.configTransactions().filter { it.id == utxo.createTxId || it.id == utxo.spentTxId } as ArrayList<TxDescription>)
+        view?.showUtxoDetails(utxo)
     }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            view?.updateUtxos(utxos)
-        }
-
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            state.configTransactions(data.tx)
+            view?.updateUtxos(utxos.reversed())
         }
 
         blockchainInfoSubscription = repository.getWalletStatus().subscribe { walletStatus ->
@@ -57,7 +51,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription, blockchainInfoSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

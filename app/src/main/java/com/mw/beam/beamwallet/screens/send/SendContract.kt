@@ -48,8 +48,12 @@ interface SendContract {
         fun setAddress(address: String)
         fun setFee(feeAmount: String)
         fun scanQR()
+        fun updateAvailable(availableString: String)
+        fun isAmountErrorShown() : Boolean
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
+        fun showConfirmDialog(token: String, amount: Double, fee: Long)
+        fun dismissDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -62,6 +66,8 @@ interface SendContract {
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
         fun onFeeFocusChanged(isFocused: Boolean, fee: String)
+        fun onConfirm()
+        fun onDialogClosePressed()
     }
 
     interface Repository : MvpRepository {
@@ -69,6 +75,7 @@ interface SendContract {
         fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean
+        fun isConfirmTransactionEnabled(): Boolean
         fun getAddresses(): Subject<OnAddressesData>
     }
 }

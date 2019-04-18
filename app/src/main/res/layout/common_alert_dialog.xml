@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/common_alert_dialog_background">
+    android:background="@drawable/common_alert_dialog_background"
+    android:filterTouchesWhenObscured="true">
 
     <TextView
         android:id="@+id/title"
@@ -18,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        app:layout_constraintStart_toStartOf="parent"
         android:id="@+id/alertText"
         style="@style/common_text_big_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/alert_dialog_alert_padding"
         app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView

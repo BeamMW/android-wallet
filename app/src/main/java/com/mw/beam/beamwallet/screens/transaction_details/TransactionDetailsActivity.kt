@@ -16,6 +16,10 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.transition.TransitionManager
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,14 +28,14 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
+import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -81,6 +85,27 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         return true
     }
 
+    @SuppressLint("InflateParams")
+    override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>) {
+        transactionUtxoContainer.visibility = if (utxoInfoList.isEmpty()) View.GONE else View.VISIBLE
+        transactionUtxoList.removeAllViews()
+
+        utxoInfoList.forEach { utxo ->
+            val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
+
+            val drawableId = when(utxo.type) {
+                UtxoType.Send -> R.drawable.ic_history_sent
+                UtxoType.Receive -> R.drawable.ic_history_received
+                UtxoType.Exchange -> R.drawable.menu_utxo
+            }
+
+            utxoView.utxoIcon.setImageDrawable(getDrawable(drawableId))
+            utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
+
+            transactionUtxoList.addView(utxoView)
+        }
+    }
+
     private fun configTransactionDetails(txDescription: TxDescription) {
         message.text = String.format(
                 when (txDescription.sender) {
@@ -100,6 +125,13 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         status.text = txDescription.statusString
     }
 
+    override fun updatePaymentProof(paymentProof: PaymentProof) {
+        if (paymentProofContainer.visibility == View.VISIBLE) return
+
+        TransitionManager.beginDelayedTransition(transactionDetailsMainContainer)
+        paymentProofContainer.visibility = View.VISIBLE
+    }
+
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender.value) {
             startAddress.text = txDescription.myId
@@ -110,6 +142,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
 
         transactionFee.text = txDescription.fee.convertToBeamString()
+        transactionId.text = txDescription.id
         kernel.text = txDescription.kernelId
 
         if (txDescription.message.isNotEmpty()) {
@@ -119,7 +152,31 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
     }
 
-    private fun configTransactionHistory(txDescription: TxDescription) {
+    override fun addListeners() {
+        btnPaymentProofDetails.setOnClickListener {
+            presenter.onShowPaymentProof()
+        }
+
+        btnPaymentProofCopy.setOnClickListener {
+            presenter.onCopyPaymentProof()
+        }
+    }
+
+    override fun showPaymentProof(paymentProof: PaymentProof) {
+        val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
+            putExtra(PaymentProofDetailsActivity.KEY_PAYMENT_PROOF, paymentProof)
+        }
+
+        startActivity(intent)
+    }
+
+    override fun showCopiedAlert() {
+        showSnackBar(getString(R.string.common_copied_alert))
+    }
+
+    override fun clearListeners() {
+        btnPaymentProofDetails.setOnClickListener(null)
+        btnPaymentProofCopy.setOnClickListener(null)
     }
 
     override fun finishScreen() {
@@ -127,7 +184,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository())
+        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
         return presenter
     }
 }

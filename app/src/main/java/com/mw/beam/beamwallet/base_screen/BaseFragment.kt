@@ -19,8 +19,8 @@ package com.mw.beam.beamwallet.base_screen
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
-
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -53,13 +53,17 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
     }
 
-    override fun configStatus(isConnected: Boolean) {
-        (activity as BaseActivity<*>).configStatus(isConnected)
+    override fun configStatus(networkStatus: NetworkStatus) {
+        (activity as BaseActivity<*>).configStatus(networkStatus)
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null)
+    }
+
+    override fun showToast(message: String, duration: Int) {
+        delegate.showToast(context, message, duration)
     }
 
     override fun dismissAlert() {
@@ -107,5 +111,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter.onDestroy()
         super.onDestroy()
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) {
+        context?.let { delegate.copyToClipboard(it, content, tag) }
+    }
+
+    override fun logOut() {
+        (activity as BaseActivity<*>).logOut()
     }
 }

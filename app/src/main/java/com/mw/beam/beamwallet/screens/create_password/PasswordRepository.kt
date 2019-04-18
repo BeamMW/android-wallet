@@ -20,7 +20,9 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
@@ -29,7 +31,7 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
  */
 class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
-    override fun createWallet(pass: String?, phrases: String?): Status {
+    override fun createWallet(pass: String?, phrases: String?, mode : WelcomeMode): Status {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && phrases != null) {
@@ -38,11 +40,16 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
             }
 
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
-            App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
+            App.wallet = Api.createWallet(AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases, WelcomeMode.RESTORE == mode)
 
             if (wallet != null) {
-                //TODO handle statuses of process
-                wallet!!.syncWithNode()
+                PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+
+                //TODO move synchronization to progress screen (already done) when progress for create flow will be needed
+                if (WelcomeMode.CREATE == mode) {
+                    wallet!!.syncWithNode()
+                }
+
                 result = Status.STATUS_OK
             }
         }
@@ -57,5 +64,6 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
     override fun changePass(pass: String?) {
         wallet?.changeWalletPassword(pass ?: return)
+        PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass ?: return)
     }
 }

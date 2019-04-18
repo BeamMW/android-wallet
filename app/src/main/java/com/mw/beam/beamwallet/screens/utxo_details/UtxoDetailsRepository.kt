@@ -17,13 +17,21 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
 class UtxoDetailsRepository : BaseRepository(), UtxoDetailsContract.Repository {
-    override var utxo: Utxo? = null
-    override var relatedTransactions: ArrayList<TxDescription>? = null
+
+    override fun getUtxoUpdated(): Subject<List<Utxo>> {
+        return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
+    }
+
+    override fun getTxStatus(): Subject<OnTxStatusData> {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
+    }
 }

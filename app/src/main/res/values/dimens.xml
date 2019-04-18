@@ -3,7 +3,7 @@
     <dimen name="common_offset">16dp</dimen>
     <dimen name="common_margin">5dp</dimen>
     <dimen name="common_button_margin">53dp</dimen>
-    <dimen name="common_alert_dialog_margin">20dp</dimen>
+    <dimen name="common_alert_dialog_margin">30dp</dimen>
     <dimen name="common_alert_title_text_size">16sp</dimen>
     <dimen name="common_header_big_text_size">18sp</dimen>
     <dimen name="common_header_small_size">12sp</dimen>
@@ -19,8 +19,9 @@
     <dimen name="common_btn_width">254dp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
     <dimen name="toolbar_padding_end">30dp</dimen>
-    <dimen name="toolbar_padding_for_status_start">16dp</dimen>
-    <dimen name="toolbar_padding_for_status">10dp</dimen>
+    <dimen name="toolbar_status_start_offset">16dp</dimen>
+    <dimen name="toolbar_status_offset">10dp</dimen>
+    <dimen name="toolbar_progress_size">12dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
     <dimen name="navigation_padding_top">29dp</dimen>
     <dimen name="navigation_accent_size">6dp</dimen>
@@ -55,9 +56,7 @@
     <!--WelcomeOpenFragment-->
     <dimen name="welcome_open_margin_side">30dp</dimen>
     <dimen name="welcome_open_description_top_offset">40dp</dimen>
-    <dimen name="welcome_open_forgot_padding_bottom">30dp</dimen>
-    <dimen name="welcome_open_forgot_padding_top">60dp</dimen>
-    <dimen name="welcome_open_forgot_text_size">14sp</dimen>
+    <dimen name="welcome_open_button_margin_bottom">60dp</dimen>
 
     <!--WelcomeDescriptionFragment-->
     <dimen name="welcome_description_padding_top">20dp</dimen>
@@ -87,6 +86,7 @@
     <dimen name="welcome_progress_description_top_offset">32dp</dimen>
     <dimen name="welcome_progress_description_side_offset">44dp</dimen>
     <dimen name="welcome_progress_progress_top_offset">30dp</dimen>
+    <dimen name="welcome_progress_progress_description_top_offset">20dp</dimen>
 
     <!--WalletFragment-->
     <dimen name="wallet_sum_text_size">24sp</dimen>
@@ -117,6 +117,14 @@
     <dimen name="transaction_details_title_padding_top">30dp</dimen>
     <dimen name="transaction_details_title_padding_bottom">22dp</dimen>
     <dimen name="transaction_details_padding">20dp</dimen>
+    <dimen name="transaction_details_utxo_list_title_margin_top">34dp</dimen>
+    <dimen name="transaction_details_utxo_value_offset">14dp</dimen>
+    <dimen name="transaction_details_utxo_amount_margin_top">30dp</dimen>
+    <dimen name="transaction_details_utxo_icon_size">16dp</dimen>
+    <dimen name="transaction_details_beam_icon_width">10dp</dimen>
+    <dimen name="transaction_details_beam_icon_height">15dp</dimen>
+    <dimen name="transaction_details_beam_icon_margin_start">6dp</dimen>
+    <dimen name="transaction_details_button_width">155dp</dimen>
 
     <!--ReceiveActivity-->
     <dimen name="receive_title_margin_top">35dp</dimen>
@@ -144,6 +152,15 @@
     <dimen name="send_amount_error_margin_top">8dp</dimen>
     <dimen name="send_btn_margin">22dp</dimen>
     <dimen name="send_transfer_btn_width">156dp</dimen>
+    <dimen name="send_available_sum_text_size">18sp</dimen>
+    <dimen name="send_available_currency_top_offset">7dp</dimen>
+    <dimen name="send_available_margin_top">18dp</dimen>
+    <dimen name="send_dialog_card_offset">10dp</dimen>
+    <dimen name="send_dialog_content_offset">20dp</dimen>
+    <dimen name="send_dialog_value_offset">16dp</dimen>
+    <dimen name="send_dialog_description_margin_top">50dp</dimen>
+    <dimen name="send_dialog_transaction_fee_margin_top">20dp</dimen>
+    <dimen name="send_dialog_amount_value_margin_top">16dp</dimen>
 
     <!--UtxoFragment-->
     <dimen name="utxo_item_padding">20dp</dimen>
@@ -161,7 +178,11 @@
     <dimen name="settings_card_offset">10dp</dimen>
     <dimen name="settings_version_offset">30dp</dimen>
     <dimen name="settings_common_offset">20dp</dimen>
-
+    <dimen name="settings_small_text_margin">4dp</dimen>
+    <dimen name="settings_dialog_button_group_top_margin">10dp</dimen>
+    <dimen name="settings_dialog_button_group_start_margin">16dp</dimen>
+    <dimen name="settings_dialog_cancel_margin">15dp</dimen>
+    <dimen name="settings_dialog_button_top_margin">10dp</dimen>
     <!--AddressesFragment-->
     <dimen name="addresses_tab_padding">25dp</dimen>
     <dimen name="addresses_label_text_size">20sp</dimen>
@@ -179,4 +200,13 @@
 
     <!--ScanQrActivity-->
     <dimen name="scan_qr_toolbar_offset">20dp</dimen>
+
+    <!--PaymentProofDetailsActivity-->
+    <dimen name="payment_proof_details_content_vertical_padding">16dp</dimen>
+    <dimen name="payment_proof_details_content_horizontal_padding">25dp</dimen>
+    <dimen name="payment_proof_details_code_value_margin_start">32dp</dimen>
+    <dimen name="payment_proof_details_section_margin_top">30dp</dimen>
+    <dimen name="payment_proof_details_send_margin_top">20dp</dimen>
+    <dimen name="payment_proof_details_send_value_margin_start">45dp</dimen>
+    <dimen name="payment_proof_details_values_margin_top">14dp</dimen>
 </resources>
