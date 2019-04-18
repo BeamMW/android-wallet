@@ -38,7 +38,7 @@ enum class TxSender(val value: Boolean) {
         private val map: HashMap<Boolean, TxSender> = HashMap()
 
         init {
-            TxSender.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -56,7 +56,7 @@ enum class TxStatus(val value: Int) {
         private val map: HashMap<Int, TxStatus> = HashMap()
 
         init {
-            TxStatus.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -77,7 +77,7 @@ enum class TxFailureReason(val value: Int) {
         private val map: MutableMap<Int, TxFailureReason> = java.util.HashMap()
 
         init {
-            TxFailureReason.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -95,7 +95,7 @@ enum class UtxoStatus(val value: Int) {
         private val map: HashMap<Int, UtxoStatus> = HashMap()
 
         init {
-            UtxoStatus.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -115,7 +115,7 @@ enum class UtxoKeyType(val value: String) {
         private val map: HashMap<String, UtxoKeyType> = HashMap()
 
         init {
-            UtxoKeyType.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -137,7 +137,7 @@ enum class ChangeAction(val value: Int) {
         private val map: HashMap<Int, ChangeAction> = HashMap()
 
         init {
-            ChangeAction.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }

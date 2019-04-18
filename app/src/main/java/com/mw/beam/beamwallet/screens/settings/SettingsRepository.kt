@@ -16,13 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
-import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.utils.LockScreenManager
-import com.mw.beam.beamwallet.core.utils.isLessMinute
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 1/21/19.

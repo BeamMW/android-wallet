@@ -12,7 +12,7 @@
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_done">done</string>
-    <string name="common_ok">ok</string>
+    <string name="common_ok">@android:string/ok</string>
     <string name="common_copied_alert">Copied!</string>
     <string name="common_menu_more">more</string>
     <string name="currency_beam">beam</string>
@@ -123,7 +123,6 @@ and never kept in the blockchain.</string>
     <string name="wallet_transactions_title">Transactions</string>
     <string name="wallet_transactions_receive">Receive %s</string>
     <string name="wallet_transactions_send">Send %s</string>
-    <string name="wallet_transactions_swap">Swap %1$s to %2$s</string>
     <string name="wallet_transactions_menu_search">Search</string>
     <string name="wallet_transactions_menu_filter">Filter</string>
     <string name="wallet_transactions_menu_export">Export</string>

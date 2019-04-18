@@ -40,7 +40,6 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
     private val sendText = context.getString(R.string.wallet_transactions_send)
-    private val swapText = context.getString(R.string.wallet_transactions_swap)
     private val currencyBeam = context.getString(R.string.currency_beam)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {

@@ -76,7 +76,7 @@ class BeamButton : LinearLayout {
         inflate(context, R.layout.common_button, this)
 
         this.background = ContextCompat.getDrawable(context, R.drawable.common_button)
-        this.orientation = LinearLayout.HORIZONTAL
+        this.orientation = HORIZONTAL
         this.gravity = Gravity.CENTER
 
         if (attrs != null) {

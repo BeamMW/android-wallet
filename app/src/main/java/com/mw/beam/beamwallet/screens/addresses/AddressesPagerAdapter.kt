@@ -87,7 +87,7 @@ enum class Tab(val value: Int) {
         private val map: HashMap<Int, Tab> = HashMap()
 
         init {
-            Tab.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }

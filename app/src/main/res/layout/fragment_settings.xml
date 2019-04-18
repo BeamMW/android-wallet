@@ -174,7 +174,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:text="@string/settings_report"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

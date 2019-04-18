@@ -39,7 +39,7 @@ enum class Status(val value: Int) {
         private val map: MutableMap<Int, Status> = java.util.HashMap()
 
         init {
-            Status.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }

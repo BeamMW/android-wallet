@@ -33,11 +33,6 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         view?.forbidScreenshot()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        view?.forbidScreenshot()
-    }
-
     override fun onViewCreated() {
         super.onViewCreated()
         view?.configSeed(repository.seed)
