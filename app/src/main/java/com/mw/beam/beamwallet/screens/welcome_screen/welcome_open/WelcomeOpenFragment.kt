@@ -94,7 +94,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         pass.removeTextChangedListener(passWatcher)
     }
 
-    override fun getPass(): String = pass.text?.trim().toString()
+    override fun getPass(): String = pass.text?.toString() ?: ""
     override fun openWallet(pass: String) = (activity as OpenHandler).openWallet(pass)
     override fun changeWallet() = (activity as OpenHandler).changeWallet()
 
