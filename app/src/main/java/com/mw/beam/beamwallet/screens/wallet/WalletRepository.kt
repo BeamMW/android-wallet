@@ -44,6 +44,8 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         val file = File(AppConfig.TRANSACTIONS_PATH, "transactions_" + System.currentTimeMillis() + ".csv")
         if (!file.parentFile.exists()) {
             file.parentFile.mkdir()
+        } else {
+            file.parentFile.listFiles().forEach { it.delete() }
         }
         file.createNewFile()
         return file
