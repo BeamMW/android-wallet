@@ -1,160 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true">
-
+    android:orientation="vertical"
+    android:layout_height="match_parent">
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/switchTitle"
-        style="@style/common_subheader_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_offset"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:text="@string/receive_switch_title"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/swapSwitch"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
-
-    <Switch
-        android:id="@+id/swapSwitch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/switchTitle"
-        app:layout_constraintTop_toTopOf="@id/toolbarLayout"
-        tools:ignore="RtlSymmetry" />
-
-    <TextView
-        android:id="@+id/expiresTitle"
-        style="@style/common_subheader_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_offset"
-        android:layout_marginTop="@dimen/receive_title_margin_top"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:text="@string/receive_expires_on"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/switchTitle" />
-
-    <Spinner
-        android:id="@+id/expiresOnSpinner"
-        android:layout_width="@dimen/receive_spinner_width"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/receive_spinner_offset"
-        android:layout_marginTop="@dimen/receive_common_margin"
-        android:layout_marginEnd="@dimen/receive_spinner_offset"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
-
-    <TextView
-        android:id="@+id/commentTitle"
-        style="@style/common_subheader_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_offset"
-        android:layout_marginTop="@dimen/receive_comment_title_margin_top"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:text="@string/receive_send_comment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
-
-    <EditText
-        android:id="@+id/comment"
-        style="@style/common_text_big_light"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_offset"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:background="@drawable/edit_text_selector"
-        android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/commentTitle"
-        tools:ignore="Autofill,LabelFor,TextFields" />
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:filterTouchesWhenObscured="true">
 
-    <TextView
-        android:id="@+id/commentDescription"
-        style="@style/common_text_big_dark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/common_offset"
-        android:layout_marginTop="@dimen/send_receive_common_margin"
-        android:layout_marginEnd="@dimen/common_offset"
-        android:text="@string/receive_send_comment_description"
-        app:layout_constraintTop_toBottomOf="@id/comment" />
+            <TextView
+                android:id="@+id/switchTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/receive_switch_title"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/swapSwitch"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tokenTitle"
-        style="@style/common_subheader_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/receive_common_side_margin"
-        android:layout_marginTop="@dimen/receive_token_title_margin_top"
-        android:layout_marginEnd="@dimen/receive_common_side_margin"
-        android:gravity="center"
-        android:text="@string/receive_token_title"
-        app:layout_constraintTop_toBottomOf="@id/commentDescription" />
+            <Switch
+                android:id="@+id/swapSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/switchTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
 
-    <TextView
-        android:id="@+id/token"
-        style="@style/common_text_big_dark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/receive_common_side_margin"
-        android:layout_marginTop="@dimen/send_receive_common_margin"
-        android:layout_marginEnd="@dimen/receive_common_side_margin"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/tokenTitle" />
+            <TextView
+                android:id="@+id/expiresTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/receive_title_margin_top"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/receive_expires_on"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/switchTitle" />
 
-    <TextView
-        android:id="@+id/tokenDescription"
-        style="@style/common_text_big_light"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/receive_common_side_margin"
-        android:layout_marginTop="@dimen/receive_token_description_margin_top"
-        android:layout_marginEnd="@dimen/receive_common_side_margin"
-        android:gravity="center"
-        android:text="@string/receive_token_description"
-        app:layout_constraintTop_toBottomOf="@id/token" />
+            <Spinner
+                android:id="@+id/expiresOnSpinner"
+                android:layout_width="@dimen/receive_spinner_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_spinner_offset"
+                android:layout_marginTop="@dimen/receive_common_margin"
+                android:layout_marginEnd="@dimen/receive_spinner_offset"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnShowQR"
-        android:layout_width="@dimen/wallet_button_width"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/receive_btn_margin"
-        android:layout_marginBottom="@dimen/receive_btn_margin"
-        app:button_icon="@drawable/ic_btn_qr"
-        app:button_state_list="@color/primary_selector"
-        app:button_text="@string/receive_btn_qr"
-        app:button_text_color="@color/common_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnCopyToken"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/commentTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/receive_comment_title_margin_top"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/receive_send_comment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnCopyToken"
-        android:layout_width="@dimen/wallet_button_width"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/receive_btn_margin"
-        android:layout_marginBottom="@dimen/receive_btn_margin"
-        app:button_icon="@drawable/ic_btn_copy_dark"
-        app:button_state_list="@color/receive_selector"
-        app:button_text="@string/receive_btn_copy"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="0.5"
-        app:layout_constraintStart_toEndOf="@id/btnShowQR" />
-</android.support.constraint.ConstraintLayout>
+            <EditText
+                android:id="@+id/comment"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:background="@drawable/edit_text_selector"
+                android:singleLine="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/commentTitle"
+                tools:ignore="Autofill,LabelFor,TextFields" />
+
+            <TextView
+                android:id="@+id/commentDescription"
+                style="@style/common_text_big_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/send_receive_common_margin"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/receive_send_comment_description"
+                app:layout_constraintTop_toBottomOf="@id/comment" />
+
+            <TextView
+                android:id="@+id/tokenTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_side_margin"
+                android:layout_marginTop="@dimen/receive_token_title_margin_top"
+                android:layout_marginEnd="@dimen/receive_common_side_margin"
+                android:gravity="center"
+                android:text="@string/receive_token_title"
+                app:layout_constraintTop_toBottomOf="@id/commentDescription" />
+
+            <TextView
+                android:id="@+id/token"
+                style="@style/common_text_big_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_side_margin"
+                android:layout_marginTop="@dimen/send_receive_common_margin"
+                android:layout_marginEnd="@dimen/receive_common_side_margin"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/tokenTitle" />
+
+            <TextView
+                android:id="@+id/tokenDescription"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_side_margin"
+                android:layout_marginTop="@dimen/receive_token_description_margin_top"
+                android:layout_marginEnd="@dimen/receive_common_side_margin"
+                android:gravity="center"
+                android:text="@string/receive_token_description"
+                app:layout_constraintTop_toBottomOf="@id/token" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnShowQR"
+                android:layout_width="@dimen/wallet_button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/receive_btn_margin"
+                android:layout_marginTop="@dimen/receive_btn_margin"
+                app:button_icon="@drawable/ic_btn_qr"
+                app:button_state_list="@color/primary_selector"
+                app:button_text="@string/receive_btn_qr"
+                app:button_text_color="@color/common_text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnCopyToken"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tokenDescription"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnCopyToken"
+                android:layout_width="@dimen/wallet_button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/receive_btn_margin"
+                app:button_icon="@drawable/ic_btn_copy_dark"
+                app:button_state_list="@color/receive_selector"
+                app:button_text="@string/receive_btn_copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintStart_toEndOf="@id/btnShowQR"
+                app:layout_constraintTop_toTopOf="@+id/btnShowQR" />
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

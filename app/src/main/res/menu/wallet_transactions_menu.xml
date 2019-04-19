@@ -19,7 +19,6 @@
         <item
             android:id="@+id/menu_proof"
             android:icon="@drawable/ic_proof"
-            android:visible="false"
             android:title="@string/wallet_transactions_menu_proof"/>
         <item
             android:id="@+id/menu_delete"

@@ -91,6 +91,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showShareFileChooser(file)
     }
 
+    override fun onProofVerificationPressed() {
+        view?.showProofVerification()
+    }
+
     override fun initSubscriptions() {
         super.initSubscriptions()
 

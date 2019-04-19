@@ -158,13 +158,15 @@
                 android:id="@+id/paymentProofContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/common_offset"
+                android:paddingBottom="@dimen/common_offset"
+                android:paddingTop="@dimen/common_offset"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/transactionInfoLayout">
 
                 <TextView
                     android:id="@+id/paymentProofTitle"
                     style="@style/transaction_details_title"
+                    android:layout_marginStart="@dimen/common_offset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"

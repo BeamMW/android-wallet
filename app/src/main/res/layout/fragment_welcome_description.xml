@@ -8,13 +8,13 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/welcome_description_side_offset"
-        android:paddingEnd="@dimen/welcome_description_side_offset">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/description"
             style="@style/welcome_description_text_style"
+            android:layout_marginStart="@dimen/welcome_description_side_offset"
+            android:layout_marginEnd="@dimen/welcome_description_side_offset"
             android:paddingTop="@dimen/welcome_description_padding_top"
             android:text="@string/welcome_description"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,6 +25,7 @@
             android:id="@+id/ic_no_see"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/welcome_description_side_offset"
             android:layout_marginTop="@dimen/welcome_description_item_top_offset"
             android:contentDescription="@null"
             android:src="@drawable/no_see"
@@ -35,6 +36,7 @@
             android:id="@+id/no_see"
             style="@style/welcome_description_item_text_style"
             android:layout_marginStart="@dimen/welcome_description_item_side_offset"
+            android:layout_marginEnd="@dimen/welcome_description_side_offset"
             android:text="@string/welcome_no_see"
             app:layout_constraintBottom_toBottomOf="@id/ic_no_see"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +48,7 @@
             android:id="@+id/ic_no_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/welcome_description_side_offset"
             android:layout_marginTop="@dimen/welcome_description_item_top_offset"
             android:contentDescription="@null"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +58,7 @@
         <TextView
             android:id="@+id/no_type"
             style="@style/welcome_description_item_text_style"
+            android:layout_marginEnd="@dimen/welcome_description_side_offset"
             android:text="@string/welcome_no_type"
             app:layout_constraintBottom_toBottomOf="@id/ic_no_type"
             app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +80,7 @@
         <TextView
             android:id="@+id/copy"
             style="@style/welcome_description_item_text_style"
+            android:layout_marginEnd="@dimen/welcome_description_side_offset"
             android:text="@string/welcome_copy"
             app:layout_constraintBottom_toBottomOf="@id/ic_copy"
             app:layout_constraintEnd_toEndOf="parent"

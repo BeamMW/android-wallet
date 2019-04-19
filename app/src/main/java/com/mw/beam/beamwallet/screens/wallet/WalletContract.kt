@@ -45,6 +45,7 @@ interface WalletContract {
         fun handleTransactionsMenu(item: MenuItem): Boolean
         fun showTransactionsMenu(menu: MenuView)
         fun showShareFileChooser(file: File)
+        fun showProofVerification()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -55,6 +56,7 @@ interface WalletContract {
         fun onFilterPressed()
         fun onExportPressed()
         fun onDeletePressed()
+        fun onProofVerificationPressed()
         fun onExpandAvailablePressed()
         fun onExpandInProgressPressed()
         fun onTransactionsMenuPressed(item: MenuItem): Boolean
