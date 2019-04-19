@@ -90,7 +90,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
-    override fun getPass(): String = pass.text?.trim().toString()
+    override fun getPass(): String = pass.text?.toString() ?: ""
     override fun isModeChangePass(): Boolean = arguments?.getBoolean(ARG_MODE_PASS_CHANGE, false) ?: false
     override fun getWelcomeMode(): WelcomeMode? {
         val argument = arguments?.getString(ARG_WELCOME_MODE)
