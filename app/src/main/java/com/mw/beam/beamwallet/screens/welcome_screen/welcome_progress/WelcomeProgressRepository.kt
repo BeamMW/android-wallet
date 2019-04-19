@@ -17,9 +17,13 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
-import com.mw.beam.beamwallet.core.helpers.removeNodeDatabase
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.Subject
 
 /**
@@ -41,6 +45,32 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     override fun removeNode() {
         removeNodeDatabase()
+    }
+
+    override fun removeWallet() {
+        removeDatabase()
+    }
+
+    override fun createWallet(pass: String?, seed: String?, mode : WelcomeMode): Status {
+        var result = Status.STATUS_ERROR
+
+        if (!pass.isNullOrBlank() && seed != null) {
+            if (Api.isWalletInitialized(AppConfig.DB_PATH)) {
+                removeWallet()
+                removeNode()
+            }
+
+            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed, WelcomeMode.RESTORE == mode)
+
+            if (wallet != null) {
+                PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                result = Status.STATUS_OK
+            }
+        }
+
+        LogUtils.logResponse(result, "createWallet")
+        return result
     }
 }
 
