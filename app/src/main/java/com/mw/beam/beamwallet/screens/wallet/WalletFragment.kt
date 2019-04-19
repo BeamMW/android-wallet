@@ -307,9 +307,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showShareFileChooser(file: File) {
-        if (context == null) return
+        val context = context ?: return
 
-        val uri = FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, file)
+        val uri = FileProvider.getUriForFile(context, AppConfig.AUTHORITY, file)
 
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -317,7 +317,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             putExtra(Intent.EXTRA_STREAM, uri)
         }
 
-        startActivity(Intent.createChooser(intent, "Share..."))
+        startActivity(Intent.createChooser(intent, getString(R.string.wallet_share_title)))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

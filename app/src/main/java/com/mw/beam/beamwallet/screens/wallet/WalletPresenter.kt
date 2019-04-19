@@ -82,10 +82,12 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val file = repository.getTransactionsFile()
         val stringBuilder = StringBuilder()
         stringBuilder.append(TransactionFields.HEAD_LINE)
+
         state.transactions.values.forEach {
             stringBuilder.append(TransactionFields.formatTransaction(it))
         }
         file.writeBytes(stringBuilder.toString().toByteArray())
+
         view?.showShareFileChooser(file)
     }
 
