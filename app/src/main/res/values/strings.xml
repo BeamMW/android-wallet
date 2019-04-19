@@ -111,6 +111,7 @@ and never kept in the blockchain.</string>
     <string name="wallet_maturing">Maturing</string>
     <string name="wallet_btn_receive">receive</string>
     <string name="wallet_btn_send">send</string>
+    <string name="wallet_share_title">Share…</string>
     <string name="wallet_status_completed">completed</string>
     <string name="wallet_status_received">received</string>
     <string name="wallet_status_sent">sent</string>
