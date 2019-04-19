@@ -40,6 +40,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         super.onCreate()
         state.mode = view?.getMode() ?: return
         state.password = view?.getPassword() ?: return
+        state.seed = view?.getSeed()
     }
 
     override fun onViewCreated() {
@@ -52,11 +53,37 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun onTryAgain() {
-        view?.showSnackBar("Coming soon...")
+        clearWalletProgress()
+
+        if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
+            view?.init(state.mode)
+        } else {
+            view?.showFailedRestoreAlert()
+        }
     }
 
     override fun onCancel() {
-        view?.showSnackBar("Coming soon...")
+        cancelRestore()
+    }
+
+    override fun onOkToCancelRestore() {
+        cancelRestore()
+    }
+
+    override fun onCancelToCancelRestore() {
+        // do nothing
+        // alert will be dismissed automatically
+    }
+
+    override fun onBackPressed() {
+        when (state.mode) {
+            WelcomeMode.RESTORE -> {
+                view?.showCancelRestoreAlert()
+            }
+            WelcomeMode.CREATE, WelcomeMode.OPEN -> {
+                //for now do nothing
+            }
+        }
     }
 
     override fun initSubscriptions() {
@@ -117,7 +144,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             if (Status.STATUS_OK == repository.openWallet(state.password)) {
                 view?.showWallet()
             } else {
-                //todo
+                view?.showSnackBar(Status.STATUS_ERROR)
+                view?.logOut()
             }
         }
 
@@ -142,6 +170,17 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         //so we need to unsubscribe from events to prevent unexpected behaviour
         nodeProgressUpdatedSubscription.dispose()
         isNodeSyncFinished = true
+    }
+
+    private fun clearWalletProgress() {
+        repository.closeWallet()
+        repository.removeWallet()
+        repository.removeNode()
+    }
+
+    private fun cancelRestore() {
+        clearWalletProgress()
+        view?.logOut()
     }
 
     override fun hasBackArrow(): Boolean? = false

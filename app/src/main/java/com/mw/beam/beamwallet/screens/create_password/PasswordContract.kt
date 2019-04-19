@@ -35,7 +35,7 @@ interface PasswordContract {
         fun getSeed(): Array<String>?
         fun getWelcomeMode(): WelcomeMode?
         fun isModeChangePass(): Boolean
-        fun proceedToWallet(mode : WelcomeMode, pass: String)
+        fun proceedToWallet(mode : WelcomeMode, pass: String, seed: Array<String>)
         fun showSeedAlert()
         fun showSeedFragment()
         fun showOldPassError()
