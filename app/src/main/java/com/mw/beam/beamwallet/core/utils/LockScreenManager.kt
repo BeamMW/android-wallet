@@ -31,8 +31,9 @@ object LockScreenManager {
 
     fun getCurrentValue(): Long = PreferencesManager.getLong(PreferencesManager.KEY_LOCK_SCREEN, LOCK_SCREEN_NEVER_VALUE)
 
-    fun updateLockScreenSettings(millisecond: Long) {
+    fun updateLockScreenSettings(context: Context, millisecond: Long) {
         PreferencesManager.putLong(PreferencesManager.KEY_LOCK_SCREEN, millisecond)
+        restartTimer(context)
     }
 }
 
