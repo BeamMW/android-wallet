@@ -27,4 +27,5 @@ class WelcomeProgressState {
     val maxCountConnectionAttempts = 3
     var failedConnectionCount = 0
     var password = ""
+    var seed : Array<String>? = null
 }

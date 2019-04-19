@@ -98,7 +98,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         return if (argument.isNullOrEmpty()) null else  WelcomeMode.valueOf(argument)
     }
 
-    override fun proceedToWallet(mode: WelcomeMode, pass: String) = (activity as PasswordsHandler).proceedToWallet(mode, pass)
+    override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) = (activity as PasswordsHandler).proceedToWallet(mode, pass, seed)
     override fun showSeedFragment() = (activity as PasswordsHandler).showSeedFragment()
     override fun completePassChanging() = (activity as PassChangedHandler).onPassChanged()
 
@@ -180,7 +180,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     interface PasswordsHandler {
-        fun proceedToWallet(mode: WelcomeMode, pass: String)
+        fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>)
         fun showSeedFragment()
     }
 

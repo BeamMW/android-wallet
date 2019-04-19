@@ -20,10 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.core.helpers.removeDatabase
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -37,6 +34,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
         if (!pass.isNullOrBlank() && phrases != null) {
             if (Api.isWalletInitialized(AppConfig.DB_PATH)) {
                 removeDatabase()
+                removeNodeDatabase()
             }
 
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()

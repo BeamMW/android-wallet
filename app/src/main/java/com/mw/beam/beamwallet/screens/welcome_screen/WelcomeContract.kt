@@ -33,7 +33,7 @@ interface WelcomeContract {
         fun showRestoreFragment()
         fun showCreateFragment()
         fun showValidationFragment(phrases: Array<String>)
-        fun showProgressFragment(mode: WelcomeMode, pass : String)
+        fun showProgressFragment(mode: WelcomeMode, pass : String, seed: Array<String>? = null)
         fun showMainActivity()
         fun finishNotRootTask()
     }
@@ -43,7 +43,7 @@ interface WelcomeContract {
         fun onRestoreWallet()
         fun onGenerateSeed()
         fun onShowWallet()
-        fun onOpenWallet(mode: WelcomeMode, pass: String)
+        fun onOpenWallet(mode: WelcomeMode, pass: String, seed: Array<String>? = null)
         fun onChangeWallet()
         fun onProceedToPasswords(phrases: Array<String>, mode: WelcomeMode)
         fun onProceedToValidation(phrases: Array<String>)
