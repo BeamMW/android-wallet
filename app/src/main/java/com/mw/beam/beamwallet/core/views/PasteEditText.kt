@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 /**
  * Created by vain onnellinen on 3/25/19.
  */
-class SendEditText : AppCompatEditText {
+class PasteEditText : AppCompatEditText {
     private val listeners: ArrayList<TextWatcher> = arrayListOf()
 
     constructor(context: Context) : super(context)

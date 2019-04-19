@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
@@ -37,4 +38,5 @@ data class Wallet(val _this: Long) {
     external fun changeWalletPassword(password: String)
     external fun checkWalletPassword(password: String): Boolean
     external fun getPaymentInfo(txID: String)
+    external fun verifyPaymentInfo(paymentInfo: String): PaymentInfoDTO
 }

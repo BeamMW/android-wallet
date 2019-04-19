@@ -34,7 +34,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
 
-            <com.mw.beam.beamwallet.core.views.SendEditText
+            <com.mw.beam.beamwallet.core.views.PasteEditText
                 android:id="@+id/token"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"

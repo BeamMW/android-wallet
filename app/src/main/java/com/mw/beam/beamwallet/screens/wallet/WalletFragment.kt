@@ -42,6 +42,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.screens.proof_verification.ProofVerificationActivity
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import java.io.File
 
@@ -265,6 +266,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                 presenter.onDeletePressed()
                 true
             }
+            R.id.menu_proof -> {
+                presenter.onProofVerificationPressed()
+                true
+            }
             else -> true
         }
     }
@@ -318,6 +323,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
 
         startActivity(Intent.createChooser(intent, getString(R.string.wallet_share_title)))
+    }
+
+    override fun showProofVerification() {
+        startActivity(Intent(context, ProofVerificationActivity::class.java))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

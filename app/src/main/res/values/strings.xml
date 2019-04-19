@@ -288,8 +288,11 @@ and never kept in the blockchain.</string>
     <!--ScanQrActivity-->
     <string name="scan_qr_title">Scan QR code</string>
 
-    <!--PaymentProofDetailsActivity-->
+    <!--PaymentProofActivity-->
     <string name="payment_proof_details_toolbar_title">Payment proof</string>
+    <string name="payment_proof_verification_toolbar_title">Payment proof verification</string>
+    <string name="payment_proof_verification_title">Paste your payment proof here</string>
+    <string name="payment_proof_verification_error">Cannot decode a proof, illegal sequence.</string>
     <string name="payment_proof_details_copy_details">copy details</string>
     <string name="payment_proof_details_copy_code">copy code</string>
     <string name="payment_proof_details_beam">%1$s beam</string>

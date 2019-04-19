@@ -61,6 +61,10 @@
             android:name=".screens.payment_proof_details.PaymentProofDetailsActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".screens.proof_verification.ProofVerificationActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
