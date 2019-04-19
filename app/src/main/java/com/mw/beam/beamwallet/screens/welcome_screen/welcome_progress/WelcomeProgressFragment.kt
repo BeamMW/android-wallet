@@ -26,12 +26,13 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
-class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View {
+class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View, OnBackPressedHandler {
     private lateinit var presenter: WelcomeProgressPresenter
     private lateinit var openTitleString: String
     private lateinit var restoreTitleString: String
@@ -41,12 +42,14 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     companion object {
         private const val ARG_MODE = "ARG_MODE"
         private const val ARG_PASS = "ARG_PASS"
+        private const val ARG_SEED = "ARG_SEED"
         private const val FULL_PROGRESS = 100
         fun newInstance(mode: WelcomeMode) = WelcomeProgressFragment().apply { arguments = Bundle().apply { putString(ARG_MODE, mode.name) } }
-        fun newInstance(mode: WelcomeMode, pass: String) = WelcomeProgressFragment().apply {
+        fun newInstance(mode: WelcomeMode, pass: String, seed: Array<String>?) = WelcomeProgressFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_MODE, mode.name)
                 putString(ARG_PASS, pass)
+                putStringArray(ARG_SEED, seed)
             }
         }
 
@@ -107,6 +110,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 onCancel = { presenter.onCancel() })
     }
 
+    override fun showCancelRestoreAlert() {
+        showAlert(message = getString(R.string.welcome_progress_cancel_restore_description),
+                btnConfirmText = getString(R.string.common_ok),
+                onConfirm = { presenter.onOkToCancelRestore() },
+                title = getString(R.string.welcome_progress_cancel_restore_title),
+                btnCancelText = getString(R.string.common_cancel),
+                onCancel = { presenter.onCancelToCancelRestore() })
+    }
+
     private fun countProgress(progressData: OnSyncProgressData): Int {
         return (progressData.done * 100.0 / progressData.total).toInt()
     }
@@ -116,6 +128,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             ?: WelcomeMode.CREATE.name)
 
     override fun getPassword(): String? = arguments?.getString(ARG_PASS)
+    override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_SEED)
 
     override fun showWallet() = (activity as ProgressHandler).showWallet()
 
@@ -123,6 +136,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         description.text = descriptionString
         description.visibility = View.VISIBLE
         progress.progress = currentProgress
+    }
+
+    override fun onBackPressed() {
+        presenter.onBackPressed()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

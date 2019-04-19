@@ -76,6 +76,8 @@
     <string name="welcome_progress_restore_error_title">Wallet restore failure</string>
     <string name="welcome_progress_restore_error_description">The wallet can\'t connect to the node. Please try again later.</string>
     <string name="welcome_progress_restore_btn_try_again">Try again</string>
+    <string name="welcome_progress_cancel_restore_title">Canceling restore</string>
+    <string name="welcome_progress_cancel_restore_description">You are going to cancel restore process. All data will be lost. Do you want to continue?</string>
     <string name="welcome_progress_update_utxo_description">Scanning UTXO %1$d/%2$d</string>
     <string name="welcome_progress_restore_description">Restored %d\%%</string>
     <string name="welcome_progress_restore_full_description">Please wait for synchronization and do not close or minimize the application.\n\n Only the wallet balance (UTXO) can be restored,  transaction info is always private

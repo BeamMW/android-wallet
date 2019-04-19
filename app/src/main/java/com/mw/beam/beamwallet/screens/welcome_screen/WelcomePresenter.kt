@@ -51,9 +51,9 @@ class WelcomePresenter(currentView: WelcomeContract.View, currentRepository: Wel
 
     override fun isLockScreenEnabled(): Boolean = false
 
-    override fun onOpenWallet(mode: WelcomeMode, pass: String) {
+    override fun onOpenWallet(mode: WelcomeMode, pass: String, seed: Array<String>?) {
         when (mode) {
-            WelcomeMode.OPEN, WelcomeMode.RESTORE  -> view?.showProgressFragment(mode, pass)
+            WelcomeMode.OPEN, WelcomeMode.RESTORE-> view?.showProgressFragment(mode, pass, seed)
             WelcomeMode.CREATE -> view?.showMainActivity()
         }
     }

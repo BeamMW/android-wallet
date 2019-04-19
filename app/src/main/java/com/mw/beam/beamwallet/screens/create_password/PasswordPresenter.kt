@@ -64,7 +64,7 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
             } else {
                 if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"), state.mode ?: WelcomeMode.CREATE)) {
                     //if somehow we get mode null here - seems to be better to apply create mode instead of restore one
-                    view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return)
+                    view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return, view?.getSeed() ?: return)
                 } else {
                     view?.showSnackBar(Status.STATUS_ERROR)
                 }

@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.subjects.Subject
 
@@ -32,14 +33,19 @@ interface WelcomeProgressContract {
         fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean = false)
         fun getMode(): WelcomeMode?
         fun getPassword(): String?
+        fun getSeed(): Array<String>?
         fun showWallet()
         fun showNoInternetConnectionMessage()
+        fun showCancelRestoreAlert()
         fun showFailedRestoreAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onTryAgain()
         fun onCancel()
+        fun onOkToCancelRestore()
+        fun onCancelToCancelRestore()
+        fun onBackPressed()
     }
 
     interface Repository : MvpRepository {
@@ -47,5 +53,7 @@ interface WelcomeProgressContract {
         fun getNodeStopped(): Subject<Any>
         fun getFailedNodeStart(): Subject<Any>
         fun removeNode()
+        fun removeWallet()
+        fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status
     }
 }
