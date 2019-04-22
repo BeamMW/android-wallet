@@ -45,7 +45,7 @@
     <dimen name="welcome_small_logo_height">80dp</dimen>
     <dimen name="welcome_logo_margin_top">98dp</dimen>
     <dimen name="welcome_logo_text_margin_top">30dp</dimen>
-    <dimen name="welcome_testnet_text_margin_top">40dp</dimen>
+    <dimen name="welcome_testnet_text_margin">40dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
     <dimen name="welcome_passwords_group_padding_top">60dp</dimen>
     <dimen name="welcome_passwords_progress_item_margin">8dp</dimen>
