@@ -37,8 +37,8 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-    override fun getUtxoUpdated(): Subject<List<Utxo>> {
-        return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
+    override fun getUtxoByTx(txId: String): Subject<List<Utxo>?> {
+        return getResult(WalletListener.subOnCoinsByTx, "getUtxoByTx") { wallet?.getCoinsByTx(txId) }
     }
 
     override fun getTxStatus(): Subject<OnTxStatusData> {

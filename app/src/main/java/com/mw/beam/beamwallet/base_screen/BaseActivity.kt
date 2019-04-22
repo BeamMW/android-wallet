@@ -31,9 +31,9 @@ import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.utils.LockScreenManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*

@@ -53,9 +53,9 @@ interface TransactionDetailsContract {
     interface Repository : MvpRepository {
         fun deleteTransaction(txDescription: TxDescription?)
         fun cancelTransaction(txDescription: TxDescription?)
-        fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
+        fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
     }
 }

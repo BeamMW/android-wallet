@@ -34,8 +34,8 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.utils.LockScreenManager
-import com.mw.beam.beamwallet.core.utils.isLessMinute
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File

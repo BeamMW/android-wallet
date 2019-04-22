@@ -31,7 +31,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         TransactionDetailsContract.Presenter {
     private val COPY_TAG = "PROOF"
 
-    private lateinit var utxoUpdatedSubscription: Disposable
+    private lateinit var utxosByTxSubscription: Disposable
     private lateinit var txUpdateSubscription: Disposable
     private lateinit var paymentProofSubscription: Disposable
 
@@ -43,14 +43,17 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            updateUtxos(utxos.filter { it.createTxId == state.txDescription?.id || it.spentTxId == state.txDescription?.id })
+        utxosByTxSubscription = repository.getUtxoByTx(state.txDescription!!.id).subscribe { utxos ->
+            if (!utxos.isNullOrEmpty()) {
+                updateUtxos(utxos)
+            }
         }
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
             state.configTransactions(data.tx)
             data.tx?.firstOrNull { it.id == state.txDescription?.id }?.let {
                 state.txDescription = it
+                repository.getUtxoByTx(state.txDescription!!.id)
 
                 view?.init(it)
 
@@ -108,7 +111,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txUpdateSubscription, paymentProofSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription)
 
     override fun onMenuCreate(menu: Menu?) {
         view?.configMenuItems(menu, state.txDescription?.status ?: return)
