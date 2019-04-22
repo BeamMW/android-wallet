@@ -26,7 +26,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_proof_verification.*
 
@@ -39,9 +38,7 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification_toolbar_title)
 
     override fun addListeners() {
-        textWatcher = object : PasteEditTextWatcher {
-            override fun onPaste() {}
-
+        textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 presenter.onProofCodeChanged(s.toString())
             }
@@ -94,7 +91,6 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
     override fun clearListeners() {
         btnDetailsCopy.setOnClickListener(null)
     }
-
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         presenter = ProofVerificationPresenter(this, ProofVerificationRepository(), ProofVerificationState())
