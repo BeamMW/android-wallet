@@ -17,9 +17,8 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -28,7 +27,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     override fun getLockScreenValue(): Long = LockScreenManager.getCurrentValue()
 
     override fun saveLockSettings(millis: Long) {
-        LockScreenManager.updateLockScreenSettings(App.self, millis)
+        LockScreenManager.updateLockScreenSettings(millis)
     }
 
     override fun saveConfirmTransactionSettings(shouldConfirm: Boolean) {
