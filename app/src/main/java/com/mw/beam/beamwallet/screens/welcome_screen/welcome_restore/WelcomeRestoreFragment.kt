@@ -21,6 +21,7 @@ import android.text.Editable
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -29,6 +30,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
+import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_restore.*
@@ -38,6 +40,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_restore.*
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     private lateinit var presenter: WelcomeRestorePresenter
+    private var currentEditText: EditText? = null
 
     companion object {
         fun newInstance() = WelcomeRestoreFragment().apply { arguments = Bundle() }
@@ -52,12 +55,38 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
+    override fun initSuggestions(suggestions: List<String>) {
+        suggestionsView.setSuggestions(suggestions)
+    }
+
+    override fun clearSuggestions() {
+        suggestionsView.clear()
+    }
+
+    override fun setTextToCurrentView(text: String) {
+        currentEditText?.apply {
+            setText("")
+            append(text)
+            onEditorAction(imeOptions)
+        }
+    }
+
+    override fun updateSuggestions(text: String) {
+        suggestionsView.find(text)
+    }
+
     override fun addListeners() {
         btnRestore.setOnClickListener {
             if (it.isEnabled) {
                 presenter.onRestorePressed()
             }
         }
+
+        suggestionsView.setOnSuggestionClick(object: OnSuggestionClick {
+            override fun onClick(suggestion: String) {
+                presenter.onSuggestionClick(suggestion)
+            }
+        })
     }
 
     override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed, WelcomeMode.RESTORE)
@@ -108,9 +137,16 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                presenter.onSeedChanged()
+                presenter.onSeedChanged(p0.toString())
             }
         })
+
+        phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
+            presenter.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
+            if (hasFocus) {
+                currentEditText = v
+            }
+        }
 
         return phrase
     }
@@ -141,6 +177,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun clearListeners() {
         btnRestore.setOnClickListener(null)
+        suggestionsView.setOnSuggestionClick(null)
     }
 
     override fun clearWindowState() {

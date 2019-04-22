@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary">
+
+    <TextView
+        android:id="@+id/leftWord"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/suggestions_word_margin"
+        android:layout_marginTop="@dimen/suggestions_word_margin"
+        android:layout_marginEnd="@dimen/suggestions_word_margin"
+        android:layout_marginBottom="@dimen/suggestions_word_margin"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="@dimen/suggestions_divider_wight"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/suggestions_divider_margin"
+        android:layout_marginBottom="@dimen/suggestions_divider_margin"
+        android:background="@drawable/divider"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/centerWord"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/suggestions_word_margin"
+        android:layout_marginTop="@dimen/suggestions_word_margin"
+        android:layout_marginEnd="@dimen/suggestions_word_margin"
+        android:layout_marginBottom="@dimen/suggestions_word_margin"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/view2"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="@dimen/suggestions_divider_wight"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/suggestions_divider_margin"
+        android:layout_marginBottom="@dimen/suggestions_divider_margin"
+        android:background="@drawable/divider"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rightWord"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/suggestions_word_margin"
+        android:layout_marginTop="@dimen/suggestions_word_margin"
+        android:layout_marginEnd="@dimen/suggestions_word_margin"
+        android:layout_marginBottom="@dimen/suggestions_word_margin"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="TextView" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.33" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.66" />
+</android.support.constraint.ConstraintLayout>

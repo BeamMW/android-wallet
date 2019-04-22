@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.GridLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -28,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
+import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
@@ -38,6 +40,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
  */
 class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View, OnBackPressedHandler {
     private lateinit var presenter: WelcomeConfirmPresenter
+    private var currentEditText: EditText? = null
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
 
@@ -69,6 +72,12 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
                 presenter.onNextPressed()
             }
         }
+
+        suggestionsView.setOnSuggestionClick(object: OnSuggestionClick {
+            override fun onClick(suggestion: String) {
+                presenter.onSuggestionClick(suggestion)
+            }
+        })
     }
 
     private fun isSeedValid(): Boolean {
@@ -135,11 +144,39 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                presenter.onSeedChanged()
+                presenter.onSeedChanged(p0.toString())
             }
         })
 
+        phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
+            presenter.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
+            if (hasFocus) {
+                currentEditText = v
+            }
+        }
+
         return phrase
+    }
+
+
+    override fun initSuggestions(suggestions: List<String>) {
+        suggestionsView.setSuggestions(suggestions)
+    }
+
+    override fun clearSuggestions() {
+        suggestionsView.clear()
+    }
+
+    override fun setTextToCurrentView(text: String) {
+        currentEditText?.apply {
+            setText("")
+            append(text)
+            onEditorAction(imeOptions)
+        }
+    }
+
+    override fun updateSuggestions(text: String) {
+        suggestionsView.find(text)
     }
 
     override fun showSeedAlert() {
@@ -156,6 +193,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
+        suggestionsView.setOnSuggestionClick(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

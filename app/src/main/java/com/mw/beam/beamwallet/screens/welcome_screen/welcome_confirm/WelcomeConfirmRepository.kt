@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.Api
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -35,5 +36,11 @@ class WelcomeConfirmRepository : BaseRepository(), WelcomeConfirmContract.Reposi
         }
 
         return set.shuffled()
+    }
+
+    override fun getSuggestions(): List<String> {
+        return getResult("getSuggestions") {
+            Api.getDictionary().asList()
+        }
     }
 }

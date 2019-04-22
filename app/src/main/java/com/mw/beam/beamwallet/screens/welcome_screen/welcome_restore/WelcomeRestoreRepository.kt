@@ -16,6 +16,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 
 /**
@@ -26,5 +27,11 @@ class WelcomeRestoreRepository : BaseRepository(), WelcomeRestoreContract.Reposi
     override fun restoreWallet(): Boolean {
         removeDatabase()
         return true
+    }
+
+    override fun getSuggestions(): List<String> {
+        return getResult("getSuggestions") {
+            Api.getDictionary().asList()
+        }
     }
 }

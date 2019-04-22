@@ -30,15 +30,22 @@ interface WelcomeRestoreContract {
         fun handleRestoreButton()
         fun getSeed() : Array<String>
         fun showPasswordsFragment(seed : Array<String>)
+        fun initSuggestions(suggestions: List<String>)
+        fun setTextToCurrentView(text: String)
+        fun updateSuggestions(text: String)
+        fun clearSuggestions()
         fun clearWindowState()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onRestorePressed()
-        fun onSeedChanged()
+        fun onSeedChanged(seed: String)
+        fun onSuggestionClick(text: String)
+        fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
     }
 
     interface Repository : MvpRepository {
         fun restoreWallet() : Boolean
+        fun getSuggestions(): List<String>
     }
 }
