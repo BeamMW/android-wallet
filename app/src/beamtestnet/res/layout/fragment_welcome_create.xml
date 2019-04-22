@@ -7,7 +7,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/initial_background"
         android:filterTouchesWhenObscured="true">
 
@@ -41,7 +41,7 @@
             android:id="@+id/flavorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/welcome_testnet_text_margin_top"
+            android:layout_marginTop="@dimen/welcome_testnet_text_margin"
             android:fontFamily="@font/slogan_font"
             android:text="@string/common_testnet"
             android:textAllCaps="true"
