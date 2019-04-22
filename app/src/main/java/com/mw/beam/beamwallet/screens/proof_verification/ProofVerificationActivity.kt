@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.proof_verification
 
 import android.support.transition.TransitionManager
+import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -25,16 +26,28 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
+import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_proof_verification.*
 
 class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), ProofVerificationContract.View {
     private lateinit var presenter: ProofVerificationPresenter
+    private lateinit var textWatcher: TextWatcher
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_proof_verification
 
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification_toolbar_title)
 
     override fun addListeners() {
+        textWatcher = object : PasteEditTextWatcher {
+            override fun onPaste() {}
+
+            override fun afterTextChanged(s: Editable?) {
+                presenter.onProofCodeChanged(s.toString())
+            }
+        }
+
+        proofValue.addListener(textWatcher)
         btnDetailsCopy.setOnClickListener {
             presenter.onCopyDetailsPressed()
         }
