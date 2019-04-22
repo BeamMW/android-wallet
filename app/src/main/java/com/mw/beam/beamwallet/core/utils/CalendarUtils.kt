@@ -25,11 +25,18 @@ import java.util.*
  */
 object CalendarUtils {
     private val WALLET_TIME_FORMAT = SimpleDateFormat("d MMM yyyy  |  hh:mm a", AppConfig.LOCALE)
+    private val US_TIME_FORMAT = SimpleDateFormat("d MMM yyyy  |  hh:mm a", Locale.US)
 
     fun fromTimestamp(timestamp: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp * 1000
         return WALLET_TIME_FORMAT.format(calendar.time)
+    }
+
+    fun fromTimestampUS(timestamp: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timestamp * 1000
+        return US_TIME_FORMAT.format(calendar.time)
     }
 }
 
