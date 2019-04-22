@@ -23,10 +23,7 @@ Things that make BEAM special include:
 - March 2019       : Mainnet release
 
 # Current status
-- Create new wallet using seed phase
-- Send and receive BEAM
-- See transactions history and UTXO
-- Address book
+Mainnet is released
 
 # Known limitations and workarounds:
 - Restore flow is not implemented on mobile, yet the funds can be restored from the desktop wallet using the same seed the mobile wallet was created with
@@ -36,4 +33,4 @@ Things that make BEAM special include:
 # Build status
 
 # Support
-Android Beam Wallet is currently in Testnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via [Telegram](https://t.me/joinchat/DNuv_REgViDpHhj3U7ylxA)
+Android Beam Wallet is currently in Mainnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via [Telegram](https://t.me/joinchat/DNuv_REgViDpHhj3U7ylxA)
