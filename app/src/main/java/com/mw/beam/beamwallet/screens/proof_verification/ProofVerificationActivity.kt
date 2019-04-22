@@ -41,6 +41,9 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
         }
 
         proofValue.addListener(textWatcher)
+        btnDetailsCopy.setOnClickListener {
+            presenter.onCopyDetailsPressed()
+        }
     }
 
     override fun clear() {
@@ -83,6 +86,7 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
 
     override fun clearListeners() {
         proofValue.removeListener(textWatcher)
+        btnDetailsCopy.setOnClickListener(null)
     }
 
 
