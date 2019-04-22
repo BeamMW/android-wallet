@@ -21,6 +21,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.support.v4.app.AlarmManagerCompat
+import com.mw.beam.beamwallet.core.App
 import java.util.concurrent.TimeUnit
 
 object LockScreenManager {
@@ -46,9 +47,9 @@ object LockScreenManager {
 
     fun getCurrentValue(): Long = PreferencesManager.getLong(PreferencesManager.KEY_LOCK_SCREEN, LOCK_SCREEN_NEVER_VALUE)
 
-    fun updateLockScreenSettings(context: Context, millisecond: Long) {
+    fun updateLockScreenSettings(millisecond: Long) {
         PreferencesManager.putLong(PreferencesManager.KEY_LOCK_SCREEN, millisecond)
-        restartTimer(context)
+        restartTimer(App.self)
     }
 }
 

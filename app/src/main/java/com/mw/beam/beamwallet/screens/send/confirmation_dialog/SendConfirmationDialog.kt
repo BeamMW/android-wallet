@@ -90,11 +90,10 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     }
 
     override fun close() {
-        dismissAllowingStateLoss()
+        onConfirmedDialogListener?.onClosed()
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        onConfirmedDialogListener?.onDismissed()
         onConfirmedDialogListener = null
         super.onDismiss(dialog)
     }
@@ -106,6 +105,6 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
 
     interface OnConfirmedDialogListener {
         fun onConfirmed()
-        fun onDismissed()
+        fun onClosed()
     }
 }
