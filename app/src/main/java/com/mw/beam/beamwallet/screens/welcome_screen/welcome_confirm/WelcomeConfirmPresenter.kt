@@ -35,11 +35,24 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
 
         if (repository.seed != null) {
             view?.configSeed(repository.getSeedToValidate(), repository.seed!!)
+            view?.initSuggestions(repository.getSuggestions())
         }
     }
 
-    override fun onSeedChanged() {
+    override fun onSeedChanged(seed: String) {
         view?.handleNextButton()
+        view?.updateSuggestions(seed)
+    }
+
+    override fun onSuggestionClick(text: String) {
+        view?.setTextToCurrentView(text)
+    }
+
+    override fun onSeedFocusChanged(seed: String, hasFocus: Boolean) {
+        view?.clearSuggestions()
+        if (hasFocus) {
+            view?.updateSuggestions(seed)
+        }
     }
 
     override fun onNextPressed() {

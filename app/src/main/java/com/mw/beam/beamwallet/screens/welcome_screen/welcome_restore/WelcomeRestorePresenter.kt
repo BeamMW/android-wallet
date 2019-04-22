@@ -28,6 +28,7 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     override fun onStart() {
         super.onStart()
         view?.init()
+        view?.initSuggestions(repository.getSuggestions())
         view?.configSeed(state.phrasesCount)
     }
 
@@ -40,7 +41,19 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
         view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
 
-    override fun onSeedChanged() {
+    override fun onSeedChanged(seed: String) {
         view?.handleRestoreButton()
+        view?.updateSuggestions(seed)
+    }
+
+    override fun onSuggestionClick(text: String) {
+        view?.setTextToCurrentView(text)
+    }
+
+    override fun onSeedFocusChanged(seed: String, hasFocus: Boolean) {
+        view?.clearSuggestions()
+        if (hasFocus) {
+            view?.updateSuggestions(seed)
+        }
     }
 }

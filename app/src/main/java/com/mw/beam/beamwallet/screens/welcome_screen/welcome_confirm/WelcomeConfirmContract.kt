@@ -29,19 +29,26 @@ interface WelcomeConfirmContract {
         fun configSeed(seedToValidate: List<Int>, seed : Array<String>)
         fun showPasswordsFragment(seed : Array<String>)
         fun handleNextButton()
+        fun initSuggestions(suggestions: List<String>)
+        fun setTextToCurrentView(text: String)
+        fun updateSuggestions(text: String)
+        fun clearSuggestions()
         fun showSeedAlert()
         fun showSeedFragment()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNextPressed()
-        fun onSeedChanged()
+        fun onSeedChanged(seed: String)
         fun onBackPressed()
         fun onCreateNewSeed()
+        fun onSuggestionClick(text: String)
+        fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
     }
 
     interface Repository : MvpRepository {
         fun getSeedToValidate(): List<Int>
+        fun getSuggestions(): List<String>
         var seed : Array<String>?
     }
 }
