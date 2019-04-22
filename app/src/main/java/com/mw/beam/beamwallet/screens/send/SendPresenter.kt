@@ -33,7 +33,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var addressesSubscription: Disposable
     private val tokenRegex = Regex("[^A-Fa-f0-9]")
 
-
     companion object {
         private const val MAX_TOKEN_LENGTH = 80
         private const val DEFAULT_FEE = 10
@@ -194,11 +193,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
-    }
-
-    override fun onStop() {
-        view?.dismissDialog()
-        super.onStop()
     }
 
     override fun initSubscriptions() {

@@ -62,7 +62,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             presenter.onSend()
         }
 
-        override fun onDismissed() {
+        override fun onClosed() {
             presenter.onDialogClosePressed()
         }
     }
