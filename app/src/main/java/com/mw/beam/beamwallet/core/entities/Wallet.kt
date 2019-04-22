@@ -37,4 +37,5 @@ data class Wallet(val _this: Long) {
     external fun changeWalletPassword(password: String)
     external fun checkWalletPassword(password: String): Boolean
     external fun getPaymentInfo(txID: String)
+    external fun getCoinsByTx(txID : String)
 }
