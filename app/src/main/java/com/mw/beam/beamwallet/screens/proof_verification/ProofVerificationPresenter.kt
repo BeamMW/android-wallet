@@ -7,6 +7,12 @@ class ProofVerificationPresenter(view: ProofVerificationContract.View?, reposito
     private val COPY_TAG = "PROOF_VERIFICATION"
 
     override fun onProofCodeChanged(proof: String) {
+        if (proof.isEmpty()) {
+            view?.clear()
+            view?.hideErrorProof()
+            return
+        }
+
         state.proof = repository.getVerifyPaymentProof(proof)
 
         if (state.proof?.isValid == true) {
