@@ -1,178 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:layout_height="match_parent"
     android:background="@drawable/common_receive_dialog_background"
-    android:filterTouchesWhenObscured="true">
-    <ScrollView
-        android:fillViewport="true"
+    android:fillViewport="true"
+    android:filterTouchesWhenObscured="true"
+    tools:ignore="UselessParent">
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-        <android.support.constraint.ConstraintLayout
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="@dimen/receive_cancel_size"
+            android:layout_height="@dimen/receive_cancel_size"
+            android:contentDescription="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_cancel_receive" />
+
+        <TextView
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="@string/send_confirm_transaction_details"
+            android:textColor="@color/common_text_color"
+            android:textSize="@dimen/common_alert_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/recipientTitle"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_card_offset"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:text="@string/send_recipient"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
+
+        <TextView
+            android:id="@+id/recipientValue"
+            style="@style/common_text_big_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_value_offset"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:layout_marginEnd="@dimen/send_dialog_card_offset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/recipientTitle"
+            app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
+            tools:text="16739902798797hhh87987939nas7877qwb" />
+
+        <TextView
+            android:id="@+id/amountTitle"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_card_offset"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:text="@string/send_amount"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recipientValue" />
+
+        <TextView
+            android:id="@+id/amountValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/send_dialog_amount_value_margin_top"
+            android:layout_marginEnd="@dimen/send_dialog_card_offset"
+            android:textColor="@color/sent_color"
+            android:textSize="@dimen/common_header_big_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/recipientValue"
+            app:layout_constraintTop_toBottomOf="@+id/recipientValue"
+            tools:text="1000.0000000001 BEAM" />
+
+        <TextView
+            android:id="@+id/transactionFeeTitle"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_card_offset"
+            android:layout_marginTop="@dimen/send_dialog_transaction_fee_margin_top"
+            android:text="@string/transaction_details_transaction_fee"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amountValue" />
+
+        <TextView
+            android:id="@+id/transactionFeeValue"
+            style="@style/common_text_big_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_value_offset"
+            android:layout_marginEnd="@dimen/settings_card_offset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/transactionFeeTitle"
+            app:layout_constraintTop_toTopOf="@+id/transactionFeeTitle"
+            tools:text="0.982092 GROTH" />
+
+        <TextView
+            android:id="@+id/dialogDescription"
+            style="@style/common_text_big_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/send_dialog_content_offset"
+            android:layout_marginTop="@dimen/send_dialog_description_margin_top"
+            android:layout_marginEnd="@dimen/send_dialog_content_offset"
+            android:text="@string/send_title_enter_password"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/transactionFeeValue" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/close"
-                android:layout_width="@dimen/receive_cancel_size"
-                android:layout_height="@dimen/receive_cancel_size"
-                android:contentDescription="@null"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_cancel_receive" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_card_offset"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:layout_marginEnd="@dimen/settings_card_offset"
+            app:hintTextAppearance="@style/welcome_password_label_style"
+            app:layout_constraintBottom_toTopOf="@id/passError"
+            app:layout_constraintTop_toBottomOf="@id/dialogDescription">
 
-            <TextView
-                android:id="@+id/dialogTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:fontFamily="sans-serif"
-                android:text="@string/send_confirm_transaction_details"
-                android:textColor="@color/common_text_color"
-                android:textSize="@dimen/common_alert_title_text_size"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/recipientTitle"
-                style="@style/common_text_big_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_card_offset"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:text="@string/send_recipient"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
-
-            <TextView
-                android:id="@+id/recipientValue"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_value_offset"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:layout_marginEnd="@dimen/send_dialog_card_offset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/recipientTitle"
-                app:layout_constraintTop_toBottomOf="@+id/dialogTitle"
-                tools:text="16739902798797hhh87987939nas7877qwb" />
-
-            <TextView
-                android:id="@+id/amountTitle"
-                style="@style/common_text_big_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_card_offset"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:text="@string/send_amount"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recipientValue" />
-
-            <TextView
-                android:id="@+id/amountValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_dialog_amount_value_margin_top"
-                android:layout_marginEnd="@dimen/send_dialog_card_offset"
-                android:textColor="@color/sent_color"
-                android:textSize="@dimen/common_header_big_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/recipientValue"
-                app:layout_constraintTop_toBottomOf="@+id/recipientValue"
-                tools:text="1000.0000000001 BEAM" />
-
-            <TextView
-                android:id="@+id/transactionFeeTitle"
-                style="@style/common_text_big_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_card_offset"
-                android:layout_marginTop="@dimen/send_dialog_transaction_fee_margin_top"
-                android:text="@string/transaction_details_transaction_fee"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/amountValue" />
-
-            <TextView
-                android:id="@+id/transactionFeeValue"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_value_offset"
-                android:layout_marginEnd="@dimen/settings_card_offset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/transactionFeeTitle"
-                app:layout_constraintTop_toTopOf="@+id/transactionFeeTitle"
-                tools:text="0.982092 GROTH" />
-
-            <TextView
-                android:id="@+id/dialogDescription"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/send_dialog_content_offset"
-                android:layout_marginTop="@dimen/send_dialog_description_margin_top"
-                android:layout_marginEnd="@dimen/send_dialog_content_offset"
-                android:text="@string/send_title_enter_password"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transactionFeeValue" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/passLayout"
+            <com.mw.beam.beamwallet.core.views.BeamEditText
+                android:id="@+id/pass"
+                style="@style/welcome_password_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/settings_card_offset"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:layout_marginEnd="@dimen/settings_card_offset"
-                app:hintTextAppearance="@style/welcome_password_label_style"
-                app:layout_constraintBottom_toTopOf="@id/passError"
-                app:layout_constraintTop_toBottomOf="@id/dialogDescription">
+                android:hint="@string/welcome_pass_hint"
+                tools:ignore="Autofill,LabelFor" />
+        </android.support.design.widget.TextInputLayout>
 
-                <com.mw.beam.beamwallet.core.views.BeamEditText
-                    android:id="@+id/pass"
-                    style="@style/welcome_password_view_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/welcome_pass_hint"
-                    tools:ignore="Autofill,LabelFor" />
-            </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:id="@+id/passError"
+            style="@style/common_text_big_light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/settings_card_offset"
+            android:layout_marginEnd="@dimen/settings_card_offset"
+            android:fontFamily="sans-serif"
+            android:paddingTop="@dimen/welcome_passwords_items_offset"
+            android:text="@string/pass_not_much"
+            android:textColor="@color/common_error_color"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@id/passLayout" />
 
-            <TextView
-                android:id="@+id/passError"
-                style="@style/common_text_big_light"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/settings_card_offset"
-                android:layout_marginEnd="@dimen/settings_card_offset"
-                android:fontFamily="sans-serif"
-                android:paddingTop="@dimen/welcome_passwords_items_offset"
-                android:text="@string/pass_not_much"
-                android:textColor="@color/common_error_color"
-                android:visibility="invisible"
-                app:layout_constraintTop_toBottomOf="@id/passLayout" />
-
-
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnConfirmSend"
-                android:layout_width="@dimen/send_transfer_btn_width"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_dialog_content_offset"
-                android:layout_marginBottom="@dimen/send_dialog_content_offset"
-                app:button_icon="@drawable/ic_btn_send"
-                app:button_state_list="@color/send_selector"
-                app:button_text="@string/send_btn_title"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/passError" />
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
-</FrameLayout>
-
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnConfirmSend"
+            android:layout_width="@dimen/send_transfer_btn_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/send_dialog_content_offset"
+            android:layout_marginBottom="@dimen/send_dialog_content_offset"
+            app:button_icon="@drawable/ic_btn_send"
+            app:button_state_list="@color/send_selector"
+            app:button_text="@string/send_btn_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passError" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
