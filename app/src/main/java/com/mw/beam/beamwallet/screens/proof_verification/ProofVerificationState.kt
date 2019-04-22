@@ -16,8 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.proof_verification
 
-import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
+import com.mw.beam.beamwallet.core.entities.PaymentProof
 
 class ProofVerificationState {
-    var proof: PaymentInfoDTO? = null
+    var proof: PaymentProof? = null
 }
