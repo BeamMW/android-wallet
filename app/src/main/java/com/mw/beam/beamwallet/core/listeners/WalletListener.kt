@@ -47,6 +47,7 @@ object WalletListener {
     var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnFailedToStartNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
+    var subOnCoinsByTx: Subject<List<Utxo>?> = BehaviorSubject.create<List<Utxo>?>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), "onStatus")
@@ -64,7 +65,8 @@ object WalletListener {
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, "onChangeCalculated")
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) } ?: emptyList(), "onAllUtxoChanged")
+    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
+            ?: emptyList(), "onAllUtxoChanged")
 
     @JvmStatic
     fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), "onAddresses")
@@ -92,6 +94,9 @@ object WalletListener {
 
     @JvmStatic
     fun onPaymentProofExported(txId: String, proof: PaymentInfoDTO) = returnResult(subOnPaymentProofExported, PaymentProof(txId, proof), "onPaymentProofExported")
+
+    @JvmStatic
+    fun onCoinsByTx(utxos: Array<UtxoDTO>?) = returnResult(subOnCoinsByTx, utxos?.map { Utxo(it) }, "onCoinsByTx")
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {
