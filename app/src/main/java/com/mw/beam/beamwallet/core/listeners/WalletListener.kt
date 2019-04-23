@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 
 /**
@@ -42,7 +43,7 @@ object WalletListener {
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
-    var subOnNodeConnectionFailed: Subject<NodeConnectionError> = BehaviorSubject.create<NodeConnectionError>().toSerialized()
+    var subOnNodeConnectionFailed: Subject<NodeConnectionError> = PublishSubject.create<NodeConnectionError>().toSerialized()
     var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnStartedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
