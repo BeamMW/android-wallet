@@ -31,24 +31,11 @@ import com.eightsines.holycycle.app.ViewControllerDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
-abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView  {
+abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
     private lateinit var presenter: T
-    private var keyboardListenersAttached = false
-    private var layout: ViewGroup? = null
-    private val delegate = ScreenDelegate()
-    private val keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-        layout?.let {
-            val heightDiff = it.rootView.height - it.height
-            val contentViewTop = activity?.window?.findViewById<View>(Window.ID_ANDROID_CONTENT)?.height ?: 0
 
-            if (heightDiff <= contentViewTop) {
-                onHideKeyboard()
-            } else {
-                val keyboardHeight = heightDiff - contentViewTop
-                onShowKeyboard(keyboardHeight)
-            }
-        }
-    }
+    @Suppress("LeakingThis")
+    private val delegate = ScreenDelegate(this)
 
     override fun onHideKeyboard() {
     }
@@ -57,21 +44,14 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     }
 
     override fun addKeyboardStateListener(rootLayout: ViewGroup) {
-        if (keyboardListenersAttached) {
-            return
-        }
-
-        layout = rootLayout
-        layout?.viewTreeObserver?.addOnGlobalLayoutListener(keyboardListener)
-
-        keyboardListenersAttached = true
+        delegate.addKeyboardStateListener(rootLayout)
     }
 
     override fun clearKeyboardStateListener() {
-        layout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardListener)
-        keyboardListenersAttached = false
-        layout = null
+        delegate.clearKeyboardStateListener()
     }
+
+    override fun getWindow(): Window? = activity?.window
 
     override fun hideKeyboard() {
         delegate.hideKeyboard(activity ?: return)
