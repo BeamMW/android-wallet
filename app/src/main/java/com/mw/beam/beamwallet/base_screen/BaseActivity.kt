@@ -40,27 +40,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
+abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
     private lateinit var presenter: T
-    private var keyboardListenersAttached = false
-    private var layout: ViewGroup? = null
-    private val delegate = ScreenDelegate()
+
+    @Suppress("LeakingThis")
+    private val delegate = ScreenDelegate(this)
+
     private val lockScreenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             presenter.onLockBroadcastReceived()
-        }
-    }
-    private val keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
-        layout?.let {
-            val heightDiff = it.rootView.height - it.height
-            val contentViewTop = window.findViewById<View>(Window.ID_ANDROID_CONTENT).height
-
-            if (heightDiff <= contentViewTop) {
-                onHideKeyboard()
-            } else {
-                val keyboardHeight = heightDiff - contentViewTop
-                onShowKeyboard(keyboardHeight)
-            }
         }
     }
 
@@ -144,20 +132,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun addKeyboardStateListener(rootLayout: ViewGroup) {
-        if (keyboardListenersAttached) {
-            return
-        }
-
-        layout = rootLayout
-        layout?.viewTreeObserver?.addOnGlobalLayoutListener(keyboardListener)
-
-        keyboardListenersAttached = true
+        delegate.addKeyboardStateListener(rootLayout)
     }
 
     override fun clearKeyboardStateListener() {
-        layout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardListener)
-        keyboardListenersAttached = false
-        layout = null
+        delegate.clearKeyboardStateListener()
     }
 
     override fun configStatus(networkStatus: NetworkStatus) {

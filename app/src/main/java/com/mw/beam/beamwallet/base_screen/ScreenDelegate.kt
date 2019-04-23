@@ -27,8 +27,7 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.SupportActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
@@ -38,8 +37,23 @@ import com.mw.beam.beamwallet.core.helpers.Status
 /**
  * Created by vain onnellinen on 12/4/18.
  */
-class ScreenDelegate {
+class ScreenDelegate(private val view: ViewDelegate) {
     private var alert: AlertDialog? = null
+    private var keyboardListenersAttached = false
+    private var layout: ViewGroup? = null
+    private val keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
+        layout?.let {
+            val heightDiff = it.rootView.height - it.height
+            val contentViewTop = view.getWindow()?.findViewById<View>(Window.ID_ANDROID_CONTENT)?.height ?: 0
+
+            if (heightDiff <= contentViewTop) {
+                view.onHideKeyboard()
+            } else {
+                val keyboardHeight = heightDiff - contentViewTop
+                view.onShowKeyboard(keyboardHeight)
+            }
+        }
+    }
 
     fun hideKeyboard(activity: SupportActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -120,5 +134,28 @@ class ScreenDelegate {
             alert?.dismiss()
             alert = null
         }
+    }
+
+    fun addKeyboardStateListener(rootLayout: ViewGroup) {
+        if (keyboardListenersAttached) {
+            return
+        }
+
+        layout = rootLayout
+        layout?.viewTreeObserver?.addOnGlobalLayoutListener(keyboardListener)
+
+        keyboardListenersAttached = true
+    }
+
+    fun clearKeyboardStateListener() {
+        layout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardListener)
+        keyboardListenersAttached = false
+        layout = null
+    }
+
+    interface ViewDelegate {
+        fun getWindow(): Window?
+        fun onHideKeyboard()
+        fun onShowKeyboard(keyboardHeight: Int)
     }
 }
