@@ -152,7 +152,7 @@ and never kept in the blockchain.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details_title">UTXO details</string>
     <string name="utxo_transaction_details">UTXO details</string>
-    <string name="utxo_transaction_id">Transaction ID:</string>
+    <string name="utxo_kernel_id">Kernel ID:</string>
     <string name="utxo_type">UTXO type:</string>
     <string name="utxo_completion_time">Completion time:</string>
     <string name="utxo_contact">Contact:</string>
