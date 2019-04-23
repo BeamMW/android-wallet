@@ -34,7 +34,7 @@ class BeamPhraseInput : ConstraintLayout {
     val isEmpty: Boolean
         get() = phraseView.text?.toString()?.isEmpty() ?: true
     val isValid: Boolean
-        get() = phrase == phraseView.text?.toString()?.trim()
+        get() = phrase == phraseView.text?.toString()?.trim() || validator?.invoke(phraseView.text?.toString()?.trim()) ?: false
     var number: Int = Int.MIN_VALUE
         set(value) {
             field = value
@@ -56,6 +56,8 @@ class BeamPhraseInput : ConstraintLayout {
                 numberView.background = ContextCompat.getDrawable(context, field)
             }
         }
+
+    var validator: ((String?) -> Boolean)? = null
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
