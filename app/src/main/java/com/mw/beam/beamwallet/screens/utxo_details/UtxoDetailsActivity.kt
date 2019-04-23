@@ -88,8 +88,6 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     private fun configUtxoDetails(utxo: Utxo) {
-        transactionId.text = utxo.createTxId
-
         utxoType.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.utxo_type_commission)
             UtxoKeyType.Coinbase -> getString(R.string.utxo_type_coinbase)
@@ -117,6 +115,17 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
                     id = it.id,
                     comment = it.message,
                     offset = offset))
+        }
+    }
+
+    override fun configUtxoKernel(kernelIdString: String?) {
+        if (kernelIdString.isNullOrEmpty()) {
+            kernelId.visibility = View.GONE
+            kernelIdTitle.visibility = View.GONE
+        } else {
+            kernelId.visibility = View.VISIBLE
+            kernelIdTitle.visibility = View.VISIBLE
+            kernelId.text = kernelIdString
         }
     }
 

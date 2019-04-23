@@ -49,9 +49,17 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
                 state.configTransactions(it)
 
                 if (state.utxo != null) {
-                    view?.configUtxoHistory(state.utxo!!, state.configTransactions())
+                    view?.configUtxoHistory(state.utxo!!, state.transactions.values.toList())
                 }
             }
+
+            var kernelID = state.transactions.values.find { it.id == state.utxo?.spentTxId }?.kernelId
+
+            if (kernelID.isNullOrEmpty()) {
+                kernelID = state.transactions.values.find { it.id == state.utxo?.createTxId }?.kernelId
+            }
+
+            view?.configUtxoKernel(kernelID)
         }
     }
 

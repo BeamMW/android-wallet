@@ -32,6 +32,7 @@ interface UtxoDetailsContract {
         fun getUtxo(): Utxo
         fun init(utxo: Utxo)
         fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
+        fun configUtxoKernel(kernelIdString : String?)
     }
 
     interface Presenter : MvpPresenter<View>

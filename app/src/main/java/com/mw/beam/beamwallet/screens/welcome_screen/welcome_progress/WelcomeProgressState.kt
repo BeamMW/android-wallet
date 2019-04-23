@@ -24,8 +24,6 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 class WelcomeProgressState {
     //TODO decide what should be by default (arguments == null), when all modes will be available and when all modes will have progress screen
     var mode : WelcomeMode = WelcomeMode.CREATE
-    val maxCountConnectionAttempts = 3
-    var failedConnectionCount = 0
     var password = ""
     var seed : Array<String>? = null
 }

@@ -50,6 +50,27 @@ enum class Status(val value: Int) {
     }
 }
 
+enum class NodeConnectionError(val value: Int) {
+    NODE_PROTOCOL_BASE(0), NODE_PROTOCOL_INCOMPATIBLE(1), CONNECTION_BASE(2),
+    CONNECTION_TIMED_OUT(3), CONNECTION_REFUSED(4), CONNECTION_HOST_UNREACHED(5),
+    CONNECTION_ADDR_IN_USE(6), TIME_OUT_OF_SYNC(7), INTERNAL_NODE_START_FAILED(8),
+    HOST_RESOLVED_ERROR(9);
+
+    companion object {
+        private val map: MutableMap<Int, NodeConnectionError> = java.util.HashMap()
+
+        init {
+            values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int?): NodeConnectionError {
+            return map[type] ?: CONNECTION_REFUSED
+        }
+    }
+}
+
 fun removeDatabase() {
     File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
 }
