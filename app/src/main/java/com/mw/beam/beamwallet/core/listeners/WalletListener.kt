@@ -20,6 +20,7 @@ import android.os.Looper
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
@@ -41,7 +42,7 @@ object WalletListener {
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
-    var subOnNodeConnectionFailed: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnNodeConnectionFailed: Subject<NodeConnectionError> = BehaviorSubject.create<NodeConnectionError>().toSerialized()
     var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnStartedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
     var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
@@ -78,7 +79,7 @@ object WalletListener {
     fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, "onNodeConnectedStatusChanged")
 
     @JvmStatic
-    fun onNodeConnectionFailed() = returnResult(subOnNodeConnectionFailed, DUMMY_OBJECT, "onNodeConnectionFailed")
+    fun onNodeConnectionFailed(error : Int) = returnResult(subOnNodeConnectionFailed, NodeConnectionError.fromValue(error), "onNodeConnectionFailed")
 
     @JvmStatic
     fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, "onCantSendToExpired")

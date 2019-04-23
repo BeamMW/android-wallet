@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.disposables.Disposable
@@ -89,8 +90,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     override fun initSubscriptions() {
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE != state.mode) {
-                state.failedConnectionCount = 0
-
                 if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
                     showWallet()
@@ -129,12 +128,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
-                if (state.failedConnectionCount >= state.maxCountConnectionAttempts) {
-                    view?.showNoInternetConnectionMessage()
-                    repository.closeWallet()
-                    view?.logOut()
+                when (it) {
+                    NodeConnectionError.HOST_RESOLVED_ERROR -> view?.showIncorrectNodeMessage()
+                    else -> view?.showNoInternetMessage()
                 }
-                state.failedConnectionCount++
+
+                repository.closeWallet()
+                view?.logOut()
             }
         }
 

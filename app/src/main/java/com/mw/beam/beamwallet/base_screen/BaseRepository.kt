@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -64,7 +65,7 @@ open class BaseRepository : MvpRepository {
         return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
     }
 
-    override fun getNodeConnectionFailed(): Subject<Any> {
+    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
         return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
     }
 
