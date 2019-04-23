@@ -35,7 +35,8 @@ interface WelcomeProgressContract {
         fun getPassword(): String?
         fun getSeed(): Array<String>?
         fun showWallet()
-        fun showNoInternetConnectionMessage()
+        fun showNoInternetMessage()
+        fun showIncorrectNodeMessage()
         fun showCancelRestoreAlert()
         fun showFailedRestoreAlert()
     }
