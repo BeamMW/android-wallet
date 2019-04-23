@@ -18,6 +18,10 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.view.Window
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -27,7 +31,45 @@ import com.mw.beam.beamwallet.core.helpers.Status
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView {
     private lateinit var presenter: T
+    private var keyboardListenersAttached = false
+    private var layout: ViewGroup? = null
     private val delegate = ScreenDelegate()
+    private val keyboardListener = ViewTreeObserver.OnGlobalLayoutListener {
+        layout?.let {
+            val heightDiff = it.rootView.height - it.height
+            val contentViewTop = activity?.window?.findViewById<View>(Window.ID_ANDROID_CONTENT)?.height ?: 0
+
+            if (heightDiff <= contentViewTop) {
+                onHideKeyboard()
+            } else {
+                val keyboardHeight = heightDiff - contentViewTop
+                onShowKeyboard(keyboardHeight)
+            }
+        }
+    }
+
+    override fun onHideKeyboard() {
+    }
+
+    override fun onShowKeyboard(keyboardHeight: Int) {
+    }
+
+    override fun addKeyboardStateListener(rootLayout: ViewGroup) {
+        if (keyboardListenersAttached) {
+            return
+        }
+
+        layout = rootLayout
+        layout?.viewTreeObserver?.addOnGlobalLayoutListener(keyboardListener)
+
+        keyboardListenersAttached = true
+    }
+
+    override fun clearKeyboardStateListener() {
+        layout?.viewTreeObserver?.removeOnGlobalLayoutListener(keyboardListener)
+        keyboardListenersAttached = false
+        layout = null
+    }
 
     override fun hideKeyboard() {
         delegate.hideKeyboard(activity ?: return)
