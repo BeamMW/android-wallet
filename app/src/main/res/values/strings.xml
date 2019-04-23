@@ -17,7 +17,8 @@
     <string name="common_menu_more">more</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
-    <string name="no_internet_connection">No internet connection</string>
+    <string name="error_no_internet_connection">No Internet connection</string>
+    <string name="error_incorrect_node">Incorrect node name or no Internet connection</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">Dashboard</string>
@@ -151,7 +152,7 @@ and never kept in the blockchain.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details_title">UTXO details</string>
     <string name="utxo_transaction_details">UTXO details</string>
-    <string name="utxo_transaction_id">Transaction ID:</string>
+    <string name="utxo_kernel_id">Kernel ID:</string>
     <string name="utxo_type">UTXO type:</string>
     <string name="utxo_completion_time">Completion time:</string>
     <string name="utxo_contact">Contact:</string>
