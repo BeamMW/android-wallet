@@ -69,6 +69,8 @@ class Suggestions: LinearLayout {
         updateDividers()
     }
 
+    fun contains(text: String): Boolean = suggestions?.contains(text) ?: false
+
     private fun updateDividers() {
         view.visibility = if (leftWord.text.isEmpty())  View.GONE else View.VISIBLE
         view2.visibility = if (rightWord.text.isEmpty())  View.GONE else View.VISIBLE

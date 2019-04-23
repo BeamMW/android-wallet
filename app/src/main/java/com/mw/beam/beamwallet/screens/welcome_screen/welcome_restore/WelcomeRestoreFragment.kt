@@ -138,6 +138,15 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         val phrase = BeamPhraseInput(context)
         phrase.number = number
+        phrase.validator = {
+            if (it == null) {
+                false
+            } else {
+                suggestionsView.contains(it)
+            }
+        }
+
+        phrase.isForEnsure = true
 
         val params = GridLayout.LayoutParams()
         params.height = GridLayout.LayoutParams.WRAP_CONTENT
