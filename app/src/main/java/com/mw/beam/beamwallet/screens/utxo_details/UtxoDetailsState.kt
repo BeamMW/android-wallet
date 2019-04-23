@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.entities.Utxo
  */
 class UtxoDetailsState {
     var utxo: Utxo? = null
-    private val transactions = HashMap<String, TxDescription>()
+    val transactions = HashMap<String, TxDescription>()
 
     fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {
         tx?.forEach { transaction ->
