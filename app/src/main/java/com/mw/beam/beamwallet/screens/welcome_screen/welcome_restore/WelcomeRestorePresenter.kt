@@ -56,4 +56,12 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
             view?.updateSuggestions(seed)
         }
     }
+
+    override fun onKeyboardStateChange(isVisible: Boolean) {
+        if (isVisible) {
+            view?.showSuggestions()
+        } else {
+            view?.hideSuggestions()
+        }
+    }
 }

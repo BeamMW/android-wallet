@@ -63,6 +63,14 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         suggestionsView.clear()
     }
 
+    override fun showSuggestions() {
+        suggestionsView.visibility = View.VISIBLE
+    }
+
+    override fun hideSuggestions() {
+        suggestionsView.visibility = View.GONE
+    }
+
     override fun setTextToCurrentView(text: String) {
         currentEditText?.apply {
             setText("")
@@ -87,6 +95,16 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 presenter.onSuggestionClick(suggestion)
             }
         })
+
+        addKeyboardStateListener(restoreRootLayout)
+    }
+
+    override fun onHideKeyboard() {
+        presenter.onKeyboardStateChange(false)
+    }
+
+    override fun onShowKeyboard(keyboardHeight: Int) {
+        presenter.onKeyboardStateChange(true)
     }
 
     override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed, WelcomeMode.RESTORE)
@@ -178,6 +196,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun clearListeners() {
         btnRestore.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
+        clearKeyboardStateListener()
     }
 
     override fun clearWindowState() {

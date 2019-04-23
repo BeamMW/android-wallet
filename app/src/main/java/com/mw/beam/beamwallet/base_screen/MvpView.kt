@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.support.v7.app.AlertDialog
+import android.view.ViewGroup
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
@@ -39,5 +40,9 @@ interface MvpView {
     fun getToolbarTitle(): String?
     fun addListeners()
     fun clearListeners()
+    fun onHideKeyboard()
+    fun onShowKeyboard(keyboardHeight: Int)
+    fun addKeyboardStateListener(rootLayout: ViewGroup)
+    fun clearKeyboardStateListener()
     fun logOut()
 }

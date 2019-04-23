@@ -27,6 +27,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
