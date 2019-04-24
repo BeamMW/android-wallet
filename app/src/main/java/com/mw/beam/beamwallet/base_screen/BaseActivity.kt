@@ -42,9 +42,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
     private lateinit var presenter: T
-
-    @Suppress("LeakingThis")
-    private val delegate = ScreenDelegate(this)
+    private val delegate = ScreenDelegate()
 
     private val lockScreenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
@@ -131,14 +129,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onShowKeyboard() {
     }
 
-    override fun registerKeyboardStateListener() {
-        delegate.registerKeyboardStateListener(this)
-    }
-
-    override fun unregisterKeyboardStateListener() {
-        delegate.unregisterKeyboardStateListener()
-    }
-
     override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
 
@@ -178,6 +168,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerStart() {
         super.onControllerStart()
+        delegate.registerKeyboardStateListener(this, this)
         presenter.onStart()
     }
 
@@ -192,6 +183,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStop() {
+        delegate.unregisterKeyboardStateListener()
         presenter.onStop()
         super.onControllerStop()
     }

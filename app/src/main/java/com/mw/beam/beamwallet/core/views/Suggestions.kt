@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.suggestion_layout.view.*
 class Suggestions: LinearLayout {
     private var suggestions: List<String>? = null
     private var onSuggestionClick: OnSuggestionClick? = null
-    var mode: SuggestionsMode = SuggestionsMode.Default
+    var mode: Mode = Mode.Default
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context)
@@ -55,7 +55,7 @@ class Suggestions: LinearLayout {
 
         val words = suggestions?.filter { it.startsWith(text) }?.take(3)
 
-        if (mode == SuggestionsMode.SingleWord && words?.size ?: 0 > 1) {
+        if (mode == Mode.SingleWord && words?.size ?: 0 > 1) {
             updateDividers()
             return
         }
@@ -73,8 +73,6 @@ class Suggestions: LinearLayout {
         updateDividers()
     }
 
-    fun contains(text: String): Boolean = suggestions?.contains(text) ?: false
-
     private fun updateDividers() {
         dividerLeft.visibility = if (leftWord.text.isEmpty())  View.GONE else View.VISIBLE
         dividerRight.visibility = if (rightWord.text.isEmpty())  View.GONE else View.VISIBLE
@@ -90,7 +88,7 @@ class Suggestions: LinearLayout {
         }
     }
 
-    enum class SuggestionsMode {
+    enum class Mode {
         SingleWord, Default
     }
 }

@@ -33,22 +33,12 @@ import com.mw.beam.beamwallet.core.helpers.Status
 
 abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
     private lateinit var presenter: T
-
-    @Suppress("LeakingThis")
-    private val delegate = ScreenDelegate(this)
+    private val delegate = ScreenDelegate()
 
     override fun onHideKeyboard() {
     }
 
     override fun onShowKeyboard() {
-    }
-
-    override fun registerKeyboardStateListener() {
-        activity?.let { delegate.registerKeyboardStateListener(it) }
-    }
-
-    override fun unregisterKeyboardStateListener() {
-        delegate.unregisterKeyboardStateListener()
     }
 
     override fun hideKeyboard() {
@@ -110,6 +100,7 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         super.onControllerStart()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        activity?.let { delegate.registerKeyboardStateListener(it, this) }
         presenter.onStart()
     }
 
@@ -124,6 +115,7 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     }
 
     override fun onControllerStop() {
+        delegate.unregisterKeyboardStateListener()
         presenter.onStop()
         super.onControllerStop()
     }

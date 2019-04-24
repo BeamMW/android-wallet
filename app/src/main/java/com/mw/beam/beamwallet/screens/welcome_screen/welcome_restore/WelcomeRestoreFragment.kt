@@ -80,7 +80,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun updateSuggestions(text: String) {
         suggestionsView.find(text)
-        suggestionsView.mode = Suggestions.SuggestionsMode.SingleWord
+        suggestionsView.mode = Suggestions.Mode.SingleWord
     }
 
     override fun addListeners() {
@@ -95,8 +95,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 presenter.onSuggestionClick(suggestion)
             }
         })
-
-        registerKeyboardStateListener()
     }
 
     override fun onHideKeyboard() {
@@ -157,8 +155,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         phrase.layoutParams = params
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                presenter.onSeedChanged(p0.toString())
+            override fun afterTextChanged(phrase: Editable?) {
+                presenter.onSeedChanged(phrase.toString())
             }
         })
 
@@ -199,7 +197,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun clearListeners() {
         btnRestore.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
-        unregisterKeyboardStateListener()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

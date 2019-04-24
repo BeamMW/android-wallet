@@ -39,7 +39,7 @@ import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 /**
  * Created by vain onnellinen on 12/4/18.
  */
-class ScreenDelegate(private val view: ViewDelegate) {
+class ScreenDelegate {
     private var alert: AlertDialog? = null
     private var eventListener: Unregistrar? = null
 
@@ -124,7 +124,7 @@ class ScreenDelegate(private val view: ViewDelegate) {
         }
     }
 
-    fun registerKeyboardStateListener(activity: Activity) {
+    fun registerKeyboardStateListener(activity: Activity, view: ViewDelegate) {
         eventListener = KeyboardVisibilityEvent.registerEventListener(activity) {
             if (it) {
                 view.onShowKeyboard()
