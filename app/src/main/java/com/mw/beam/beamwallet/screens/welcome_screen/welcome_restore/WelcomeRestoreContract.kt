@@ -34,7 +34,6 @@ interface WelcomeRestoreContract {
         fun setTextToCurrentView(text: String)
         fun updateSuggestions(text: String)
         fun clearSuggestions()
-        fun clearWindowState()
         fun showSuggestions()
         fun hideSuggestions()
     }

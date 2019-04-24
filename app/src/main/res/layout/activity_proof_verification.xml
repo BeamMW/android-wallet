@@ -21,10 +21,10 @@
             android:id="@+id/proofContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/payment_proof_content_vertical_padding"
-            android:paddingTop="@dimen/payment_proof_content_horizontal_padding"
-            android:paddingEnd="@dimen/payment_proof_content_vertical_padding"
-            android:paddingBottom="@dimen/payment_proof_content_horizontal_padding">
+            android:paddingStart="@dimen/payment_proof_content_horizontal_margin"
+            android:paddingTop="@dimen/payment_proof_content_vertical_padding"
+            android:paddingEnd="@dimen/payment_proof_content_horizontal_margin"
+            android:paddingBottom="@dimen/payment_proof_content_vertical_padding">
 
             <TextView
                 android:id="@+id/proofTitle"

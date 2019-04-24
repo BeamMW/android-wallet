@@ -128,15 +128,15 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onHideKeyboard() {
     }
 
-    override fun onShowKeyboard(keyboardHeight: Int) {
+    override fun onShowKeyboard() {
     }
 
-    override fun addKeyboardStateListener(rootLayout: ViewGroup) {
-        delegate.addKeyboardStateListener(rootLayout)
+    override fun registerKeyboardStateListener() {
+        delegate.registerKeyboardStateListener(this)
     }
 
-    override fun clearKeyboardStateListener() {
-        delegate.clearKeyboardStateListener()
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
     }
 
     override fun configStatus(networkStatus: NetworkStatus) {

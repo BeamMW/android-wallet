@@ -38,18 +38,16 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onHideKeyboard() {
     }
 
-    override fun onShowKeyboard(keyboardHeight: Int) {
+    override fun onShowKeyboard() {
     }
 
-    override fun addKeyboardStateListener(rootLayout: ViewGroup) {
-       delegate.addKeyboardStateListener(rootLayout)
+    override fun registerKeyboardStateListener() {
+        activity?.let { delegate.registerKeyboardStateListener(it) }
     }
 
-    override fun clearKeyboardStateListener() {
-        delegate.clearKeyboardStateListener()
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
     }
-
-    override fun getWindow(): Window? = activity?.window
 
     override fun hideKeyboard() {
         delegate.hideKeyboard(activity ?: return)
