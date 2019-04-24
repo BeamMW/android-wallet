@@ -147,6 +147,14 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
+    override fun registerKeyboardStateListener() {
+        delegate.registerKeyboardStateListener(this, this)
+    }
+
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
+    }
+
     @Suppress("UNCHECKED_CAST")
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -168,7 +176,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerStart() {
         super.onControllerStart()
-        delegate.registerKeyboardStateListener(this, this)
         presenter.onStart()
     }
 
@@ -183,7 +190,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStop() {
-        delegate.unregisterKeyboardStateListener()
         presenter.onStop()
         super.onControllerStop()
     }
