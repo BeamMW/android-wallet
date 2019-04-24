@@ -21,4 +21,5 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
  */
 class WelcomeRestoreState {
     val phrasesCount: Int = 12
+    var seeds: List<String>? = null
 }

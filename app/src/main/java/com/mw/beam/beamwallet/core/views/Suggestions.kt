@@ -12,27 +12,26 @@ import kotlinx.android.synthetic.main.suggestion_layout.view.*
 class Suggestions: LinearLayout {
     private var suggestions: List<String>? = null
     private var onSuggestionClick: OnSuggestionClick? = null
+    var mode: SuggestionsMode = SuggestionsMode.Default
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        init(context, attrs)
+        init(context)
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context, attrs)
+        init(context)
     }
 
     constructor(context: Context) : super(context) {
-        init(context, null)
+        init(context)
     }
 
-    private fun init(context: Context, attrs: AttributeSet?) {
+    private fun init(context: Context) {
         View.inflate(context, R.layout.suggestion_layout, this)
 
-        val onClickListener = OnTextSuggestionClickListener(this)
-
-        leftWord.setOnClickListener(onClickListener)
-        centerWord.setOnClickListener(onClickListener)
-        rightWord.setOnClickListener(onClickListener)
+        leftWord.setOnClickListener(::onClick)
+        centerWord.setOnClickListener(::onClick)
+        rightWord.setOnClickListener(::onClick)
     }
 
     fun setSuggestions(suggestions: List<String>) {
@@ -56,14 +55,19 @@ class Suggestions: LinearLayout {
 
         val words = suggestions?.filter { it.startsWith(text) }?.take(3)
 
-        words?.forEach {
-            val textView = when (words.indexOf(it)) {
+        if (mode == SuggestionsMode.SingleWord && words?.size ?: 0 > 1) {
+            updateDividers()
+            return
+        }
+
+        words?.forEachIndexed { index, word ->
+            val textView = when (index) {
                 1 -> leftWord
                 2 -> rightWord
                 else -> centerWord
             }
 
-            textView.text = it
+            textView.text = word
         }
 
         updateDividers()
@@ -72,21 +76,22 @@ class Suggestions: LinearLayout {
     fun contains(text: String): Boolean = suggestions?.contains(text) ?: false
 
     private fun updateDividers() {
-        view.visibility = if (leftWord.text.isEmpty())  View.GONE else View.VISIBLE
-        view2.visibility = if (rightWord.text.isEmpty())  View.GONE else View.VISIBLE
+        dividerLeft.visibility = if (leftWord.text.isEmpty())  View.GONE else View.VISIBLE
+        dividerRight.visibility = if (rightWord.text.isEmpty())  View.GONE else View.VISIBLE
     }
 
     fun setOnSuggestionClick(onSuggestionClick: OnSuggestionClick?) {
         this.onSuggestionClick = onSuggestionClick
     }
 
-    private class OnTextSuggestionClickListener(private val suggestions: Suggestions): OnClickListener {
-        override fun onClick(v: View?) {
-            if (v != null && v is TextView && v.text.isNotEmpty()) {
-                suggestions.onSuggestionClick?.onClick(v.text.toString())
-            }
+    private fun onClick(v: View?) {
+        if (v != null && v is TextView && v.text.isNotEmpty()) {
+            onSuggestionClick?.onClick(v.text.toString())
         }
+    }
 
+    enum class SuggestionsMode {
+        SingleWord, Default
     }
 }
 

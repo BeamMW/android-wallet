@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
@@ -31,6 +30,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
+import com.mw.beam.beamwallet.core.views.Suggestions
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_restore.*
@@ -80,6 +80,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun updateSuggestions(text: String) {
         suggestionsView.find(text)
+        suggestionsView.mode = Suggestions.SuggestionsMode.SingleWord
     }
 
     override fun addListeners() {
@@ -137,13 +138,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         val phrase = BeamPhraseInput(context)
         phrase.number = number
-        phrase.validator = {
-            if (it == null) {
-                false
-            } else {
-                suggestionsView.contains(it)
-            }
-        }
+        phrase.validator = presenter::onValidateSeed
 
         phrase.isForEnsure = true
 

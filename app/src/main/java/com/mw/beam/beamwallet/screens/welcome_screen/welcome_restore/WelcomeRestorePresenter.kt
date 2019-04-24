@@ -25,11 +25,13 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     : BasePresenter<WelcomeRestoreContract.View, WelcomeRestoreContract.Repository>(currentView, currentRepository),
         WelcomeRestoreContract.Presenter {
 
-    override fun onStart() {
-        super.onStart()
+
+    override fun onViewCreated() {
+        super.onViewCreated()
         view?.init()
-        view?.initSuggestions(repository.getSuggestions())
+        state.seeds = repository.getSuggestions()
         view?.configSeed(state.phrasesCount)
+        view?.initSuggestions(state.seeds ?: return)
     }
 
     override fun onRestorePressed() {
@@ -43,6 +45,14 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
 
     override fun onSuggestionClick(text: String) {
         view?.setTextToCurrentView(text)
+    }
+
+    override fun onValidateSeed(seed: String?): Boolean {
+        return if (seed.isNullOrEmpty()) {
+            false
+        } else {
+            state.seeds?.contains(seed) ?: false
+        }
     }
 
     override fun onSeedFocusChanged(seed: String, hasFocus: Boolean) {
