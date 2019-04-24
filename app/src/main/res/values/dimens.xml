@@ -202,8 +202,8 @@
     <dimen name="scan_qr_toolbar_offset">20dp</dimen>
 
     <!--PaymentProofActivity-->
-    <dimen name="payment_proof_content_vertical_padding">16dp</dimen>
-    <dimen name="payment_proof_content_horizontal_padding">25dp</dimen>
+    <dimen name="payment_proof_content_horizontal_margin">16dp</dimen>
+    <dimen name="payment_proof_content_vertical_padding">25dp</dimen>
     <dimen name="payment_proof_code_value_margin_start">32dp</dimen>
     <dimen name="payment_proof_section_margin_top">30dp</dimen>
     <dimen name="payment_proof_send_margin_top">20dp</dimen>

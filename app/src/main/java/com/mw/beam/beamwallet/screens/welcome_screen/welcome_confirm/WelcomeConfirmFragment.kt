@@ -79,7 +79,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
             }
         })
 
-        addKeyboardStateListener(confirmRootLayout)
+        registerKeyboardStateListener()
     }
 
     private fun isSeedValid(): Boolean {
@@ -189,7 +189,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         presenter.onKeyboardStateChange(false)
     }
 
-    override fun onShowKeyboard(keyboardHeight: Int) {
+    override fun onShowKeyboard() {
         presenter.onKeyboardStateChange(true)
     }
 
@@ -212,7 +212,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
-        clearKeyboardStateListener()
+        unregisterKeyboardStateListener()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

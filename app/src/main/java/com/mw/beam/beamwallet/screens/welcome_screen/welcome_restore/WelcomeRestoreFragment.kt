@@ -52,7 +52,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun init() {
         btnRestore.isEnabled = false
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun initSuggestions(suggestions: List<String>) {
@@ -96,14 +95,14 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
             }
         })
 
-        addKeyboardStateListener(restoreRootLayout)
+        registerKeyboardStateListener()
     }
 
     override fun onHideKeyboard() {
         presenter.onKeyboardStateChange(false)
     }
 
-    override fun onShowKeyboard(keyboardHeight: Int) {
+    override fun onShowKeyboard() {
         presenter.onKeyboardStateChange(true)
     }
 
@@ -205,11 +204,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun clearListeners() {
         btnRestore.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
-        clearKeyboardStateListener()
-    }
-
-    override fun clearWindowState() {
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        unregisterKeyboardStateListener()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

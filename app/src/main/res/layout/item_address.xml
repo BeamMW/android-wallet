@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/wallet_adapter_not_multiply_color"
     android:filterTouchesWhenObscured="true"
     android:padding="@dimen/common_offset">
@@ -15,6 +16,7 @@
         android:paddingBottom="@dimen/addresses_label_offset"
         android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
+        tools:text="label"
         app:layout_constraintBottom_toTopOf="@id/id"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="middle"
         android:singleLine="true"
+        tools:text="lwmef2llk124n12kln 23n"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label" />
@@ -34,8 +37,13 @@
     <TextView
         android:id="@+id/date"
         style="@style/common_text_small_light"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:textAlignment="textEnd"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label"
+        app:layout_constraintStart_toEndOf="@+id/id"
+        tools:text="date" />
 </android.support.constraint.ConstraintLayout>

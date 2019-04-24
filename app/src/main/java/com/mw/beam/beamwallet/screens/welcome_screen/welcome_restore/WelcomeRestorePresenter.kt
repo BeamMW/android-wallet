@@ -32,11 +32,6 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
         view?.configSeed(state.phrasesCount)
     }
 
-    override fun onStop() {
-        view?.clearWindowState()
-        super.onStop()
-    }
-
     override fun onRestorePressed() {
         view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
