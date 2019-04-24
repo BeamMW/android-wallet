@@ -42,7 +42,5 @@ interface MvpView {
     fun clearListeners()
     fun onHideKeyboard()
     fun onShowKeyboard()
-    fun registerKeyboardStateListener()
-    fun unregisterKeyboardStateListener()
     fun logOut()
 }

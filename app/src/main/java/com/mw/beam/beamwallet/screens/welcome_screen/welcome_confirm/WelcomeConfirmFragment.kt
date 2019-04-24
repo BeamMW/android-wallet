@@ -79,8 +79,6 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
                 presenter.onSuggestionClick(suggestion)
             }
         })
-
-        registerKeyboardStateListener()
     }
 
     private fun isSeedValid(): Boolean {
@@ -146,8 +144,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         phrase.layoutParams = params
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-                presenter.onSeedChanged(p0.toString())
+            override fun afterTextChanged(phrase: Editable?) {
+                presenter.onSeedChanged(phrase.toString())
             }
         })
 
@@ -164,7 +162,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun initSuggestions(suggestions: List<String>) {
         suggestionsView.setSuggestions(suggestions)
-        suggestionsView.mode = Suggestions.SuggestionsMode.SingleWord
+        suggestionsView.mode = Suggestions.Mode.SingleWord
     }
 
     override fun clearSuggestions() {
@@ -214,7 +212,6 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
-        unregisterKeyboardStateListener()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
