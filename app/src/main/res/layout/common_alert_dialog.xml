@@ -24,35 +24,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/alert_dialog_alert_padding"
-        app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+        app:layout_constraintBottom_toTopOf="@id/btnLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <TextView
-        android:id="@+id/btnCancel"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/btnLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/btnConfirm"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/alertText" />
-
-    <TextView
-        android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/alert_dialog_button_padding"
-        android:textAllCaps="true"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnCancel"
-        app:layout_constraintTop_toBottomOf="@id/alertText"
-        tools:ignore="RtlSymmetry" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/alertText">
+
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textAllCaps="true"
+            android:textColor="@color/alert_dialog_cancel_color"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/alert_dialog_button_padding"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
