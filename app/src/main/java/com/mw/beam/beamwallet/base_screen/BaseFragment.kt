@@ -18,10 +18,6 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.Window
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -80,6 +76,14 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.dismissAlert()
     }
 
+    override fun registerKeyboardStateListener() {
+        activity?.let { delegate.registerKeyboardStateListener(it, this) }
+    }
+
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
+    }
+
     override fun addListeners() {
     }
 
@@ -100,7 +104,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerStart() {
         super.onControllerStart()
-        activity?.let { delegate.registerKeyboardStateListener(it, this) }
         presenter.onStart()
     }
 
@@ -115,7 +118,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun onControllerStop() {
-        delegate.unregisterKeyboardStateListener()
         presenter.onStop()
         super.onControllerStop()
     }

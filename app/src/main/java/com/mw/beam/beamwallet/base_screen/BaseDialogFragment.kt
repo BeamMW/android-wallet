@@ -23,10 +23,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.Window
 import com.eightsines.holycycle.app.ViewControllerDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -80,6 +77,14 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         delegate.dismissAlert()
     }
 
+    override fun registerKeyboardStateListener() {
+        activity?.let { delegate.registerKeyboardStateListener(it, this) }
+    }
+
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
+    }
+
     override fun addListeners() {}
 
     override fun clearListeners() {}
@@ -100,7 +105,6 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         super.onControllerStart()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        activity?.let { delegate.registerKeyboardStateListener(it, this) }
         presenter.onStart()
     }
 
@@ -115,7 +119,6 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     }
 
     override fun onControllerStop() {
-        delegate.unregisterKeyboardStateListener()
         presenter.onStop()
         super.onControllerStop()
     }
