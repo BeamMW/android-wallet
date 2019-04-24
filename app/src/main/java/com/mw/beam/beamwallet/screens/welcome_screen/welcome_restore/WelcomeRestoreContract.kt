@@ -44,6 +44,7 @@ interface WelcomeRestoreContract {
         fun onSuggestionClick(text: String)
         fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
         fun onKeyboardStateChange(isVisible: Boolean)
+        fun onValidateSeed(seed: String?): Boolean
     }
 
     interface Repository : MvpRepository {

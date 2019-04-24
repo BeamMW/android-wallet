@@ -30,6 +30,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
+import com.mw.beam.beamwallet.core.views.Suggestions
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
@@ -163,6 +164,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun initSuggestions(suggestions: List<String>) {
         suggestionsView.setSuggestions(suggestions)
+        suggestionsView.mode = Suggestions.SuggestionsMode.SingleWord
     }
 
     override fun clearSuggestions() {
