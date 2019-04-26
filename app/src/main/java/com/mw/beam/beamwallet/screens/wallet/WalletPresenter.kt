@@ -46,13 +46,11 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val privacyModeEnabled = isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
-        if (state.privacyMode) {
-            state.shouldExpandAvailable = true
-            state.shouldExpandInProgress = true
+        state.shouldExpandAvailable = state.privacyMode
+        state.shouldExpandInProgress = state.privacyMode
 
-            view?.handleExpandAvailable(true)
-            view?.handleExpandInProgress(true)
-        }
+        view?.handleExpandAvailable(state.privacyMode)
+        view?.handleExpandInProgress(state.privacyMode)
     }
 
     override fun onChangePrivacyModePressed() {
