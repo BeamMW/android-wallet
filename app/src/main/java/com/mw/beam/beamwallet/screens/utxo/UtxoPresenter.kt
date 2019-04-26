@@ -32,9 +32,11 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
-        notifyPrivacyStateChange()
+    }
 
-        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
+    override fun onStart() {
+        super.onStart()
+        notifyPrivacyStateChange()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -46,6 +48,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onChangePrivacyModePressed() {
         if (state.privacyMode) {
             setPrivacyModeEnabled(false)
+            notifyPrivacyStateChange()
         } else {
             view?.showActivatePrivacyModeDialog()
         }
@@ -58,6 +61,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
         setPrivacyModeEnabled(true)
+        notifyPrivacyStateChange()
     }
 
     override fun onUtxoPressed(utxo: Utxo) {
@@ -78,7 +82,6 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     }
 
     override fun onDestroy() {
-        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
         view?.dismissAlert()
         super.onDestroy()
     }

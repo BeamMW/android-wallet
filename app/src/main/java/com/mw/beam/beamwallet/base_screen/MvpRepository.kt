@@ -34,8 +34,6 @@ interface MvpRepository {
 
     fun isPrivacyModeEnabled(): Boolean
     fun setPrivacyModeEnabled(isEnable: Boolean)
-    fun registerOnPreferenceChanged(callback: () -> Unit)
-    fun unregisterOnPreferenceChanged(callback: () -> Unit)
 
     fun openWallet(pass: String?): Status
     fun closeWallet()

@@ -37,9 +37,11 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
-        notifyPrivacyStateChange()
+    }
 
-        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
+    override fun onStart() {
+        super.onStart()
+        notifyPrivacyStateChange()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -56,6 +58,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun onChangePrivacyModePressed() {
         if (state.privacyMode) {
             setPrivacyModeEnabled(false)
+            notifyPrivacyStateChange()
         } else {
             view?.showActivatePrivacyModeDialog()
         }
@@ -68,6 +71,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
         setPrivacyModeEnabled(true)
+        notifyPrivacyStateChange()
     }
 
     override fun onReceivePressed() {
@@ -153,7 +157,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     override fun onDestroy() {
         view?.dismissAlert()
-        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
         super.onDestroy()
     }
 

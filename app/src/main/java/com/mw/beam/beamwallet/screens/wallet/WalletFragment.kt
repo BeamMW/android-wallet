@@ -234,20 +234,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
-        if (contentLayout == null) {
-            return
-        }
-
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
         TransitionManager.beginDelayedTransition(contentLayout)
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
-        if (contentLayout == null) {
-            return
-        }
-
         animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
         TransitionManager.beginDelayedTransition(contentLayout)
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
@@ -315,10 +307,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
-        if (contentLayout == null) {
-            return
-        }
-
         TransitionManager.beginDelayedTransition(contentLayout)
 
 
