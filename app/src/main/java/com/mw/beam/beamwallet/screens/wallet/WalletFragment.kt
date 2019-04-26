@@ -29,9 +29,7 @@ import android.support.v7.view.menu.MenuBuilder
 import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -111,6 +109,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             inProgressLayout.visibility = View.VISIBLE
         }
 
+        if (presenter.isPrivacyModeEnabled()) {
+            return
+        }
+
         when {
             //only maturing amount
             receivingAmount == 0L && sendingAmount == 0L -> {
@@ -162,12 +164,14 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnTransactionsMenu.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
+            adapter.setPrivacyMode(presenter.isPrivacyModeEnabled())
             adapter.setData(transactions)
         }
     }
 
     override fun init() {
         initTransactionsList()
+        setHasOptionsMenu(true)
     }
 
     @SuppressLint("RestrictedApi")
@@ -175,9 +179,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnReceive.setOnClickListener { presenter.onReceivePressed() }
         btnSend.setOnClickListener { presenter.onSendPressed() }
 
-        availableTitle.setOnClickListener {
-            presenter.onExpandAvailablePressed()
-        }
+        addTitleListeners()
 
         btnExpandAvailable.setOnClickListener {
             presenter.onExpandAvailablePressed()
@@ -187,9 +189,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             presenter.onExpandAvailablePressed()
         }
 
-        inProgressTitle.setOnClickListener {
-            presenter.onExpandInProgressPressed()
-        }
 
         btnExpandInProgress.setOnClickListener {
             presenter.onExpandInProgressPressed()
@@ -202,6 +201,23 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnTransactionsMenu.setOnClickListener { view ->
             presenter.onTransactionsMenuButtonPressed(view)
         }
+    }
+
+    private fun addTitleListeners() {
+        if (!presenter.isPrivacyModeEnabled()) {
+            availableTitle.setOnClickListener {
+                presenter.onExpandAvailablePressed()
+            }
+
+            inProgressTitle.setOnClickListener {
+                presenter.onExpandInProgressPressed()
+            }
+        }
+    }
+
+    private fun clearTitleListeners() {
+        inProgressTitle.setOnClickListener(null)
+        availableTitle.setOnClickListener(null)
     }
 
     private fun initTransactionsList() {
@@ -218,12 +234,20 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
+        if (contentLayout == null) {
+            return
+        }
+
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
         TransitionManager.beginDelayedTransition(contentLayout)
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
+        if (contentLayout == null) {
+            return
+        }
+
         animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
         TransitionManager.beginDelayedTransition(contentLayout)
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
@@ -274,6 +298,43 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.privacy_menu, menu)
+        val isPrivacyMode = presenter.isPrivacyModeEnabled()
+        val menuItem = menu?.findItem(R.id.privacy_mode)
+        menuItem?.setOnMenuItemClickListener {
+            presenter.onChangePrivacyModePressed()
+            false
+        }
+
+        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+    }
+
+    override fun showActivatePrivacyModeDialog() {
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+    }
+
+    override fun configPrivacyStatus(isEnable: Boolean) {
+        if (contentLayout == null) {
+            return
+        }
+
+        TransitionManager.beginDelayedTransition(contentLayout)
+
+
+        activity?.invalidateOptionsMenu()
+        adapter.setPrivacyMode(isEnable)
+
+        privacyGroupAvailable.visibility = if (isEnable) View.GONE else View.VISIBLE
+        privacyGroupInProgress.visibility = if (isEnable) View.GONE else View.VISIBLE
+
+        clearTitleListeners()
+        if (!isEnable) {
+            addTitleListeners()
+        }
+
+    }
+
     override fun showTransactionDetails(txDescription: TxDescription) = (activity as WalletHandler).onShowTransactionDetails(txDescription)
     override fun showReceiveScreen() = (activity as WalletHandler).onReceive()
     override fun showSendScreen() = (activity as WalletHandler).onSend()
@@ -284,10 +345,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnExpandAvailable.setOnClickListener(null)
         btnExpandInProgress.setOnClickListener(null)
         btnTransactionsMenu.setOnClickListener(null)
-        availableTitle.setOnClickListener(null)
         clickableAvailableArea.setOnClickListener(null)
-        inProgressTitle.setOnClickListener(null)
         clickableInProgressArea.setOnClickListener(null)
+        clearTitleListeners()
     }
 
     private fun configSeparateAmount(title: String, icon: Drawable?, amount: String, currency: Drawable?, textColor: Int) {

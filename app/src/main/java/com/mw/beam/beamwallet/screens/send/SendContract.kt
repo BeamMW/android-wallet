@@ -34,8 +34,8 @@ interface SendContract {
         fun getFee(): Long
         fun getToken(): String
         fun getComment(): String?
-        fun updateUI(shouldShowParams: Boolean, defaultFee: Int)
-        fun hasErrors(availableAmount: Long): Boolean
+        fun updateUI(shouldShowParams: Boolean, defaultFee: Int, isEnablePrivacyMode: Boolean)
+        fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
         fun clearErrors()
         fun clearToken(clearedToken: String?)
         fun init(defaultFee: Int)
@@ -53,6 +53,8 @@ interface SendContract {
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
         fun showConfirmDialog(token: String, amount: Double, fee: Long)
+        fun showActivatePrivacyModeDialog()
+        fun configPrivacyStatus(isEnable: Boolean)
         fun dismissDialog()
     }
 
@@ -67,6 +69,9 @@ interface SendContract {
         fun onRequestPermissionsResult(result: PermissionStatus)
         fun onFeeFocusChanged(isFocused: Boolean, fee: String)
         fun onConfirm()
+        fun onChangePrivacyModePressed()
+        fun onPrivacyModeActivated()
+        fun onCancelDialog()
         fun onDialogClosePressed()
     }
 

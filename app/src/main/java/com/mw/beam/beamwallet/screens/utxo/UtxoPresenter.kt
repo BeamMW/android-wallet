@@ -23,7 +23,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository)
+class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository, private val state: UtxoState)
     : BasePresenter<UtxoContract.View, UtxoContract.Repository>(currentView, currentRepository),
         UtxoContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
@@ -32,6 +32,32 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        notifyPrivacyStateChange()
+
+        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
+    }
+
+    private fun notifyPrivacyStateChange() {
+        val privacyModeEnabled = isPrivacyModeEnabled()
+        state.privacyMode = privacyModeEnabled
+        view?.configPrivacyStatus(privacyModeEnabled)
+    }
+
+    override fun onChangePrivacyModePressed() {
+        if (state.privacyMode) {
+            setPrivacyModeEnabled(false)
+        } else {
+            view?.showActivatePrivacyModeDialog()
+        }
+    }
+
+    override fun onCancelDialog() {
+        view?.dismissAlert()
+    }
+
+    override fun onPrivacyModeActivated() {
+        view?.dismissAlert()
+        setPrivacyModeEnabled(true)
     }
 
     override fun onUtxoPressed(utxo: Utxo) {
@@ -49,6 +75,12 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
             view?.updateBlockchainInfo(walletStatus.system)
         }
 
+    }
+
+    override fun onDestroy() {
+        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
+        view?.dismissAlert()
+        super.onDestroy()
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription)

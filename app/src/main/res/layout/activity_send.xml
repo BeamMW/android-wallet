@@ -285,7 +285,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend, availableTitle, availableSum, availableCurrencyImage" />
+                app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend, availableCurrencyImage" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

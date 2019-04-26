@@ -43,6 +43,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(DEFAULT_FEE)
+        notifyPrivacyStateChange()
+
+        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
     }
 
     override fun onStart() {
@@ -55,8 +58,31 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
+    private fun notifyPrivacyStateChange() {
+        val privacyModeEnabled = isPrivacyModeEnabled()
+        state.privacyMode = privacyModeEnabled
+        view?.configPrivacyStatus(privacyModeEnabled)
+    }
+
+    override fun onChangePrivacyModePressed() {
+        if (state.privacyMode) {
+            setPrivacyModeEnabled(false)
+        } else {
+            view?.showActivatePrivacyModeDialog()
+        }
+    }
+
+    override fun onCancelDialog() {
+        view?.dismissAlert()
+    }
+
+    override fun onPrivacyModeActivated() {
+        view?.dismissAlert()
+        setPrivacyModeEnabled(true)
+    }
+
     override fun onSend() {
-        if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
+        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
             val comment = view?.getComment()
@@ -82,7 +108,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             return
         }
 
-        if (view?.hasErrors(state.walletStatus?.available ?: 0) == false) {
+        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
             val token = view?.getToken()
@@ -163,7 +189,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 val isTokenEmpty = rawToken.isNullOrEmpty()
 
                 if (isTokenEmpty != state.isTokenEmpty) {
-                    view?.updateUI(!isTokenEmpty, DEFAULT_FEE)
+                    view?.updateUI(!isTokenEmpty, DEFAULT_FEE, state.privacyMode)
                 }
 
                 if (!isTokenEmpty) {
@@ -203,7 +229,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.updateAvailable(state.walletStatus!!.available.convertToBeamString())
 
             if (view?.isAmountErrorShown() == true) {
-                view?.hasErrors(state.walletStatus?.available ?: 0)
+                view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode)
             }
         }
 
@@ -216,6 +242,13 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.expiredAddresses = it.addresses?.filter { address -> address.isExpired }
                     ?: listOf()
         }
+    }
+
+    override fun onDestroy() {
+        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
+        view?.dismissAlert()
+        view?.dismissDialog()
+        super.onDestroy()
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, cantSendToExpiredSubscription, addressesSubscription)

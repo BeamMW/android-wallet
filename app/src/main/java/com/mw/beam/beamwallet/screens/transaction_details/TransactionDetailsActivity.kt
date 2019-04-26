@@ -54,8 +54,8 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
     override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(EXTRA_TRANSACTION_DETAILS)
 
-    override fun init(txDescription: TxDescription) {
-        configTransactionDetails(txDescription)
+    override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
+        configTransactionDetails(txDescription, isEnablePrivacyMode)
         configGeneralTransactionInfo(txDescription)
     }
 
@@ -109,7 +109,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         }
     }
 
-    private fun configTransactionDetails(txDescription: TxDescription) {
+    private fun configTransactionDetails(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         message.text = String.format(
                 when (txDescription.sender) {
                     TxSender.RECEIVED -> getString(R.string.wallet_transactions_receive)
@@ -126,6 +126,8 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
         status.setTextColor(txDescription.statusColor)
         status.text = txDescription.statusString
+
+        sum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
     }
 
     override fun updatePaymentProof(paymentProof: PaymentProof) {

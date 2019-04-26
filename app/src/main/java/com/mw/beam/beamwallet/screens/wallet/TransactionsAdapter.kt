@@ -41,6 +41,7 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val receiveText = context.getString(R.string.wallet_transactions_receive)
     private val sendText = context.getString(R.string.wallet_transactions_send)
     private val currencyBeam = context.getString(R.string.currency_beam)
+    private var privacyMode: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
@@ -69,6 +70,10 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
 
             status.setTextColor(transaction.statusColor)
             status.text = transaction.statusString
+
+            val amountVisibility = if (privacyMode) View.GONE else View.VISIBLE
+            sum.visibility = amountVisibility
+            currency.visibility = amountVisibility
         }
     }
 
@@ -77,6 +82,13 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     fun setData(data: List<TxDescription>) {
         this.data = data
         notifyDataSetChanged()
+    }
+
+    fun setPrivacyMode(isEnable: Boolean) {
+        if (privacyMode != isEnable) {
+            privacyMode = isEnable
+            notifyDataSetChanged()
+        }
     }
 
     interface OnItemClickListener {

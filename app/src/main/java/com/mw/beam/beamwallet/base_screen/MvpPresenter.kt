@@ -39,4 +39,6 @@ interface MvpPresenter<V : MvpView> {
     fun onUserInteraction(context: Context)
     fun isLockScreenEnabled(): Boolean
     fun onStateIsNotEnsured()
+    fun isPrivacyModeEnabled(): Boolean
+    fun setPrivacyModeEnabled(isEnable: Boolean)
 }
