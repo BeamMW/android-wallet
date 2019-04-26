@@ -37,6 +37,39 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        notifyPrivacyStateChange()
+
+        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
+    }
+
+    private fun notifyPrivacyStateChange() {
+        val privacyModeEnabled = isPrivacyModeEnabled()
+        state.privacyMode = privacyModeEnabled
+        view?.configPrivacyStatus(privacyModeEnabled)
+        if (state.privacyMode) {
+            state.shouldExpandAvailable = true
+            state.shouldExpandInProgress = true
+
+            view?.handleExpandAvailable(true)
+            view?.handleExpandInProgress(true)
+        }
+    }
+
+    override fun onChangePrivacyModePressed() {
+        if (state.privacyMode) {
+            setPrivacyModeEnabled(false)
+        } else {
+            view?.showActivatePrivacyModeDialog()
+        }
+    }
+
+    override fun onCancelDialog() {
+        view?.dismissAlert()
+    }
+
+    override fun onPrivacyModeActivated() {
+        view?.dismissAlert()
+        setPrivacyModeEnabled(true)
     }
 
     override fun onReceivePressed() {
@@ -52,11 +85,19 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun onExpandAvailablePressed() {
+        if (state.privacyMode) {
+            return
+        }
+
         state.shouldExpandAvailable = !state.shouldExpandAvailable
         view?.handleExpandAvailable(state.shouldExpandAvailable)
     }
 
     override fun onExpandInProgressPressed() {
+        if (state.privacyMode) {
+            return
+        }
+
         state.shouldExpandInProgress = !state.shouldExpandInProgress
         view?.handleExpandInProgress(state.shouldExpandInProgress)
 
@@ -110,6 +151,12 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
                         else -> state.updateTransactions(data.tx)
                     })
         }
+    }
+
+    override fun onDestroy() {
+        view?.dismissAlert()
+        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
+        super.onDestroy()
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription)

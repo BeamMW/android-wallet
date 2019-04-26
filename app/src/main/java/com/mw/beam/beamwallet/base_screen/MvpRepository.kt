@@ -32,6 +32,11 @@ interface MvpRepository {
     fun getNodeConnectionFailed(): Subject<NodeConnectionError>
     fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
 
+    fun isPrivacyModeEnabled(): Boolean
+    fun setPrivacyModeEnabled(isEnable: Boolean)
+    fun registerOnPreferenceChanged(callback: () -> Unit)
+    fun unregisterOnPreferenceChanged(callback: () -> Unit)
+
     fun openWallet(pass: String?): Status
     fun closeWallet()
 }

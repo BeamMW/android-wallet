@@ -52,6 +52,13 @@
                 android:background="@color/colorPrimary"
                 android:padding="@dimen/common_card_padding">
 
+                <android.support.constraint.Group
+                    android:id="@+id/privacyGroupAvailable"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="btnExpandAvailable,clickableAvailableArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <TextView
                     android:id="@+id/availableTitle"
                     style="@style/wallet_card_title_style"
@@ -137,6 +144,12 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:padding="@dimen/common_card_padding">
+
+                <android.support.constraint.Group
+                    android:id="@+id/privacyGroupInProgress"
+                    app:constraint_referenced_ids="btnExpandInProgress,clickableInProgressArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/inProgressTitle"

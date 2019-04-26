@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
@@ -46,6 +48,8 @@ interface WalletContract {
         fun showTransactionsMenu(menu: MenuView)
         fun showShareFileChooser(file: File)
         fun showProofVerification()
+        fun showActivatePrivacyModeDialog()
+        fun configPrivacyStatus(isEnable: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -59,6 +63,9 @@ interface WalletContract {
         fun onProofVerificationPressed()
         fun onExpandAvailablePressed()
         fun onExpandInProgressPressed()
+        fun onChangePrivacyModePressed()
+        fun onPrivacyModeActivated()
+        fun onCancelDialog()
         fun onTransactionsMenuPressed(item: MenuItem): Boolean
         fun onTransactionsMenuButtonPressed(menu: MenuView)
     }

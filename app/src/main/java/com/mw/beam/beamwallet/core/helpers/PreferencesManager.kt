@@ -33,12 +33,20 @@ object PreferencesManager {
             //TODO should we throw some custom exception here?
         }
 
-        SecuredPreferenceStore.getSharedInstance()
+        val store = SecuredPreferenceStore.getSharedInstance()
+        store.registerOnSharedPreferenceChangeListener { _, _ ->
+            callbacks.forEach { it() }
+        }
+
+        store
     }
+
+    private val callbacks = ArrayList<() -> Unit>()
 
     const val KEY_IS_SENDING_CONFIRM_ENABLED = "KEY_IS_SENDING_CONFIRM_ENABLED"
     const val KEY_PASSWORD = "KEY_PASSWORD"
     const val KEY_LOCK_SCREEN = "KEY_LOCK_SCREEN"
+    const val KEY_PRIVACY_MODE = "KEY_PRIVACY_MODE"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)
@@ -46,4 +54,12 @@ object PreferencesManager {
     fun getBoolean(key: String, defValue: Boolean = false): Boolean = preferenceStore.getBoolean(key, defValue)
     fun putLong(key: String, value: Long) = preferenceStore.edit().putLong(key, value).apply()
     fun getLong(key: String, defValue: Long = 0L) = preferenceStore.getLong(key, defValue)
+
+    fun registerOnPreferenceChanged(callback: () -> Unit) {
+        callbacks.add(callback)
+    }
+
+    fun unregisterOnPreferenceChanged(callback: () -> Unit) {
+        callbacks.remove(callback)
+    }
 }

@@ -17,6 +17,10 @@
 package com.mw.beam.beamwallet.screens.utxo
 
 import android.os.Bundle
+import android.transition.TransitionManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -53,6 +57,31 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.privacy_menu, menu)
+        val isPrivacyMode = presenter.isPrivacyModeEnabled()
+        val menuItem = menu?.findItem(R.id.privacy_mode)
+        menuItem?.setOnMenuItemClickListener {
+            presenter.onChangePrivacyModePressed()
+            false
+        }
+
+        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+    }
+
+    override fun showActivatePrivacyModeDialog() {
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate) , presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+    }
+
+    override fun configPrivacyStatus(isEnable: Boolean) {
+        activity?.invalidateOptionsMenu()
+
+        TransitionManager.beginDelayedTransition(utxoContentLayout)
+        utxoScreen.visibility = if (isEnable) View.GONE else View.VISIBLE
+        utxoPrivacyMessage.visibility = if (isEnable) View.VISIBLE else View.GONE
     }
 
     override fun showUtxoDetails(utxo: Utxo) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo)
@@ -68,7 +97,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoPresenter(this, UtxoRepository())
+        presenter = UtxoPresenter(this, UtxoRepository(), UtxoState())
         return presenter
     }
 

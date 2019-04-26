@@ -26,6 +26,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
+import android.view.Menu
 import android.view.View
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
@@ -167,6 +168,32 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
                 btnCancelText = getString(R.string.common_cancel))
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.privacy_menu, menu)
+        val isPrivacyMode = presenter.isPrivacyModeEnabled()
+        val menuItem = menu?.findItem(R.id.privacy_mode)
+        menuItem?.setOnMenuItemClickListener {
+            presenter.onChangePrivacyModePressed()
+            false
+        }
+
+        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+
+        return true
+    }
+
+    override fun showActivatePrivacyModeDialog() {
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate) , presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+    }
+
+    override fun configPrivacyStatus(isEnable: Boolean) {
+        invalidateOptionsMenu()
+
+        val availableVisibility = if (isEnable || params.visibility != View.VISIBLE) View.GONE else View.VISIBLE
+        availableTitle.visibility = availableVisibility
+        availableSum.visibility = availableVisibility
+    }
+
     override fun showNotBeamAddressError() {
         showSnackBar(getString(R.string.send_error_not_beam_address))
     }
@@ -188,7 +215,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         fee.setSelection(fee.text?.length ?: 0)
     }
 
-    override fun hasErrors(availableAmount: Long): Boolean {
+    override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         val feeAmount = try {
             fee.text.toString().toLong().convertToBeam()
         } catch (exception: NumberFormatException) {
@@ -199,11 +226,23 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         try {
             if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                configAmountError(String.format(getString(R.string.send_amount_overflow_error), DecimalFormat("#.########").format(availableAmount.convertToBeam() - feeAmount)))
+                val message = if (!isEnablePrivacyMode) {
+                    String.format(getString(R.string.send_amount_overflow_error), DecimalFormat("#.########").format(availableAmount.convertToBeam() - feeAmount))
+                } else {
+                    getString(R.string.send_insufficient_funds_error)
+                }
+
+                configAmountError(message)
                 hasErrors = true
             }
         } catch (exception: NumberFormatException) {
-            configAmountError(String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString()))
+            val message = if (!isEnablePrivacyMode) {
+                String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString())
+            } else {
+                getString(R.string.send_insufficient_funds_error)
+            }
+
+            configAmountError(message)
             hasErrors = true
         }
 
@@ -267,8 +306,12 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         amount.isStateNormal = true
     }
 
-    override fun updateUI(shouldShowParams: Boolean, defaultFee: Int) {
+    override fun updateUI(shouldShowParams: Boolean, defaultFee: Int, isEnablePrivacyMode: Boolean) {
         params.visibility = if (shouldShowParams) View.VISIBLE else View.GONE
+
+        val availableVisibility = if (isEnablePrivacyMode || !shouldShowParams) View.GONE else View.VISIBLE
+        availableTitle.visibility = availableVisibility
+        availableSum.visibility = availableVisibility
 
         if (shouldShowParams) {
             //clear previous input before showing to user

@@ -103,6 +103,10 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
         transactionsList.adapter = adapter
     }
 
+    override fun configPrivacyStatus(isEnable: Boolean) {
+        adapter.setPrivacyMode(isEnable)
+    }
+
     private fun configAddressDetails(address: WalletAddress) {
         label.text = address.label
         id.text = address.walletID

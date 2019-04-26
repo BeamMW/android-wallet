@@ -35,6 +35,21 @@ open class BaseRepository : MvpRepository {
     override val wallet: Wallet?
         get() = App.wallet
 
+
+    override fun isPrivacyModeEnabled() = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
+
+    override fun setPrivacyModeEnabled(isEnable: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE, isEnable)
+    }
+
+    override fun registerOnPreferenceChanged(callback: () -> Unit) {
+        PreferencesManager.registerOnPreferenceChanged(callback)
+    }
+
+    override fun unregisterOnPreferenceChanged(callback: () -> Unit) {
+        PreferencesManager.unregisterOnPreferenceChanged(callback)
+    }
+
     override fun openWallet(pass: String?): Status {
         var result = Status.STATUS_ERROR
 

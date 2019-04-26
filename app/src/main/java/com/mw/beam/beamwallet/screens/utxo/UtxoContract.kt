@@ -33,10 +33,15 @@ interface UtxoContract {
         fun updateUtxos(utxos: List<Utxo>)
         fun showUtxoDetails(utxo: Utxo)
         fun updateBlockchainInfo(systemState: SystemState)
+        fun showActivatePrivacyModeDialog()
+        fun configPrivacyStatus(isEnable: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onUtxoPressed(utxo: Utxo)
+        fun onChangePrivacyModePressed()
+        fun onPrivacyModeActivated()
+        fun onCancelDialog()
     }
 
     interface Repository : MvpRepository {

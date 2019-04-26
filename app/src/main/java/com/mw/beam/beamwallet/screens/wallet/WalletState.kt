@@ -27,6 +27,7 @@ class WalletState {
 
     var shouldExpandAvailable = false
     var shouldExpandInProgress = false
+    var privacyMode = false
 
     val transactions = HashMap<String, TxDescription>()
 

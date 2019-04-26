@@ -37,6 +37,7 @@ interface AddressContract {
         fun showEditAddressScreen(address: WalletAddress)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
         fun showQR(address : WalletAddress)
+        fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
         fun dismissDialog()
     }

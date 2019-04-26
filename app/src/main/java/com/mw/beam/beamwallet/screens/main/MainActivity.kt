@@ -113,6 +113,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
             WalletFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.WALLET)
             UtxoFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.UTXO)
             SettingsFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.SETTINGS)
+            AddressesFragment.getFragmentTag() -> navItemsAdapter.selectItem(NavItem.ID.ADDRESS_BOOK)
         }
     }
 
