@@ -27,7 +27,8 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.SupportActivity
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
@@ -35,6 +36,11 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.Status
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+import android.os.VibrationEffect
+import android.os.Build
+import android.os.Vibrator
+import com.mw.beam.beamwallet.core.App
+
 
 /**
  * Created by vain onnellinen on 12/4/18.
@@ -136,6 +142,16 @@ class ScreenDelegate {
 
     fun unregisterKeyboardStateListener() {
         eventListener?.unregister()
+    }
+
+    fun vibrate(length: Long) {
+        val vibrator = App.self.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator?.vibrate(VibrationEffect.createOneShot(length, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator?.vibrate(length)
+        }
     }
 
     interface ViewDelegate {

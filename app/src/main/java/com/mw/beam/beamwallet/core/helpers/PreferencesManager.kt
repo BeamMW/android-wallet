@@ -44,6 +44,7 @@ object PreferencesManager {
     private val callbacks = ArrayList<() -> Unit>()
 
     const val KEY_IS_SENDING_CONFIRM_ENABLED = "KEY_IS_SENDING_CONFIRM_ENABLED"
+    const val KEY_IS_FINGERPRINT_ENABLED = "KEY_IS_FINGERPRINT_ENABLED"
     const val KEY_PASSWORD = "KEY_PASSWORD"
     const val KEY_LOCK_SCREEN = "KEY_LOCK_SCREEN"
     const val KEY_PRIVACY_MODE = "KEY_PRIVACY_MODE"

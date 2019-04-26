@@ -61,6 +61,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         ip.text = AppConfig.NODE_ADDRESS
     }
 
+    override fun showFingerprintSettings(isFingerprintEnabled: Boolean) {
+        enableFingerprintTitle.visibility = View.VISIBLE
+        enableFingerprintSwitch.visibility = View.VISIBLE
+        enableFingerprintSwitch.isChecked = isFingerprintEnabled
+    }
+
     override fun sendMailWithLogs() {
         val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
         shareIntent.type = AppConfig.SHARE_TYPE
@@ -100,6 +106,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         confirmTransactionSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter.onChangeConfirmTransactionSettings(isChecked)
+        }
+
+        enableFingerprintSwitch.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onChangeFingerprintSettings(isChecked)
         }
     }
 
@@ -156,6 +166,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun clearListeners() {
         confirmTransactionSwitch.setOnCheckedChangeListener(null)
+        enableFingerprintSwitch.setOnCheckedChangeListener(null)
         changePass.setOnClickListener(null)
         reportProblem.setOnClickListener(null)
         lockScreenTitle.setOnClickListener(null)

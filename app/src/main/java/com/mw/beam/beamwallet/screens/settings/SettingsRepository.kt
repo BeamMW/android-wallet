@@ -34,7 +34,15 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED, shouldConfirm)
     }
 
+    override fun saveEnableFingerprintSettings(isEnabled: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, isEnabled)
+    }
+
     override fun shouldConfirmTransaction(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
+    }
+
+    override fun isFingerPrintEnabled(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
     }
 }

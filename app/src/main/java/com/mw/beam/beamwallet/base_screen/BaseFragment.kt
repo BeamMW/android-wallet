@@ -84,6 +84,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.unregisterKeyboardStateListener()
     }
 
+    override fun vibrate(length: Long) {
+        delegate.vibrate(length)
+    }
+
     override fun addListeners() {
     }
 

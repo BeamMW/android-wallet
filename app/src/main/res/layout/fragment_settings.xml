@@ -145,6 +145,28 @@
                     app:layout_constraintTop_toTopOf="@id/confirmTransactionTitle" />
 
                 <TextView
+                    android:id="@+id/enableFingerprintTitle"
+                    style="@style/common_menu_item"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/settings_common_offset"
+                    android:paddingTop="@dimen/settings_common_offset"
+                    android:text="@string/settings_enable_fingerprint"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/enableFingerprintSwitch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/confirmTransactionTitle" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/enableFingerprintSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/settings_common_offset"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/enableFingerprintTitle" />
+
+                <TextView
                     android:id="@+id/changePass"
                     style="@style/common_menu_item"
                     android:layout_width="wrap_content"
@@ -153,7 +175,7 @@
                     android:paddingTop="@dimen/settings_common_offset"
                     android:text="@string/settings_change_pass"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmTransactionTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/enableFingerprintTitle" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>

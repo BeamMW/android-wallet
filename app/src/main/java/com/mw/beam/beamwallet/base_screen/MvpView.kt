@@ -43,5 +43,6 @@ interface MvpView {
     fun onShowKeyboard()
     fun registerKeyboardStateListener()
     fun unregisterKeyboardStateListener()
+    fun vibrate(length: Long)
     fun logOut()
 }

@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -29,6 +30,8 @@ interface SettingsContract {
         fun sendMailWithLogs()
         fun changePass()
         fun showLockScreenSettingsDialog()
+        fun showFingerprintSettings(isFingerprintEnabled: Boolean)
+        fun getContext(): Context?
         fun closeDialog()
         fun updateLockScreenValue(millis: Long)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
@@ -41,12 +44,15 @@ interface SettingsContract {
         fun onChangeLockSettings(millis: Long)
         fun onDialogClosePressed()
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
+        fun onChangeFingerprintSettings(isEnabled: Boolean)
     }
 
     interface Repository : MvpRepository {
         fun getLockScreenValue(): Long
         fun saveLockSettings(millis: Long)
         fun saveConfirmTransactionSettings(shouldConfirm: Boolean)
+        fun saveEnableFingerprintSettings(isEnabled: Boolean)
         fun shouldConfirmTransaction(): Boolean
+        fun isFingerPrintEnabled(): Boolean
     }
 }

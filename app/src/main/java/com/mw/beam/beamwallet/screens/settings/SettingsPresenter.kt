@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -30,6 +31,12 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.init()
         view?.updateLockScreenValue(repository.getLockScreenValue())
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
+
+        if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return)) {
+            view?.showFingerprintSettings(repository.isFingerPrintEnabled())
+        } else {
+            repository.saveEnableFingerprintSettings(false)
+        }
     }
 
     override fun onReportProblem() {
@@ -58,6 +65,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
         repository.saveConfirmTransactionSettings(isConfirm)
+    }
+
+    override fun onChangeFingerprintSettings(isEnabled: Boolean) {
+        repository.saveEnableFingerprintSettings(isEnabled)
     }
 
     override fun onDialogClosePressed() {
