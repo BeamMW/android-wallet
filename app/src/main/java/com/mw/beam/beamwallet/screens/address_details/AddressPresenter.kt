@@ -36,12 +36,11 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         super.onViewCreated()
         state.address = view?.getAddress()
         view?.init(state.address ?: return)
-        notifyPrivacyStateChange()
     }
 
     override fun onStart() {
         super.onStart()
-        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
+        notifyPrivacyStateChange()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -86,11 +85,6 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     override fun onDialogClosePressed() {
         view?.dismissDialog()
-    }
-
-    override fun onStop() {
-        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
-        super.onStop()
     }
 
     override fun onDestroy() {

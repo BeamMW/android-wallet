@@ -42,14 +42,6 @@ open class BaseRepository : MvpRepository {
         PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE, isEnable)
     }
 
-    override fun registerOnPreferenceChanged(callback: () -> Unit) {
-        PreferencesManager.registerOnPreferenceChanged(callback)
-    }
-
-    override fun unregisterOnPreferenceChanged(callback: () -> Unit) {
-        PreferencesManager.unregisterOnPreferenceChanged(callback)
-    }
-
     override fun openWallet(pass: String?): Status {
         var result = Status.STATUS_ERROR
 

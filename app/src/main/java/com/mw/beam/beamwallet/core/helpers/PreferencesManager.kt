@@ -33,15 +33,8 @@ object PreferencesManager {
             //TODO should we throw some custom exception here?
         }
 
-        val store = SecuredPreferenceStore.getSharedInstance()
-        store.registerOnSharedPreferenceChangeListener { _, _ ->
-            callbacks.forEach { it() }
-        }
-
-        store
+        SecuredPreferenceStore.getSharedInstance()
     }
-
-    private val callbacks = ArrayList<() -> Unit>()
 
     const val KEY_IS_SENDING_CONFIRM_ENABLED = "KEY_IS_SENDING_CONFIRM_ENABLED"
     const val KEY_IS_FINGERPRINT_ENABLED = "KEY_IS_FINGERPRINT_ENABLED"
@@ -55,12 +48,4 @@ object PreferencesManager {
     fun getBoolean(key: String, defValue: Boolean = false): Boolean = preferenceStore.getBoolean(key, defValue)
     fun putLong(key: String, value: Long) = preferenceStore.edit().putLong(key, value).apply()
     fun getLong(key: String, defValue: Long = 0L) = preferenceStore.getLong(key, defValue)
-
-    fun registerOnPreferenceChanged(callback: () -> Unit) {
-        callbacks.add(callback)
-    }
-
-    fun unregisterOnPreferenceChanged(callback: () -> Unit) {
-        callbacks.remove(callback)
-    }
 }

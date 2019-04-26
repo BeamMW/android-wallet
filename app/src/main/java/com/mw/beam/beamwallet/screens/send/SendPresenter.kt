@@ -43,9 +43,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(DEFAULT_FEE)
-        notifyPrivacyStateChange()
-
-        repository.registerOnPreferenceChanged(this::notifyPrivacyStateChange)
     }
 
     override fun onStart() {
@@ -56,6 +53,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.setAddress(state.scannedAddress!!)
             state.scannedAddress = null
         }
+
+        notifyPrivacyStateChange()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -67,6 +66,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onChangePrivacyModePressed() {
         if (state.privacyMode) {
             setPrivacyModeEnabled(false)
+            notifyPrivacyStateChange()
         } else {
             view?.showActivatePrivacyModeDialog()
         }
@@ -79,6 +79,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
         setPrivacyModeEnabled(true)
+        notifyPrivacyStateChange()
     }
 
     override fun onSend() {
@@ -245,7 +246,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onDestroy() {
-        repository.unregisterOnPreferenceChanged(this::notifyPrivacyStateChange)
         view?.dismissAlert()
         view?.dismissDialog()
         super.onDestroy()
