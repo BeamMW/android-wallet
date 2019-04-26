@@ -77,6 +77,10 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         delegate.dismissAlert()
     }
 
+    override fun vibrate(length: Long) {
+        delegate.vibrate(length)
+    }
+
     override fun registerKeyboardStateListener() {
         activity?.let { delegate.registerKeyboardStateListener(it, this) }
     }

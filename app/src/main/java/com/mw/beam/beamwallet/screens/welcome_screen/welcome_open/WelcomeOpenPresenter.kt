@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
@@ -25,21 +26,18 @@ import com.mw.beam.beamwallet.core.helpers.Status
 class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentRepository: WelcomeOpenContract.Repository)
     : BasePresenter<WelcomeOpenContract.View, WelcomeOpenContract.Repository>(currentView, currentRepository),
         WelcomeOpenContract.Presenter {
+    private val VIBRATION_LENGTH: Long = 100
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init()
+        view?.init(repository.isFingerPrintEnabled())
     }
 
     override fun onOpenWallet() {
         view?.hideKeyboard()
 
-        if (view != null && view!!.hasValidPass()) {
-            if (Status.STATUS_OK == repository.openWallet(view?.getPass())) {
-                view?.openWallet(view?.getPass() ?: return)
-            } else {
-                view?.showOpenWalletError()
-            }
+        if (view?.hasValidPass() == true) {
+            openWallet(view?.getPass())
         }
     }
 
@@ -56,5 +54,30 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.changeWallet()
     }
 
+    override fun onFingerprintError() {
+        view?.showFingerprintAuthError()
+    }
+
+    override fun onFingerprintSucceeded() {
+        openWallet(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))
+    }
+
+    override fun onFingerprintFailed() {
+        view?.vibrate(VIBRATION_LENGTH)
+    }
+
+    override fun onDestroy() {
+        view?.clearFingerprintCallback()
+        super.onDestroy()
+    }
+
     override fun hasBackArrow(): Boolean? = false
+
+    private fun openWallet(pass: String?) {
+        if (Status.STATUS_OK == repository.openWallet(pass)) {
+            view?.openWallet(view?.getPass() ?: return)
+        } else {
+            view?.showOpenWalletError()
+        }
+    }
 }

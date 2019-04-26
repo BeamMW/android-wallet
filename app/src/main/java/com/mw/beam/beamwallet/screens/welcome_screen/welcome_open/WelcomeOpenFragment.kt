@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import android.os.Bundle
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import android.support.v4.os.CancellationSignal
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.BuildConfig
@@ -25,15 +27,19 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
+
 
 /**
  * Created by vain onnellinen on 10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
     private lateinit var presenter: WelcomeOpenPresenter
+    private val cancellationSignal = CancellationSignal()
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter.onPassChanged()
@@ -48,10 +54,32 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
     override fun getToolbarTitle(): String? = ""
 
-    override fun init() {
+    override fun init(shouldInitFingerprint: Boolean) {
         //TODO remove it when complete restore should be available everywhere
         if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET || BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
             btnChange.visibility = View.GONE
+        }
+
+        if (shouldInitFingerprint) {
+            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                    object : FingerprintManagerCompat.AuthenticationCallback() {
+                        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
+                            super.onAuthenticationError(errMsgId, errString)
+                            presenter.onFingerprintError()
+                            cancellationSignal.cancel()
+                        }
+
+                        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
+                            super.onAuthenticationSucceeded(result)
+                            presenter.onFingerprintSucceeded()
+                            cancellationSignal.cancel()
+                        }
+
+                        override fun onAuthenticationFailed() {
+                            super.onAuthenticationFailed()
+                            presenter.onFingerprintFailed()
+                        }
+                    }, null)
         }
     }
 
@@ -94,6 +122,10 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         pass.removeTextChangedListener(passWatcher)
     }
 
+    override fun clearFingerprintCallback() {
+        cancellationSignal.cancel()
+    }
+
     override fun getPass(): String = pass.text?.toString() ?: ""
     override fun openWallet(pass: String) = (activity as OpenHandler).openWallet(pass)
     override fun changeWallet() = (activity as OpenHandler).changeWallet()
@@ -110,6 +142,10 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                 { presenter.onChangeConfirm() },
                 getString(R.string.welcome_title_change_alert),
                 getString(R.string.common_cancel))
+    }
+
+    override fun showFingerprintAuthError() {
+        showSnackBar(getString(R.string.common_fingerprint_error))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

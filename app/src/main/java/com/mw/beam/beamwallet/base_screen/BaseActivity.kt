@@ -25,7 +25,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
-import android.view.*
+import android.view.Gravity
+import android.view.View
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -145,6 +146,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
                 toolbarLayout.status.text = getString(R.string.common_status_updating)
             }
         }
+    }
+
+    override fun vibrate(length: Long) {
+        delegate.vibrate(length)
     }
 
     override fun registerKeyboardStateListener() {

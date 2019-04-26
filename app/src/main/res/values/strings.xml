@@ -18,6 +18,7 @@
     <string name="common_menu_more">more</string>
     <string name="common_security_mode_title">Activate security mode</string>
     <string name="common_security_mode_message">All balances will be hidden till you will press this button again.</string>
+    <string name="common_fingerprint_error">Too many attempts. Please, log in using password.</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
     <string name="error_no_internet_connection">No Internet connection</string>
@@ -183,7 +184,6 @@ and never kept in the blockchain.</string>
     <string name="transaction_details_transaction_fee">Transaction fee:</string>
     <string name="transaction_details_comment">Comment:</string>
     <string name="transaction_details_transaction_id">Transaction ID:</string>
-    <string name="transaction_details_not_stored_on_blockchain">not stored on blockchain</string>
     <string name="transaction_details_kernel_id">Kernel ID:</string>
     <string name="transaction_details_transaction_history">Transaction history</string>
     <string name="transaction_details_menu_repeat">Repeat transaction</string>
@@ -252,6 +252,7 @@ and never kept in the blockchain.</string>
     <string name="settings_after_seconds">After %1$s seconds</string>
     <string name="settings_after_minute">After %1$s minute</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
+    <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>
