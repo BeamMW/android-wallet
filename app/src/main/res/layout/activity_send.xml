@@ -19,6 +19,7 @@
         android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/settingsContentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

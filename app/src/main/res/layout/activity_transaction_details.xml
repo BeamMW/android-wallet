@@ -114,7 +114,6 @@
                 <TextView
                     android:id="@+id/transactionId"
                     style="@style/transaction_details_value"
-                    android:paddingBottom="0dp"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"

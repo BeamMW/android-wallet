@@ -117,7 +117,7 @@
             android:layout_marginStart="@dimen/send_dialog_content_offset"
             android:layout_marginTop="@dimen/send_dialog_description_margin_top"
             android:layout_marginEnd="@dimen/send_dialog_content_offset"
-            android:text="@string/send_title_enter_password"
+            android:text="@string/send_dialog_description"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

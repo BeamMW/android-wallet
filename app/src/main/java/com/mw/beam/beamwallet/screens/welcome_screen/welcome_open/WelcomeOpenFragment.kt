@@ -80,6 +80,10 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                             presenter.onFingerprintFailed()
                         }
                     }, null)
+
+            description.setText(R.string.welcome_open_description_with_fingerprint)
+        } else {
+            description.setText(R.string.welcome_open_description)
         }
     }
 
