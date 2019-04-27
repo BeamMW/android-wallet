@@ -26,6 +26,7 @@ import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
+import android.transition.TransitionManager
 import android.view.Menu
 import android.view.View
 import com.google.zxing.integration.android.IntentIntegrator
@@ -188,6 +189,8 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun configPrivacyStatus(isEnable: Boolean) {
         invalidateOptionsMenu()
+
+        TransitionManager.beginDelayedTransition(settingsContentLayout)
 
         val availableVisibility = if (isEnable || params.visibility != View.VISIBLE) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility

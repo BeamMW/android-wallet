@@ -58,6 +58,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">open my wallet</string>
     <string name="welcome_open_description">Enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Touch ID or enter your password\nto access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
@@ -233,7 +234,8 @@ and never kept in the blockchain.</string>
     <string name="send_confirm_transaction_details">Confirm transaction details</string>
     <string name="send_recipient">Recipient:</string>
     <string name="send_amount">Amount:</string>
-    <string name="send_title_enter_password">To broadcast your transaction please enter your password</string>
+    <string name="send_dialog_description">To broadcast your transaction please enter your password</string>
+    <string name="send_dialog_description_with_fingerprint">To broadcast your transaction please use your fingerprint or enter your password</string>
     <string name="send_amount_beam">%1$s BEAM</string>
     <string name="send_fee_groth">%1$s GROTH</string>
     <string name="send_available_title">Total available:</string>

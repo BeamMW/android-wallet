@@ -2,6 +2,8 @@ package com.mw.beam.beamwallet.screens.send.confirmation_dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
+import android.support.v4.os.CancellationSignal
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R
@@ -9,12 +11,15 @@ import com.mw.beam.beamwallet.base_screen.BaseDialogFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_send.*
 
 class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private lateinit var presenter: SendConfirmationPresenter
+    private val cancellationSignal = CancellationSignal()
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter.onPasswordChanged()
@@ -48,12 +53,42 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     override fun getAmount(): Double? = arguments?.getDouble(KEY_AMOUNT)
     override fun getFee(): Long? = arguments?.getLong(KEY_FEE)
 
-    override fun init(token: String?, amount: Double?, fee: Long?) {
+    override fun init(token: String?, amount: Double?, fee: Long?, shouldInitFingerprint: Boolean) {
         recipientValue.text = token
         amountValue.text = getString(R.string.send_amount_beam, amount?.convertToBeamString())
         transactionFeeValue.text = getString(R.string.send_fee_groth, fee.toString())
 
+        if (shouldInitFingerprint) {
+            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                    object : FingerprintManagerCompat.AuthenticationCallback() {
+                        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
+                            super.onAuthenticationError(errMsgId, errString)
+                            presenter.onFingerprintError()
+                            cancellationSignal.cancel()
+                        }
+
+                        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
+                            super.onAuthenticationSucceeded(result)
+                            presenter.onFingerprintSucceeded()
+                            cancellationSignal.cancel()
+                        }
+
+                        override fun onAuthenticationFailed() {
+                            super.onAuthenticationFailed()
+                            presenter.onFingerprintFailed()
+                        }
+                    }, null)
+
+            dialogDescription.setText(R.string.send_dialog_description_with_fingerprint)
+        } else {
+            dialogDescription.setText(R.string.send_dialog_description)
+        }
+
         pass.requestFocus()
+    }
+
+    override fun showFingerprintAuthError() {
+        showSnackBar(getString(R.string.common_fingerprint_error))
     }
 
     override fun addListeners() {

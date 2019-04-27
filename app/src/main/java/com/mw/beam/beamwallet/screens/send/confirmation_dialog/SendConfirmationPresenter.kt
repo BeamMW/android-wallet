@@ -5,11 +5,12 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository: SendConfirmationContract.Repository)
     : BasePresenter<SendConfirmationContract.View, SendConfirmationContract.Repository>(view, repository),
         SendConfirmationContract.Presenter {
+    private val VIBRATION_LENGTH: Long = 100
 
     override fun onViewCreated() {
         super.onViewCreated()
         view?.apply {
-            init(getToken(), getAmount(), getFee())
+            init(getToken(), getAmount(), getFee(), repository.isFingerPrintEnabled())
         }
     }
 
@@ -21,6 +22,18 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         if (!hasError(password)) {
             view?.confirm()
         }
+    }
+
+    override fun onFingerprintError() {
+        view?.showFingerprintAuthError()
+    }
+
+    override fun onFingerprintSucceeded() {
+        view?.confirm()
+    }
+
+    override fun onFingerprintFailed() {
+        view?.vibrate(VIBRATION_LENGTH)
     }
 
     private fun hasError(password: String): Boolean {
