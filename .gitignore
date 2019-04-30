@@ -7,4 +7,4 @@
 /app/masternet
 /app/beamtestnet
 /app/mainnet
-.gradle/
+/local.properties
