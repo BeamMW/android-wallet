@@ -52,6 +52,7 @@ interface WelcomeProgressContract {
     interface Repository : MvpRepository {
         fun getNodeProgressUpdated(): Subject<OnSyncProgressData>
         fun getNodeStopped(): Subject<Any>
+        fun getNodeThreadFinished(): Subject<Any>
         fun getFailedNodeStart(): Subject<Any>
         fun removeNode()
         fun removeWallet()

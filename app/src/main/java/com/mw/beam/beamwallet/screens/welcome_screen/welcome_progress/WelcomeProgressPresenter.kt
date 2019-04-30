@@ -34,8 +34,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeConnectionFailedSubscription: Disposable
     private lateinit var nodeStoppedSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
+    private lateinit var nodeThreadFinishedSubscription: Disposable
 
     private var isNodeSyncFinished = false
+    private var isFailedToStartNode = false
+    private var shouldCloseWallet = false
 
     override fun onCreate() {
         super.onCreate()
@@ -54,13 +57,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun onTryAgain() {
-        clearWalletProgress()
-
-        if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
-            view?.init(state.mode)
-        } else {
-            view?.showFailedRestoreAlert()
-        }
+        repository.closeWallet()
     }
 
     override fun onCancel() {
@@ -127,30 +124,67 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         }
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            if (state.mode == WelcomeMode.OPEN && repository.wallet != null) {
-                when (it) {
-                    NodeConnectionError.HOST_RESOLVED_ERROR -> view?.showIncorrectNodeMessage()
-                    else -> view?.showNoInternetMessage()
+            when (state.mode) {
+                WelcomeMode.OPEN -> {
+                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+                    showWallet()
                 }
+                WelcomeMode.RESTORE -> {
+                    if (!isFailedToStartNode) {
+                        when (it) {
+                            NodeConnectionError.HOST_RESOLVED_ERROR -> view?.showIncorrectNodeMessage()
+                            else -> view?.showNoInternetMessage()
+                        }
 
-                repository.closeWallet()
-                view?.logOut()
+                        repository.closeWallet()
+                        view?.logOut()
+                    }
+                }
+                else -> {
+                    //for now do nothing
+                }
             }
         }
 
         nodeStoppedSubscription = repository.getNodeStopped().subscribe {
-            repository.removeNode()
+            if (isNodeSyncFinished) {
+                repository.removeNode()
 
-            if (Status.STATUS_OK == repository.openWallet(state.password)) {
-                view?.showWallet()
+                if (Status.STATUS_OK == repository.openWallet(state.password)) {
+                    view?.showWallet()
+                } else {
+                    view?.showSnackBar(Status.STATUS_ERROR)
+                    view?.logOut()
+                }
             } else {
-                view?.showSnackBar(Status.STATUS_ERROR)
-                view?.logOut()
+                clearWalletProgress()
+
+                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
+                    view?.init(state.mode)
+                } else {
+                    view?.showFailedRestoreAlert()
+                }
             }
         }
 
         failedToStartNodeSubscription = repository.getFailedNodeStart().subscribe {
+            isFailedToStartNode = true
             view?.showFailedRestoreAlert()
+        }
+
+        nodeThreadFinishedSubscription = repository.getNodeThreadFinished().subscribe {
+            isFailedToStartNode = false
+            clearWalletProgress()
+
+            if (shouldCloseWallet) {
+                view?.logOut()
+            } else {
+                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
+                    view?.init(state.mode)
+                } else {
+                    view?.showFailedRestoreAlert()
+                }
+            }
         }
     }
 
@@ -173,14 +207,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun clearWalletProgress() {
-        repository.closeWallet()
         repository.removeWallet()
         repository.removeNode()
     }
 
     private fun cancelRestore() {
-        clearWalletProgress()
-        view?.logOut()
+        shouldCloseWallet = true
+        repository.closeWallet()
     }
 
     override fun hasBackArrow(): Boolean? = false

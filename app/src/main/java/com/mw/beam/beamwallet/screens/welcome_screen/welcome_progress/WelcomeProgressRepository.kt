@@ -43,6 +43,10 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return getResult(WalletListener.subOnFailedToStartNode, "getFailedNodeStart")
     }
 
+    override fun getNodeThreadFinished(): Subject<Any> {
+        return getResult(WalletListener.subOnNodeThreadFinished, "getNodeThreadFinished")
+    }
+
     override fun removeNode() {
         removeNodeDatabase()
     }
@@ -51,7 +55,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         removeDatabase()
     }
 
-    override fun createWallet(pass: String?, seed: String?, mode : WelcomeMode): Status {
+    override fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && seed != null) {
@@ -73,4 +77,3 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return result
     }
 }
-

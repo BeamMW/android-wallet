@@ -45,9 +45,10 @@ object WalletListener {
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<NodeConnectionError> = PublishSubject.create<NodeConnectionError>().toSerialized()
     var subOnCantSendToExpired: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnStartedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnStoppedNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
-    var subOnFailedToStartNode: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnStartedNode: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnStoppedNode: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnNodeThreadFinished: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnFailedToStartNode: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
     var subOnCoinsByTx: Subject<List<Utxo>?> = BehaviorSubject.create<List<Utxo>?>().toSerialized()
 
@@ -90,6 +91,9 @@ object WalletListener {
 
     @JvmStatic
     fun onStoppedNode() = returnResult(subOnStoppedNode, DUMMY_OBJECT, "onStoppedNode")
+
+    @JvmStatic
+    fun onNodeThreadFinished() = returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
 
     @JvmStatic
     fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")
