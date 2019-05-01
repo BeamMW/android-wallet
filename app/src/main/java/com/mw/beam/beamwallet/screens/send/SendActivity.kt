@@ -45,7 +45,6 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.activity_send.*
-import java.text.DecimalFormat
 
 
 /**
@@ -170,17 +169,19 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        presenter.onCreateOptionsMenu(menu)
+        return true
+    }
+
+    override fun createOptionsMenu(menu: Menu?, isEnablePrivacyMode: Boolean) {
         menuInflater.inflate(R.menu.privacy_menu, menu)
-        val isPrivacyMode = presenter.isPrivacyModeEnabled()
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
             presenter.onChangePrivacyModePressed()
             false
         }
 
-        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
-
-        return true
+        menuItem?.setIcon(if (isEnablePrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
     }
 
     override fun showActivatePrivacyModeDialog() {
@@ -229,23 +230,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         try {
             if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                val message = if (!isEnablePrivacyMode) {
-                    String.format(getString(R.string.send_amount_overflow_error), DecimalFormat("#.########").format(availableAmount.convertToBeam() - feeAmount))
-                } else {
-                    getString(R.string.send_insufficient_funds_error)
-                }
-
-                configAmountError(message)
+                configAmountError(configAmountErrorMessage((availableAmount.convertToBeam() - feeAmount).convertToBeamString(), isEnablePrivacyMode))
                 hasErrors = true
             }
         } catch (exception: NumberFormatException) {
-            val message = if (!isEnablePrivacyMode) {
-                String.format(getString(R.string.send_amount_overflow_error), availableAmount.convertToBeamString())
-            } else {
-                getString(R.string.send_insufficient_funds_error)
-            }
-
-            configAmountError(message)
+            configAmountError(configAmountErrorMessage(availableAmount.convertToBeamString(), isEnablePrivacyMode))
             hasErrors = true
         }
 
@@ -267,6 +256,14 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    private fun configAmountErrorMessage(amountString: String, isEnablePrivacyMode: Boolean): String {
+        return if (isEnablePrivacyMode) {
+            getString(R.string.send_insufficient_funds_error)
+        } else {
+            String.format(getString(R.string.send_amount_overflow_error), amountString)
+        }
+    }
+
     override fun showConfirmDialog(token: String, amount: Double, fee: Long) {
         dialog = SendConfirmationDialog.newInstance(token, amount, fee, dialogListener)
         dialog?.show(supportFragmentManager, SendConfirmationDialog.getFragmentTag())
@@ -282,6 +279,16 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun setAddress(address: String) {
         token.setText(address)
         token.setSelection(token.text?.length ?: 0)
+    }
+
+    override fun setAmount(amount: Double) {
+        this.amount.setText(amount.convertToBeamString())
+        this.amount.setSelection(this.amount.text?.length ?: 0)
+    }
+
+    override fun setComment(comment: String) {
+        this.comment.setText(comment)
+        this.comment.setSelection(this.comment.text?.length ?: 0)
     }
 
     override fun showCantSendToExpiredError() {

@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -37,15 +39,17 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        state.privacyMode = repository.isPrivacyModeEnabled()
     }
 
     override fun onStart() {
         super.onStart()
         notifyPrivacyStateChange()
+        view?.addTitleListeners(state.privacyMode)
     }
 
     private fun notifyPrivacyStateChange() {
-        val privacyModeEnabled = isPrivacyModeEnabled()
+        val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
         state.shouldExpandAvailable = state.privacyMode
@@ -56,12 +60,16 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun onChangePrivacyModePressed() {
-        if (state.privacyMode) {
-            setPrivacyModeEnabled(false)
-            notifyPrivacyStateChange()
-        } else {
+        if (!state.privacyMode && repository.isNeedConfirmEnablePrivacyMode()) {
             view?.showActivatePrivacyModeDialog()
+        } else {
+            repository.setPrivacyModeEnabled(!state.privacyMode)
+            notifyPrivacyStateChange()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
     override fun onCancelDialog() {
@@ -70,7 +78,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
-        setPrivacyModeEnabled(true)
+        repository.setPrivacyModeEnabled(true)
         notifyPrivacyStateChange()
     }
 
@@ -105,7 +113,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
         if (!state.shouldExpandInProgress) {
             view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending
-                    ?: 0, state.walletStatus?.maturing ?: 0)
+                    ?: 0, state.walletStatus?.maturing ?: 0, state.privacyMode)
         }
     }
 
@@ -143,7 +151,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
-            view?.configWalletStatus(it)
+            view?.configWalletStatus(it, state.privacyMode)
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
@@ -151,7 +159,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
                     when (data.action) {
                         ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
                         else -> state.updateTransactions(data.tx)
-                    })
+                    }, state.privacyMode)
         }
     }
 

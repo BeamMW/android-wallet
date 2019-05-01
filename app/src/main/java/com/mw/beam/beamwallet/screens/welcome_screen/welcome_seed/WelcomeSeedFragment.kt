@@ -69,6 +69,10 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
+    override fun allowScreenshot() {
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
     override fun configSeed(seed: Array<String>) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         val topOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)

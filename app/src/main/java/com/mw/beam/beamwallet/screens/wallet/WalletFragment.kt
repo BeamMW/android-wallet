@@ -30,6 +30,7 @@ import android.support.v7.view.menu.MenuPopupHelper
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.view.*
+import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -91,16 +92,22 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         maturingTitle = curContext.getString(R.string.wallet_maturing)
     }
 
-    override fun configWalletStatus(walletStatus: WalletStatus) {
-        configAvailable(walletStatus.available)
-        configInProgress(walletStatus.receiving, walletStatus.sending, walletStatus.maturing)
+    override fun configWalletStatus(walletStatus: WalletStatus, isEnablePrivacyMode: Boolean) {
+        configAvailable(walletStatus.available, isEnablePrivacyMode)
+        configInProgress(walletStatus.receiving, walletStatus.sending, walletStatus.maturing, isEnablePrivacyMode)
     }
 
-    override fun configAvailable(availableAmount: Long) {
+    override fun configAvailable(availableAmount: Long, isEnablePrivacyMode: Boolean) {
         available.text = availableAmount.convertToBeamString()
+        setTextColorWithPrivacyMode(availableTitle, isEnablePrivacyMode)
     }
 
-    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long) {
+    private fun setTextColorWithPrivacyMode(view: TextView, isEnablePrivacyMode: Boolean) {
+        val colorId = if (isEnablePrivacyMode) R.color.common_text_dark_color else R.color.common_text_color
+        view.setTextColor(resources.getColor(colorId, context?.theme))
+    }
+
+    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean) {
         //nothing in progress
         if (receivingAmount == 0L && sendingAmount == 0L && maturingAmount == 0L) {
             inProgressLayout.visibility = View.GONE
@@ -109,7 +116,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             inProgressLayout.visibility = View.VISIBLE
         }
 
-        if (presenter.isPrivacyModeEnabled()) {
+        setTextColorWithPrivacyMode(inProgressTitle, isEnablePrivacyMode)
+
+        if (isEnablePrivacyMode) {
             return
         }
 
@@ -159,12 +168,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun configTransactions(transactions: List<TxDescription>) {
+    override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean) {
         transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
         btnTransactionsMenu.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
-            adapter.setPrivacyMode(presenter.isPrivacyModeEnabled())
+            adapter.setPrivacyMode(isEnablePrivacyMode)
             adapter.setData(transactions)
         }
     }
@@ -178,8 +187,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun addListeners() {
         btnReceive.setOnClickListener { presenter.onReceivePressed() }
         btnSend.setOnClickListener { presenter.onSendPressed() }
-
-        addTitleListeners()
 
         btnExpandAvailable.setOnClickListener {
             presenter.onExpandAvailablePressed()
@@ -203,8 +210,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    private fun addTitleListeners() {
-        if (!presenter.isPrivacyModeEnabled()) {
+    override fun addTitleListeners(isEnablePrivacyMode: Boolean) {
+        if (!isEnablePrivacyMode) {
             availableTitle.setOnClickListener {
                 presenter.onExpandAvailablePressed()
             }
@@ -291,15 +298,18 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        presenter.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
         inflater?.inflate(R.menu.privacy_menu, menu)
-        val isPrivacyMode = presenter.isPrivacyModeEnabled()
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
             presenter.onChangePrivacyModePressed()
             false
         }
 
-        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+        menuItem?.setIcon(if (isEnablePrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
     }
 
     override fun showActivatePrivacyModeDialog() {
@@ -316,11 +326,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         privacyGroupAvailable.visibility = if (isEnable) View.GONE else View.VISIBLE
         privacyGroupInProgress.visibility = if (isEnable) View.GONE else View.VISIBLE
 
-        clearTitleListeners()
-        if (!isEnable) {
-            addTitleListeners()
-        }
+        setTextColorWithPrivacyMode(availableTitle, isEnable)
+        setTextColorWithPrivacyMode(inProgressTitle, isEnable)
 
+        clearTitleListeners()
+        addTitleListeners(isEnable)
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) = (activity as WalletHandler).onShowTransactionDetails(txDescription)

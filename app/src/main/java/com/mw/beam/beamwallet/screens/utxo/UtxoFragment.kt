@@ -61,15 +61,18 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        presenter.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
         inflater?.inflate(R.menu.privacy_menu, menu)
-        val isPrivacyMode = presenter.isPrivacyModeEnabled()
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
             presenter.onChangePrivacyModePressed()
             false
         }
 
-        menuItem?.setIcon(if (isPrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+        menuItem?.setIcon(if (isEnablePrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
     }
 
     override fun showActivatePrivacyModeDialog() {

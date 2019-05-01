@@ -44,7 +44,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     private fun notifyPrivacyStateChange() {
-        view?.configPrivacyStatus(isPrivacyModeEnabled())
+        view?.configPrivacyStatus(repository.isPrivacyModeEnabled())
     }
 
     override fun onShowQR() {

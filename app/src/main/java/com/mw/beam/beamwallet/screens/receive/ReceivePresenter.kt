@@ -46,7 +46,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onShowQrPressed() {
         saveAddress()
-        view?.showQR(state.address!!.walletID)
+        view?.showQR(state.address!!.walletID, view?.getAmount())
     }
 
     override fun onDialogCopyPressed() {

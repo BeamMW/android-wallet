@@ -35,10 +35,10 @@ import android.view.View as MenuView
 interface WalletContract {
     interface View : MvpView {
         fun init()
-        fun configWalletStatus(walletStatus: WalletStatus)
-        fun configTransactions(transactions: List<TxDescription>)
-        fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long)
-        fun configAvailable(availableAmount: Long)
+        fun configWalletStatus(walletStatus: WalletStatus, isEnablePrivacyMode: Boolean)
+        fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean)
+        fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean)
+        fun configAvailable(availableAmount: Long, isEnablePrivacyMode: Boolean)
         fun showTransactionDetails(txDescription: TxDescription)
         fun showReceiveScreen()
         fun showSendScreen()
@@ -47,9 +47,11 @@ interface WalletContract {
         fun handleTransactionsMenu(item: MenuItem): Boolean
         fun showTransactionsMenu(menu: MenuView)
         fun showShareFileChooser(file: File)
+        fun addTitleListeners(isEnablePrivacyMode: Boolean)
         fun showProofVerification()
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
+        fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -68,11 +70,13 @@ interface WalletContract {
         fun onCancelDialog()
         fun onTransactionsMenuPressed(item: MenuItem): Boolean
         fun onTransactionsMenuButtonPressed(menu: MenuView)
+        fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
     }
 
     interface Repository : MvpRepository {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getTransactionsFile(): File
+        fun isNeedConfirmEnablePrivacyMode(): Boolean
     }
 }

@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
+import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -35,17 +37,20 @@ interface UtxoContract {
         fun updateBlockchainInfo(systemState: SystemState)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
+        fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onUtxoPressed(utxo: Utxo)
         fun onChangePrivacyModePressed()
         fun onPrivacyModeActivated()
+        fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
         fun onCancelDialog()
     }
 
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getWalletStatus(): Subject<WalletStatus>
+        fun isNeedConfirmEnablePrivacyMode(): Boolean
     }
 }

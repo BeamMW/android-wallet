@@ -31,9 +31,10 @@ interface ReceiveContract {
         fun init()
         fun getComment() : String?
         fun showToken(receiveToken : String)
-        fun showQR(receiveToken : String)
+        fun showQR(receiveToken : String, amount: Double?)
         fun close()
         fun dismissDialog()
+        fun getAmount(): Double?
     }
 
     interface Presenter : MvpPresenter<View> {

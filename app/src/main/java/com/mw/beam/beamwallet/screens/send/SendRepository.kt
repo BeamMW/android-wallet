@@ -56,4 +56,6 @@ class SendRepository : BaseRepository(), SendContract.Repository {
             wallet?.getAddresses(true)
         }
     }
+
+    override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
 }

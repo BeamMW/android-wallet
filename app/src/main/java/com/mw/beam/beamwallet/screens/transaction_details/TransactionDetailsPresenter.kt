@@ -55,7 +55,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
                 state.txDescription = it
                 repository.getUtxoByTx(state.txDescription!!.id)
 
-                view?.init(it, isPrivacyModeEnabled())
+                view?.init(it, repository.isPrivacyModeEnabled())
 
                 if (canRequestProof()) {
                     repository.requestProof(it.id)
@@ -129,6 +129,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onStart() {
         super.onStart()
-        view?.init(state.txDescription ?: return, isPrivacyModeEnabled())
+        view?.init(state.txDescription ?: return, repository.isPrivacyModeEnabled())
     }
 }

@@ -31,4 +31,5 @@ class SendState {
     var expiredAddresses = listOf<WalletAddress>()
     var scannedAddress : String? = null
     var oldToken : String? = null
+    var scannedAmount: Double? = null
 }

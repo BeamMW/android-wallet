@@ -209,6 +209,7 @@ and never kept in the blockchain.</string>
     <string name="receive_token_title">My address:</string>
     <string name="receive_token_description">Send this address to the sender over an external secure channel</string>
     <string name="receive_token_via_qr_description">Scan this QR code \n or send this address to the sender over an external secure channel</string>
+    <string name="receive_amount_title">Receive amount (optional)</string>
     <string-array name="receive_expires_periods">
         <item>in 24 hours</item>
         <item>Never</item>

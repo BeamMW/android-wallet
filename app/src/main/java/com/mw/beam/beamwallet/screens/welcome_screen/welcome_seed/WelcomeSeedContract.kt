@@ -30,6 +30,7 @@ interface WelcomeSeedContract {
         fun showCopiedAlert()
         fun showSaveAlert()
         fun forbidScreenshot()
+        fun allowScreenshot()
     }
 
     interface Presenter : MvpPresenter<View> {

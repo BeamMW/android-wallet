@@ -16,8 +16,10 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToGroth
 import io.reactivex.disposables.Disposable
@@ -31,7 +33,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
-    private val tokenRegex = Regex("[^A-Fa-f0-9]")
 
     companion object {
         private const val MAX_TOKEN_LENGTH = 80
@@ -43,6 +44,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(DEFAULT_FEE)
+        state.privacyMode = repository.isPrivacyModeEnabled()
     }
 
     override fun onStart() {
@@ -50,25 +52,28 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         // we need to apply scanned address after watchers were added
         if (state.scannedAddress != null) {
-            view?.setAddress(state.scannedAddress!!)
+            state.scannedAddress?.let { view?.setAddress(it) }
+            state.scannedAmount?.let { view?.setAmount(it) }
+
             state.scannedAddress = null
+            state.scannedAmount = null
         }
 
         notifyPrivacyStateChange()
     }
 
     private fun notifyPrivacyStateChange() {
-        val privacyModeEnabled = isPrivacyModeEnabled()
+        val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
     }
 
     override fun onChangePrivacyModePressed() {
-        if (state.privacyMode) {
-            setPrivacyModeEnabled(false)
-            notifyPrivacyStateChange()
-        } else {
+        if (!state.privacyMode && repository.isNeedConfirmEnablePrivacyMode()) {
             view?.showActivatePrivacyModeDialog()
+        } else {
+            repository.setPrivacyModeEnabled(!state.privacyMode)
+            notifyPrivacyStateChange()
         }
     }
 
@@ -78,8 +83,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
-        setPrivacyModeEnabled(true)
+        repository.setPrivacyModeEnabled(true)
         notifyPrivacyStateChange()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?) {
+        view?.createOptionsMenu(menu, state.privacyMode)
     }
 
     override fun onSend() {
@@ -143,12 +152,22 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onScannedQR(address: String?) {
-        val clearedAddress = address?.replace(tokenRegex, "")
+    override fun onScannedQR(text: String?) {
+        if (text == null) return
 
-        when {
-            address != null && address != clearedAddress -> view?.showNotBeamAddressError()
-            address != null && address == clearedAddress -> state.scannedAddress = address
+        val scannedAddress = QrHelper.getScannedAddress(text)
+        val isValidAddress = QrHelper.isValidAddress(scannedAddress)
+
+        if (isValidAddress) {
+            state.scannedAddress = scannedAddress
+
+            if (QrHelper.isNewQrVersion(text)) {
+                val qrObject = QrHelper.parseQrCode(text)
+
+                state.scannedAmount = qrObject.amount
+            }
+        } else {
+            view?.showNotBeamAddressError()
         }
     }
 
@@ -166,9 +185,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onTokenPasted(token: String?, oldToken: String?) {
         state.oldToken = oldToken
-        state.isChangeForbidden = token?.replace(tokenRegex, "") != token
+        state.isChangeForbidden = token?.replace(QrHelper.tokenRegex, "") != token
 
-        if (token?.replace(tokenRegex, "") != token) {
+        if (token?.replace(QrHelper.tokenRegex, "") != token) {
             state.isChangeForbidden = true
             view?.showCantPasteError()
         }
@@ -180,7 +199,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.clearToken(state.oldToken)
         } else {
             state.isChangeForbidden = false
-            var clearedToken = rawToken?.replace(tokenRegex, "")
+            var clearedToken = rawToken?.replace(QrHelper.tokenRegex, "")
 
             if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
                 clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
