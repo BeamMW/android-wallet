@@ -33,7 +33,7 @@ interface MvpRepository {
     fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
 
     fun isPrivacyModeEnabled(): Boolean
-    fun setPrivacyModeEnabled(isEnable: Boolean)
+    fun setPrivacyModeEnabled(isEnabled: Boolean)
 
     fun openWallet(pass: String?): Status
     fun closeWallet()

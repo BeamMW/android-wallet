@@ -124,7 +124,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             valuesArray.forEach { millisInt ->
                 val value = millisInt.toLong()
 
-                val button = LayoutInflater.from(context).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
 
                 (button as RadioButton).apply {
                     text = getLockScreenStringValue(value)

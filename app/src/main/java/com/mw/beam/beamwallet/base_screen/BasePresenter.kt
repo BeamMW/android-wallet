@@ -40,12 +40,6 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view?.initToolbar(view?.getToolbarTitle(), hasBackArrow(), hasStatus())
     }
 
-    override fun isPrivacyModeEnabled(): Boolean = repository.isPrivacyModeEnabled()
-
-    override fun setPrivacyModeEnabled(isEnable: Boolean) {
-        repository.setPrivacyModeEnabled(isEnable)
-    }
-
     override fun onStart() {
         disposable = CompositeDisposable()
         initSubscriptions()

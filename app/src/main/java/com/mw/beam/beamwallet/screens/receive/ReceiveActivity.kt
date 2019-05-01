@@ -61,6 +61,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
+    override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
 
     override fun init() {
         ArrayAdapter.createFromResource(
@@ -85,7 +86,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     @SuppressLint("InflateParams")
-    override fun showQR(receiveToken: String) {
+    override fun showQR(receiveToken: String, amount: Double?) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
@@ -100,7 +101,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             val logicalDensity = metrics.density
             val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
-            qrView.setImageBitmap(QrHelper.textToImage(receiveToken, px, px,
+            qrView.setImageBitmap(QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount), px, px,
                     ContextCompat.getColor(this, R.color.common_text_color),
                     ContextCompat.getColor(this, R.color.colorPrimary)))
         } catch (e: Exception) {

@@ -23,6 +23,9 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.support.design.widget.Snackbar
 import android.support.v4.app.SupportActivity
 import android.support.v4.content.ContextCompat
@@ -33,13 +36,10 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.Status
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
-import android.os.VibrationEffect
-import android.os.Build
-import android.os.Vibrator
-import com.mw.beam.beamwallet.core.App
 
 
 /**

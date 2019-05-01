@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
+import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
@@ -32,6 +34,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        state.privacyMode = repository.isPrivacyModeEnabled()
     }
 
     override fun onStart() {
@@ -40,18 +43,22 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     }
 
     private fun notifyPrivacyStateChange() {
-        val privacyModeEnabled = isPrivacyModeEnabled()
+        val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
     }
 
     override fun onChangePrivacyModePressed() {
-        if (state.privacyMode) {
-            setPrivacyModeEnabled(false)
-            notifyPrivacyStateChange()
-        } else {
+        if (!state.privacyMode && repository.isNeedConfirmEnablePrivacyMode()) {
             view?.showActivatePrivacyModeDialog()
+        } else {
+            repository.setPrivacyModeEnabled(!state.privacyMode)
+            notifyPrivacyStateChange()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
     override fun onCancelDialog() {
@@ -60,7 +67,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
 
     override fun onPrivacyModeActivated() {
         view?.dismissAlert()
-        setPrivacyModeEnabled(true)
+        repository.setPrivacyModeEnabled(true)
         notifyPrivacyStateChange()
     }
 

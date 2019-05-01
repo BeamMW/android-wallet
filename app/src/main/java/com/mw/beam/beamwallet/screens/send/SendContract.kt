@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -46,6 +47,8 @@ interface SendContract {
         fun showCantPasteError()
         fun showNotBeamAddressError()
         fun setAddress(address: String)
+        fun setAmount(amount: Double)
+        fun setComment(comment: String)
         fun setFee(feeAmount: String)
         fun scanQR()
         fun updateAvailable(availableString: String)
@@ -55,6 +58,7 @@ interface SendContract {
         fun showConfirmDialog(token: String, amount: Double, fee: Long)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
+        fun createOptionsMenu(menu: Menu?, isEnablePrivacyMode: Boolean)
         fun dismissDialog()
     }
 
@@ -64,13 +68,14 @@ interface SendContract {
         fun onTokenPasted(token: String?, oldToken: String?)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
-        fun onScannedQR(address: String?)
+        fun onScannedQR(text: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
         fun onFeeFocusChanged(isFocused: Boolean, fee: String)
         fun onConfirm()
         fun onChangePrivacyModePressed()
         fun onPrivacyModeActivated()
+        fun onCreateOptionsMenu(menu: Menu?)
         fun onCancelDialog()
         fun onDialogClosePressed()
     }
@@ -82,5 +87,6 @@ interface SendContract {
         fun checkAddress(address: String?): Boolean
         fun isConfirmTransactionEnabled(): Boolean
         fun getAddresses(): Subject<OnAddressesData>
+        fun isNeedConfirmEnablePrivacyMode(): Boolean
     }
 }

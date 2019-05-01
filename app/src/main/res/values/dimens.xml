@@ -141,6 +141,9 @@
     <dimen name="receive_qr_size">160dp</dimen>
     <dimen name="receive_common_qr_offset">20dp</dimen>
     <dimen name="receive_btn_margin_bottom">20dp</dimen>
+    <dimen name="receive_amount_margin_end">30dp</dimen>
+    <dimen name="receive_amount_text_size">36sp</dimen>
+    <dimen name="receive_amount_title_margin_top">35dp</dimen>
 
     <!--SendActivity-->
     <dimen name="send_token_title_margin_top">24dp</dimen>

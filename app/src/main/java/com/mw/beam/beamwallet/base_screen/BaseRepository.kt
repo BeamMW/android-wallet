@@ -38,8 +38,11 @@ open class BaseRepository : MvpRepository {
 
     override fun isPrivacyModeEnabled() = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
 
-    override fun setPrivacyModeEnabled(isEnable: Boolean) {
-        PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE, isEnable)
+    override fun setPrivacyModeEnabled(isEnabled: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE, isEnabled)
+        if (isEnabled) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, false)
+        }
     }
 
     override fun openWallet(pass: String?): Status {

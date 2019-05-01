@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import android.graphics.Bitmap
+import android.net.Uri
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
@@ -29,6 +30,39 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
  * Created by vain onnellinen on 2/12/19.
  */
 object QrHelper {
+    private const val BEAM_QR_PREFIX = "beam:"
+    private const val BEAM_URI_PREFIX = "beam://"
+    private const val AMOUNT_PARAMETER = "amount"
+    val tokenRegex = Regex("[^A-Fa-f0-9]")
+
+    fun isNewQrVersion(text: String) = text.startsWith(BEAM_QR_PREFIX)
+
+    fun isValidAddress(address: String) = address == address.replace(tokenRegex, "")
+
+    fun getScannedAddress(text: String): String {
+        return if (text.startsWith(BEAM_QR_PREFIX)) {
+            val removePrefix = text.removePrefix(BEAM_QR_PREFIX)
+
+            if (removePrefix.contains("?")) {
+                removePrefix.substring(0, removePrefix.indexOf("?"))
+            } else {
+                removePrefix
+            }
+
+        } else {
+            text
+        }
+    }
+
+    fun createQrString(receiveToken: String, amount: Double?) = "$BEAM_QR_PREFIX$receiveToken" +
+            if (amount != null) "?$AMOUNT_PARAMETER=$amount" else ""
+
+    fun parseQrCode(text: String): QrObject {
+        val uri = Uri.parse(text.replace(BEAM_QR_PREFIX, BEAM_URI_PREFIX))
+        val amount = uri.getQueryParameter(AMOUNT_PARAMETER)?.toDoubleOrNull()
+
+        return QrObject(getScannedAddress(text), amount)
+    }
 
     @Throws(WriterException::class, NullPointerException::class)
     fun textToImage(text: String, width: Int, height: Int, darkColor: Int, lightColor: Int): Bitmap? {
@@ -60,4 +94,6 @@ object QrHelper {
 
         return bitmap
     }
+
+    data class QrObject(val address: String, val amount: Double? = null)
 }

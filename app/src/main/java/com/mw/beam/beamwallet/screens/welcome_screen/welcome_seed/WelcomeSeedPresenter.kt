@@ -55,6 +55,11 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         view?.showCopiedAlert()
     }
 
+    override fun onDestroy() {
+        view?.allowScreenshot()
+        super.onDestroy()
+    }
+
     private fun prepareSeed(seed: Array<String>): String {
         val result = StringBuilder()
 
