@@ -37,6 +37,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create
     override fun getToolbarTitle(): String? = ""
+    override fun hasBackArrow(): Boolean = activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 1
 
     override fun addListeners() {
         btnCreate.setOnClickListener {
