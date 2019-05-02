@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
 import android.support.v4.os.CancellationSignal
 import android.text.Editable
@@ -85,6 +86,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         } else {
             description.setText(R.string.welcome_open_description)
         }
+
+        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
     }
 
     override fun addListeners() {

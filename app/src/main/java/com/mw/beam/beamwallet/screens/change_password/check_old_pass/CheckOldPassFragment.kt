@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.change_password.check_old_pass
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R
@@ -46,6 +47,10 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_check_old_pass
     override fun getToolbarTitle(): String? = getString(R.string.check_old_pass_title)
+
+    override fun init() {
+        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+    }
 
     override fun addListeners() {
         pass.addTextChangedListener(passWatcher)

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.create_password
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R
@@ -78,6 +79,9 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             btnProceed.textResId = R.string.pass_proceed_to_wallet
             btnProceed.iconResId = R.drawable.ic_btn_proceed
         }
+
+        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        confirmPassLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
     }
 
     override fun addListeners() {
