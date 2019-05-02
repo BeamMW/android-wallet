@@ -24,6 +24,8 @@ import com.google.zxing.MultiFormatWriter
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 
 /**
@@ -34,6 +36,14 @@ object QrHelper {
     private const val BEAM_URI_PREFIX = "beam://"
     private const val AMOUNT_PARAMETER = "amount"
     val tokenRegex = Regex("[^A-Fa-f0-9]")
+    private val amountDecimalFormat = DecimalFormat().apply {
+        decimalFormatSymbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+            groupingSeparator = ' '
+        }
+        maximumIntegerDigits = 309
+        maximumFractionDigits = 1074
+    }
 
     fun isNewQrVersion(text: String) = text.startsWith(BEAM_QR_PREFIX)
 
@@ -55,7 +65,7 @@ object QrHelper {
     }
 
     fun createQrString(receiveToken: String, amount: Double?) = "$BEAM_QR_PREFIX$receiveToken" +
-            if (amount != null) "?$AMOUNT_PARAMETER=$amount" else ""
+            if (amount != null) "?$AMOUNT_PARAMETER=${amountDecimalFormat.format(amount).replace(" ", "")}" else ""
 
     fun parseQrCode(text: String): QrObject {
         val uri = Uri.parse(text.replace(BEAM_QR_PREFIX, BEAM_URI_PREFIX))

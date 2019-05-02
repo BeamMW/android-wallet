@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.support.transition.AutoTransition
 import android.support.transition.TransitionManager
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
@@ -242,17 +243,21 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
-        TransitionManager.beginDelayedTransition(contentLayout)
+        beginTransition()
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
         animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
-        TransitionManager.beginDelayedTransition(contentLayout)
+        beginTransition()
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         separateGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
+    }
+
+    private fun beginTransition() {
+        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply { excludeChildren(transactionsList, true) })
     }
 
     @SuppressLint("RestrictedApi")
@@ -317,9 +322,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
-        TransitionManager.beginDelayedTransition(contentLayout)
-
-
         activity?.invalidateOptionsMenu()
         adapter.setPrivacyMode(isEnable)
 

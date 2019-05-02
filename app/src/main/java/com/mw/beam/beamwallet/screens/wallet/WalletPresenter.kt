@@ -57,6 +57,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
         view?.handleExpandAvailable(state.privacyMode)
         view?.handleExpandInProgress(state.privacyMode)
+
+        if (!privacyModeEnabled) {
+           state.walletStatus?.let { view?.configWalletStatus(it, privacyModeEnabled) }
+        }
     }
 
     override fun onChangePrivacyModePressed() {
