@@ -27,6 +27,7 @@ interface WelcomeCreateContract {
     interface View : MvpView {
         fun createWallet()
         fun restoreWallet()
+        fun hasBackArrow(): Boolean
     }
 
     interface Presenter : MvpPresenter<View> {

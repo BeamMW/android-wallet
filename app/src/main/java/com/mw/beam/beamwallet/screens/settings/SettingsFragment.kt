@@ -22,6 +22,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
+import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
@@ -47,6 +49,7 @@ import java.util.concurrent.TimeUnit
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
     private lateinit var presenter: SettingsPresenter
     private var dialog: AlertDialog? = null
+    private var dialogConfirmPassword: DialogFragment? = null
 
     companion object {
         fun newInstance() = SettingsFragment().apply { arguments = Bundle() }
@@ -141,6 +144,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onCancel: () -> Unit) {
+        dialogConfirmPassword = PasswordConfirmDialog.newInstance(onConfirm, onCancel)
+        dialogConfirmPassword?.show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
+    }
+
     private fun getLockScreenStringValue(millis: Long): String {
         return when {
             millis <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.settings_never)
@@ -161,6 +169,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         dialog?.let {
             it.dismiss()
             dialog = null
+        }
+
+        dialogConfirmPassword?.let {
+            it.dismiss()
+            dialogConfirmPassword = null
         }
     }
 

@@ -30,8 +30,15 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         super.onViewCreated()
         view?.init()
         view?.updateLockScreenValue(repository.getLockScreenValue())
-        view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
+        updateConfirmTransactionValue()
+        updateFingerprintValue()
+    }
 
+    private fun updateConfirmTransactionValue() {
+        view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
+    }
+
+    private fun updateFingerprintValue() {
         if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return)) {
             view?.showFingerprintSettings(repository.isFingerPrintEnabled())
         } else {
@@ -64,11 +71,23 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
-        repository.saveConfirmTransactionSettings(isConfirm)
+        if (isConfirm) {
+            repository.saveConfirmTransactionSettings(isConfirm)
+        } else {
+            view?.showConfirmPasswordDialog({
+                repository.saveConfirmTransactionSettings(isConfirm)
+            }, ::updateConfirmTransactionValue)
+        }
     }
 
     override fun onChangeFingerprintSettings(isEnabled: Boolean) {
-        repository.saveEnableFingerprintSettings(isEnabled)
+        if (isEnabled) {
+            repository.saveEnableFingerprintSettings(isEnabled)
+        } else {
+            view?.showConfirmPasswordDialog({
+                repository.saveEnableFingerprintSettings(isEnabled)
+            }, ::updateFingerprintValue)
+        }
     }
 
     override fun onDialogClosePressed() {

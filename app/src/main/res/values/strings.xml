@@ -12,6 +12,7 @@
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
     <string name="common_done">done</string>
+    <string name="common_confirm">Confirm</string>
     <string name="common_ok">@android:string/ok</string>
     <string name="common_activate">Activate</string>
     <string name="common_copied_alert">Copied!</string>
@@ -256,6 +257,7 @@ and never kept in the blockchain.</string>
     <string name="settings_after_minute">After %1$s minute</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
+    <string name="settings_dialog_confirm_password_title">Confirm password</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>
