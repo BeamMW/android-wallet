@@ -191,8 +191,6 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun configPrivacyStatus(isEnable: Boolean) {
         invalidateOptionsMenu()
 
-        TransitionManager.beginDelayedTransition(settingsContentLayout)
-
         val availableVisibility = if (isEnable || params.visibility != View.VISIBLE) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
         availableSum.visibility = availableVisibility

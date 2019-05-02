@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
@@ -57,6 +58,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
 
         sideOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         topOffset = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)

@@ -28,8 +28,8 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         WelcomeSeedContract.Presenter {
     private val COPY_TAG = "RECOVERY SEED"
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun onStart() {
+        super.onStart()
         view?.forbidScreenshot()
     }
 

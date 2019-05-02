@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.views.BeamButton
+import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.activity_receive.*
 
@@ -73,6 +74,8 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             expiresOnSpinner.adapter = adapter
             expiresOnSpinner.setSelection(0)
         }
+
+        amount.filters = arrayOf(AmountFilter())
     }
 
     override fun addListeners() {
