@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
  */
 interface CheckOldPassContract {
     interface View : MvpView {
+        fun init()
         fun hasErrors(): Boolean
         fun clearErrors()
         fun getPass(): String

@@ -25,6 +25,11 @@ class CheckOldPassPresenter(currentView: CheckOldPassContract.View, currentRepos
     : BasePresenter<CheckOldPassContract.View, CheckOldPassContract.Repository>(currentView, currentRepository),
         CheckOldPassContract.Presenter {
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
+
     override fun onPassChanged(pass: String?) {
         view?.clearErrors()
     }
