@@ -186,6 +186,9 @@
     <dimen name="settings_dialog_button_group_start_margin">16dp</dimen>
     <dimen name="settings_dialog_cancel_margin">15dp</dimen>
     <dimen name="settings_dialog_button_top_margin">10dp</dimen>
+    <dimen name="settings_dialog_buttons_margin_top">50dp</dimen>
+    <dimen name="settings_dialog_content_margin_top">30dp</dimen>
+
     <!--AddressesFragment-->
     <dimen name="addresses_tab_padding">25dp</dimen>
     <dimen name="addresses_label_text_size">20sp</dimen>

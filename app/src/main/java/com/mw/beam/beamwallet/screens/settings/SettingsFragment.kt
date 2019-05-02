@@ -22,7 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -143,8 +142,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onCancel: () -> Unit) {
-       PasswordConfirmDialog.newInstance(onConfirm, onCancel)
+    override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+       PasswordConfirmDialog.newInstance(onConfirm, onDismiss)
                .show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
     }
 
