@@ -49,7 +49,6 @@ import java.util.concurrent.TimeUnit
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
     private lateinit var presenter: SettingsPresenter
     private var dialog: AlertDialog? = null
-    private var dialogConfirmPassword: DialogFragment? = null
 
     companion object {
         fun newInstance() = SettingsFragment().apply { arguments = Bundle() }
@@ -145,8 +144,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onCancel: () -> Unit) {
-        dialogConfirmPassword = PasswordConfirmDialog.newInstance(onConfirm, onCancel)
-        dialogConfirmPassword?.show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
+       PasswordConfirmDialog.newInstance(onConfirm, onCancel)
+               .show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
     }
 
     private fun getLockScreenStringValue(millis: Long): String {
@@ -169,11 +168,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         dialog?.let {
             it.dismiss()
             dialog = null
-        }
-
-        dialogConfirmPassword?.let {
-            it.dismiss()
-            dialogConfirmPassword = null
         }
     }
 
