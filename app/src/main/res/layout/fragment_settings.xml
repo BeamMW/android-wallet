@@ -88,6 +88,26 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:visibility="gone"
+                    style="@style/common_menu_item"
+                    android:id="@+id/runRandomNodeTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/settings_common_offset"
+                    android:text="@string/settings_run_random_node"
+                    app:layout_constraintEnd_toStartOf="@+id/runRandomNodeSwitch"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/node" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/runRandomNodeSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/runRandomNodeTitle" />
+
+                <TextView
                     android:id="@+id/ipTitle"
                     style="@style/common_text_big_dark"
                     android:layout_width="wrap_content"
@@ -96,7 +116,7 @@
                     android:paddingEnd="@dimen/settings_common_offset"
                     android:text="@string/settings_ip_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/node"
+                    app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
                     tools:ignore="RtlSymmetry" />
 
                 <TextView
@@ -106,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
                     app:layout_constraintStart_toEndOf="@id/ipTitle"
-                    app:layout_constraintTop_toBottomOf="@id/node"
+                    app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
                     tools:text="12.123.123.1234" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>

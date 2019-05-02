@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.dialog_password_confirm.*
 class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), PasswordConfirmContract.View {
     lateinit var presenter: PasswordConfirmPresenter
     private var onConfirm: (() -> Unit)? = null
-    private var onCancel: (() -> Unit)? = null
+    private var onDismiss: (() -> Unit)? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter.onPasswordChanged()
@@ -22,9 +22,9 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     }
 
     companion object {
-        fun newInstance(onConfirm: () -> Unit, onCancel: () -> Unit) = PasswordConfirmDialog().apply {
+        fun newInstance(onConfirm: () -> Unit, onDismiss: () -> Unit) = PasswordConfirmDialog().apply {
             this.onConfirm = onConfirm
-            this.onCancel = onCancel
+            this.onDismiss = onDismiss
         }
 
         fun getFragmentTag(): String = PasswordConfirmDialog::class.java.simpleName
@@ -71,9 +71,9 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        onCancel?.invoke()
+        onDismiss?.invoke()
 
-        onCancel = null
+        onDismiss = null
         onConfirm = null
         super.onDismiss(dialog)
     }

@@ -35,7 +35,7 @@ interface SettingsContract {
         fun closeDialog()
         fun updateLockScreenValue(millis: Long)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
-        fun showConfirmPasswordDialog(onConfirm: () -> Unit, onCancel: () -> Unit)
+        fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
     }
 
     interface Presenter : MvpPresenter<View> {
