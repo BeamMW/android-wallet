@@ -67,6 +67,60 @@ crashlytics {
     enableNdk true
 }
 
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
+        task.dependsOn updateMasternetLibs
+    }
+    if (task.name == 'assembleBeamtestnetDebug' || task.name == 'assembleBeamtestnetRelease') {
+        task.dependsOn updateTestnetLibs
+    }
+    if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
+      //  task.dependsOn updateMainnetLibs
+    }
+}
+
+task updateMasternetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+          //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-masternet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-masternet.sh"
+        }
+    }
+}
+
+task updateTestnetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-testnet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-testnet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-testnet.sh"
+        }
+    }
+}
+
+task updateMainnetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-mainnet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-mainnet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-mainnet.sh"
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$ver_kotlin"
