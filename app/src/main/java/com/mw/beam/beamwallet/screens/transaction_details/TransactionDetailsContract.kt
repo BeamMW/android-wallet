@@ -37,7 +37,7 @@ interface TransactionDetailsContract {
         fun updatePaymentProof(paymentProof: PaymentProof)
         fun configMenuItems(menu: Menu?, txStatus: TxStatus)
         fun finishScreen()
-        fun updateUtxos(utxoInfoList: List<UtxoInfoItem>)
+        fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
     }

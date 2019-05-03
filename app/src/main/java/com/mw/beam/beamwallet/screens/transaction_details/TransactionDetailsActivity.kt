@@ -89,8 +89,8 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     @SuppressLint("InflateParams")
-    override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>) {
-        transactionUtxoContainer.visibility = if (utxoInfoList.isEmpty()) View.GONE else View.VISIBLE
+    override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
+        transactionUtxoContainer.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
         transactionUtxoList.removeAllViews()
 
         utxoInfoList.forEach { utxo ->
