@@ -84,7 +84,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             }
 
             UtxoInfoItem(type, utxo.amount)
-        })
+        }, repository.isPrivacyModeEnabled())
     }
 
     private fun isExchangeUtxo(utxo: Utxo): Boolean {

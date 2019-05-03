@@ -17,12 +17,14 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.*
 
 /**
  * Created by vain onnellinen on 3/14/19.
  */
 fun Long.convertToBeamString(): String = (this.toDouble() / 100000000).convertToBeamString()
-fun Double.convertToBeamString(): String = DecimalFormat("#.########").format(this)
+fun Double.convertToBeamString(): String = DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(this)
 fun Long.convertToBeam(): Double = this.toDouble() / 100000000
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
 fun Double.convertToGroth() = Math.round(this * 100000000)

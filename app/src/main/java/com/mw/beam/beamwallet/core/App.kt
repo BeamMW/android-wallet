@@ -61,7 +61,7 @@ class App : Application() {
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
-        AppConfig.LOCALE = Locale.getDefault()
+        //AppConfig.LOCALE = Locale.getDefault()
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(self)
