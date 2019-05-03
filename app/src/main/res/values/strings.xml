@@ -101,7 +101,7 @@ and never kept in the blockchain.</string>
 •  must contain at least one uppercase letter\n
 •  must contain at least one number</string>
     <string name="pass_not_much">Passwords do not match</string>
-    <string name="pass_empty_error">Password should not be empty</string>
+    <string name="pass_empty_error">Password can not be empty</string>
     <string name="pass_old_pass_error">New password cannot be the same as old</string>
     <string name="pass_wrong">Wrong password</string>
     <string name="confirm_pass_hint">Confirm password</string>
@@ -259,7 +259,6 @@ and never kept in the blockchain.</string>
     <string name="settings_run_random_node">Run random node</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
     <string name="settings_dialog_confirm_password_title">Confirm password</string>
-    <string name="settings_password_empty_error">Password can not be empty</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

@@ -116,7 +116,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
 
     override fun showEmptyPasswordError() {
         pass.isStateError = true
-        passError.text = getString(R.string.settings_password_empty_error)
+        passError.text = getString(R.string.pass_empty_error)
         passError.visibility = View.VISIBLE
     }
 
