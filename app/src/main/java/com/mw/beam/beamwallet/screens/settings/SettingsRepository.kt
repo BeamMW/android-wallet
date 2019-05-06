@@ -17,6 +17,9 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
@@ -44,5 +47,28 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun isFingerPrintEnabled(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+    }
+
+    override fun getSavedNodeAddress(): String? {
+        return PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+    }
+
+    override fun setRunOnRandomNode(random: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, random)
+
+        if (random) {
+            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+        }
+    }
+
+    override fun setNodeAddress(address: String) {
+        AppConfig.NODE_ADDRESS = address
+        App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
+    }
+
+    override fun getCurrentNodeAddress(): String {
+        return AppConfig.NODE_ADDRESS
     }
 }

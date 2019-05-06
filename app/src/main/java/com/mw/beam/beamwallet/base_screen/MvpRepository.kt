@@ -37,4 +37,6 @@ interface MvpRepository {
 
     fun openWallet(pass: String?): Status
     fun closeWallet()
+
+    fun isEnabledConnectToRandomNode(): Boolean
 }

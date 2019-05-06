@@ -37,7 +37,13 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
                 removeNodeDatabase()
             }
 
-            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+            if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
+                AppConfig.NODE_ADDRESS = nodeAddress
+            } else {
+                AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            }
+
             App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases, WelcomeMode.RESTORE == mode)
 
             if (wallet != null) {

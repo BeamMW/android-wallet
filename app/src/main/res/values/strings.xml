@@ -259,6 +259,8 @@ and never kept in the blockchain.</string>
     <string name="settings_run_random_node">Run random node</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
     <string name="settings_dialog_confirm_password_title">Confirm password</string>
+    <string name="settings_dialog_node_error">invalid node address</string>
+    <string name="settings_dialog_node_title">Node address</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

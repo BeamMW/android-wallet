@@ -26,7 +26,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
  */
 interface SettingsContract {
     interface View : MvpView {
-        fun init()
+        fun init(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
         fun changePass()
         fun showLockScreenSettingsDialog()
@@ -36,6 +36,9 @@ interface SettingsContract {
         fun updateLockScreenValue(millis: Long)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
         fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
+        fun showNodeAddressDialog(nodeAddress: String?)
+        fun showInvalidNodeAddressError()
+        fun clearInvalidNodeAddressError()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -46,6 +49,10 @@ interface SettingsContract {
         fun onDialogClosePressed()
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
         fun onChangeFingerprintSettings(isEnabled: Boolean)
+        fun onChangeRunOnRandomNode(isEnabled: Boolean)
+        fun onNodeAddressPressed()
+        fun onChangeNodeAddress()
+        fun onSaveNodeAddress(address: String?)
     }
 
     interface Repository : MvpRepository {
@@ -55,5 +62,9 @@ interface SettingsContract {
         fun saveEnableFingerprintSettings(isEnabled: Boolean)
         fun shouldConfirmTransaction(): Boolean
         fun isFingerPrintEnabled(): Boolean
+        fun setNodeAddress(address: String)
+        fun getSavedNodeAddress(): String?
+        fun setRunOnRandomNode(random: Boolean)
+        fun getCurrentNodeAddress(): String
     }
 }

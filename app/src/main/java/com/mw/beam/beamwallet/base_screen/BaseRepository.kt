@@ -49,7 +49,13 @@ open class BaseRepository : MvpRepository {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank()) {
-            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+            if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
+                AppConfig.NODE_ADDRESS = nodeAddress
+            } else {
+                AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            }
+
             App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
             if (wallet != null) {
@@ -60,6 +66,10 @@ open class BaseRepository : MvpRepository {
 
         LogUtils.logResponse(result, "openWallet")
         return result
+    }
+
+    override fun isEnabledConnectToRandomNode(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
     }
 
     override fun closeWallet() {
