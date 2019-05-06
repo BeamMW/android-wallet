@@ -18,6 +18,9 @@ package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.helpers.QrHelper
+import java.lang.Exception
+import java.net.URI
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -28,7 +31,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init()
+        view?.init(repository.isEnabledConnectToRandomNode())
         view?.updateLockScreenValue(repository.getLockScreenValue())
         updateConfirmTransactionValue()
         updateFingerprintValue()
@@ -87,6 +90,59 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.showConfirmPasswordDialog({
                 repository.saveEnableFingerprintSettings(isEnabled)
             }, ::updateFingerprintValue)
+        }
+    }
+
+    override fun onChangeNodeAddress() {
+        view?.clearInvalidNodeAddressError()
+    }
+
+    override fun onNodeAddressPressed() {
+        if (!repository.isEnabledConnectToRandomNode()) {
+            view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
+        }
+    }
+
+    override fun onChangeRunOnRandomNode(isEnabled: Boolean) {
+        if (isEnabled == repository.isEnabledConnectToRandomNode()) {
+            return
+        }
+
+        if (isEnabled) {
+            repository.setRunOnRandomNode(isEnabled)
+            view?.init(isEnabled)
+            return
+        }
+
+        val savedAddress = repository.getSavedNodeAddress()
+
+        if (!savedAddress.isNullOrBlank() && isValidNodeAddress(savedAddress)) {
+            repository.setNodeAddress(savedAddress)
+            repository.setRunOnRandomNode(isEnabled)
+            view?.init(isEnabled)
+        } else {
+            view?.init(true)
+            view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
+        }
+    }
+
+    override fun onSaveNodeAddress(address: String?) {
+        if (!address.isNullOrBlank() && isValidNodeAddress(address)) {
+            view?.closeDialog()
+            repository.setNodeAddress(address)
+            repository.setRunOnRandomNode(false)
+            view?.init(false)
+        } else {
+            view?.showInvalidNodeAddressError()
+        }
+    }
+
+    private fun isValidNodeAddress(address: String): Boolean {
+        return try {
+            val uri = URI(QrHelper.BEAM_URI_PREFIX + address)
+            !uri.host.isNullOrBlank() && uri.port > 0
+        } catch (e: Exception) {
+            false
         }
     }
 

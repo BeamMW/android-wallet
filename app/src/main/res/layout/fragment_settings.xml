@@ -88,9 +88,8 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:visibility="gone"
-                    style="@style/common_menu_item"
                     android:id="@+id/runRandomNodeTitle"
+                    style="@style/common_menu_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/settings_common_offset"
@@ -103,7 +102,6 @@
                     android:id="@+id/runRandomNodeSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/runRandomNodeTitle" />
 
@@ -112,6 +110,7 @@
                     style="@style/common_text_big_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_common_offset"
                     android:background="@color/colorPrimary"
                     android:paddingEnd="@dimen/settings_common_offset"
                     android:text="@string/settings_ip_title"
@@ -124,6 +123,7 @@
                     style="@style/common_text_big_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_common_offset"
                     android:background="@color/colorPrimary"
                     app:layout_constraintStart_toEndOf="@id/ipTitle"
                     app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"

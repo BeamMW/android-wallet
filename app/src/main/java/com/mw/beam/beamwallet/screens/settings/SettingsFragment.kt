@@ -24,9 +24,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
+import android.widget.TextView
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -38,6 +41,7 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
+import kotlinx.android.synthetic.main.dialog_node_address.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -57,8 +61,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings_title)
 
-    override fun init() {
+    override fun init(runOnRandomNode: Boolean) {
         appVersion.text = BuildConfig.VERSION_NAME
+        runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
     }
 
@@ -112,6 +117,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         enableFingerprintSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter.onChangeFingerprintSettings(isChecked)
         }
+
+        runRandomNodeSwitch.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onChangeRunOnRandomNode(isChecked)
+        }
+
+        ip.setOnClickListener { presenter.onNodeAddressPressed() }
+        ipTitle.setOnClickListener { presenter.onNodeAddressPressed() }
     }
 
     @SuppressLint("InflateParams")
@@ -140,6 +152,46 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showNodeAddressDialog(nodeAddress: String?) {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
+
+            view.nodeBtnConfirm.setOnClickListener {
+                presenter.onSaveNodeAddress(view.dialogNodeValue.text.toString())
+            }
+
+            view.nodeBtnCancel.setOnClickListener { presenter.onDialogClosePressed() }
+
+            view.dialogNodeValue.addTextChangedListener(object: TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    presenter.onChangeNodeAddress()
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
+
+            if (!nodeAddress.isNullOrBlank()) {
+                view.dialogNodeValue.setText(nodeAddress)
+            }
+
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
+    override fun showInvalidNodeAddressError() {
+        val textView = dialog?.findViewById<TextView>(R.id.nodeError)
+        textView?.let { it.visibility = View.VISIBLE }
+    }
+
+    override fun clearInvalidNodeAddressError() {
+        val textView = dialog?.findViewById<TextView>(R.id.nodeError)
+        textView?.let { it.visibility = View.GONE }
     }
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
@@ -177,6 +229,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         reportProblem.setOnClickListener(null)
         lockScreenTitle.setOnClickListener(null)
         lockScreenValue.setOnClickListener(null)
+        runRandomNodeSwitch.setOnCheckedChangeListener(null)
+        ip.setOnClickListener(null)
+        ipTitle.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

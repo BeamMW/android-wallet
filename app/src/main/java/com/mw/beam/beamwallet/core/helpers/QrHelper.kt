@@ -32,8 +32,8 @@ import java.text.DecimalFormatSymbols
  * Created by vain onnellinen on 2/12/19.
  */
 object QrHelper {
+    const val BEAM_URI_PREFIX = "beam://"
     private const val BEAM_QR_PREFIX = "beam:"
-    private const val BEAM_URI_PREFIX = "beam://"
     private const val AMOUNT_PARAMETER = "amount"
     val tokenRegex = Regex("[^A-Fa-f0-9]")
     private val amountDecimalFormat = DecimalFormat().apply {

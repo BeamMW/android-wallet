@@ -42,6 +42,8 @@ object PreferencesManager {
     const val KEY_LOCK_SCREEN = "KEY_LOCK_SCREEN"
     const val KEY_PRIVACY_MODE = "KEY_PRIVACY_MODE"
     const val KEY_PRIVACY_MODE_NEED_CONFIRM = "KEY_PRIVACY_MODE_NEED_CONFIRM"
+    const val KEY_CONNECT_TO_RANDOM_NODE = "KEY_CONNECT_TO_RANDOM_NODE"
+    const val KEY_NODE_ADDRESS = "KEY_NODE_ADDRESS"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)
