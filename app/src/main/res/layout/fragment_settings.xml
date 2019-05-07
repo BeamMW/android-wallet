@@ -185,16 +185,44 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/enableFingerprintTitle" />
 
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <!--Settings wallet card-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/settingsWalletCard"
+            style="@style/common_card_style"
+            android:layout_marginTop="@dimen/settings_card_offset"
+            app:cardCornerRadius="@dimen/common_card_corner_radius"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settingsCard">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/common_card_padding">
+
                 <TextView
                     android:id="@+id/changePass"
                     style="@style/common_menu_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:paddingTop="@dimen/settings_common_offset"
                     android:text="@string/settings_change_pass"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/enableFingerprintTitle" />
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/clearData"
+                    style="@style/common_menu_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:paddingTop="@dimen/settings_common_offset"
+                    android:text="@string/settings_dialog_clear_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/changePass" />
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
@@ -205,7 +233,7 @@
             android:layout_marginTop="@dimen/settings_card_offset"
             app:cardCornerRadius="@dimen/common_card_corner_radius"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsCard">
+            app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

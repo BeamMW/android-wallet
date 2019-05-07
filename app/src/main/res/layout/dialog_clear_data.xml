@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/common_alert_dialog_background"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/clearDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/settings_dialog_clear_title"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/deleteAllAddressesTitle"
+        style="@style/common_text_big_light"
+        android:text="@string/settings_dialog_clear_addresses"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/clearDialogTitle"/>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/deleteAllAddressesCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/deleteAllAddressesTitle"
+        app:layout_constraintBottom_toBottomOf="@id/deleteAllAddressesTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/deleteAllContactsTitle"
+        style="@style/common_text_big_light"
+        android:text="@string/settings_dialog_clear_contacts"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllAddressesTitle"/>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/deleteAllContactsCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/deleteAllContactsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/deleteAllContactsTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/deleteAllTransactionsTitle"
+        style="@style/common_text_big_light"
+        android:text="@string/settings_dialog_clear_transactions"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllContactsTitle"/>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/deleteAllTransactionsCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/deleteAllTransactionsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/deleteAllTransactionsTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/clearDataBtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_clear_buttons_margin_top"
+        android:text="@string/common_cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/clearDataBtnConfirm"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllTransactionsTitle" />
+
+    <TextView
+        android:id="@+id/clearDataBtnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_clear_buttons_margin_top"
+        android:paddingStart="@dimen/alert_dialog_button_padding"
+        android:text="@string/common_ok"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deleteAllTransactionsTitle"
+        tools:ignore="RtlSymmetry" />
+
+</android.support.constraint.ConstraintLayout>

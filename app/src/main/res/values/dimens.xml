@@ -188,6 +188,7 @@
     <dimen name="settings_dialog_button_top_margin">10dp</dimen>
     <dimen name="settings_dialog_buttons_margin_top">50dp</dimen>
     <dimen name="settings_dialog_content_margin_top">30dp</dimen>
+    <dimen name="settings_dialog_clear_buttons_margin_top">40dp</dimen>
 
     <!--AddressesFragment-->
     <dimen name="addresses_tab_padding">25dp</dimen>

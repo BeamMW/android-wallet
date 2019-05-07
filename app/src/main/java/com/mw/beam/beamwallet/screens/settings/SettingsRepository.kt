@@ -20,8 +20,13 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -59,6 +64,33 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         if (random) {
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+        }
+    }
+
+    override fun deleteTransaction(txDescription: TxDescription?) {
+        if (txDescription != null) {
+            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
+                wallet?.deleteTx(txDescription.id)
+            }
+        }
+    }
+
+    override fun getTxStatus(): Subject<OnTxStatusData> {
+        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
+            wallet?.getWalletStatus()
+        }
+    }
+
+    override fun deleteAddress(addressId: String) {
+        getResult("deleteAddress") {
+            wallet?.deleteAddress(addressId)
+        }
+    }
+
+    override fun getAddresses(): Subject<OnAddressesData> {
+        return getResult(WalletListener.subOnAddresses, "getAddresses") {
+            wallet?.getAddresses(true)
+            wallet?.getAddresses(false)
         }
     }
 
