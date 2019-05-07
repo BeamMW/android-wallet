@@ -121,7 +121,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
-        val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
+        val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
         val close = view.findViewById<ImageView>(R.id.close)
         val tokenTitle = view.findViewById<TextView>(R.id.tokenTitle)
 

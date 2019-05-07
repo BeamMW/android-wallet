@@ -139,5 +139,9 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         }
     }
 
+    override fun shareText(title: String, text: String) {
+        delegate.shareText(context, title, text)
+    }
+
     override fun logOut() {}
 }

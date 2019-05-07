@@ -190,19 +190,19 @@
                 app:button_text="@string/receive_btn_qr"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnCopyToken"
+                app:layout_constraintEnd_toStartOf="@id/btnShareToken"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tokenDescription"
                 app:layout_constraintVertical_bias="1.0" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnCopyToken"
+                android:id="@+id/btnShareToken"
                 android:layout_width="@dimen/wallet_button_width"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/receive_btn_margin"
-                app:button_icon="@drawable/ic_btn_copy_dark"
+                app:button_icon="@drawable/ic_share"
                 app:button_state_list="@color/receive_selector"
-                app:button_text="@string/receive_btn_copy"
+                app:button_text="@string/receive_btn_share"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="0.5"

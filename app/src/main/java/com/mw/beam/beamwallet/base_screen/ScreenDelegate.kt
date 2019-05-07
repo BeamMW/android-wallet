@@ -21,6 +21,7 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -66,6 +67,18 @@ class ScreenDelegate {
                     Status.STATUS_ERROR -> activity.getString(R.string.common_error)
                 }, activity
         )
+    }
+
+    fun shareText(context: Context?, title: String, text: String) {
+        context?.apply {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/*"
+                putExtra(Intent.EXTRA_TEXT, text)
+            }
+
+            startActivity(Intent.createChooser(intent, title))
+        }
     }
 
     fun showSnackBar(message: String, activity: SupportActivity) {

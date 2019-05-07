@@ -26,7 +26,6 @@ import io.reactivex.disposables.Disposable
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
-    private val COPY_TAG = "ADDRESS"
     private lateinit var walletIdSubscription: Disposable
 
 
@@ -35,12 +34,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         view?.init()
     }
 
-    override fun onCopyTokenPressed() {
+    override fun onShareTokenPressed() {
         saveAddress()
 
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
-            view?.close()
+            view?.shareToken(state.address!!.walletID)
         }
     }
 
@@ -49,11 +47,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         view?.showQR(state.address!!.walletID, view?.getAmount())
     }
 
-    override fun onDialogCopyPressed() {
+    override fun onDialogSharePressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
+            view?.shareToken(state.address!!.walletID)
             view?.dismissDialog()
-            view?.close()
         }
     }
 

@@ -55,14 +55,14 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             presenter.onNextPressed()
         }
 
-        btnCopy.setOnClickListener {
+        btnShare.setOnClickListener {
             presenter.onCopyPressed()
         }
     }
 
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
-        btnCopy.setOnClickListener(null)
+        btnShare.setOnClickListener(null)
     }
 
     override fun forbidScreenshot() {
