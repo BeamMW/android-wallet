@@ -19,15 +19,19 @@ package com.mw.beam.beamwallet.screens.settings
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.TxStatus
+import io.reactivex.disposables.Disposable
 import java.lang.Exception
 import java.net.URI
 
 /**
  * Created by vain onnellinen on 1/21/19.
  */
-class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository)
+class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository, private val state: SettingsState)
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
+    private lateinit var addressesSubscription: Disposable
+    private lateinit var txStatusSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -37,12 +41,36 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         updateFingerprintValue()
     }
 
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        addressesSubscription = repository.getAddresses().subscribe {
+            if (it.own) {
+                state.addresses = it.addresses ?: listOf()
+            } else {
+                state.contacts = it.addresses ?: listOf()
+            }
+        }
+
+        txStatusSubscription = repository.getTxStatus().subscribe { data ->
+            val transactions = data.tx?.filter {
+                TxStatus.Failed == it.status || TxStatus.Completed == it.status || TxStatus.Cancelled == it.status
+            }?.toList()
+
+            state.updateTransactions(transactions)
+        }
+    }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, txStatusSubscription)
+
+
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
     }
 
     private fun updateFingerprintValue() {
-        if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return)) {
+        if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
+                        ?: return)) {
             view?.showFingerprintSettings(repository.isFingerPrintEnabled())
         } else {
             repository.saveEnableFingerprintSettings(false)
@@ -101,6 +129,26 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (!repository.isEnabledConnectToRandomNode()) {
             view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
         }
+    }
+
+    override fun onClearDataPressed() {
+        view?.showClearDataDialog()
+    }
+
+    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+        if (clearAddresses) {
+            state.addresses.forEach { repository.deleteAddress(it.walletID) }
+        }
+
+        if (clearContacts) {
+            state.contacts.forEach { repository.deleteAddress(it.walletID) }
+        }
+
+        if (clearTransactions) {
+            state.transactions.values.forEach { repository.deleteTransaction(it) }
+        }
+
+        view?.closeDialog()
     }
 
     override fun onChangeRunOnRandomNode(isEnabled: Boolean) {

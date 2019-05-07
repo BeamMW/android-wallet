@@ -40,6 +40,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
+import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.dialog_node_address.view.*
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -122,6 +123,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter.onChangeRunOnRandomNode(isChecked)
         }
 
+        clearData.setOnClickListener { presenter.onClearDataPressed() }
+
         ip.setOnClickListener { presenter.onNodeAddressPressed() }
         ipTitle.setOnClickListener { presenter.onNodeAddressPressed() }
     }
@@ -184,6 +187,26 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    @SuppressLint("InflateParams")
+    override fun showClearDataDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_clear_data, null)
+
+            view.clearDataBtnConfirm.setOnClickListener {
+                presenter.onConfirmClearDataPressed(
+                        view.deleteAllAddressesCheckbox.isChecked,
+                        view.deleteAllContactsCheckbox.isChecked,
+                        view.deleteAllTransactionsCheckbox.isChecked
+                )
+            }
+
+            view.clearDataBtnCancel.setOnClickListener { presenter.onDialogClosePressed() }
+
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
     override fun showInvalidNodeAddressError() {
         val textView = dialog?.findViewById<TextView>(R.id.nodeError)
         textView?.let { it.visibility = View.VISIBLE }
@@ -230,12 +253,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         lockScreenTitle.setOnClickListener(null)
         lockScreenValue.setOnClickListener(null)
         runRandomNodeSwitch.setOnCheckedChangeListener(null)
+        clearData.setOnClickListener(null)
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = SettingsPresenter(this, SettingsRepository())
+        presenter = SettingsPresenter(this, SettingsRepository(), SettingsState())
         return presenter
     }
 

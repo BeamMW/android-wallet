@@ -261,6 +261,10 @@ and never kept in the blockchain.</string>
     <string name="settings_dialog_confirm_password_title">Confirm password</string>
     <string name="settings_dialog_node_error">invalid node address</string>
     <string name="settings_dialog_node_title">Node address</string>
+    <string name="settings_dialog_clear_title">Clear data</string>
+    <string name="settings_dialog_clear_addresses">Delete all addresses</string>
+    <string name="settings_dialog_clear_contacts">Delete all contacts</string>
+    <string name="settings_dialog_clear_transactions">Delete all transactions</string>
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>

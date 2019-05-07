@@ -20,6 +20,10 @@ import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
+import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -39,6 +43,7 @@ interface SettingsContract {
         fun showNodeAddressDialog(nodeAddress: String?)
         fun showInvalidNodeAddressError()
         fun clearInvalidNodeAddressError()
+        fun showClearDataDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -52,6 +57,8 @@ interface SettingsContract {
         fun onChangeRunOnRandomNode(isEnabled: Boolean)
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
+        fun onClearDataPressed()
+        fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
     }
 
@@ -66,5 +73,9 @@ interface SettingsContract {
         fun getSavedNodeAddress(): String?
         fun setRunOnRandomNode(random: Boolean)
         fun getCurrentNodeAddress(): String
+        fun deleteAddress(addressId: String)
+        fun deleteTransaction(txDescription: TxDescription?)
+        fun getAddresses(): Subject<OnAddressesData>
+        fun getTxStatus(): Subject<OnTxStatusData>
     }
 }
