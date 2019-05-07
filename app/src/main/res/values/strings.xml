@@ -20,6 +20,7 @@
     <string name="common_security_mode_title">Activate security mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Too many attempts. Please, log in using password.</string>
+    <string name="common_share_title">Share…</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
     <string name="error_no_internet_connection">No Internet connection</string>
@@ -118,7 +119,6 @@ and never kept in the blockchain.</string>
     <string name="wallet_maturing">Maturing</string>
     <string name="wallet_btn_receive">receive</string>
     <string name="wallet_btn_send">send</string>
-    <string name="wallet_share_title">Share…</string>
     <string name="wallet_status_completed">completed&#160;</string>
     <string name="wallet_status_received">received&#160;</string>
     <string name="wallet_status_sent">sent&#160;</string>
@@ -204,7 +204,7 @@ and never kept in the blockchain.</string>
     <string name="receive_send_comment">Comment</string>
     <string name="receive_expires_on">Expires</string>
     <string name="receive_send_comment_description">Comments are local and won\'t be shared.</string>
-    <string name="receive_btn_copy">copy address</string>
+    <string name="receive_btn_share">share address</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
     <string name="receive_token_title">My address:</string>

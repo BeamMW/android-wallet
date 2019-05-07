@@ -32,16 +32,17 @@ interface ReceiveContract {
         fun getComment() : String?
         fun showToken(receiveToken : String)
         fun showQR(receiveToken : String, amount: Double?)
+        fun shareToken(receiveToken: String)
         fun close()
         fun dismissDialog()
         fun getAmount(): Double?
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onCopyTokenPressed()
+        fun onShareTokenPressed()
         fun onShowQrPressed()
         fun onBackPressed()
-        fun onDialogCopyPressed()
+        fun onDialogSharePressed()
         fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
     }

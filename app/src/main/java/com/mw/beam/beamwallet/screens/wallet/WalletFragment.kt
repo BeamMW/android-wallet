@@ -382,7 +382,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             putExtra(Intent.EXTRA_STREAM, uri)
         }
 
-        startActivity(Intent.createChooser(intent, getString(R.string.wallet_share_title)))
+        startActivity(Intent.createChooser(intent, getString(R.string.common_share_title)))
     }
 
     override fun showProofVerification() {

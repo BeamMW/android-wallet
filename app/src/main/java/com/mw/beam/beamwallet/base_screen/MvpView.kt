@@ -37,6 +37,7 @@ interface MvpView {
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
     fun configStatus(networkStatus: NetworkStatus)
     fun getToolbarTitle(): String?
+    fun shareText(title: String, text: String)
     fun addListeners()
     fun clearListeners()
     fun onHideKeyboard()

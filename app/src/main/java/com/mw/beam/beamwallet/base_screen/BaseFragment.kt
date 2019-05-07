@@ -135,6 +135,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         context?.let { delegate.copyToClipboard(it, content, tag) }
     }
 
+    override fun shareText(title: String, text: String) {
+        delegate.shareText(context, title, text)
+    }
+
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
     }

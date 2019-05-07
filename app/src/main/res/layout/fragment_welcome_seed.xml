@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@id/description" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnCopy"
+            android:id="@+id/btnShare"
             android:layout_width="@dimen/wallet_button_width"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/welcome_seed_button_margin"
@@ -55,6 +55,6 @@
             app:button_text="@string/welcome_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btnCopy" />
+            app:layout_constraintStart_toEndOf="@id/btnShare" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

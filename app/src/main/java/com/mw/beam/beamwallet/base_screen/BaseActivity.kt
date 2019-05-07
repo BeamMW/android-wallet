@@ -218,6 +218,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
 
+    override fun shareText(title: String, text: String) {
+        delegate.shareText(this, title, text)
+    }
+
     private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
         toolbarLayout.progressBar.visibility = View.INVISIBLE
         toolbarLayout.statusIcon.visibility = View.VISIBLE

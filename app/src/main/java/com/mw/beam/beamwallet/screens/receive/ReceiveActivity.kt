@@ -79,9 +79,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun addListeners() {
-        btnCopyToken.setOnClickListener { presenter.onCopyTokenPressed() }
+        btnShareToken.setOnClickListener { presenter.onShareTokenPressed() }
         btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
+    }
+
+    override fun shareToken(receiveToken: String) {
+        shareText(getString(R.string.common_share_title), receiveToken)
     }
 
     override fun showToken(receiveToken: String) {
@@ -93,7 +97,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
-        val btnCopy = view.findViewById<BeamButton>(R.id.btnCopy)
+        val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
         val close = view.findViewById<ImageView>(R.id.close)
 
         token.text = receiveToken
@@ -111,7 +115,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             return
         }
 
-        btnCopy.setOnClickListener { presenter.onDialogCopyPressed() }
+        btnCopy.setOnClickListener { presenter.onDialogSharePressed() }
         close.setOnClickListener { presenter.onDialogClosePressed() }
 
         dialog = AlertDialog.Builder(this).setView(view).show()
@@ -137,7 +141,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun clearListeners() {
-        btnCopyToken.setOnClickListener(null)
+        btnShareToken.setOnClickListener(null)
         btnShowQR.setOnClickListener(null)
         expiresOnSpinner.onItemSelectedListener = null
     }
