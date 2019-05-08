@@ -78,6 +78,7 @@ interface SendContract {
         fun onCreateOptionsMenu(menu: Menu?)
         fun onCancelDialog()
         fun onDialogClosePressed()
+        fun onSendAllPressed()
     }
 
     interface Repository : MvpRepository {

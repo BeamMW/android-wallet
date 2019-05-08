@@ -92,6 +92,10 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             presenter.onConfirm()
         }
 
+        btnSendAll.setOnClickListener {
+            presenter.onSendAllPressed()
+        }
+
         scanQR.setOnClickListener {
             presenter.onScanQrPressed()
         }
@@ -194,6 +198,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         val availableVisibility = if (isEnable || params.visibility != View.VISIBLE) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
         availableSum.visibility = availableVisibility
+        btnSendAll.visibility = availableVisibility
     }
 
     override fun showNotBeamAddressError() {
@@ -320,6 +325,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         val availableVisibility = if (isEnablePrivacyMode || !shouldShowParams) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
         availableSum.visibility = availableVisibility
+        btnSendAll.visibility = availableVisibility
 
         if (shouldShowParams) {
             //clear previous input before showing to user
@@ -348,6 +354,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun clearListeners() {
         btnSend.setOnClickListener(null)
+        btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()

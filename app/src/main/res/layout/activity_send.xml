@@ -142,26 +142,29 @@
             <TextView
                 android:id="@+id/availableTitle"
                 style="@style/common_text_big_dark"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/send_available_margin_top"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/send_available_title"
-                app:layout_constraintEnd_toStartOf="@id/availableSum"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountError" />
 
             <TextView
                 android:id="@+id/availableSum"
                 style="@style/common_text_big_light"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_available_margin_top"
+                android:layout_marginStart="@dimen/send_available_sum_margin_start"
+                android:layout_marginTop="@dimen/send_available_sum_margin_top"
+                android:layout_marginEnd="@dimen/send_available_sum_margin_end"
+                app:layout_constraintWidth_max="wrap"
                 android:textSize="@dimen/send_available_sum_text_size"
-                app:layout_constraintEnd_toStartOf="@id/availableCurrencyImage"
+                app:layout_constraintEnd_toStartOf="@id/btnSendAll"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/availableTitle"
                 app:layout_constraintTop_toBottomOf="@id/amountError"
-                tools:text="1000000" />
+                tools:text="1000000000" />
 
             <ImageView
                 android:id="@+id/availableCurrencyImage"
@@ -170,11 +173,32 @@
                 android:layout_marginEnd="@dimen/common_offset"
                 android:contentDescription="@null"
                 app:layout_constraintBottom_toBottomOf="@id/availableSum"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/availableSum"
                 app:layout_constraintHorizontal_bias="0"
                 app:layout_constraintTop_toTopOf="@id/availableSum"
+                app:layout_constraintEnd_toStartOf="@id/btnSendAll"
                 app:layout_constraintVertical_bias="0"
                 app:srcCompat="@drawable/currency_beam" />
+
+            <Button
+                android:id="@+id/btnSendAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/common_button"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:textStyle="normal"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:backgroundTint="@color/primary_selector"
+                app:layout_constraintTop_toTopOf="@id/availableTitle"
+                app:layout_constraintBottom_toBottomOf="@id/availableTitle"
+                app:layout_goneMarginEnd="@dimen/common_offset"
+                android:text="@string/send_send_all"
+                android:textColor="@color/common_text_color"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/feeTitle"

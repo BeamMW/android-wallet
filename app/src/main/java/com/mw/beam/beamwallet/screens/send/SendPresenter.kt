@@ -18,10 +18,7 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.helpers.PermissionStatus
-import com.mw.beam.beamwallet.core.helpers.QrHelper
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToGroth
+import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
 
 /**
@@ -75,6 +72,17 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             repository.setPrivacyModeEnabled(!state.privacyMode)
             notifyPrivacyStateChange()
         }
+    }
+
+    override fun onSendAllPressed() {
+        val availableAmount = state.walletStatus!!.available.convertToBeam()
+        val feeAmount = try {
+            view?.getFee()?.convertToBeam() ?: 0.0
+        } catch (exception: NumberFormatException) {
+            0.0
+        }
+
+        view?.setAmount(availableAmount - feeAmount)
     }
 
     override fun onCancelDialog() {
