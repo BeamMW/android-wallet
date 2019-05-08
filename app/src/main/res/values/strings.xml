@@ -241,6 +241,7 @@ and never kept in the blockchain.</string>
     <string name="send_amount_beam">%1$s BEAM</string>
     <string name="send_fee_groth">%1$s GROTH</string>
     <string name="send_available_title">Total available:</string>
+    <string name="send_send_all">send all</string>
 
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>
