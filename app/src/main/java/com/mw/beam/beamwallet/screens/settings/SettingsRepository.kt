@@ -103,4 +103,12 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     override fun getCurrentNodeAddress(): String {
         return AppConfig.NODE_ADDRESS
     }
+
+    override fun isAllowOpenExternalLink(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, false)
+    }
+
+    override fun setAllowOpenExternalLink(allowOpen: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, allowOpen)
+    }
 }

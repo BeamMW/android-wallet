@@ -222,6 +222,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.shareText(this, title, text)
     }
 
+    override fun openExternalLink(link: String) {
+        delegate.openExternalLink(this, link)
+    }
+
     private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
         toolbarLayout.progressBar.visibility = View.INVISIBLE
         toolbarLayout.statusIcon.visibility = View.VISIBLE

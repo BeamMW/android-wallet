@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -91,6 +92,12 @@ class ScreenDelegate {
         snackBar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.snack_bar_color))
         snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
         snackBar.show()
+    }
+
+    fun openExternalLink(context: Context?, link: String) {
+        context?.apply {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+        }
     }
 
     @SuppressLint("InflateParams")

@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -69,6 +70,26 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
                 view?.updatePaymentProof(it)
             }
         }
+    }
+
+    override fun onOpenInBlockExplorerPressed() {
+        if (state.txDescription == null) {
+            return
+        }
+
+        if (repository.isAllowOpenExternalLink()) {
+            view?.openExternalLink(AppConfig.buildTransactionLink(state.txDescription!!.kernelId))
+        } else {
+            view?.showOpenLinkAlert()
+        }
+    }
+
+    override fun onOpenLinkPressed() {
+        if (state.txDescription == null) {
+            return
+        }
+
+        view?.openExternalLink(AppConfig.buildTransactionLink(state.txDescription!!.kernelId))
     }
 
     private fun updateUtxos(utxos: List<Utxo>) {

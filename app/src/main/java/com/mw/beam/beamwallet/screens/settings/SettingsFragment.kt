@@ -68,6 +68,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         ip.text = AppConfig.NODE_ADDRESS
     }
 
+    override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
+        allowOpenLinkSwitch.isChecked = allowOpen
+    }
+
     override fun showFingerprintSettings(isFingerprintEnabled: Boolean) {
         enableFingerprintTitle.visibility = View.VISIBLE
         enableFingerprintSwitch.visibility = View.VISIBLE
@@ -121,6 +125,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         runRandomNodeSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter.onChangeRunOnRandomNode(isChecked)
+        }
+
+        allowOpenLinkSwitch.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onChangeAllowOpenExternalLink(isChecked)
         }
 
         clearData.setOnClickListener { presenter.onClearDataPressed() }
@@ -253,6 +261,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         lockScreenTitle.setOnClickListener(null)
         lockScreenValue.setOnClickListener(null)
         runRandomNodeSwitch.setOnCheckedChangeListener(null)
+        allowOpenLinkSwitch.setOnCheckedChangeListener(null)
         clearData.setOnClickListener(null)
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.main
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 
 /**
@@ -49,6 +50,20 @@ class MainPresenter(currentView: MainContract.View, currentRepository: MainContr
 
     override fun onSend() {
         view?.showSendScreen()
+    }
+
+    override fun onWhereBuyBeamPressed() {
+        if (repository.isAllowOpenExternalLink()) {
+            view?.closeDrawer()
+            view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+        } else {
+            view?.showOpenLinkAlert()
+        }
+    }
+
+    override fun onOpenLinkPressed() {
+        view?.closeDrawer()
+        view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
     }
 
     override fun hasStatus(): Boolean = true

@@ -37,9 +37,18 @@ object AppConfig {
     const val DB_FILE_NAME = "wallet.db"
     const val NODE_DB_FILE_NAME = "node.db"
     const val NODE_JOURNAL_FILE_NAME = "node.db-journal"
+    const val BEAM_SITE_LINK = "https://www.beam.mw/"
+    const val BEAM_EXCHANGES_LINK = "$BEAM_SITE_LINK#exchanges"
+    const val MASTERNET_EXPLORER_PREFIX = "master-net."
+    const val TESTNET_EXPLORER_PREFIX = "testnet."
+    var EXPLORER_PREFIX = ""
     var NODE_ADDRESS = ""
     var DB_PATH = ""
     var LOG_PATH = ""
     var TRANSACTIONS_PATH = ""
     var LOCALE: Locale = Locale.US
+    val EXPLORER_LINK
+        get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
+
+    fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"
 }

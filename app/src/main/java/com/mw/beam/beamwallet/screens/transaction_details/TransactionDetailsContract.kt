@@ -40,6 +40,7 @@ interface TransactionDetailsContract {
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
+        fun showOpenLinkAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -48,6 +49,8 @@ interface TransactionDetailsContract {
         fun onDeleteTransaction()
         fun onShowPaymentProof()
         fun onCopyPaymentProof()
+        fun onOpenInBlockExplorerPressed()
+        fun onOpenLinkPressed()
     }
 
     interface Repository : MvpRepository {
@@ -57,5 +60,6 @@ interface TransactionDetailsContract {
         fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
+        fun isAllowOpenExternalLink(): Boolean
     }
 }

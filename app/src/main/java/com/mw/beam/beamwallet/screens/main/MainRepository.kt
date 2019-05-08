@@ -17,8 +17,13 @@
 package com.mw.beam.beamwallet.screens.main
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-class MainRepository : BaseRepository(), MainContract.Repository
+class MainRepository : BaseRepository(), MainContract.Repository {
+    override fun isAllowOpenExternalLink(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, false)
+    }
+}

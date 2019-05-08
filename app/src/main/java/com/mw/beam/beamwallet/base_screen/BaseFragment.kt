@@ -139,6 +139,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.shareText(context, title, text)
     }
 
+    override fun openExternalLink(link: String) {
+        delegate.openExternalLink(context, link)
+    }
+
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
     }

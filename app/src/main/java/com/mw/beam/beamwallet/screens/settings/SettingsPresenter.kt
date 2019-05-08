@@ -39,6 +39,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.updateLockScreenValue(repository.getLockScreenValue())
         updateConfirmTransactionValue()
         updateFingerprintValue()
+        view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
     }
 
     override fun initSubscriptions() {
@@ -119,6 +120,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
                 repository.saveEnableFingerprintSettings(isEnabled)
             }, ::updateFingerprintValue)
         }
+    }
+
+    override fun onChangeAllowOpenExternalLink(allowOpen: Boolean) {
+        repository.setAllowOpenExternalLink(allowOpen)
     }
 
     override fun onChangeNodeAddress() {

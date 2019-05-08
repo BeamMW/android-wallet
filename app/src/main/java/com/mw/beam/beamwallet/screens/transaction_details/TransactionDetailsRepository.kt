@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -65,5 +66,9 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         getResult("requestProof") {
             wallet?.getPaymentInfo(txId)
         }
+    }
+
+    override fun isAllowOpenExternalLink(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, false)
     }
 }

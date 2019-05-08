@@ -30,7 +30,9 @@ interface MainContract {
         fun showReceiveScreen()
         fun showSendScreen()
         fun configNavDrawer()
+        fun closeDrawer()
         fun showChangePasswordScreen()
+        fun showOpenLinkAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -38,7 +40,11 @@ interface MainContract {
         fun onReceive()
         fun onSend()
         fun onChangePass()
+        fun onWhereBuyBeamPressed()
+        fun onOpenLinkPressed()
     }
 
-    interface Repository : MvpRepository
+    interface Repository : MvpRepository {
+        fun isAllowOpenExternalLink(): Boolean
+    }
 }
