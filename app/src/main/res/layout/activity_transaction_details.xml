@@ -129,10 +129,40 @@
                 <TextView
                     android:id="@+id/kernel"
                     style="@style/transaction_details_value"
+                    android:paddingBottom="0dp"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/transactionId" />
+
+                <TextView
+                    android:id="@+id/btnOpenInBlockExplorer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/transaction_details_link_text_margin_end"
+                    android:text="@string/transaction_details_open_in_explorer"
+                    android:textColor="@color/colorAccent"
+                    android:textIsSelectable="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/kernel"
+                    app:layout_constraintWidth_max="wrap" />
+
+                <ImageView
+                    android:id="@+id/externalLinkIcon"
+                    android:layout_width="@dimen/transaction_details_link_icon_size"
+                    android:layout_height="@dimen/transaction_details_link_icon_size"
+                    android:layout_marginStart="@dimen/transaction_details_link_icon_margin_start"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_external_link"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/btnOpenInBlockExplorer"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/btnOpenInBlockExplorer"
+                    app:layout_constraintTop_toTopOf="@id/btnOpenInBlockExplorer" />
 
                 <android.support.constraint.Barrier
                     android:id="@+id/titlesBarrier"
@@ -146,17 +176,17 @@
                 android:id="@+id/paymentProofContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/common_offset"
                 android:paddingTop="@dimen/common_offset"
+                android:paddingBottom="@dimen/common_offset"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/transactionInfoLayout">
 
                 <TextView
                     android:id="@+id/paymentProofTitle"
                     style="@style/transaction_details_title"
-                    android:layout_marginStart="@dimen/common_offset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
                     android:text="@string/transaction_details_payment_proof"
                     app:layout_constraintStart_toStartOf="parent"
@@ -218,8 +248,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle">
-                </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"></LinearLayout>
             </android.support.constraint.ConstraintLayout>
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

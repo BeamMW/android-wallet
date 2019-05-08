@@ -76,6 +76,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         configNavView()
     }
 
+    override fun addListeners() {
+        whereBuyBeamLink.setOnClickListener {
+            presenter.onWhereBuyBeamPressed()
+        }
+    }
+
     override fun showTransactionDetails(item: TxDescription) {
         startActivity(Intent(this, TransactionDetailsActivity::class.java)
                 .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, item))
@@ -135,6 +141,16 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         return super.onOptionsItemSelected(item)
     }
 
+    override fun showOpenLinkAlert() {
+        showAlert(
+                getString(R.string.common_external_link_dialog_message),
+                getString(R.string.common_drawer_open),
+                { presenter.onOpenLinkPressed() },
+                getString(R.string.common_external_link_dialog_title),
+                getString(R.string.common_cancel)
+        )
+    }
+
     private fun configNavView() {
         val menuItems = arrayOf(
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
@@ -169,8 +185,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         }, 100)
     }
 
+    override fun closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
     override fun clearListeners() {
         drawerLayout.removeDrawerListener(drawerToggle)
+        whereBuyBeamLink.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

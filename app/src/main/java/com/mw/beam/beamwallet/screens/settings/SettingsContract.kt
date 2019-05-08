@@ -44,6 +44,7 @@ interface SettingsContract {
         fun showInvalidNodeAddressError()
         fun clearInvalidNodeAddressError()
         fun showClearDataDialog()
+        fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -55,6 +56,7 @@ interface SettingsContract {
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
         fun onChangeFingerprintSettings(isEnabled: Boolean)
         fun onChangeRunOnRandomNode(isEnabled: Boolean)
+        fun onChangeAllowOpenExternalLink(allowOpen: Boolean)
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
         fun onClearDataPressed()
@@ -69,6 +71,8 @@ interface SettingsContract {
         fun saveEnableFingerprintSettings(isEnabled: Boolean)
         fun shouldConfirmTransaction(): Boolean
         fun isFingerPrintEnabled(): Boolean
+        fun isAllowOpenExternalLink(): Boolean
+        fun setAllowOpenExternalLink(allowOpen: Boolean)
         fun setNodeAddress(address: String)
         fun getSavedNodeAddress(): String?
         fun setRunOnRandomNode(random: Boolean)

@@ -39,6 +39,7 @@ import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsA
 import kotlinx.android.synthetic.main.activity_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
+import java.lang.Exception
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -150,11 +151,31 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         transactionId.text = txDescription.id
         kernel.text = txDescription.kernelId
 
+        val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
+        btnOpenInBlockExplorer.visibility = externalLinkVisibility
+        externalLinkIcon.visibility = externalLinkVisibility
+
         if (txDescription.message.isNotEmpty()) {
             comment.text = txDescription.message
             commentTitle.visibility = View.VISIBLE
             comment.visibility = View.VISIBLE
         }
+    }
+
+    override fun showOpenLinkAlert() {
+        showAlert(
+                getString(R.string.common_external_link_dialog_message),
+                getString(R.string.common_drawer_open),
+                { presenter.onOpenLinkPressed() },
+                getString(R.string.common_external_link_dialog_title),
+                getString(R.string.common_cancel)
+        )
+    }
+
+    private fun isValidKernelId(kernelId: String) = try {
+        kernelId.toInt() != 0
+    } catch (e: Exception) {
+        true
     }
 
     override fun addListeners() {
@@ -164,6 +185,10 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
         btnPaymentProofCopy.setOnClickListener {
             presenter.onCopyPaymentProof()
+        }
+
+        btnOpenInBlockExplorer.setOnClickListener {
+            presenter.onOpenInBlockExplorerPressed()
         }
     }
 
@@ -182,6 +207,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     override fun clearListeners() {
         btnPaymentProofDetails.setOnClickListener(null)
         btnPaymentProofCopy.setOnClickListener(null)
+        btnOpenInBlockExplorer.setOnClickListener(null)
     }
 
     override fun finishScreen() {

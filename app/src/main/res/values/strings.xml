@@ -21,6 +21,8 @@
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Too many attempts. Please, log in using password.</string>
     <string name="common_share_title">Share…</string>
+    <string name="common_external_link_dialog_title">External link</string>
+    <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose "Cancel". You can chage your choice in app setting anytime.</string>
     <string name="currency_beam">beam</string>
     <string name="currency_groth">groth</string>
     <string name="error_no_internet_connection">No Internet connection</string>
@@ -52,6 +54,7 @@
     <string name="welcome_title_change_alert">Login to another wallet</string>
     <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
     <string name="welcome_btn_change_alert">Change wallet</string>
+    <string name="welcome_where_to_buy_beam">Where to buy BEAM?</string>
 
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">start using your wallet</string>
@@ -197,6 +200,7 @@ and never kept in the blockchain.</string>
     <string name="transaction_details_payment_proof">Payment proof</string>
     <string name="transaction_details_details_btn_text">details</string>
     <string name="transaction_details_copy_to_clipboard">copy</string>
+    <string name="transaction_details_open_in_explorer">Open in Block Explorer</string>
 
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
@@ -259,6 +263,7 @@ and never kept in the blockchain.</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
     <string name="settings_run_random_node">Run random node</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
+    <string name="settings_allow_open_link">Allow open external link</string>
     <string name="settings_dialog_confirm_password_title">Confirm password</string>
     <string name="settings_dialog_node_error">invalid node address</string>
     <string name="settings_dialog_node_title">Node address</string>

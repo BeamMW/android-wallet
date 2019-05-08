@@ -42,6 +42,7 @@ interface MvpView {
     fun clearListeners()
     fun onHideKeyboard()
     fun onShowKeyboard()
+    fun openExternalLink(link: String)
     fun registerKeyboardStateListener()
     fun unregisterKeyboardStateListener()
     fun vibrate(length: Long)
