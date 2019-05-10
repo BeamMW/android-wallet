@@ -44,4 +44,12 @@
 
     <!--EditAddressActivity-->
     <color name="edit_address_timestamp_color">#d8d8d8</color>
+
+    <!--Category-->
+    <color name="category_red">#ff746b</color>
+    <color name="category_orange">#ffba55</color>
+    <color name="category_yellow">#fee65a</color>
+    <color name="category_green">#73ff7c</color>
+    <color name="category_blue">#4fa5ff</color>
+    <color name="category_pink">#d785ff</color>
 </resources>

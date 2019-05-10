@@ -23,6 +23,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.Category
 import io.reactivex.subjects.Subject
 
 /**
@@ -45,6 +46,7 @@ interface SettingsContract {
         fun clearInvalidNodeAddressError()
         fun showClearDataDialog()
         fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
+//        fun updateCategoryList(allCategory: List<Category>)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -62,6 +64,8 @@ interface SettingsContract {
         fun onClearDataPressed()
         fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
+//        fun onAddCategoryPressed()
+//        fun onCategoryPressed(categoryId: String)
     }
 
     interface Repository : MvpRepository {
@@ -81,5 +85,6 @@ interface SettingsContract {
         fun deleteTransaction(txDescription: TxDescription?)
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Subject<OnTxStatusData>
+//        fun getAllCategory(): List<Category>
     }
 }

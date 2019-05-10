@@ -60,6 +60,7 @@ interface SendContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, isEnablePrivacyMode: Boolean)
         fun dismissDialog()
+        fun showStayActiveDialog()
     }
 
     interface Presenter : MvpPresenter<View> {

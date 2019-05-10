@@ -105,7 +105,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun isAllowOpenExternalLink(): Boolean {
-        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, false)
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
     }
 
     override fun setAllowOpenExternalLink(allowOpen: Boolean) {
