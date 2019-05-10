@@ -92,6 +92,10 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         token.text = receiveToken
     }
 
+    override fun showStayActiveDialog() {
+        showAlert(getString(R.string.common_stay_active_message), getString(R.string.common_ok), title = getString(R.string.common_stay_active_title))
+    }
+
     @SuppressLint("InflateParams")
     override fun showQR(receiveToken: String, amount: Double?) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)

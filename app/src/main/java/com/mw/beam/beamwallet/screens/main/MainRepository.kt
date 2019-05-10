@@ -24,6 +24,6 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
  */
 class MainRepository : BaseRepository(), MainContract.Repository {
     override fun isAllowOpenExternalLink(): Boolean {
-        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, false)
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
     }
 }

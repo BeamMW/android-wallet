@@ -27,6 +27,8 @@
     <string name="currency_groth">groth</string>
     <string name="error_no_internet_connection">No Internet connection</string>
     <string name="error_incorrect_node">Incorrect node name or no Internet connection</string>
+    <string name="common_stay_active_title">Stay active</string>
+    <string name="common_stay_active_message">Do not close the wallet otherwise transation will not be completed</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">Dashboard</string>
@@ -327,5 +329,18 @@ and never kept in the blockchain.</string>
     <string name="payment_proof_details_receiver">Receiver:</string>
     <string name="payment_proof_details_amount">Amount:</string>
     <string name="payment_proof_details_kernel_id">Kernel ID:</string>
+
+    <!--CategoryActivity-->
+    <string name="category_toolbar_title">Category</string>
+    <string name="category_name">Name:</string>
+    <string name="category_addresses">Addresses</string>
+    <string name="category_delete">Delete</string>
+    <string name="category_edit">Edit</string>
+
+    <!--EditCategory-->
+    <string name="edit_category_toolbar_title">Edit category</string>
+    <string name="edit_category_btn_save">save</string>
+    <string name="edit_category_name">Name</string>
+    <string name="edit_category_color">Color</string>
 
 </resources>

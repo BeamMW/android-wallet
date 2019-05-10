@@ -36,6 +36,7 @@ interface ReceiveContract {
         fun close()
         fun dismissDialog()
         fun getAmount(): Double?
+        fun showStayActiveDialog()
     }
 
     interface Presenter : MvpPresenter<View> {

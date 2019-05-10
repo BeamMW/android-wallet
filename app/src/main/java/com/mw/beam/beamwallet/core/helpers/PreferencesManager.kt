@@ -45,6 +45,7 @@ object PreferencesManager {
     const val KEY_CONNECT_TO_RANDOM_NODE = "KEY_CONNECT_TO_RANDOM_NODE"
     const val KEY_NODE_ADDRESS = "KEY_NODE_ADDRESS"
     const val KEY_ALWAYS_OPEN_LINK = "KEY_ALWAYS_OPEN_LINK"
+    const val KEY_CATEGORY_DATA = "KEY_CATEGORY_DATA"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)
@@ -52,4 +53,8 @@ object PreferencesManager {
     fun getBoolean(key: String, defValue: Boolean = false): Boolean = preferenceStore.getBoolean(key, defValue)
     fun putLong(key: String, value: Long) = preferenceStore.edit().putLong(key, value).apply()
     fun getLong(key: String, defValue: Long = 0L) = preferenceStore.getLong(key, defValue)
+
+    fun clearAllPreference() {
+        preferenceStore.edit().clear().apply()
+    }
 }

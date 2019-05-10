@@ -230,6 +230,18 @@
     <dimen name="payment_proof_send_value_margin_start">45dp</dimen>
     <dimen name="payment_proof_values_margin_top">14dp</dimen>
 
+    <!--CategoryActivity-->
+    <dimen name="category_content_offset">16dp</dimen>
+    <dimen name="category_name_margin_start">17dp</dimen>
+    <dimen name="category_name_margin_top">20dp</dimen>
+    <dimen name="category_list_margin_top">20dp</dimen>
+    <dimen name="category_list_title_margin_top">50dp</dimen>
+
+    <!--CategoryActivity-->
+    <dimen name="edit_category_content_offset">16dp</dimen>
+    <dimen name="edit_category_content_margin">30dp</dimen>
+    <dimen name="edit_category_color_list_margin_top">5dp</dimen>
+
     <!--Suggestions-->
     <dimen name="suggestions_divider_margin">5dp</dimen>
     <dimen name="suggestions_divider_wight">2dp</dimen>

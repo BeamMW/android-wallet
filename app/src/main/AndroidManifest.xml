@@ -68,6 +68,12 @@
             android:name=".screens.proof_verification.ProofVerificationActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".screens.category.CategoryActivity"
+            android:screenOrientation="portrait" />
+
+        <activity android:name=".screens.edit_category.EditCategoryActivity"
+            android:screenOrientation="portrait" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
