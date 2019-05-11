@@ -1,22 +1,18 @@
 package com.mw.beam.beamwallet.core.helpers
 
-import android.support.v4.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.App
 import java.util.*
 
 object CategoryHelper {
-    private lateinit var gson: Gson
+    private val gson = Gson()
     private val categoryData: CategoryData by lazy {
         val json = PreferencesManager.getString(PreferencesManager.KEY_CATEGORY_DATA)
 
         if (json.isNullOrBlank()) {
             return@lazy CategoryData(listOf())
         }
-
-        gson = Gson()
 
         gson.fromJson(json, CategoryData::class.java)
     }

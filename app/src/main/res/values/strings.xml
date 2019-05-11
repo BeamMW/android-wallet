@@ -258,6 +258,8 @@ and never kept in the blockchain.</string>
     <string name="settings_node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General settings</string>
+    <string name="settings_categories">Categories</string>
+    <string name="settings_add_new_category">Add new category</string>
     <string name="settings_lock_screen">Lock screen</string>
     <string name="settings_never">Never</string>
     <string name="settings_after_seconds">After %1$s seconds</string>

@@ -1,5 +1,8 @@
 package com.mw.beam.beamwallet.screens.edit_category
 
+import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -29,6 +32,28 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
         nameValue.setText(category.name)
         colorListAdapter = ColorListAdapter()
         colorList.adapter = colorListAdapter
+        colorList.layoutManager = LinearLayoutManager(this).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
+        }
+
+        colorListAdapter?.setData(CategoryColor.values().asList())
+        btnSave.isEnabled = false
+    }
+
+    override fun addListeners() {
+        btnSave.setOnClickListener {
+            presenter.onSavePressed()
+        }
+
+        nameValue.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                btnSave.isEnabled = !getName().isBlank()
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
     }
 
     override fun getName(): String {

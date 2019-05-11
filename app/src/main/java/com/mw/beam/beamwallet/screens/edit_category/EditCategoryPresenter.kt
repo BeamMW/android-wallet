@@ -15,6 +15,8 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
         }
 
         state.category = category
+
+        view?.init(category)
     }
 
     override fun onSavePressed() {
@@ -23,7 +25,7 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
         }
 
         state.category?.let {
-            it.name = view!!.getName()
+            it.name = view!!.getName().trim()
             it.color = view!!.getSelectedCategoryColor()
 
             repository.saveCategory(it)

@@ -231,7 +231,7 @@
                     android:background="@color/colorPrimary"
                     android:text="@string/settings_change_pass"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/clearData"
@@ -248,12 +248,55 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/settingsReportCard"
+            android:id="@+id/settingsCategoryCard"
             style="@style/common_card_style"
             android:layout_marginTop="@dimen/settings_card_offset"
             app:cardCornerRadius="@dimen/common_card_corner_radius"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:padding="@dimen/common_card_padding">
+
+                <TextView
+                    android:id="@+id/categorySettingsTitle"
+                    style="@style/common_subheader_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/settings_categories"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/categoriesList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/settings_common_offset"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle"/>
+
+                <TextView
+                    android:id="@+id/addNewCategory"
+                    style="@style/common_menu_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/settings_add_new_category"
+                    app:layout_constraintTop_toBottomOf="@id/categoriesList" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/settingsReportCard"
+            style="@style/common_card_style"
+            android:layout_marginTop="@dimen/settings_card_offset"
+            app:cardCornerRadius="@dimen/common_card_corner_radius"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settingsCategoryCard">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

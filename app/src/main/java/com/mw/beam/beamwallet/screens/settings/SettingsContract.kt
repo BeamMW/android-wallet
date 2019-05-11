@@ -46,7 +46,9 @@ interface SettingsContract {
         fun clearInvalidNodeAddressError()
         fun showClearDataDialog()
         fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
-//        fun updateCategoryList(allCategory: List<Category>)
+        fun updateCategoryList(allCategory: List<Category>)
+        fun navigateToEditCategory(categoryId: String)
+        fun navigateToAddCategory()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -64,8 +66,8 @@ interface SettingsContract {
         fun onClearDataPressed()
         fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
-//        fun onAddCategoryPressed()
-//        fun onCategoryPressed(categoryId: String)
+        fun onAddCategoryPressed()
+        fun onCategoryPressed(categoryId: String)
     }
 
     interface Repository : MvpRepository {
@@ -85,6 +87,6 @@ interface SettingsContract {
         fun deleteTransaction(txDescription: TxDescription?)
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Subject<OnTxStatusData>
-//        fun getAllCategory(): List<Category>
+        fun getAllCategory(): List<Category>
     }
 }

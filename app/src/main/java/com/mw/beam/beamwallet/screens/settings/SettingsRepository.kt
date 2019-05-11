@@ -23,6 +23,8 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -82,9 +84,14 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun deleteAddress(addressId: String) {
+        CategoryHelper.changeAddressCategoryTo(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }
+    }
+
+    override fun getAllCategory(): List<Category> {
+        return CategoryHelper.getAllCategory()
     }
 
     override fun getAddresses(): Subject<OnAddressesData> {

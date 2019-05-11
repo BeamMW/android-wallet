@@ -30,7 +30,7 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
 
     override fun init(category: Category) {
         nameValue.text = category.name
-        nameValue.setTextColor(category.color.getAndroidColorId())
+        nameValue.setTextColor(resources.getColor(category.color.getAndroidColorId(), theme))
 
         addressesAdapter = AddressesAdapter(this, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
