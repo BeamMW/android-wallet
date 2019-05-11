@@ -37,8 +37,12 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
+import com.mw.beam.beamwallet.core.views.CategoryItemView
+import com.mw.beam.beamwallet.screens.category.CategoryActivity
+import com.mw.beam.beamwallet.screens.edit_category.EditCategoryActivity
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
@@ -76,6 +80,26 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         enableFingerprintTitle.visibility = View.VISIBLE
         enableFingerprintSwitch.visibility = View.VISIBLE
         enableFingerprintSwitch.isChecked = isFingerprintEnabled
+    }
+
+    override fun navigateToAddCategory() {
+        startActivity(Intent(context, EditCategoryActivity::class.java))
+    }
+
+    override fun navigateToEditCategory(categoryId: String) {
+        startActivity(Intent(context, CategoryActivity::class.java).apply { putExtra(CategoryActivity.CATEGORY_ID_KEY, categoryId) })
+    }
+
+    override fun updateCategoryList(allCategory: List<Category>) {
+        categoriesList.removeAllViews()
+
+        allCategory.forEach { category ->
+            categoriesList.addView(CategoryItemView(context!!).apply {
+                colorResId = category.color.getAndroidColorId()
+                text = category.name
+                setOnClickListener { presenter.onCategoryPressed(category.id) }
+            })
+        }
     }
 
     override fun sendMailWithLogs() {
@@ -133,6 +157,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         clearData.setOnClickListener { presenter.onClearDataPressed() }
 
+        addNewCategory.setOnClickListener { presenter.onAddCategoryPressed() }
+
         ip.setOnClickListener { presenter.onNodeAddressPressed() }
         ipTitle.setOnClickListener { presenter.onNodeAddressPressed() }
     }
@@ -176,7 +202,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             view.nodeBtnCancel.setOnClickListener { presenter.onDialogClosePressed() }
 
-            view.dialogNodeValue.addTextChangedListener(object: TextWatcher {
+            view.dialogNodeValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
                     presenter.onChangeNodeAddress()
                 }
@@ -226,8 +252,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
-       PasswordConfirmDialog.newInstance(onConfirm, onDismiss)
-               .show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
+        PasswordConfirmDialog.newInstance(onConfirm, onDismiss)
+                .show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
     }
 
     private fun getLockScreenStringValue(millis: Long): String {
@@ -263,6 +289,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         runRandomNodeSwitch.setOnCheckedChangeListener(null)
         allowOpenLinkSwitch.setOnCheckedChangeListener(null)
         clearData.setOnClickListener(null)
+        addNewCategory.setOnClickListener(null)
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)
     }

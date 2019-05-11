@@ -42,6 +42,19 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
     }
 
+    override fun onStart() {
+        super.onStart()
+        view?.updateCategoryList(repository.getAllCategory())
+    }
+
+    override fun onAddCategoryPressed() {
+        view?.navigateToAddCategory()
+    }
+
+    override fun onCategoryPressed(categoryId: String) {
+        view?.navigateToEditCategory(categoryId)
+    }
+
     override fun initSubscriptions() {
         super.initSubscriptions()
 

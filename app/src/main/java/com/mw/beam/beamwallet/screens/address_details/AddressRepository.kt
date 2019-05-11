@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -27,6 +28,7 @@ import io.reactivex.subjects.Subject
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
     override fun deleteAddress(addressId: String) {
+        CategoryHelper.changeAddressCategoryTo(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }

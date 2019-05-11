@@ -18,15 +18,13 @@ class ColorListAdapter: RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val index = getItemId(position).toInt()
-
         holder.colorSelector.setOnClickListener {
-            selectedIndex = index
+            selectedIndex = position
             notifyDataSetChanged()
         }
 
-        holder.colorSelector.isSelectedColor = selectedIndex == index
-        holder.colorSelector.colorResId = data[index].getAndroidColorId()
+        holder.colorSelector.isSelectedColor = selectedIndex == position
+        holder.colorSelector.colorResId = data[position].getAndroidColorId()
     }
 
     fun setData(colors: List<CategoryColor>) {

@@ -35,21 +35,18 @@ class ColorSelector: FrameLayout {
             } else {
                 colorSelectorBackground.background = null
             }
-            refreshDrawableState()
         }
 
     var colorResId: Int? = null
         set(value) {
             field = value ?: R.color.colorAccent
 
-            colorSelectorCard.setCardBackgroundColor(ColorStateList.valueOf(field!!))
-            refreshDrawableState()
+            colorSelectorCard.setCardBackgroundColor(resources.getColor(field!!, App.self.theme))
         }
 
     private fun init(context: Context) {
         inflate(context, R.layout.color_selector, this)
 
         isSelectedColor = false
-        colorResId = null
     }
 }
