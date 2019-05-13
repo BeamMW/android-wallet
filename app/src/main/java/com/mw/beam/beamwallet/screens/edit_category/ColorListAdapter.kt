@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import com.mw.beam.beamwallet.core.helpers.CategoryColor
 import com.mw.beam.beamwallet.core.views.ColorSelector
 
-class ColorListAdapter: RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
+class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = null): RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     private val data = ArrayList<CategoryColor>()
     private var selectedIndex = 0
 
@@ -20,6 +20,7 @@ class ColorListAdapter: RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.colorSelector.setOnClickListener {
             selectedIndex = position
+            onSelectColor?.invoke(data[selectedIndex])
             notifyDataSetChanged()
         }
 
@@ -30,6 +31,14 @@ class ColorListAdapter: RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     fun setData(colors: List<CategoryColor>) {
         data.clear()
         data.addAll(colors)
+        notifyDataSetChanged()
+    }
+
+    fun setSelectedColor(color: CategoryColor) {
+        selectedIndex = data.indexOf(color)
+        if (selectedIndex < 0){
+            selectedIndex = 0
+        }
         notifyDataSetChanged()
     }
 

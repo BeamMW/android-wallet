@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.category
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.disposables.Disposable
 
 class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContract.Repository, private val state: CategoryState)
@@ -30,6 +31,10 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
 
             view?.updateAddresses(state.addresses)
         }
+    }
+
+    override fun onAddressPressed(address: WalletAddress) {
+        view?.showAddressDetails(address)
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
