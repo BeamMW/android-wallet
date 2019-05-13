@@ -170,8 +170,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean) {
-        transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
-        btnTransactionsMenu.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionsList.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        emptyTransactionsListMessage.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
 
         if (transactions.isNotEmpty()) {
             adapter.setPrivacyMode(isEnablePrivacyMode)

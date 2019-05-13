@@ -32,6 +32,10 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_password_confirm
 
+    override fun init() {
+        pass.requestFocus()
+    }
+
     override fun confirm() {
         onConfirm?.invoke()
         dismiss()

@@ -122,9 +122,10 @@
                 <TextView
                     android:id="@+id/ip"
                     style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ipTitle"
                     app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
                     tools:text="12.123.123.1234" />
