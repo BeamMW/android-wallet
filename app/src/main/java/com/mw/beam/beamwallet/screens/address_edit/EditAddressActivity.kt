@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import android.app.Activity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -26,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -39,6 +42,16 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
     private lateinit var presenter: EditAddressPresenter
     private lateinit var expireNowString: String
     private lateinit var activateString: String
+
+    private val commentTextWatcher: TextWatcher = object: TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            presenter.onChangeComment(s?.toString() ?: "")
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -85,6 +98,11 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         }
     }
 
+    override fun configCategory(categories: List<Category>) {
+
+
+    }
+
     override fun addListeners() {
         expiresSpinner.onItemSelectedListener = expireListener
 
@@ -95,6 +113,8 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         btnSave.setOnClickListener {
             presenter.onSavePressed()
         }
+
+        comment.addTextChangedListener(commentTextWatcher)
     }
 
     override fun configExpireSpinnerVisibility(shouldShow: Boolean) {
@@ -115,9 +135,12 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         if (shouldExpireNow) {
             expiresSpinner.visibility = View.GONE
             expiresNow.visibility = View.VISIBLE
+            timestamp.visibility = View.VISIBLE
+            timestamp.text = CalendarUtils.fromTimestamp(System.currentTimeMillis() / 1000)
         } else {
             expiresSpinner.visibility = View.VISIBLE
             expiresNow.visibility = View.GONE
+            timestamp.visibility = View.GONE
         }
     }
 
@@ -133,6 +156,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
     override fun clearListeners() {
         expiresSwitch.setOnCheckedChangeListener(null)
         btnSave.setOnClickListener(null)
+        comment.removeTextChangedListener(commentTextWatcher)
         expiresSpinner.onItemSelectedListener = null
     }
 

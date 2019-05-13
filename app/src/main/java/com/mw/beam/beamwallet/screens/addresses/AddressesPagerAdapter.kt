@@ -25,11 +25,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener) : PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, private val categoryProvider: (address: String) -> Category?) : PagerAdapter() {
     private val activeAdapter = AddressesAdapter(context, onAddressClickListener)
     private val expiredAdapter = AddressesAdapter(context, onAddressClickListener)
     private val contactsAdapter = AddressesAdapter(context, onAddressClickListener)

@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import io.reactivex.subjects.Subject
 
 /**
@@ -36,10 +37,12 @@ interface AddressesContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
+        fun onSearchCategoryForAddress(address: String): Category?
     }
 
     interface Repository : MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Subject<OnTxStatusData>
+        fun getCategoryForAddress(address: String): Category?
     }
 }

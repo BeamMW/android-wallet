@@ -41,6 +41,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun onStart() {
         super.onStart()
         notifyPrivacyStateChange()
+        view?.configureCategory(repository.getCategory(state.address?.walletID ?: return))
     }
 
     private fun notifyPrivacyStateChange() {

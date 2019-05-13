@@ -16,6 +16,7 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
         }
 
         state.category = category
+        state.tempName = category.name
 
         view?.init(category)
     }

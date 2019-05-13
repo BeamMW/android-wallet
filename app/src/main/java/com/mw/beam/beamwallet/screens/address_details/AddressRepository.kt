@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
@@ -38,5 +39,9 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
         return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
+    }
+
+    override fun getCategory(address: String): Category? {
+        return CategoryHelper.getCategoryFromAddress(address)
     }
 }

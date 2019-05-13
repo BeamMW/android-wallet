@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
  */
 class EditAddressState {
     var address: WalletAddress? = null
+    var tempComment: String = ""
     var shouldExpireNow = false
     var shouldActivateNow = false
     lateinit var chosenPeriod: ExpirePeriod

@@ -24,6 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_address.*
@@ -31,7 +32,7 @@ import kotlinx.android.synthetic.main.item_address.*
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
+class AddressesAdapter(private val context: Context, private val clickListener: OnItemClickListener, private val categoryProvider: ((address: String) -> Category?)? = null) :
         RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
@@ -49,6 +50,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = data[position]
+        val addressCategory = categoryProvider?.invoke(address.walletID)
 
         holder.apply {
             label.text = address.label
@@ -57,6 +59,12 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
             if (!address.isContact) {
                 date.text = String.format(if (address.isExpired) expiredDate else expiresDate,
                         if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+            }
+            category.visibility = if (addressCategory == null) View.GONE else View.VISIBLE
+            category.text = addressCategory?.name ?: ""
+
+            if (addressCategory != null) {
+                category.setTextColor(context.resources.getColor(addressCategory.color.getAndroidColorId(), context.theme))
             }
         }
     }

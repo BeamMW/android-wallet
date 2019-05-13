@@ -30,6 +30,8 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         super.onViewCreated()
         state.address = view?.getAddress()
         state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
+        state.tempComment = state.address?.label ?: ""
+
         view?.init(state.address ?: return)
     }
 
@@ -52,10 +54,15 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         view?.configSaveButton(shouldEnableButton())
     }
 
+    override fun onChangeComment(comment: String) {
+        state.tempComment = comment.trim()
+        view?.configSaveButton(shouldEnableButton())
+    }
+
     private fun shouldEnableButton(): Boolean {
         val isExpired = state.address?.isExpired ?: return false
 
-        return if (isExpired) {
+        val isExpireChanged =  if (isExpired) {
             state.shouldActivateNow
         } else {
             if (state.shouldExpireNow) {
@@ -68,10 +75,15 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
                 }
             }
         }
+
+        val isCommentChanged = state.tempComment != state.address?.label ?: return false
+
+        return isExpireChanged || isCommentChanged
     }
 
     override fun onSavePressed() {
         val address = state.address ?: return
+        address.label = state.tempComment.trim()
 
         if (address.isExpired) {
             if (state.shouldActivateNow) {
