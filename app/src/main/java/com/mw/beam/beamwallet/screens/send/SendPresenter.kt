@@ -101,7 +101,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if (amount != null && fee != null && token != null && state.isTokenValid) {
                 // we can't send money to own expired address
                 if (state.expiredAddresses.find { it.walletID == token } != null) {
-                    view?.close()
+                    view?.dismissDialog()
                     view?.showCantSendToExpiredError()
                 } else {
                     repository.sendMoney(token, comment, amount.convertToGroth(), fee)
@@ -262,12 +262,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.expiredAddresses = it.addresses?.filter { address -> address.isExpired }
                     ?: listOf()
         }
-    }
-
-    override fun onDestroy() {
-        view?.dismissAlert()
-        view?.dismissDialog()
-        super.onDestroy()
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, cantSendToExpiredSubscription, addressesSubscription)
