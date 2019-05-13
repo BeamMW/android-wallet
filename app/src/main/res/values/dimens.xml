@@ -211,7 +211,7 @@
 
     <!--AddressActivity-->
     <dimen name="address_transaction_title_padding_top">31dp</dimen>
-    <dimen name="address_transaction_title_padding_bottom">20dp</dimen>
+    <dimen name="address_content_offset">20dp</dimen>
 
     <!--EditAddressActivity-->
     <dimen name="edit_address_element_offset">30dp</dimen>

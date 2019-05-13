@@ -11,16 +11,18 @@
     <TextView
         android:id="@+id/label"
         style="@style/common_subheader_light"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:paddingBottom="@dimen/addresses_label_offset"
         android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
-        tools:text="label"
         app:layout_constraintBottom_toTopOf="@id/id"
+        app:layout_constraintEnd_toStartOf="@+id/category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside" />
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:text="label" />
 
     <TextView
         android:id="@+id/id"
@@ -46,4 +48,15 @@
         app:layout_constraintTop_toBottomOf="@id/label"
         app:layout_constraintStart_toEndOf="@+id/id"
         tools:text="date" />
+
+    <TextView
+        android:id="@+id/category"
+        android:visibility="gone"
+        style="@style/common_text_small_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Category" />
+
 </android.support.constraint.ConstraintLayout>

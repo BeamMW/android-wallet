@@ -296,6 +296,10 @@ and never kept in the blockchain.</string>
     <string name="address_menu_edit">Edit address</string>
     <string name="address_menu_delete">Delete address</string>
     <string name="address_transactions_title">Transactions list</string>
+    <string name="address_address_id">Address ID:</string>
+    <string name="address_expiration_date">Expiration date:</string>
+    <string name="address_category">Category:</string>
+    <string name="address_annotation">Annotation:</string>
 
     <!--EditAddressActivity-->
     <string name="edit_address_title">Edit address</string>
@@ -306,6 +310,9 @@ and never kept in the blockchain.</string>
     <string name="edit_address_btn_save">save</string>
     <string name="edit_address_expired_title">Expired:</string>
     <string name="edit_address_expires_now_value">now</string>
+    <string name="edit_address_annotation">Annotation</string>
+    <string name="edit_address_category">Category</string>
+    <string name="edit_address_category_empty_message">You can create category in Settings</string>
 
     <!--CheckOldPassActivity-->
     <string name="check_old_pass_title">Change password</string>

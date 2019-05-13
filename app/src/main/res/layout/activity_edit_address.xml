@@ -99,19 +99,18 @@
             app:layout_constraintStart_toEndOf="@id/titlesBarrier"
             app:layout_constraintTop_toBottomOf="@id/expiredTime" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/timestamp"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:fontFamily="sans-serif"-->
-        <!--android:paddingBottom="@dimen/edit_address_element_offset"-->
-        <!--android:textColor="@color/edit_address_timestamp_color"-->
-        <!--android:textSize="@dimen/edit_address_timestamp_text_size"-->
-        <!--android:visibility="gone"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@id/titlesBarrier"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/expiresSpinner"-->
-        <!--tools:text="12 Jan 2019 | 3:45 PM" />-->
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/common_text_small_dark"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+            app:layout_constraintTop_toBottomOf="@id/expiresSpinner"
+            tools:text="12 Jan 2019 | 3:45 PM"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/expiresSwitchTitle"
@@ -121,7 +120,7 @@
             android:paddingTop="@dimen/edit_address_element_offset"
             android:paddingEnd="@dimen/edit_address_element_offset"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/expiresTitle"
+            app:layout_constraintTop_toBottomOf="@id/timestamp"
             tools:ignore="RtlSymmetry"
             tools:text="Expire address now" />
 
@@ -131,7 +130,35 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/edit_address_element_offset"
             app:layout_constraintStart_toEndOf="@id/expiresSwitchTitle"
-            app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
+            app:layout_constraintTop_toBottomOf="@id/timestamp" />
+
+        <TextView
+            android:id="@+id/categoryTitle"
+            style="@style/common_subheader_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/edit_address_element_offset"
+            android:text="@string/edit_address_category"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
+        
+        <Spinner
+            app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+            android:layout_marginTop="10dp"
+            android:popupBackground="@drawable/menu_background"
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/emptyCategoryListMessage"
+            android:text="@string/edit_address_category_empty_message"
+            app:layout_constraintTop_toBottomOf="@id/categorySpinner"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/commentTitle"
@@ -139,10 +166,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/edit_address_element_offset"
-            android:text="@string/transaction_details_comment"
-            android:visibility="gone"
+            android:text="@string/edit_address_annotation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
+            app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage" />
 
         <EditText
             android:id="@+id/comment"
@@ -150,7 +176,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edit_text_selector"
-            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commentTitle"
             tools:ignore="Autofill,LabelFor,TextFields" />

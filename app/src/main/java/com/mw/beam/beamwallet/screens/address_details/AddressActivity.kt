@@ -37,6 +37,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.BeamButton
@@ -44,7 +45,6 @@ import com.mw.beam.beamwallet.screens.address_edit.EditAddressActivity
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.activity_address.*
-import kotlinx.android.synthetic.main.item_address.*
 
 /**
  * Created by vain onnellinen on 3/4/19.
@@ -108,11 +108,24 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        label.text = address.label
-        id.text = address.walletID
-        if (!address.isContact) {
-            date.text = String.format(if (address.isExpired) getString(R.string.addresses_expired) else getString(R.string.addresses_expires),
-                    if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+        addressId.text = address.walletID
+        expirationDate.text = if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
+        annotation.text = address.label
+
+        val annotationVisibility = if (address.label.isNotBlank()) View.VISIBLE else View.GONE
+        annotation.visibility = annotationVisibility
+        annotationTitle.visibility = annotationVisibility
+    }
+
+    override fun configureCategory(findCategory: Category?) {
+        val categoryVisibility = if (findCategory == null) View.GONE else View.VISIBLE
+        category.visibility = categoryVisibility
+        categoryTitle.visibility = categoryVisibility
+
+        category.text = findCategory?.name ?: ""
+
+        if (findCategory != null) {
+            category.setTextColor(resources.getColor(findCategory.color.getAndroidColorId(), theme))
         }
     }
 
