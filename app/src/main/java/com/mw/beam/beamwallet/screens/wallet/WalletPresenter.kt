@@ -122,7 +122,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun onTransactionsMenuButtonPressed(menu: View) {
-        view?.showTransactionsMenu(menu)
+        view?.showTransactionsMenu(menu, state.transactions.isNullOrEmpty())
     }
 
     override fun onTransactionsMenuPressed(item: MenuItem): Boolean {
@@ -138,7 +138,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val stringBuilder = StringBuilder()
         stringBuilder.append(TransactionFields.HEAD_LINE)
 
-        state.transactions.values.forEach {
+        state.transactions.values.sortedByDescending { it.modifyTime }.forEach {
             stringBuilder.append(TransactionFields.formatTransaction(it))
         }
         file.writeBytes(stringBuilder.toString().toByteArray())

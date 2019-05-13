@@ -58,12 +58,16 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
 
     override fun showErrorProof() {
         proofError.visibility = View.VISIBLE
-        proofValue.backgroundTintList = ColorStateList.valueOf(getColor(R.color.common_error_color))
+
+        val errorColorStateList = ColorStateList.valueOf(getColor(R.color.common_error_color))
+        proofValue.backgroundTintList = errorColorStateList
+        proofValue.setTextColor(errorColorStateList)
     }
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
         proofValue.backgroundTintList = ColorStateList.valueOf(getColor(R.color.colorAccent))
+        proofValue.setTextColor(getColor(R.color.common_text_color))
     }
 
     override fun showProof(proof: PaymentProof) {
