@@ -15,11 +15,13 @@ interface CategoryContract {
         fun updateAddresses(addresses: List<WalletAddress>)
         fun navigateToEditCategory(categoryId: String)
         fun finish()
+        fun showAddressDetails(address: WalletAddress)
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onEditCategoryPressed()
         fun onDeleteCategoryPressed()
+        fun onAddressPressed(address: WalletAddress)
     }
 
     interface Repository: MvpRepository {

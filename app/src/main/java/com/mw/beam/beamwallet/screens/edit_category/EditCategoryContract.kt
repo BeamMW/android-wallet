@@ -12,11 +12,14 @@ interface EditCategoryContract {
         fun init(category: Category)
         fun getName(): String
         fun getSelectedCategoryColor(): CategoryColor
+        fun setSaveEnabled(enable: Boolean)
         fun finish()
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onSavePressed()
+        fun onNameChanged(name: String)
+        fun onChangeColor(categoryColor: CategoryColor)
     }
 
     interface Repository: MvpRepository {

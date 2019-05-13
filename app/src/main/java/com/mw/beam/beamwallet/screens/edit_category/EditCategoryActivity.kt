@@ -30,13 +30,17 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
 
     override fun init(category: Category) {
         nameValue.setText(category.name)
-        colorListAdapter = ColorListAdapter()
+        colorListAdapter = ColorListAdapter {
+            presenter.onChangeColor(it)
+        }
+
         colorList.adapter = colorListAdapter
         colorList.layoutManager = LinearLayoutManager(this).apply {
             orientation = LinearLayoutManager.HORIZONTAL
         }
 
         colorListAdapter?.setData(CategoryColor.values().asList())
+        colorListAdapter?.setSelectedColor(category.color)
         btnSave.isEnabled = false
     }
 
@@ -47,13 +51,17 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
 
         nameValue.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                btnSave.isEnabled = !getName().isBlank()
+                presenter.onNameChanged(s?.toString() ?: "")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    override fun setSaveEnabled(enable: Boolean) {
+        btnSave.isEnabled = enable
     }
 
     override fun getName(): String {

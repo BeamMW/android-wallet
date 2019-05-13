@@ -2,6 +2,8 @@ package com.mw.beam.beamwallet.screens.category
 
 import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
+import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -9,6 +11,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.screens.address_details.AddressActivity
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.edit_category.EditCategoryActivity
 import kotlinx.android.synthetic.main.activity_category.*
@@ -34,12 +37,32 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
 
         addressesAdapter = AddressesAdapter(this, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
-
+                presenter.onAddressPressed(item)
             }
         })
 
         addressesRecyclerView.adapter = addressesAdapter
         addressesRecyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.category_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.delete -> presenter.onDeleteCategoryPressed()
+            R.id.edit -> presenter.onEditCategoryPressed()
+        }
+
+        return true
+    }
+
+    override fun showAddressDetails(address: WalletAddress) {
+        startActivity(Intent(this, AddressActivity::class.java)
+                .putExtra(AddressActivity.EXTRA_ADDRESS, address))
     }
 
     override fun updateAddresses(addresses: List<WalletAddress>) {
