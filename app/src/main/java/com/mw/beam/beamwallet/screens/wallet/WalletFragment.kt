@@ -261,7 +261,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     @SuppressLint("RestrictedApi")
-    override fun showTransactionsMenu(menu: View) {
+    override fun showTransactionsMenu(menu: View, emptyTransactionList: Boolean) {
         val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
         val transactionsMenu = PopupMenu(wrapper, menu)
         transactionsMenu.inflate(R.menu.wallet_transactions_menu)
@@ -269,6 +269,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         transactionsMenu.setOnMenuItemClickListener {
             presenter.onTransactionsMenuPressed(it)
         }
+
+        transactionsMenu.menu.findItem(R.id.menu_export)?.isVisible = !emptyTransactionList
 
         val menuHelper = MenuPopupHelper(wrapper, transactionsMenu.menu as MenuBuilder, menu)
         menuHelper.setForceShowIcon(true)
