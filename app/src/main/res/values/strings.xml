@@ -112,6 +112,7 @@ and never kept in the blockchain.</string>
     <string name="pass_wrong">Wrong password</string>
     <string name="confirm_pass_hint">Confirm password</string>
     <string name="pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won\’t be saved.</string>
+    <string name="pass_back_seed_title">Back to seed phrase</string>
     <string name="pass_return_seed_title">Return to seed phrase</string>
     <string name="pass_return_seed_btn_create_new">generate</string>
 
@@ -136,6 +137,7 @@ and never kept in the blockchain.</string>
     <string name="wallet_status_cancelled">cancelled&#160;</string>
     <string name="wallet_status_pending">pending&#160;</string>
     <string name="wallet_transactions_title">Transactions</string>
+    <string name="wallet_empty_transactions_list_message">your transaction history will appear here</string>
     <string name="wallet_transactions_receive">Receive %s</string>
     <string name="wallet_transactions_send">Send %s</string>
     <string name="wallet_transactions_menu_search">Search</string>
@@ -319,7 +321,7 @@ and never kept in the blockchain.</string>
     <string name="check_old_pass_title">Change password</string>
     <string name="check_old_pass_description">Enter your current password</string>
     <string name="check_old_pass_next">next</string>
-    <string name="check_old_pass_empty_error">Password should not be empty</string>
+    <string name="check_old_pass_empty_error">Password can not be empty</string>
     <string name="check_old_pass_wrong_pass_error">The old password you have entered is incorrect</string>
 
     <!--ScanQrActivity-->

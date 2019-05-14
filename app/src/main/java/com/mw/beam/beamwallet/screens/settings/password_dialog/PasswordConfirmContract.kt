@@ -6,6 +6,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 
 interface PasswordConfirmContract {
     interface View: MvpView {
+        fun init()
         fun confirm()
         fun cancel()
         fun showEmptyPasswordError()

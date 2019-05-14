@@ -55,6 +55,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         configTransactionDetails(txDescription, isEnablePrivacyMode)
         configGeneralTransactionInfo(txDescription)
+        invalidateOptionsMenu()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

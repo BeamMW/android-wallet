@@ -71,7 +71,7 @@
     <dimen name="welcome_seed_description_padding">20dp</dimen>
     <dimen name="welcome_seed_description_padding_bottom">40dp</dimen>
     <dimen name="welcome_seed_description_side_offset">30dp</dimen>
-    <dimen name="welcome_grid_offset">30dp</dimen>
+    <dimen name="welcome_grid_offset">25dp</dimen>
     <dimen name="welcome_grid_element_side_offset">12dp</dimen>
     <dimen name="welcome_grid_element_top_offset">25dp</dimen>
     <dimen name="welcome_number_text_size">10sp</dimen>

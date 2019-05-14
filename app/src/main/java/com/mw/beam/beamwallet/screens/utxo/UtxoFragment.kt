@@ -82,7 +82,6 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
 
-        TransitionManager.beginDelayedTransition(utxoContentLayout)
         utxoScreen.visibility = if (isEnable) View.GONE else View.VISIBLE
         utxoPrivacyMessage.visibility = if (isEnable) View.VISIBLE else View.GONE
     }

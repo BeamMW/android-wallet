@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.proof_verification
 
+import android.content.res.ColorStateList
 import android.support.transition.TransitionManager
 import android.text.Editable
 import android.view.View
@@ -57,10 +58,16 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
 
     override fun showErrorProof() {
         proofError.visibility = View.VISIBLE
+
+        val errorColorStateList = ColorStateList.valueOf(getColor(R.color.common_error_color))
+        proofValue.backgroundTintList = errorColorStateList
+        proofValue.setTextColor(errorColorStateList)
     }
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
+        proofValue.backgroundTintList = ColorStateList.valueOf(getColor(R.color.colorAccent))
+        proofValue.setTextColor(getColor(R.color.common_text_color))
     }
 
     override fun showProof(proof: PaymentProof) {
