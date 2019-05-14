@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 
 /**
  * Created by vain onnellinen on 3/5/19.
@@ -27,5 +29,17 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
         getResult("saveAddress") {
             wallet?.saveAddressChanges(addr, name, isNever, makeActive, makeExpired)
         }
+    }
+
+    override fun getAllCategory(): List<Category> {
+        return CategoryHelper.getAllCategory()
+    }
+
+    override fun getCategory(address: String): Category? {
+        return CategoryHelper.getCategoryFromAddress(address)
+    }
+
+    override fun changeCategoryForAddress(address: String, category: Category?) {
+        CategoryHelper.changeAddressCategoryTo(address, category)
     }
 }

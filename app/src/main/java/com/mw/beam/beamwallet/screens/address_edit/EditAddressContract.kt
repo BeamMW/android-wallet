@@ -42,9 +42,13 @@ interface EditAddressContract {
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSavePressed()
         fun onChangeComment(comment: String)
+        fun onSelectedCategory(category: Category?)
     }
 
     interface Repository : MvpRepository {
         fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
+        fun getCategory(address: String): Category?
+        fun getAllCategory(): List<Category>
+        fun changeCategoryForAddress(address: String, category: Category?)
     }
 }

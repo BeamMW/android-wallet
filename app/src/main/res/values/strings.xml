@@ -313,6 +313,7 @@ and never kept in the blockchain.</string>
     <string name="edit_address_annotation">Annotation</string>
     <string name="edit_address_category">Category</string>
     <string name="edit_address_category_empty_message">You can create category in Settings</string>
+    <string name="edit_address_category_none_name">None</string>
 
     <!--CheckOldPassActivity-->
     <string name="check_old_pass_title">Change password</string>

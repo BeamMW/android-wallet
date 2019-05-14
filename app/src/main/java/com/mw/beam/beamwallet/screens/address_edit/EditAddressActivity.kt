@@ -97,13 +97,35 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
             expiresSpinner.adapter = adapter
             expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
         }
-
-        categorySpinner.adapter = CategoryAdapter(this, CategoryHelper.getAllCategory())
     }
 
     override fun configCategory(currentCategory: Category?, categories: List<Category>) {
+        categorySpinner.isEnabled = categories.isNotEmpty()
+
+        emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
+
+        if (categories.isNotEmpty()) {
+            categorySpinner.adapter = CategoryAdapter(this, ArrayList(categories).apply { add(CategoryHelper.noneCategory) })
+
+            if (currentCategory == null) {
+                categorySpinner.setSelection(categories.size)
+            } else {
+                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id })
+            }
+        }
 
 
+        categorySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position < categories.size) {
+                    presenter.onSelectedCategory(categories[position])
+                } else {
+                    presenter.onSelectedCategory(null)
+                }
+            }
+        }
     }
 
     override fun addListeners() {

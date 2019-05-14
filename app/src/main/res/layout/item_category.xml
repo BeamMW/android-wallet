@@ -18,12 +18,16 @@
         android:padding="0dp"
         app:cardCornerRadius="4dp"/>
 
+    <View
+        android:id="@+id/emptySpaceDivider"
+        android:layout_width="12dp"
+        android:layout_height="0dp"/>
+
     <TextView
         android:id="@+id/categoryName"
         style="@style/common_menu_item"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
         android:layout_weight="1"
         tools:text="Salary" />
 </LinearLayout>

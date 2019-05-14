@@ -6,11 +6,19 @@ import com.mw.beam.beamwallet.core.helpers.Category
 class CategoryState {
     var category: Category? = null
     private val hashMapAddresses: HashMap<String, WalletAddress> = HashMap()
-    val addresses: List<WalletAddress> = hashMapAddresses.values.toList()
+    val addresses: List<WalletAddress>
+        get() =  hashMapAddresses.values.toList()
 
-    fun updateAddresses(addresses: List<WalletAddress>) {
+    fun addAddresses(addresses: List<WalletAddress>) {
         addresses.forEach {
-            hashMapAddresses.put(it.walletID, it)
+            hashMapAddresses[it.walletID] = it
+        }
+    }
+
+    fun setAddresses(addresses: List<WalletAddress>) {
+        hashMapAddresses.clear()
+        addresses.forEach {
+            hashMapAddresses[it.walletID] = it
         }
     }
 }
