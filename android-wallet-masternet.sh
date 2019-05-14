@@ -1,7 +1,7 @@
 #!/bin/bash
 jnilibs="./app/src/masternet/jniLibs"
 libwallet="libwallet-jni.tar.gz" 
-builds="https://builds.beam.mw/master/latest/Release"
+builds="http://builds.beam.mw/master/latest/Release"
 if [ "" == "`which wget`" ]; then echo "wget Not Found"; if [ -n "`which apt-get`" ]; then sudo apt-get -y install wget ; elif [ -n "`which yum`" ]; then sudo yum -y install wget ; fi ; fi
 mkdir -p $jnilibs/{arm64-v8a,armeabi,armeabi-v7a,armv8,x86,x86_64}
 wget -P $jnilibs/arm64-v8a/ $builds/android-arm64-v8a/$libwallet &&  tar -xvf $jnilibs/arm64-v8a/$libwallet -C $jnilibs/arm64-v8a/ && rm -rf $jnilibs/arm64-v8a/$libwallet && rm -rf $jnilibs/arm64-v8a/com
