@@ -101,11 +101,11 @@
 
         <TextView
             android:id="@+id/timestamp"
+            style="@style/common_text_small_dark"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/common_text_small_dark"
-            android:visibility="gone"
             android:layout_marginTop="10dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/titlesBarrier"
             app:layout_constraintTop_toBottomOf="@id/expiresSpinner"
@@ -141,24 +141,26 @@
             android:text="@string/edit_address_category"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
-        
+
         <Spinner
-            app:layout_constraintTop_toBottomOf="@id/categoryTitle"
-            android:layout_marginTop="10dp"
-            android:popupBackground="@drawable/menu_background"
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:dropDownVerticalOffset="30dp"
+            android:dropDownSelector="@android:color/transparent"
+            android:popupBackground="@drawable/menu_background"
+            app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
 
         <TextView
             android:id="@+id/emptyCategoryListMessage"
-            android:text="@string/edit_address_category_empty_message"
-            app:layout_constraintTop_toBottomOf="@id/categorySpinner"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/edit_address_category_empty_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
 
         <TextView
             android:id="@+id/commentTitle"

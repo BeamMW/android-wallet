@@ -98,6 +98,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
                 setOnClickListener { presenter.onCategoryPressed(category.id) }
+                setPadding(0, 0, 0,context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
             })
         }
     }
