@@ -215,6 +215,7 @@
 
     <!--EditAddressActivity-->
     <dimen name="edit_address_element_offset">30dp</dimen>
+    <dimen name="edit_address_element_low_offset">10dp</dimen>
     <dimen name="edit_address_timestamp_text_size">14sp</dimen>
     <dimen name="edit_address_btn_offset">30dp</dimen>
 
@@ -239,6 +240,7 @@
 
     <!--CategoryActivity-->
     <dimen name="edit_category_content_offset">16dp</dimen>
+    <dimen name="edit_category_name_title_margin_top">20dp</dimen>
     <dimen name="edit_category_content_margin">30dp</dimen>
     <dimen name="edit_category_color_list_margin_top">5dp</dimen>
 

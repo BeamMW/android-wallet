@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.subjects.Subject
 
@@ -41,6 +42,7 @@ interface TransactionDetailsContract {
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
         fun showOpenLinkAlert()
+        fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -61,5 +63,6 @@ interface TransactionDetailsContract {
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
         fun isAllowOpenExternalLink(): Boolean
+        fun getCategoryForAddress(address: String): Category?
     }
 }

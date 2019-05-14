@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:filterTouchesWhenObscured="true"
     android:orientation="vertical">
 
@@ -54,39 +55,71 @@
                 <TextView
                     android:id="@+id/startAddress"
                     style="@style/transaction_details_value"
+                    android:paddingBottom="0dp"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
 
                 <TextView
+                    android:id="@+id/startAddressCategory"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    style="@style/common_text_big_light"
+                    android:textIsSelectable="true"
+                    tools:text="Salary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/startAddress" />
+
+                <TextView
                     android:id="@+id/endAddressTitle"
                     style="@style/transaction_details_sub_title"
                     android:text="@string/transaction_details_end_address"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/startAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
 
                 <TextView
                     android:id="@+id/endAddress"
                     style="@style/transaction_details_value"
                     android:textIsSelectable="true"
+                    android:paddingBottom="0dp"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/startAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
+
+                <TextView
+                    android:id="@+id/endAddressCategory"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    style="@style/common_text_big_light"
+                    android:textIsSelectable="true"
+                    tools:text="Salary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/endAddress" />
 
                 <TextView
                     android:id="@+id/transactionFeeTitle"
                     style="@style/transaction_details_sub_title"
                     android:text="@string/transaction_details_transaction_fee"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/endAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/endAddressCategory" />
 
                 <TextView
                     android:id="@+id/transactionFee"
                     style="@style/transaction_details_value"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/endAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/endAddressCategory" />
 
                 <TextView
                     android:id="@+id/commentTitle"

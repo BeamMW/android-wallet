@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/edit_category_content_offset"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/edit_category_name_title_margin_top"
         android:text="@string/edit_category_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />

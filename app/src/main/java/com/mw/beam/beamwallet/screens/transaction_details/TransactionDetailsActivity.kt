@@ -30,10 +30,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
 import kotlinx.android.synthetic.main.activity_transaction_details.*
@@ -129,6 +126,20 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         status.text = txDescription.statusString
 
         sum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+    }
+
+    override fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?) {
+        startAddressCategory.visibility = if (senderCategory == null) View.GONE else View.VISIBLE
+        senderCategory?.let {
+            startAddressCategory.text = it.name
+            startAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+        }
+
+        endAddressCategory.visibility = if (receiverCategory == null) View.GONE else View.VISIBLE
+        receiverCategory?.let {
+            endAddressCategory.text = it.name
+            endAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+        }
     }
 
     override fun updatePaymentProof(paymentProof: PaymentProof) {
