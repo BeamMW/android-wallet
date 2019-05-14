@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -96,9 +97,11 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
             expiresSpinner.adapter = adapter
             expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
         }
+
+        categorySpinner.adapter = CategoryAdapter(this, CategoryHelper.getAllCategory())
     }
 
-    override fun configCategory(categories: List<Category>) {
+    override fun configCategory(currentCategory: Category?, categories: List<Category>) {
 
 
     }

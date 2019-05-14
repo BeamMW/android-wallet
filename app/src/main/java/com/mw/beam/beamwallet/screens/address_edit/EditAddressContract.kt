@@ -34,7 +34,7 @@ interface EditAddressContract {
         fun configExpireSpinnerTime(shouldExpireNow: Boolean)
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
-        fun configCategory(categories: List<Category>)
+        fun configCategory(currentCategory: Category?, categories: List<Category>)
     }
 
     interface Presenter : MvpPresenter<View> {
