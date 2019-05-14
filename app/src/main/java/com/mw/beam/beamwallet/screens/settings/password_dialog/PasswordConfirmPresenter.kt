@@ -5,6 +5,11 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 class PasswordConfirmPresenter(view: PasswordConfirmContract.View?, repository: PasswordConfirmContract.Repository)
     : BasePresenter<PasswordConfirmContract.View, PasswordConfirmContract.Repository>(view, repository), PasswordConfirmContract.Presenter {
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
+
     override fun onConfirm(password: String) {
         if (!hasError(password)) {
             view?.confirm()

@@ -45,7 +45,7 @@ interface WalletContract {
         fun handleExpandAvailable(shouldExpandAvailable: Boolean)
         fun handleExpandInProgress(shouldExpandInProgress: Boolean)
         fun handleTransactionsMenu(item: MenuItem): Boolean
-        fun showTransactionsMenu(menu: MenuView)
+        fun showTransactionsMenu(menu: MenuView, emptyTransactionList: Boolean)
         fun showShareFileChooser(file: File)
         fun addTitleListeners(isEnablePrivacyMode: Boolean)
         fun showProofVerification()
