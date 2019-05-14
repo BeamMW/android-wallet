@@ -21,6 +21,8 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
@@ -66,6 +68,10 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         getResult("requestProof") {
             wallet?.getPaymentInfo(txId)
         }
+    }
+
+    override fun getCategoryForAddress(address: String): Category? {
+        return CategoryHelper.getCategoryFromAddress(address)
     }
 
     override fun isAllowOpenExternalLink(): Boolean {
