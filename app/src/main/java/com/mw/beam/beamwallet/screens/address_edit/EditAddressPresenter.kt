@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -33,6 +34,18 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         state.tempComment = state.address?.label ?: ""
 
         view?.init(state.address ?: return)
+
+        val currentCategory = repository.getCategory(state.address!!.walletID)
+
+        state.tempCategory = currentCategory
+        state.currentCategory = currentCategory
+
+        view?.configCategory(currentCategory, repository.getAllCategory())
+    }
+
+    override fun onSelectedCategory(category: Category?) {
+        state.tempCategory = category
+        view?.configSaveButton(shouldEnableButton())
     }
 
     override fun onSwitchCheckedChange(isChecked: Boolean) {
@@ -78,12 +91,16 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         val isCommentChanged = state.tempComment != state.address?.label ?: return false
 
-        return isExpireChanged || isCommentChanged
+        val isCategoryChanged = state.currentCategory?.id != state.tempCategory?.id
+
+        return isExpireChanged || isCommentChanged || isCategoryChanged
     }
 
     override fun onSavePressed() {
         val address = state.address ?: return
         address.label = state.tempComment.trim()
+
+        repository.changeCategoryForAddress(state.address!!.walletID, state.tempCategory)
 
         if (address.isExpired) {
             if (state.shouldActivateNow) {

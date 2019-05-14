@@ -31,10 +31,12 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
         checkSaveButtonEnabled()
     }
 
-    fun checkSaveButtonEnabled() {
+    private fun checkSaveButtonEnabled() {
         val isNameChanged = state.category?.name != state.tempName && state.tempName.isNotBlank()
         val isColorChanged = state.category?.color != state.tempColor
-        view?.setSaveEnabled(isNameChanged || isColorChanged)
+        if (!state.category?.name.isNullOrBlank()) {
+            view?.setSaveEnabled(isNameChanged || isColorChanged)
+        } else view?.setSaveEnabled(isNameChanged)
     }
 
     override fun onSavePressed() {

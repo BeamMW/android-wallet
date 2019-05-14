@@ -14,6 +14,11 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
 
         state.category?.let {
             view?.init(it)
+
+            val addresses = state.addresses.filter { address -> it.addresses.contains(address.walletID) }
+
+            state.setAddresses(addresses)
+            view?.updateAddresses(addresses)
         }
     }
 
@@ -26,7 +31,7 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
             }
 
             if (list != null) {
-                state.updateAddresses(list)
+                state.addAddresses(list)
             }
 
             view?.updateAddresses(state.addresses)

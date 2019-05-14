@@ -16,6 +16,9 @@ object CategoryHelper {
 
         gson.fromJson(json, CategoryData::class.java)
     }
+    val noneCategory: Category by lazy {
+        Category("none")
+    }
 
     private fun saveCategoryData() {
         PreferencesManager.putString(PreferencesManager.KEY_CATEGORY_DATA, gson.toJson(categoryData))

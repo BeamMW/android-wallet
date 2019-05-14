@@ -31,9 +31,9 @@ import com.mw.beam.beamwallet.core.helpers.Category
  * Created by vain onnellinen on 2/28/19.
  */
 class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, private val categoryProvider: (address: String) -> Category?) : PagerAdapter() {
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener)
+    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
+    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
