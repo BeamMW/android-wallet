@@ -43,6 +43,6 @@ class AddressesRepository : BaseRepository(), AddressesContract.Repository {
     }
 
     override fun getCategoryForAddress(address: String): Category? {
-        return CategoryHelper.getCategoryFromAddress(address)
+        return CategoryHelper.getCategoryForAddress(address)
     }
 }

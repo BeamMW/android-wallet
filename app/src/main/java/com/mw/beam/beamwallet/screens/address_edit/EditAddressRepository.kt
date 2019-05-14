@@ -36,10 +36,10 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
     }
 
     override fun getCategory(address: String): Category? {
-        return CategoryHelper.getCategoryFromAddress(address)
+        return CategoryHelper.getCategoryForAddress(address)
     }
 
     override fun changeCategoryForAddress(address: String, category: Category?) {
-        CategoryHelper.changeAddressCategoryTo(address, category)
+        CategoryHelper.changeCategoryForAddress(address, category)
     }
 }

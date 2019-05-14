@@ -84,7 +84,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun deleteAddress(addressId: String) {
-        CategoryHelper.changeAddressCategoryTo(addressId, null)
+        CategoryHelper.changeCategoryForAddress(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }

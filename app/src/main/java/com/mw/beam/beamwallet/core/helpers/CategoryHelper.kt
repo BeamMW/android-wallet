@@ -33,11 +33,11 @@ object CategoryHelper {
         saveCategoryData()
     }
 
-    fun getCategoryFromAddress(address: String): Category? {
+    fun getCategoryForAddress(address: String): Category? {
         return categoryData.getAllCategory().values.firstOrNull { it.addresses.contains(address) }
     }
 
-    fun changeAddressCategoryTo(address: String, category: Category?) {
+    fun changeCategoryForAddress(address: String, category: Category?) {
         if (category == null) {
             removeAddressFromAllCategory(address)
         } else {
