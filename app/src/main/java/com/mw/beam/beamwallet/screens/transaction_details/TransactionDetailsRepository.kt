@@ -71,7 +71,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     }
 
     override fun getCategoryForAddress(address: String): Category? {
-        return CategoryHelper.getCategoryFromAddress(address)
+        return CategoryHelper.getCategoryForAddress(address)
     }
 
     override fun isAllowOpenExternalLink(): Boolean {

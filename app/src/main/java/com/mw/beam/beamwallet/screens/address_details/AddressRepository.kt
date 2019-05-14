@@ -29,7 +29,7 @@ import io.reactivex.subjects.Subject
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
     override fun deleteAddress(addressId: String) {
-        CategoryHelper.changeAddressCategoryTo(addressId, null)
+        CategoryHelper.changeCategoryForAddress(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }
@@ -42,6 +42,6 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
     }
 
     override fun getCategory(address: String): Category? {
-        return CategoryHelper.getCategoryFromAddress(address)
+        return CategoryHelper.getCategoryForAddress(address)
     }
 }
