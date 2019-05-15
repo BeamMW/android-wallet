@@ -42,6 +42,7 @@ interface AddressContract {
         fun finishScreen()
         fun dismissDialog()
         fun configureCategory(findCategory: Category?)
+        fun shareToken(receiveToken: String)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -51,7 +52,7 @@ interface AddressContract {
         fun onAddressWasEdited()
         fun onDeleteAddress()
         fun onMenuCreate(menu: Menu?)
-        fun onDialogCopyPressed()
+        fun onDialogSharePressed()
         fun onDialogClosePressed()
         fun onTransactionPressed(txDescription: TxDescription)
     }
