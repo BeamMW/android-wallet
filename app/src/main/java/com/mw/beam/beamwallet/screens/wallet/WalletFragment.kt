@@ -19,11 +19,9 @@ package com.mw.beam.beamwallet.screens.wallet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.transition.AutoTransition
 import android.support.transition.TransitionManager
-import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.view.ContextThemeWrapper
 import android.support.v7.view.menu.MenuBuilder
@@ -54,19 +52,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var presenter: WalletPresenter
     private lateinit var adapter: TransactionsAdapter
 
-    private var sentBeamCurrency: Drawable? = null
-    private var receivedBeamCurrency: Drawable? = null
-    private var maturingBeamCurrency: Drawable? = null
-    private var receivingIcon: Drawable? = null
-    private var sendingIcon: Drawable? = null
-    private var maturingIcon: Drawable? = null
-    private var receivedColor: Int = Int.MIN_VALUE
-    private var sentColor: Int = Int.MIN_VALUE
-    private var maturingColor: Int = Int.MIN_VALUE
-    private lateinit var receivingTitle: String
-    private lateinit var sendingTitle: String
-    private lateinit var maturingTitle: String
-
     companion object {
         fun newInstance() = WalletFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WalletFragment::class.java.simpleName
@@ -75,32 +60,24 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
     override fun getToolbarTitle(): String? = getString(R.string.wallet_title)
 
-    override fun onControllerCreate(extras: Bundle?) {
-        super.onControllerCreate(extras)
-
-        val curContext = context ?: return
-        sentBeamCurrency = ContextCompat.getDrawable(curContext, R.drawable.currency_beam_send)
-        receivedBeamCurrency = ContextCompat.getDrawable(curContext, R.drawable.currency_beam_receive)
-        maturingBeamCurrency = ContextCompat.getDrawable(curContext, R.drawable.currency_beam)
-        receivingIcon = ContextCompat.getDrawable(curContext, R.drawable.ic_receiving)
-        sendingIcon = ContextCompat.getDrawable(curContext, R.drawable.ic_sending)
-        maturingIcon = ContextCompat.getDrawable(curContext, R.drawable.ic_maturing)
-        receivedColor = ContextCompat.getColor(curContext, R.color.received_color)
-        sentColor = ContextCompat.getColor(curContext, R.color.sent_color)
-        maturingColor = ContextCompat.getColor(curContext, R.color.common_text_color)
-        receivingTitle = curContext.getString(R.string.wallet_receiving)
-        sendingTitle = curContext.getString(R.string.wallet_sending)
-        maturingTitle = curContext.getString(R.string.wallet_maturing)
-    }
-
     override fun configWalletStatus(walletStatus: WalletStatus, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, isEnablePrivacyMode)
-        configInProgress(walletStatus.receiving, walletStatus.sending, walletStatus.maturing, isEnablePrivacyMode)
+        configAvailable(walletStatus.available, walletStatus.maturing, isEnablePrivacyMode)
+        configInProgress(walletStatus.receiving, walletStatus.sending, isEnablePrivacyMode)
     }
 
-    override fun configAvailable(availableAmount: Long, isEnablePrivacyMode: Boolean) {
+    override fun configAvailable(availableAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean) {
         available.text = availableAmount.convertToBeamString()
         setTextColorWithPrivacyMode(availableTitle, isEnablePrivacyMode)
+
+        maturingGroup.visibility = if (maturingAmount == 0L || isEnablePrivacyMode) View.GONE else View.VISIBLE
+
+        when (maturingAmount) {
+            0L -> maturingGroup.visibility = View.GONE
+            else -> {
+                maturing.text = maturingAmount.convertToBeamString()
+                maturingGroup.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setTextColorWithPrivacyMode(view: TextView, isEnablePrivacyMode: Boolean) {
@@ -108,9 +85,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         view.setTextColor(resources.getColor(colorId, context?.theme))
     }
 
-    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean) {
+    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, isEnablePrivacyMode: Boolean) {
         //nothing in progress
-        if (receivingAmount == 0L && sendingAmount == 0L && maturingAmount == 0L) {
+        if (receivingAmount == 0L && sendingAmount == 0L) {
             inProgressLayout.visibility = View.GONE
             return
         } else {
@@ -123,48 +100,21 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             return
         }
 
-        when {
-            //only maturing amount
-            receivingAmount == 0L && sendingAmount == 0L -> {
-                configSeparateAmount(maturingTitle, maturingIcon, maturingAmount.convertToBeamString(), maturingBeamCurrency, maturingColor)
+        when (receivingAmount) {
+            0L -> {
+                receivingGroup.visibility = View.GONE
             }
-            //only receiving amount
-            sendingAmount == 0L && maturingAmount == 0L -> {
-                configSeparateAmount(receivingTitle, receivingIcon, receivingAmount.convertToBeamWithSign(false), receivedBeamCurrency, receivedColor)
-            }
-            //only sending amount
-            receivingAmount == 0L && maturingAmount == 0L -> {
-                configSeparateAmount(sendingTitle, sendingIcon, sendingAmount.convertToBeamWithSign(true), sentBeamCurrency, sentColor)
-            }
-            //two or three amounts are present
             else -> {
-                separateGroup.visibility = View.GONE
+                receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receivingGroup.visibility = View.VISIBLE
+            }
+        }
 
-                when (receivingAmount) {
-                    0L -> {
-                        receivingGroup.visibility = View.GONE
-                    }
-                    else -> {
-                        receiving.text = receivingAmount.convertToBeamWithSign(false)
-                        receivingGroup.visibility = View.VISIBLE
-                    }
-                }
-
-                when (sendingAmount) {
-                    0L -> sendingGroup.visibility = View.GONE
-                    else -> {
-                        sending.text = sendingAmount.convertToBeamWithSign(true)
-                        sendingGroup.visibility = View.VISIBLE
-                    }
-                }
-
-                when (maturingAmount) {
-                    0L -> maturingGroup.visibility = View.GONE
-                    else -> {
-                        maturing.text = maturingAmount.convertToBeamString()
-                        maturingGroup.visibility = View.VISIBLE
-                    }
-                }
+        when (sendingAmount) {
+            0L -> sendingGroup.visibility = View.GONE
+            else -> {
+                sending.text = sendingAmount.convertToBeamWithSign(true)
+                sendingGroup.visibility = View.VISIBLE
             }
         }
     }
@@ -245,6 +195,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
         beginTransition()
         availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
+        maturingGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
@@ -253,7 +204,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-        separateGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
     }
 
     private fun beginTransition() {
@@ -350,19 +300,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         clickableAvailableArea.setOnClickListener(null)
         clickableInProgressArea.setOnClickListener(null)
         clearTitleListeners()
-    }
-
-    private fun configSeparateAmount(title: String, icon: Drawable?, amount: String, currency: Drawable?, textColor: Int) {
-        separateGroup.visibility = View.VISIBLE
-        separateTitle.text = title
-        separateIcon.setImageDrawable(icon)
-        separateAmount.text = amount
-        separateAmount.setTextColor(textColor)
-        separateCurrency.setImageDrawable(currency)
-
-        sendingGroup.visibility = View.GONE
-        receivingGroup.visibility = View.GONE
-        maturingGroup.visibility = View.GONE
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {

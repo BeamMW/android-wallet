@@ -126,7 +126,6 @@
     <style name="wallet_in_progress_categories_style" parent="common_header_small">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
