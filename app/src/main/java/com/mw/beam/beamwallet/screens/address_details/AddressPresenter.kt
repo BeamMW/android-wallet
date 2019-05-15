@@ -77,9 +77,9 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         view?.showTransactionDetails(txDescription)
     }
 
-    override fun onDialogCopyPressed() {
+    override fun onDialogSharePressed() {
         if (state.address != null) {
-            view?.copyToClipboard(state.address!!.walletID, COPY_TAG)
+            view?.shareToken(state.address!!.walletID)
             view?.dismissDialog()
         }
     }

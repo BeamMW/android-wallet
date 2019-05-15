@@ -129,6 +129,10 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
         }
     }
 
+    override fun shareToken(receiveToken: String) {
+        shareText(getString(R.string.common_share_title), receiveToken)
+    }
+
     @SuppressLint("InflateParams")
     override fun showQR(address: WalletAddress) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
@@ -157,7 +161,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             return
         }
 
-        btnCopy.setOnClickListener { presenter.onDialogCopyPressed() }
+        btnCopy.setOnClickListener { presenter.onDialogSharePressed() }
         close.setOnClickListener { presenter.onDialogClosePressed() }
 
         dialog = AlertDialog.Builder(this).setView(view).show()
