@@ -43,6 +43,7 @@ import java.lang.Exception
  */
 class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private lateinit var presenter: TransactionDetailsPresenter
+    private var moreMenu: Menu? = null
 
     companion object {
         const val EXTRA_TRANSACTION_DETAILS = "EXTRA_TRANSACTION_DETAILS"
@@ -56,6 +57,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         configTransactionDetails(txDescription, isEnablePrivacyMode)
         configGeneralTransactionInfo(txDescription)
         invalidateOptionsMenu()
+        moreMenu?.close()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,6 +73,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
                 || TxStatus.Completed == txStatus
                 || TxStatus.Cancelled == txStatus) {
             menuInflater.inflate(R.menu.transaction_menu, menu)
+            moreMenu = menu
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
         }
