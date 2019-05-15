@@ -49,7 +49,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onShowQR() {
-        view?.showQR(state.address ?: return)
+        view?.showQR(state.address ?: return, repository.getCategory(state.address?.walletID ?: return))
     }
 
     override fun onCopyAddress() {

@@ -33,6 +33,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.views.BeamButton
@@ -97,12 +98,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     @SuppressLint("InflateParams")
-    override fun showQR(receiveToken: String, amount: Double?) {
+    override fun showQR(receiveToken: String, amount: Double?, category: Category?) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
         val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
         val close = view.findViewById<ImageView>(R.id.close)
+        val categoryView = view.findViewById<TextView>(R.id.category)
 
         token.text = receiveToken
 
@@ -117,6 +119,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
                     ContextCompat.getColor(this, R.color.colorPrimary)))
         } catch (e: Exception) {
             return
+        }
+
+        categoryView.visibility = if (category == null) View.GONE else View.VISIBLE
+
+        category?.let {
+            categoryView.text = getString(R.string.receive_dialog_category, it.name)
+            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
         }
 
         btnCopy.setOnClickListener { presenter.onDialogSharePressed() }

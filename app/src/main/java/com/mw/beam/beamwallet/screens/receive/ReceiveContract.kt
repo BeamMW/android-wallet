@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import io.reactivex.subjects.Subject
 
@@ -31,7 +32,7 @@ interface ReceiveContract {
         fun init()
         fun getComment() : String?
         fun showToken(receiveToken : String)
-        fun showQR(receiveToken : String, amount: Double?)
+        fun showQR(receiveToken : String, amount: Double?, category: Category?)
         fun shareToken(receiveToken: String)
         fun close()
         fun dismissDialog()
@@ -51,5 +52,6 @@ interface ReceiveContract {
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
         fun saveAddress(address: WalletAddress)
+        fun getCategory(address: String): Category?
     }
 }

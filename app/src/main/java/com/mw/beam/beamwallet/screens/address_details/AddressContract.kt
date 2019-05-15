@@ -37,7 +37,7 @@ interface AddressContract {
         fun showTransactionDetails(txDescription: TxDescription)
         fun showEditAddressScreen(address: WalletAddress)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
-        fun showQR(address : WalletAddress)
+        fun showQR(address : WalletAddress, category: Category?)
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
         fun dismissDialog()
