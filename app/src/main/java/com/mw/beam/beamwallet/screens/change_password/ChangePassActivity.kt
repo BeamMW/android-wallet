@@ -36,7 +36,7 @@ class ChangePassActivity : BaseActivity<ChangePassPresenter>(), ChangePassContra
     override fun getToolbarTitle(): String? = null
 
     override fun showCheckOldPassFragment() = showFragment(CheckOldPassFragment.newInstance(), CheckOldPassFragment.getFragmentTag(), null, false)
-    override fun showCreatePasswordFragment() = showFragment(PasswordFragment.newInstance(), PasswordFragment.getFragmentTag(), null, false)
+    override fun showCreatePasswordFragment() = showFragment(PasswordFragment.newInstance(), PasswordFragment.getFragmentTag(), CheckOldPassFragment.getFragmentTag(), true)
 
     override fun onCreateNewPass() = presenter.onCreateNewPass()
     override fun onPassChanged() = presenter.onPassChanged()
