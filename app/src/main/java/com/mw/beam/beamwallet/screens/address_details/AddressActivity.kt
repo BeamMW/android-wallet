@@ -134,13 +134,14 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     @SuppressLint("InflateParams")
-    override fun showQR(address: WalletAddress) {
+    override fun showQR(address: WalletAddress, category: Category?) {
         val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
         val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
         val close = view.findViewById<ImageView>(R.id.close)
         val tokenTitle = view.findViewById<TextView>(R.id.tokenTitle)
+        val categoryView = view.findViewById<TextView>(R.id.category)
 
         token.text = address.walletID
 
@@ -159,6 +160,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
                     ContextCompat.getColor(this, R.color.colorPrimary)))
         } catch (e: Exception) {
             return
+        }
+
+        categoryView.visibility = if (category == null) View.GONE else View.VISIBLE
+
+        category?.let {
+            categoryView.text = getString(R.string.receive_dialog_category, it.name)
+            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
         }
 
         btnCopy.setOnClickListener { presenter.onDialogSharePressed() }
