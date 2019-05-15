@@ -104,6 +104,11 @@
     <dimen name="wallet_in_progress_element_margin_top">6dp</dimen>
     <dimen name="wallet_expandable_icon_padding">9dp</dimen>
     <dimen name="wallet_expandable_icon_size">20dp</dimen>
+    <dimen name="wallet_maturing_title_text_size">16sp</dimen>
+    <dimen name="wallet_maturing_text_size">18sp</dimen>
+    <dimen name="wallet_maturing_currency_icon_size">17dp</dimen>
+    <dimen name="wallet_in_progress_currency_icon_size">24dp</dimen>
+    <dimen name="wallet_empty_list_message_padding">30dp</dimen>
 
     <dimen name="transaction_item_padding">13dp</dimen>
     <dimen name="transaction_icon_padding_end">25dp</dimen>
