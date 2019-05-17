@@ -206,7 +206,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     private fun isValidNodeAddress(address: String): Boolean {
         return try {
             val uri = URI(QrHelper.BEAM_URI_PREFIX + address)
-            !uri.host.isNullOrBlank() && uri.port > 0
+            !uri.host.isNullOrBlank() && uri.port > 0 && uri.port <= 65535
         } catch (e: Exception) {
             false
         }

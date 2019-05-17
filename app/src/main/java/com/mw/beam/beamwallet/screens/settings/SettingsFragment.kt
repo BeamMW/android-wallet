@@ -25,6 +25,8 @@ import android.os.Bundle
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -98,7 +100,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
                 setOnClickListener { presenter.onCategoryPressed(category.id) }
-                setPadding(0, 0, 0,context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
+                setPadding(0, 0, 0, context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
             })
         }
     }
@@ -212,6 +214,23 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
+
+            view.dialogNodeValue.filters = Array<InputFilter>(1) {
+                object : InputFilter {
+                    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+                        if (source.isNotEmpty()) {
+                            val regExp = "^([^:]*):?([1-9]?[0-9]*)$".toRegex()
+                            return if (!regExp.containsMatchIn(dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length))) {
+                                ""
+                            } else {
+                                null
+                            }
+                        }
+
+                        return null
+                    }
+                }
+            }
 
             if (!nodeAddress.isNullOrBlank()) {
                 view.dialogNodeValue.setText(nodeAddress)
