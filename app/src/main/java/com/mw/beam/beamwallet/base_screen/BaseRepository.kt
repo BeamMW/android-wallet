@@ -56,10 +56,14 @@ open class BaseRepository : MvpRepository {
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
-            App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+            if (!Api.isWalletRunning()) {
+                App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
-            if (wallet != null) {
-                PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                if (wallet != null) {
+                    PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                    result = Status.STATUS_OK
+                }
+            } else {
                 result = Status.STATUS_OK
             }
         }

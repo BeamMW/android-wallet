@@ -361,4 +361,9 @@ and never kept in the blockchain.</string>
     <string name="edit_category_name">Name</string>
     <string name="edit_category_color">Color</string>
 
+    <!--BackgroundService-->
+    <string name="notification_receive_content_title">Receiving new transaction</string>
+    <string name="notification_receive_content_text">Please, click to view details</string>
+    <string name="notification_channel_name">Notification Channel</string>
+    <string name="notification_channel_description">Default notification channel</string>
 </resources>

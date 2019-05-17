@@ -35,6 +35,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
@@ -326,6 +327,16 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun showProofVerification() {
         startActivity(Intent(context, ProofVerificationActivity::class.java))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        App.showNotification = false
+    }
+
+    override fun onStop() {
+        App.showNotification = true
+        super.onStop()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
