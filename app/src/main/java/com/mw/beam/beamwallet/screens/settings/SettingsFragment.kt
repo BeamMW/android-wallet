@@ -247,7 +247,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_clear_data, null)
 
             view.clearDataBtnConfirm.setOnClickListener {
-                presenter.onConfirmClearDataPressed(
+                presenter.onDialogClearDataPressed(
                         view.deleteAllAddressesCheckbox.isChecked,
                         view.deleteAllContactsCheckbox.isChecked,
                         view.deleteAllTransactionsCheckbox.isChecked
@@ -259,6 +259,30 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+    }
+
+    override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+        val clearData = arrayListOf<String>()
+
+        if (clearAddresses) {
+            clearData.add(getString(R.string.settings_confirm_clear_addresses))
+        }
+
+        if (clearContacts) {
+            clearData.add(getString(R.string.settings_confirm_clear_contacts))
+        }
+
+        if (clearTransactions) {
+            clearData.add(getString(R.string.settings_confirm_clear_transaction))
+        }
+
+        showAlert(
+                getString(R.string.settings_confirm_clear_message, clearData.joinToString(separator = ", ")),
+                getString(R.string.common_delete),
+                { presenter.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
+                getString(R.string.settings_dialog_clear_title),
+                getString(R.string.common_cancel)
+        )
     }
 
     override fun showInvalidNodeAddressError() {

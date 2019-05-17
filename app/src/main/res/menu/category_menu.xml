@@ -15,7 +15,7 @@
             <item
                 android:id="@+id/delete"
                 android:icon="@drawable/menu_delete"
-                android:title="@string/category_delete"
+                android:title="@string/common_delete"
                 app:showAsAction="never" />
         </menu>
     </item>
