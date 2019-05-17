@@ -40,7 +40,15 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
         }
     }
 
+    override fun getAllCategory(): List<Category> {
+        return CategoryHelper.getAllCategory()
+    }
+
     override fun getCategory(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)
+    }
+
+    override fun changeCategoryForAddress(address: String, category: Category?) {
+        CategoryHelper.changeCategoryForAddress(address, category)
     }
 }

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.receive
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import io.reactivex.disposables.Disposable
 
@@ -79,9 +80,15 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         walletIdSubscription = repository.generateNewAddress().subscribe {
             if (state.address == null) {
                 state.address = it
-                view?.showToken(state.address!!.walletID)
+                view?.showToken(it.walletID)
+                view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
             }
         }
+    }
+
+    override fun onSelectedCategory(category: Category?) {
+        state.address?.let { repository.changeCategoryForAddress(it.walletID, category) }
+        saveAddress()
     }
 
     private fun saveAddress() {
