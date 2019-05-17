@@ -63,7 +63,7 @@ open class BaseRepository : MvpRepository {
                     PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                     result = Status.STATUS_OK
                 }
-            } else {
+            } else if (App.wallet?.checkWalletPassword(pass) == true) {
                 result = Status.STATUS_OK
             }
         }
