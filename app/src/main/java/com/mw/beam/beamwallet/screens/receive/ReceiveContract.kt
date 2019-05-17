@@ -38,6 +38,7 @@ interface ReceiveContract {
         fun dismissDialog()
         fun getAmount(): Double?
         fun showStayActiveDialog()
+        fun configCategory(currentCategory: Category?, categories: List<Category>)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -47,11 +48,14 @@ interface ReceiveContract {
         fun onDialogSharePressed()
         fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
+        fun onSelectedCategory(category: Category?)
     }
 
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
         fun saveAddress(address: WalletAddress)
         fun getCategory(address: String): Category?
+        fun getAllCategory(): List<Category>
+        fun changeCategoryForAddress(address: String, category: Category?)
     }
 }

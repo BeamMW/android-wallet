@@ -34,11 +34,13 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
+import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
 import kotlinx.android.synthetic.main.activity_receive.*
 
 /**
@@ -136,6 +138,35 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun getComment(): String? = comment.text?.toString()
+
+    override fun configCategory(currentCategory: Category?, categories: List<Category>) {
+        categorySpinner.isEnabled = categories.isNotEmpty()
+
+        emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
+
+        if (categories.isNotEmpty()) {
+            categorySpinner.adapter = CategoryAdapter(this, ArrayList(categories).apply { add(CategoryHelper.noneCategory) })
+
+            if (currentCategory == null) {
+                categorySpinner.setSelection(categories.size)
+            } else {
+                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id })
+            }
+        }
+
+
+        categorySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position < categories.size) {
+                    presenter.onSelectedCategory(categories[position])
+                } else {
+                    presenter.onSelectedCategory(null)
+                }
+            }
+        }
+    }
 
     override fun close() {
         finish()

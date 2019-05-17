@@ -109,6 +109,43 @@
                 app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
 
             <TextView
+                android:id="@+id/categoryTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:paddingTop="@dimen/edit_address_element_offset"
+                android:text="@string/edit_address_category"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:layout_marginTop="@dimen/receive_common_margin"
+                android:dropDownVerticalOffset="@dimen/edit_address_element_offset"
+                android:dropDownSelector="@android:color/transparent"
+                android:popupBackground="@drawable/menu_background"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/emptyCategoryListMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:layout_marginTop="@dimen/edit_address_element_low_offset"
+                android:text="@string/edit_address_category_empty_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+
+            <TextView
                 android:id="@+id/commentTitle"
                 style="@style/common_subheader_light"
                 android:layout_width="wrap_content"
@@ -116,9 +153,9 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/receive_comment_title_margin_top"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/receive_send_comment"
+                android:text="@string/receive_send_annotation"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
+                app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage" />
 
             <EditText
                 android:id="@+id/comment"
@@ -141,7 +178,7 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/send_receive_common_margin"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/receive_send_comment_description"
+                android:text="@string/receive_send_annotation_description"
                 app:layout_constraintTop_toBottomOf="@id/comment" />
 
             <TextView

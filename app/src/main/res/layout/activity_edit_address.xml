@@ -177,6 +177,7 @@
             style="@style/common_text_big_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:background="@drawable/edit_text_selector"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/commentTitle"
@@ -187,7 +188,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="idTitle, expiresTitle, expiredTitle" />
+            app:constraint_referenced_ids="idTitle, expiresTitle, expiredTitle"
+            tools:layout_editor_absoluteX="118dp"
+            tools:layout_editor_absoluteY="16dp" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnSave"

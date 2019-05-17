@@ -209,9 +209,9 @@ and never kept in the blockchain.</string>
     <!--ReceiveActivity-->
     <string name="receive_title">Receive</string>
     <string name="receive_switch_title">Swap</string>
-    <string name="receive_send_comment">Comment</string>
+    <string name="receive_send_annotation">Annotation</string>
     <string name="receive_expires_on">Expires</string>
-    <string name="receive_send_comment_description">Comments are local and won\'t be shared.</string>
+    <string name="receive_send_annotation_description">Annotation are local and won\'t be shared.</string>
     <string name="receive_btn_share">share address</string>
     <string name="receive_btn_qr">show QR</string>
     <string name="receive_send_fee">Transaction fee</string>
