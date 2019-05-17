@@ -153,6 +153,13 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showClearDataDialog()
     }
 
+    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+        view?.closeDialog()
+        if (clearAddresses || clearContacts || clearTransactions) {
+            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions)
+        }
+    }
+
     override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
         if (clearAddresses) {
             state.addresses.forEach { repository.deleteAddress(it.walletID) }
@@ -165,8 +172,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (clearTransactions) {
             state.transactions.values.forEach { repository.deleteTransaction(it) }
         }
-
-        view?.closeDialog()
     }
 
     override fun onChangeRunOnRandomNode(isEnabled: Boolean) {

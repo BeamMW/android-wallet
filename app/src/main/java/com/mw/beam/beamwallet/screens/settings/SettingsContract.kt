@@ -49,6 +49,7 @@ interface SettingsContract {
         fun updateCategoryList(allCategory: List<Category>)
         fun navigateToEditCategory(categoryId: String)
         fun navigateToAddCategory()
+        fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -64,6 +65,7 @@ interface SettingsContract {
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
         fun onClearDataPressed()
+        fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
         fun onAddCategoryPressed()

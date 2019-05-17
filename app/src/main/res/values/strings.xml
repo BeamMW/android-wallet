@@ -11,6 +11,7 @@
     <string name="common_drawer_open">open</string>
     <string name="common_drawer_close">close</string>
     <string name="common_cancel">Cancel</string>
+    <string name="common_delete">Delete</string>
     <string name="common_done">done</string>
     <string name="common_confirm">Confirm</string>
     <string name="common_ok">@android:string/ok</string>
@@ -278,6 +279,11 @@ and never kept in the blockchain.</string>
     <string name="settings_dialog_clear_addresses">Delete all addresses</string>
     <string name="settings_dialog_clear_contacts">Delete all contacts</string>
     <string name="settings_dialog_clear_transactions">Delete all transactions</string>
+    <string name="settings_confirm_clear_message">Are you sure you want to delete all %1$s from your wallet?</string>
+    <string name="settings_confirm_clear_addresses">addresses</string>
+    <string name="settings_confirm_clear_contacts">contacts</string>
+    <string name="settings_confirm_clear_transaction">transaction</string>
+
 
     <!--ProgressFragment-->
     <string name="progress_loading">Loading wallet</string>
@@ -347,7 +353,6 @@ and never kept in the blockchain.</string>
     <string name="category_toolbar_title">Category</string>
     <string name="category_name">Name:</string>
     <string name="category_addresses">Addresses</string>
-    <string name="category_delete">Delete</string>
     <string name="category_edit">Edit</string>
 
     <!--EditCategory-->
