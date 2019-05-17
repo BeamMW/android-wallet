@@ -33,6 +33,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+        view?.showStayActiveDialog()
     }
 
     override fun onShareTokenPressed() {
