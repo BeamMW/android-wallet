@@ -42,7 +42,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         super.onViewCreated()
         view?.init(DEFAULT_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
-        view?.showStayActiveDialog()
+//        view?.showStayActiveDialog()
     }
 
     override fun onStart() {

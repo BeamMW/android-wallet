@@ -49,6 +49,7 @@ class App : Application() {
         var wallet: Wallet? = null
         private const val BACKGROUND_JOB_ID = 71614
         var showNotification = true
+        var isAuthenticated = false
     }
 
     override fun onCreate() {

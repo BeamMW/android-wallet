@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.screens.create_password.PasswordFragment
 import com.mw.beam.beamwallet.screens.main.MainActivity
@@ -74,6 +75,11 @@ class WelcomeActivity : BaseActivity<WelcomePresenter>(),
     override fun showMainActivity() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        App.isAuthenticated = false
     }
 
     override fun onBackPressed() {
