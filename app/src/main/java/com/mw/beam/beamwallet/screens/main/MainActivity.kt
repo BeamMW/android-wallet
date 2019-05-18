@@ -30,6 +30,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -74,6 +75,11 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         drawerToggle.syncState()
 
         configNavView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        App.isAuthenticated = true
     }
 
     override fun addListeners() {

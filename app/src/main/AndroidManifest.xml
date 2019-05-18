@@ -77,6 +77,12 @@
 
         <service android:name=".service.BackgroundService" android:permission="android.permission.BIND_JOB_SERVICE"/>
 
+        <receiver android:name=".service.NotificationBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="com.mw.beam.beamwallet.service.NotificationBroadcastReceiver"/>
+            </intent-filter>
+        </receiver>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
