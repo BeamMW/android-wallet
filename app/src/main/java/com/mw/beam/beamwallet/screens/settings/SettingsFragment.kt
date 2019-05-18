@@ -57,7 +57,6 @@ import java.util.concurrent.TimeUnit
  * Created by vain onnellinen on 1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
-    private lateinit var presenter: SettingsPresenter
     private var dialog: AlertDialog? = null
 
     companion object {
@@ -99,7 +98,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             categoriesList.addView(CategoryItemView(context!!).apply {
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
-                setOnClickListener { presenter.onCategoryPressed(category.id) }
+                setOnClickListener { presenter?.onCategoryPressed(category.id) }
                 setPadding(0, 0, 0, context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
             })
         }
@@ -129,41 +128,41 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun addListeners() {
         changePass.setOnClickListener {
-            presenter.onChangePass()
+            presenter?.onChangePass()
         }
 
         reportProblem.setOnClickListener {
-            presenter.onReportProblem()
+            presenter?.onReportProblem()
         }
 
         val lockScreenSettingsOnClick = View.OnClickListener {
-            presenter.onShowLockScreenSettings()
+            presenter?.onShowLockScreenSettings()
         }
         lockScreenTitle.setOnClickListener(lockScreenSettingsOnClick)
         lockScreenValue.setOnClickListener(lockScreenSettingsOnClick)
 
         confirmTransactionSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onChangeConfirmTransactionSettings(isChecked)
+            presenter?.onChangeConfirmTransactionSettings(isChecked)
         }
 
         enableFingerprintSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onChangeFingerprintSettings(isChecked)
+            presenter?.onChangeFingerprintSettings(isChecked)
         }
 
         runRandomNodeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onChangeRunOnRandomNode(isChecked)
+            presenter?.onChangeRunOnRandomNode(isChecked)
         }
 
         allowOpenLinkSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onChangeAllowOpenExternalLink(isChecked)
+            presenter?.onChangeAllowOpenExternalLink(isChecked)
         }
 
-        clearData.setOnClickListener { presenter.onClearDataPressed() }
+        clearData.setOnClickListener { presenter?.onClearDataPressed() }
 
-        addNewCategory.setOnClickListener { presenter.onAddCategoryPressed() }
+        addNewCategory.setOnClickListener { presenter?.onAddCategoryPressed() }
 
-        ip.setOnClickListener { presenter.onNodeAddressPressed() }
-        ipTitle.setOnClickListener { presenter.onNodeAddressPressed() }
+        ip.setOnClickListener { presenter?.onNodeAddressPressed() }
+        ipTitle.setOnClickListener { presenter?.onNodeAddressPressed() }
     }
 
     @SuppressLint("InflateParams")
@@ -182,13 +181,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 (button as RadioButton).apply {
                     text = getLockScreenStringValue(value)
                     isChecked = value == time
-                    setOnClickListener { presenter.onChangeLockSettings(value) }
+                    setOnClickListener { presenter?.onChangeLockSettings(value) }
                 }
 
                 view.radioGroupLockSettings.addView(button)
             }
 
-            view.btnCancel.setOnClickListener { presenter.onDialogClosePressed() }
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
@@ -200,14 +199,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
 
             view.nodeBtnConfirm.setOnClickListener {
-                presenter.onSaveNodeAddress(view.dialogNodeValue.text.toString())
+                presenter?.onSaveNodeAddress(view.dialogNodeValue.text.toString())
             }
 
-            view.nodeBtnCancel.setOnClickListener { presenter.onDialogClosePressed() }
+            view.nodeBtnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
 
             view.dialogNodeValue.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(s: Editable?) {
-                    presenter.onChangeNodeAddress()
+                    presenter?.onChangeNodeAddress()
                 }
 
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -247,14 +246,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_clear_data, null)
 
             view.clearDataBtnConfirm.setOnClickListener {
-                presenter.onDialogClearDataPressed(
+                presenter?.onDialogClearDataPressed(
                         view.deleteAllAddressesCheckbox.isChecked,
                         view.deleteAllContactsCheckbox.isChecked,
                         view.deleteAllTransactionsCheckbox.isChecked
                 )
             }
 
-            view.clearDataBtnCancel.setOnClickListener { presenter.onDialogClosePressed() }
+            view.clearDataBtnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
 
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -279,7 +278,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         showAlert(
                 getString(R.string.settings_confirm_clear_message, clearData.joinToString(separator = ", ")),
                 getString(R.string.common_delete),
-                { presenter.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
+                { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
                 getString(R.string.settings_dialog_clear_title),
                 getString(R.string.common_cancel)
         )
@@ -339,8 +338,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = SettingsPresenter(this, SettingsRepository(), SettingsState())
-        return presenter
+        return SettingsPresenter(this, SettingsRepository(), SettingsState())
     }
 
     interface SettingsHandler {

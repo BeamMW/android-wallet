@@ -30,7 +30,6 @@ import com.mw.beam.beamwallet.screens.create_password.PasswordFragment
 class ChangePassActivity : BaseActivity<ChangePassPresenter>(), ChangePassContract.View,
         CheckOldPassFragment.CheckOldPassHandler,
         PasswordFragment.PassChangedHandler {
-    private lateinit var presenter: ChangePassPresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_change_password
     override fun getToolbarTitle(): String? = null
@@ -38,8 +37,12 @@ class ChangePassActivity : BaseActivity<ChangePassPresenter>(), ChangePassContra
     override fun showCheckOldPassFragment() = showFragment(CheckOldPassFragment.newInstance(), CheckOldPassFragment.getFragmentTag(), null, false)
     override fun showCreatePasswordFragment() = showFragment(PasswordFragment.newInstance(), PasswordFragment.getFragmentTag(), CheckOldPassFragment.getFragmentTag(), true)
 
-    override fun onCreateNewPass() = presenter.onCreateNewPass()
-    override fun onPassChanged() = presenter.onPassChanged()
+    override fun onCreateNewPass() {
+        presenter?.onCreateNewPass()
+    }
+    override fun onPassChanged() {
+        presenter?.onPassChanged()
+    }
 
     override fun finishScreen() = finish()
 
@@ -53,7 +56,6 @@ class ChangePassActivity : BaseActivity<ChangePassPresenter>(), ChangePassContra
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = ChangePassPresenter(this, ChangePassRepository())
-        return presenter
+        return ChangePassPresenter(this, ChangePassRepository())
     }
 }

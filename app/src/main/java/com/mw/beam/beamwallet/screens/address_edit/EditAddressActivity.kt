@@ -40,13 +40,12 @@ import kotlinx.android.synthetic.main.activity_edit_address.*
  * Created by vain onnellinen on 3/5/19.
  */
 class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressContract.View {
-    private lateinit var presenter: EditAddressPresenter
     private lateinit var expireNowString: String
     private lateinit var activateString: String
 
     private val commentTextWatcher: TextWatcher = object: TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            presenter.onChangeComment(s?.toString() ?: "")
+            presenter?.onChangeComment(s?.toString() ?: "")
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -56,7 +55,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            presenter.onExpirePeriodChanged(when (position) {
+            presenter?.onExpirePeriodChanged(when (position) {
                 ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
                 else -> ExpirePeriod.NEVER
             })
@@ -120,9 +119,9 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position < categories.size) {
-                    presenter.onSelectedCategory(categories[position])
+                    presenter?.onSelectedCategory(categories[position])
                 } else {
-                    presenter.onSelectedCategory(null)
+                    presenter?.onSelectedCategory(null)
                 }
             }
         }
@@ -132,11 +131,11 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         expiresSpinner.onItemSelectedListener = expireListener
 
         expiresSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onSwitchCheckedChange(isChecked)
+            presenter?.onSwitchCheckedChange(isChecked)
         }
 
         btnSave.setOnClickListener {
-            presenter.onSavePressed()
+            presenter?.onSavePressed()
         }
 
         comment.addTextChangedListener(commentTextWatcher)
@@ -186,8 +185,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = EditAddressPresenter(this, EditAddressRepository(), EditAddressState())
-        return presenter
+        return EditAddressPresenter(this, EditAddressRepository(), EditAddressState())
     }
 }
 

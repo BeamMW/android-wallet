@@ -55,16 +55,27 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         UtxoFragment.UtxoDetailsHandler,
         AddressesFragment.AddressDetailsHandler,
         SettingsFragment.SettingsHandler {
-    private lateinit var presenter: MainPresenter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_main
     override fun getToolbarTitle(): String? = null
-    override fun onShowTransactionDetails(item: TxDescription) = presenter.onShowTransactionDetails(item)
-    override fun onReceive() = presenter.onReceive()
-    override fun onSend() = presenter.onSend()
-    override fun onChangePassword() = presenter.onChangePass()
+
+    override fun onShowTransactionDetails(item: TxDescription) {
+        presenter?.onShowTransactionDetails(item)
+    }
+
+    override fun onReceive() {
+        presenter?.onReceive()
+    }
+
+    override fun onSend() {
+        presenter?.onSend()
+    }
+
+    override fun onChangePassword() {
+        presenter?.onChangePass()
+    }
 
     override fun configNavDrawer() {
         val toolbar = toolbarLayout.toolbar
@@ -84,7 +95,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
 
     override fun addListeners() {
         whereBuyBeamLink.setOnClickListener {
-            presenter.onWhereBuyBeamPressed()
+            presenter?.onWhereBuyBeamPressed()
         }
     }
 
@@ -114,7 +125,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         }
 
         if (supportFragmentManager.backStackEntryCount == 1) {
-            presenter.onClose()
+            presenter?.onClose()
             finish()
             return
         }
@@ -151,7 +162,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         showAlert(
                 getString(R.string.common_external_link_dialog_message),
                 getString(R.string.common_drawer_open),
-                { presenter.onOpenLinkPressed() },
+                { presenter?.onOpenLinkPressed() },
                 getString(R.string.common_external_link_dialog_title),
                 getString(R.string.common_cancel)
         )
@@ -201,7 +212,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = MainPresenter(this, MainRepository())
-        return presenter
+        return MainPresenter(this, MainRepository())
     }
 }

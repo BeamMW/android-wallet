@@ -33,7 +33,6 @@ import com.mw.beam.beamwallet.screens.edit_category.EditCategoryActivity
 import kotlinx.android.synthetic.main.activity_category.*
 
 class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View {
-    private lateinit var presenter: CategoryPresenter
     private var addressesAdapter: AddressesAdapter? = null
     companion object {
         const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
@@ -53,7 +52,7 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
 
         addressesAdapter = AddressesAdapter(this, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
-                presenter.onAddressPressed(item)
+                presenter?.onAddressPressed(item)
             }
         })
 
@@ -69,8 +68,8 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.delete -> presenter.onDeleteCategoryPressed()
-            R.id.edit -> presenter.onEditCategoryPressed()
+            R.id.delete -> presenter?.onDeleteCategoryPressed()
+            R.id.edit -> presenter?.onEditCategoryPressed()
         }
 
         return true
@@ -90,8 +89,7 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = CategoryPresenter(this, CategoryRepository(), CategoryState())
-        return presenter
+        return CategoryPresenter(this, CategoryRepository(), CategoryState())
     }
 
 }

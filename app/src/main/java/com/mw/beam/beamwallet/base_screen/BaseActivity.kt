@@ -42,7 +42,8 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Created by vain onnellinen on 10/1/18.
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
-    private var presenter: T? = null
+    protected var presenter: T? = null
+        private set
     private val delegate = ScreenDelegate()
 
     private val lockScreenReceiver = object : BroadcastReceiver() {

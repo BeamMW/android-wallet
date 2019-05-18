@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.activity_scan_qr.*
  * Created by vain onnellinen on 3/15/19.
  */
 class ScanQrActivity : BaseActivity<ScanQrPresenter>(), ScanQrContract.View, DecoratedBarcodeView.TorchListener {
-    private lateinit var presenter: ScanQrPresenter
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_scan_qr
     override fun getToolbarTitle(): String? = getString(R.string.scan_qr_title)
@@ -79,7 +78,6 @@ class ScanQrActivity : BaseActivity<ScanQrPresenter>(), ScanQrContract.View, Dec
     override fun onTorchOff() {}
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = ScanQrPresenter(this, ScanQrRepository())
-        return presenter
+        return ScanQrPresenter(this, ScanQrRepository())
     }
 }

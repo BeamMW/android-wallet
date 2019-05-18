@@ -39,12 +39,11 @@ import kotlinx.android.synthetic.main.fragment_welcome_open.*
  * Created by vain onnellinen on 10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
-    private lateinit var presenter: WelcomeOpenPresenter
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
-            presenter.onPassChanged()
+            presenter?.onPassChanged()
         }
     }
 
@@ -80,11 +79,11 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun addListeners() {
         btnOpen.setOnClickListener {
-            presenter.onOpenWallet()
+            presenter?.onOpenWallet()
         }
 
         btnChange.setOnClickListener {
-            presenter.onChangeWallet()
+            presenter?.onChangeWallet()
         }
 
         pass.addTextChangedListener(passWatcher)
@@ -136,7 +135,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun showChangeAlert() {
         showAlert(getString(R.string.welcome_change_alert),
                 getString(R.string.welcome_btn_change_alert),
-                { presenter.onChangeConfirm() },
+                { presenter?.onChangeConfirm() },
                 getString(R.string.welcome_title_change_alert),
                 getString(R.string.common_cancel))
     }
@@ -146,8 +145,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeOpenPresenter(this, WelcomeOpenRepository())
-        return presenter
+        return WelcomeOpenPresenter(this, WelcomeOpenRepository())
     }
 
     interface OpenHandler {

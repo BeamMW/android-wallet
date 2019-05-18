@@ -36,17 +36,15 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
  * Created by vain onnellinen on 10/23/18.
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View, OnBackPressedHandler {
-    private lateinit var presenter: PasswordPresenter
-
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
-            presenter.onPassChanged(password?.toString())
+            presenter?.onPassChanged(password?.toString())
         }
     }
 
     private val confirmPassWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
-            presenter.onConfirmPassChanged()
+            presenter?.onConfirmPassChanged()
         }
     }
 
@@ -89,7 +87,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         confirmPass.addTextChangedListener(confirmPassWatcher)
 
         btnProceed.setOnClickListener {
-            presenter.onProceed()
+            presenter?.onProceed()
         }
     }
 
@@ -161,7 +159,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                 title = getString(R.string.pass_return_seed_title),
                 btnConfirmText = getString(R.string.pass_return_seed_btn_create_new),
                 btnCancelText = getString(R.string.common_cancel),
-                onConfirm = { presenter.onCreateNewSeed() })
+                onConfirm = { presenter?.onCreateNewSeed() })
     }
 
     override fun clearListeners() {
@@ -171,7 +169,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
     }
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
@@ -179,8 +177,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = PasswordPresenter(this, PasswordRepository(), PasswordState())
-        return presenter
+        return PasswordPresenter(this, PasswordRepository(), PasswordState())
     }
 
     interface PasswordsHandler {

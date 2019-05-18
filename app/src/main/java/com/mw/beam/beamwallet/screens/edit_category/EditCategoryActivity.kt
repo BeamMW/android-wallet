@@ -29,7 +29,6 @@ import com.mw.beam.beamwallet.core.helpers.CategoryColor
 import kotlinx.android.synthetic.main.activity_edit_category.*
 
 class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryContract.View {
-    private lateinit var presenter: EditCategoryPresenter
     private var colorListAdapter: ColorListAdapter? = null
     companion object {
         const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
@@ -47,7 +46,7 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
     override fun init(category: Category) {
         nameValue.setText(category.name)
         colorListAdapter = ColorListAdapter {
-            presenter.onChangeColor(it)
+            presenter?.onChangeColor(it)
         }
 
         colorList.adapter = colorListAdapter
@@ -62,12 +61,12 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
 
     override fun addListeners() {
         btnSave.setOnClickListener {
-            presenter.onSavePressed()
+            presenter?.onSavePressed()
         }
 
         nameValue.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                presenter.onNameChanged(s?.toString() ?: "")
+                presenter?.onNameChanged(s?.toString() ?: "")
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -89,7 +88,6 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = EditCategoryPresenter(this, EditCategoryRepository(), EditCategoryState())
-        return presenter
+        return EditCategoryPresenter(this, EditCategoryRepository(), EditCategoryState())
     }
 }

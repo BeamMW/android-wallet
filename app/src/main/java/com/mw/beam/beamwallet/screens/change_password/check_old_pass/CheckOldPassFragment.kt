@@ -32,11 +32,9 @@ import kotlinx.android.synthetic.main.fragment_check_old_pass.*
  * Created by vain onnellinen on 3/14/19.
  */
 class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPassContract.View {
-    private lateinit var presenter: CheckOldPassPresenter
-
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
-            presenter.onPassChanged(password?.toString())
+            presenter?.onPassChanged(password?.toString())
         }
     }
 
@@ -56,7 +54,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
         pass.addTextChangedListener(passWatcher)
 
         btnNext.setOnClickListener {
-            presenter.onNext()
+            presenter?.onNext()
         }
     }
 
@@ -96,8 +94,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = CheckOldPassPresenter(this, CheckOldPassRepository())
-        return presenter
+        return CheckOldPassPresenter(this, CheckOldPassRepository())
     }
 
     interface CheckOldPassHandler {

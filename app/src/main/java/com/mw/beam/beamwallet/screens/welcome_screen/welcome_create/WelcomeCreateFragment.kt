@@ -28,8 +28,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_create.*
  * Created by vain onnellinen on 12/4/18.
  */
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
-    private lateinit var presenter: WelcomeCreatePresenter
-
     companion object {
         fun newInstance() = WelcomeCreateFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WelcomeCreateFragment::class.java.simpleName
@@ -41,11 +39,11 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
 
     override fun addListeners() {
         btnCreate.setOnClickListener {
-            presenter.onCreateWallet()
+            presenter?.onCreateWallet()
         }
 
         btnRestore.setOnClickListener {
-            presenter.onRestoreWallet()
+            presenter?.onRestoreWallet()
         }
     }
 
@@ -58,8 +56,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun restoreWallet() = (activity as CreateHandler).restoreWallet()
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeCreatePresenter(this, WelcomeCreateRepository())
-        return presenter
+        return WelcomeCreatePresenter(this, WelcomeCreateRepository())
     }
 
     interface CreateHandler {

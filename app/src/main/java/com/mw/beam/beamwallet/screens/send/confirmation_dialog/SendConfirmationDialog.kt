@@ -18,11 +18,10 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_send.*
 
 class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
-    private lateinit var presenter: SendConfirmationPresenter
     private val cancellationSignal = CancellationSignal()
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
-            presenter.onPasswordChanged()
+            presenter?.onPasswordChanged()
         }
     }
 
@@ -63,19 +62,19 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
                     object : FingerprintManagerCompat.AuthenticationCallback() {
                         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
                             super.onAuthenticationError(errMsgId, errString)
-                            presenter.onFingerprintError()
+                            presenter?.onFingerprintError()
                             cancellationSignal.cancel()
                         }
 
                         override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
                             super.onAuthenticationSucceeded(result)
-                            presenter.onFingerprintSucceeded()
+                            presenter?.onFingerprintSucceeded()
                             cancellationSignal.cancel()
                         }
 
                         override fun onAuthenticationFailed() {
                             super.onAuthenticationFailed()
-                            presenter.onFingerprintFailed()
+                            presenter?.onFingerprintFailed()
                         }
                     }, null)
 
@@ -92,8 +91,8 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     }
 
     override fun addListeners() {
-        btnConfirmSend.setOnClickListener { presenter.onSend(pass.text.toString()) }
-        close.setOnClickListener { presenter.onCloseDialog() }
+        btnConfirmSend.setOnClickListener { presenter?.onSend(pass.text.toString()) }
+        close.setOnClickListener { presenter?.onCloseDialog() }
         pass.addTextChangedListener(passWatcher)
     }
 
@@ -134,8 +133,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = SendConfirmationPresenter(this, SendConfirmationRepository())
-        return presenter
+        return SendConfirmationPresenter(this, SendConfirmationRepository())
     }
 
     interface OnConfirmedDialogListener {

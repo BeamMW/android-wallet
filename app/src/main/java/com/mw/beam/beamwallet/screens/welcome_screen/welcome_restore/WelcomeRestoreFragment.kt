@@ -39,7 +39,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_restore.*
  * Created by vain onnellinen on 11/5/18.
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
-    private lateinit var presenter: WelcomeRestorePresenter
     private var currentEditText: EditText? = null
 
     companion object {
@@ -86,23 +85,23 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun addListeners() {
         btnRestore.setOnClickListener {
             if (it.isEnabled) {
-                presenter.onRestorePressed()
+                presenter?.onRestorePressed()
             }
         }
 
         suggestionsView.setOnSuggestionClick(object: OnSuggestionClick {
             override fun onClick(suggestion: String) {
-                presenter.onSuggestionClick(suggestion)
+                presenter?.onSuggestionClick(suggestion)
             }
         })
     }
 
     override fun onHideKeyboard() {
-        presenter.onKeyboardStateChange(false)
+        presenter?.onKeyboardStateChange(false)
     }
 
     override fun onShowKeyboard() {
-        presenter.onKeyboardStateChange(true)
+        presenter?.onKeyboardStateChange(true)
     }
 
     override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed, WelcomeMode.RESTORE)
@@ -136,7 +135,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         val phrase = BeamPhraseInput(context)
         phrase.number = number
-        phrase.validator = presenter::onValidateSeed
+        phrase.validator = { presenter?.onValidateSeed(it) ?: false }
 
         phrase.isForEnsure = true
 
@@ -156,14 +155,14 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(phrase: Editable?) {
-                presenter.onSeedChanged(phrase.toString())
+                presenter?.onSeedChanged(phrase.toString())
             }
         })
 
         phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
-            presenter.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
+            presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
-                currentEditText = v
+                currentEditText = v as EditText?
             }
         }
 
@@ -200,8 +199,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
-        return presenter
+        return WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
     }
 
     interface RestoreHandler {

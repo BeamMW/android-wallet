@@ -50,7 +50,6 @@ import kotlinx.android.synthetic.main.activity_address.*
  * Created by vain onnellinen on 3/4/19.
  */
 class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
-    private lateinit var presenter: AddressPresenter
     private lateinit var adapter: TransactionsAdapter
     private var dialog: AlertDialog? = null
 
@@ -71,7 +70,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.address_menu, menu)
-        presenter.onMenuCreate(menu)
+        presenter?.onMenuCreate(menu)
 
         return true
     }
@@ -83,10 +82,10 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.showQR -> presenter.onShowQR()
-            R.id.copy -> presenter.onCopyAddress()
-            R.id.edit -> presenter.onEditAddress()
-            R.id.delete -> presenter.onDeleteAddress()
+            R.id.showQR -> presenter?.onShowQR()
+            R.id.copy -> presenter?.onCopyAddress()
+            R.id.edit -> presenter?.onEditAddress()
+            R.id.delete -> presenter?.onDeleteAddress()
         }
 
         return true
@@ -95,7 +94,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     private fun initTransactionsList() {
         adapter = TransactionsAdapter(this, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
             override fun onItemClick(item: TxDescription) {
-                presenter.onTransactionPressed(item)
+                presenter?.onTransactionPressed(item)
             }
         })
 
@@ -169,8 +168,8 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
         }
 
-        btnCopy.setOnClickListener { presenter.onDialogSharePressed() }
-        close.setOnClickListener { presenter.onDialogClosePressed() }
+        btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
+        close.setOnClickListener { presenter?.onDialogClosePressed() }
 
         dialog = AlertDialog.Builder(this).setView(view).show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -200,7 +199,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CODE_EDIT_ADDRESS && resultCode == RESULT_OK) {
-            presenter.onAddressWasEdited()
+            presenter?.onAddressWasEdited()
         } else {
             super.onActivityResult(requestCode, resultCode, data)
         }
@@ -214,7 +213,6 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = AddressPresenter(this, AddressRepository(), AddressState())
-        return presenter
+        return AddressPresenter(this, AddressRepository(), AddressState())
     }
 }

@@ -50,7 +50,6 @@ import java.io.File
  * Created by vain onnellinen on 10/1/18.
  */
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
-    private lateinit var presenter: WalletPresenter
     private lateinit var adapter: TransactionsAdapter
 
     companion object {
@@ -137,39 +136,39 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     @SuppressLint("RestrictedApi")
     override fun addListeners() {
-        btnReceive.setOnClickListener { presenter.onReceivePressed() }
-        btnSend.setOnClickListener { presenter.onSendPressed() }
+        btnReceive.setOnClickListener { presenter?.onReceivePressed() }
+        btnSend.setOnClickListener { presenter?.onSendPressed() }
 
         btnExpandAvailable.setOnClickListener {
-            presenter.onExpandAvailablePressed()
+            presenter?.onExpandAvailablePressed()
         }
 
         clickableAvailableArea.setOnClickListener {
-            presenter.onExpandAvailablePressed()
+            presenter?.onExpandAvailablePressed()
         }
 
 
         btnExpandInProgress.setOnClickListener {
-            presenter.onExpandInProgressPressed()
+            presenter?.onExpandInProgressPressed()
         }
 
         clickableInProgressArea.setOnClickListener {
-            presenter.onExpandInProgressPressed()
+            presenter?.onExpandInProgressPressed()
         }
 
         btnTransactionsMenu.setOnClickListener { view ->
-            presenter.onTransactionsMenuButtonPressed(view)
+            presenter?.onTransactionsMenuButtonPressed(view)
         }
     }
 
     override fun addTitleListeners(isEnablePrivacyMode: Boolean) {
         if (!isEnablePrivacyMode) {
             availableTitle.setOnClickListener {
-                presenter.onExpandAvailablePressed()
+                presenter?.onExpandAvailablePressed()
             }
 
             inProgressTitle.setOnClickListener {
-                presenter.onExpandInProgressPressed()
+                presenter?.onExpandInProgressPressed()
             }
         }
     }
@@ -184,7 +183,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         adapter = TransactionsAdapter(context, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
             override fun onItemClick(item: TxDescription) {
-                presenter.onTransactionPressed(item)
+                presenter?.onTransactionPressed(item)
             }
         })
 
@@ -218,7 +217,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         transactionsMenu.inflate(R.menu.wallet_transactions_menu)
 
         transactionsMenu.setOnMenuItemClickListener {
-            presenter.onTransactionsMenuPressed(it)
+            presenter?.onTransactionsMenuPressed(it) ?: false
         }
 
         transactionsMenu.menu.findItem(R.id.menu_export)?.isVisible = !emptyTransactionList
@@ -232,23 +231,23 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun handleTransactionsMenu(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {
-                presenter.onSearchPressed()
+                presenter?.onSearchPressed()
                 true
             }
             R.id.menu_filter -> {
-                presenter.onFilterPressed()
+                presenter?.onFilterPressed()
                 true
             }
             R.id.menu_export -> {
-                presenter.onExportPressed()
+                presenter?.onExportPressed()
                 true
             }
             R.id.menu_delete -> {
-                presenter.onDeletePressed()
+                presenter?.onDeletePressed()
                 true
             }
             R.id.menu_proof -> {
-                presenter.onProofVerificationPressed()
+                presenter?.onProofVerificationPressed()
                 true
             }
             else -> true
@@ -256,14 +255,14 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        presenter.onCreateOptionsMenu(menu, inflater)
+        presenter?.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
         inflater?.inflate(R.menu.privacy_menu, menu)
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
-            presenter.onChangePrivacyModePressed()
+            presenter?.onChangePrivacyModePressed()
             false
         }
 
@@ -271,7 +270,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showActivatePrivacyModeDialog() {
-        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), { presenter?.onCancelDialog() })
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
@@ -340,8 +339,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WalletPresenter(this, WalletRepository(), WalletState())
-        return presenter
+        return WalletPresenter(this, WalletRepository(), WalletState())
     }
 
     interface WalletHandler {

@@ -28,8 +28,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_description.*
  * Created by vain onnellinen on 10/22/18.
  */
 class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
-    private lateinit var presenter: WelcomeDescriptionPresenter
-
     companion object {
         fun newInstance() = WelcomeDescriptionFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WelcomeDescriptionFragment::class.java.simpleName
@@ -42,7 +40,7 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
 
     override fun addListeners() {
         btnGenerate.setOnClickListener {
-            presenter.onGeneratePhrase()
+            presenter?.onGeneratePhrase()
         }
     }
 
@@ -51,8 +49,7 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
-        return presenter
+        return WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
     }
 
     interface DescriptionHandler {
