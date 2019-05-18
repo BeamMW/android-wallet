@@ -26,8 +26,6 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.synthetic.main.activity_payment_proof_details.*
 
 class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
-    private lateinit var presenter: PaymentProofDetailsPresenter
-
     companion object {
         const val KEY_PAYMENT_PROOF = "KEY_PAYMENT_PROOF"
     }
@@ -55,11 +53,11 @@ class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>()
 
     override fun addListeners() {
         btnCodeCopy.setOnClickListener {
-            presenter.onCopyProof()
+            presenter?.onCopyProof()
         }
 
         btnDetailsCopy.setOnClickListener {
-            presenter.onCopyDetails()
+            presenter?.onCopyDetails()
         }
     }
 
@@ -77,7 +75,6 @@ class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>()
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_payment_proof_details
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = PaymentProofDetailsPresenter(this, PaymentProofDetailsRepository(), PaymentProofDetailsState())
-        return presenter
+       return PaymentProofDetailsPresenter(this, PaymentProofDetailsRepository(), PaymentProofDetailsState())
     }
 }

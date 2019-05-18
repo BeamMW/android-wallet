@@ -29,7 +29,8 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
-    private lateinit var presenter: T
+    protected var presenter: T? = null
+        private set
     private val delegate = ScreenDelegate()
 
     override fun onHideKeyboard() {
@@ -97,38 +98,39 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         presenter = initPresenter() as T
-        presenter.onCreate()
+        presenter?.onCreate()
     }
 
     override fun onControllerContentViewCreated() {
         super.onControllerContentViewCreated()
-        presenter.onViewCreated()
+        presenter?.onViewCreated()
     }
 
     override fun onControllerStart() {
         super.onControllerStart()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        presenter.onStart()
+        presenter?.onStart()
     }
 
     override fun onControllerResume() {
         super.onControllerResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onControllerPause() {
-        presenter.onPause()
+        presenter?.onPause()
         super.onControllerPause()
     }
 
     override fun onControllerStop() {
-        presenter.onStop()
+        presenter?.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+        presenter?.onDestroy()
+        presenter = null
         super.onDestroy()
     }
 

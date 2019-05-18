@@ -31,7 +31,6 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.activity_proof_verification.*
 
 class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), ProofVerificationContract.View {
-    private lateinit var presenter: ProofVerificationPresenter
     private lateinit var textWatcher: TextWatcher
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_proof_verification
@@ -41,13 +40,13 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
     override fun addListeners() {
         textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                presenter.onProofCodeChanged(s.toString())
+                presenter?.onProofCodeChanged(s.toString())
             }
         }
 
         proofValue.addListener(textWatcher)
         btnDetailsCopy.setOnClickListener {
-            presenter.onCopyDetailsPressed()
+            presenter?.onCopyDetailsPressed()
         }
     }
 
@@ -100,7 +99,6 @@ class ProofVerificationActivity : BaseActivity<ProofVerificationPresenter>(), Pr
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = ProofVerificationPresenter(this, ProofVerificationRepository(), ProofVerificationState())
-        return presenter
+        return ProofVerificationPresenter(this, ProofVerificationRepository(), ProofVerificationState())
     }
 }

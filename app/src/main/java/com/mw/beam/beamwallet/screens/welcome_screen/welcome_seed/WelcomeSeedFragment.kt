@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  * Created by vain onnellinen on 10/30/18.
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
-    private lateinit var presenter: WelcomeSeedPresenter
     private lateinit var copiedAlert: String
 
     companion object {
@@ -52,11 +51,11 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
 
     override fun addListeners() {
         btnNext.setOnClickListener {
-            presenter.onNextPressed()
+            presenter?.onNextPressed()
         }
 
         btnShare.setOnClickListener {
-            presenter.onCopyPressed()
+            presenter?.onCopyPressed()
         }
     }
 
@@ -98,7 +97,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     override fun showSaveAlert() {
         showAlert(getString(R.string.welcome_seed_save_description),
                 getString(R.string.common_done),
-                { presenter.onDonePressed() },
+                { presenter?.onDonePressed() },
                 getString(R.string.welcome_seed_save_title),
                 getString(R.string.common_cancel))
     }
@@ -130,8 +129,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeSeedPresenter(this, WelcomeSeedRepository())
-        return presenter
+        return WelcomeSeedPresenter(this, WelcomeSeedRepository())
     }
 
     interface SeedHandler {

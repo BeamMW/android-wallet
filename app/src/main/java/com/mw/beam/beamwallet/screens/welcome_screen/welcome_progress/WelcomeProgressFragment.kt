@@ -33,7 +33,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_progress.*
  * Created by vain onnellinen on 1/24/19.
  */
 class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View, OnBackPressedHandler {
-    private lateinit var presenter: WelcomeProgressPresenter
     private lateinit var openTitleString: String
     private lateinit var restoreTitleString: String
     private lateinit var restoreDescriptionString: String
@@ -108,19 +107,19 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun showFailedRestoreAlert() {
         showAlert(message = getString(R.string.welcome_progress_restore_error_description),
                 btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
-                onConfirm = { presenter.onTryAgain() },
+                onConfirm = { presenter?.onTryAgain() },
                 title = getString(R.string.welcome_progress_restore_error_title),
                 btnCancelText = getString(R.string.common_cancel),
-                onCancel = { presenter.onCancel() })
+                onCancel = { presenter?.onCancel() })
     }
 
     override fun showCancelRestoreAlert() {
         showAlert(message = getString(R.string.welcome_progress_cancel_restore_description),
                 btnConfirmText = getString(R.string.common_ok),
-                onConfirm = { presenter.onOkToCancelRestore() },
+                onConfirm = { presenter?.onOkToCancelRestore() },
                 title = getString(R.string.welcome_progress_cancel_restore_title),
                 btnCancelText = getString(R.string.common_cancel),
-                onCancel = { presenter.onCancelToCancelRestore() })
+                onCancel = { presenter?.onCancelToCancelRestore() })
     }
 
     private fun countProgress(progressData: OnSyncProgressData): Int {
@@ -143,12 +142,11 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())
-        return presenter
+        return WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())
     }
 
     interface ProgressHandler {

@@ -35,7 +35,6 @@ import kotlinx.android.synthetic.main.fragment_utxo.*
  * Created by vain onnellinen on 10/2/18.
  */
 class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
-    private lateinit var presenter: UtxoPresenter
     private lateinit var pagerAdapter: UtxosPagerAdapter
 
     companion object {
@@ -51,7 +50,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
         pagerAdapter = UtxosPagerAdapter(context, object : UtxosAdapter.OnItemClickListener {
             override fun onItemClick(item: Utxo) {
-                presenter.onUtxoPressed(item)
+                presenter?.onUtxoPressed(item)
             }
         })
 
@@ -61,14 +60,14 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        presenter.onCreateOptionsMenu(menu, inflater)
+        presenter?.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
         inflater?.inflate(R.menu.privacy_menu, menu)
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
-            presenter.onChangePrivacyModePressed()
+            presenter?.onChangePrivacyModePressed()
             false
         }
 
@@ -76,7 +75,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun showActivatePrivacyModeDialog() {
-        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate) , presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), { presenter?.onCancelDialog() })
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
@@ -99,8 +98,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoPresenter(this, UtxoRepository(), UtxoState())
-        return presenter
+        return UtxoPresenter(this, UtxoRepository(), UtxoState())
     }
 
     interface UtxoDetailsHandler {

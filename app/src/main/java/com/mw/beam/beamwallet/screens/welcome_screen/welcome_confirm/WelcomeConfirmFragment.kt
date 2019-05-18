@@ -41,7 +41,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
  * Created by vain onnellinen on 11/1/18.
  */
 class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View, OnBackPressedHandler {
-    private lateinit var presenter: WelcomeConfirmPresenter
     private var currentEditText: EditText? = null
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
@@ -72,13 +71,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     override fun addListeners() {
         btnNext.setOnClickListener {
             if (it.isEnabled) {
-                presenter.onNextPressed()
+                presenter?.onNextPressed()
             }
         }
 
         suggestionsView.setOnSuggestionClick(object: OnSuggestionClick {
             override fun onClick(suggestion: String) {
-                presenter.onSuggestionClick(suggestion)
+                presenter?.onSuggestionClick(suggestion)
             }
         })
     }
@@ -147,14 +146,14 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
         phrase.phraseView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(phrase: Editable?) {
-                presenter.onSeedChanged(phrase.toString())
+                presenter?.onSeedChanged(phrase.toString())
             }
         })
 
         phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
-            presenter.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
+            presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
-                currentEditText = v
+                currentEditText = v as EditText?
             }
         }
 
@@ -188,11 +187,11 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun onHideKeyboard() {
-        presenter.onKeyboardStateChange(false)
+        presenter?.onKeyboardStateChange(false)
     }
 
     override fun onShowKeyboard() {
-        presenter.onKeyboardStateChange(true)
+        presenter?.onKeyboardStateChange(true)
     }
 
     override fun updateSuggestions(text: String) {
@@ -204,11 +203,11 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
                 title = getString(R.string.pass_back_seed_title),
                 btnConfirmText = getString(R.string.pass_return_seed_btn_create_new),
                 btnCancelText = getString(R.string.common_cancel),
-                onConfirm = { presenter.onCreateNewSeed() })
+                onConfirm = { presenter?.onCreateNewSeed() })
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
     }
 
     override fun clearListeners() {
@@ -217,8 +216,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
-        return presenter
+        return WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
     }
 
     interface ConfirmHandler {

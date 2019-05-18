@@ -42,7 +42,6 @@ import java.lang.Exception
  * Created by vain onnellinen on 10/18/18.
  */
 class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
-    private lateinit var presenter: TransactionDetailsPresenter
     private var moreMenu: Menu? = null
 
     companion object {
@@ -61,7 +60,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        presenter.onMenuCreate(menu)
+        presenter?.onMenuCreate(menu)
 
         return true
     }
@@ -83,8 +82,8 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         when (item?.itemId) {
             // R.id.repeat -> {  }
             // R.id.save -> {  }
-            R.id.cancel -> presenter.onCancelTransaction()
-            R.id.delete -> presenter.onDeleteTransaction()
+            R.id.cancel -> presenter?.onCancelTransaction()
+            R.id.delete -> presenter?.onDeleteTransaction()
         }
 
         return true
@@ -181,7 +180,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         showAlert(
                 getString(R.string.common_external_link_dialog_message),
                 getString(R.string.common_drawer_open),
-                { presenter.onOpenLinkPressed() },
+                { presenter?.onOpenLinkPressed() },
                 getString(R.string.common_external_link_dialog_title),
                 getString(R.string.common_cancel)
         )
@@ -195,15 +194,15 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
 
     override fun addListeners() {
         btnPaymentProofDetails.setOnClickListener {
-            presenter.onShowPaymentProof()
+            presenter?.onShowPaymentProof()
         }
 
         btnPaymentProofCopy.setOnClickListener {
-            presenter.onCopyPaymentProof()
+            presenter?.onCopyPaymentProof()
         }
 
         btnOpenInBlockExplorer.setOnClickListener {
-            presenter.onOpenInBlockExplorerPressed()
+            presenter?.onOpenInBlockExplorerPressed()
         }
     }
 
@@ -230,7 +229,6 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
-        return presenter
+        return TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
     }
 }

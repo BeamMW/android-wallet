@@ -47,12 +47,11 @@ import kotlinx.android.synthetic.main.activity_receive.*
  * Created by vain onnellinen on 11/13/18.
  */
 class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
-    private lateinit var presenter: ReceivePresenter
     private var dialog: AlertDialog? = null
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            presenter.onExpirePeriodChanged(when (position) {
+            presenter?.onExpirePeriodChanged(when (position) {
                 ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
                 else -> ExpirePeriod.NEVER
             })
@@ -82,8 +81,8 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun addListeners() {
-        btnShareToken.setOnClickListener { presenter.onShareTokenPressed() }
-        btnShowQR.setOnClickListener { presenter.onShowQrPressed() }
+        btnShareToken.setOnClickListener { presenter?.onShareTokenPressed() }
+        btnShowQR.setOnClickListener { presenter?.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
     }
 
@@ -130,8 +129,8 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
         }
 
-        btnCopy.setOnClickListener { presenter.onDialogSharePressed() }
-        close.setOnClickListener { presenter.onDialogClosePressed() }
+        btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
+        close.setOnClickListener { presenter?.onDialogClosePressed() }
 
         dialog = AlertDialog.Builder(this).setView(view).show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -160,9 +159,9 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position < categories.size) {
-                    presenter.onSelectedCategory(categories[position])
+                    presenter?.onSelectedCategory(categories[position])
                 } else {
-                    presenter.onSelectedCategory(null)
+                    presenter?.onSelectedCategory(null)
                 }
             }
         }
@@ -180,7 +179,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun onBackPressed() {
-        presenter.onBackPressed()
+        presenter?.onBackPressed()
         super.onBackPressed()
     }
 
@@ -191,7 +190,6 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = ReceivePresenter(this, ReceiveRepository(), ReceiveState())
-        return presenter
+        return ReceivePresenter(this, ReceiveRepository(), ReceiveState())
     }
 }

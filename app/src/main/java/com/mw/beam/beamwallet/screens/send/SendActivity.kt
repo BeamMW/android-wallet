@@ -51,7 +51,6 @@ import kotlinx.android.synthetic.main.activity_send.*
  * Created by vain onnellinen on 11/13/18.
  */
 class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
-    private lateinit var presenter: SendPresenter
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
     private lateinit var feeWatcher: TextWatcher
@@ -60,11 +59,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     private val dialogListener = object : SendConfirmationDialog.OnConfirmedDialogListener {
         override fun onConfirmed() {
-            presenter.onSend()
+            presenter?.onSend()
         }
 
         override fun onClosed() {
-            presenter.onDialogClosePressed()
+            presenter?.onDialogClosePressed()
         }
     }
 
@@ -89,15 +88,15 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun addListeners() {
         btnSend.setOnClickListener {
-            presenter.onConfirm()
+            presenter?.onConfirm()
         }
 
         btnSendAll.setOnClickListener {
-            presenter.onSendAllPressed()
+            presenter?.onSendAllPressed()
         }
 
         scanQR.setOnClickListener {
-            presenter.onScanQrPressed()
+            presenter?.onScanQrPressed()
         }
 
         tokenWatcher = object : PasteEditTextWatcher {
@@ -106,12 +105,12 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
                 if (clipboardManager.hasPrimaryClip()) {
                     val item = clipboardManager.primaryClip?.getItemAt(0)
-                    presenter.onTokenPasted(token = item?.text.toString(), oldToken = token.text?.toString())
+                    presenter?.onTokenPasted(token = item?.text.toString(), oldToken = token.text?.toString())
                 }
             }
 
             override fun afterTextChanged(rawToken: Editable?) {
-                presenter.onTokenChanged(rawToken.toString())
+                presenter?.onTokenChanged(rawToken.toString())
             }
         }
 
@@ -119,7 +118,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         amountWatcher = object : TextWatcher {
             override fun afterTextChanged(token: Editable?) {
-                presenter.onAmountChanged()
+                presenter?.onAmountChanged()
             }
         }
         amount.addTextChangedListener(amountWatcher)
@@ -127,18 +126,18 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         feeWatcher = object : TextWatcher {
             override fun afterTextChanged(token: Editable?) {
-                presenter.onFeeChanged(token.toString())
+                presenter?.onFeeChanged(token.toString())
             }
         }
         fee.addTextChangedListener(feeWatcher)
         feeFocusListener = View.OnFocusChangeListener { _, isFocused ->
-            presenter.onFeeFocusChanged(isFocused, fee.text.toString())
+            presenter?.onFeeFocusChanged(isFocused, fee.text.toString())
         }
         fee.onFocusChangeListener = feeFocusListener
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        presenter.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents)
+        presenter?.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents)
     }
 
     override fun isPermissionGranted(): Boolean {
@@ -152,15 +151,15 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
             if (grantResults[index] == PackageManager.PERMISSION_DENIED) {
                 isGranted = false
                 if (!shouldShowRequestPermissionRationale(permission)) {
-                    presenter.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN)
+                    presenter?.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN)
                 } else if (PermissionsHelper.PERMISSIONS_CAMERA == permission) {
-                    presenter.onRequestPermissionsResult(PermissionStatus.DECLINED)
+                    presenter?.onRequestPermissionsResult(PermissionStatus.DECLINED)
                 }
             }
         }
 
         if (isGranted) {
-            presenter.onRequestPermissionsResult(PermissionStatus.GRANTED)
+            presenter?.onRequestPermissionsResult(PermissionStatus.GRANTED)
         }
     }
 
@@ -177,7 +176,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        presenter.onCreateOptionsMenu(menu)
+        presenter?.onCreateOptionsMenu(menu)
         return true
     }
 
@@ -185,7 +184,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         menuInflater.inflate(R.menu.privacy_menu, menu)
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
-            presenter.onChangePrivacyModePressed()
+            presenter?.onChangePrivacyModePressed()
             false
         }
 
@@ -193,7 +192,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun showActivatePrivacyModeDialog() {
-        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate) , presenter::onPrivacyModeActivated, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), presenter::onCancelDialog)
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), { presenter?.onCancelDialog() })
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
@@ -380,7 +379,6 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = SendPresenter(this, SendRepository(), SendState())
-        return presenter
+        return SendPresenter(this, SendRepository(), SendState())
     }
 }

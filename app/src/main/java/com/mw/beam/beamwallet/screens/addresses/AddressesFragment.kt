@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.fragment_addresses.*
  * Created by vain onnellinen on 2/28/19.
  */
 class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.View {
-    private lateinit var presenter: AddressesPresenter
     private lateinit var pagerAdapter: AddressesPagerAdapter
 
     companion object {
@@ -45,9 +44,11 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         pagerAdapter = AddressesPagerAdapter(context, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
-                presenter.onAddressPressed(item)
+                presenter?.onAddressPressed(item)
             }
-        }, presenter::onSearchCategoryForAddress)
+        }) {
+            return@AddressesPagerAdapter presenter?.onSearchCategoryForAddress(it)
+        }
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
@@ -60,8 +61,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = AddressesPresenter(this, AddressesRepository())
-        return presenter
+        return AddressesPresenter(this, AddressesRepository())
     }
 
     interface AddressDetailsHandler {

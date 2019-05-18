@@ -12,12 +12,11 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_password_confirm.*
 
 class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), PasswordConfirmContract.View {
-    lateinit var presenter: PasswordConfirmPresenter
     private var onConfirm: (() -> Unit)? = null
     private var onDismiss: (() -> Unit)? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
-            presenter.onPasswordChanged()
+            presenter?.onPasswordChanged()
         }
     }
 
@@ -46,8 +45,8 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     }
 
     override fun addListeners() {
-        btnConfirm.setOnClickListener { presenter.onConfirm(pass.text.toString()) }
-        btnCancel.setOnClickListener { presenter.onCancelDialog() }
+        btnConfirm.setOnClickListener { presenter?.onConfirm(pass.text.toString()) }
+        btnCancel.setOnClickListener { presenter?.onCancelDialog() }
         pass.addTextChangedListener(passWatcher)
     }
 
@@ -83,7 +82,6 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = PasswordConfirmPresenter(this, PasswordConfirmRepository())
-        return presenter
+        return PasswordConfirmPresenter(this, PasswordConfirmRepository())
     }
 }

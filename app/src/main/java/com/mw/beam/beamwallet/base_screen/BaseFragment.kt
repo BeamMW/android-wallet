@@ -26,7 +26,8 @@ import com.mw.beam.beamwallet.core.helpers.Status
  * Created by vain onnellinen on 10/4/18.
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
-    private lateinit var presenter: T
+    protected var presenter: T? = null
+        private set
     private val delegate = ScreenDelegate()
 
     override fun onHideKeyboard() {
@@ -98,36 +99,37 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         presenter = initPresenter() as T
-        presenter.onCreate()
+        presenter?.onCreate()
     }
 
     override fun onControllerContentViewCreated() {
         super.onControllerContentViewCreated()
-        presenter.onViewCreated()
+        presenter?.onViewCreated()
     }
 
     override fun onControllerStart() {
         super.onControllerStart()
-        presenter.onStart()
+        presenter?.onStart()
     }
 
     override fun onControllerResume() {
         super.onControllerResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onControllerPause() {
-        presenter.onPause()
+        presenter?.onPause()
         super.onControllerPause()
     }
 
     override fun onControllerStop() {
-        presenter.onStop()
+        presenter?.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+        presenter?.onDestroy()
+        presenter = null
         super.onDestroy()
     }
 

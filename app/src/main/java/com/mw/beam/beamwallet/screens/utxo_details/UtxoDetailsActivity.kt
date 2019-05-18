@@ -41,8 +41,6 @@ import kotlinx.android.synthetic.main.item_utxo.*
  * Created by vain onnellinen on 12/20/18.
  */
 class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
-    private lateinit var presenter: UtxoDetailsPresenter
-
     companion object {
         const val EXTRA_UTXO = "EXTRA_UTXO"
     }
@@ -152,7 +150,6 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        presenter = UtxoDetailsPresenter(this, UtxoDetailsRepository(), UtxoDetailsState())
-        return presenter
+        return UtxoDetailsPresenter(this, UtxoDetailsRepository(), UtxoDetailsState())
     }
 }
