@@ -153,7 +153,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         fun changeWallet()
     }
 
-    class FingerprintCallback(val presenter: WelcomeOpenContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+    private class FingerprintCallback(val presenter: WelcomeOpenContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
             presenter?.onFingerprintError()
