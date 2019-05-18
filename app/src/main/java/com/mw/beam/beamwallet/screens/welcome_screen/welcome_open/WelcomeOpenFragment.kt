@@ -40,7 +40,8 @@ import kotlinx.android.synthetic.main.fragment_welcome_open.*
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
     private lateinit var presenter: WelcomeOpenPresenter
-    private val cancellationSignal = CancellationSignal()
+    private var cancellationSignal: CancellationSignal? = null
+    private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter.onPassChanged()
@@ -62,25 +63,12 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         }
 
         if (shouldInitFingerprint) {
+            cancellationSignal = CancellationSignal()
+
+            authCallback = FingerprintCallback(presenter, cancellationSignal)
+
             FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                    object : FingerprintManagerCompat.AuthenticationCallback() {
-                        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
-                            super.onAuthenticationError(errMsgId, errString)
-                            presenter.onFingerprintError()
-                            cancellationSignal.cancel()
-                        }
-
-                        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
-                            super.onAuthenticationSucceeded(result)
-                            presenter.onFingerprintSucceeded()
-                            cancellationSignal.cancel()
-                        }
-
-                        override fun onAuthenticationFailed() {
-                            super.onAuthenticationFailed()
-                            presenter.onFingerprintFailed()
-                        }
-                    }, null)
+                    authCallback!!, null)
 
             description.setText(R.string.welcome_open_description_with_fingerprint)
         } else {
@@ -130,7 +118,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun clearFingerprintCallback() {
-        cancellationSignal.cancel()
+        authCallback = null
+        cancellationSignal?.cancel()
+        cancellationSignal = null
     }
 
     override fun getPass(): String = pass.text?.toString() ?: ""
@@ -163,5 +153,24 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     interface OpenHandler {
         fun openWallet(pass: String)
         fun changeWallet()
+    }
+
+    class FingerprintCallback(val presenter: WelcomeOpenContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
+            super.onAuthenticationError(errMsgId, errString)
+            presenter?.onFingerprintError()
+            cancellationSignal?.cancel()
+        }
+
+        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
+            super.onAuthenticationSucceeded(result)
+            presenter?.onFingerprintSucceeded()
+            cancellationSignal?.cancel()
+        }
+
+        override fun onAuthenticationFailed() {
+            super.onAuthenticationFailed()
+            presenter?.onFingerprintFailed()
+        }
     }
 }
