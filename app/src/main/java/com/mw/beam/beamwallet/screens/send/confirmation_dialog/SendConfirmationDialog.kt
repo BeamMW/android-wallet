@@ -18,7 +18,8 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_send.*
 
 class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
-    private val cancellationSignal = CancellationSignal()
+    private var cancellationSignal: CancellationSignal? = null
+    private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter?.onPasswordChanged()
@@ -58,25 +59,12 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         transactionFeeValue.text = getString(R.string.send_fee_groth, fee.toString())
 
         if (shouldInitFingerprint) {
+            cancellationSignal = CancellationSignal()
+
+            authCallback = FingerprintCallback(presenter, cancellationSignal)
+
             FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                    object : FingerprintManagerCompat.AuthenticationCallback() {
-                        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
-                            super.onAuthenticationError(errMsgId, errString)
-                            presenter?.onFingerprintError()
-                            cancellationSignal.cancel()
-                        }
-
-                        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
-                            super.onAuthenticationSucceeded(result)
-                            presenter?.onFingerprintSucceeded()
-                            cancellationSignal.cancel()
-                        }
-
-                        override fun onAuthenticationFailed() {
-                            super.onAuthenticationFailed()
-                            presenter?.onFingerprintFailed()
-                        }
-                    }, null)
+                    authCallback!!, null)
 
             dialogDescription.setText(R.string.send_dialog_description_with_fingerprint)
         } else {
@@ -139,5 +127,24 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
     interface OnConfirmedDialogListener {
         fun onConfirmed()
         fun onClosed()
+    }
+
+    private class FingerprintCallback(val presenter: SendConfirmationContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+        override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
+            super.onAuthenticationError(errMsgId, errString)
+            presenter?.onFingerprintError()
+            cancellationSignal?.cancel()
+        }
+
+        override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
+            super.onAuthenticationSucceeded(result)
+            presenter?.onFingerprintSucceeded()
+            cancellationSignal?.cancel()
+        }
+
+        override fun onAuthenticationFailed() {
+            super.onAuthenticationFailed()
+            presenter?.onFingerprintFailed()
+        }
     }
 }
