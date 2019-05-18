@@ -42,12 +42,12 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Created by vain onnellinen on 10/1/18.
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
-    private lateinit var presenter: T
+    private var presenter: T? = null
     private val delegate = ScreenDelegate()
 
     private val lockScreenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            presenter.onLockBroadcastReceived()
+            presenter?.onLockBroadcastReceived()
         }
     }
 
@@ -110,7 +110,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
-            presenter.onClose()
+            presenter?.onClose()
             finish()
             return
         }
@@ -166,9 +166,9 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         presenter = initPresenter() as T
 
         if (!ensureState()) {
-            presenter.onStateIsNotEnsured()
+            presenter?.onStateIsNotEnsured()
         } else {
-            presenter.onCreate()
+            presenter?.onCreate()
         }
 
         registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
@@ -176,31 +176,32 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerContentViewCreated() {
         super.onControllerContentViewCreated()
-        presenter.onViewCreated()
+        presenter?.onViewCreated()
     }
 
     override fun onControllerStart() {
         super.onControllerStart()
-        presenter.onStart()
+        presenter?.onStart()
     }
 
     override fun onControllerResume() {
         super.onControllerResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onControllerPause() {
-        presenter.onPause()
+        presenter?.onPause()
         super.onControllerPause()
     }
 
     override fun onControllerStop() {
-        presenter.onStop()
+        presenter?.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+        presenter?.onDestroy()
+        presenter = null
         unregisterReceiver(lockScreenReceiver)
         super.onDestroy()
     }
@@ -213,7 +214,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onUserInteraction() {
         super.onUserInteraction()
-        presenter.onUserInteraction(applicationContext)
+        presenter?.onUserInteraction(applicationContext)
     }
 
     override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)

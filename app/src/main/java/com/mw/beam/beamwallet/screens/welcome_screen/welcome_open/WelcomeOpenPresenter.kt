@@ -28,8 +28,8 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         WelcomeOpenContract.Presenter {
     private val VIBRATION_LENGTH: Long = 100
 
-    override fun onViewCreated() {
-        super.onViewCreated()
+    override fun onStart() {
+        super.onStart()
         view?.init(repository.isFingerPrintEnabled())
     }
 
@@ -66,9 +66,9 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.vibrate(VIBRATION_LENGTH)
     }
 
-    override fun onDestroy() {
+    override fun onStop() {
         view?.clearFingerprintCallback()
-        super.onDestroy()
+        super.onStop()
     }
 
     override fun hasBackArrow(): Boolean? = false
