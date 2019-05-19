@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core
 
+import com.mw.beam.beamwallet.BuildConfig
 import java.util.*
 
 /**
@@ -23,15 +24,31 @@ import java.util.*
  */
 object AppConfig {
     const val APP_TAG = "BeamWallet"
+    const val APP_VERSION = "version: ${BuildConfig.VERSION_NAME} code: ${BuildConfig.VERSION_CODE}"
+    const val FLAVOR_MAINNET = "mainnet"
+    const val FLAVOR_MASTERNET = "masternet"
+    const val FLAVOR_TESTNET = "beamtestnet"
     const val LOG_CLEAN_TIME: Long = 259200000
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
     const val SHARE_TYPE = "text/plain"
     const val SHARE_VALUE = "Logs"
-    const val AUTHORITY = "com.mw.beam.beamwallet.fileprovider"
-    const val SUPPORT_EMAIL = "tatsiana@beam-mw.com"
-    val DB_FILE_NAME = "wallet.db"
-    var NODE_ADDRESS = "ap-node03.testnet.beam.mw:8100"
+    const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
+    const val SUPPORT_EMAIL = "support@beam.mw"
+    const val DB_FILE_NAME = "wallet.db"
+    const val NODE_DB_FILE_NAME = "node.db"
+    const val NODE_JOURNAL_FILE_NAME = "node.db-journal"
+    const val BEAM_SITE_LINK = "https://www.beam.mw/"
+    const val BEAM_EXCHANGES_LINK = "$BEAM_SITE_LINK#exchanges"
+    const val MASTERNET_EXPLORER_PREFIX = "master-net."
+    const val TESTNET_EXPLORER_PREFIX = "testnet."
+    var EXPLORER_PREFIX = ""
+    var NODE_ADDRESS = ""
     var DB_PATH = ""
     var LOG_PATH = ""
+    var TRANSACTIONS_PATH = ""
     var LOCALE: Locale = Locale.US
+    val EXPLORER_LINK
+        get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
+
+    fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"
 }

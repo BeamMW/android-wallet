@@ -22,24 +22,34 @@
     <color name="sent_color_picked">#be5cd6</color>
     <color name="logo_text_color">#25c1ff</color>
     <color name="testnet_text_color">#80ffffff</color>
-    <color name="ic_menu_color">#80929D</color>
+    <color name="ic_menu_color">#99ffffff</color>
 
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>
     <color name="pass_progress_medium">#f4ce4a</color>
     <color name="pass_progress_strong">@color/colorAccent</color>
 
-    <!--WelcomePasswordsFragment-->
+    <!--PasswordFragment-->
     <color name="password_underline_color">@color/colorPrimary</color>
 
-    <!--WelcomePhraseFragment-->
+    <!--WelcomeSeedFragment-->
     <color name="phrase_number_text_color">#80d8d8d8</color>
     <color name="phrase_validated_number_text_color">@color/colorPrimaryDark</color>
     <color name="phrase_error_number_text_color">@color/colorPrimaryDark</color>
 
     <!--WalletFragment-->
-    <color name="transaction_common_status_color">@color/common_text_color</color>
     <color name="btn_drop_down_color">#8da1ad</color>
-    <color name="wallet_adapter_multiply_color">#0a344d</color>
-    <color name="wallet_adapter_not_multiply_color">#0e3850</color>
+    <color name="wallet_adapter_not_multiply_color">#0a344d</color>
+    <color name="wallet_adapter_multiply_color">#0e3850</color>
+
+    <!--EditAddressActivity-->
+    <color name="edit_address_timestamp_color">#d8d8d8</color>
+
+    <!--Category-->
+    <color name="category_red">#ff746b</color>
+    <color name="category_orange">#ffba55</color>
+    <color name="category_yellow">#fee65a</color>
+    <color name="category_green">#73ff7c</color>
+    <color name="category_blue">#4fa5ff</color>
+    <color name="category_pink">#d785ff</color>
 </resources>

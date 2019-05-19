@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:filterTouchesWhenObscured="true">
 
     <ImageView
         android:id="@+id/icon"
@@ -25,7 +26,8 @@
         android:text="@string/utxo_time_title"
         app:layout_constraintEnd_toStartOf="@id/idTitle"
         app:layout_constraintHorizontal_weight="1.4"
-        app:layout_constraintStart_toEndOf="@id/icon" />
+        app:layout_constraintStart_toEndOf="@id/icon"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/idTitle"
@@ -38,6 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@id/timeTitle"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
     <TextView

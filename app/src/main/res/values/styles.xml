@@ -7,6 +7,12 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:statusBarColor">@color/status_bar_color</item>
+        <item name="android:textViewStyle">@style/common_text_big_dark</item>
+        <item name="android:textAppearance">@style/common_text_big_dark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:buttonStyle">@style/common_button_text_style</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
@@ -29,10 +35,8 @@
     </style>
 
     <style name="common_button_style">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">@dimen/common_btn_width</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/common_button_margin</item>
-        <item name="android:layout_marginEnd">@dimen/common_button_margin</item>
     </style>
 
     <style name="common_currency_style">
@@ -54,14 +58,14 @@
     </style>
 
     <style name="common_header_big">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_color</item>
         <item name="android:textSize">@dimen/common_header_big_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="common_header_small">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_header_small_color</item>
         <item name="android:textSize">@dimen/common_header_small_size</item>
         <item name="android:textStyle">bold</item>
@@ -72,13 +76,13 @@
     </style>
 
     <style name="common_text_big_light">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_color</item>
         <item name="android:textSize">@dimen/common_text_big_size</item>
     </style>
 
     <style name="common_text_big_dark">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_dark_color</item>
         <item name="android:textSize">@dimen/common_text_big_size</item>
     </style>
@@ -124,7 +128,6 @@
     <style name="wallet_in_progress_categories_style" parent="common_header_small">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:textAllCaps">true</item>
     </style>
 

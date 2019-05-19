@@ -18,15 +18,25 @@ package com.mw.beam.beamwallet.base_screen
 
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
+import com.mw.beam.beamwallet.core.helpers.Status
 import io.reactivex.subjects.Subject
 
 /**
  * Created by vain onnellinen on 10/8/18.
  */
 interface MvpRepository {
-    var wallet: Wallet?
+    val wallet: Wallet?
 
     fun getNodeConnectionStatusChanged(): Subject<Boolean>
-    fun getNodeConnectionFailed(): Subject<Any>
+    fun getNodeConnectionFailed(): Subject<NodeConnectionError>
     fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
+
+    fun isPrivacyModeEnabled(): Boolean
+    fun setPrivacyModeEnabled(isEnabled: Boolean)
+
+    fun openWallet(pass: String?): Status
+    fun closeWallet()
+
+    fun isEnabledConnectToRandomNode(): Boolean
 }

@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
@@ -30,7 +31,14 @@ data class Wallet(val _this: Long) {
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
+    external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)
     external fun deleteAddress(walletID: String)
+    external fun changeWalletPassword(password: String)
+    external fun checkWalletPassword(password: String): Boolean
+    external fun getPaymentInfo(txID: String)
+    external fun verifyPaymentInfo(paymentInfo: String): PaymentInfoDTO
+    external fun getCoinsByTx(txID : String)
+    external fun changeNodeAddress(address: String)
 }

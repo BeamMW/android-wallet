@@ -2,7 +2,7 @@
 
 [twitter](https://twitter.com/beamprivacy) | [medium](https://medium.com/beam-mw) | [reddit](https://www.reddit.com/r/beamprivacy/) | [beam forum](http://forum.beam-mw.com) | [gitter](https://gitter.im/beamprivacy/Lobby) | [telegram](https://t.me/BeamPrivacy) | [bitcointalk](https://bitcointalk.org/index.php?topic=5052151.0) | [youtube](https://www.youtube.com/channel/UCddqBnfSPWibf4f8OnEJm_w?)
 
-Beam wallet mobile application allows to confidentially exchange funds anywhere you are.
+Beam wallet app for Android allows to confidentially exchange funds anywhere you are.
 
 Read documentation [here](https://documentation.beam.mw).
 
@@ -17,20 +17,25 @@ Things that make BEAM special include:
 * Superior scalability through compact blockchain size - using the “cut-through” feature of Mimblewimble makes the BEAM blockchain orders of magnitude smaller than any other blockchain implementation.
 * BEAM supports many transaction types such as escrow transactions, time locked transactions, atomic swaps and more.
 
+
 # Roadmap
-- January 2019     : Tesnet 1 // Core functionality on all devices
-- February 2019    : Tesnet 2-4 // In-depth features and UX enhancements
+- February-March 2019    : Tesnet Betas
 - March 2019       : Mainnet release
 
 # Current status
-- Create new wallet using seed phase
-- Send and receive BEAM
-- See transactions history and UTXO
+Mainnet is released
 
 # Known limitations and workarounds:
-- Restore flow is not implemented on mobile, yet the funds can be restored from the desktop wallet using the same seed the mobile wallet was created with
+- When sending beams from mobile to desktop wallet, the QR code scanning works from desktop wallet version 2.0
+- The app will always choose a random node to connect to; connecting to specific node will be added later.
+- Restore flow (which requires integrated or dedicated node) is currently implemented on desktop only, hence to restore mobile funds use desktop wallet with the same seed the mobile wallet was created with.
+- In case the user has both mobile and a desktop wallets which are using the same seed phrase, the funds sent to the desktop wallet won’t appear on the mobile wallet. If the desktop wallet is running a local node, it will see funds sent to both wallets. The reason is that the local node (integrated into desktop wallet) always monitors the blockchain for UTXOs related to the seed of the wallet. The mobile wallet does not run a local node and thus can only monitor transactions sent to its specific SBBS addresses. Of course, no funds will be lost in any event.
+- If multiple wallets are restored from the same seed phrase, transaction history and addresses will not be shared among the wallets.
+
 
 # How to build
 
 # Build status
 
+# Support
+Android Beam Wallet is currently in Mainnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via [Telegram](https://t.me/joinchat/DNuv_REgViDpHhj3U7ylxA)

@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item app:state_accent="false" app:state_error="false" app:state_normal="true">
         <layer-list>
-            <item android:bottom="1dp" android:left="-2dp" android:right="-2dp" android:top="-2dp">
+            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
                 <shape android:shape="rectangle">
                     <stroke android:width="1dp" android:color="@color/password_underline_color" />
 
@@ -14,7 +14,7 @@
     </item>
     <item app:state_accent="false" app:state_error="true" app:state_normal="false">
         <layer-list>
-            <item android:bottom="1dp" android:left="-2dp" android:right="-2dp" android:top="-2dp">
+            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
                 <shape android:shape="rectangle">
                     <stroke android:width="2dp" android:color="@color/common_error_color" />
 
@@ -26,7 +26,7 @@
     </item>
     <item app:state_accent="true" app:state_error="false" app:state_normal="false">
         <layer-list>
-            <item android:bottom="2dp" android:left="-2dp" android:right="-2dp" android:top="-2dp">
+            <item android:bottom="2dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
                 <shape android:shape="rectangle">
                     <stroke android:width="1dp" android:color="@color/colorAccent" />
 
@@ -38,7 +38,7 @@
     </item>
     <item app:state_accent="false" app:state_error="false" app:state_normal="false">
         <layer-list>
-            <item android:bottom="1dp" android:left="-2dp" android:right="-2dp" android:top="-2dp">
+            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
                 <shape android:shape="rectangle">
                     <stroke android:width="1dp" android:color="@color/password_underline_color" />
 

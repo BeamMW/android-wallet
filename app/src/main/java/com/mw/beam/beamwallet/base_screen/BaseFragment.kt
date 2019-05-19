@@ -19,18 +19,29 @@ package com.mw.beam.beamwallet.base_screen
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
-
 
 /**
  * Created by vain onnellinen on 10/4/18.
  */
-abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView {
-    private lateinit var presenter: T
+abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
+    protected var presenter: T? = null
+        private set
     private val delegate = ScreenDelegate()
+
+    override fun onHideKeyboard() {
+    }
+
+    override fun onShowKeyboard() {
+    }
 
     override fun hideKeyboard() {
         delegate.hideKeyboard(activity ?: return)
+    }
+
+    override fun showKeyboard() {
+        delegate.showKeyboard(activity ?: return)
     }
 
     override fun showSnackBar(status: Status) {
@@ -41,21 +52,41 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.showSnackBar(message, activity ?: return)
     }
 
+    override fun showSnackBar(message: String, textColor: Int) {
+        delegate.showSnackBar(message, textColor, activity ?: return)
+    }
+
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
     }
 
-    override fun configStatus(isConnected: Boolean) {
-        (activity as BaseActivity<*>).configStatus(isConnected)
+    override fun configStatus(networkStatus: NetworkStatus) {
+        (activity as BaseActivity<*>).configStatus(networkStatus)
     }
 
-    override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
-        return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, context
+    override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null)
+    }
+
+    override fun showToast(message: String, duration: Int) {
+        delegate.showToast(context, message, duration)
     }
 
     override fun dismissAlert() {
         delegate.dismissAlert()
+    }
+
+    override fun registerKeyboardStateListener() {
+        activity?.let { delegate.registerKeyboardStateListener(it, this) }
+    }
+
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
+    }
+
+    override fun vibrate(length: Long) {
+        delegate.vibrate(length)
     }
 
     override fun addListeners() {
@@ -68,36 +99,53 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         presenter = initPresenter() as T
-        presenter.onCreate()
+        presenter?.onCreate()
     }
 
     override fun onControllerContentViewCreated() {
         super.onControllerContentViewCreated()
-        presenter.onViewCreated()
+        presenter?.onViewCreated()
     }
 
     override fun onControllerStart() {
         super.onControllerStart()
-        presenter.onStart()
+        presenter?.onStart()
     }
 
     override fun onControllerResume() {
         super.onControllerResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onControllerPause() {
-        presenter.onPause()
+        presenter?.onPause()
         super.onControllerPause()
     }
 
     override fun onControllerStop() {
-        presenter.onStop()
+        presenter?.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+        presenter?.onDestroy()
+        presenter = null
         super.onDestroy()
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) {
+        context?.let { delegate.copyToClipboard(it, content, tag) }
+    }
+
+    override fun shareText(title: String, text: String) {
+        delegate.shareText(context, title, text)
+    }
+
+    override fun openExternalLink(link: String) {
+        delegate.openExternalLink(context, link)
+    }
+
+    override fun logOut() {
+        (activity as BaseActivity<*>).logOut()
     }
 }

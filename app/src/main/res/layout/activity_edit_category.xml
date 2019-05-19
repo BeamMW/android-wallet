@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/name"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_category_content_offset"
+        android:layout_marginTop="@dimen/edit_category_name_title_margin_top"
+        android:text="@string/edit_category_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
+
+    <com.mw.beam.beamwallet.core.views.BeamEditText
+        android:id="@+id/nameValue"
+        style="@style/common_text_big_light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_category_content_offset"
+        android:layout_marginEnd="@dimen/edit_category_content_offset"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="Salary" />
+
+    <TextView
+        android:id="@+id/color"
+        style="@style/common_subheader_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/edit_category_content_offset"
+        android:layout_marginTop="@dimen/edit_category_content_margin"
+        android:text="@string/edit_category_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameValue" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/colorList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/edit_category_color_list_margin_top"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/color"
+        tools:listitem="@layout/color_selector" />
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnSave"
+        android:layout_width="@dimen/send_transfer_btn_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/edit_category_content_margin"
+        app:button_icon="@drawable/ic_btn_save"
+        app:button_text="@string/edit_category_btn_save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="1" />
+
+</android.support.constraint.ConstraintLayout>

@@ -23,14 +23,17 @@ import android.text.Spanned
  * Created by vain onnellinen on 2/11/19.
  */
 class AmountFilter : InputFilter {
-    var regExp = "^(([1-9][0-9]{0,7})|(1[0-9]{8})|(2[0-4][0-9]{7})|(25[0-3][0-9]{6})|(0))(\\.[0-9]{0,7}[1-9])?$".toRegex()
+    private val regExp = "^(([0-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9]|[1-8][0-9]{4}|9[0-8][0-9]{3}|99[0-8][0-9]{2}|999[0-8][0-9]|9999[0-9]|[1-8][0-9]{5}|9[0-8][0-9]{4}|99[0-8][0-9]{3}|999[0-8][0-9]{2}|9999[0-8][0-9]|99999[0-9]|[1-8][0-9]{6}|9[0-8][0-9]{5}|99[0-8][0-9]{4}|999[0-8][0-9]{3}|9999[0-8][0-9]{2}|99999[0-8][0-9]|999999[0-9]|[1-8][0-9]{7}|9[0-8][0-9]{6}|99[0-8][0-9]{5}|999[0-8][0-9]{4}|9999[0-8][0-9]{3}|99999[0-8][0-9]{2}|999999[0-8][0-9]|9999999[0-9]|1[0-9]{8}|2[0-5][0-9]{7}|26[01][0-9]{6}|262[0-7][0-9]{5})(\\.[0-9]{0,7}[1-9]?)?|262800000)$".toRegex()
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-        return if (!regExp.containsMatchIn(dest.toString() + source)) {
-            //this is necessary to allow input "." symbol
-            if (source == "." && dest.isNotEmpty()) null else ""
-        } else {
-            null
+        if (source.isNotEmpty()) {
+            return if (!regExp.containsMatchIn(dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length))) {
+                ""
+            } else {
+                null
+            }
         }
+
+        return null
     }
 }

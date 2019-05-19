@@ -15,6 +15,10 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -22,19 +26,31 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.Gravity
+import android.view.View
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
+import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView {
-    private lateinit var presenter: T
+abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
+    protected var presenter: T? = null
+        private set
     private val delegate = ScreenDelegate()
+
+    private val lockScreenReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent?) {
+            presenter?.onLockBroadcastReceived()
+        }
+    }
 
     protected fun showFragment(
             fragment: Fragment,
@@ -62,14 +78,17 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
-    override fun showAlert(message: String, title: String, btnConfirmText: String, btnCancelText: String?, onConfirm: () -> Unit, onCancel: () -> Unit): AlertDialog? {
-        return delegate.showAlert(message, title, btnConfirmText, btnCancelText, onConfirm, onCancel, baseContext)
+    override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, this)
     }
 
     override fun showSnackBar(status: Status) = delegate.showSnackBar(status, this)
     override fun showSnackBar(message: String) = delegate.showSnackBar(message, this)
+    override fun showSnackBar(message: String, textColor: Int) = delegate.showSnackBar(message, textColor, this)
+    override fun showKeyboard() = delegate.showKeyboard(this)
     override fun hideKeyboard() = delegate.hideKeyboard(this)
     override fun dismissAlert() = delegate.dismissAlert()
+    override fun showToast(message: String, duration: Int) = delegate.showToast(this, message, duration)
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
@@ -88,8 +107,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
+    open fun ensureState(): Boolean = App.wallet != null
+
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
+            presenter?.onClose()
             finish()
             return
         }
@@ -103,51 +125,119 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun clearListeners() {
     }
 
-    override fun configStatus(isConnected: Boolean) {
+    override fun onHideKeyboard() {
+    }
+
+    override fun onShowKeyboard() {
+    }
+
+    override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
 
-        toolbarLayout.statusIcon.setImageDrawable(
-                if (isConnected) ContextCompat.getDrawable(this, R.drawable.status_connected)
-                else ContextCompat.getDrawable(this, R.drawable.status_error))
-        toolbarLayout.status.text =
-                if (isConnected) getString(R.string.common_status_online)
-                else String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        when (networkStatus) {
+            NetworkStatus.ONLINE -> {
+                handleStatus(true, toolbarLayout)
+            }
+            NetworkStatus.OFFLINE -> {
+                handleStatus(false, toolbarLayout)
+            }
+            NetworkStatus.UPDATING -> {
+                toolbarLayout.progressBar.visibility = View.VISIBLE
+                toolbarLayout.statusIcon.visibility = View.INVISIBLE
+                toolbarLayout.status.text = getString(R.string.common_status_updating)
+            }
+        }
+    }
+
+    override fun vibrate(length: Long) {
+        delegate.vibrate(length)
+    }
+
+    override fun registerKeyboardStateListener() {
+        delegate.registerKeyboardStateListener(this, this)
+    }
+
+    override fun unregisterKeyboardStateListener() {
+        delegate.unregisterKeyboardStateListener()
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         presenter = initPresenter() as T
-        presenter.onCreate()
+
+        if (!ensureState()) {
+            presenter?.onStateIsNotEnsured()
+        } else {
+            presenter?.onCreate()
+        }
+
+        registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
     }
 
     override fun onControllerContentViewCreated() {
         super.onControllerContentViewCreated()
-        presenter.onViewCreated()
+        presenter?.onViewCreated()
     }
 
     override fun onControllerStart() {
         super.onControllerStart()
-        presenter.onStart()
+        presenter?.onStart()
     }
 
     override fun onControllerResume() {
         super.onControllerResume()
-        presenter.onResume()
+        presenter?.onResume()
     }
 
     override fun onControllerPause() {
-        presenter.onPause()
+        presenter?.onPause()
         super.onControllerPause()
     }
 
     override fun onControllerStop() {
-        presenter.onStop()
+        presenter?.onStop()
         super.onControllerStop()
     }
 
     override fun onDestroy() {
-        presenter.onDestroy()
+        presenter?.onDestroy()
+        presenter = null
+        unregisterReceiver(lockScreenReceiver)
         super.onDestroy()
+    }
+
+    override fun logOut() {
+        startActivity(Intent(applicationContext, WelcomeActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        finish()
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        presenter?.onUserInteraction(applicationContext)
+    }
+
+    override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
+
+    override fun shareText(title: String, text: String) {
+        delegate.shareText(this, title, text)
+    }
+
+    override fun openExternalLink(link: String) {
+        delegate.openExternalLink(this, link)
+    }
+
+    private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
+        toolbarLayout.progressBar.visibility = View.INVISIBLE
+        toolbarLayout.statusIcon.visibility = View.VISIBLE
+
+        if (isOnline) {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
+            toolbarLayout.status.text = getString(R.string.common_status_online)
+        } else {
+            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_error))
+            toolbarLayout.status.text = String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)
+        }
     }
 }

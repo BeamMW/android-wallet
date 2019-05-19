@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/common_alert_dialog_background"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/nodeDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/settings_dialog_node_title"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialogIpTitle"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingEnd="@dimen/settings_common_offset"
+        android:text="@string/settings_ip_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/settings_dialog_content_margin_top"
+        app:layout_constraintTop_toBottomOf="@id/nodeDialogTitle"
+        tools:ignore="RtlSymmetry" />
+
+    <EditText
+        android:id="@+id/dialogNodeValue"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        app:layout_constraintTop_toTopOf="@id/dialogIpTitle"
+        app:layout_constraintBottom_toBottomOf="@id/dialogIpTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dialogIpTitle"
+        tools:ignore="Autofill,LabelFor" />
+
+    <TextView
+        android:id="@+id/nodeError"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:paddingTop="@dimen/welcome_passwords_items_offset"
+        android:text="@string/settings_dialog_node_error"
+        android:textColor="@color/common_error_color"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/dialogNodeValue"
+        app:layout_constraintStart_toStartOf="@+id/dialogNodeValue"
+        app:layout_constraintTop_toBottomOf="@id/dialogNodeValue" />
+
+    <TextView
+        android:id="@+id/nodeBtnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_buttons_margin_top"
+        android:text="@string/common_cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/nodeBtnConfirm"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nodeError" />
+
+    <TextView
+        android:id="@+id/nodeBtnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_buttons_margin_top"
+        android:paddingStart="@dimen/alert_dialog_button_padding"
+        android:text="@string/common_ok"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nodeError"
+        tools:ignore="RtlSymmetry" />
+
+</android.support.constraint.ConstraintLayout>

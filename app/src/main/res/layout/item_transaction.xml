@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/wallet_adapter_not_multiply_color"
+    android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_offset"
     android:paddingTop="@dimen/transaction_item_padding"
     android:paddingEnd="@dimen/common_offset"
@@ -74,12 +75,12 @@
         android:id="@+id/currency"
         style="@style/common_currency_style"
         android:contentDescription="@null"
-        app:srcCompat="@drawable/currency_beam"
         app:layout_constraintBottom_toBottomOf="@id/sum"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toTopOf="@id/sum"
-        app:layout_constraintVertical_bias="0" />
+        app:layout_constraintVertical_bias="0"
+        app:srcCompat="@drawable/currency_beam" />
 
     <TextView
         android:id="@+id/status"

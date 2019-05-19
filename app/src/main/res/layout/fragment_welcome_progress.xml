@@ -1,71 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:fillViewport="true"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="@dimen/welcome_small_logo_width"
-        android:layout_height="@dimen/welcome_small_logo_height"
-        android:contentDescription="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/common_text_color"
-        android:textSize="@dimen/welcome_progress_title_text_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintVertical_chainStyle="packed" />
+        android:filterTouchesWhenObscured="true">
 
-    <TextView
-        android:id="@+id/description"
-        style="@style/common_text_big_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:paddingStart="@dimen/welcome_progress_description_side_offset"
-        android:paddingTop="@dimen/welcome_progress_description_top_offset"
-        android:paddingEnd="@dimen/welcome_progress_description_side_offset"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/progress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="@dimen/welcome_small_logo_width"
+            android:layout_height="@dimen/welcome_small_logo_height"
+            android:contentDescription="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="@dimen/welcome_progress_progress_size"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
-        android:progressDrawable="@drawable/progress_bar"
-        app:layout_constraintBottom_toTopOf="@id/btnCancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/description" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/common_text_color"
+            android:textSize="@dimen/welcome_progress_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnCancel"
-        style="@style/common_button_style"
-        android:layout_width="@dimen/welcome_progress_btn_size"
-        android:layout_marginBottom="@dimen/welcome_progress_button_margin"
-        android:visibility="gone"
-        app:button_icon="@drawable/ic_btn_cancel"
-        app:button_state_list="@color/primary_selector"
-        app:button_text="@string/common_cancel"
-        app:button_text_color="@color/common_text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/description"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingStart="@dimen/welcome_progress_description_side_offset"
+            android:paddingTop="@dimen/welcome_progress_description_top_offset"
+            android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/progress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="@dimen/welcome_progress_progress_size"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
+            android:progressDrawable="@drawable/progress_bar"
+            app:layout_constraintBottom_toTopOf="@id/restoreFullDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description" />
+
+        <TextView
+            android:id="@+id/restoreFullDescription"
+            style="@style/common_header_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingStart="@dimen/welcome_progress_description_side_offset"
+            android:paddingTop="@dimen/welcome_progress_description_top_offset"
+            android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+            android:text="@string/welcome_progress_restore_full_description"
+            android:textColor="@color/common_text_dark_color"
+            android:textStyle="italic"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btnCancel"
+            app:layout_constraintTop_toBottomOf="@id/progress"
+            app:layout_constraintVertical_bias="0" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnCancel"
+            style="@style/common_button_style"
+            android:layout_marginBottom="@dimen/welcome_progress_button_margin"
+            android:visibility="gone"
+            app:button_icon="@drawable/ic_btn_cancel"
+            app:button_state_list="@color/primary_selector"
+            app:button_text="@string/common_cancel"
+            app:button_text_color="@color/common_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

@@ -15,9 +15,14 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.Subject
@@ -25,25 +30,74 @@ import io.reactivex.subjects.Subject
 /**
  * Created by vain onnellinen on 10/1/18.
  */
-@Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 open class BaseRepository : MvpRepository {
 
-    override var wallet: Wallet? = null
+    override val wallet: Wallet?
         get() = App.wallet
 
-    override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
-        return getResult({}, WalletListener.subOnNodeConnectedStatusChanged, object {}.javaClass.enclosingMethod.name)
+
+    override fun isPrivacyModeEnabled() = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
+
+    override fun setPrivacyModeEnabled(isEnabled: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE, isEnabled)
+        if (isEnabled) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, false)
+        }
     }
 
-    override fun getNodeConnectionFailed(): Subject<Any> {
-        return getResult({}, WalletListener.subOnNodeConnectionFailed, object {}.javaClass.enclosingMethod.name)
+    override fun openWallet(pass: String?): Status {
+        var result = Status.STATUS_ERROR
+
+        if (!pass.isNullOrBlank()) {
+            val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+            if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
+                AppConfig.NODE_ADDRESS = nodeAddress
+            } else {
+                AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            }
+
+            if (!Api.isWalletRunning()) {
+                App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+
+                if (wallet != null) {
+                    PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                    result = Status.STATUS_OK
+                }
+            } else if (App.wallet?.checkWalletPassword(pass) == true) {
+                result = Status.STATUS_OK
+            }
+        }
+
+        LogUtils.logResponse(result, "openWallet")
+        return result
+    }
+
+    override fun isEnabledConnectToRandomNode(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+    }
+
+    override fun closeWallet() {
+        getResult("closeWallet") {
+            if (Api.isWalletRunning()) {
+                App.wallet = null
+                Api.closeWallet()
+            }
+        }
+    }
+
+    override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
+        return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
+    }
+
+    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
+        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
     }
 
     override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
-        return getResult({}, WalletListener.subOnSyncProgressUpdated, object {}.javaClass.enclosingMethod.name)
+        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
     }
 
-    fun <T> getResult(block: () -> Unit, subject: Subject<T>, requestName: String, additionalInfo: String = ""): Subject<T> {
+    fun <T> getResult(subject: Subject<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Subject<T> {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
@@ -57,7 +111,7 @@ open class BaseRepository : MvpRepository {
         return subject
     }
 
-    fun getResult(block: () -> Unit, requestName: String, additionalInfo: String = "") {
+    fun <T> getResult(requestName: String, additionalInfo: String = "", block: () -> T): T {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")
@@ -67,6 +121,6 @@ open class BaseRepository : MvpRepository {
                 .append("\n")
                 .append("--------------------------")
                 .append("\n").toString())
-        block.invoke()
+        return block.invoke()
     }
 }

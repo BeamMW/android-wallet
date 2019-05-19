@@ -17,11 +17,13 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
+import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
 
@@ -37,7 +39,8 @@ class BeamToolbar : LinearLayout {
     lateinit var toolbar: Toolbar
     lateinit var status: TextView
     lateinit var statusIcon: ImageView
-    lateinit var statusLayout: LinearLayout
+    lateinit var progressBar: ProgressBar
+    private lateinit var statusLayout: ConstraintLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
@@ -57,8 +60,9 @@ class BeamToolbar : LinearLayout {
         status = this.findViewById(R.id.connectionStatus)
         statusIcon = this.findViewById(R.id.statusIcon)
         statusLayout = this.findViewById(R.id.statusLayout)
+        progressBar = this.findViewById(R.id.progress)
 
-        this.orientation = LinearLayout.VERTICAL
+        this.orientation = VERTICAL
 
         if (attrs != null) {
             val a = context.theme.obtainStyledAttributes(

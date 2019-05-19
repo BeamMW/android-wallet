@@ -18,9 +18,16 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.support.design.widget.Snackbar
 import android.support.v4.app.SupportActivity
 import android.support.v4.content.ContextCompat
@@ -29,19 +36,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import android.widget.Toast
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.Status
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
+import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+
 
 /**
  * Created by vain onnellinen on 12/4/18.
  */
 class ScreenDelegate {
     private var alert: AlertDialog? = null
+    private var eventListener: Unregistrar? = null
 
     fun hideKeyboard(activity: SupportActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content)?.windowToken, 0)
+    }
+
+    fun showKeyboard(activity: SupportActivity) {
+        val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
     fun showSnackBar(status: Status, activity: SupportActivity) {
@@ -53,24 +70,51 @@ class ScreenDelegate {
         )
     }
 
+    fun shareText(context: Context?, title: String, text: String) {
+        context?.apply {
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/*"
+                putExtra(Intent.EXTRA_TEXT, text)
+            }
+
+            startActivity(Intent.createChooser(intent, title))
+        }
+    }
+
     fun showSnackBar(message: String, activity: SupportActivity) {
+        showSnackBar(message, R.color.colorAccent, activity)
+    }
+
+    fun showSnackBar(message: String, textColor: Int, activity: SupportActivity) {
         val snackBar = Snackbar.make(activity.findViewById(android.R.id.content) ?: return,
                 message, Snackbar.LENGTH_LONG)
         snackBar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.snack_bar_color))
-        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, R.color.colorAccent))
+        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
         snackBar.show()
     }
 
+    fun openExternalLink(context: Context?, link: String) {
+        context?.apply {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
+        }
+    }
+
     @SuppressLint("InflateParams")
-    fun showAlert(message: String, title: String, btnConfirmText : String, btnCancelText : String?, onConfirm: () -> Unit, onCancel: () -> Unit, context: Context): AlertDialog? {
+    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, context: Context): AlertDialog? {
         val view = LayoutInflater.from(context).inflate(R.layout.common_alert_dialog, null)
         val alertTitle = view.findViewById<TextView>(R.id.title)
         val alertText = view.findViewById<TextView>(R.id.alertText)
         val btnConfirm = view.findViewById<TextView>(R.id.btnConfirm)
         val btnCancel = view.findViewById<TextView>(R.id.btnCancel)
 
+        if (title.isNullOrBlank()) {
+            alertTitle.visibility = View.GONE
+        } else {
+            alertTitle.text = title
+        }
+
         alertText.text = message
-        alertTitle.text = title
         btnConfirm.text = btnConfirmText
         btnCancel.text = btnCancelText
 
@@ -90,10 +134,48 @@ class ScreenDelegate {
         return alert
     }
 
+    fun showToast(context: Context?, message: String, duration: Int) {
+        Toast.makeText(context?.applicationContext, message, duration).show()
+    }
+
+    fun copyToClipboard(context: Context, message: String?, tag: String?) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.primaryClip = ClipData.newPlainText(tag, message)
+    }
+
     fun dismissAlert() {
         if (alert != null) {
             alert?.dismiss()
             alert = null
         }
+    }
+
+    fun registerKeyboardStateListener(activity: Activity, view: ViewDelegate) {
+        eventListener = KeyboardVisibilityEvent.registerEventListener(activity) {
+            if (it) {
+                view.onShowKeyboard()
+            } else {
+                view.onHideKeyboard()
+            }
+        }
+    }
+
+    fun unregisterKeyboardStateListener() {
+        eventListener?.unregister()
+    }
+
+    fun vibrate(length: Long) {
+        val vibrator = App.self.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator?.vibrate(VibrationEffect.createOneShot(length, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator?.vibrate(length)
+        }
+    }
+
+    interface ViewDelegate {
+        fun onHideKeyboard()
+        fun onShowKeyboard()
     }
 }

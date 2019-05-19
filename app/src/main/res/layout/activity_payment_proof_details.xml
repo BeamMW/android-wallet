@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true"
+    android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/payment_proof_content_vertical_padding"
+            android:paddingBottom="@dimen/payment_proof_content_vertical_padding">
+
+            <TextView
+                android:id="@+id/codeTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:text="@string/payment_proof_details_code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/codeValue"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_code_value_margin_start"
+                android:layout_marginEnd="@dimen/payment_proof_content_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/codeTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e0976800000000000000ebb27b5501213c84eb212ea276e8ced74f5400f4c1c2da2c5108188651a1864ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e035942e5e63d1a7728a2954a10d3bfb9938f0c17509a6a0e870c6bb22ff2d1297f3dae7f54592b00e84c6b3c9ea3e3ad9bc43661b6dcf7dbd818ccc92707d1d75b429697e8492653" />
+
+            <TextView
+                android:id="@+id/detailsTitle"
+                style="@style/common_subheader_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:layout_marginTop="@dimen/payment_proof_section_margin_top"
+                android:text="@string/payment_proof_details_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/codeValue" />
+
+            <TextView
+                android:id="@+id/senderTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:layout_marginTop="@dimen/payment_proof_send_margin_top"
+                android:text="@string/payment_proof_details_sender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailsTitle" />
+
+            <TextView
+                android:id="@+id/senderValue"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_send_value_margin_start"
+                android:layout_marginEnd="@dimen/payment_proof_content_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/senderTitle"
+                app:layout_constraintTop_toTopOf="@id/senderTitle"
+                tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e09768" />
+
+            <TextView
+                android:id="@+id/receiverTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:layout_marginTop="@dimen/payment_proof_values_margin_top"
+                android:text="@string/payment_proof_details_receiver"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/senderValue" />
+
+            <TextView
+                android:id="@+id/receiverValue"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/payment_proof_content_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/senderValue"
+                app:layout_constraintTop_toTopOf="@id/receiverTitle"
+                tools:text="ebb27b5501213c84eb212ea276e8ced74f5400f4c1c2da2c5108188651a1" />
+
+            <TextView
+                android:id="@+id/amountTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:layout_marginTop="@dimen/payment_proof_values_margin_top"
+                android:text="@string/payment_proof_details_amount"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/receiverValue" />
+
+            <TextView
+                android:id="@+id/amountValue"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/payment_proof_content_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/senderValue"
+                app:layout_constraintTop_toTopOf="@id/amountTitle"
+                tools:text="6 beam" />
+
+            <TextView
+                android:id="@+id/kernelIdTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
+                android:layout_marginTop="@dimen/payment_proof_values_margin_top"
+                android:text="@string/payment_proof_details_kernel_id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/amountValue" />
+
+            <TextView
+                android:id="@+id/kernelIdValue"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/payment_proof_content_horizontal_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/senderValue"
+                app:layout_constraintTop_toTopOf="@id/kernelIdTitle"
+                tools:text="4ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e035942e5e63d1a" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnDetailsCopy"
+                android:layout_width="@dimen/transaction_details_button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/payment_proof_section_margin_top"
+                app:button_icon="@drawable/ic_btn_copy"
+                app:button_state_list="@color/primary_selector"
+                app:button_text="@string/payment_proof_details_copy_details"
+                app:button_text_color="@color/common_text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnCodeCopy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/kernelIdValue"
+                app:layout_constraintVertical_bias="1" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnCodeCopy"
+                android:layout_width="@dimen/transaction_details_button_width"
+                android:layout_height="wrap_content"
+                app:button_icon="@drawable/ic_btn_copy_dark"
+                app:button_text="@string/payment_proof_details_copy_code"
+                app:button_text_color="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnDetailsCopy"
+                app:layout_constraintTop_toTopOf="@id/btnDetailsCopy" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

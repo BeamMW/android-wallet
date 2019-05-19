@@ -1,42 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/restoreRootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:filterTouchesWhenObscured="true">
 
-        <TextView
-            android:id="@+id/description"
-            style="@style/welcome_description_text_style"
-            android:paddingTop="@dimen/common_offset"
-            android:text="@string/welcome_restore_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <GridLayout
-            android:id="@+id/phrasesLayout"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/welcome_grid_offset"
-            android:layout_marginEnd="@dimen/welcome_grid_offset"
-            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
-            android:columnCount="2"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@id/btnRestore"
-            app:layout_constraintTop_toBottomOf="@id/description" />
+            android:layout_height="wrap_content">
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnRestore"
-            style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/welcome_phrase_button_margin"
-            app:button_icon="@drawable/ic_btn_recover"
-            app:button_text="@string/welcome_recover"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/description"
+                style="@style/welcome_description_text_style"
+                android:paddingTop="@dimen/common_offset"
+                android:text="@string/welcome_restore_description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+            <GridLayout
+                android:id="@+id/seedLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/welcome_grid_offset"
+                android:layout_marginEnd="@dimen/welcome_grid_offset"
+                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                android:columnCount="2"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/btnRestore"
+                app:layout_constraintTop_toBottomOf="@id/description" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnRestore"
+                style="@style/common_button_style"
+                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                app:button_icon="@drawable/ic_btn_recover"
+                app:button_text="@string/welcome_recover"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <com.mw.beam.beamwallet.core.views.Suggestions
+        android:id="@+id/suggestionsView"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</FrameLayout>
+

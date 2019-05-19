@@ -1,5 +1,13 @@
-<vector android:autoMirrored="true" android:height="16dp"
-    android:viewportHeight="16" android:viewportWidth="16"
-    android:width="16dp" xmlns:android="http://schemas.android.com/apk/res/android">
-    <path android:fillColor="#0BCCF7" android:fillType="evenOdd" android:pathData="M8.296,2c0.38,0 0.69,0.314 0.69,0.695v8.752s2.482,-2.412 2.915,-2.54c0.432,-0.129 1.178,0.437 1.092,1.093 -0.085,0.656 -4.007,4 -4.88,4 -0.873,0 -4.874,-3.648 -5.073,-4.106 -0.2,-0.459 0.382,-1.08 1,-0.987 0.617,0.093 3.2,2.54 3.2,2.54V2.695A0.69,0.69 0,0 1,7.93 2h0.366z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:width="16dp"
+    android:height="16dp"
+    android:autoMirrored="true"
+    android:viewportWidth="16"
+    android:viewportHeight="16"
+    tools:ignore="VectorRaster">
+    <path
+        android:fillColor="#0BCCF7"
+        android:fillType="evenOdd"
+        android:pathData="M8.296,2c0.38,0 0.69,0.314 0.69,0.695v8.752s2.482,-2.412 2.915,-2.54c0.432,-0.129 1.178,0.437 1.092,1.093 -0.085,0.656 -4.007,4 -4.88,4 -0.873,0 -4.874,-3.648 -5.073,-4.106 -0.2,-0.459 0.382,-1.08 1,-0.987 0.617,0.093 3.2,2.54 3.2,2.54V2.695A0.69,0.69 0,0 1,7.93 2h0.366z" />
 </vector>

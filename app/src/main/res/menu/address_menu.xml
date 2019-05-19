@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more"
+        android:title="@string/common_menu_more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/showQR"
+                android:icon="@drawable/address_qr"
+                android:title="@string/address_menu_qr"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/copy"
+                android:icon="@drawable/address_copy"
+                android:title="@string/address_menu_copy"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/edit"
+                android:icon="@drawable/address_edit"
+                android:title="@string/address_menu_edit"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/delete"
+                android:icon="@drawable/address_delete"
+                android:title="@string/address_menu_delete"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
+

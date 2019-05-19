@@ -25,13 +25,13 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 22
-        versionName "1.0.2"
+        versionCode 48
+        versionName "2.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,9 +44,17 @@ android {
     productFlavors {
         mainnet {
             dimension "api"
+            applicationIdSuffix ".mainnet"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-mainnet.pro'
         }
-        beta {
+        masternet {
             dimension "api"
+            applicationIdSuffix ".masternet"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-masternet.pro'
+        }
+        beamtestnet {
+            dimension "api"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-testnet.pro'
         }
     }
 }
@@ -57,6 +65,60 @@ repositories {
 
 crashlytics {
     enableNdk true
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
+        task.dependsOn updateMasternetLibs
+    }
+    if (task.name == 'assembleBeamtestnetDebug' || task.name == 'assembleBeamtestnetRelease') {
+        task.dependsOn updateTestnetLibs
+    }
+    if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
+      //  task.dependsOn updateMainnetLibs
+    }
+}
+
+task updateMasternetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+          //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-masternet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-masternet.sh"
+        }
+    }
+}
+
+task updateTestnetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-testnet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-testnet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-testnet.sh"
+        }
+    }
+}
+
+task updateMainnetLibs(type: Exec) {
+    doFirst {
+        workingDir "$rootDir"
+        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-mainnet.bat").absolutePath
+        } else {
+            exec {
+                commandLine 'chmod', '+x', file("$rootDir/android-wallet-mainnet.sh").absolutePath
+            }
+            commandLine "$rootDir/android-wallet-mainnet.sh"
+        }
+    }
 }
 
 dependencies {
@@ -74,9 +136,14 @@ dependencies {
     implementation "com.github.restorer:holycycle:$ver_holycycle"
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
     implementation "com.elvishew:xlog:$ver_xlog"
+    implementation "com.google.zxing:core:$ver_qr"
+    implementation "com.journeyapps:zxing-android-embedded:$ver_qr_android_embedded"
+    implementation "online.devliving:securedpreferencestore:$ver_secured_store"
+    implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$ver_keyboard_event"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
+    implementation "com.google.code.gson:gson:$ver_gson"
 
     testImplementation "junit:junit:$ver_junit"
     testImplementation "org.powermock:powermock-module-junit4:$ver_powermock"

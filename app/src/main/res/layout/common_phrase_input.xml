@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:filterTouchesWhenObscured="true">
 
     <TextView
         android:id="@+id/numberView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/welcome_number_offset"
+        android:layout_marginStart="@dimen/welcome_number_offset"
+        android:layout_marginEnd="@dimen/welcome_number_offset"
         android:background="@drawable/empty_number_background"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/common_text_dark_color"
         android:textSize="@dimen/welcome_number_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.mw.beam.beamwallet.core.views.BeamEditText
         android:id="@+id/phraseView"
@@ -22,7 +23,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/welcome_number_offset"
         android:background="@drawable/edit_text_selector"
-        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:inputType="text|textVisiblePassword"
         android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/colorCircle"
+        app:cardBackgroundColor="@color/colorAccent"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_margin="0dp"
+        android:clipChildren="true"
+        android:padding="0dp"
+        app:cardCornerRadius="4dp"/>
+
+    <View
+        android:id="@+id/emptySpaceDivider"
+        android:layout_width="12dp"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:id="@+id/categoryName"
+        style="@style/common_menu_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        tools:text="Salary" />
+</LinearLayout>

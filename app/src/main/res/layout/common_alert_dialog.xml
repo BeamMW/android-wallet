@@ -4,13 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/common_alert_dialog_background">
+    android:background="@drawable/common_alert_dialog_background"
+    android:filterTouchesWhenObscured="true">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/roboto_regular"
+        tools:text="Title"
         android:paddingBottom="@dimen/alert_dialog_title_padding"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/common_alert_title_text_size"
@@ -23,20 +25,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/alert_dialog_alert_padding"
+        tools:text="Alert text Alert text Alert text Alert text Alert text Alert text"
         app:layout_constraintBottom_toTopOf="@id/btnConfirm"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
+
 
     <TextView
         android:id="@+id/btnCancel"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:textAllCaps="true"
         android:textColor="@color/alert_dialog_cancel_color"
         android:textStyle="bold"
+        tools:text="@string/common_cancel"
+        app:layout_constraintWidth_min="wrap"
         app:layout_constraintEnd_toStartOf="@id/btnConfirm"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/alertText" />
 
@@ -48,8 +54,8 @@
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
+        tools:text="@string/common_done"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnCancel"
         app:layout_constraintTop_toBottomOf="@id/alertText"
         tools:ignore="RtlSymmetry" />
 

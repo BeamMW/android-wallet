@@ -17,6 +17,10 @@
 package com.mw.beam.beamwallet.core
 
 import android.app.Application
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.elvishew.xlog.LogConfiguration
@@ -29,9 +33,10 @@ import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -42,11 +47,22 @@ class App : Application() {
         lateinit var self: App
         //TODO move into correct place
         var wallet: Wallet? = null
+        private const val BACKGROUND_JOB_ID = 71614
+        var showNotification = true
+        var isAuthenticated = false
     }
 
     override fun onCreate() {
         super.onCreate()
-        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
+        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
+            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+        }
+
+        when(BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX
+            AppConfig.FLAVOR_TESTNET -> AppConfig.EXPLORER_PREFIX = AppConfig.TESTNET_EXPLORER_PREFIX
+        }
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -57,11 +73,20 @@ class App : Application() {
         self = this
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
-        AppConfig.LOCALE = Locale.getDefault()
+        AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
+        //AppConfig.LOCALE = Locale.getDefault()
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(self)
         }
+
+        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        val jobInfo = JobInfo.Builder(BACKGROUND_JOB_ID, ComponentName(applicationContext, BackgroundService::class.java))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
+                .setPersisted(true)
+                .build()
+
+        jobScheduler.schedule(jobInfo)
 
         XLog.init(LogConfiguration.Builder()
                 .logLevel(LogLevel.ALL)

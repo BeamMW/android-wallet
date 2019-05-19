@@ -16,20 +16,32 @@
 
 package com.mw.beam.beamwallet.core.entities
 
+import android.os.Parcelable
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.utils.isBefore
+import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by vain onnellinen on 019 19.11.18.
+ * Created by vain onnellinen on 19.11.18.
  */
-class WalletAddress(var source: WalletAddressDTO) {
+@Parcelize
+class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
     var label: String = source.label
     val category: String = source.category
     val createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
+    val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
+    var isContact = own == 0L
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
+        this.duration = this@WalletAddress.duration
+    }
+
+    override fun toString(): String {
+        return "\n\nWalletAddress(\n walletID=$walletID\n label=$label\n category=$category\n createTime=${CalendarUtils.fromTimestamp(createTime)}\n duration=$duration\n own=$own\n isExpired=$isExpired\n isContact=$isContact\n"
     }
 }

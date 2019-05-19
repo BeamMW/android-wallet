@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:filterTouchesWhenObscured="true">
 
     <TextView
         android:id="@+id/numberView"
@@ -10,6 +12,7 @@
         android:background="@drawable/number_background"
         android:fontFamily="sans-serif"
         android:gravity="center"
+        tools:text="10"
         android:textColor="@color/phrase_number_text_color"
         android:textSize="@dimen/welcome_number_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,6 +23,7 @@
         style="@style/common_text_big_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        tools:text="verylongseed"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,20 +16,9 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
-import com.mw.beam.beamwallet.core.AppConfig
-import java.io.File
-import java.text.DecimalFormat
-
 /**
  * Created by vain onnellinen on 10/3/18.
  */
-
-
-fun Long.convertToBeamString(): String = DecimalFormat("#.########").format(this.toDouble() / 100000000)
-fun Long.convertToBeam(): Double = this.toDouble() / 100000000
-fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
-fun Double.convertToGroth() = (this * 100000000).toLong()
-fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 
 fun Int.convertToString(): String {
     val hex = Integer.toHexString(this)
@@ -49,7 +38,7 @@ enum class TxSender(val value: Boolean) {
         private val map: HashMap<Boolean, TxSender> = HashMap()
 
         init {
-            TxSender.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -67,13 +56,34 @@ enum class TxStatus(val value: Int) {
         private val map: HashMap<Int, TxStatus> = HashMap()
 
         init {
-            TxStatus.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
 
         fun fromValue(type: Int): TxStatus {
             return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
+        }
+    }
+}
+
+enum class TxFailureReason(val value: Int) {
+    UNKNOWN(0), CANCELLED(1), INVALID_PEER_SIGNATURE(2), FAILED_TO_REGISTER(3),
+    INVALID_TRANSACTION(4), INVALID_KERNEL_PROOF(5), FAILED_TO_SEND_PARAMETERS(6),
+    NO_INPUTS(7), EXPIRED_ADDRESS_PROVIDED(8), FAILED_TO_GET_PARAMETER(9),
+    TRANSACTION_EXPIRED(10), NO_PAYMENT_PROOF(11);
+
+    companion object {
+        private val map: MutableMap<Int, TxFailureReason> = java.util.HashMap()
+
+        init {
+            values().forEach {
+                map[it.value] = it
+            }
+        }
+
+        fun fromValue(type: Int?): TxFailureReason {
+            return map[type] ?: UNKNOWN
         }
     }
 }
@@ -85,7 +95,7 @@ enum class UtxoStatus(val value: Int) {
         private val map: HashMap<Int, UtxoStatus> = HashMap()
 
         init {
-            UtxoStatus.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -105,7 +115,7 @@ enum class UtxoKeyType(val value: String) {
         private val map: HashMap<String, UtxoKeyType> = HashMap()
 
         init {
-            UtxoKeyType.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -127,7 +137,7 @@ enum class ChangeAction(val value: Int) {
         private val map: HashMap<Int, ChangeAction> = HashMap()
 
         init {
-            ChangeAction.values().forEach {
+            values().forEach {
                 map[it.value] = it
             }
         }
@@ -136,30 +146,4 @@ enum class ChangeAction(val value: Int) {
             return map[type] ?: throw IllegalArgumentException("Unknown type of ChangeAction")
         }
     }
-}
-
-enum class WelcomeMode {
-    OPEN, CREATE, RESTORE
-}
-
-enum class Status(val value: Int) {
-    STATUS_OK(0), STATUS_ERROR(-1);
-
-    companion object {
-        private val map: MutableMap<Int, Status> = java.util.HashMap()
-
-        init {
-            Status.values().forEach {
-                map[it.value] = it
-            }
-        }
-
-        fun fromValue(type: Int?): Status {
-            return map[type] ?: STATUS_ERROR
-        }
-    }
-}
-
-fun removeDatabase() {
-    File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
 }

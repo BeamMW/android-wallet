@@ -31,10 +31,10 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""
     var isForEnsure: Boolean = false
-    var isEmpty: Boolean = true
+    val isEmpty: Boolean
         get() = phraseView.text?.toString()?.isEmpty() ?: true
-    var isValid: Boolean = false
-        get() = phrase == phraseView.text?.toString()?.trim()
+    val isValid: Boolean
+        get() = phrase == phraseView.text?.toString()?.trim() || validator?.invoke(phraseView.text?.toString()?.trim()) ?: false
     var number: Int = Int.MIN_VALUE
         set(value) {
             field = value
@@ -56,6 +56,8 @@ class BeamPhraseInput : ConstraintLayout {
                 numberView.background = ContextCompat.getDrawable(context, field)
             }
         }
+
+    var validator: ((String?) -> Boolean)? = null
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
@@ -91,7 +93,7 @@ class BeamPhraseInput : ConstraintLayout {
                 if (isForEnsure) {
                     when {
                         isEmpty -> {
-                            numberTextColorResId = R.color.colorPrimary
+                            numberTextColorResId = R.color.common_text_dark_color
                             numberBackgroundResId = R.drawable.empty_number_background
                             phraseView.isStateNormal = true
                         }
@@ -108,7 +110,7 @@ class BeamPhraseInput : ConstraintLayout {
                     }
                 } else {
                     if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
-                        numberTextColorResId = R.color.colorPrimary
+                        numberTextColorResId = R.color.common_text_dark_color
                         numberBackgroundResId = R.drawable.empty_number_background
                         phraseView.isStateNormal = true
                     } else {
