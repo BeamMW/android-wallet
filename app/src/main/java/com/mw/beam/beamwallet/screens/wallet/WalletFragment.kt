@@ -203,7 +203,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         beginTransition()
         receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
         sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-        maturingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
     }
 
     private fun beginTransition() {
