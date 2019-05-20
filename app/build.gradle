@@ -32,6 +32,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -40,6 +41,19 @@ android {
     }
 
     flavorDimensions "api"
+
+    splits {
+        abi {
+
+            enable true
+
+            reset()
+
+            include "arm64-v8a", "armeabi", "armeabi-v7a", "x86", "x86_64"
+
+            universalApk true
+        }
+    }
 
     productFlavors {
         mainnet {
@@ -59,6 +73,43 @@ android {
     }
 }
 
+// Map for the version code that gives each ABI a value.
+ext.abiCodes = ["arm64-v8a": 3, "armeabi": 1, "armeabi-v7a": 2, "x86": 4, "x86_64": 5]
+
+project.ext.versionCodesABI = ["arm64-v8a": 3, "armeabi": 1, "armeabi-v7a": 2, "x86": 4, "x86_64": 5]
+
+import com.android.build.OutputFile
+
+// For each APK output variant, override versionCode with a combination of
+// ext.abiCodes * 1000 + variant.versionCode. In this example, variant.versionCode
+// is equal to defaultConfig.versionCode. If you configure product flavors that
+// define their own versionCode, variant.versionCode uses that value instead.
+android.applicationVariants.all { variant ->
+
+    // Assigns a different version code for each output APK
+    // other than the universal APK.
+    variant.outputs.each { output ->
+
+        // Stores the value of ext.abiCodes that is associated with the ABI for this variant.
+        def baseAbiVersionCode =
+                // Determines the ABI for this variant and returns the mapped value.
+                project.ext.abiCodes.get(output.getFilter(OutputFile.ABI))
+
+        // Because abiCodes.get() returns null for ABIs that are not mapped by ext.abiCodes,
+        // the following code does not override the version code for universal APKs.
+        // However, because we want universal APKs to have the lowest version code,
+        // this outcome is desirable.
+        if (baseAbiVersionCode != null) {
+
+            // Assigns the new version code to versionCodeOverride, which changes the version code
+            // for only the output APK, not for the variant itself. Skipping this step simply
+            // causes Gradle to use the value of variant.versionCode for the APK.
+            output.versionCodeOverride =
+                    baseAbiVersionCode * 1000 + variant.versionCode
+        }
+    }
+}
+
 repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -69,10 +120,10 @@ crashlytics {
 
 tasks.whenTaskAdded { task ->
     if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
-        task.dependsOn updateMasternetLibs
+//        task.dependsOn updateMasternetLibs
     }
     if (task.name == 'assembleBeamtestnetDebug' || task.name == 'assembleBeamtestnetRelease') {
-        task.dependsOn updateTestnetLibs
+//        task.dependsOn updateTestnetLibs
     }
     if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
       //  task.dependsOn updateMainnetLibs
