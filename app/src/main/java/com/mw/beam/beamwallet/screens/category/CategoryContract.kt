@@ -32,11 +32,13 @@ interface CategoryContract {
         fun navigateToEditCategory(categoryId: String)
         fun finish()
         fun showAddressDetails(address: WalletAddress)
+        fun showConfirmDeleteDialog(categoryName: String)
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onEditCategoryPressed()
         fun onDeleteCategoryPressed()
+        fun onDeleteCategoryConfirmed()
         fun onAddressPressed(address: WalletAddress)
     }
 

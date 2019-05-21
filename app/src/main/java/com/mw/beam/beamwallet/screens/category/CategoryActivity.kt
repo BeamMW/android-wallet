@@ -32,8 +32,9 @@ import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.edit_category.EditCategoryActivity
 import kotlinx.android.synthetic.main.activity_category.*
 
-class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View {
+class CategoryActivity : BaseActivity<CategoryPresenter>(), CategoryContract.View {
     private var addressesAdapter: AddressesAdapter? = null
+
     companion object {
         const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
     }
@@ -73,6 +74,16 @@ class CategoryActivity: BaseActivity<CategoryPresenter>(), CategoryContract.View
         }
 
         return true
+    }
+
+    override fun showConfirmDeleteDialog(categoryName: String) {
+        showAlert(
+                getString(R.string.category_delete_dialog_message, categoryName),
+                getString(R.string.common_cancel),
+                {},
+                getString(R.string.category_delete_dialog_title),
+                getString(R.string.common_delete),
+                { presenter?.onDeleteCategoryConfirmed() })
     }
 
     override fun showAddressDetails(address: WalletAddress) {

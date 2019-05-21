@@ -64,8 +64,12 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
         state.category?.let { view?.navigateToEditCategory(it.id) }
     }
 
-    override fun onDeleteCategoryPressed() {
+    override fun onDeleteCategoryConfirmed() {
         state.category?.let { repository.deleteCategory(it) }
         view?.finish()
+    }
+
+    override fun onDeleteCategoryPressed() {
+        view?.showConfirmDeleteDialog(state.category?.name ?: "")
     }
 }

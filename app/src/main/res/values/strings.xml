@@ -354,6 +354,8 @@ and never kept in the blockchain.</string>
     <string name="category_name">Name:</string>
     <string name="category_addresses">Addresses</string>
     <string name="category_edit">Edit</string>
+    <string name="category_delete_dialog_title">Delete category</string>
+    <string name="category_delete_dialog_message">Are you sure you want to delete %1$s category?</string>
 
     <!--EditCategory-->
     <string name="edit_category_toolbar_title">Edit category</string>
