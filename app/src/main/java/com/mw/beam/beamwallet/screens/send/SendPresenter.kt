@@ -248,6 +248,17 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
+        val enteredAmount = view?.getAmount() ?: 0.0
+        val availableAmount = state.walletStatus!!.available.convertToBeam()
+        val feeAmount = try {
+            view?.getFee()?.convertToBeam() ?: 0.0
+        } catch (exception: NumberFormatException) {
+            0.0
+        }
+        val maxEnterAmount = availableAmount - feeAmount
+        if (enteredAmount > maxEnterAmount) {
+            view?.setAmount(maxEnterAmount)
+        }
     }
 
     override fun initSubscriptions() {

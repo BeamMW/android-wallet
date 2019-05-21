@@ -45,6 +45,7 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.activity_send.*
+import java.lang.Exception
 
 
 /**
@@ -70,7 +71,11 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.activity_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
 
-    override fun getAmount(): Double = amount.text.toString().toDouble()
+    override fun getAmount(): Double = try {
+        amount.text.toString().toDouble()
+    } catch (e: Exception) {
+        0.0
+    }
     override fun getToken(): String = token.text.toString()
     override fun getComment(): String? = comment.text.toString()
     override fun getFee(): Long {
