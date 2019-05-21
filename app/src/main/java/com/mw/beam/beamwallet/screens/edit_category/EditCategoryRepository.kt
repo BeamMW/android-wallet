@@ -32,4 +32,8 @@ class EditCategoryRepository: BaseRepository(), EditCategoryContract.Repository 
     override fun createNewCategory(): Category {
         return Category.new()
     }
+
+    override fun getAllCategory(): List<Category> {
+        return CategoryHelper.getAllCategory()
+    }
 }

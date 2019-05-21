@@ -42,5 +42,6 @@ interface EditCategoryContract {
         fun saveCategory(category: Category)
         fun getCategoryFromId(categoryId: String): Category?
         fun createNewCategory(): Category
+        fun getAllCategory(): List<Category>
     }
 }

@@ -23,4 +23,5 @@ class EditCategoryState {
     var category: Category? = null
     var tempColor: CategoryColor = CategoryColor.Red
     var tempName: String = ""
+    var allCategory: List<Category> = listOf()
 }

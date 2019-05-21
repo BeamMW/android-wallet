@@ -33,6 +33,9 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
 
         state.category = category
         state.tempName = category.name
+        state.tempColor = category.color
+
+        state.allCategory = repository.getAllCategory()
 
         view?.init(category)
     }
@@ -43,16 +46,21 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
     }
 
     override fun onNameChanged(name: String) {
-        state.tempName = name
+        state.tempName = name.trim()
         checkSaveButtonEnabled()
     }
 
     private fun checkSaveButtonEnabled() {
         val isNameChanged = state.category?.name != state.tempName && state.tempName.isNotBlank()
         val isColorChanged = state.category?.color != state.tempColor
+        val isValidName = checkIsUniqueName(state.tempName)
         if (!state.category?.name.isNullOrBlank()) {
-            view?.setSaveEnabled(isNameChanged || isColorChanged)
-        } else view?.setSaveEnabled(isNameChanged)
+            view?.setSaveEnabled((isNameChanged || isColorChanged) && state.tempName.isNotBlank() && (isValidName || state.category?.name == state.tempName.trim()))
+        } else view?.setSaveEnabled(isNameChanged && isValidName)
+    }
+
+    private fun checkIsUniqueName(name: String): Boolean {
+        return state.allCategory.firstOrNull { category -> category.name == name.trim() } == null
     }
 
     override fun onSavePressed() {

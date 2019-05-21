@@ -257,7 +257,7 @@
                     app:layout_constraintStart_toEndOf="@id/receivingIcon"
                     app:layout_constraintTop_toBottomOf="@id/inProgressTitle"
                     app:layout_constraintWidth_max="wrap"
-                    tools:text="+0" />
+                    tools:text="+125.989883830000" />
 
                 <ImageView
                     android:id="@+id/receivingCurrency"
@@ -305,7 +305,7 @@
                     app:layout_constraintStart_toEndOf="@id/sendingIcon"
                     app:layout_constraintTop_toBottomOf="@id/receiving"
                     app:layout_constraintWidth_max="wrap"
-                    tools:text="+125.989883830000" />
+                    tools:text="-125.989883830000" />
 
                 <ImageView
                     android:id="@+id/sendingCurrency"

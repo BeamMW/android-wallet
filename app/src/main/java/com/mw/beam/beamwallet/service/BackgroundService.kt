@@ -7,6 +7,7 @@ import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.support.v4.app.NotificationCompat
@@ -61,6 +62,7 @@ class BackgroundService : JobService() {
 
                         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
                                 .setSmallIcon(R.drawable.logo)
+                                .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.logo))
                                 .setContentTitle(getString(R.string.notification_receive_content_title))
                                 .setContentText(getString(R.string.notification_receive_content_text))
                                 .setPriority(NotificationCompat.PRIORITY_HIGH)
