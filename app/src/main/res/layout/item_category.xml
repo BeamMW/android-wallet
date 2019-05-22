@@ -7,16 +7,15 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <android.support.v7.widget.CardView
+    <View
         android:layout_gravity="center_vertical"
         android:id="@+id/colorCircle"
-        app:cardBackgroundColor="@color/colorAccent"
+        android:background="@drawable/cirlce_border"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:layout_margin="0dp"
         android:clipChildren="true"
-        android:padding="0dp"
-        app:cardCornerRadius="4dp"/>
+        android:padding="0dp"/>
 
     <View
         android:id="@+id/emptySpaceDivider"

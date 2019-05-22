@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.FrameLayout
 import com.mw.beam.beamwallet.R
@@ -40,9 +39,13 @@ class CategoryItemView: FrameLayout {
 
     var colorResId: Int? = null
         set(value) {
-            field = value ?: R.color.colorAccent
+            field = value
 
-            colorCircle.setCardBackgroundColor(resources.getColor(field!!, App.self.theme))
+            if (value != null) {
+                colorCircle.backgroundTintList = ColorStateList.valueOf(resources.getColor(value, App.self.theme))
+            } else {
+                colorCircle.backgroundTintList = null
+            }
         }
 
     var text: String = ""

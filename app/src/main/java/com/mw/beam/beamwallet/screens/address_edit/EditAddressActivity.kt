@@ -104,12 +104,12 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
 
         if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(this, ArrayList(categories).apply { add(CategoryHelper.noneCategory) })
+            categorySpinner.adapter = CategoryAdapter(this, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
 
             if (currentCategory == null) {
-                categorySpinner.setSelection(categories.size)
+                categorySpinner.setSelection(0)
             } else {
-                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id })
+                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id } + 1)
             }
         }
 
@@ -118,8 +118,8 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position < categories.size) {
-                    presenter?.onSelectedCategory(categories[position])
+                if (position > 0) {
+                    presenter?.onSelectedCategory(categories[position - 1])
                 } else {
                     presenter?.onSelectedCategory(null)
                 }
