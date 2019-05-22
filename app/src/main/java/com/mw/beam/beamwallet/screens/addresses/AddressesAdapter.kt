@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.item_address.*
  * Created by vain onnellinen on 2/28/19.
  */
 class AddressesAdapter(private val context: Context, private val clickListener: OnItemClickListener, private val categoryProvider: ((address: String) -> Category?)? = null) :
-        RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
+        androidx.recyclerview.widget.RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val expiredDate = context.getString(R.string.addresses_expired)
@@ -80,5 +80,5 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         fun onItemClick(item: WalletAddress)
     }
 
-    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
+    class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
 }

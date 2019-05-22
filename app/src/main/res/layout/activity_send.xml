@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settingsContentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -305,13 +305,13 @@
                 app:layout_constraintTop_toBottomOf="@id/commentDescription"
                 app:layout_constraintVertical_bias="1" />
 
-            <android.support.constraint.Group
+            <androidx.constraintlayout.widget.Group
                 android:id="@+id/params"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:constraint_referenced_ids="amountTitle, amount, currency, feeTitle, fee, feeCurrency, commentTitle, comment, commentDescription, btnSend, availableCurrencyImage" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>
 

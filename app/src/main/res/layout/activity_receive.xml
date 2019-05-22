@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:fillViewport="true"
         android:layout_height="match_parent">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:filterTouchesWhenObscured="true">
@@ -245,6 +245,6 @@
                 app:layout_constraintHorizontal_weight="0.5"
                 app:layout_constraintStart_toEndOf="@id/btnShowQR"
                 app:layout_constraintTop_toTopOf="@+id/btnShowQR" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

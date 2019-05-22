@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.annotation.SuppressLint
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView

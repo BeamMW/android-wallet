@@ -20,11 +20,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import android.view.Gravity
 import android.view.View
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
@@ -53,7 +53,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     protected fun showFragment(
-            fragment: Fragment,
+            fragment: androidx.fragment.app.Fragment,
             tag: String,
             clearToTag: String?,
             clearInclusive: Boolean
@@ -66,14 +66,14 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
             if (clearToTag != null || clearInclusive) {
                 fragmentManager.popBackStack(
                         clearToTag,
-                        if (clearInclusive) FragmentManager.POP_BACK_STACK_INCLUSIVE else 0
+                        if (clearInclusive) androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE else 0
                 )
             }
 
             val transaction = fragmentManager.beginTransaction()
             transaction.replace(R.id.container, fragment, tag)
             transaction.addToBackStack(tag)
-            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            transaction.setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             transaction.commit()
         }
     }

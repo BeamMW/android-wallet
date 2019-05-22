@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.create_password
 
 import android.os.Bundle
-import android.support.v4.content.res.ResourcesCompat
+import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R

@@ -22,8 +22,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
 import android.transition.TransitionManager
@@ -56,7 +56,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private lateinit var amountWatcher: TextWatcher
     private lateinit var feeWatcher: TextWatcher
     private lateinit var feeFocusListener: View.OnFocusChangeListener
-    private var dialog: DialogFragment? = null
+    private var dialog: androidx.fragment.app.DialogFragment? = null
 
     private val dialogListener = object : SendConfirmationDialog.OnConfirmedDialogListener {
         override fun onConfirmed() {

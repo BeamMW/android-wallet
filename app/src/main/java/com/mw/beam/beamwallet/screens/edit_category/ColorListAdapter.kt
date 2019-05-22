@@ -16,12 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.edit_category
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.core.helpers.CategoryColor
 import com.mw.beam.beamwallet.core.views.ColorSelector
 
-class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = null): RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
+class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = null): androidx.recyclerview.widget.RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
     private val data = ArrayList<CategoryColor>()
     private var selectedIndex = 0
 
@@ -63,5 +63,5 @@ class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = n
     }
 
 
-    class ViewHolder(val colorSelector: ColorSelector): RecyclerView.ViewHolder(colorSelector)
+    class ViewHolder(val colorSelector: ColorSelector): androidx.recyclerview.widget.RecyclerView.ViewHolder(colorSelector)
 }

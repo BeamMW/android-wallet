@@ -22,7 +22,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.view.ViewGroup
 import com.eightsines.holycycle.app.ViewControllerDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus

@@ -20,9 +20,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.Menu
@@ -98,7 +98,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
             }
         })
 
-        transactionsList.layoutManager = LinearLayoutManager(this)
+        transactionsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         transactionsList.adapter = adapter
     }
 

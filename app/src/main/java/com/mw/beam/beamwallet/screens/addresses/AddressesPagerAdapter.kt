@@ -17,9 +17,9 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.viewpager.widget.PagerAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,15 +30,15 @@ import com.mw.beam.beamwallet.core.helpers.Category
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?) : PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?) : androidx.viewpager.widget.PagerAdapter() {
     private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
     private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
     private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
-        layout.findViewById<RecyclerView>(R.id.list).apply {
-            layoutManager = LinearLayoutManager(context)
+        layout.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list).apply {
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             adapter = when (Tab.values()[position]) {
                 Tab.ACTIVE -> activeAdapter
                 Tab.EXPIRED -> expiredAdapter

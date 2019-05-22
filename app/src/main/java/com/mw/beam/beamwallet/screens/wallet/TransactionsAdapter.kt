@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.screens.wallet
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.item_transaction.*
  * Created by vain onnellinen on 10/2/18.
  */
 class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
-        RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+        androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
@@ -95,5 +95,5 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
         fun onItemClick(item: TxDescription)
     }
 
-    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
+    class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
 }

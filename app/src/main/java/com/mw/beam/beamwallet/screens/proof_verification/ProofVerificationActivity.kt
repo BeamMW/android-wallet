@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.proof_verification
 
 import android.content.res.ColorStateList
-import android.support.transition.TransitionManager
+import androidx.transition.TransitionManager
 import android.text.Editable
 import android.view.View
 import com.mw.beam.beamwallet.R

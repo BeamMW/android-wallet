@@ -21,9 +21,9 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.PersistableBundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -191,7 +191,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
                 }
             }
         })
-        navMenu.layoutManager = LinearLayoutManager(this)
+        navMenu.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         navMenu.adapter = navItemsAdapter
 
         // handler is needed to make it work somehow

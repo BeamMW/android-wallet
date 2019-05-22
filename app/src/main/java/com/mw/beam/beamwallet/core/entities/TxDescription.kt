@@ -16,7 +16,7 @@
 package com.mw.beam.beamwallet.core.entities
 
 import android.os.Parcelable
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO

@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.category
 
 import android.content.Intent
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
@@ -58,7 +58,7 @@ class CategoryActivity : BaseActivity<CategoryPresenter>(), CategoryContract.Vie
         })
 
         addressesRecyclerView.adapter = addressesAdapter
-        addressesRecyclerView.layoutManager = LinearLayoutManager(this)
+        addressesRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

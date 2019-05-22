@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatEditText
+import androidx.core.content.ContextCompat
+import androidx.appcompat.widget.AppCompatEditText
 import android.util.AttributeSet
 import com.mw.beam.beamwallet.R
 

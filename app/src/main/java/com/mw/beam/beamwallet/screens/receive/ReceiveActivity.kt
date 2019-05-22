@@ -19,8 +19,8 @@ package com.mw.beam.beamwallet.screens.receive
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View

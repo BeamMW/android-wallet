@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/transactionDetailsMainContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/transactionInfoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -197,15 +197,15 @@
                     app:layout_constraintStart_toEndOf="@id/btnOpenInBlockExplorer"
                     app:layout_constraintTop_toTopOf="@id/btnOpenInBlockExplorer" />
 
-                <android.support.constraint.Barrier
+                <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/titlesBarrier"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="end"
                     app:constraint_referenced_ids="startAddressTitle, endAddressTitle, transactionFeeTitle, commentTitle, kernelTitle" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/paymentProofContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -252,9 +252,9 @@
                     app:layout_constraintStart_toEndOf="@id/btnPaymentProofDetails"
                     app:layout_constraintTop_toBottomOf="@id/paymentProofTitle" />
 
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/transactionUtxoContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -282,8 +282,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"></LinearLayout>
-            </android.support.constraint.ConstraintLayout>
-        </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>
 

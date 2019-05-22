@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.screens.main
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,15 +29,15 @@ import kotlinx.android.synthetic.main.item_navigation.*
 /**
  * Created by vain onnellinen on 2/22/19.
  */
-class NavItemsAdapter(private val context: Context, private var data: Array<NavItem>, private var clickListener: OnItemClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class NavItemsAdapter(private val context: Context, private var data: Array<NavItem>, private var clickListener: OnItemClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val selectedColor = ContextCompat.getColor(context, R.color.colorAccent)
     private val unselectedColor = ContextCompat.getColor(context, R.color.ic_menu_color)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder =
             ViewHolder(layoutInflater.inflate(R.layout.item_navigation, parent, false))
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val item = data[position]
 
         (holder as ViewHolder).apply {
@@ -68,5 +68,5 @@ class NavItemsAdapter(private val context: Context, private var data: Array<NavI
         fun onItemClick(navItem: NavItem)
     }
 
-    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer
+    class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
 }

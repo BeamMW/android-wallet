@@ -20,14 +20,14 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.transition.AutoTransition
-import android.support.transition.TransitionManager
-import android.support.v4.content.FileProvider
-import android.support.v7.view.ContextThemeWrapper
-import android.support.v7.view.menu.MenuBuilder
-import android.support.v7.view.menu.MenuPopupHelper
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PopupMenu
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import androidx.core.content.FileProvider
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.view.menu.MenuPopupHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.PopupMenu
 import android.view.*
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
@@ -187,7 +187,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             }
         })
 
-        transactionsList.layoutManager = LinearLayoutManager(context)
+        transactionsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         transactionsList.adapter = adapter
     }
 

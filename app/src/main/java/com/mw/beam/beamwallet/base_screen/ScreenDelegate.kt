@@ -28,10 +28,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.design.widget.Snackbar
-import android.support.v4.app.SupportActivity
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -51,17 +50,17 @@ class ScreenDelegate {
     private var alert: AlertDialog? = null
     private var eventListener: Unregistrar? = null
 
-    fun hideKeyboard(activity: SupportActivity) {
+    fun hideKeyboard(activity: androidx.core.app.ComponentActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(activity.findViewById<View>(android.R.id.content)?.windowToken, 0)
     }
 
-    fun showKeyboard(activity: SupportActivity) {
+    fun showKeyboard(activity: androidx.core.app.ComponentActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
     }
 
-    fun showSnackBar(status: Status, activity: SupportActivity) {
+    fun showSnackBar(status: Status, activity: androidx.core.app.ComponentActivity) {
         showSnackBar(
                 when (status) {
                     Status.STATUS_OK -> activity.getString(R.string.common_successful)
@@ -82,15 +81,15 @@ class ScreenDelegate {
         }
     }
 
-    fun showSnackBar(message: String, activity: SupportActivity) {
+    fun showSnackBar(message: String, activity: androidx.core.app.ComponentActivity) {
         showSnackBar(message, R.color.colorAccent, activity)
     }
 
-    fun showSnackBar(message: String, textColor: Int, activity: SupportActivity) {
+    fun showSnackBar(message: String, textColor: Int, activity: androidx.core.app.ComponentActivity) {
         val snackBar = Snackbar.make(activity.findViewById(android.R.id.content) ?: return,
                 message, Snackbar.LENGTH_LONG)
         snackBar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.snack_bar_color))
-        snackBar.view.findViewById<TextView>(android.support.design.R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
+        snackBar.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
         snackBar.show()
     }
 

@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.drawable.DrawableCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout

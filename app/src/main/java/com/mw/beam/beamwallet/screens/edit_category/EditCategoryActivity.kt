@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.edit_category
 
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
 import com.mw.beam.beamwallet.R
@@ -50,8 +50,8 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
         }
 
         colorList.adapter = colorListAdapter
-        colorList.layoutManager = LinearLayoutManager(this).apply {
-            orientation = LinearLayoutManager.HORIZONTAL
+        colorList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this).apply {
+            orientation = androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         }
 
         colorListAdapter?.setData(CategoryColor.values().asList())

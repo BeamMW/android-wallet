@@ -10,7 +10,7 @@
         android:fillViewport="true"
         android:filterTouchesWhenObscured="true">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -48,7 +48,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seedLayout"
                 app:layout_constraintVertical_bias="1" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <com.mw.beam.beamwallet.core.views.Suggestions

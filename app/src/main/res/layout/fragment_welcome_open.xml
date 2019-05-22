@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="match_parent">
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:filterTouchesWhenObscured="true">
@@ -32,7 +32,7 @@
             android:text="@string/welcome_open_description"
             app:layout_constraintTop_toBottomOf="@id/logo" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/welcome_pass_hint"
                 tools:ignore="Autofill,LabelFor" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/passError"
@@ -91,6 +91,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

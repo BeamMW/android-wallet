@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
