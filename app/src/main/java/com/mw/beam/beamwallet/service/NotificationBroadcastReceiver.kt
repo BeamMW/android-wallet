@@ -14,7 +14,7 @@ class NotificationBroadcastReceiver: BroadcastReceiver() {
         val activityClass = AppActivity::class.java
 
         val startIntent = Intent(context, activityClass).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
 
         context?.startActivity(startIntent)
