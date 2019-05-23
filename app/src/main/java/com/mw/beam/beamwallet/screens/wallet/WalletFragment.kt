@@ -19,21 +19,20 @@ package com.mw.beam.beamwallet.screens.wallet
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import androidx.core.content.FileProvider
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.appcompat.widget.PopupMenu
 import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.view.menu.MenuPopupHelper
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
@@ -42,9 +41,6 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
-import com.mw.beam.beamwallet.screens.main.NavItem
-import com.mw.beam.beamwallet.screens.main.NavItemsAdapter
-import com.mw.beam.beamwallet.screens.proof_verification.ProofVerificationActivity
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import java.io.File
 
@@ -56,11 +52,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
-
-    companion object {
-        fun newInstance() = WalletFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WalletFragment::class.java.simpleName
-    }
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -146,6 +137,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun init() {
+        App.isAuthenticated = true
+
         initTransactionsList()
         setHasOptionsMenu(true)
 
@@ -217,7 +210,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             }
         })
 
-        transactionsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+        transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter
     }
 
@@ -317,7 +310,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) {
-//        = (activity as WalletHandler).onShowTransactionDetails(txDescription)
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txDescription))
     }
     override fun showReceiveScreen() {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
@@ -361,7 +354,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showProofVerification() {
-        startActivity(Intent(context, ProofVerificationActivity::class.java))
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())
     }
 
     private fun configNavView() {

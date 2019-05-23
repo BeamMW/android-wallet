@@ -17,20 +17,17 @@
 package com.mw.beam.beamwallet.screens.payment_proof_details
 
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import kotlinx.android.synthetic.main.activity_payment_proof_details.*
+import kotlinx.android.synthetic.main.fragment_payment_proof_details.*
 
-class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
-    companion object {
-        const val KEY_PAYMENT_PROOF = "KEY_PAYMENT_PROOF"
-    }
+class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
 
-    override fun getPaymentProof(): PaymentProof = intent.getParcelableExtra(KEY_PAYMENT_PROOF)
+    override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(arguments!!).paymentProof
 
     override fun init(paymentProof: PaymentProof) {
         senderValue.text = paymentProof.senderId
@@ -72,7 +69,7 @@ class PaymentProofDetailsActivity : BaseActivity<PaymentProofDetailsPresenter>()
 
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_details_toolbar_title)
 
-    override fun onControllerGetContentLayoutId(): Int = R.layout.activity_payment_proof_details
+    override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_payment_proof_details
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
        return PaymentProofDetailsPresenter(this, PaymentProofDetailsRepository(), PaymentProofDetailsState())

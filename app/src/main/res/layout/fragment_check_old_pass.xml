@@ -1,64 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true"
-    android:paddingStart="@dimen/common_passwords_screen_padding"
-    android:paddingEnd="@dimen/common_passwords_screen_padding">
-
-    <TextView
-        android:id="@+id/description"
-        style="@style/welcome_description_text_style"
-        android:paddingTop="@dimen/common_passwords_screen_description_padding_top"
-        android:text="@string/check_old_pass_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passLayout"
+    android:orientation="vertical">
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/welcome_passwords_group_padding_top"
-        app:hintTextAppearance="@style/welcome_password_label_style"
-        app:layout_constraintTop_toBottomOf="@id/description"
-        app:layout_constraintVertical_chainStyle="packed">
+        app:hasStatus="false"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mw.beam.beamwallet.core.views.BeamEditText
-            android:id="@+id/pass"
-            style="@style/welcome_password_view_style"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:filterTouchesWhenObscured="true"
+        android:paddingStart="@dimen/common_passwords_screen_padding"
+        android:paddingEnd="@dimen/common_passwords_screen_padding">
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/welcome_description_text_style"
+            android:paddingTop="@dimen/common_passwords_screen_description_padding_top"
+            android:text="@string/check_old_pass_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/welcome_pass_hint"
-            tools:ignore="Autofill,LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingTop="@dimen/welcome_passwords_group_padding_top"
+            app:hintTextAppearance="@style/welcome_password_label_style"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintVertical_chainStyle="packed">
 
-    <TextView
-        android:id="@+id/passError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:paddingTop="@dimen/welcome_passwords_items_offset"
-        android:text="@string/pass_wrong"
-        android:textColor="@color/common_error_color"
-        android:textSize="@dimen/welcome_passwords_info_text_size"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passLayout" />
+            <com.mw.beam.beamwallet.core.views.BeamEditText
+                android:id="@+id/pass"
+                style="@style/welcome_password_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/welcome_pass_hint"
+                tools:ignore="Autofill,LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.mw.beam.beamwallet.core.views.BeamButton
-        android:id="@+id/btnNext"
-        style="@style/common_button_style"
-        android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
-        android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
-        app:button_icon="@drawable/ic_btn_proceed"
-        app:button_text="@string/check_old_pass_next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passError"
-        app:layout_constraintVertical_bias="1" />
+        <TextView
+            android:id="@+id/passError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:paddingTop="@dimen/welcome_passwords_items_offset"
+            android:text="@string/pass_wrong"
+            android:textColor="@color/common_error_color"
+            android:textSize="@dimen/welcome_passwords_info_text_size"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passLayout" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
+            style="@style/common_button_style"
+            android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
+            android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
+            app:button_icon="@drawable/ic_btn_proceed"
+            app:button_text="@string/check_old_pass_next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passError"
+            app:layout_constraintVertical_bias="1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

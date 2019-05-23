@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.edit_category
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.mw.beam.beamwallet.core.helpers.CategoryColor
 import com.mw.beam.beamwallet.core.views.ColorSelector

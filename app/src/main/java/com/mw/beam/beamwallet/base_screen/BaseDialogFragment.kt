@@ -22,8 +22,8 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status

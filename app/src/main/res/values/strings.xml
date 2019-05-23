@@ -185,7 +185,7 @@ and never kept in the blockchain.</string>
     <string name="utxo_time_title">Date | time</string>
     <string name="utxo_id_title">ID</string>
 
-    <!--TransactionDetailsActivity-->
+    <!--TransactionDetailsFragment-->
     <string name="transaction_details_title">Transaction details</string>
     <string name="transaction_details_general_info">General transaction info</string>
     <string name="transaction_details_start_address">Sending address:</string>
@@ -297,7 +297,7 @@ and never kept in the blockchain.</string>
     <string name="addresses_expired">Expired: %1$s</string>
     <string name="addresses_never">never</string>
 
-    <!--AddressActivity-->
+    <!--AddressFragment-->
     <string name="address_title">Address</string>
     <string name="address_contact_token_title">Contact:</string>
     <string name="address_menu_qr">Show QR code</string>
@@ -310,7 +310,7 @@ and never kept in the blockchain.</string>
     <string name="address_category">Category:</string>
     <string name="address_annotation">Annotation:</string>
 
-    <!--EditAddressActivity-->
+    <!--EditAddressFragment-->
     <string name="edit_address_title">Edit address</string>
     <string name="edit_address_id">Address ID:</string>
     <string name="edit_address_expire_title">Expires</string>
@@ -349,7 +349,7 @@ and never kept in the blockchain.</string>
     <string name="payment_proof_details_amount">Amount:</string>
     <string name="payment_proof_details_kernel_id">Kernel ID:</string>
 
-    <!--CategoryActivity-->
+    <!--CategoryFragment-->
     <string name="category_toolbar_title">Category</string>
     <string name="category_name">Name:</string>
     <string name="category_addresses">Addresses</string>

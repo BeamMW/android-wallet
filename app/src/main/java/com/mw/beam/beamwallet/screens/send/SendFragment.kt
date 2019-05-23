@@ -22,16 +22,19 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import androidx.core.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.base_screen.BaseFragment
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.PermissionsHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
@@ -42,7 +45,6 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.fragment_send.*
-import java.lang.Exception
 
 
 /**

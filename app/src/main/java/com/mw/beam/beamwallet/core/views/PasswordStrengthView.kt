@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
 import android.util.AttributeSet
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.password_strength.view.*
 

@@ -17,21 +17,18 @@
 package com.mw.beam.beamwallet.screens.address_details
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -41,38 +38,33 @@ import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.BeamButton
-import com.mw.beam.beamwallet.screens.address_edit.EditAddressActivity
-import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
-import kotlinx.android.synthetic.main.activity_address.*
+import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
  * Created by vain onnellinen on 3/4/19.
  */
-class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
+class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private lateinit var adapter: TransactionsAdapter
     private var dialog: AlertDialog? = null
 
     companion object {
         private const val QR_SIZE = 160.0
-        const val EXTRA_ADDRESS = "EXTRA_ADDRESS"
-        const val CODE_EDIT_ADDRESS = 1
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.activity_address
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_address
     override fun getToolbarTitle(): String? = getString(R.string.address_title)
-    override fun getAddress(): WalletAddress = intent.getParcelableExtra(EXTRA_ADDRESS)
+    override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
 
     override fun init(address: WalletAddress) {
         configAddressDetails(address)
         initTransactionsList()
+        setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.address_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.address_menu, menu)
         presenter?.onMenuCreate(menu)
-
-        return true
     }
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
@@ -80,8 +72,8 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
         menu?.findItem(R.id.showQR)?.isVisible = address.isContact || !address.isExpired
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.showQR -> presenter?.onShowQR()
             R.id.copy -> presenter?.onCopyAddress()
             R.id.edit -> presenter?.onEditAddress()
@@ -92,13 +84,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     private fun initTransactionsList() {
-        adapter = TransactionsAdapter(this, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
+        adapter = TransactionsAdapter(context!!, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
             override fun onItemClick(item: TxDescription) {
                 presenter?.onTransactionPressed(item)
             }
         })
 
-        transactionsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
+        transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter
     }
 
@@ -124,7 +116,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
         category.text = findCategory?.name ?: ""
 
         if (findCategory != null) {
-            category.setTextColor(resources.getColor(findCategory.color.getAndroidColorId(), theme))
+            category.setTextColor(resources.getColor(findCategory.color.getAndroidColorId(), context?.theme))
         }
     }
 
@@ -134,7 +126,7 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
     @SuppressLint("InflateParams")
     override fun showQR(address: WalletAddress, category: Category?) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
         val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
@@ -150,13 +142,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
         try {
             val metrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(metrics)
+            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
             val logicalDensity = metrics.density
             val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
             qrView.setImageBitmap(QrHelper.textToImage(address.walletID, px, px,
-                    ContextCompat.getColor(this, R.color.common_text_color),
-                    ContextCompat.getColor(this, R.color.colorPrimary)))
+                    ContextCompat.getColor(context!!, R.color.common_text_color),
+                    ContextCompat.getColor(context!!, R.color.colorPrimary)))
         } catch (e: Exception) {
             return
         }
@@ -165,13 +157,13 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
 
         category?.let {
             categoryView.text = getString(R.string.receive_dialog_category, it.name)
-            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }
 
         btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
         close.setOnClickListener { presenter?.onDialogClosePressed() }
 
-        dialog = AlertDialog.Builder(this).setView(view).show()
+        dialog = AlertDialog.Builder(context!!).setView(view).show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
@@ -184,25 +176,15 @@ class AddressActivity : BaseActivity<AddressPresenter>(), AddressContract.View {
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) {
-        startActivity(Intent(this, TransactionDetailsActivity::class.java)
-                .putExtra(TransactionDetailsActivity.EXTRA_TRANSACTION_DETAILS, txDescription))
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToTransactionDetailsFragment(txDescription))
     }
 
     override fun showEditAddressScreen(address: WalletAddress) {
-        startActivityForResult(Intent(this, EditAddressActivity::class.java)
-                .putExtra(EditAddressActivity.EXTRA_ADDRESS_FOR_EDIT, address), CODE_EDIT_ADDRESS)
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToEditAddressFragment(address))
     }
 
     override fun finishScreen() {
-        finish()
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == CODE_EDIT_ADDRESS && resultCode == RESULT_OK) {
-            presenter?.onAddressWasEdited()
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
+        findNavController().popBackStack()
     }
 
     override fun dismissDialog() {

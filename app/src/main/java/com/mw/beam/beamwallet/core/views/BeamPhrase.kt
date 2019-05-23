@@ -17,9 +17,9 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
+import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import android.util.AttributeSet
 import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.common_phrase.view.*
 

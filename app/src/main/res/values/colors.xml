@@ -42,7 +42,7 @@
     <color name="wallet_adapter_not_multiply_color">#0a344d</color>
     <color name="wallet_adapter_multiply_color">#0e3850</color>
 
-    <!--EditAddressActivity-->
+    <!--EditAddressFragment-->
     <color name="edit_address_timestamp_color">#d8d8d8</color>
 
     <!--Category-->

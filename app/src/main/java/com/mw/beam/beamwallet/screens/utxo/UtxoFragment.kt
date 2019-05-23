@@ -16,11 +16,10 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
-import android.os.Bundle
-import android.transition.TransitionManager
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -36,11 +35,6 @@ import kotlinx.android.synthetic.main.fragment_utxo.*
  */
 class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     private lateinit var pagerAdapter: UtxosPagerAdapter
-
-    companion object {
-        fun newInstance() = UtxoFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = UtxoFragment::class.java.simpleName
-    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo
     override fun getToolbarTitle(): String? = getString(R.string.utxo_title)
@@ -85,7 +79,9 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         utxoPrivacyMessage.visibility = if (isEnable) View.VISIBLE else View.GONE
     }
 
-    override fun showUtxoDetails(utxo: Utxo) = (activity as UtxoDetailsHandler).onShowUtxoDetails(utxo)
+    override fun showUtxoDetails(utxo: Utxo) {
+        findNavController().navigate(UtxoFragmentDirections.actionUtxoFragmentToUtxoDetailsFragment(utxo))
+    }
 
     override fun updateUtxos(utxos: List<Utxo>) {
         pagerAdapter.setData(Tab.ACTIVE, utxos.filter { it.status == UtxoStatus.Available || it.status == UtxoStatus.Maturing })
@@ -99,9 +95,5 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
-    }
-
-    interface UtxoDetailsHandler {
-        fun onShowUtxoDetails(item: Utxo)
     }
 }

@@ -17,11 +17,11 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.common_button.view.*
 

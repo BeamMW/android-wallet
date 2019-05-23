@@ -14,12 +14,13 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.change_password.check_old_pass
+package com.mw.beam.beamwallet.screens.check_old_pass
 
 import android.os.Bundle
-import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -80,7 +81,9 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
         pass.isStateError = true
     }
 
-    override fun showNewPassFragment() = (activity as CheckOldPassHandler).onCreateNewPass()
+    override fun showNewPassFragment() {
+        findNavController().navigate(CheckOldPassFragmentDirections.actionCheckOldPassFragmentToPasswordChangeFragment(null, null, true))
+    }
 
 
     override fun clearErrors() {
@@ -95,9 +98,5 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return CheckOldPassPresenter(this, CheckOldPassRepository())
-    }
-
-    interface CheckOldPassHandler {
-        fun onCreateNewPass()
     }
 }

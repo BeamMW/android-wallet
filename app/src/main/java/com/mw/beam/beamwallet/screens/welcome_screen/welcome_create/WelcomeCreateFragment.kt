@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
-import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment

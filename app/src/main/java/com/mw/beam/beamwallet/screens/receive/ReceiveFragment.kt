@@ -19,8 +19,6 @@ package com.mw.beam.beamwallet.screens.receive
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -28,9 +26,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.base_screen.BaseFragment
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod

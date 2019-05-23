@@ -17,11 +17,10 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import kotlinx.android.synthetic.main.color_selector.view.*

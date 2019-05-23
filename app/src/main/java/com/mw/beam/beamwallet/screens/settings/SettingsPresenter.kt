@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.disposables.Disposable
-import java.lang.Exception
 import java.net.URI
 
 /**
@@ -52,7 +51,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onCategoryPressed(categoryId: String) {
-        view?.navigateToEditCategory(categoryId)
+        view?.navigateToCategory(categoryId)
     }
 
     override fun initSubscriptions() {

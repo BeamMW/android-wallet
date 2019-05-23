@@ -17,12 +17,10 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import android.content.Context
-import androidx.viewpager.widget.PagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
@@ -38,7 +36,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
         layout.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list).apply {
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             adapter = when (Tab.values()[position]) {
                 Tab.ACTIVE -> activeAdapter
                 Tab.EXPIRED -> expiredAdapter

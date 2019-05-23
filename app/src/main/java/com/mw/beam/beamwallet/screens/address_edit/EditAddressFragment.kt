@@ -16,14 +16,15 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
-import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -33,13 +34,13 @@ import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
-import kotlinx.android.synthetic.main.activity_edit_address.*
+import kotlinx.android.synthetic.main.fragment_edit_address.*
 
 
 /**
  * Created by vain onnellinen on 3/5/19.
  */
-class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressContract.View {
+class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressContract.View {
     private lateinit var expireNowString: String
     private lateinit var activateString: String
 
@@ -62,19 +63,15 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         }
     }
 
-    companion object {
-        const val EXTRA_ADDRESS_FOR_EDIT = "EXTRA_ADDRESS_FOR_EDIT"
-    }
-
-    override fun onControllerGetContentLayoutId() = R.layout.activity_edit_address
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
     override fun getToolbarTitle(): String? = getString(R.string.edit_address_title)
-    override fun getAddress(): WalletAddress = intent.getParcelableExtra(EXTRA_ADDRESS_FOR_EDIT)
+    override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
 
     override fun init(address: WalletAddress) {
         expireNowString = getString(R.string.edit_address_expire_now)
         activateString = getString(R.string.edit_address_expire_activate)
 
-        id.text = address.walletID
+        findViewById<TextView>(R.id.id)?.text = address.walletID
         expiresSwitchTitle.text = if (address.isExpired) activateString else expireNowString
         comment.setText(address.label)
         btnSave.isEnabled = false
@@ -88,7 +85,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         }
 
         ArrayAdapter.createFromResource(
-                this,
+                context!!,
                 R.array.receive_expires_periods,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -104,7 +101,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
         emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
 
         if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(this, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
+            categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
 
             if (currentCategory == null) {
                 categorySpinner.setSelection(0)
@@ -173,8 +170,7 @@ class EditAddressActivity : BaseActivity<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun finishScreen() {
-        setResult(Activity.RESULT_OK)
-        finish()
+        findNavController().popBackStack(R.id.addressFragment, true)
     }
 
     override fun clearListeners() {

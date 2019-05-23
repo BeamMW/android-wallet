@@ -17,14 +17,11 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.transition.TransitionManager
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -32,54 +29,51 @@ import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsActivity
-import kotlinx.android.synthetic.main.activity_transaction_details.*
+import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
-import java.lang.Exception
 
 /**
  * Created by vain onnellinen on 10/18/18.
  */
-class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
+class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private var moreMenu: Menu? = null
 
     companion object {
         const val EXTRA_TRANSACTION_DETAILS = "EXTRA_TRANSACTION_DETAILS"
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.activity_transaction_details
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
-    override fun getTransactionDetails(): TxDescription = intent.getParcelableExtra(EXTRA_TRANSACTION_DETAILS)
+    override fun getTransactionDetails(): TxDescription = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txDescription
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         configTransactionDetails(txDescription, isEnablePrivacyMode)
         configGeneralTransactionInfo(txDescription)
-        invalidateOptionsMenu()
+        setHasOptionsMenu(true)
+        activity?.invalidateOptionsMenu()
         moreMenu?.close()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        presenter?.onMenuCreate(menu)
-
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        presenter?.onMenuCreate(menu, inflater)
     }
 
-    override fun configMenuItems(menu: Menu?, txStatus: TxStatus) {
+    override fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus) {
         if (TxStatus.InProgress == txStatus
                 || TxStatus.Pending == txStatus
                 || TxStatus.Failed == txStatus
                 || TxStatus.Completed == txStatus
                 || TxStatus.Cancelled == txStatus) {
-            menuInflater.inflate(R.menu.transaction_menu, menu)
+            inflater.inflate(R.menu.transaction_menu, menu)
             moreMenu = menu
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             // R.id.repeat -> {  }
             // R.id.save -> {  }
             R.id.cancel -> presenter?.onCancelTransaction()
@@ -95,7 +89,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         transactionUtxoList.removeAllViews()
 
         utxoInfoList.forEach { utxo ->
-            val utxoView = LayoutInflater.from(this).inflate(R.layout.item_transaction_utxo, null)
+            val utxoView = LayoutInflater.from(context).inflate(R.layout.item_transaction_utxo, null)
 
             val drawableId = when(utxo.type) {
                 UtxoType.Send -> R.drawable.ic_history_sent
@@ -103,7 +97,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
                 UtxoType.Exchange -> R.drawable.menu_utxo
             }
 
-            utxoView.utxoIcon.setImageDrawable(getDrawable(drawableId))
+            utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
             utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
 
             transactionUtxoList.addView(utxoView)
@@ -135,13 +129,13 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
         startAddressCategory.visibility = if (senderCategory == null) View.GONE else View.VISIBLE
         senderCategory?.let {
             startAddressCategory.text = it.name
-            startAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+            startAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }
 
         endAddressCategory.visibility = if (receiverCategory == null) View.GONE else View.VISIBLE
         receiverCategory?.let {
             endAddressCategory.text = it.name
-            endAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+            endAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }
     }
 
@@ -207,11 +201,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun showPaymentProof(paymentProof: PaymentProof) {
-        val intent = Intent(this, PaymentProofDetailsActivity::class.java).apply {
-            putExtra(PaymentProofDetailsActivity.KEY_PAYMENT_PROOF, paymentProof)
-        }
-
-        startActivity(intent)
+        findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToPaymentProofDetailsFragment(paymentProof))
     }
 
     override fun showCopiedAlert() {
@@ -225,7 +215,7 @@ class TransactionDetailsActivity : BaseActivity<TransactionDetailsPresenter>(), 
     }
 
     override fun finishScreen() {
-        finish()
+        findNavController().popBackStack()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

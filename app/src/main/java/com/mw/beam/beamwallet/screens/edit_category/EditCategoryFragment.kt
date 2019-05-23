@@ -16,31 +16,28 @@
 
 package com.mw.beam.beamwallet.screens.edit_category
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryColor
-import kotlinx.android.synthetic.main.activity_edit_category.*
+import kotlinx.android.synthetic.main.fragment_edit_category.*
 
-class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryContract.View {
+class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
     private var colorListAdapter: ColorListAdapter? = null
-    companion object {
-        const val CATEGORY_ID_KEY = "CATEGORY_ID_KEY"
-    }
 
-    override fun onControllerGetContentLayoutId(): Int = R.layout.activity_edit_category
-
+    override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
     override fun getToolbarTitle(): String? = getString(R.string.edit_category_toolbar_title)
 
     override fun getCategoryId(): String? {
-        return intent?.extras?.getString(EditCategoryActivity.CATEGORY_ID_KEY, null)
+        return EditCategoryFragmentArgs.fromBundle(arguments ?: return null).categoryId
     }
 
     override fun init(category: Category) {
@@ -50,7 +47,7 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
         }
 
         colorList.adapter = colorListAdapter
-        colorList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this).apply {
+        colorList.layoutManager = LinearLayoutManager(context).apply {
             orientation = androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         }
 
@@ -77,6 +74,10 @@ class EditCategoryActivity: BaseActivity<EditCategoryPresenter>(), EditCategoryC
 
     override fun setSaveEnabled(enable: Boolean) {
         btnSave.isEnabled = enable
+    }
+
+    override fun finish() {
+        findNavController().popBackStack()
     }
 
     override fun getName(): String {

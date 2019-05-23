@@ -16,11 +16,10 @@
 
 package com.mw.beam.beamwallet.screens.create_password
 
-import android.os.Bundle
-import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -55,22 +54,6 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         }
     }
 
-    companion object {
-        private const val ARG_PHRASES = "ARG_PHRASES"
-        private const val ARG_MODE_PASS_CHANGE = "ARG_MODE_PASS_CHANGE"
-        private const val ARG_WELCOME_MODE = "ARG_WELCOME_MODE"
-
-        fun getFragmentTag(): String = PasswordFragment::class.java.simpleName
-        fun newInstance() = PasswordFragment().apply { arguments = Bundle().apply { putBoolean(ARG_MODE_PASS_CHANGE, true) } }
-        fun newInstance(phrases: Array<String>, mode: WelcomeMode) = PasswordFragment().apply {
-            arguments = Bundle()
-                    .apply {
-                        putStringArray(ARG_PHRASES, phrases)
-                        putString(ARG_WELCOME_MODE, mode.name)
-                    }
-        }
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_passwords
     override fun getToolbarTitle(): String? = getString(R.string.pass_title)
 
@@ -83,11 +66,11 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             description.text = getString(R.string.pass_screen_description)
             btnProceed.textResId = R.string.pass_proceed_to_wallet
             btnProceed.iconResId = R.drawable.ic_btn_proceed
+            requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
         confirmPassLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun addListeners() {
@@ -116,7 +99,9 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         findNavController().popBackStack()
     }
 
-    override fun completePassChanging() = (activity as PassChangedHandler).onPassChanged()
+    override fun completePassChanging() {
+        findNavController().popBackStack()
+    }
 
     override fun hasErrors(): Boolean {
         var hasErrors = false
@@ -188,9 +173,5 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return PasswordPresenter(this, PasswordRepository(), PasswordState())
-    }
-
-    interface PassChangedHandler {
-        fun onPassChanged()
     }
 }

@@ -47,7 +47,7 @@ interface SettingsContract {
         fun showClearDataDialog()
         fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
         fun updateCategoryList(allCategory: List<Category>)
-        fun navigateToEditCategory(categoryId: String)
+        fun navigateToCategory(categoryId: String)
         fun navigateToAddCategory()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
     }

@@ -4,9 +4,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.utils.LogUtils
 
 class AppActivity : BaseActivity<AppActivityPresenter>() {
 

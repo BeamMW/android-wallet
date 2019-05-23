@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.Utxo
@@ -144,8 +145,8 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription)
 
-    override fun onMenuCreate(menu: Menu?) {
-        view?.configMenuItems(menu, state.txDescription?.status ?: return)
+    override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
+        view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return)
     }
 
     override fun onCancelTransaction() {

@@ -17,14 +17,14 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.appcompat.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 
 /**

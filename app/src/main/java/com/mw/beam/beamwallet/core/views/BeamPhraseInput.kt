@@ -17,10 +17,10 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import android.text.Editable
 import android.util.AttributeSet
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*

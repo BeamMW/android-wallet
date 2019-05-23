@@ -2,10 +2,10 @@ package com.mw.beam.beamwallet.screens.send.confirmation_dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.core.hardware.fingerprint.FingerprintManagerCompat
-import androidx.core.os.CancellationSignal
 import android.text.Editable
 import android.view.View
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat
+import androidx.core.os.CancellationSignal
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseDialogFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter

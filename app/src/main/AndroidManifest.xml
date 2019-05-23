@@ -30,42 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.main.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.transaction_details.TransactionDetailsActivity"
-            android:label="@string/transaction_details_title"
-            android:screenOrientation="portrait" />
-        <!--<activity-->
-            <!--android:name=".screens.welcome_screen.WelcomeActivity"-->
-            <!--android:screenOrientation="portrait">-->
-        <!--</activity>-->
-        <activity
-            android:name=".screens.utxo_details.UtxoDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.address_details.AddressActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.address_edit.EditAddressActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.change_password.ChangePassActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".screens.qr.ScanQrActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.payment_proof_details.PaymentProofDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.proof_verification.ProofVerificationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.category.CategoryActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".screens.edit_category.EditCategoryActivity"
             android:screenOrientation="portrait" />
 
         <service

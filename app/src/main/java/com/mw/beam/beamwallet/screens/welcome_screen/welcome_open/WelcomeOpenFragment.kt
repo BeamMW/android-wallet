@@ -16,12 +16,11 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
-import android.os.Bundle
+import android.text.Editable
+import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
-import android.text.Editable
-import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
@@ -53,6 +52,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun getToolbarTitle(): String? = ""
 
     override fun init(shouldInitFingerprint: Boolean) {
+        App.isAuthenticated = false
+
         //TODO remove it when complete restore should be available everywhere
         if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET || BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
             btnChange.visibility = View.GONE

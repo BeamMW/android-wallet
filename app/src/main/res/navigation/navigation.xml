@@ -132,22 +132,46 @@
         <action
             android:id="@+id/action_walletFragment_to_sendFragment"
             app:destination="@id/sendFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_proofVerificationFragment"
+            app:destination="@id/proofVerificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         tools:layout="@layout/fragment_settings"
         android:name="com.mw.beam.beamwallet.screens.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_checkOldPassFragment"
+            app:destination="@id/checkOldPassFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addressesFragment"
         tools:layout="@layout/fragment_addresses"
         android:name="com.mw.beam.beamwallet.screens.addresses.AddressesFragment"
-        android:label="AddressesFragment" />
+        android:label="AddressesFragment" >
+        <action
+            android:id="@+id/action_addressesFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
     <fragment
         android:id="@+id/utxoFragment"
         tools:layout="@layout/fragment_utxo"
         android:name="com.mw.beam.beamwallet.screens.utxo.UtxoFragment"
-        android:label="UtxoFragment" />
+        android:label="UtxoFragment" >
+        <action
+            android:id="@+id/action_utxoFragment_to_utxoDetailsFragment"
+            app:destination="@id/utxoDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/receiveFragment"
         tools:layout="@layout/fragment_receive"
@@ -158,4 +182,117 @@
         tools:layout="@layout/fragment_send"
         android:name="com.mw.beam.beamwallet.screens.send.SendFragment"
         android:label="SendFragment" />
+    <fragment
+        android:id="@+id/transactionDetailsFragment"
+        tools:layout="@layout/fragment_transaction_details"
+        android:name="com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragment"
+        android:label="TransactionDetailsFragment" >
+        <argument
+            android:name="txDescription"
+            app:argType="com.mw.beam.beamwallet.core.entities.TxDescription" />
+        <action
+            android:id="@+id/action_transactionDetailsFragment_to_paymentProofDetailsFragment"
+            app:destination="@id/paymentProofDetailsFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_proof_verification"
+        android:id="@+id/proofVerificationFragment"
+        android:name="com.mw.beam.beamwallet.screens.proof_verification.ProofVerificationFragment"
+        android:label="ProofVerificationFragment" />
+    <fragment
+        tools:layout="@layout/fragment_payment_proof_details"
+        android:id="@+id/paymentProofDetailsFragment"
+        android:name="com.mw.beam.beamwallet.screens.payment_proof_details.PaymentProofDetailsFragment"
+        android:label="PaymentProofDetailsFragment" >
+        <argument
+            android:name="paymentProof"
+            app:argType="com.mw.beam.beamwallet.core.entities.PaymentProof" />
+    </fragment>
+    <fragment
+        android:id="@+id/addressFragment"
+        tools:layout="@layout/fragment_address"
+        android:name="com.mw.beam.beamwallet.screens.address_details.AddressFragment"
+        android:label="AddressFragment" >
+        <argument
+            android:name="walletAddress"
+            app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress" />
+        <action
+            android:id="@+id/action_addressFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment" />
+        <action
+            android:id="@+id/action_addressFragment_to_editAddressFragment"
+            app:destination="@id/editAddressFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_utxo_details"
+        android:id="@+id/utxoDetailsFragment"
+        android:name="com.mw.beam.beamwallet.screens.utxo_details.UtxoDetailsFragment"
+        android:label="UtxoDetailsFragment" >
+        <argument
+            android:name="utxo"
+            app:argType="com.mw.beam.beamwallet.core.entities.Utxo" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_edit_address"
+        android:id="@+id/editAddressFragment"
+        android:name="com.mw.beam.beamwallet.screens.address_edit.EditAddressFragment"
+        android:label="EditAddressFragment" >
+        <argument
+            android:name="walletAddress"
+            app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_edit_category"
+        android:id="@+id/editCategoryFragment"
+        android:name="com.mw.beam.beamwallet.screens.edit_category.EditCategoryFragment"
+        android:label="EditCategoryFragment" >
+        <argument
+            android:name="categoryId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_category"
+        android:id="@+id/categoryFragment"
+        android:name="com.mw.beam.beamwallet.screens.category.CategoryFragment"
+        android:label="CategoryFragment" >
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_categoryFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_addressFragment"
+            app:destination="@id/addressFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_check_old_pass"
+        android:id="@+id/checkOldPassFragment"
+        android:name="com.mw.beam.beamwallet.screens.check_old_pass.CheckOldPassFragment"
+        android:label="CheckOldPassFragment" >
+        <action
+            android:id="@+id/action_checkOldPassFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment"
+            app:popUpTo="@+id/checkOldPassFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_passwords"
+        android:id="@+id/passwordChangeFragment"
+        android:name="com.mw.beam.beamwallet.screens.create_password.PasswordFragment"
+        android:label="PasswordFragment" >
+        <argument
+            android:name="phrases"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="mode"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="passChangeMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
-import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -30,11 +30,6 @@ import kotlinx.android.synthetic.main.fragment_addresses.*
  */
 class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.View {
     private lateinit var pagerAdapter: AddressesPagerAdapter
-
-    companion object {
-        fun newInstance() = AddressesFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = AddressesFragment::class.java.simpleName
-    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_addresses
     override fun getToolbarTitle(): String? = getString(R.string.addresses_title)
@@ -54,7 +49,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         tabLayout.setupWithViewPager(pager)
     }
 
-    override fun showAddressDetails(address: WalletAddress) = (activity as AddressDetailsHandler).onShowAddressDetails(address)
+    override fun showAddressDetails(address: WalletAddress) {
+        findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment(address))
+    }
 
     override fun updateAddresses(tab: Tab, addresses: List<WalletAddress>) {
         pagerAdapter.setData(tab, addresses)
@@ -62,9 +59,5 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AddressesPresenter(this, AddressesRepository())
-    }
-
-    interface AddressDetailsHandler {
-        fun onShowAddressDetails(item: WalletAddress)
     }
 }

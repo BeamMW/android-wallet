@@ -14,16 +14,31 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.change_password.check_old_pass
+package com.mw.beam.beamwallet.screens.check_old_pass
 
-import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.base_screen.MvpPresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
  * Created by vain onnellinen on 3/14/19.
  */
-class CheckOldPassRepository : BaseRepository(), CheckOldPassContract.Repository {
+interface CheckOldPassContract {
+    interface View : MvpView {
+        fun init()
+        fun hasErrors(): Boolean
+        fun clearErrors()
+        fun getPass(): String
+        fun showWrongPassError()
+        fun showNewPassFragment()
+    }
 
-    override fun checkPass(pass: String?): Boolean {
-        return wallet?.checkWalletPassword(pass ?: return false) ?: false
+    interface Presenter : MvpPresenter<View> {
+        fun onPassChanged(pass: String?)
+        fun onNext()
+    }
+
+    interface Repository : MvpRepository {
+        fun checkPass(pass: String?): Boolean
     }
 }

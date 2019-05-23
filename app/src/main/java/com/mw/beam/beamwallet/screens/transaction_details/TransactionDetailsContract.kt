@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -36,7 +37,7 @@ interface TransactionDetailsContract {
         fun getTransactionDetails(): TxDescription
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
         fun updatePaymentProof(paymentProof: PaymentProof)
-        fun configMenuItems(menu: Menu?, txStatus: TxStatus)
+        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus)
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()
@@ -46,7 +47,7 @@ interface TransactionDetailsContract {
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onMenuCreate(menu: Menu?)
+        fun onMenuCreate(menu: Menu?, inflater: MenuInflater)
         fun onCancelTransaction()
         fun onDeleteTransaction()
         fun onShowPaymentProof()

@@ -17,14 +17,14 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.annotation.SuppressLint
-import androidx.core.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -34,20 +34,17 @@ import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import kotlinx.android.synthetic.main.activity_utxo_details.*
+import kotlinx.android.synthetic.main.fragment_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
-class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
-    companion object {
-        const val EXTRA_UTXO = "EXTRA_UTXO"
-    }
+class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
-    override fun onControllerGetContentLayoutId() = R.layout.activity_utxo_details
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details_title)
-    override fun getUtxo(): Utxo = intent.getParcelableExtra(EXTRA_UTXO)
+    override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(arguments!!).utxo
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
@@ -56,9 +53,9 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     private fun configUtxoInfo(utxo: Utxo) {
         status.setTextColor(when (utxo.status) {
-            UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(this, R.color.received_color)
-            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> ContextCompat.getColor(this, R.color.sent_color)
-            UtxoStatus.Available, UtxoStatus.Unavailable -> ContextCompat.getColor(this, R.color.common_text_color)
+            UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(context!!, R.color.received_color)
+            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> ContextCompat.getColor(context!!, R.color.sent_color)
+            UtxoStatus.Available, UtxoStatus.Unavailable -> ContextCompat.getColor(context!!, R.color.common_text_color)
         })
 
         status.text = when (utxo.status) {
@@ -82,7 +79,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
 
         amount.text = utxo.amount.convertToBeamString()
-        id.text = utxo.stringId
+        utxoLayout.findViewById<TextView>(R.id.id).text = utxo.stringId
     }
 
     private fun configUtxoDetails(utxo: Utxo) {
@@ -129,7 +126,7 @@ class UtxoDetailsActivity : BaseActivity<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     @SuppressLint("InflateParams")
     private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int): View? {
-        val view = LayoutInflater.from(this).inflate(R.layout.item_history, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
         view.findViewById<TextView>(R.id.time).text = time
         view.findViewById<TextView>(R.id.id).text = id
         view.findViewById<ImageView>(R.id.icon).setImageResource(if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent)

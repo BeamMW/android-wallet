@@ -189,7 +189,7 @@
     <dimen name="utxo_item_amount_text_size">24sp</dimen>
     <dimen name="utxo_info_card_vertical_margin">10dp</dimen>
 
-    <!--UtxoDetailsActivity-->
+    <!--UtxoDetailsFragment-->
     <dimen name="utxo_history_offset">20dp</dimen>
     <dimen name="utxo_history_top_offset">16dp</dimen>
     <dimen name="utxo_history_comment_offset">10dp</dimen>
@@ -214,11 +214,11 @@
     <dimen name="addresses_label_offset">10dp</dimen>
     <dimen name="addresses_label_id_width">85dp</dimen>
 
-    <!--AddressActivity-->
+    <!--AddressFragment-->
     <dimen name="address_transaction_title_padding_top">31dp</dimen>
     <dimen name="address_content_offset">20dp</dimen>
 
-    <!--EditAddressActivity-->
+    <!--EditAddressFragment-->
     <dimen name="edit_address_element_offset">30dp</dimen>
     <dimen name="edit_address_element_low_offset">10dp</dimen>
     <dimen name="edit_address_timestamp_text_size">14sp</dimen>
@@ -236,14 +236,14 @@
     <dimen name="payment_proof_send_value_margin_start">45dp</dimen>
     <dimen name="payment_proof_values_margin_top">14dp</dimen>
 
-    <!--CategoryActivity-->
+    <!--CategoryFragment-->
     <dimen name="category_content_offset">16dp</dimen>
     <dimen name="category_name_margin_start">17dp</dimen>
     <dimen name="category_name_margin_top">20dp</dimen>
     <dimen name="category_list_margin_top">20dp</dimen>
     <dimen name="category_list_title_margin_top">50dp</dimen>
 
-    <!--CategoryActivity-->
+    <!--CategoryFragment-->
     <dimen name="edit_category_content_offset">16dp</dimen>
     <dimen name="edit_category_name_title_margin_top">20dp</dimen>
     <dimen name="edit_category_content_margin">30dp</dimen>

@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.change_password.check_old_pass
+package com.mw.beam.beamwallet.screens.check_old_pass
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 

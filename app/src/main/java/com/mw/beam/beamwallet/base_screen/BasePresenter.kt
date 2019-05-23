@@ -72,6 +72,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
         view?.addListeners()
         view?.registerKeyboardStateListener()
+        view?.hideKeyboard()
     }
 
     override fun onResume() {

@@ -22,8 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import androidx.core.content.FileProvider
-import androidx.appcompat.app.AlertDialog
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
@@ -32,6 +30,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.FileProvider
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -43,8 +44,6 @@ import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import com.mw.beam.beamwallet.core.views.CategoryItemView
-import com.mw.beam.beamwallet.screens.category.CategoryActivity
-import com.mw.beam.beamwallet.screens.edit_category.EditCategoryActivity
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
@@ -84,11 +83,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun navigateToAddCategory() {
-        startActivity(Intent(context, EditCategoryActivity::class.java))
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToEditCategoryFragment(null))
     }
 
-    override fun navigateToEditCategory(categoryId: String) {
-        startActivity(Intent(context, CategoryActivity::class.java).apply { putExtra(CategoryActivity.CATEGORY_ID_KEY, categoryId) })
+    override fun navigateToCategory(categoryId: String) {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCategoryFragment(categoryId))
     }
 
     override fun updateCategoryList(allCategory: List<Category>) {
@@ -124,7 +123,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         startActivity(Intent.createChooser(shareIntent, getString(R.string.settings_send_logs_description)))
     }
 
-    override fun changePass() = (activity as SettingsHandler).onChangePassword()
+    override fun changePass() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCheckOldPassFragment())
+    }
 
     override fun addListeners() {
         changePass.setOnClickListener {
@@ -339,9 +340,5 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return SettingsPresenter(this, SettingsRepository(), SettingsState())
-    }
-
-    interface SettingsHandler {
-        fun onChangePassword()
     }
 }

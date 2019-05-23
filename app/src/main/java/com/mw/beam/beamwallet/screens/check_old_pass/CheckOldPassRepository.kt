@@ -14,11 +14,16 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.change_password
+package com.mw.beam.beamwallet.screens.check_old_pass
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 
 /**
  * Created by vain onnellinen on 3/14/19.
  */
-class ChangePassRepository: BaseRepository(), ChangePassContract.Repository
+class CheckOldPassRepository : BaseRepository(), CheckOldPassContract.Repository {
+
+    override fun checkPass(pass: String?): Boolean {
+        return wallet?.checkWalletPassword(pass ?: return false) ?: false
+    }
+}

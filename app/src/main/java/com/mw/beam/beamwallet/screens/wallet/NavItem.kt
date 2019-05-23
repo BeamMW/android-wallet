@@ -14,26 +14,13 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.change_password
-
-import com.mw.beam.beamwallet.base_screen.MvpPresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+package com.mw.beam.beamwallet.screens.wallet
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ * Created by vain onnellinen on 2/22/19.
  */
-interface ChangePassContract {
-    interface View : MvpView {
-        fun showCheckOldPassFragment()
-        fun showCreatePasswordFragment()
-        fun finishScreen()
+class NavItem(val id: ID, val iconResId: Int, val text: String, var isSelected : Boolean = false) {
+    enum class ID {
+        WALLET, ADDRESS_BOOK, UTXO, DASHBOARD, NOTIFICATIONS, HELP, SETTINGS
     }
-
-    interface Presenter : MvpPresenter<View> {
-        fun onCreateNewPass()
-        fun onPassChanged()
-    }
-
-    interface Repository : MvpRepository
 }
