@@ -39,10 +39,6 @@ import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private var moreMenu: Menu? = null
 
-    companion object {
-        const val EXTRA_TRANSACTION_DETAILS = "EXTRA_TRANSACTION_DETAILS"
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
     override fun getTransactionDetails(): TxDescription = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txDescription

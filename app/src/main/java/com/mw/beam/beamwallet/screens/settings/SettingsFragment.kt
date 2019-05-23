@@ -58,11 +58,6 @@ import java.util.concurrent.TimeUnit
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
     private var dialog: AlertDialog? = null
 
-    companion object {
-        fun newInstance() = SettingsFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = SettingsFragment::class.java.simpleName
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings_title)
 

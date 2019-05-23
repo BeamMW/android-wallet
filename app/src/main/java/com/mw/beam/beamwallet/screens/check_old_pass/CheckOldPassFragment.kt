@@ -39,11 +39,6 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
         }
     }
 
-    companion object {
-        fun newInstance() = CheckOldPassFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = CheckOldPassFragment::class.java.simpleName
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_check_old_pass
     override fun getToolbarTitle(): String? = getString(R.string.check_old_pass_title)
 
