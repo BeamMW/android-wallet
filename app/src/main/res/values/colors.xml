@@ -17,9 +17,9 @@
     <color name="toolbar_status_color">#8da1ad</color>
     <color name="navigation_drawer_color">#02253c</color>
     <color name="received_color">#0bccf7</color>
-    <color name="received_color_picked">#0ab1d6</color>
+    <color name="received_color_picked">#075668</color>
     <color name="sent_color">#da68f5</color>
-    <color name="sent_color_picked">#be5cd6</color>
+    <color name="sent_color_picked">#652874</color>
     <color name="logo_text_color">#25c1ff</color>
     <color name="testnet_text_color">#80ffffff</color>
     <color name="ic_menu_color">#99ffffff</color>

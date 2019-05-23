@@ -50,15 +50,6 @@ class BeamButton : LinearLayout {
                 text.setTextColor(ContextCompat.getColor(context, field))
             }
         }
-    var stateListResId: Int = Integer.MIN_VALUE
-        set(value) {
-            field = value
-            if (field != Integer.MIN_VALUE) {
-                DrawableCompat.setTintList(this.background, ContextCompat.getColorStateList(context, field))
-            } else {
-                DrawableCompat.setTintList(this.background, ContextCompat.getColorStateList(context, R.color.accent_selector))
-            }
-        }
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
@@ -75,7 +66,9 @@ class BeamButton : LinearLayout {
     private fun init(context: Context, attrs: AttributeSet?) {
         inflate(context, R.layout.common_button, this)
 
-        this.background = ContextCompat.getDrawable(context, R.drawable.common_button)
+        if (this.background == null) {
+            this.background = ContextCompat.getDrawable(context, R.drawable.common_button)
+        }
         this.orientation = HORIZONTAL
         this.gravity = Gravity.CENTER
 
@@ -89,7 +82,6 @@ class BeamButton : LinearLayout {
             iconResId = a.getResourceId(R.styleable.BeamButton_button_icon, Integer.MIN_VALUE)
             textResId = a.getResourceId(R.styleable.BeamButton_button_text, Integer.MIN_VALUE)
             textColorResId = a.getResourceId(R.styleable.BeamButton_button_text_color, Integer.MIN_VALUE)
-            stateListResId = a.getResourceId(R.styleable.BeamButton_button_state_list, Integer.MIN_VALUE)
         }
     }
 }

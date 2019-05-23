@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple android:color="@color/colorAccentPicked"
+<ripple android:color="@color/colorPrimaryPicked"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- mask -->
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <corners android:radius="50dp"/>
-            <solid android:color="@color/colorAccentPicked"/>
+            <solid android:color="@color/colorPrimaryPicked"/>
         </shape>
     </item>
 
     <item>
         <selector>
-
+            <!-- ... NOT here. -->
             <item android:state_selected="true">
                 <shape android:shape="rectangle">
                     <corners android:radius="50dp"/>
-                    <solid android:color="@color/colorAccentPicked"/>
+                    <solid android:color="@color/colorPrimaryPicked"/>
                 </shape>
             </item>
 
             <item android:state_activated="true">
                 <shape android:shape="rectangle">
                     <corners android:radius="50dp"/>
-                    <solid android:color="@color/colorAccentPicked"/>
+                    <solid android:color="@color/colorPrimaryPicked"/>
                 </shape>
             </item>
 
             <item android:state_enabled="false">
                 <shape android:shape="rectangle">
                     <corners android:radius="50dp"/>
-                    <solid android:color="@color/colorAccentPicked"/>
+                    <solid android:color="@color/colorPrimaryPicked"/>
                 </shape>
             </item>
 
             <item>
                 <shape android:shape="rectangle">
                     <corners android:radius="50dp"/>
-                    <solid android:color="@color/colorAccent"/>
+                    <solid android:color="@color/colorPrimary"/>
                 </shape>
             </item>
         </selector>
     </item>
 </ripple>
-

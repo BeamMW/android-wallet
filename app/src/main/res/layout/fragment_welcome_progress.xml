@@ -84,7 +84,7 @@
             android:layout_marginBottom="@dimen/welcome_progress_button_margin"
             android:visibility="gone"
             app:button_icon="@drawable/ic_btn_cancel"
-            app:button_state_list="@color/primary_selector"
+            android:background="@drawable/primary_button"
             app:button_text="@string/common_cancel"
             app:button_text_color="@color/common_text_color"
             app:layout_constraintBottom_toBottomOf="parent"

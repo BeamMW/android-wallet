@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#242424</color>
-    <color name="colorPrimaryPicked">#161616</color>
+    <color name="colorPrimaryPicked">#0F0F0F</color>
     <color name="colorPrimaryDark">#171717</color>
     <color name="navigation_drawer_color">#101010</color>
 

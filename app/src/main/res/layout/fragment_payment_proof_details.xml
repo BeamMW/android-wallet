@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_section_margin_top"
                 app:button_icon="@drawable/ic_btn_copy"
-                app:button_state_list="@color/primary_selector"
+                android:background="@drawable/primary_button"
                 app:button_text="@string/payment_proof_details_copy_details"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"

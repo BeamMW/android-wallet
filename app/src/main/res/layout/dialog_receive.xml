@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
         app:button_icon="@drawable/ic_share"
-        app:button_state_list="@color/receive_selector"
+        android:background="@drawable/receive_button"
         app:button_text="@string/receive_btn_share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

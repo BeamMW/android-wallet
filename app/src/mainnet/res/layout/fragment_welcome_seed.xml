@@ -39,7 +39,7 @@
             android:layout_marginBottom="@dimen/welcome_seed_button_margin"
             android:visibility="gone"
             app:button_icon="@drawable/ic_btn_copy"
-            app:button_state_list="@color/primary_selector"
+            android:background="@drawable/primary_button"
             app:button_text="@string/welcome_copy_to_clipboard"
             app:button_text_color="@color/common_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
