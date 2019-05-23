@@ -11,10 +11,18 @@
         android:label="WelcomeCreateFragment" >
         <action
             android:id="@+id/action_welcomeCreateFragment_to_welcomeRestoreFragment"
-            app:destination="@id/welcomeRestoreFragment" />
+            app:destination="@id/welcomeRestoreFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_welcomeCreateFragment_to_welcomeDescriptionFragment"
-            app:destination="@id/welcomeDescriptionFragment" />
+            app:destination="@id/welcomeDescriptionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/welcomeOpenFragment"
@@ -23,7 +31,11 @@
         android:label="WelcomeOpenFragment" >
         <action
             android:id="@+id/action_welcomeOpenFragment_to_welcomeProgressFragment"
-            app:destination="@id/welcomeProgressFragment" />
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/welcomeRestoreFragment"
@@ -32,7 +44,11 @@
         android:label="WelcomeRestoreFragment" >
         <action
             android:id="@+id/action_welcomeRestoreFragment_to_passwordFragment"
-            app:destination="@id/passwordFragment" />
+            app:destination="@id/passwordFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
     </fragment>
     <fragment
         android:id="@+id/welcomeProgressFragment"
@@ -54,7 +70,11 @@
             android:id="@+id/action_welcomeProgressFragment_to_walletFragment"
             app:destination="@id/walletFragment"
             app:launchSingleTop="false"
-            app:popUpTo="@+id/navigation" />
+            app:popUpTo="@+id/navigation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/welcomeSeedFragment"
@@ -64,7 +84,11 @@
         <action
             android:id="@+id/action_welcomeSeedFragment_to_welcomeConfirmFragment"
             app:destination="@id/welcomeConfirmFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/welcomeConfirmFragment"
@@ -77,10 +101,18 @@
         <action
             android:id="@+id/action_welcomeConfirmFragment_to_passwordFragment"
             app:destination="@id/passwordFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
         <action
             android:id="@+id/action_welcomeConfirmFragment_to_welcomeSeedFragment"
             app:destination="@id/welcomeSeedFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/welcomeDescriptionFragment" />
     </fragment>
     <fragment
@@ -102,10 +134,18 @@
             android:defaultValue="false" />
         <action
             android:id="@+id/action_passwordFragment_to_welcomeProgressFragment"
-            app:destination="@id/welcomeProgressFragment" />
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_passwordFragment_to_welcomeSeedFragment"
             app:destination="@id/welcomeSeedFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/welcomeDescriptionFragment"
             app:popUpToInclusive="false" />
     </fragment>
@@ -117,7 +157,11 @@
         <action
             android:id="@+id/action_welcomeDescriptionFragment_to_welcomeSeedFragment"
             app:destination="@id/welcomeSeedFragment"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
     </fragment>
     <fragment
         android:id="@+id/walletFragment"
@@ -126,25 +170,53 @@
         android:label="WalletFragment" >
         <action
             android:id="@+id/action_walletFragment_to_addressesFragment"
-            app:destination="@id/addressesFragment" />
+            app:destination="@id/addressesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_utxoFragment"
-            app:destination="@id/utxoFragment" />
+            app:destination="@id/utxoFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_receiveFragment"
-            app:destination="@id/receiveFragment" />
+            app:destination="@id/receiveFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_sendFragment"
-            app:destination="@id/sendFragment" />
+            app:destination="@id/sendFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_transactionDetailsFragment"
-            app:destination="@id/transactionDetailsFragment" />
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_walletFragment_to_proofVerificationFragment"
-            app:destination="@id/proofVerificationFragment" />
+            app:destination="@id/proofVerificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -153,13 +225,25 @@
         android:label="SettingsFragment" >
         <action
             android:id="@+id/action_settingsFragment_to_editCategoryFragment"
-            app:destination="@id/editCategoryFragment" />
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_settingsFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_settingsFragment_to_checkOldPassFragment"
-            app:destination="@id/checkOldPassFragment" />
+            app:destination="@id/checkOldPassFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -168,7 +252,11 @@
         android:label="AddressesFragment" >
         <action
             android:id="@+id/action_addressesFragment_to_addressFragment"
-            app:destination="@id/addressFragment" />
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/utxoFragment"
@@ -177,7 +265,11 @@
         android:label="UtxoFragment" >
         <action
             android:id="@+id/action_utxoFragment_to_utxoDetailsFragment"
-            app:destination="@id/utxoDetailsFragment" />
+            app:destination="@id/utxoDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/receiveFragment"
@@ -199,7 +291,11 @@
             app:argType="com.mw.beam.beamwallet.core.entities.TxDescription" />
         <action
             android:id="@+id/action_transactionDetailsFragment_to_paymentProofDetailsFragment"
-            app:destination="@id/paymentProofDetailsFragment" />
+            app:destination="@id/paymentProofDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         tools:layout="@layout/fragment_proof_verification"
@@ -225,10 +321,18 @@
             app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress" />
         <action
             android:id="@+id/action_addressFragment_to_transactionDetailsFragment"
-            app:destination="@id/transactionDetailsFragment" />
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_addressFragment_to_editAddressFragment"
-            app:destination="@id/editAddressFragment" />
+            app:destination="@id/editAddressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         tools:layout="@layout/fragment_utxo_details"
@@ -268,10 +372,18 @@
             app:argType="string" />
         <action
             android:id="@+id/action_categoryFragment_to_editCategoryFragment"
-            app:destination="@id/editCategoryFragment" />
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_categoryFragment_to_addressFragment"
-            app:destination="@id/addressFragment" />
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         tools:layout="@layout/fragment_check_old_pass"
@@ -281,6 +393,10 @@
         <action
             android:id="@+id/action_checkOldPassFragment_to_passwordChangeFragment"
             app:destination="@id/passwordChangeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/checkOldPassFragment"
             app:popUpToInclusive="true" />
     </fragment>
