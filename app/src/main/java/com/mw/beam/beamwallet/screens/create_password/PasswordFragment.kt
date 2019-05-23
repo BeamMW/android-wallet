@@ -20,6 +20,8 @@ import android.os.Bundle
 import androidx.core.content.res.ResourcesCompat
 import android.text.Editable
 import android.view.View
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -28,14 +30,13 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.fragment_passwords.*
 
 
 /**
  * Created by vain onnellinen on 10/23/18.
  */
-class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View, OnBackPressedHandler {
+class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
             presenter?.onPassChanged(password?.toString())
@@ -45,6 +46,12 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     private val confirmPassWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
             presenter?.onConfirmPassChanged()
+        }
+    }
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            presenter?.onBackPressed()
         }
     }
 
@@ -80,6 +87,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
         confirmPassLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun addListeners() {
@@ -91,17 +99,23 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         }
     }
 
-    override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_PHRASES)
+    override fun getSeed(): Array<String>? = arguments?.let { PasswordFragmentArgs.fromBundle(it).phrases }
     override fun getPass(): String = pass.text?.toString() ?: ""
-    override fun isModeChangePass(): Boolean = arguments?.getBoolean(ARG_MODE_PASS_CHANGE, false) ?: false
+    override fun isModeChangePass(): Boolean = arguments?.let { PasswordFragmentArgs.fromBundle(it).passChangeMode } ?: false
     override fun getWelcomeMode(): WelcomeMode? {
-        val argument = arguments?.getString(ARG_WELCOME_MODE)
-
-        return if (argument.isNullOrEmpty()) null else  WelcomeMode.valueOf(argument)
+        return arguments?.let {
+            val modeName = PasswordFragmentArgs.fromBundle(it).mode
+            WelcomeMode.valueOf(modeName ?: return null)
+        }
     }
 
-    override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) = (activity as PasswordsHandler).proceedToWallet(mode, pass, seed)
-    override fun showSeedFragment() = (activity as PasswordsHandler).showSeedFragment()
+    override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) {
+        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+    }
+    override fun showSeedFragment() {
+        findNavController().popBackStack()
+    }
+
     override fun completePassChanging() = (activity as PassChangedHandler).onPassChanged()
 
     override fun hasErrors(): Boolean {
@@ -168,21 +182,12 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         btnProceed.setOnClickListener(null)
     }
 
-    override fun onBackPressed() {
-        presenter?.onBackPressed()
-    }
-
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
         strengthView.strength = strength
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return PasswordPresenter(this, PasswordRepository(), PasswordState())
-    }
-
-    interface PasswordsHandler {
-        fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>)
-        fun showSeedFragment()
     }
 
     interface PassChangedHandler {

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
 import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -28,11 +29,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_create.*
  * Created by vain onnellinen on 12/4/18.
  */
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
-    companion object {
-        fun newInstance() = WelcomeCreateFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeCreateFragment::class.java.simpleName
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create
     override fun getToolbarTitle(): String? = ""
     override fun hasBackArrow(): Boolean = activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 1
@@ -52,16 +48,15 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnRestore.setOnClickListener(null)
     }
 
-    override fun createWallet() = (activity as CreateHandler).createWallet()
-    override fun restoreWallet() = (activity as CreateHandler).restoreWallet()
+    override fun createWallet() {
+        findNavController().navigate(WelcomeCreateFragmentDirections.actionWelcomeCreateFragmentToWelcomeDescriptionFragment())
+    }
+    override fun restoreWallet() {
+        findNavController().navigate(WelcomeCreateFragmentDirections.actionWelcomeCreateFragmentToWelcomeRestoreFragment())
+    }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeCreatePresenter(this, WelcomeCreateRepository())
-    }
-
-    interface CreateHandler {
-        fun createWallet()
-        fun restoreWallet()
     }
 }
 

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.send
 
 import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -58,7 +59,7 @@ interface SendContract {
         fun showConfirmDialog(token: String, amount: Double, fee: Long)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
-        fun createOptionsMenu(menu: Menu?, isEnablePrivacyMode: Boolean)
+        fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
         fun dismissDialog()
         fun showStayActiveDialog()
     }
@@ -76,7 +77,7 @@ interface SendContract {
         fun onConfirm()
         fun onChangePrivacyModePressed()
         fun onPrivacyModeActivated()
-        fun onCreateOptionsMenu(menu: Menu?)
+        fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater)
         fun onCancelDialog()
         fun onDialogClosePressed()
         fun onSendAllPressed()

@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.utils.TransactionFields
@@ -74,6 +75,20 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
+    }
+
+    override fun onWhereBuyBeamPressed() {
+        if (repository.isAllowOpenExternalLink()) {
+            view?.closeDrawer()
+            view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+        } else {
+            view?.showOpenLinkAlert()
+        }
+    }
+
+    override fun onOpenLinkPressed() {
+        view?.closeDrawer()
+        view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
     }
 
     override fun onCancelDialog() {

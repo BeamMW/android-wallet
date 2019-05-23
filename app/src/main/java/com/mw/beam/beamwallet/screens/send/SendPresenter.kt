@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.send
 
 import android.view.Menu
+import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
@@ -96,8 +97,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         notifyPrivacyStateChange()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?) {
-        view?.createOptionsMenu(menu, state.privacyMode)
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater) {
+        view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
     override fun onSend() {

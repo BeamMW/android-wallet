@@ -16,12 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
-import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -40,11 +40,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_restore.*
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     private var currentEditText: EditText? = null
-
-    companion object {
-        fun newInstance() = WelcomeRestoreFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeRestoreFragment::class.java.simpleName
-    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_restore
     override fun getToolbarTitle(): String = getString(R.string.welcome_restore_title)
@@ -104,7 +99,9 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         presenter?.onKeyboardStateChange(true)
     }
 
-    override fun showPasswordsFragment(seed: Array<String>) = (activity as RestoreHandler).proceedToPasswords(seed, WelcomeMode.RESTORE)
+    override fun showPasswordsFragment(seed: Array<String>) {
+        findNavController().navigate(WelcomeRestoreFragmentDirections.actionWelcomeRestoreFragmentToPasswordFragment(seed, WelcomeMode.RESTORE.name))
+    }
 
     override fun configSeed(phrasesCount: Int) {
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
@@ -200,9 +197,5 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
-    }
-
-    interface RestoreHandler {
-        fun proceedToPasswords(seed: Array<String>, mode: WelcomeMode)
     }
 }

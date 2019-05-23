@@ -19,8 +19,10 @@ package com.mw.beam.beamwallet.base_screen
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerFragment
+import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.views.BeamToolbar
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -57,7 +59,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
-        (activity as BaseActivity<*>).initToolbar(title, hasBackArrow, hasStatus)
+        val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
+        (activity as BaseActivity<*>).setupToolbar(toolbarLayout, title, hasBackArrow, hasStatus)
     }
 
     override fun configStatus(networkStatus: NetworkStatus) {

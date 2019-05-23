@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.GridLayout
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -34,11 +35,6 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
     private lateinit var copiedAlert: String
-
-    companion object {
-        fun newInstance() = WelcomeSeedFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeSeedFragment::class.java.simpleName
-    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed
     override fun getToolbarTitle(): String? = getString(R.string.welcome_seed_title)
@@ -102,7 +98,9 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
                 getString(R.string.common_cancel))
     }
 
-    override fun showConfirmFragment(seed: Array<String>) = (activity as SeedHandler).proceedToValidation(seed)
+    override fun showConfirmFragment(seed: Array<String>) {
+        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed))
+    }
 
     private fun configPhrase(text: String, number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {
         val context = context ?: return null
@@ -130,9 +128,5 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeSeedPresenter(this, WelcomeSeedRepository())
-    }
-
-    interface SeedHandler {
-        fun proceedToValidation(seed: Array<String>)
     }
 }

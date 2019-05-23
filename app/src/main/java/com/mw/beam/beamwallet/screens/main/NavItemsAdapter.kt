@@ -49,7 +49,7 @@ class NavItemsAdapter(private val context: Context, private var data: Array<NavI
 
             itemView.setOnClickListener {
                 clickListener.onItemClick(item)
-                selectItem(item.id)
+//                selectItem(item.id)
             }
         }
     }

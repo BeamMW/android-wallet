@@ -22,6 +22,7 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import android.text.Editable
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -31,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
 
@@ -45,11 +47,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         override fun afterTextChanged(p0: Editable?) {
             presenter?.onPassChanged()
         }
-    }
-
-    companion object {
-        fun newInstance() = WelcomeOpenFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeOpenFragment::class.java.simpleName
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
@@ -123,8 +120,12 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun getPass(): String = pass.text?.toString() ?: ""
-    override fun openWallet(pass: String) = (activity as OpenHandler).openWallet(pass)
-    override fun changeWallet() = (activity as OpenHandler).changeWallet()
+    override fun openWallet(pass: String) {
+        findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+    }
+    override fun changeWallet() {
+
+    }
 
     override fun showOpenWalletError() {
         pass.isStateError = true
@@ -146,11 +147,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeOpenPresenter(this, WelcomeOpenRepository())
-    }
-
-    interface OpenHandler {
-        fun openWallet(pass: String)
-        fun changeWallet()
     }
 
     private class FingerprintCallback(val presenter: WelcomeOpenContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {

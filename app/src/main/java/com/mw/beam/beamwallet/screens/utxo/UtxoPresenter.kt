@@ -95,6 +95,6 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription)
 
-    override fun hasBackArrow(): Boolean? = null
+    override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true
 }

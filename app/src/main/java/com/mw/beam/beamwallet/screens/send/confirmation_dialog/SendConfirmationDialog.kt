@@ -115,7 +115,7 @@ class SendConfirmationDialog : BaseDialogFragment<SendConfirmationPresenter>(), 
         onConfirmedDialogListener?.onClosed()
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         onConfirmedDialogListener = null
         super.onDismiss(dialog)
     }

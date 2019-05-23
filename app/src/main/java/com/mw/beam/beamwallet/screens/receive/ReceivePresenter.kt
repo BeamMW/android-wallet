@@ -66,10 +66,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         state.expirePeriod = period
     }
 
-    override fun onBackPressed() {
-        saveAddress()
-    }
-
     override fun onDestroy() {
         view?.dismissDialog()
         super.onDestroy()
@@ -83,6 +79,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 state.address = it
                 view?.showToken(it.walletID)
                 view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+                saveAddress()
             }
         }
     }

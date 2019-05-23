@@ -141,7 +141,7 @@
     <dimen name="transaction_details_link_text_margin_end">30dp</dimen>
     <dimen name="transaction_details_link_icon_margin_start">5dp</dimen>
 
-    <!--ReceiveActivity-->
+    <!--ReceiveFragment-->
     <dimen name="receive_title_margin_top">35dp</dimen>
     <dimen name="receive_comment_title_margin_top">30dp</dimen>
     <dimen name="receive_common_margin">10dp</dimen>
@@ -160,7 +160,7 @@
     <dimen name="receive_amount_text_size">36sp</dimen>
     <dimen name="receive_amount_title_margin_top">35dp</dimen>
 
-    <!--SendActivity-->
+    <!--SendFragment-->
     <dimen name="send_token_title_margin_top">24dp</dimen>
     <dimen name="send_title_margin_top">30dp</dimen>
     <dimen name="send_receive_common_margin">10dp</dimen>

@@ -296,7 +296,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
         PasswordConfirmDialog.newInstance(onConfirm, onDismiss)
-                .show(activity?.supportFragmentManager, PasswordConfirmDialog.getFragmentTag())
+                .show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     private fun getLockScreenStringValue(millis: Long): String {

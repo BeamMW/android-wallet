@@ -73,7 +73,7 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
         passError.visibility = View.VISIBLE
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         onDismiss?.invoke()
 
         onDismiss = null

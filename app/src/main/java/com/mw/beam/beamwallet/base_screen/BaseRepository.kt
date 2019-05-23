@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -95,6 +96,16 @@ open class BaseRepository : MvpRepository {
 
     override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
         return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
+    }
+
+    override fun isWalletInitialized(): Boolean {
+        val result = Api.isWalletInitialized(AppConfig.DB_PATH)
+        LogUtils.logResponse(result, "isWalletInitialized")
+        return result
+    }
+
+    override fun isLockScreenEnabled(): Boolean {
+        return LockScreenManager.getCurrentValue() != LockScreenManager.LOCK_SCREEN_NEVER_VALUE
     }
 
     fun <T> getResult(subject: Subject<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Subject<T> {

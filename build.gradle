@@ -29,8 +29,9 @@ buildscript {
     ext.ver_legacy_support = '1.0.0'
     ext.ver_media = '1.0.1'
     ext.ver_recyclerview = '1.0.0'
-    ext.ver_material = '1.0.0'
+    ext.ver_material = '1.0.0-rc01'
     ext.ver_cardview = '1.0.0'
+    ext.nav_version = "2.1.0-alpha04"
 
     repositories {
         google()
@@ -40,6 +41,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:${ver_gradle}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ver_kotlin"
         classpath "com.google.gms:google-services:$ver_google_services"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

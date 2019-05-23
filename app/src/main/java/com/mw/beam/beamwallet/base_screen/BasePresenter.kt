@@ -118,7 +118,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     }
 
     private fun lockApp() {
-        if (isLockScreenEnabled()) {
+        if (isLockScreenEnabled() && repository.isWalletInitialized()) {
             repository.closeWallet()
             view?.logOut()
         }
@@ -143,7 +143,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     }
 
     override fun isLockScreenEnabled(): Boolean {
-        return true
+        return repository.isLockScreenEnabled()
     }
 
     override fun hasStatus(): Boolean = false

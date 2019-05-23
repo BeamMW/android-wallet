@@ -23,7 +23,6 @@ import android.os.Handler
 import android.os.PersistableBundle
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.MenuItem
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
@@ -38,8 +37,8 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.screens.address_details.AddressActivity
 import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
 import com.mw.beam.beamwallet.screens.change_password.ChangePassActivity
-import com.mw.beam.beamwallet.screens.receive.ReceiveActivity
-import com.mw.beam.beamwallet.screens.send.SendActivity
+import com.mw.beam.beamwallet.screens.receive.ReceiveFragment
+import com.mw.beam.beamwallet.screens.send.SendFragment
 import com.mw.beam.beamwallet.screens.settings.SettingsFragment
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity
 import com.mw.beam.beamwallet.screens.utxo.UtxoFragment
@@ -51,7 +50,6 @@ import kotlinx.android.synthetic.main.activity_main.*
  * Created by vain onnellinen on 10/4/18.
  */
 class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
-        WalletFragment.WalletHandler,
         UtxoFragment.UtxoDetailsHandler,
         AddressesFragment.AddressDetailsHandler,
         SettingsFragment.SettingsHandler {
@@ -60,18 +58,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_main
     override fun getToolbarTitle(): String? = null
-
-    override fun onShowTransactionDetails(item: TxDescription) {
-        presenter?.onShowTransactionDetails(item)
-    }
-
-    override fun onReceive() {
-        presenter?.onReceive()
-    }
-
-    override fun onSend() {
-        presenter?.onSend()
-    }
 
     override fun onChangePassword() {
         presenter?.onChangePass()
@@ -114,8 +100,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
                 .putExtra(AddressActivity.EXTRA_ADDRESS, item))
     }
 
-    override fun showReceiveScreen() = startActivity(Intent(this, ReceiveActivity::class.java))
-    override fun showSendScreen() = startActivity(Intent(this, SendActivity::class.java))
+    override fun showReceiveScreen() = startActivity(Intent(this, ReceiveFragment::class.java))
+    override fun showSendScreen() = startActivity(Intent(this, SendFragment::class.java))
     override fun showChangePasswordScreen() = startActivity(Intent(this, ChangePassActivity::class.java))
 
     override fun onBackPressed() {
@@ -145,7 +131,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View,
         drawerToggle.syncState()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         drawerToggle.onConfigurationChanged(newConfig)
     }

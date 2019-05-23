@@ -28,11 +28,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
@@ -41,12 +39,12 @@ import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
-import kotlinx.android.synthetic.main.activity_receive.*
+import kotlinx.android.synthetic.main.fragment_receive.*
 
 /**
  * Created by vain onnellinen on 11/13/18.
  */
-class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
+class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private var dialog: AlertDialog? = null
 
     private val expireListener = object : OnItemSelectedListener {
@@ -62,13 +60,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         private const val QR_SIZE = 160.0
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.activity_receive
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
 
     override fun init() {
         ArrayAdapter.createFromResource(
-                this,
+                context!!,
                 R.array.receive_expires_periods,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -100,7 +98,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("InflateParams")
     override fun showQR(receiveToken: String, amount: Double?, category: Category?) {
-        val view = LayoutInflater.from(this).inflate(R.layout.dialog_receive, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_receive, null)
         val qrView = view.findViewById<ImageView>(R.id.qrView)
         val token = view.findViewById<TextView>(R.id.tokenView)
         val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
@@ -111,13 +109,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
         try {
             val metrics = DisplayMetrics()
-            windowManager.defaultDisplay.getMetrics(metrics)
+            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
             val logicalDensity = metrics.density
             val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
             qrView.setImageBitmap(QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount), px, px,
-                    ContextCompat.getColor(this, R.color.common_text_color),
-                    ContextCompat.getColor(this, R.color.colorPrimary)))
+                    ContextCompat.getColor(context!!, R.color.common_text_color),
+                    ContextCompat.getColor(context!!, R.color.colorPrimary)))
         } catch (e: Exception) {
             return
         }
@@ -126,13 +124,13 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
 
         category?.let {
             categoryView.text = getString(R.string.receive_dialog_category, it.name)
-            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), theme))
+            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }
 
         btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
         close.setOnClickListener { presenter?.onDialogClosePressed() }
 
-        dialog = AlertDialog.Builder(this).setView(view).show()
+        dialog = AlertDialog.Builder(context!!).setView(view).show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
@@ -144,7 +142,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
         emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
 
         if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(this, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
+            categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
 
             if (currentCategory == null) {
                 categorySpinner.setSelection(0)
@@ -168,7 +166,7 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun close() {
-        finish()
+        findNavController().popBackStack()
     }
 
     override fun dismissDialog() {
@@ -176,11 +174,6 @@ class ReceiveActivity : BaseActivity<ReceivePresenter>(), ReceiveContract.View {
             dialog?.dismiss()
             dialog = null
         }
-    }
-
-    override fun onBackPressed() {
-        presenter?.onBackPressed()
-        super.onBackPressed()
     }
 
     override fun clearListeners() {

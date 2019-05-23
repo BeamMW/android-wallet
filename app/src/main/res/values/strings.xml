@@ -207,7 +207,7 @@ and never kept in the blockchain.</string>
     <string name="transaction_details_copy_to_clipboard">copy</string>
     <string name="transaction_details_open_in_explorer">Open in Block Explorer</string>
 
-    <!--ReceiveActivity-->
+    <!--ReceiveFragment-->
     <string name="receive_title">Receive</string>
     <string name="receive_switch_title">Swap</string>
     <string name="receive_send_annotation">Annotation</string>
@@ -226,7 +226,7 @@ and never kept in the blockchain.</string>
         <item>Never</item>
     </string-array>
 
-    <!--SendActivity-->
+    <!--SendFragment-->
     <string name="send_title">Send</string>
     <string name="send_token_title">Send to</string>
     <string name="send_token_description">Input or scan the recipient\'s address</string>

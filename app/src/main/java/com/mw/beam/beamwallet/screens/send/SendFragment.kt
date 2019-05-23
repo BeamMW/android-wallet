@@ -22,19 +22,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import androidx.fragment.app.DialogFragment
 import androidx.core.content.ContextCompat
 import android.text.Editable
 import android.text.InputFilter
-import android.transition.TransitionManager
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.PermissionsHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
@@ -44,14 +41,14 @@ import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
-import kotlinx.android.synthetic.main.activity_send.*
+import kotlinx.android.synthetic.main.fragment_send.*
 import java.lang.Exception
 
 
 /**
  * Created by vain onnellinen on 11/13/18.
  */
-class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
+class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private lateinit var tokenWatcher: TextWatcher
     private lateinit var amountWatcher: TextWatcher
     private lateinit var feeWatcher: TextWatcher
@@ -68,7 +65,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.activity_send
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
 
     override fun getAmount(): Double = try {
@@ -87,6 +84,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun init(defaultFee: Int) {
+        setHasOptionsMenu(true)
         token.requestFocus()
         fee.setText(defaultFee.toString())
     }
@@ -106,9 +104,9 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
         tokenWatcher = object : PasteEditTextWatcher {
             override fun onPaste() {
-                val clipboardManager = baseContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
 
-                if (clipboardManager.hasPrimaryClip()) {
+                if (clipboardManager?.hasPrimaryClip() == true) {
                     val item = clipboardManager.primaryClip?.getItemAt(0)
                     presenter?.onTokenPasted(token = item?.text.toString(), oldToken = token.text?.toString())
                 }
@@ -180,13 +178,12 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
                 btnCancelText = getString(R.string.common_cancel))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        presenter?.onCreateOptionsMenu(menu)
-        return true
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        presenter?.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun createOptionsMenu(menu: Menu?, isEnablePrivacyMode: Boolean) {
-        menuInflater.inflate(R.menu.privacy_menu, menu)
+    override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean) {
+        inflater.inflate(R.menu.privacy_menu, menu)
         val menuItem = menu?.findItem(R.id.privacy_mode)
         menuItem?.setOnMenuItemClickListener {
             presenter?.onChangePrivacyModePressed()
@@ -201,7 +198,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
-        invalidateOptionsMenu()
+        activity?.invalidateOptionsMenu()
 
         val availableVisibility = if (isEnable || params.visibility != View.VISIBLE) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
@@ -218,7 +215,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun scanQR() {
-        val integrator = IntentIntegrator(this)
+        val integrator = IntentIntegrator.forSupportFragment(this)
         integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
         integrator.captureActivity = ScanQrActivity::class.java
         integrator.setBeepEnabled(false)
@@ -277,7 +274,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun showConfirmDialog(token: String, amount: Double, fee: Long) {
         dialog = SendConfirmationDialog.newInstance(token, amount, fee, dialogListener)
-        dialog?.show(supportFragmentManager, SendConfirmationDialog.getFragmentTag())
+        dialog?.show(childFragmentManager, SendConfirmationDialog.getFragmentTag())
     }
 
     override fun dismissDialog() {
@@ -323,7 +320,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
 
     override fun clearErrors() {
         amountError.visibility = View.GONE
-        amount.setTextColor(ContextCompat.getColor(this, R.color.sent_color))
+        amount.setTextColor(ContextCompat.getColor(context!!, R.color.sent_color))
         amount.isStateNormal = true
     }
 
@@ -357,7 +354,7 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     }
 
     override fun close() {
-        finish()
+        findNavController().popBackStack()
     }
 
     override fun clearListeners() {
@@ -373,13 +370,13 @@ class SendActivity : BaseActivity<SendPresenter>(), SendContract.View {
     private fun configAmountError(errorString: String) {
         amountError.visibility = View.VISIBLE
         amountError.text = errorString
-        amount.setTextColor(ContextCompat.getColorStateList(this, R.color.text_color_selector))
+        amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.text_color_selector))
         amount.isStateError = true
     }
 
     private fun showAppDetailsPage() {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.data = Uri.parse("package:$packageName")
+        intent.data = Uri.parse("package:${context?.packageName}")
         startActivity(intent)
     }
 

@@ -55,6 +55,6 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
 
-    override fun hasBackArrow(): Boolean? = null
+    override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true
 }

@@ -19,6 +19,8 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -26,33 +28,25 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
-class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View, OnBackPressedHandler {
+class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View {
     private lateinit var openTitleString: String
     private lateinit var restoreTitleString: String
     private lateinit var restoreDescriptionString: String
     private lateinit var updateUtxoDescriptionString: String
 
     companion object {
-        private const val ARG_MODE = "ARG_MODE"
-        private const val ARG_PASS = "ARG_PASS"
-        private const val ARG_SEED = "ARG_SEED"
         private const val FULL_PROGRESS = 100
-        fun newInstance(mode: WelcomeMode) = WelcomeProgressFragment().apply { arguments = Bundle().apply { putString(ARG_MODE, mode.name) } }
-        fun newInstance(mode: WelcomeMode, pass: String, seed: Array<String>?) = WelcomeProgressFragment().apply {
-            arguments = Bundle().apply {
-                putString(ARG_MODE, mode.name)
-                putString(ARG_PASS, pass)
-                putStringArray(ARG_SEED, seed)
-            }
-        }
+    }
 
-        fun getFragmentTag(): String = WelcomeProgressFragment::class.java.simpleName
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            presenter?.onBackPressed()
+        }
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_progress
@@ -76,6 +70,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.CREATE -> {
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean) {
@@ -127,13 +123,17 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     //TODO decide what should be by default (arguments == null), when all modes will be available
-    override fun getMode(): WelcomeMode? = WelcomeMode.valueOf(arguments?.getString(ARG_MODE)
-            ?: WelcomeMode.CREATE.name)
+    override fun getMode(): WelcomeMode? = arguments?.let {
+        val modeName = WelcomeProgressFragmentArgs.fromBundle(it).mode
+        WelcomeMode.valueOf(modeName)
+    }
 
-    override fun getPassword(): String? = arguments?.getString(ARG_PASS)
-    override fun getSeed(): Array<String>? = arguments?.getStringArray(ARG_SEED)
+    override fun getPassword(): String? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).pass }
+    override fun getSeed(): Array<String>? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).seed }
 
-    override fun showWallet() = (activity as ProgressHandler).showWallet()
+    override fun showWallet() {
+        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+    }
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {
         description.text = descriptionString
@@ -141,15 +141,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         progress.progress = currentProgress
     }
 
-    override fun onBackPressed() {
-        presenter?.onBackPressed()
-    }
-
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())
-    }
-
-    interface ProgressHandler {
-        fun showWallet()
     }
 }

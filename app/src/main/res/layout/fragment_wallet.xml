@@ -1,388 +1,481 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    android:filterTouchesWhenObscured="true">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contentLayout"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnReceive"
-            android:layout_width="@dimen/wallet_button_width"
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wallet_button_margin_top"
-            app:button_icon="@drawable/ic_btn_receive"
-            app:button_state_list="@color/receive_selector"
-            app:button_text="@string/wallet_btn_receive"
-            app:layout_constraintEnd_toStartOf="@id/btnSend"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnSend"
-            android:layout_width="@dimen/wallet_button_width"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/wallet_button_margin_top"
-            app:button_icon="@drawable/ic_btn_send"
-            app:button_state_list="@color/send_selector"
-            app:button_text="@string/wallet_btn_send"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="0.5"
-            app:layout_constraintStart_toEndOf="@id/btnReceive"
-            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:filterTouchesWhenObscured="true">
 
-        <!--Available card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/availableLayout"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/wallet_available_margin_top"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnReceive">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnReceive"
+                    android:layout_width="@dimen/wallet_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/wallet_button_margin_top"
+                    app:button_icon="@drawable/ic_btn_receive"
+                    app:button_state_list="@color/receive_selector"
+                    app:button_text="@string/wallet_btn_receive"
+                    app:layout_constraintEnd_toStartOf="@id/btnSend"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnSend"
+                    android:layout_width="@dimen/wallet_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/wallet_button_margin_top"
+                    app:button_icon="@drawable/ic_btn_send"
+                    app:button_state_list="@color/send_selector"
+                    app:button_text="@string/wallet_btn_send"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toEndOf="@id/btnReceive"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!--Available card-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/availableLayout"
+                    style="@style/common_card_style"
+                    android:layout_marginTop="@dimen/wallet_available_margin_top"
+                    app:cardCornerRadius="@dimen/common_card_corner_radius"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/btnReceive">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/common_card_padding">
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/privacyGroupAvailable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            app:constraint_referenced_ids="btnExpandAvailable,clickableAvailableArea" />
+
+                        <TextView
+                            android:id="@+id/availableTitle"
+                            style="@style/wallet_card_title_style"
+                            android:text="@string/wallet_available"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="RtlSymmetry" />
+
+                        <View
+                            android:id="@+id/btnExpandAvailable"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/availableTitle"
+                            app:layout_constraintStart_toEndOf="@id/availableTitle"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/clickableAvailableArea"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btnExpandAvailable"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/availableIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_beam"
+                            app:layout_constraintBottom_toBottomOf="@id/available"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/available" />
+
+                        <TextView
+                            android:id="@+id/available"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
+                            android:background="@color/colorPrimary"
+                            android:fontFamily="sans-serif"
+                            android:paddingStart="@dimen/wallet_card_text_padding_start"
+                            android:paddingEnd="@dimen/wallet_card_text_padding_end"
+                            android:textColor="@color/common_text_color"
+                            android:textSize="@dimen/wallet_sum_text_size"
+                            app:layout_constraintStart_toEndOf="@id/availableIcon"
+                            app:layout_constraintTop_toBottomOf="@id/availableTitle"
+                            tools:text="125.9898776890000" />
+
+                        <ImageView
+                            android:id="@+id/availableCurrency"
+                            style="@style/common_currency_style"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/available"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@id/available"
+                            app:layout_constraintTop_toTopOf="@id/available"
+                            app:layout_constraintVertical_bias="0"
+                            app:srcCompat="@drawable/currency_beam" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/availableGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:constraint_referenced_ids="availableIcon, available, availableCurrency" />
+
+                        <!--Maturing-->
+                        <TextView
+                            android:id="@+id/maturingTitle"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/wallet_card_text_padding_start"
+                            android:gravity="center"
+                            android:text="@string/wallet_maturing"
+                            android:textSize="@dimen/wallet_maturing_title_text_size"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@+id/maturingCurrency"
+                            app:layout_constraintTop_toTopOf="@id/maturing" />
+
+                        <ImageView
+                            android:id="@+id/maturingIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_beam"
+                            app:layout_constraintBottom_toBottomOf="@id/maturing"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/maturing" />
+
+                        <TextView
+                            android:id="@+id/maturing"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
+                            android:background="@color/colorPrimary"
+                            android:fontFamily="sans-serif"
+                            android:paddingStart="@dimen/wallet_card_text_padding_start"
+                            android:paddingEnd="@dimen/wallet_card_text_padding_end"
+                            android:textColor="@color/common_text_color"
+                            android:textSize="@dimen/wallet_maturing_text_size"
+                            app:layout_constraintEnd_toStartOf="@id/maturingCurrency"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toEndOf="@id/maturingIcon"
+                            app:layout_constraintTop_toBottomOf="@id/available"
+                            app:layout_constraintWidth_max="wrap"
+                            tools:text="125.98999890" />
+
+                        <ImageView
+                            android:id="@+id/maturingCurrency"
+                            style="@style/common_currency_style"
+                            android:layout_height="@dimen/wallet_maturing_currency_icon_size"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/maturing"
+                            app:layout_constraintEnd_toStartOf="@id/maturingTitle"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@id/maturing"
+                            app:layout_constraintTop_toTopOf="@id/maturing"
+                            app:srcCompat="@drawable/currency_beam" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/maturingGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:constraint_referenced_ids="maturing, maturingCurrency,maturingTitle,maturingIcon"
+                            tools:visibility="visible" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!--In progress card-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/inProgressLayout"
+                    style="@style/common_card_style"
+                    android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
+                    app:cardCornerRadius="@dimen/common_card_corner_radius"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/availableLayout">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:padding="@dimen/common_card_padding">
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/privacyGroupInProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:constraint_referenced_ids="btnExpandInProgress,clickableInProgressArea" />
+
+                        <TextView
+                            android:id="@+id/inProgressTitle"
+                            style="@style/wallet_card_title_style"
+                            android:text="@string/wallet_in_progress"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="RtlSymmetry" />
+
+                        <View
+                            android:id="@+id/btnExpandInProgress"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/inProgressTitle"
+                            app:layout_constraintStart_toEndOf="@id/inProgressTitle"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/clickableInProgressArea"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/btnExpandInProgress"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <!--Receiving-->
+                        <TextView
+                            android:id="@+id/receiving"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/wallet_card_text_padding_start"
+                            android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/received_color"
+                            android:textSize="@dimen/wallet_sum_text_size"
+                            app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toEndOf="@id/receivingIcon"
+                            app:layout_constraintTop_toBottomOf="@id/inProgressTitle"
+                            app:layout_constraintWidth_max="wrap"
+                            tools:text="+125.989883830000" />
+
+                        <ImageView
+                            android:id="@+id/receivingCurrency"
+                            style="@style/common_currency_style"
+                            android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/receiving"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@id/receiving"
+                            app:layout_constraintTop_toTopOf="@id/receiving"
+                            app:srcCompat="@drawable/currency_beam_receive" />
+
+                        <ImageView
+                            android:id="@+id/receivingIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/wallet_receiving"
+                            app:layout_constraintBottom_toBottomOf="@+id/receiving"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/receiving"
+                            app:srcCompat="@drawable/ic_receiving" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/receivingGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:constraint_referenced_ids="receiving, receivingCurrency,receivingIcon"
+                            tools:visibility="visible" />
+
+                        <!--Sending-->
+                        <TextView
+                            android:id="@+id/sending"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/wallet_card_text_padding_start"
+                            android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                            android:fontFamily="sans-serif"
+                            android:textColor="@color/send_selector"
+                            android:textSize="@dimen/wallet_sum_text_size"
+                            app:layout_constraintEnd_toStartOf="@id/sendingCurrency"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintHorizontal_chainStyle="packed"
+                            app:layout_constraintStart_toEndOf="@id/sendingIcon"
+                            app:layout_constraintTop_toBottomOf="@id/receiving"
+                            app:layout_constraintWidth_max="wrap"
+                            tools:text="-125.989883830000" />
+
+                        <ImageView
+                            android:id="@+id/sendingCurrency"
+                            style="@style/common_currency_style"
+                            android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/sending"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0"
+                            app:layout_constraintStart_toEndOf="@id/sending"
+                            app:layout_constraintTop_toTopOf="@id/sending"
+                            app:srcCompat="@drawable/currency_beam_send" />
+
+                        <ImageView
+                            android:id="@+id/sendingIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
+                            android:contentDescription="@string/wallet_sending"
+                            app:layout_constraintBottom_toBottomOf="@+id/sending"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/sending"
+                            app:srcCompat="@drawable/ic_sending" />
+
+                        <androidx.constraintlayout.widget.Group
+                            android:id="@+id/sendingGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            app:constraint_referenced_ids="sending,sendingCurrency,sendingIcon"
+                            tools:visibility="visible" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!--Transactions-->
+                <TextView
+                    android:id="@+id/transactionsTitle"
+                    style="@style/common_header_big"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/common_offset"
+                    android:paddingTop="@dimen/transactions_title_padding"
+                    android:paddingEnd="@dimen/common_offset"
+                    android:paddingBottom="@dimen/transactions_title_padding"
+                    android:text="@string/wallet_transactions_title"
+                    app:layout_constraintTop_toBottomOf="@id/inProgressLayout" />
+
+                <ImageView
+                    android:id="@+id/btnTransactionsMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:paddingStart="@dimen/common_offset"
+                    android:paddingEnd="@dimen/common_offset"
+                    app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/transactionsTitle"
+                    app:srcCompat="@drawable/ic_more" />
+
+                <TextView
+                    android:id="@+id/emptyTransactionsListMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/wallet_empty_list_message_padding"
+                    android:text="@string/wallet_empty_transactions_list_message"
+                    android:textAlignment="center"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/transactionsTitle" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/transactionsList"
+                    tools:listitem="@layout/item_transaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/transactionsTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navView"
+        android:layout_width="@dimen/navigation_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/navigation_drawer_color"
+        android:fitsSystemWindows="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/navMenu"
+                tools:listitem="@layout/item_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:paddingTop="@dimen/navigation_padding_top" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
+                android:paddingStart="@dimen/main_link_padding_horizontal"
+                android:paddingEnd="@dimen/main_link_padding_horizontal"
+                android:paddingBottom="@dimen/main_link_padding_bottom">
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/privacyGroupAvailable"
+                <ImageView
+                    android:id="@+id/smallLogo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="btnExpandAvailable,clickableAvailableArea" />
-
-                <TextView
-                    android:id="@+id/availableTitle"
-                    style="@style/wallet_card_title_style"
-                    android:text="@string/wallet_available"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <View
-                    android:id="@+id/btnExpandAvailable"
-                    android:layout_width="@dimen/wallet_expandable_icon_size"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    android:background="@drawable/btn_drop_down"
                     android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/availableTitle"
-                    app:layout_constraintStart_toEndOf="@id/availableTitle"
+                    android:src="@drawable/logo_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/clickableAvailableArea"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnExpandAvailable"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/availableIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_beam"
-                    app:layout_constraintBottom_toBottomOf="@id/available"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/available" />
-
                 <TextView
-                    android:id="@+id/available"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="sans-serif"
-                    android:paddingStart="@dimen/wallet_card_text_padding_start"
-                    android:paddingEnd="@dimen/wallet_card_text_padding_end"
-                    android:textColor="@color/common_text_color"
-                    android:textSize="@dimen/wallet_sum_text_size"
-                    app:layout_constraintStart_toEndOf="@id/availableIcon"
-                    app:layout_constraintTop_toBottomOf="@id/availableTitle"
-                    tools:text="125.9898776890000" />
-
-                <ImageView
-                    android:id="@+id/availableCurrency"
-                    style="@style/common_currency_style"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/available"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/available"
-                    app:layout_constraintTop_toTopOf="@id/available"
-                    app:layout_constraintVertical_bias="0"
-                    app:srcCompat="@drawable/currency_beam" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/availableGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="availableIcon, available, availableCurrency" />
-
-                <!--Maturing-->
-                <TextView
-                    android:id="@+id/maturingTitle"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                    android:gravity="center"
-                    android:text="@string/wallet_maturing"
-                    android:textSize="@dimen/wallet_maturing_title_text_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@+id/maturingCurrency"
-                    app:layout_constraintTop_toTopOf="@id/maturing" />
-
-                <ImageView
-                    android:id="@+id/maturingIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_beam"
-                    app:layout_constraintBottom_toBottomOf="@id/maturing"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/maturing" />
-
-                <TextView
-                    android:id="@+id/maturing"
+                    android:id="@+id/whereBuyBeamLink"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
-                    android:background="@color/colorPrimary"
-                    android:fontFamily="sans-serif"
-                    android:paddingStart="@dimen/wallet_card_text_padding_start"
-                    android:paddingEnd="@dimen/wallet_card_text_padding_end"
-                    android:textColor="@color/common_text_color"
-                    android:textSize="@dimen/wallet_maturing_text_size"
-                    app:layout_constraintEnd_toStartOf="@id/maturingCurrency"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/main_link_text_margin"
+                    android:layout_marginEnd="@dimen/main_link_text_margin_end"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/welcome_where_to_buy_beam"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/navigation_item_text_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@id/maturingIcon"
-                    app:layout_constraintTop_toBottomOf="@id/available"
-                    app:layout_constraintWidth_max="wrap"
-                    tools:text="125.98999890" />
-
-                <ImageView
-                    android:id="@+id/maturingCurrency"
-                    style="@style/common_currency_style"
-                    android:layout_height="@dimen/wallet_maturing_currency_icon_size"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/maturing"
-                    app:layout_constraintEnd_toStartOf="@id/maturingTitle"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/maturing"
-                    app:layout_constraintTop_toTopOf="@id/maturing"
-                    app:srcCompat="@drawable/currency_beam" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/maturingGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="maturing, maturingCurrency,maturingTitle,maturingIcon"
-                    tools:visibility="visible" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--In progress card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/inProgressLayout"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/availableLayout">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/privacyGroupInProgress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="btnExpandInProgress,clickableInProgressArea" />
-
-                <TextView
-                    android:id="@+id/inProgressTitle"
-                    style="@style/wallet_card_title_style"
-                    android:text="@string/wallet_in_progress"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/smallLogo"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
+                    app:layout_constraintWidth_max="wrap" />
 
-                <View
-                    android:id="@+id/btnExpandInProgress"
-                    android:layout_width="@dimen/wallet_expandable_icon_size"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    android:background="@drawable/btn_drop_down"
+                <ImageView
+                    android:id="@+id/buyBeamLinkIcon"
+                    android:layout_width="@dimen/main_link_icon_size"
+                    android:layout_height="@dimen/main_link_icon_size"
+                    android:layout_marginStart="@dimen/main_link_text_margin"
+                    android:layout_gravity="center_vertical"
                     android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/inProgressTitle"
-                    app:layout_constraintStart_toEndOf="@id/inProgressTitle"
+                    android:src="@drawable/ic_external_link_dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/whereBuyBeamLink"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/clickableInProgressArea"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/btnExpandInProgress"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!--Receiving-->
-                <TextView
-                    android:id="@+id/receiving"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                    android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                    android:fontFamily="sans-serif"
-                    android:textColor="@color/received_color"
-                    android:textSize="@dimen/wallet_sum_text_size"
-                    app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@id/receivingIcon"
-                    app:layout_constraintTop_toBottomOf="@id/inProgressTitle"
-                    app:layout_constraintWidth_max="wrap"
-                    tools:text="+125.989883830000" />
-
-                <ImageView
-                    android:id="@+id/receivingCurrency"
-                    style="@style/common_currency_style"
-                    android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/receiving"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/receiving"
-                    app:layout_constraintTop_toTopOf="@id/receiving"
-                    app:srcCompat="@drawable/currency_beam_receive" />
-
-                <ImageView
-                    android:id="@+id/receivingIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/wallet_receiving"
-                    app:layout_constraintBottom_toBottomOf="@+id/receiving"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/receiving"
-                    app:srcCompat="@drawable/ic_receiving" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/receivingGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="receiving, receivingCurrency,receivingIcon"
-                    tools:visibility="visible" />
-
-                <!--Sending-->
-                <TextView
-                    android:id="@+id/sending"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                    android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                    android:fontFamily="sans-serif"
-                    android:textColor="@color/send_selector"
-                    android:textSize="@dimen/wallet_sum_text_size"
-                    app:layout_constraintEnd_toStartOf="@id/sendingCurrency"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toEndOf="@id/sendingIcon"
-                    app:layout_constraintTop_toBottomOf="@id/receiving"
-                    app:layout_constraintWidth_max="wrap"
-                    tools:text="-125.989883830000" />
-
-                <ImageView
-                    android:id="@+id/sendingCurrency"
-                    style="@style/common_currency_style"
-                    android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/sending"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/sending"
-                    app:layout_constraintTop_toTopOf="@id/sending"
-                    app:srcCompat="@drawable/currency_beam_send" />
-
-                <ImageView
-                    android:id="@+id/sendingIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
-                    android:contentDescription="@string/wallet_sending"
-                    app:layout_constraintBottom_toBottomOf="@+id/sending"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/sending"
-                    app:srcCompat="@drawable/ic_sending" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/sendingGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="sending,sendingCurrency,sendingIcon"
-                    tools:visibility="visible" />
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
 
-        <!--Transactions-->
-        <TextView
-            android:id="@+id/transactionsTitle"
-            style="@style/common_header_big"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="@dimen/common_offset"
-            android:paddingTop="@dimen/transactions_title_padding"
-            android:paddingEnd="@dimen/common_offset"
-            android:paddingBottom="@dimen/transactions_title_padding"
-            android:text="@string/wallet_transactions_title"
-            app:layout_constraintTop_toBottomOf="@id/inProgressLayout" />
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 
-        <ImageView
-            android:id="@+id/btnTransactionsMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:paddingStart="@dimen/common_offset"
-            android:paddingEnd="@dimen/common_offset"
-            app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/transactionsTitle"
-            app:srcCompat="@drawable/ic_more" />
-
-        <TextView
-            android:id="@+id/emptyTransactionsListMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:padding="@dimen/wallet_empty_list_message_padding"
-            android:text="@string/wallet_empty_transactions_list_message"
-            android:textAlignment="center"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/transactionsTitle" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/transactionsList"
-            tools:listitem="@layout/item_transaction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/transactionsTitle" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.drawerlayout.widget.DrawerLayout>

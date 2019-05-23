@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.core.helpers
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 /**
  * Created by vain onnellinen on 3/18/19.
@@ -28,9 +28,9 @@ object PermissionsHelper {
     const val REQUEST_CODE_PERMISSION = 1043
     const val PERMISSIONS_CAMERA = Manifest.permission.CAMERA
 
-    fun requestPermissions(activity: AppCompatActivity, permission: String, requestCode: Int): Boolean {
-        return if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
-            activity.requestPermissions(arrayOf(permission), requestCode)
+    fun requestPermissions(fragment: Fragment, permission: String, requestCode: Int): Boolean {
+        return if (ContextCompat.checkSelfPermission(fragment.context!!, permission) != PackageManager.PERMISSION_GRANTED) {
+            fragment.requestPermissions(arrayOf(permission), requestCode)
             false
         } else {
             true

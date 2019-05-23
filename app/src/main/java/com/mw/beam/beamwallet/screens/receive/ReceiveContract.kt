@@ -44,7 +44,6 @@ interface ReceiveContract {
     interface Presenter : MvpPresenter<View> {
         fun onShareTokenPressed()
         fun onShowQrPressed()
-        fun onBackPressed()
         fun onDialogSharePressed()
         fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)

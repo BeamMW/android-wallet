@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 buildscript {
     repositories {
@@ -126,7 +127,7 @@ tasks.whenTaskAdded { task ->
 //        task.dependsOn updateTestnetLibs
     }
     if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
-      //  task.dependsOn updateMainnetLibs
+        //  task.dependsOn updateMainnetLibs
     }
 }
 
@@ -134,7 +135,7 @@ task updateMasternetLibs(type: Exec) {
     doFirst {
         workingDir "$rootDir"
         if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-          //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
+            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
         } else {
             exec {
                 commandLine 'chmod', '+x', file("$rootDir/android-wallet-masternet.sh").absolutePath
@@ -186,11 +187,15 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$ver_rx_java"
     implementation "com.github.restorer:holycycle:$ver_holycycle"
     implementation "com.google.firebase:firebase-core:$ver_firebase_core"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "com.elvishew:xlog:$ver_xlog"
     implementation "com.google.zxing:core:$ver_qr"
     implementation "com.journeyapps:zxing-android-embedded:$ver_qr_android_embedded"
     implementation "online.devliving:securedpreferencestore:$ver_secured_store"
     implementation "net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:$ver_keyboard_event"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"

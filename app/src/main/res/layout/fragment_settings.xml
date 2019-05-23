@@ -1,344 +1,357 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:filterTouchesWhenObscured="true"
-        android:paddingBottom="@dimen/settings_version_offset">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!--General settings card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/generalSettingsCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:filterTouchesWhenObscured="true"
+            android:paddingBottom="@dimen/settings_version_offset">
 
-                <TextView
-                    android:id="@+id/generalSettings"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingBottom="@dimen/settings_common_offset"
-                    android:text="@string/settings_general_settings"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <!--General settings card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/generalSettingsCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-
-                <TextView
-                    android:id="@+id/lockScreenTitle"
-                    style="@style/common_menu_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/settings_lock_screen"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/generalSettings" />
-
-                <TextView
-                    android:id="@+id/lockScreenValue"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_small_text_margin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/lockScreenTitle"
-                    tools:text="Never" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--Node card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/nodeCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/generalSettingsCard">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
-
-                <TextView
-                    android:id="@+id/node"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingBottom="@dimen/settings_common_offset"
-                    android:text="@string/settings_node"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/runRandomNodeTitle"
-                    style="@style/common_menu_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_common_offset"
-                    android:text="@string/settings_run_random_node"
-                    app:layout_constraintEnd_toStartOf="@+id/runRandomNodeSwitch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/node" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/runRandomNodeSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/runRandomNodeTitle" />
-
-                <TextView
-                    android:id="@+id/ipTitle"
-                    style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_common_offset"
-                    android:paddingEnd="@dimen/settings_common_offset"
-                    android:text="@string/settings_ip_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
-                    tools:ignore="RtlSymmetry" />
-
-                <TextView
-                    android:id="@+id/ip"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_small_text_margin"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ipTitle"
-                    tools:text="12.123.123.1234" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--Settings card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/settingsCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nodeCard">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
-
-                <TextView
-                    android:id="@+id/confirmTransactionTitle"
-                    style="@style/common_menu_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_common_offset"
-                    android:text="@string/settings_ask_password_on_send"
-                    app:layout_constraintEnd_toStartOf="@+id/confirmTransactionSwitch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/confirmTransactionSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/confirmTransactionTitle" />
-
-                <TextView
-                    android:id="@+id/enableFingerprintTitle"
-                    style="@style/common_menu_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_common_offset"
-                    android:paddingTop="@dimen/settings_common_offset"
-                    android:text="@string/settings_enable_fingerprint"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toStartOf="@+id/enableFingerprintSwitch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/confirmTransactionTitle" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/enableFingerprintSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_common_offset"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/enableFingerprintTitle" />
-
-                <TextView
-                    android:id="@+id/allowOpenLinkTitle"
-                    style="@style/common_menu_item"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/settings_common_offset"
-                    android:paddingTop="@dimen/settings_common_offset"
-                    android:text="@string/settings_allow_open_link"
-                    app:layout_constraintEnd_toStartOf="@+id/allowOpenLinkSwitch"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/enableFingerprintTitle" />
-
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/allowOpenLinkSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_common_offset"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/allowOpenLinkTitle" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!--Settings wallet card-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/settingsWalletCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsCard">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
-
-                <TextView
-                    android:id="@+id/changePass"
-                    style="@style/common_menu_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:text="@string/settings_change_pass"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/clearData"
-                    style="@style/common_menu_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:paddingTop="@dimen/settings_common_offset"
-                    android:text="@string/settings_dialog_clear_title"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/changePass" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/settingsCategoryCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
-
-                <TextView
-                    android:id="@+id/categorySettingsTitle"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:text="@string/settings_categories"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
-                    android:id="@+id/categoriesList"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/settings_common_offset"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle"/>
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
 
-                <TextView
-                    android:id="@+id/addNewCategory"
-                    style="@style/common_menu_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="@string/settings_add_new_category"
-                    app:layout_constraintTop_toBottomOf="@id/categoriesList" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/generalSettings"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:paddingBottom="@dimen/settings_common_offset"
+                        android:text="@string/settings_general_settings"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/settingsReportCard"
-            style="@style/common_card_style"
-            android:layout_marginTop="@dimen/settings_card_offset"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsCategoryCard">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
+                    <TextView
+                        android:id="@+id/lockScreenTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_lock_screen"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/generalSettings" />
 
-                <TextView
-                    android:id="@+id/reportProblem"
-                    style="@style/common_menu_item"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/lockScreenValue"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_small_text_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lockScreenTitle"
+                        tools:text="Never" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!--Node card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/nodeCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/generalSettingsCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:text="@string/settings_report"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    android:padding="@dimen/common_card_padding">
 
-        <TextView
-            android:id="@+id/appVersionTitle"
-            style="@style/common_text_big_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/settings_version_offset"
-            android:text="@string/settings_version"
-            app:layout_constraintEnd_toStartOf="@id/appVersion"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/settingsReportCard" />
+                    <TextView
+                        android:id="@+id/node"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:paddingBottom="@dimen/settings_common_offset"
+                        android:text="@string/settings_node"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/appVersion"
-            style="@style/common_text_big_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/settings_version_offset"
-            android:fontFamily="sans-serif-black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/appVersionTitle"
-            app:layout_constraintTop_toBottomOf="@id/settingsReportCard"
-            app:layout_constraintVertical_bias="0"
-            tools:text="1.64" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/runRandomNodeTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/settings_common_offset"
+                        android:text="@string/settings_run_random_node"
+                        app:layout_constraintEnd_toStartOf="@+id/runRandomNodeSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/node" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/runRandomNodeSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/runRandomNodeTitle" />
+
+                    <TextView
+                        android:id="@+id/ipTitle"
+                        style="@style/common_text_big_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_common_offset"
+                        android:paddingEnd="@dimen/settings_common_offset"
+                        android:text="@string/settings_ip_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
+                        tools:ignore="RtlSymmetry" />
+
+                    <TextView
+                        android:id="@+id/ip"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_small_text_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ipTitle"
+                        tools:text="12.123.123.1234" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!--Settings card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nodeCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
+
+                    <TextView
+                        android:id="@+id/confirmTransactionTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/settings_common_offset"
+                        android:text="@string/settings_ask_password_on_send"
+                        app:layout_constraintEnd_toStartOf="@+id/confirmTransactionSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/confirmTransactionSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/confirmTransactionTitle" />
+
+                    <TextView
+                        android:id="@+id/enableFingerprintTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/settings_common_offset"
+                        android:paddingTop="@dimen/settings_common_offset"
+                        android:text="@string/settings_enable_fingerprint"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@+id/enableFingerprintSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/confirmTransactionTitle" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/enableFingerprintSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_common_offset"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/enableFingerprintTitle" />
+
+                    <TextView
+                        android:id="@+id/allowOpenLinkTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/settings_common_offset"
+                        android:paddingTop="@dimen/settings_common_offset"
+                        android:text="@string/settings_allow_open_link"
+                        app:layout_constraintEnd_toStartOf="@+id/allowOpenLinkSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/enableFingerprintTitle" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/allowOpenLinkSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_common_offset"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/allowOpenLinkTitle" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!--Settings wallet card-->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsWalletCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settingsCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
+
+                    <TextView
+                        android:id="@+id/changePass"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/settings_change_pass"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/clearData"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:paddingTop="@dimen/settings_common_offset"
+                        android:text="@string/settings_dialog_clear_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/changePass" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsCategoryCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
+
+                    <TextView
+                        android:id="@+id/categorySettingsTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/settings_categories"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/categoriesList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_common_offset"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle"/>
+
+                    <TextView
+                        android:id="@+id/addNewCategory"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="@string/settings_add_new_category"
+                        app:layout_constraintTop_toBottomOf="@id/categoriesList" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsReportCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settingsCategoryCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
+
+                    <TextView
+                        android:id="@+id/reportProblem"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/settings_report"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/appVersionTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/settings_version_offset"
+                android:text="@string/settings_version"
+                app:layout_constraintEnd_toStartOf="@id/appVersion"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settingsReportCard" />
+
+            <TextView
+                android:id="@+id/appVersion"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/settings_version_offset"
+                android:fontFamily="sans-serif-black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/appVersionTitle"
+                app:layout_constraintTop_toBottomOf="@id/settingsReportCard"
+                app:layout_constraintVertical_bias="0"
+                tools:text="1.64" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

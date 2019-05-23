@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/welcomeCreateFragment">
+    <fragment
+        android:id="@+id/welcomeCreateFragment"
+        tools:layout="@layout/fragment_welcome_create"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_create.WelcomeCreateFragment"
+        android:label="WelcomeCreateFragment" >
+        <action
+            android:id="@+id/action_welcomeCreateFragment_to_welcomeRestoreFragment"
+            app:destination="@id/welcomeRestoreFragment" />
+        <action
+            android:id="@+id/action_welcomeCreateFragment_to_welcomeDescriptionFragment"
+            app:destination="@id/welcomeDescriptionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeOpenFragment"
+        tools:layout="@layout/fragment_welcome_open"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment"
+        android:label="WelcomeOpenFragment" >
+        <action
+            android:id="@+id/action_welcomeOpenFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeRestoreFragment"
+        tools:layout="@layout/fragment_welcome_restore"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore.WelcomeRestoreFragment"
+        android:label="WelcomeRestoreFragment" >
+        <action
+            android:id="@+id/action_welcomeRestoreFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeProgressFragment"
+        tools:layout="@layout/fragment_welcome_progress"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress.WelcomeProgressFragment"
+        android:label="WelcomeProgressFragment" >
+        <argument
+            android:name="pass"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="mode"
+            app:argType="string" />
+        <argument
+            android:name="seed"
+            app:argType="string[]"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_welcomeProgressFragment_to_walletFragment"
+            app:destination="@id/walletFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/navigation" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeSeedFragment"
+        tools:layout="@layout/fragment_welcome_seed"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed.WelcomeSeedFragment"
+        android:label="WelcomeSeedFragment" >
+        <action
+            android:id="@+id/action_welcomeSeedFragment_to_welcomeConfirmFragment"
+            app:destination="@id/welcomeConfirmFragment"
+            app:popUpTo="@+id/welcomeDescriptionFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeConfirmFragment"
+        tools:layout="@layout/fragment_welcome_confirm"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm.WelcomeConfirmFragment"
+        android:label="WelcomeConfirmFragment" >
+        <argument
+            android:name="seed"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/action_welcomeConfirmFragment_to_passwordFragment"
+            app:destination="@id/passwordFragment"
+            app:popUpTo="@+id/welcomeDescriptionFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_passwords"
+        android:id="@+id/passwordFragment"
+        android:name="com.mw.beam.beamwallet.screens.create_password.PasswordFragment"
+        android:label="PasswordFragment" >
+        <argument
+            android:name="phrases"
+            app:argType="string[]"
+            app:nullable="true" />
+        <argument
+            android:name="mode"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="passChangeMode"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_passwordFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/welcomeDescriptionFragment"
+        tools:layout="@layout/fragment_welcome_description"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_description.WelcomeDescriptionFragment"
+        android:label="WelcomeDescriptionFragment" >
+        <action
+            android:id="@+id/action_welcomeDescriptionFragment_to_welcomeSeedFragment"
+            app:destination="@id/welcomeSeedFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/walletFragment"
+        tools:layout="@layout/fragment_wallet"
+        android:name="com.mw.beam.beamwallet.screens.wallet.WalletFragment"
+        android:label="WalletFragment" >
+        <action
+            android:id="@+id/action_walletFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_utxoFragment"
+            app:destination="@id/utxoFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_receiveFragment"
+            app:destination="@id/receiveFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_sendFragment"
+            app:destination="@id/sendFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        tools:layout="@layout/fragment_settings"
+        android:name="com.mw.beam.beamwallet.screens.settings.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/addressesFragment"
+        tools:layout="@layout/fragment_addresses"
+        android:name="com.mw.beam.beamwallet.screens.addresses.AddressesFragment"
+        android:label="AddressesFragment" />
+    <fragment
+        android:id="@+id/utxoFragment"
+        tools:layout="@layout/fragment_utxo"
+        android:name="com.mw.beam.beamwallet.screens.utxo.UtxoFragment"
+        android:label="UtxoFragment" />
+    <fragment
+        android:id="@+id/receiveFragment"
+        tools:layout="@layout/fragment_receive"
+        android:name="com.mw.beam.beamwallet.screens.receive.ReceiveFragment"
+        android:label="ReceiveFragment" />
+    <fragment
+        android:id="@+id/sendFragment"
+        tools:layout="@layout/fragment_send"
+        android:name="com.mw.beam.beamwallet.screens.send.SendFragment"
+        android:label="SendFragment" />
+</navigation>

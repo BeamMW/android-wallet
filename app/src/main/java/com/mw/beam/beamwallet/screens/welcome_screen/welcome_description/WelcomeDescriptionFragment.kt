@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_description
 
-import android.os.Bundle
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -28,15 +28,12 @@ import kotlinx.android.synthetic.main.fragment_welcome_description.*
  * Created by vain onnellinen on 10/22/18.
  */
 class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
-    companion object {
-        fun newInstance() = WelcomeDescriptionFragment().apply { arguments = Bundle() }
-        fun getFragmentTag(): String = WelcomeDescriptionFragment::class.java.simpleName
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description
     override fun getToolbarTitle(): String? = getString(R.string.welcome_title)
 
-    override fun generatePhrase() = (activity as DescriptionHandler).generateSeed()
+    override fun generatePhrase() {
+        findNavController().navigate(WelcomeDescriptionFragmentDirections.actionWelcomeDescriptionFragmentToWelcomeSeedFragment())
+    }
 
     override fun addListeners() {
         btnGenerate.setOnClickListener {
@@ -50,10 +47,6 @@ class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), 
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeDescriptionPresenter(this, WelcomeDescriptionRepository())
-    }
-
-    interface DescriptionHandler {
-        fun generateSeed()
     }
 }
 

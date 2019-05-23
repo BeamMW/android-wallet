@@ -52,6 +52,8 @@ interface WalletContract {
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
+        fun closeDrawer()
+        fun showOpenLinkAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -71,6 +73,8 @@ interface WalletContract {
         fun onTransactionsMenuPressed(item: MenuItem): Boolean
         fun onTransactionsMenuButtonPressed(menu: MenuView)
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
+        fun onWhereBuyBeamPressed()
+        fun onOpenLinkPressed()
     }
 
     interface Repository : MvpRepository {
@@ -78,5 +82,6 @@ interface WalletContract {
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getTransactionsFile(): File
         fun isNeedConfirmEnablePrivacyMode(): Boolean
+        fun isAllowOpenExternalLink(): Boolean
     }
 }

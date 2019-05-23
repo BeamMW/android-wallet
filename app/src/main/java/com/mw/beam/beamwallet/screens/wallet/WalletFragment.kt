@@ -26,21 +26,24 @@ import androidx.core.content.FileProvider
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.appcompat.widget.PopupMenu
 import android.view.*
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.screens.main.NavItem
+import com.mw.beam.beamwallet.screens.main.NavItemsAdapter
 import com.mw.beam.beamwallet.screens.proof_verification.ProofVerificationActivity
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import java.io.File
@@ -51,10 +54,23 @@ import java.io.File
  */
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var navItemsAdapter: NavItemsAdapter
 
     companion object {
         fun newInstance() = WalletFragment().apply { arguments = Bundle() }
         fun getFragmentTag(): String = WalletFragment::class.java.simpleName
+    }
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return
+            }
+
+            activity?.finish()
+        }
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
@@ -132,6 +148,16 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun init() {
         initTransactionsList()
         setHasOptionsMenu(true)
+
+        val toolbar = toolbarLayout.toolbar
+        (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
+
+        drawerToggle = ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.common_drawer_open, R.string.common_drawer_close)
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        configNavView()
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     @SuppressLint("RestrictedApi")
@@ -158,6 +184,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         btnTransactionsMenu.setOnClickListener { view ->
             presenter?.onTransactionsMenuButtonPressed(view)
+        }
+
+        whereBuyBeamLink.setOnClickListener {
+            presenter?.onWhereBuyBeamPressed()
         }
     }
 
@@ -253,7 +283,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         presenter?.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -286,9 +316,15 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         addTitleListeners(isEnable)
     }
 
-    override fun showTransactionDetails(txDescription: TxDescription) = (activity as WalletHandler).onShowTransactionDetails(txDescription)
-    override fun showReceiveScreen() = (activity as WalletHandler).onReceive()
-    override fun showSendScreen() = (activity as WalletHandler).onSend()
+    override fun showTransactionDetails(txDescription: TxDescription) {
+//        = (activity as WalletHandler).onShowTransactionDetails(txDescription)
+    }
+    override fun showReceiveScreen() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
+    }
+    override fun showSendScreen() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSendFragment())
+    }
 
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
@@ -299,6 +335,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         clickableAvailableArea.setOnClickListener(null)
         clickableInProgressArea.setOnClickListener(null)
         clearTitleListeners()
+        whereBuyBeamLink.setOnClickListener(null)
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
@@ -327,6 +364,53 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         startActivity(Intent(context, ProofVerificationActivity::class.java))
     }
 
+    private fun configNavView() {
+        val menuItems = arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.nav_address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.nav_utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.nav_settings)))
+
+        navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
+            override fun onItemClick(navItem: NavItem) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+
+                val direction = when (navItem.id) {
+//                    NavItem.ID.WALLET -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
+                    NavItem.ID.ADDRESS_BOOK -> WalletFragmentDirections.actionWalletFragmentToAddressesFragment()
+                    NavItem.ID.UTXO -> WalletFragmentDirections.actionWalletFragmentToUtxoFragment()
+//                    NavItem.ID.DASHBOARD -> LogUtils.log("dashboard")
+//                    NavItem.ID.NOTIFICATIONS -> LogUtils.log("notifications")
+//                    NavItem.ID.HELP -> LogUtils.log("help")
+                    NavItem.ID.SETTINGS -> WalletFragmentDirections.actionWalletFragmentToSettingsFragment()
+                    else -> null
+                }
+
+                if (direction != null) {
+                    findNavController().navigate(direction)
+                }
+            }
+        })
+        navMenu.layoutManager = LinearLayoutManager(context)
+        navMenu.adapter = navItemsAdapter
+
+        navItemsAdapter.selectItem(NavItem.ID.WALLET)
+    }
+
+    override fun showOpenLinkAlert() {
+        showAlert(
+                getString(R.string.common_external_link_dialog_message),
+                getString(R.string.common_drawer_open),
+                { presenter?.onOpenLinkPressed() },
+                getString(R.string.common_external_link_dialog_title),
+                getString(R.string.common_cancel)
+        )
+    }
+
+    override fun closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.START)
+    }
+
     override fun onStart() {
         super.onStart()
         App.showNotification = false
@@ -339,11 +423,5 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WalletPresenter(this, WalletRepository(), WalletState())
-    }
-
-    interface WalletHandler {
-        fun onShowTransactionDetails(item: TxDescription)
-        fun onReceive()
-        fun onSend()
     }
 }

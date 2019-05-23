@@ -18,7 +18,6 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import io.reactivex.disposables.Disposable
 
 class BackgroundService : JobService() {

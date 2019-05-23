@@ -23,6 +23,8 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -33,27 +35,30 @@ import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.views.Suggestions
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import com.mw.beam.beamwallet.screens.welcome_screen.OnBackPressedHandler
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
 
 /**
  * Created by vain onnellinen on 11/1/18.
  */
-class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View, OnBackPressedHandler {
+class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
     private var currentEditText: EditText? = null
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
 
-    companion object {
-        private const val ARG_SEED = "ARG_SEED"
-
-        fun newInstance(seed: Array<String>) = WelcomeConfirmFragment().apply { arguments = Bundle().apply { putStringArray(ARG_SEED, seed) } }
-        fun getFragmentTag(): String = WelcomeConfirmFragment::class.java.simpleName
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_confirm
     override fun getToolbarTitle(): String = getString(R.string.welcome_validation_title)
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            presenter?.onBackPressed()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -92,9 +97,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return true
     }
 
-    override fun getData(): Array<String>? = arguments?.getStringArray(ARG_SEED)
-    override fun showPasswordsFragment(seed: Array<String>) = (activity as ConfirmHandler).proceedToPasswords(seed, WelcomeMode.CREATE)
-    override fun showSeedFragment() = (activity as ConfirmHandler).showSeedFragment()
+    override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
+    override fun showPasswordsFragment(seed: Array<String>) {
+        findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
+    }
+    override fun showSeedFragment() {
+        findNavController().popBackStack()
+    }
 
     override fun handleNextButton() {
         btnNext.isEnabled = isSeedValid()
@@ -206,10 +215,6 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
                 onConfirm = { presenter?.onCreateNewSeed() })
     }
 
-    override fun onBackPressed() {
-        presenter?.onBackPressed()
-    }
-
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
@@ -219,8 +224,4 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
     }
 
-    interface ConfirmHandler {
-        fun proceedToPasswords(seed: Array<String>, mode: WelcomeMode)
-        fun showSeedFragment()
-    }
 }

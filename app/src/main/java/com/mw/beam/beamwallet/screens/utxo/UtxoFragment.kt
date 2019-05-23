@@ -59,7 +59,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         presenter?.onCreateOptionsMenu(menu, inflater)
     }
 

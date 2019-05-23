@@ -38,5 +38,9 @@ interface MvpRepository {
     fun openWallet(pass: String?): Status
     fun closeWallet()
 
+    fun isWalletInitialized(): Boolean
+
+    fun isLockScreenEnabled(): Boolean
+
     fun isEnabledConnectToRandomNode(): Boolean
 }

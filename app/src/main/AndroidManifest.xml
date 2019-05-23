@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".core.App"
@@ -21,16 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity
-            android:name="com.mw.beam.beamwallet.screens.main.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsActivity"
-            android:label="@string/transaction_details_title"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity"
+        <activity android:name=".screens.AppActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,14 +30,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mw.beam.beamwallet.screens.receive.ReceiveActivity"
+            android:name=".screens.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mw.beam.beamwallet.screens.send.SendActivity"
+            android:name=".screens.transaction_details.TransactionDetailsActivity"
+            android:label="@string/transaction_details_title"
             android:screenOrientation="portrait" />
-
+        <!--<activity-->
+            <!--android:name=".screens.welcome_screen.WelcomeActivity"-->
+            <!--android:screenOrientation="portrait">-->
+        <!--</activity>-->
         <activity
-            android:name="com.mw.beam.beamwallet.screens.utxo_details.UtxoDetailsActivity"
+            android:name=".screens.utxo_details.UtxoDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".screens.address_details.AddressActivity"
@@ -60,26 +55,28 @@
         <activity
             android:name=".screens.qr.ScanQrActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".screens.payment_proof_details.PaymentProofDetailsActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".screens.proof_verification.ProofVerificationActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".screens.category.CategoryActivity"
+        <activity
+            android:name=".screens.category.CategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.edit_category.EditCategoryActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".screens.edit_category.EditCategoryActivity"
-            android:screenOrientation="portrait" />
+        <service
+            android:name=".service.BackgroundService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".service.BackgroundService" android:permission="android.permission.BIND_JOB_SERVICE"/>
-
-        <receiver android:name=".service.NotificationBroadcastReceiver" android:exported="false">
+        <receiver
+            android:name=".service.NotificationBroadcastReceiver"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.mw.beam.beamwallet.service.NotificationBroadcastReceiver"/>
+                <action android:name="com.mw.beam.beamwallet.service.NotificationBroadcastReceiver" />
             </intent-filter>
         </receiver>
 
@@ -97,4 +94,5 @@
             android:name="io.fabric.ApiKey"
             android:value="a1b807ba21d77b7a801d4c9674b93d0e4f26b21d" />
     </application>
+
 </manifest>

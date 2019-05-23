@@ -99,7 +99,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.changePass()
     }
 
-    override fun hasBackArrow(): Boolean? = null
+    override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true
 
     override fun onShowLockScreenSettings() {

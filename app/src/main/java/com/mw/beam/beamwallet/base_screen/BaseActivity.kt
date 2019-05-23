@@ -20,13 +20,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AlertDialog
 import android.view.Gravity
 import android.view.View
+import androidx.navigation.findNavController
+import androidx.navigation.navOptions
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -35,7 +34,6 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
-import com.mw.beam.beamwallet.screens.welcome_screen.WelcomeActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -58,7 +56,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
             clearToTag: String?,
             clearInclusive: Boolean
     ) {
-        drawerLayout?.closeDrawer(Gravity.START)
+        drawerLayout?.closeDrawer(Gravity.LEFT)
         val fragmentManager = supportFragmentManager
         val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
 
@@ -92,15 +90,23 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
-        setSupportActionBar(toolbarLayout.toolbar)
+        setupToolbar(toolbarLayout, title, hasBackArrow, hasStatus)
+    }
+
+    fun setupToolbar(toolbar: BeamToolbar?,title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
+        if (toolbar == null) {
+            return
+        }
+
+        setSupportActionBar(toolbar.toolbar)
         supportActionBar?.title = title
-        toolbarLayout.hasStatus = hasStatus
+        toolbar.hasStatus = hasStatus
 
         if (hasBackArrow != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(hasBackArrow)
 
             if (hasBackArrow) {
-                toolbarLayout.toolbar.setNavigationOnClickListener {
+                toolbar.toolbar.setNavigationOnClickListener {
                     onBackPressed()
                 }
             }
@@ -208,9 +214,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun logOut() {
-        startActivity(Intent(applicationContext, WelcomeActivity::class.java)
-                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK))
-        finish()
+        try {
+            val navController = findNavController(R.id.nav_host)
+            navController.navigate(R.id.welcomeOpenFragment, null, navOptions {
+                popUpTo(R.id.navigation) {}
+            })
+        } catch (e: Exception) { }
     }
 
     override fun onUserInteraction() {
