@@ -64,7 +64,6 @@
         <action
             android:id="@+id/action_welcomeSeedFragment_to_welcomeConfirmFragment"
             app:destination="@id/welcomeConfirmFragment"
-            app:popUpTo="@+id/welcomeDescriptionFragment"
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
@@ -78,8 +77,11 @@
         <action
             android:id="@+id/action_welcomeConfirmFragment_to_passwordFragment"
             app:destination="@id/passwordFragment"
-            app:popUpTo="@+id/welcomeDescriptionFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_welcomeConfirmFragment_to_welcomeSeedFragment"
+            app:destination="@id/welcomeSeedFragment"
+            app:popUpTo="@+id/welcomeDescriptionFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_passwords"
@@ -101,6 +103,11 @@
         <action
             android:id="@+id/action_passwordFragment_to_welcomeProgressFragment"
             app:destination="@id/welcomeProgressFragment" />
+        <action
+            android:id="@+id/action_passwordFragment_to_welcomeSeedFragment"
+            app:destination="@id/welcomeSeedFragment"
+            app:popUpTo="@+id/welcomeDescriptionFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeDescriptionFragment"

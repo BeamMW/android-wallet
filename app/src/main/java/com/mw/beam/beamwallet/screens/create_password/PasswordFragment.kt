@@ -96,7 +96,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
     }
     override fun showSeedFragment() {
-        findNavController().popBackStack()
+        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())
     }
 
     override fun completePassChanging() {

@@ -102,7 +102,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
     }
     override fun showSeedFragment() {
-        findNavController().popBackStack()
+        findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToWelcomeSeedFragment())
     }
 
     override fun handleNextButton() {
