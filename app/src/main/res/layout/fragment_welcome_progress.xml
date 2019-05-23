@@ -12,6 +12,7 @@
 
         <ImageView
             android:id="@+id/logo"
+            android:layout_marginTop="@dimen/welcome_logo_small_margin_top"
             android:layout_width="@dimen/welcome_small_logo_width"
             android:layout_height="@dimen/welcome_small_logo_height"
             android:contentDescription="@null"

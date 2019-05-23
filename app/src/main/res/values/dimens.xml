@@ -34,7 +34,7 @@
     <dimen name="logo_text_size">16sp</dimen>
     <dimen name="testnet_text_size">14sp</dimen>
 
-    <!--WelcomeActivity-->
+    <!--Welcome-->
     <dimen name="welcome_button_text_padding_start">14dp</dimen>
     <dimen name="welcome_button_text_padding_top">11dp</dimen>
     <dimen name="welcome_button_text_padding_bottom">11dp</dimen>
@@ -45,6 +45,7 @@
     <dimen name="welcome_small_logo_height">80dp</dimen>
     <dimen name="welcome_logo_margin_top">98dp</dimen>
     <dimen name="welcome_logo_text_margin_top">30dp</dimen>
+    <dimen name="welcome_logo_small_margin_top">35dp</dimen>
     <dimen name="welcome_testnet_text_margin">40dp</dimen>
     <dimen name="welcome_passwords_info_text_size">12sp</dimen>
     <dimen name="welcome_passwords_group_padding_top">60dp</dimen>
@@ -118,7 +119,7 @@
     <dimen name="transaction_date_padding">10dp</dimen>
     <dimen name="transactions_title_padding">10dp</dimen>
 
-    <!--MainActivity-->
+    <!--Main-->
     <dimen name="main_link_padding_bottom">30dp</dimen>
     <dimen name="main_link_padding_horizontal">26dp</dimen>
     <dimen name="main_link_text_margin">10dp</dimen>
@@ -227,7 +228,7 @@
     <!--ScanQrActivity-->
     <dimen name="scan_qr_toolbar_offset">20dp</dimen>
 
-    <!--PaymentProofActivity-->
+    <!--PaymentProofFragment-->
     <dimen name="payment_proof_content_horizontal_margin">16dp</dimen>
     <dimen name="payment_proof_content_vertical_padding">25dp</dimen>
     <dimen name="payment_proof_code_value_margin_start">32dp</dimen>
