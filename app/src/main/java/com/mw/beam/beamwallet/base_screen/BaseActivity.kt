@@ -20,12 +20,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.navOptions
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -34,7 +31,7 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
-import kotlinx.android.synthetic.main.activity_main.*
+import com.mw.beam.beamwallet.screens.AppActivity
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -47,32 +44,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     private val lockScreenReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
             presenter?.onLockBroadcastReceived()
-        }
-    }
-
-    protected fun showFragment(
-            fragment: androidx.fragment.app.Fragment,
-            tag: String,
-            clearToTag: String?,
-            clearInclusive: Boolean
-    ) {
-        drawerLayout?.closeDrawer(Gravity.LEFT)
-        val fragmentManager = supportFragmentManager
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
-
-        if (currentFragment == null || tag != currentFragment.tag) {
-            if (clearToTag != null || clearInclusive) {
-                fragmentManager.popBackStack(
-                        clearToTag,
-                        if (clearInclusive) androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE else 0
-                )
-            }
-
-            val transaction = fragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment, tag)
-            transaction.addToBackStack(tag)
-            transaction.setTransition(androidx.fragment.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            transaction.commit()
         }
     }
 
@@ -214,12 +185,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun logOut() {
-        try {
-            val navController = findNavController(R.id.nav_host)
-            navController.navigate(R.id.welcomeOpenFragment, null, navOptions {
-                popUpTo(R.id.navigation) {}
-            })
-        } catch (e: Exception) { }
+        startActivity(Intent(this, AppActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
+        finish()
     }
 
     override fun onUserInteraction() {

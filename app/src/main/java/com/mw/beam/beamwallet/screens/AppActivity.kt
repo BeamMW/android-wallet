@@ -33,6 +33,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>() {
         })
     }
 
+    override fun ensureState(): Boolean = true
+
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AppActivityPresenter(this, AppActivityRepository())
     }
