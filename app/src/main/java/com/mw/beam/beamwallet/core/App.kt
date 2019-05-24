@@ -33,9 +33,11 @@ import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.Wallet
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -74,7 +76,7 @@ class App : Application() {
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
-        //AppConfig.LOCALE = Locale.getDefault()
+        LocaleHelper.loadLocale()
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(self)

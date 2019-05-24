@@ -33,6 +33,7 @@ interface SettingsContract {
     interface View : MvpView {
         fun init(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
+        fun setLanguage(language: String)
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun showFingerprintSettings(isFingerprintEnabled: Boolean)
@@ -49,6 +50,7 @@ interface SettingsContract {
         fun updateCategoryList(allCategory: List<Category>)
         fun navigateToCategory(categoryId: String)
         fun navigateToAddCategory()
+        fun navigateToLanguage()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
     }
 
@@ -70,6 +72,7 @@ interface SettingsContract {
         fun onSaveNodeAddress(address: String?)
         fun onAddCategoryPressed()
         fun onCategoryPressed(categoryId: String)
+        fun onLanguagePressed()
     }
 
     interface Repository : MvpRepository {
@@ -90,5 +93,6 @@ interface SettingsContract {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getAllCategory(): List<Category>
+        fun getCurrentLanguage(): String
     }
 }

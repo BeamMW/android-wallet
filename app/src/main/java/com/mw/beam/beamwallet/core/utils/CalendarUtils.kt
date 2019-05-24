@@ -24,13 +24,13 @@ import java.util.*
  * Created by vain onnellinen on 10/4/18.
  */
 object CalendarUtils {
-    private val WALLET_TIME_FORMAT = SimpleDateFormat("d MMM yyyy  |  hh:mm a", AppConfig.LOCALE)
-    private val US_TIME_FORMAT = SimpleDateFormat("d MMM yyyy  |  hh:mm a", Locale.US)
+    private const val TIME_FORMAT = "d MMM yyyy  |  hh:mm a"
+    private val US_TIME_FORMAT = SimpleDateFormat(TIME_FORMAT, Locale.US)
 
     fun fromTimestamp(timestamp: Long): String {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp * 1000
-        return WALLET_TIME_FORMAT.format(calendar.time)
+        return SimpleDateFormat(TIME_FORMAT, AppConfig.LOCALE).format(calendar.time)
     }
 
     fun fromTimestampUS(timestamp: Long): String {

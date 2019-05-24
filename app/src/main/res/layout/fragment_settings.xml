@@ -255,6 +255,28 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/changePass" />
 
+                    <TextView
+                        android:id="@+id/languageTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/settings_common_offset"
+                        android:text="@string/language_title"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/clearData" />
+
+                    <TextView
+                        android:id="@+id/languageValue"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:paddingTop="@dimen/settings_small_text_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/languageTitle"
+                        tools:text="English" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -288,15 +310,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/settings_common_offset"
                         android:orientation="vertical"
-                        app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle"/>
+                        app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle" />
 
                     <TextView
                         android:id="@+id/addNewCategory"
                         style="@style/common_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
                         android:text="@string/settings_add_new_category"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoriesList" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>

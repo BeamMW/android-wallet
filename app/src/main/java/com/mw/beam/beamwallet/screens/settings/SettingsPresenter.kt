@@ -44,6 +44,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onStart() {
         super.onStart()
         view?.updateCategoryList(repository.getAllCategory())
+        view?.setLanguage(repository.getCurrentLanguage())
     }
 
     override fun onAddCategoryPressed() {
@@ -146,6 +147,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (!repository.isEnabledConnectToRandomNode()) {
             view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
         }
+    }
+
+    override fun onLanguagePressed() {
+        view?.navigateToLanguage()
     }
 
     override fun onClearDataPressed() {

@@ -370,8 +370,8 @@ and never kept in the blockchain.</string>
     <string name="notification_channel_description">Default notification channel</string>
 
     <!-- Language -->
-    <string name="language_title">Language</string>
-    <string name="language_dialog_message">In order for the language settings to take effect the app needs to be restarted</string>
-    <string name="language_restart_now">restart now</string>
+    <string name="language_title">Язык</string>
+    <string name="language_dialog_message">Чтобы настройки языка вступили в силу, необходимо перезапустить приложение</string>
+    <string name="language_restart_now">перезапустить сейчас</string>
 
 </resources>

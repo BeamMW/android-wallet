@@ -85,6 +85,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCategoryFragment(categoryId))
     }
 
+    override fun navigateToLanguage() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment())
+    }
+
     override fun updateCategoryList(allCategory: List<Category>) {
         categoriesList.removeAllViews()
 
@@ -96,6 +100,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 setPadding(0, 0, 0, context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
             })
         }
+    }
+
+    override fun setLanguage(language: String) {
+        languageValue.text = language
     }
 
     override fun sendMailWithLogs() {
@@ -152,6 +160,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         allowOpenLinkSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter?.onChangeAllowOpenExternalLink(isChecked)
         }
+
+        val languageOnClickListener = View.OnClickListener { presenter?.onLanguagePressed() }
+        languageValue.setOnClickListener(languageOnClickListener)
+        languageTitle.setOnClickListener(languageOnClickListener)
 
         clearData.setOnClickListener { presenter?.onClearDataPressed() }
 

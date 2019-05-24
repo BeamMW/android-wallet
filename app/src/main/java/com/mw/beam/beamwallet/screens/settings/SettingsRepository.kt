@@ -23,10 +23,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
-import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -99,6 +96,10 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
         }
+    }
+
+    override fun getCurrentLanguage(): String {
+        return LocaleHelper.currentLanguage
     }
 
     override fun setNodeAddress(address: String) {

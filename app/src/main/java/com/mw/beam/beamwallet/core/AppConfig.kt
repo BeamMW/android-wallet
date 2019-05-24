@@ -46,7 +46,7 @@ object AppConfig {
     var DB_PATH = ""
     var LOG_PATH = ""
     var TRANSACTIONS_PATH = ""
-    var LOCALE: Locale = Locale.US
+    var LOCALE: Locale = Locale.ENGLISH
     val EXPLORER_LINK
         get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
 
