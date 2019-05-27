@@ -27,12 +27,14 @@ interface WelcomeCreateContract {
     interface View : MvpView {
         fun createWallet()
         fun restoreWallet()
+        fun showRestoreNotification()
         fun hasBackArrow(): Boolean
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onCreateWallet()
         fun onRestoreWallet()
+        fun onConfirmRestore()
     }
 
     interface Repository : MvpRepository

@@ -42,9 +42,11 @@
 
     <!--WelcomeActivity-->
     <string name="welcome_create_wallet">create new wallet</string>
-    <string name="welcome_restore">restore wallet</string>
-    <string name="welcome_login_to_another">login to another wallet</string>
+    <string name="welcome_restore">Restore wallet</string>
+    <string name="welcome_restore_or_create">login to another wallet</string>
     <string name="welcome_generate_seed_phrase">generate seed phrase</string>
+    <string name="welcome_i_agree">Я согласен</string>
+    <string name="welcome_restore_notification">Вы пытаетесь восстановить существующий кошелек Beam. Обратите внимание, что если вы используете свой кошелек на другом устройстве, ваш баланс будет обновляться, но история транзакций и адреса будут храниться отдельно на каждом устройстве.</string>
     <string name="welcome_next">next</string>
     <string name="welcome_recover">restore wallet</string>
     <string name="welcome_copy_to_clipboard">copy</string>
@@ -54,9 +56,9 @@
     <string name="welcome_no_type">Never type your seed phrase into password managers or elsewhere.</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency.</string>
     <string name="welcome_pass_hint">Password</string>
-    <string name="welcome_title_change_alert">Login to another wallet</string>
-    <string name="welcome_change_alert">If you login to another wallet, all unsaved transaction history for the current wallet will be lost.</string>
-    <string name="welcome_btn_change_alert">Change wallet</string>
+    <string name="welcome_title_change_alert">Restore wallet or create new one</string>
+    <string name="welcome_change_alert">If you\'ll restore a wallet all transaction history and addresses will be lost.</string>
+    <string name="welcome_btn_change_alert">Proceed</string>
     <string name="welcome_where_to_buy_beam">Where to buy BEAM?</string>
 
     <!--PasswordFragment-->

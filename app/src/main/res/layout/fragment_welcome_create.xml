@@ -43,27 +43,30 @@
             android:id="@+id/btnCreate"
             style="@style/common_button_style"
             app:button_icon="@drawable/ic_btn_create"
+            android:layout_marginTop="@dimen/welcome_testnet_text_margin"
             app:button_text="@string/welcome_create_wallet"
             app:layout_constraintBottom_toTopOf="@id/btnRestore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logoText"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="spread" />
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
+        <TextView
             android:id="@+id/btnRestore"
-            style="@style/common_button_style"
+            style="@style/common_subheader_light"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintWidth_max="wrap"
             android:layout_marginTop="@dimen/welcome_button_margin_offset"
-            android:layout_marginBottom="@dimen/welcome_button_margin_offset"
+            android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
+            android:text="@string/welcome_restore"
+            android:textColor="@color/colorAccent"
             android:visibility="gone"
-            app:button_icon="@drawable/ic_btn_restore"
-            android:background="@drawable/primary_button"
-            app:button_text="@string/welcome_restore"
-            app:button_text_color="@color/common_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnCreate" />
+            app:layout_constraintTop_toBottomOf="@id/btnCreate"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

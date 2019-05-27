@@ -47,6 +47,10 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnRestore.setOnClickListener(null)
     }
 
+    override fun showRestoreNotification() {
+        showAlert(getString(R.string.welcome_restore_notification), getString(R.string.welcome_i_agree), { presenter?.onConfirmRestore() }, getString(R.string.welcome_restore))
+    }
+
     override fun createWallet() {
         findNavController().navigate(WelcomeCreateFragmentDirections.actionWelcomeCreateFragmentToWelcomeDescriptionFragment())
     }

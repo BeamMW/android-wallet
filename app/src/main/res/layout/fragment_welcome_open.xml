@@ -73,25 +73,31 @@
             android:id="@+id/btnOpen"
             style="@style/common_button_style"
             android:layout_marginBottom="@dimen/welcome_button_margin_offset"
+            android:layout_marginTop="@dimen/welcome_open_margin_side"
             app:button_icon="@drawable/ic_btn_show"
             app:button_text="@string/welcome_open"
-            app:layout_constraintBottom_toTopOf="@id/btnChange"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/passError"
             app:layout_goneMarginBottom="@dimen/welcome_open_button_margin_bottom" />
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
+        <TextView
             android:id="@+id/btnChange"
+            style="@style/common_subheader_light"
+            android:layout_width="0dp"
+            android:textAlignment="center"
+            app:layout_constraintWidth_max="wrap"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/welcome_button_margin_offset"
+            android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
+            android:text="@string/welcome_restore_or_create"
+            android:textColor="@color/colorAccent"
             android:visibility="gone"
-            style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/welcome_open_button_margin_bottom"
-            app:button_icon="@drawable/ic_btn_change"
-            android:background="@drawable/primary_button"
-            app:button_text="@string/welcome_login_to_another"
-            app:button_text_color="@color/common_text_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnOpen"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
