@@ -23,12 +23,14 @@
     <TextView
         android:id="@+id/deleteAllAddressesTitle"
         style="@style/common_text_big_light"
-        android:text="@string/settings_dialog_clear_addresses"
-        android:layout_marginTop="@dimen/common_alert_dialog_margin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/settings_dialog_clear_addresses"
+        app:layout_constraintEnd_toStartOf="@+id/deleteAllAddressesCheckbox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/clearDialogTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/clearDialogTitle" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/deleteAllAddressesCheckbox"
@@ -41,12 +43,14 @@
     <TextView
         android:id="@+id/deleteAllContactsTitle"
         style="@style/common_text_big_light"
-        android:text="@string/settings_dialog_clear_contacts"
-        android:layout_marginTop="@dimen/common_alert_dialog_margin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/settings_dialog_clear_contacts"
+        app:layout_constraintEnd_toStartOf="@+id/deleteAllContactsCheckbox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteAllAddressesTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/deleteAllAddressesTitle" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/deleteAllContactsCheckbox"
@@ -59,12 +63,14 @@
     <TextView
         android:id="@+id/deleteAllTransactionsTitle"
         style="@style/common_text_big_light"
-        android:text="@string/settings_dialog_clear_transactions"
-        android:layout_marginTop="@dimen/common_alert_dialog_margin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/settings_dialog_clear_transactions"
+        app:layout_constraintEnd_toStartOf="@+id/deleteAllTransactionsCheckbox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/deleteAllContactsTitle"/>
+        app:layout_constraintTop_toBottomOf="@id/deleteAllContactsTitle" />
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/deleteAllTransactionsCheckbox"
