@@ -30,7 +30,7 @@
         android:singleLine="true"
         android:layout_marginStart="@dimen/edit_category_content_offset"
         android:layout_marginEnd="@dimen/edit_category_content_offset"
-        android:inputType="text"
+        android:inputType="text|textFilter"
         app:layout_constraintTop_toBottomOf="@id/name"
         tools:text="Salary" />
 
