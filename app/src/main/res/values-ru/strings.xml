@@ -14,7 +14,7 @@
     <string name="common_delete">Delete</string>
     <string name="common_done">done</string>
     <string name="common_confirm">Confirm</string>
-    <string name="common_ok">@android:string/ok</string>
+    <string name="common_ok">OK</string>
     <string name="common_activate">Activate</string>
     <string name="common_copied_alert">Copied!</string>
     <string name="common_menu_more">more</string>
