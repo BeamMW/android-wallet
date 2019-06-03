@@ -32,4 +32,5 @@ class SendState {
     var scannedAddress : String? = null
     var oldToken : String? = null
     var scannedAmount: Double? = null
+    var prevFee = 0.0
 }

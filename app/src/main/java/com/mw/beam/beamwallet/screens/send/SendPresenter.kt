@@ -259,7 +259,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val maxEnterAmount = availableAmount - feeAmount
         if (enteredAmount > maxEnterAmount) {
             view?.setAmount(maxEnterAmount)
+        } else if (enteredAmount == availableAmount - state.prevFee) {
+            view?.setAmount(maxEnterAmount)
         }
+        state.prevFee = feeAmount
     }
 
     override fun initSubscriptions() {
