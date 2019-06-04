@@ -22,6 +22,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>() {
         val navController = findNavController(R.id.nav_host)
         navController.navigate(R.id.welcomeOpenFragment, null, navOptions {
             popUpTo(R.id.navigation) {}
+            anim {
+                enter = R.anim.fade_in
+                popEnter = R.anim.fade_in
+                exit = R.anim.fade_out
+                popExit = R.anim.fade_out
+            }
         })
     }
 
@@ -34,6 +40,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>() {
         val navController = findNavController(R.id.nav_host)
         navController.navigate(R.id.walletFragment, null, navOptions {
             popUpTo(R.id.navigation) {}
+            anim {
+                enter = R.anim.fade_in
+                popEnter = R.anim.fade_in
+                exit = R.anim.fade_out
+                popExit = R.anim.fade_out
+            }
         })
     }
 
