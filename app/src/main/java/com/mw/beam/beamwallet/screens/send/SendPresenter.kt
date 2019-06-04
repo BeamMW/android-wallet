@@ -114,7 +114,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     view?.dismissDialog()
                     view?.showCantSendToExpiredError()
                 } else {
-                    repository.sendMoney(token, comment, amount.convertToGroth(), fee)
+                    view?.pendingSendMoney(token, comment, amount.convertToGroth(), fee)
                     view?.dismissDialog()
                     view?.close()
                 }

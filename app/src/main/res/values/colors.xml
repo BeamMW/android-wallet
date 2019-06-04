@@ -29,6 +29,10 @@
     <color name="pass_progress_medium">#f4ce4a</color>
     <color name="pass_progress_strong">@color/colorAccent</color>
 
+    <color name="undo_card_background">#fff</color>
+    <color name="undo_card_text_color">#032e49</color>
+    <color name="undo_card_action_color">#23c1ff</color>
+
     <!--PasswordFragment-->
     <color name="password_underline_color">@color/colorPrimary</color>
 

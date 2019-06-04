@@ -62,6 +62,7 @@ interface SendContract {
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
         fun dismissDialog()
         fun showStayActiveDialog()
+        fun pendingSendMoney(token: String, comment: String?, amount: Long, fee: Long)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -84,7 +85,6 @@ interface SendContract {
     }
 
     interface Repository : MvpRepository {
-        fun sendMoney(token: String, comment: String?, amount: Long, fee: Long)
         fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean

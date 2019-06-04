@@ -29,12 +29,6 @@ import io.reactivex.subjects.Subject
  */
 class SendRepository : BaseRepository(), SendContract.Repository {
 
-    override fun sendMoney(token: String, comment: String?, amount: Long, fee: Long) {
-        getResult("sendMoney", " token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
-            wallet?.sendMoney(token, comment, amount, fee)
-        }
-    }
-
     override fun getWalletStatus(): Subject<WalletStatus> {
         return getResult(WalletListener.subOnStatus, "getWalletStatus")
     }

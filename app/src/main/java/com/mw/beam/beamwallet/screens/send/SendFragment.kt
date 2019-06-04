@@ -42,6 +42,8 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.screens.AppActivity
+import com.mw.beam.beamwallet.screens.PendingSendInfo
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.fragment_send.*
@@ -345,6 +347,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             tokenError.visibility = View.INVISIBLE
             tokenDescription.visibility = View.VISIBLE
         }
+    }
+
+    override fun pendingSendMoney(token: String, comment: String?, amount: Long, fee: Long) {
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee))
     }
 
     override fun updateAvailable(availableString: String) {
