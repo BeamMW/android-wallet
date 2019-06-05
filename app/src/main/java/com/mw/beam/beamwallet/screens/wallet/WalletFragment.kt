@@ -359,7 +359,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     private fun configNavView() {
         val menuItems = arrayOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
+//                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.nav_address_book)),
                 NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.nav_utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.nav_settings)))
