@@ -68,10 +68,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         btnUndoSent.setOnClickListener {
             presenter?.onUndoSend()
         }
+        undoSentCard.setOnClickListener {  }
     }
 
     override fun clearListeners() {
         btnUndoSent.setOnClickListener(null)
+        undoSentCard.setOnClickListener(null)
     }
 
     fun pendingSend(info: PendingSendInfo) {
