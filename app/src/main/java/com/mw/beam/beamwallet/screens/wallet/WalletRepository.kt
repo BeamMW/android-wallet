@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.wallet
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletStatus
@@ -59,4 +60,10 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
+
+    override fun getIntentTransactionId(): String? {
+        val transactionID = App.intentTransactionID
+        App.intentTransactionID = null
+        return transactionID
+    }
 }

@@ -69,12 +69,12 @@
         <action
             android:id="@+id/action_welcomeProgressFragment_to_walletFragment"
             app:destination="@id/walletFragment"
-            app:launchSingleTop="false"
-            app:popUpTo="@+id/navigation"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/navigation" />
     </fragment>
     <fragment
         android:id="@+id/welcomeSeedFragment"
@@ -293,9 +293,6 @@
         tools:layout="@layout/fragment_transaction_details"
         android:name="com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragment"
         android:label="TransactionDetailsFragment" >
-        <argument
-            android:name="txDescription"
-            app:argType="com.mw.beam.beamwallet.core.entities.TxDescription" />
         <action
             android:id="@+id/action_transactionDetailsFragment_to_paymentProofDetailsFragment"
             app:destination="@id/paymentProofDetailsFragment"
@@ -303,6 +300,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <argument
+            android:name="txId"
+            app:argType="string" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_proof_verification"

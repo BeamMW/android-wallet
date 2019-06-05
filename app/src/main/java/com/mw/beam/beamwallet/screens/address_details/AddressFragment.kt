@@ -176,7 +176,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) {
-        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToTransactionDetailsFragment(txDescription))
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToTransactionDetailsFragment(txDescription.id))
     }
 
     override fun showEditAddressScreen(address: WalletAddress) {

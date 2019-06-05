@@ -41,7 +41,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
-    override fun getTransactionDetails(): TxDescription = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txDescription
+    override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         configTransactionDetails(txDescription, isEnablePrivacyMode)

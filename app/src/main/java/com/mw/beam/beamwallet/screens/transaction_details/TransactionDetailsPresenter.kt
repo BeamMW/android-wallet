@@ -20,6 +20,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -39,23 +40,20 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onCreate() {
         super.onCreate()
-        state.txDescription = view?.getTransactionDetails()
+        state.txID = view?.getTransactionId()
     }
 
-    override fun onViewCreated() {
-        super.onViewCreated()
-        state.txDescription?.let {
-            val senderAddress = if (it.sender.value) it.myId else it.peerId
-            val receiverAddress = if (it.sender.value) it.peerId else it.myId
+    private fun configAddresses(txDescription: TxDescription) {
+        val senderAddress = if (txDescription.sender.value) txDescription.myId else txDescription.peerId
+        val receiverAddress = if (txDescription.sender.value) txDescription.peerId else txDescription.myId
 
-            view?.configCategoryAddresses(repository.getCategoryForAddress(senderAddress), repository.getCategoryForAddress(receiverAddress))
-        }
+        view?.configCategoryAddresses(repository.getCategoryForAddress(senderAddress), repository.getCategoryForAddress(receiverAddress))
     }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        utxosByTxSubscription = repository.getUtxoByTx(state.txDescription!!.id).subscribe { utxos ->
+        utxosByTxSubscription = repository.getUtxoByTx(state.txID!!).subscribe { utxos ->
             if (!utxos.isNullOrEmpty()) {
                 updateUtxos(utxos)
             }
@@ -63,11 +61,12 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
             state.configTransactions(data.tx)
-            data.tx?.firstOrNull { it.id == state.txDescription?.id }?.let {
+            data.tx?.firstOrNull { it.id == state.txID }?.let {
                 state.txDescription = it
-                repository.getUtxoByTx(state.txDescription!!.id)
+                repository.getUtxoByTx(state.txID!!)
 
                 view?.init(it, repository.isPrivacyModeEnabled())
+                configAddresses(it)
 
                 if (canRequestProof()) {
                     repository.requestProof(it.id)
@@ -75,8 +74,8 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             }
         }
 
-        paymentProofSubscription = repository.getPaymentProof(state.txDescription!!.id, canRequestProof()).subscribe {
-            if (it.txId == state.txDescription?.id) {
+        paymentProofSubscription = repository.getPaymentProof(state.txID!!, canRequestProof()).subscribe {
+            if (it.txId == state.txID) {
                 state.paymentProof = it
                 view?.updatePaymentProof(it)
             }
@@ -108,7 +107,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             var type = UtxoType.Exchange
 
             if (state.txDescription?.selfTx == false && !isExchangeUtxo(utxo)) {
-                type = if (state.txDescription?.id == utxo.createTxId) {
+                type = if (state.txID == utxo.createTxId) {
                     UtxoType.Receive
                 } else {
                     UtxoType.Send

@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 class TransactionDetailsState {
     val transactions = HashMap<String, TxDescription>()
     var txDescription: TxDescription? = null
+    var txID: String? = null
     var paymentProof: PaymentProof? = null
 
     fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {

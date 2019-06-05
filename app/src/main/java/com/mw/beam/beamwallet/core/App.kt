@@ -52,6 +52,7 @@ class App : Application() {
         private const val BACKGROUND_JOB_ID = 71614
         var showNotification = true
         var isAuthenticated = false
+        var intentTransactionID: String? = null
     }
 
     override fun onCreate() {

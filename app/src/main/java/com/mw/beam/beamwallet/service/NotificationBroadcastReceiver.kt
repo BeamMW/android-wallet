@@ -8,13 +8,13 @@ import com.mw.beam.beamwallet.screens.AppActivity
 class NotificationBroadcastReceiver: BroadcastReceiver() {
     companion object {
         const val ACTION = "com.mw.beam.beamwallet.service.NotificationBroadcastReceiver"
+        const val TRANSACTION_ID = "TRANSACTION_ID"
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        val activityClass = AppActivity::class.java
-
-        val startIntent = Intent(context, activityClass).apply {
+        val startIntent = Intent(context, AppActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra(AppActivity.TRANSACTION_ID, intent?.extras?.getString(TRANSACTION_ID))
         }
 
         context?.startActivity(startIntent)

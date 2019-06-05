@@ -39,7 +39,7 @@ interface WalletContract {
         fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean)
         fun configInProgress(receivingAmount: Long, sendingAmount: Long, isEnablePrivacyMode: Boolean)
         fun configAvailable(availableAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean)
-        fun showTransactionDetails(txDescription: TxDescription)
+        fun showTransactionDetails(txId: String)
         fun showReceiveScreen()
         fun showSendScreen()
         fun handleExpandAvailable(shouldExpandAvailable: Boolean)
@@ -54,6 +54,7 @@ interface WalletContract {
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
         fun closeDrawer()
         fun showOpenLinkAlert()
+        fun clearAllNotification()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -83,5 +84,6 @@ interface WalletContract {
         fun getTransactionsFile(): File
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun isAllowOpenExternalLink(): Boolean
+        fun getIntentTransactionId(): String?
     }
 }

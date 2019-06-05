@@ -57,6 +57,7 @@ class BackgroundService : JobService() {
 
                         val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java).apply {
                             action = NotificationBroadcastReceiver.ACTION
+                            putExtra(NotificationBroadcastReceiver.TRANSACTION_ID, txId)
                         }
 
                         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)

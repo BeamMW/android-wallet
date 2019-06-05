@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.TextView
@@ -309,8 +311,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         addTitleListeners(isEnable)
     }
 
-    override fun showTransactionDetails(txDescription: TxDescription) {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txDescription))
+    override fun showTransactionDetails(txId: String) {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txId))
     }
     override fun showReceiveScreen() {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
@@ -412,6 +414,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onStop() {
         App.showNotification = true
         super.onStop()
+    }
+
+    override fun clearAllNotification() {
+        (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancelAll()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

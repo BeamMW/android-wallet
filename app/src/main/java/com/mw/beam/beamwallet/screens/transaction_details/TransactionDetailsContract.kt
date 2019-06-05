@@ -34,7 +34,7 @@ import io.reactivex.subjects.Subject
  */
 interface TransactionDetailsContract {
     interface View : MvpView {
-        fun getTransactionDetails(): TxDescription
+        fun getTransactionId(): String
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
         fun updatePaymentProof(paymentProof: PaymentProof)
         fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus)

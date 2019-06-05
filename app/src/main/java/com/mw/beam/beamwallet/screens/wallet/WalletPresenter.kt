@@ -41,6 +41,12 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onViewCreated()
         view?.init()
         state.privacyMode = repository.isPrivacyModeEnabled()
+        val txId = repository.getIntentTransactionId()
+        if (txId != null) {
+            view?.showTransactionDetails(txId)
+        } else {
+            view?.clearAllNotification()
+        }
     }
 
     override fun onStart() {
@@ -110,7 +116,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
-        view?.showTransactionDetails(txDescription)
+        view?.showTransactionDetails(txDescription.id)
     }
 
     override fun onExpandAvailablePressed() {
