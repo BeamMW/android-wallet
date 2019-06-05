@@ -42,8 +42,8 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import com.mw.beam.beamwallet.screens.AppActivity
-import com.mw.beam.beamwallet.screens.PendingSendInfo
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.send.confirmation_dialog.SendConfirmationDialog
 import kotlinx.android.synthetic.main.fragment_send.*

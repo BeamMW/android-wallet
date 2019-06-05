@@ -3,7 +3,7 @@ package com.mw.beam.beamwallet.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.mw.beam.beamwallet.screens.AppActivity
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 class NotificationBroadcastReceiver: BroadcastReceiver() {
     companion object {

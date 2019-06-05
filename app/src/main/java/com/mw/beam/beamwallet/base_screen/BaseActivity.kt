@@ -32,7 +32,7 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
-import com.mw.beam.beamwallet.screens.AppActivity
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
  * Created by vain onnellinen on 10/1/18.

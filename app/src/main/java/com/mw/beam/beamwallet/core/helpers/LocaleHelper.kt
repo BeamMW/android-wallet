@@ -1,13 +1,11 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.LocaleList
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.screens.AppActivity
 import java.util.*
 
 object LocaleHelper {

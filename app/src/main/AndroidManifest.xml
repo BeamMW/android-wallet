@@ -21,7 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".screens.AppActivity"
+        <activity android:name=".screens.app_activity.AppActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
