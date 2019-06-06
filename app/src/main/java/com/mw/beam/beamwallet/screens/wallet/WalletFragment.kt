@@ -23,7 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.TextView
-import androidx.activity.addCallback
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.view.menu.MenuBuilder
@@ -54,6 +54,18 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START)
+                return
+            }
+
+            App.isAuthenticated = false
+            activity?.finish()
+        }
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
     override fun getToolbarTitle(): String? = getString(R.string.wallet_title)
@@ -141,16 +153,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         drawerToggle.syncState()
 
         configNavView()
-
-        requireActivity().onBackPressedDispatcher.addCallback(owner = activity) {
-            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-                return@addCallback
-            }
-
-            App.isAuthenticated = false
-            activity?.finish()
-        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     @SuppressLint("RestrictedApi")
