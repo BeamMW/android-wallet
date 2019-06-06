@@ -62,6 +62,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                 return
             }
 
+            App.isAuthenticated = false
             activity?.finish()
         }
     }

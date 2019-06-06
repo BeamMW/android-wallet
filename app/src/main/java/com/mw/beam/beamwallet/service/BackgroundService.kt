@@ -18,6 +18,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
 class BackgroundService : JobService() {
@@ -55,9 +56,9 @@ class BackgroundService : JobService() {
                     if (txDescription != null && txDescription.sender == TxSender.RECEIVED) {
                         val txId = txDescription.id
 
-                        val intent = Intent(applicationContext, NotificationBroadcastReceiver::class.java).apply {
-                            action = NotificationBroadcastReceiver.ACTION
-                            putExtra(NotificationBroadcastReceiver.TRANSACTION_ID, txId)
+                        val intent = Intent(applicationContext, AppActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            putExtra(AppActivity.TRANSACTION_ID, txId)
                         }
 
                         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
@@ -70,7 +71,7 @@ class BackgroundService : JobService() {
                                 .setVibrate(longArrayOf(250, 250, 250, 250))
                                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                                 .setLights(getColor(R.color.received_color), 2000, 2000)
-                                .setContentIntent(PendingIntent.getBroadcast(applicationContext, REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT))
+                                .setContentIntent(PendingIntent.getActivity(applicationContext, REQUEST_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT))
                                 .build()
 
                         with(NotificationManagerCompat.from(applicationContext)) {
