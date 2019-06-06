@@ -39,6 +39,11 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        view?.showKeyboard()
+    }
+
     override fun onSeedChanged(seed: String) {
         view?.handleNextButton()
         view?.updateSuggestions(seed)
