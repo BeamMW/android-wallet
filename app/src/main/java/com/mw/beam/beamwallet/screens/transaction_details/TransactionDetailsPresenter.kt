@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import io.reactivex.disposables.Disposable
 
 /**
@@ -146,6 +147,16 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
         view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return)
+    }
+
+    override fun onRepeatTransaction() {
+        state.txDescription?.let { txDescription ->
+            if (txDescription.sender.value) {
+                view?.showSendFragment(txDescription.peerId, txDescription.amount)
+            } else {
+                view?.showReceiveFragment(txDescription.amount)
+            }
+        }
     }
 
     override fun onCancelTransaction() {

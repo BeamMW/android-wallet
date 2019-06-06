@@ -44,6 +44,8 @@ interface TransactionDetailsContract {
         fun showPaymentProof(paymentProof: PaymentProof)
         fun showOpenLinkAlert()
         fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?)
+        fun showSendFragment(address: String, amount: Long)
+        fun showReceiveFragment(amount: Long)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -54,6 +56,7 @@ interface TransactionDetailsContract {
         fun onCopyPaymentProof()
         fun onOpenInBlockExplorerPressed()
         fun onOpenLinkPressed()
+        fun onRepeatTransaction()
     }
 
     interface Repository : MvpRepository {

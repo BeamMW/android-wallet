@@ -34,10 +34,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -65,7 +62,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive_title)
+
+    override fun getAmountFromArguments(): Long {
+        return ReceiveFragmentArgs.fromBundle(arguments!!).amount
+    }
+
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
+    override fun setAmount(newAmount: Double) = amount.setText(newAmount.convertToBeamString())
 
     override fun init() {
         ArrayAdapter.createFromResource(

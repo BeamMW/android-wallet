@@ -36,7 +36,9 @@ interface ReceiveContract {
         fun shareToken(receiveToken: String)
         fun close()
         fun dismissDialog()
+        fun getAmountFromArguments(): Long
         fun getAmount(): Double?
+        fun setAmount(newAmount: Double)
         fun showStayActiveDialog()
         fun configCategory(currentCategory: Category?, categories: List<Category>)
     }

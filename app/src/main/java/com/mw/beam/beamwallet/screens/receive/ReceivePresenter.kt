@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.receive
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import io.reactivex.disposables.Disposable
 
 /**
@@ -33,6 +34,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+
+        val amount = view?.getAmountFromArguments()
+        if (amount != null && amount > 0) {
+            view?.setAmount(amount.convertToBeam())
+        }
 //        view?.showStayActiveDialog()
     }
 

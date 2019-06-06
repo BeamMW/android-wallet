@@ -63,6 +63,8 @@ interface SendContract {
         fun dismissDialog()
         fun showStayActiveDialog()
         fun pendingSendMoney(token: String, comment: String?, amount: Long, fee: Long)
+        fun getAddressFromArguments(): String?
+        fun getAmountFromArguments(): Long
     }
 
     interface Presenter : MvpPresenter<View> {

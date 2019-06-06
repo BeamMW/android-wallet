@@ -72,6 +72,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_send
     override fun getToolbarTitle(): String? = getString(R.string.send_title)
 
+    override fun getAddressFromArguments(): String? {
+        return SendFragmentArgs.fromBundle(arguments!!).address
+    }
+
+    override fun getAmountFromArguments(): Long {
+        return SendFragmentArgs.fromBundle(arguments!!).amount
+    }
+
     override fun getAmount(): Double = try {
         amount.text.toString().toDouble()
     } catch (e: Exception) {

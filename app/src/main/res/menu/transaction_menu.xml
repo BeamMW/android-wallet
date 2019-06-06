@@ -7,11 +7,11 @@
         android:title="@string/common_menu_more"
         app:showAsAction="ifRoom">
         <menu>
-            <!--<item-->
-                <!--android:id="@+id/repeat"-->
-                <!--android:icon="@drawable/tx_repeat"-->
-                <!--android:title="@string/transaction_details_menu_repeat"-->
-                <!--app:showAsAction="never" />-->
+            <item
+                android:id="@+id/repeat"
+                android:icon="@drawable/tx_repeat"
+                android:title="@string/transaction_details_menu_repeat"
+                app:showAsAction="never" />
             <!--<item-->
                 <!--android:id="@+id/save"-->
                 <!--android:icon="@drawable/tx_save"-->

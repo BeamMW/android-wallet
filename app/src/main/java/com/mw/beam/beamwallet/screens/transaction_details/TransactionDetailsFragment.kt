@@ -65,13 +65,14 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             moreMenu = menu
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+            menu?.findItem(R.id.repeat)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Cancelled == txStatus
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            // R.id.repeat -> {  }
             // R.id.save -> {  }
+            R.id.repeat -> presenter?.onRepeatTransaction()
             R.id.cancel -> presenter?.onCancelTransaction()
             R.id.delete -> presenter?.onDeleteTransaction()
         }
@@ -194,6 +195,14 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         btnOpenInBlockExplorer.setOnClickListener {
             presenter?.onOpenInBlockExplorerPressed()
         }
+    }
+
+    override fun showSendFragment(address: String, amount: Long) {
+        findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToSendFragment(address, amount))
+    }
+
+    override fun showReceiveFragment(amount: Long) {
+        findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToReceiveFragment(amount))
     }
 
     override fun showPaymentProof(paymentProof: PaymentProof) {
