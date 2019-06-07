@@ -10,6 +10,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
+import android.os.Process
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.mw.beam.beamwallet.R
@@ -106,6 +107,11 @@ class BackgroundService : JobService() {
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
+        if (!App.isAppRunning) {
+            repository.closeWallet()
+            txDisposable?.dispose()
+            Process.killProcess(Process.myPid())
+        }
         return false
     }
 }

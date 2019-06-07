@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hasStatus="false"/>
+
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/codeTitle"
+                style="@style/common_text_big_light"
+                android:layout_marginTop="@dimen/common_card_padding"
+                android:textStyle="bold"
+                android:text="@string/owner_key_code_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/ownerKeyValue"
+                style="@style/common_text_big_dark"
+                android:textAlignment="center"
+                android:layout_marginStart="@dimen/common_card_padding"
+                android:layout_marginEnd="@dimen/common_card_padding"
+                tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e0976800000000000000ebb27b5501213c84eb212ea276e8ced74f540fbcceb0f4c1c2da2c5108188651a1864ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e03fbbbb5942e5e63d1a7728a2954a10d3bfb9938f0c17509a6a0e870c6bb22ff2d1297f3dae7f54592b00e84c6b3c9ea3e3ad9bc43661b6dcf7dbd818ccc92707d1d75b429697e8492653"
+                android:layout_marginTop="@dimen/owner_key_description_offset"
+                app:layout_constraintTop_toBottomOf="@id/codeTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/ownerKeyDescription"
+                style="@style/common_text_big_light"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:layout_marginStart="@dimen/owner_key_description_offset"
+                android:layout_marginEnd="@dimen/owner_key_description_offset"
+                android:text="@string/owner_key_code_description"
+                android:layout_marginTop="@dimen/owner_key_description_offset"
+                app:layout_constraintTop_toBottomOf="@id/ownerKeyValue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnCopy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
+                app:button_icon="@drawable/ic_btn_copy_dark"
+                android:background="@drawable/common_button"
+                app:button_text="@string/welcome_copy_to_clipboard"
+                android:layout_marginStart="@dimen/owner_key_copy_button_offset"
+                android:layout_marginEnd="@dimen/owner_key_copy_button_offset"
+                android:layout_marginTop="@dimen/owner_key_description_offset"
+                app:layout_constraintTop_toBottomOf="@id/ownerKeyDescription"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

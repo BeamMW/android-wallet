@@ -39,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.views.SnackBarsView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 
@@ -81,16 +82,9 @@ class ScreenDelegate {
         }
     }
 
-    fun showSnackBar(message: String, activity: androidx.core.app.ComponentActivity) {
-        showSnackBar(message, R.color.colorAccent, activity)
-    }
-
-    fun showSnackBar(message: String, textColor: Int, activity: androidx.core.app.ComponentActivity) {
-        val snackBar = Snackbar.make(activity.findViewById(android.R.id.content) ?: return,
-                message, Snackbar.LENGTH_LONG)
-        snackBar.view.setBackgroundColor(ContextCompat.getColor(activity, R.color.snack_bar_color))
-        snackBar.view.findViewById<TextView>(R.id.snackbar_text).setTextColor(ContextCompat.getColor(activity, textColor))
-        snackBar.show()
+    fun showSnackBar(message: String, activity: androidx.core.app.ComponentActivity, onDismiss: (() -> Unit)? = null, onUndo: (() -> Unit)? = null) {
+        val snackBarsView = activity.findViewById<SnackBarsView>(R.id.snackbars_view)
+        snackBarsView?.show(message, onDismiss, onUndo)
     }
 
     fun openExternalLink(context: Context?, link: String) {

@@ -9,16 +9,12 @@ interface AppActivityContract {
         fun showOpenFragment()
         fun showWalletFragment()
         fun showTransactionDetailsFragment(txId: String)
-        fun cancelSnackbar()
-        fun startNewSnackbar()
-        fun updateSnackbar(time: Int)
-
+        fun startNewSnackbar(onUndo: () -> Unit, onDismiss: () -> Unit)
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onNewIntent(txId: String?)
         fun onPendingSend(info: PendingSendInfo)
-        fun onUndoSend()
     }
 
     interface Repository: MvpRepository {

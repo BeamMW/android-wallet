@@ -17,6 +17,7 @@
     <dimen name="common_passwords_screen_description_padding_top">20dp</dimen>
     <dimen name="common_passwords_screen_button_margin">60dp</dimen>
     <dimen name="common_btn_width">254dp</dimen>
+    <dimen name="common_snackbar_padding">8dp</dimen>
     <dimen name="toolbar_status_text_size">12sp</dimen>
     <dimen name="toolbar_padding_end">30dp</dimen>
     <dimen name="toolbar_status_start_offset">16dp</dimen>
@@ -255,4 +256,17 @@
     <dimen name="suggestions_divider_margin">5dp</dimen>
     <dimen name="suggestions_divider_wight">2dp</dimen>
     <dimen name="suggestions_word_margin">8dp</dimen>
+
+    <!--OwnerKey-->
+    <dimen name="owner_key_verification_offset">40dp</dimen>
+    <dimen name="owner_key_password_offset">30dp</dimen>
+    <dimen name="owner_key_description_offset">50dp</dimen>
+    <dimen name="owner_key_code_value_margin_top">10dp</dimen>
+    <dimen name="owner_key_copy_button_offset">60dp</dimen>
+
+    <!--FingerprintDialog-->
+    <dimen name="fingerprint_card_size">48dp</dimen>
+    <dimen name="fingerprint_card_corner_radius">24dp</dimen>
+    <dimen name="fingerprint_icon_size">30dp</dimen>
+    <dimen name="fingerprint_description_margin">10dp</dimen>
 </resources>

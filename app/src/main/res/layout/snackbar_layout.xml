@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/undo_card_background"
+    android:layout_margin="@dimen/common_snackbar_padding"
+    android:layout_gravity="bottom"
+    app:cardCornerRadius="5dp"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:id="@+id/timerView"
+            android:layout_gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="35dp">
+            <ProgressBar
+                android:id="@+id/progressTimer"
+                android:padding="0dp"
+                android:indeterminate="false"
+                android:progress="10"
+                android:secondaryProgress="100"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:background="@drawable/cirlce_border"
+                android:max="100"
+                android:progressDrawable="@drawable/progressbar_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/undoTime"
+                tools:text="5"
+                android:layout_gravity="center"
+                android:textColor="@color/undo_card_text_color"
+                android:textSize="@dimen/common_text_big_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+        <TextView
+            android:id="@+id/contentText"
+            android:layout_marginStart="16dp"
+            tools:text="@string/wallet_sent_message"
+            android:textSize="@dimen/common_text_big_size"
+            android:textColor="@color/undo_card_text_color"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/btnUndo"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            tools:visibility="visible"
+            android:text="@string/common_undo"
+            android:textColor="@color/undo_card_action_color"
+            android:textStyle="bold"
+            android:textSize="@dimen/common_text_big_size"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

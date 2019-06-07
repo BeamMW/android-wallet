@@ -53,6 +53,7 @@ class App : Application() {
         var showNotification = true
         var isAuthenticated = false
         var intentTransactionID: String? = null
+        var isAppRunning = false
     }
 
     override fun onCreate() {

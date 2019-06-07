@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hasStatus="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/enterPasswordTitle"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/owner_key_verification_offset"
+                android:paddingStart="@dimen/owner_key_verification_offset"
+                android:paddingEnd="@dimen/owner_key_verification_offset"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Enter your password and use Fingerprint ID to access the wallet" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/owner_key_password_offset"
+                android:layout_marginTop="@dimen/owner_key_verification_offset"
+                android:layout_marginEnd="@dimen/owner_key_password_offset"
+                app:hintTextAppearance="@style/welcome_password_label_style"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/enterPasswordTitle"
+                app:layout_constraintVertical_chainStyle="packed">
+
+                <com.mw.beam.beamwallet.core.views.BeamEditText
+                    android:id="@+id/pass"
+                    style="@style/welcome_password_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/welcome_pass_hint"
+                    tools:ignore="Autofill,LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/passError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:paddingTop="@dimen/welcome_passwords_items_offset"
+                android:text="@string/pass_wrong"
+                android:textColor="@color/common_error_color"
+                android:textSize="@dimen/welcome_passwords_info_text_size"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/passLayout"
+                app:layout_constraintTop_toBottomOf="@id/passLayout" />
+
+            <TextView
+                android:id="@+id/verificationDescription"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/owner_key_verification_offset"
+                android:paddingStart="@dimen/owner_key_verification_offset"
+                android:paddingEnd="@dimen/owner_key_verification_offset"
+                android:text="@string/owner_key_verification_description"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/passError" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnNext"
+                style="@style/common_button_style"
+                android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
+                android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
+                app:button_icon="@drawable/ic_btn_proceed"
+                app:button_text="@string/common_next"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verificationDescription" />
+
+            <TextView
+                android:id="@+id/fingerprintDescription"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/owner_key_verification_offset"
+                android:layout_marginBottom="@dimen/owner_key_verification_offset"
+                android:paddingStart="@dimen/owner_key_verification_offset"
+                android:paddingEnd="@dimen/owner_key_verification_offset"
+                android:text="@string/owner_key_verification_fingerprint_description"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnNext" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

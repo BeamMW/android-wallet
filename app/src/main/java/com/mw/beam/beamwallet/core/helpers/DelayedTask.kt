@@ -9,7 +9,7 @@ class DelayedTask : AsyncTask<Void, Int, Boolean>() {
     private var onResult: ((Boolean) -> Unit)? = null
 
     companion object {
-        fun startNew(durationSecond: Int, task: () -> Unit, onProgress: (Int) -> Unit, onResult: (Boolean) -> Unit): DelayedTask {
+        fun startNew(durationSecond: Int, task: () -> Unit, onProgress: ((Int) -> Unit)? = null, onResult: ((Boolean) -> Unit)? = null): DelayedTask {
             return DelayedTask().apply {
                 this.task = task
                 this.onProgress = onProgress

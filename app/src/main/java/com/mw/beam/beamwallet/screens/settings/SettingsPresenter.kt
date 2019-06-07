@@ -99,6 +99,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.changePass()
     }
 
+    override fun onShowOwnerKey() {
+        view?.navigateToOwnerKeyVerification()
+    }
+
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true
 

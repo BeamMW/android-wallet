@@ -251,6 +251,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_settingsFragment_to_ownerKeyVerificationFragment"
+            app:destination="@id/ownerKeyVerificationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -459,4 +466,24 @@
         tools:layout="@layout/fragment_language"
         android:name="com.mw.beam.beamwallet.screens.language.LanguageFragment"
         android:label="LanguageFragment" />
+    <fragment
+        android:id="@+id/ownerKeyVerificationFragment"
+        tools:layout="@layout/fragment_owner_key_verification"
+        android:name="com.mw.beam.beamwallet.screens.owner_key_verification.OwnerKeyVerificationFragment"
+        android:label="OwnerKeyVerificationFragment" >
+        <action
+            android:id="@+id/action_ownerKeyVerificationFragment_to_ownerKeyFragment"
+            app:destination="@id/ownerKeyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/settingsFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/ownerKeyFragment"
+        tools:layout="@layout/fragment_owner_key"
+        android:name="com.mw.beam.beamwallet.screens.owner_key.OwnerKeyFragment"
+        android:label="OwnerKeyFragment" />
 </navigation>

@@ -2,6 +2,7 @@ package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
@@ -29,6 +30,16 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             launchSingleTop = true
             anim(buildTransitionAnimation())
         })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        App.isAppRunning = true
+        super.onCreate(savedInstanceState, persistentState)
+    }
+
+    override fun onDestroy() {
+        App.isAppRunning = false
+        super.onDestroy()
     }
 
     override fun onControllerCreate(extras: Bundle?) {
@@ -64,32 +75,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         popExit = R.anim.fade_out
     }
 
-    override fun addListeners() {
-        btnUndoSent.setOnClickListener {
-            presenter?.onUndoSend()
-        }
-        undoSentCard.setOnClickListener {  }
-    }
-
-    override fun clearListeners() {
-        btnUndoSent.setOnClickListener(null)
-        undoSentCard.setOnClickListener(null)
-    }
-
     fun pendingSend(info: PendingSendInfo) {
         presenter?.onPendingSend(info)
     }
 
-    override fun startNewSnackbar() {
-        undoSentCard.visibility = View.VISIBLE
-    }
-
-    override fun cancelSnackbar() {
-        undoSentCard.visibility = View.GONE
-    }
-
-    override fun updateSnackbar(time: Int) {
-        undoTime.text = time.toString()
+    override fun startNewSnackbar(onUndo: () -> Unit, onDismiss: () -> Unit) {
+        showSnackBar(getString(R.string.wallet_sent_message), onDismiss, onUndo)
     }
 
     override fun ensureState(): Boolean = true

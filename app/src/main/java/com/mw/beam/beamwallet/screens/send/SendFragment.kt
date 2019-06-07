@@ -223,7 +223,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun showCantPasteError() {
-        showSnackBar(getString(R.string.send_error_paste), R.color.common_text_color)
+        showSnackBar(getString(R.string.send_error_paste))
     }
 
     override fun scanQR() {

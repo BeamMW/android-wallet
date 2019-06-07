@@ -26,7 +26,7 @@ data class Wallet(val _this: Long) {
     external fun getWalletStatus()
     external fun getUtxosStatus()
     external fun syncWithNode()
-    external fun sendMoney(receiver: String, comment: String?, amount: Long, fee: Long)
+    external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
     external fun calcChange(amount: Long)
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
@@ -41,4 +41,5 @@ data class Wallet(val _this: Long) {
     external fun verifyPaymentInfo(paymentInfo: String): PaymentInfoDTO
     external fun getCoinsByTx(txID : String)
     external fun changeNodeAddress(address: String)
+    external fun exportOwnerKey(pass: String): String
 }

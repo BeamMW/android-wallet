@@ -32,6 +32,8 @@
     <color name="undo_card_background">#fff</color>
     <color name="undo_card_text_color">#032e49</color>
     <color name="undo_card_action_color">#23c1ff</color>
+    <color name="undo_card_progress_color">#032e49</color>
+    <color name="undo_card_progress_color_support">#BAC0D3</color>
 
     <!--PasswordFragment-->
     <color name="password_underline_color">@color/colorPrimary</color>
@@ -48,6 +50,8 @@
 
     <!--EditAddressFragment-->
     <color name="edit_address_timestamp_color">#d8d8d8</color>
+
+    <color name="fingerprint_card_background_color">#49687b</color>
 
     <!--Category-->
     <color name="category_red">#ff746b</color>

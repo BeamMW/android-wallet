@@ -51,12 +51,8 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
         delegate.showSnackBar(status, activity ?: return)
     }
 
-    override fun showSnackBar(message: String) {
-        delegate.showSnackBar(message, activity ?: return)
-    }
-
-    override fun showSnackBar(message: String, textColor: Int) {
-        delegate.showSnackBar(message, textColor, activity ?: return)
+    override fun showSnackBar(message: String, onDismiss: (() -> Unit)?, onUndo: (() -> Unit)?) {
+        delegate.showSnackBar(message, activity ?: return, onDismiss, onUndo)
     }
 
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {}

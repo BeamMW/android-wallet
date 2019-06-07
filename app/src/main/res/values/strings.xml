@@ -16,6 +16,7 @@
     <string name="common_confirm">Confirm</string>
     <string name="common_ok">OK</string>
     <string name="common_undo">UNDO</string>
+    <string name="common_next">next</string>
     <string name="common_activate">Activate</string>
     <string name="common_copied_alert">Copied!</string>
     <string name="common_menu_more">more</string>
@@ -260,6 +261,7 @@ and never kept in the blockchain.</string>
     <!--SettingsFragment-->
     <string name="settings_title">Settings</string>
     <string name="settings_report">Report a problem</string>
+    <string name="settings_owner_key">Show owner key</string>
     <string name="settings_change_pass">Change wallet password</string>
     <string name="settings_version">App Version:&#160;</string>
     <string name="settings_send_logs_description">Send logs…</string>
@@ -331,7 +333,6 @@ and never kept in the blockchain.</string>
     <!--CheckOldPassActivity-->
     <string name="check_old_pass_title">Change password</string>
     <string name="check_old_pass_description">Enter your current password</string>
-    <string name="check_old_pass_next">next</string>
     <string name="check_old_pass_empty_error">Password can not be empty</string>
     <string name="check_old_pass_wrong_pass_error">The old password you have entered is incorrect</string>
 
@@ -367,11 +368,27 @@ and never kept in the blockchain.</string>
     <string name="edit_category_name">Name</string>
     <string name="edit_category_color">Color</string>
 
+    <!--OwnerKeyFragments-->
+    <string name="owner_key_toolbar_title">Show owner key</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerpring ID)</string>
+    <string name="owner_key_verification_fingerprint_error">Fingerprint authorization failed. Please try in a few minutes.</string>
+    <string name="owner_key_verification_title">Enter your password to access the wallet</string>
+    <string name="owner_key_verification_title_with_finger">Enter your password and use Fingerprint ID to access the wallet</string>
+    <string name="owner_key_verification_fingerprint_description">Please use Fingerprint ID to finish verification</string>
+    <string name="owner_key_code_title">Key code:</string>
+    <string name="owner_key_copied_message">Owner key code copied to clipboard</string>
+    <string name="owner_key_code_description">Please notice, that knowing your owner key allows to know all your funds (UTXO). Make sure that you deploy the key at the node you trust completely.</string>
+
+
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Receiving new transaction</string>
     <string name="notification_receive_content_text">Please, click to view details</string>
     <string name="notification_channel_name">Notification Channel</string>
     <string name="notification_channel_description">Default notification channel</string>
+
+    <!--FingerprintDialog-->
+    <string name="touch_sensor_description">Touch sensor</string>
+    <string name="dialog_fingerprint_title">Fingerprint ID</string>
 
     <!-- Language -->
     <string name="language_title">Language</string>

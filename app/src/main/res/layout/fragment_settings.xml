@@ -281,12 +281,39 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/settingsCategoryCard"
+                android:id="@+id/settingsOwnerKey"
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/common_card_padding">
+
+                    <TextView
+                        android:id="@+id/ownerKey"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:text="@string/settings_owner_key"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/settingsCategoryCard"
+                style="@style/common_card_style"
+                android:layout_marginTop="@dimen/settings_card_offset"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settingsOwnerKey">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"

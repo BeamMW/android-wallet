@@ -65,7 +65,7 @@
             android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
             android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
             app:button_icon="@drawable/ic_btn_proceed"
-            app:button_text="@string/check_old_pass_next"
+            app:button_text="@string/common_next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -51,6 +51,7 @@ interface SettingsContract {
         fun navigateToCategory(categoryId: String)
         fun navigateToAddCategory()
         fun navigateToLanguage()
+        fun navigateToOwnerKeyVerification()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
     }
 
@@ -73,6 +74,7 @@ interface SettingsContract {
         fun onAddCategoryPressed()
         fun onCategoryPressed(categoryId: String)
         fun onLanguagePressed()
+        fun onShowOwnerKey()
     }
 
     interface Repository : MvpRepository {

@@ -89,6 +89,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment())
     }
 
+    override fun navigateToOwnerKeyVerification() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOwnerKeyVerificationFragment())
+    }
+
     override fun updateCategoryList(allCategory: List<Category>) {
         categoriesList.removeAllViews()
 
@@ -159,6 +163,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         allowOpenLinkSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter?.onChangeAllowOpenExternalLink(isChecked)
+        }
+
+        ownerKey.setOnClickListener {
+            presenter?.onShowOwnerKey()
         }
 
         val languageOnClickListener = View.OnClickListener { presenter?.onLanguagePressed() }
