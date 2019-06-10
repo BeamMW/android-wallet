@@ -10,7 +10,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <LinearLayout
         android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:paddingEnd="16dp"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:orientation="horizontal"
@@ -58,7 +58,7 @@
             android:visibility="gone"
             android:id="@+id/btnUndo"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingEnd="0dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             tools:visibility="visible"
