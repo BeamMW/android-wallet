@@ -35,6 +35,8 @@
     <dimen name="logo_text_size">16sp</dimen>
     <dimen name="testnet_text_size">14sp</dimen>
 
+    <dimen name="status_bar_height">24dp</dimen>
+
     <!--Welcome-->
     <dimen name="welcome_button_text_padding_start">14dp</dimen>
     <dimen name="welcome_button_text_padding_top">11dp</dimen>

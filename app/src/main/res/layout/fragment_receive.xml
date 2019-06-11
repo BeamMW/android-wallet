@@ -12,6 +12,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:fillViewport="true"
         android:layout_height="match_parent">

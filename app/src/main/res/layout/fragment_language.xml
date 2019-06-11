@@ -12,6 +12,7 @@
         app:hasStatus="false"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
+        android:fitsSystemWindows="true"
         tools:listitem="@layout/item_language"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

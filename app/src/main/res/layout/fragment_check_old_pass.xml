@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:filterTouchesWhenObscured="true"
+        android:fitsSystemWindows="true"
         android:paddingStart="@dimen/common_passwords_screen_padding"
         android:paddingEnd="@dimen/common_passwords_screen_padding">
 
