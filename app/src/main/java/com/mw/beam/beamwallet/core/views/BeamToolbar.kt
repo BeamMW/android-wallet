@@ -36,10 +36,16 @@ class BeamToolbar : LinearLayout {
             field = value
             statusLayout.visibility = if (field) View.VISIBLE else View.GONE
         }
+    var centerTitle: Boolean = false
+        set(value) {
+            field = value
+            centerTitleView.visibility = if (field) View.VISIBLE else View.GONE
+        }
     lateinit var toolbar: Toolbar
     lateinit var status: TextView
     lateinit var statusIcon: ImageView
     lateinit var progressBar: ProgressBar
+    lateinit var centerTitleView: TextView
     private lateinit var statusLayout: ConstraintLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
@@ -61,6 +67,7 @@ class BeamToolbar : LinearLayout {
         statusIcon = this.findViewById(R.id.statusIcon)
         statusLayout = this.findViewById(R.id.statusLayout)
         progressBar = this.findViewById(R.id.progress)
+        centerTitleView = this.findViewById(R.id.centerTitle)
 
         this.orientation = VERTICAL
 
@@ -72,6 +79,7 @@ class BeamToolbar : LinearLayout {
             )
 
             hasStatus = a.getBoolean(R.styleable.BeamToolbar_hasStatus, false)
+            centerTitle = a.getBoolean(R.styleable.BeamToolbar_centerTitle, false)
         }
     }
 }

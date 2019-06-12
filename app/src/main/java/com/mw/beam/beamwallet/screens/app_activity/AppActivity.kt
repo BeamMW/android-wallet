@@ -32,6 +32,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         })
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.isAppRunning = true
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         App.isAppRunning = true
         super.onCreate(savedInstanceState, persistentState)

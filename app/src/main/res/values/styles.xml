@@ -83,10 +83,23 @@
         <item name="android:textSize">@dimen/common_text_big_size</item>
     </style>
 
+    <style name="toolbar_center_title_text">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_toolbar_text_size</item>
+        <item name="android:letterSpacing">0.6</item>
+    </style>
+
     <style name="common_text_big_dark">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_dark_color</item>
         <item name="android:textSize">@dimen/common_text_big_size</item>
+    </style>
+
+    <style name="common_subheader_dark" parent="common_text_small_dark">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.15</item>
     </style>
 
     <style name="common_text_small_light" parent="common_text_big_light">

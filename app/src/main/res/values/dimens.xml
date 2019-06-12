@@ -8,6 +8,7 @@
     <dimen name="common_header_big_text_size">18sp</dimen>
     <dimen name="common_header_small_size">12sp</dimen>
     <dimen name="common_text_big_size">14sp</dimen>
+    <dimen name="common_toolbar_text_size">20sp</dimen>
     <dimen name="common_text_small_size">12sp</dimen>
     <dimen name="common_settings_size">16sp</dimen>
     <dimen name="common_card_corner_radius">10dp</dimen>
@@ -129,6 +130,9 @@
     <dimen name="main_link_text_margin">10dp</dimen>
     <dimen name="main_link_text_margin_end">52dp</dimen>
     <dimen name="main_link_icon_size">16dp</dimen>
+    <dimen name="toolbar_gradient_size">180dp</dimen>
+    <dimen name="small_button_padding_vertical">8dp</dimen>
+    <dimen name="small_button_padding_horizontal">20dp</dimen>
 
     <!--TransactionDetails-->
     <dimen name="transaction_details_title_padding_top">30dp</dimen>
@@ -152,7 +156,7 @@
     <dimen name="receive_common_margin">10dp</dimen>
     <dimen name="receive_common_side_margin">60dp</dimen>
     <dimen name="receive_btn_margin">30dp</dimen>
-    <dimen name="receive_token_title_margin_top">40dp</dimen>
+    <dimen name="receive_token_title_margin_top">30dp</dimen>
     <dimen name="receive_token_description_margin_top">30dp</dimen>
     <dimen name="receive_qr_token_description_margin_top">26dp</dimen>
     <dimen name="receive_spinner_width">150dp</dimen>
@@ -163,7 +167,7 @@
     <dimen name="receive_btn_margin_bottom">20dp</dimen>
     <dimen name="receive_amount_margin_end">30dp</dimen>
     <dimen name="receive_amount_text_size">36sp</dimen>
-    <dimen name="receive_amount_title_margin_top">35dp</dimen>
+    <dimen name="receive_card_padding">20dp</dimen>
 
     <!--SendFragment-->
     <dimen name="send_token_title_margin_top">24dp</dimen>

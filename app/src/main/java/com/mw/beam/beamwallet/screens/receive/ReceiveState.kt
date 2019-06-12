@@ -26,4 +26,6 @@ class ReceiveState {
     var address: WalletAddress? = null
     var wasAddressSaved: Boolean = false
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
+    var expandEditAddress = false
+    var expandAdvanced = false
 }

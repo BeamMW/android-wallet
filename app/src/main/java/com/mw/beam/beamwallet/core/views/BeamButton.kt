@@ -82,6 +82,14 @@ class BeamButton : LinearLayout {
             iconResId = a.getResourceId(R.styleable.BeamButton_button_icon, Integer.MIN_VALUE)
             textResId = a.getResourceId(R.styleable.BeamButton_button_text, Integer.MIN_VALUE)
             textColorResId = a.getResourceId(R.styleable.BeamButton_button_text_color, Integer.MIN_VALUE)
+
+            if (!a.getBoolean(R.styleable.BeamButton_text_padding_enabled, true)) {
+                text.setPadding(text.paddingLeft, 0, text.paddingRight,0)
+            }
+
+            if (a.getBoolean(R.styleable.BeamButton_lower_case, false)) {
+                text.text = text.text.toString().toLowerCase()
+            }
         }
     }
 }

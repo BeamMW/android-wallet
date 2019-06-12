@@ -50,6 +50,16 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
     }
 
+    override fun onAdvancedPressed() {
+        state.expandAdvanced = !state.expandAdvanced
+        view?.handleExpandAdvanced(state.expandAdvanced)
+    }
+
+    override fun onEditAddressPressed() {
+        state.expandEditAddress = !state.expandEditAddress
+        view?.handleExpandEditAddress(state.expandEditAddress)
+    }
+
     override fun onShowQrPressed() {
         saveAddress()
         state.address?.let { address ->

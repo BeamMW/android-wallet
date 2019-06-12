@@ -70,7 +70,15 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
 
         setSupportActionBar(toolbar.toolbar)
-        supportActionBar?.title = title
+
+
+        if (toolbar.centerTitle) {
+            supportActionBar?.title = ""
+            toolbar.centerTitleView.text = title?.toUpperCase()
+        } else {
+            supportActionBar?.title = title
+        }
+
         toolbar.hasStatus = hasStatus
 
         if (hasBackArrow != null) {

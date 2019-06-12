@@ -41,6 +41,8 @@ interface ReceiveContract {
         fun setAmount(newAmount: Double)
         fun showStayActiveDialog()
         fun configCategory(currentCategory: Category?, categories: List<Category>)
+        fun handleExpandEditAddress(expand: Boolean)
+        fun handleExpandAdvanced(expand: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -50,6 +52,8 @@ interface ReceiveContract {
         fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSelectedCategory(category: Category?)
+        fun onAdvancedPressed()
+        fun onEditAddressPressed()
     }
 
     interface Repository : MvpRepository {

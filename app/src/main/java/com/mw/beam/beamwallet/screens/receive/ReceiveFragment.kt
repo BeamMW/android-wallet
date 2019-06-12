@@ -16,9 +16,11 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +76,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         ArrayAdapter.createFromResource(
                 context!!,
                 R.array.receive_expires_periods,
-                android.R.layout.simple_spinner_item
+                R.layout.receive_expire_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             expiresOnSpinner.adapter = adapter
@@ -84,10 +86,48 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         amount.filters = arrayOf(AmountFilter())
     }
 
+    override fun handleExpandAdvanced(expand: Boolean) {
+        animateDropDownIcon(btnExpandAdvanced, expand)
+        TransitionManager.beginDelayedTransition(contentLayout)
+        advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
+    }
+
+    override fun handleExpandEditAddress(expand: Boolean) {
+        animateDropDownIcon(btnExpandEditAddress, expand)
+        TransitionManager.beginDelayedTransition(contentLayout)
+        editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
+
+        emptyCategoryListMessage.visibility = if (categorySpinner.adapter?.isEmpty != false && expand) View.VISIBLE else View.GONE
+
+    }
+
+    private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
+        val angleFrom = if (shouldExpand) 360f else 180f
+        val angleTo = if (shouldExpand) 180f else 360f
+        val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
+        anim.duration = 500
+        anim.start()
+    }
+
+
     override fun addListeners() {
         btnShareToken.setOnClickListener { presenter?.onShareTokenPressed() }
         btnShowQR.setOnClickListener { presenter?.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
+
+        val advancedClickListener = View.OnClickListener {
+            presenter?.onAdvancedPressed()
+        }
+        advancedTitle.setOnClickListener(advancedClickListener)
+        btnExpandAdvanced.setOnClickListener(advancedClickListener)
+
+        val editAddressClickListener = View.OnClickListener {
+            presenter?.onEditAddressPressed()
+        }
+        editAddressTitle.setOnClickListener(editAddressClickListener)
+        btnExpandEditAddress.setOnClickListener(editAddressClickListener)
+
+        btnChangeAddress.setOnClickListener { }
     }
 
     override fun shareToken(receiveToken: String) {
@@ -145,7 +185,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun configCategory(currentCategory: Category?, categories: List<Category>) {
         categorySpinner.isEnabled = categories.isNotEmpty()
 
-        emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
+        emptyCategoryListMessage.visibility = if (categories.isEmpty() && editAddressGroup.visibility == View.VISIBLE) View.VISIBLE else View.GONE
 
         if (categories.isNotEmpty()) {
             categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
@@ -158,7 +198,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
 
-        categorySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -185,6 +225,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun clearListeners() {
         btnShareToken.setOnClickListener(null)
         btnShowQR.setOnClickListener(null)
+        btnChangeAddress.setOnClickListener(null)
+        advancedTitle.setOnClickListener(null)
+        btnExpandAdvanced.setOnClickListener(null)
+        editAddressTitle.setOnClickListener(null)
+        btnExpandEditAddress.setOnClickListener(null)
+
         expiresOnSpinner.onItemSelectedListener = null
     }
 

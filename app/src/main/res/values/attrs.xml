@@ -7,6 +7,8 @@
         <attr name="button_text" format="integer" />
         <attr name="button_icon" format="integer" />
         <attr name="button_text_color" format="integer" />
+        <attr name="text_padding_enabled" format="boolean" />
+        <attr name="lower_case" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="PasswordStrengthView">
@@ -34,5 +36,6 @@
 
     <declare-styleable name="BeamToolbar">
         <attr name="hasStatus" format="boolean" />
+        <attr name="centerTitle" format="boolean" />
     </declare-styleable>
 </resources>
