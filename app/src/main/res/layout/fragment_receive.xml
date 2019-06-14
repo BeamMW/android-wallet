@@ -211,6 +211,7 @@
                             android:id="@+id/emptyCategoryListMessage"
                             style="@style/common_text_small_dark"
                             android:layout_width="0dp"
+                            android:visibility="gone"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/common_offset"
                             android:layout_marginTop="@dimen/edit_address_element_low_offset"

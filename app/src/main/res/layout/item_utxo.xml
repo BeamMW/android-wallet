@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:textSize="@dimen/utxo_item_amount_text_size"
-        app:layout_constraintBottom_toTopOf="@id/id"
+        app:layout_constraintBottom_toTopOf="@id/addressId"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -36,7 +36,7 @@
         app:srcCompat="@drawable/currency_beam" />
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/addressId"
         style="@style/common_text_big_dark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/id" />
+        app:layout_constraintTop_toBottomOf="@id/addressId" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"

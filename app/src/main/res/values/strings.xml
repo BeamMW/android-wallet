@@ -395,9 +395,13 @@ and never kept in the blockchain.</string>
     <string name="touch_sensor_description">Touch sensor</string>
     <string name="dialog_fingerprint_title">Fingerprint ID</string>
 
+    <!--ChangeAddressFragment-->
+    <string name="change_address_toolbar_title">Change address</string>
+
     <!-- Language -->
     <string name="language_title">Language</string>
     <string name="language_dialog_message">In order for the language settings to take effect the app needs to be restarted</string>
     <string name="language_restart_now">restart now</string>
+    <string name="existing_addresses">Existing addresses</string>
 
 </resources>

@@ -38,7 +38,7 @@
                 tools:ignore="RtlSymmetry" />
 
             <TextView
-                android:id="@+id/id"
+                android:id="@+id/addressId"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:text="@string/edit_address_expired_title"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/id"
+                app:layout_constraintTop_toBottomOf="@id/addressId"
                 tools:ignore="RtlSymmetry" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                app:layout_constraintTop_toBottomOf="@id/id"
+                app:layout_constraintTop_toBottomOf="@id/addressId"
                 tools:text="12 Jan 2019 | 3:45 PM" />
 
             <TextView

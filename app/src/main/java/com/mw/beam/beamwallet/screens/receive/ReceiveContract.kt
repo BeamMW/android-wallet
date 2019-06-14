@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import androidx.lifecycle.LifecycleOwner
+import com.google.android.gms.common.api.internal.LifecycleCallback
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -30,8 +32,8 @@ import io.reactivex.subjects.Subject
 interface ReceiveContract {
     interface View : MvpView {
         fun init()
+        fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress)
         fun getComment() : String?
-        fun showToken(receiveToken : String)
         fun showQR(receiveToken : String, amount: Double?, category: Category?)
         fun shareToken(receiveToken: String)
         fun close()
@@ -39,13 +41,16 @@ interface ReceiveContract {
         fun getAmountFromArguments(): Long
         fun getAmount(): Double?
         fun setAmount(newAmount: Double)
-        fun showStayActiveDialog()
+        fun showChangeAddressFragment()
         fun configCategory(currentCategory: Category?, categories: List<Category>)
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
+        fun getLifecycleOwner(): LifecycleOwner
+        fun getWalletAddressFromArguments(): WalletAddress?
     }
 
     interface Presenter : MvpPresenter<View> {
+        fun onCommentChanged()
         fun onShareTokenPressed()
         fun onShowQrPressed()
         fun onDialogSharePressed()
@@ -54,6 +59,8 @@ interface ReceiveContract {
         fun onSelectedCategory(category: Category?)
         fun onAdvancedPressed()
         fun onEditAddressPressed()
+        fun onChangeAddressPressed()
+        fun onAddressChanged(walletAddress: WalletAddress)
     }
 
     interface Repository : MvpRepository {
@@ -62,5 +69,6 @@ interface ReceiveContract {
         fun getCategory(address: String): Category?
         fun getAllCategory(): List<Category>
         fun changeCategoryForAddress(address: String, category: Category?)
+        fun updateAddress(address: WalletAddress)
     }
 }

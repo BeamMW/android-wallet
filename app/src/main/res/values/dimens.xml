@@ -275,4 +275,6 @@
     <dimen name="fingerprint_card_corner_radius">24dp</dimen>
     <dimen name="fingerprint_icon_size">30dp</dimen>
     <dimen name="fingerprint_description_margin">10dp</dimen>
+    <dimen name="change_addresses_list_margin_top">21dp</dimen>
+    <dimen name="change_existing_addresses_title_margin_top">50dp</dimen>
 </resources>

@@ -61,7 +61,6 @@ interface SendContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
         fun dismissDialog()
-        fun showStayActiveDialog()
         fun pendingSendMoney(token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long

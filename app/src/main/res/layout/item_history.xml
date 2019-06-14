@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@id/timeTitle" />
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/addressId"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

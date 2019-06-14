@@ -71,7 +71,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         expireNowString = getString(R.string.edit_address_expire_now)
         activateString = getString(R.string.edit_address_expire_activate)
 
-        findViewById<TextView>(R.id.id)?.text = address.walletID
+        findViewById<TextView>(R.id.addressId)?.text = address.walletID
         expiresSwitchTitle.text = if (address.isExpired) activateString else expireNowString
         comment.setText(address.label)
         btnSave.isEnabled = false

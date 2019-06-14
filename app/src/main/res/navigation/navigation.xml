@@ -294,6 +294,21 @@
             android:name="amount"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_receiveFragment_to_changeAddressFragment"
+            app:destination="@id/changeAddressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="true"
+                android:name="isFromReceive" />
+        </action>
+        <argument
+            android:name="walletAddress"
+            app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -309,6 +324,16 @@
             android:name="amount"
             app:argType="long"
             android:defaultValue="0L" />
+        <action
+            android:id="@+id/action_sendFragment_to_changeAddressFragment"
+            app:destination="@id/changeAddressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="false"
+                android:name="isFromReceive" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
@@ -486,4 +511,16 @@
         tools:layout="@layout/fragment_owner_key"
         android:name="com.mw.beam.beamwallet.screens.owner_key.OwnerKeyFragment"
         android:label="OwnerKeyFragment" />
+    <fragment
+        tools:layout="@layout/fragment_change_address"
+        android:id="@+id/changeAddressFragment"
+        android:name="com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment"
+        android:label="ChangeAddressFragment" >
+        <argument
+            android:name="isFromReceive"
+            app:argType="boolean" />
+        <argument
+            android:name="callback"
+            app:argType="com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback" />
+    </fragment>
 </navigation>

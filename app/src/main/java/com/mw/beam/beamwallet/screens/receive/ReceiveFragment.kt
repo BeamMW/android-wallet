@@ -20,6 +20,8 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.transition.TransitionManager
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -30,18 +32,26 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
+import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
+import kotlinx.android.synthetic.main.fragment_edit_address.*
 import kotlinx.android.synthetic.main.fragment_receive.*
+import kotlinx.android.synthetic.main.fragment_receive.categorySpinner
+import kotlinx.android.synthetic.main.fragment_receive.comment
+import kotlinx.android.synthetic.main.fragment_receive.emptyCategoryListMessage
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -58,6 +68,22 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
     }
 
+    private val commentTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            presenter?.onCommentChanged()
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
+    private val changeAddressCallback = object : ChangeAddressCallback {
+        override fun onChangeAddress(walletAddress: WalletAddress) {
+            presenter?.onAddressChanged(walletAddress)
+        }
+    }
+
     companion object {
         private const val QR_SIZE = 160.0
     }
@@ -67,6 +93,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getAmountFromArguments(): Long {
         return ReceiveFragmentArgs.fromBundle(arguments!!).amount
+    }
+
+    override fun getWalletAddressFromArguments(): WalletAddress? {
+        return ReceiveFragmentArgs.fromBundle(arguments!!).walletAddress
     }
 
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
@@ -84,6 +114,16 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         amount.filters = arrayOf(AmountFilter())
+    }
+
+    override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
+        tokenTitle.setText(if (isGenerateAddress) R.string.receive_token_title_generated else R.string.receive_token_title)
+
+        expiresOnSpinner.setSelection(if (walletAddress.duration == 0L) ExpirePeriod.NEVER.ordinal else ExpirePeriod.DAY.ordinal)
+
+        comment.setText(walletAddress.label)
+
+        token.text = walletAddress.walletID
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
@@ -127,20 +167,22 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         editAddressTitle.setOnClickListener(editAddressClickListener)
         btnExpandEditAddress.setOnClickListener(editAddressClickListener)
 
-        btnChangeAddress.setOnClickListener { }
+        btnChangeAddress.setOnClickListener {
+            presenter?.onChangeAddressPressed()
+        }
+
+        comment.addTextChangedListener(commentTextWatcher)
     }
 
     override fun shareToken(receiveToken: String) {
         shareText(getString(R.string.common_share_title), receiveToken)
     }
 
-    override fun showToken(receiveToken: String) {
-        token.text = receiveToken
+    override fun showChangeAddressFragment() {
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToChangeAddressFragment(callback = changeAddressCallback))
     }
 
-    override fun showStayActiveDialog() {
-        showAlert(getString(R.string.common_stay_active_message), getString(R.string.common_ok), title = getString(R.string.common_stay_active_title))
-    }
+    override fun getLifecycleOwner(): LifecycleOwner = this
 
     @SuppressLint("InflateParams")
     override fun showQR(receiveToken: String, amount: Double?, category: Category?) {
@@ -230,6 +272,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnExpandAdvanced.setOnClickListener(null)
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
+
+        comment.removeTextChangedListener(commentTextWatcher)
 
         expiresOnSpinner.onItemSelectedListener = null
     }

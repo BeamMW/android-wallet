@@ -53,7 +53,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
 
         holder.apply {
             label.text = address.label
-            id.text = address.walletID
+            addressId.text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             if (!address.isContact) {
                 date.text = String.format(if (address.isExpired) expiredDate else expiresDate,

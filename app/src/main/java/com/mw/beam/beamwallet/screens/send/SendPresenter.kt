@@ -50,7 +50,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             onTokenChanged(address)
             view?.setAmount(view?.getAmountFromArguments()?.convertToBeam() ?: 0.0)
         }
-//        view?.showStayActiveDialog()
     }
 
     override fun onStart() {

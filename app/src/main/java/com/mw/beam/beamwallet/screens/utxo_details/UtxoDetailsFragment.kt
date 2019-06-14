@@ -79,7 +79,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
 
         amount.text = utxo.amount.convertToBeamString()
-        utxoLayout.findViewById<TextView>(R.id.id).text = utxo.stringId
+        utxoLayout.findViewById<TextView>(R.id.addressId).text = utxo.stringId
     }
 
     private fun configUtxoDetails(utxo: Utxo) {
@@ -128,7 +128,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int): View? {
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
         view.findViewById<TextView>(R.id.time).text = time
-        view.findViewById<TextView>(R.id.id).text = id
+        view.findViewById<TextView>(R.id.addressId).text = id
         view.findViewById<ImageView>(R.id.icon).setImageResource(if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent)
         view.findViewById<TextView>(R.id.comment).apply {
             if (comment.isNotEmpty()) {

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/gradientView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/receive_toolbar_gradient" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tokenTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/send_token_title_margin_top"
+                android:text="@string/receive_token_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
+
+            <com.mw.beam.beamwallet.core.views.PasteEditText
+                android:id="@+id/searchAddress"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:backgroundTint="@android:color/transparent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:background="@drawable/edit_text_selector"
+                app:layout_constraintEnd_toStartOf="@id/scanQR"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tokenTitle"
+                tools:ignore="Autofill,LabelFor,TextFields" />
+
+            <View
+                android:id="@+id/searchAddressDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/btn_drop_down_color"
+                app:layout_constraintEnd_toEndOf="@id/searchAddress"
+                app:layout_constraintStart_toStartOf="@id/searchAddress"
+                app:layout_constraintTop_toBottomOf="@id/searchAddress" />
+
+            <ImageView
+                android:id="@+id/scanQR"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="@id/searchAddress"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/searchAddress"
+                app:srcCompat="@drawable/ic_scan_qr" />
+
+            <TextView
+                android:id="@+id/existingAddressTitle"
+                style="@style/common_subheader_dark"
+                android:text="@string/existing_addresses"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/change_existing_addresses_title_margin_top"
+                app:layout_constraintTop_toBottomOf="@id/searchAddress"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addressesRecyclerView"
+                android:layout_marginTop="@dimen/change_addresses_list_margin_top"
+                tools:listitem="@layout/item_address_with_transaction"
+                app:layout_constraintTop_toBottomOf="@id/existingAddressTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

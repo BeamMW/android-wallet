@@ -25,6 +25,7 @@ import java.util.*
  */
 object CalendarUtils {
     private const val TIME_FORMAT = "d MMM yyyy  |  hh:mm a"
+    private const val SHORT_TIME_FORMAT = "d MMM"
     private val US_TIME_FORMAT = SimpleDateFormat(TIME_FORMAT, Locale.US)
 
     fun fromTimestamp(timestamp: Long): String {
@@ -37,6 +38,12 @@ object CalendarUtils {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp * 1000
         return US_TIME_FORMAT.format(calendar.time)
+    }
+
+    fun fromTimestampShort(timestamp: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = timestamp * 1000
+        return SimpleDateFormat(SHORT_TIME_FORMAT, AppConfig.LOCALE).format(calendar.time)
     }
 }
 

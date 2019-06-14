@@ -17,10 +17,7 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
-import com.mw.beam.beamwallet.core.entities.PaymentProof
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
@@ -37,6 +34,13 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
             getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
                 wallet?.deleteTx(txDescription.id)
             }
+        }
+    }
+
+    override fun getAddresses(): Subject<OnAddressesData> {
+        return getResult(WalletListener.subOnAddresses, "getAddresses") {
+            wallet?.getAddresses(true)
+            wallet?.getAddresses(false)
         }
     }
 

@@ -16,8 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import io.reactivex.disposables.Disposable
@@ -29,17 +33,55 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
     private lateinit var walletIdSubscription: Disposable
+    private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
 
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
 
+        val address = view?.getWalletAddressFromArguments()
+
+        initViewAddress(address)
+
         val amount = view?.getAmountFromArguments()
         if (amount != null && amount > 0) {
             view?.setAmount(amount.convertToBeam())
         }
-//        view?.showStayActiveDialog()
+
+        changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
+            state.address = it
+            initViewAddress(it)
+        })
+    }
+
+    private fun initViewAddress(address: WalletAddress?) {
+        if (address != null) {
+            state.address = address
+            state.expirePeriod = if (address.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
+            state.isNeedGenerateAddress = false
+            state.wasAddressSaved = true
+        }
+
+        state.address?.let {
+            view?.initAddress(state.isNeedGenerateAddress, it)
+            view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+        }
+
+    }
+
+    override fun onCommentChanged() {
+        saveAddress()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        state.address?.let {
+            view?.initAddress(state.isNeedGenerateAddress, it)
+            view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+        }
+        view?.handleExpandAdvanced(state.expandAdvanced)
+        view?.handleExpandEditAddress(state.expandEditAddress)
     }
 
     override fun onShareTokenPressed() {
@@ -48,6 +90,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         if (state.address != null) {
             view?.shareToken(state.address!!.walletID)
         }
+    }
+
+    override fun onChangeAddressPressed() {
+        saveAddress()
+        view?.showChangeAddressFragment()
     }
 
     override fun onAdvancedPressed() {
@@ -80,6 +127,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
         state.expirePeriod = period
+        saveAddress()
     }
 
     override fun onDestroy() {
@@ -90,14 +138,24 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        walletIdSubscription = repository.generateNewAddress().subscribe {
-            if (state.address == null) {
-                state.address = it
-                view?.showToken(it.walletID)
-                view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
-                saveAddress()
+        walletIdSubscription = if (state.isNeedGenerateAddress) {
+            repository.generateNewAddress().subscribe {
+                if (state.address == null) {
+                    state.address = it
+                    view?.initAddress(true, it)
+                    view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+                    saveAddress()
+                }
             }
+        } else {
+            EmptyDisposable()
         }
+    }
+
+    override fun onAddressChanged(walletAddress: WalletAddress) {
+        state.isNeedGenerateAddress = false
+        state.wasAddressSaved = true
+        changeAddressLiveData.postValue(walletAddress)
     }
 
     override fun onSelectedCategory(category: Category?) {
@@ -106,16 +164,19 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     private fun saveAddress() {
-        if (state.address != null && !state.wasAddressSaved) {
+        if (state.address != null) {
             state.address!!.duration = state.expirePeriod.value
 
             val comment = view?.getComment()
 
-            if (!comment.isNullOrBlank()) {
-                state.address!!.label = comment
+            state.address!!.label = comment ?: ""
+
+            if (state.wasAddressSaved) {
+                repository.updateAddress(state.address!!)
+            } else {
+                repository.saveAddress(state.address!!)
             }
 
-            repository.saveAddress(state.address!!)
             state.wasAddressSaved = true
         }
     }

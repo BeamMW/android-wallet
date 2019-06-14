@@ -178,10 +178,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun showStayActiveDialog() {
-        showAlert(getString(R.string.common_stay_active_message), getString(R.string.common_ok), title = getString(R.string.common_stay_active_title))
-    }
-
     override fun showPermissionRequiredAlert() {
         showAlert(message = getString(R.string.send_permission_required_message),
                 btnConfirmText = getString(R.string.send_permission_required_settings),

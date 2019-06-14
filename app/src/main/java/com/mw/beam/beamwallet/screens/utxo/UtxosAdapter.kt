@@ -91,7 +91,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             amount.text = utxo.amount.convertToBeamString()
             //TODO hidden till correct id
             // id.text = utxo.stringId
-            id.visibility = View.GONE
+            addressId.visibility = View.GONE
         }
     }
 

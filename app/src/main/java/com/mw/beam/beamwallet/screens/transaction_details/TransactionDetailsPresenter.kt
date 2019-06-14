@@ -38,6 +38,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     private lateinit var utxosByTxSubscription: Disposable
     private lateinit var txUpdateSubscription: Disposable
     private lateinit var paymentProofSubscription: Disposable
+    private lateinit var addressesSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
@@ -80,6 +81,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
                 state.paymentProof = it
                 view?.updatePaymentProof(it)
             }
+        }
+
+        addressesSubscription = repository.getAddresses().subscribe {
+            state.updateAddresses(it.addresses)
         }
     }
 
@@ -143,7 +148,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription, addressesSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
         view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return)
@@ -154,7 +159,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             if (txDescription.sender.value) {
                 view?.showSendFragment(txDescription.peerId, txDescription.amount)
             } else {
-                view?.showReceiveFragment(txDescription.amount)
+                view?.showReceiveFragment(txDescription.amount, state.addresses.values.firstOrNull { it.walletID == txDescription.myId })
             }
         }
     }

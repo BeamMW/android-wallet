@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
@@ -201,8 +202,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToSendFragment(address, amount))
     }
 
-    override fun showReceiveFragment(amount: Long) {
-        findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToReceiveFragment(amount))
+    override fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?) {
+        findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToReceiveFragment(amount, walletAddress))
     }
 
     override fun showPaymentProof(paymentProof: PaymentProof) {

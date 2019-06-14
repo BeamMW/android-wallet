@@ -28,4 +28,5 @@ class ReceiveState {
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
     var expandEditAddress = false
     var expandAdvanced = false
+    var isNeedGenerateAddress = true
 }
