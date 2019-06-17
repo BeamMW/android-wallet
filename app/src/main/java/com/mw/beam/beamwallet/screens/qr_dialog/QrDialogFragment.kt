@@ -58,6 +58,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun shareAddress(walletId: String) {
         shareText(getString(R.string.common_share_title), walletId)
+        findNavController().popBackStack()
     }
 
 
