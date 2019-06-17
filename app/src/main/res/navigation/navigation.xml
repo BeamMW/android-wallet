@@ -309,6 +309,13 @@
             app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress"
             app:nullable="true"
             android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_receiveFragment_to_qrDialogFragment"
+            app:destination="@id/qrDialogFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -401,6 +408,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_addressFragment_to_qrDialogFragment"
+            app:destination="@id/qrDialogFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_utxo_details"
@@ -523,4 +537,17 @@
             android:name="callback"
             app:argType="com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback" />
     </fragment>
+    <dialog
+        tools:layout="@layout/dialog_qr_code"
+        android:id="@+id/qrDialogFragment"
+        android:name="com.mw.beam.beamwallet.screens.qr_dialog.QrDialogFragment"
+        android:label="QrDialogFragment" >
+        <argument
+            android:name="walletAddress"
+            app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress" />
+        <argument
+            android:name="amount"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </dialog>
 </navigation>

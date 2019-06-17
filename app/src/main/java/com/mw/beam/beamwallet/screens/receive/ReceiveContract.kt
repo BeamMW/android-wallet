@@ -34,10 +34,9 @@ interface ReceiveContract {
         fun init()
         fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress)
         fun getComment() : String?
-        fun showQR(receiveToken : String, amount: Double?, category: Category?)
+        fun showQR(walletAddress: WalletAddress, amount: Long?)
         fun shareToken(receiveToken: String)
         fun close()
-        fun dismissDialog()
         fun getAmountFromArguments(): Long
         fun getAmount(): Double?
         fun setAmount(newAmount: Double)
@@ -53,8 +52,6 @@ interface ReceiveContract {
         fun onCommentChanged()
         fun onShareTokenPressed()
         fun onShowQrPressed()
-        fun onDialogSharePressed()
-        fun onDialogClosePressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSelectedCategory(category: Category?)
         fun onAdvancedPressed()

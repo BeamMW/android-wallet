@@ -18,22 +18,13 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionManager
-import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -42,12 +33,10 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
-import kotlinx.android.synthetic.main.fragment_edit_address.*
 import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.fragment_receive.categorySpinner
 import kotlinx.android.synthetic.main.fragment_receive.comment
@@ -57,7 +46,6 @@ import kotlinx.android.synthetic.main.fragment_receive.emptyCategoryListMessage
  * Created by vain onnellinen on 11/13/18.
  */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
-    private var dialog: AlertDialog? = null
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -82,10 +70,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         override fun onChangeAddress(walletAddress: WalletAddress) {
             presenter?.onAddressChanged(walletAddress)
         }
-    }
-
-    companion object {
-        private const val QR_SIZE = 160.0
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive
@@ -185,41 +169,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun getLifecycleOwner(): LifecycleOwner = this
 
     @SuppressLint("InflateParams")
-    override fun showQR(receiveToken: String, amount: Double?, category: Category?) {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_receive, null)
-        val qrView = view.findViewById<ImageView>(R.id.qrView)
-        val token = view.findViewById<TextView>(R.id.tokenView)
-        val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
-        val close = view.findViewById<ImageView>(R.id.close)
-        val categoryView = view.findViewById<TextView>(R.id.category)
-
-        token.text = receiveToken
-
-        try {
-            val metrics = DisplayMetrics()
-            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-            val logicalDensity = metrics.density
-            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
-
-            qrView.setImageBitmap(QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount), px, px,
-                    ContextCompat.getColor(context!!, R.color.common_text_color),
-                    ContextCompat.getColor(context!!, R.color.colorPrimary)))
-        } catch (e: Exception) {
-            return
-        }
-
-        categoryView.visibility = if (category == null) View.GONE else View.VISIBLE
-
-        category?.let {
-            categoryView.text = getString(R.string.receive_dialog_category, it.name)
-            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
-        }
-
-        btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
-        close.setOnClickListener { presenter?.onDialogClosePressed() }
-
-        dialog = AlertDialog.Builder(context!!).setView(view).show()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    override fun showQR(walletAddress: WalletAddress, amount: Long?) {
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(walletAddress, amount ?: 0))
     }
 
     override fun getComment(): String? = comment.text?.toString()
@@ -255,13 +206,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun close() {
         findNavController().popBackStack()
-    }
-
-    override fun dismissDialog() {
-        if (dialog != null) {
-            dialog?.dismiss()
-            dialog = null
-        }
     }
 
     override fun clearListeners() {

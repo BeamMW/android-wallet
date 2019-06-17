@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/common_receive_dialog_background"
+    android:filterTouchesWhenObscured="true">
+
+    <ScrollView
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/qrView"
+                android:layout_width="@dimen/receive_qr_size"
+                android:layout_height="@dimen/receive_qr_size"
+                android:layout_marginTop="@dimen/receive_common_qr_offset"
+                android:background="@color/colorPrimary"
+                android:contentDescription="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tokenTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_qr_offset"
+                android:layout_marginTop="@dimen/receive_common_qr_offset"
+                android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                android:text="@string/receive_token_title"
+                app:layout_constraintBottom_toTopOf="@id/tokenView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/qrView"
+                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/tokenView"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_qr_offset"
+                android:layout_marginTop="@dimen/send_receive_common_margin"
+                android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                app:layout_constraintBottom_toTopOf="@id/amountTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tokenTitle"
+                tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+
+
+            <TextView
+                android:id="@+id/amountTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_qr_offset"
+                android:layout_marginTop="@dimen/receive_common_qr_offset"
+                android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                android:text="@string/requested_amount"
+                app:layout_constraintBottom_toTopOf="@id/amountView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tokenView"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/amountView"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_qr_offset"
+                android:layout_marginTop="@dimen/send_receive_common_margin"
+                android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                android:textColor="@color/received_color"
+                app:layout_constraintBottom_toTopOf="@id/tokenDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/amountTitle"
+                tools:text="1000 BEAM" />
+
+
+            <TextView
+                android:id="@+id/tokenDescription"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/receive_common_qr_offset"
+                android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
+                android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                android:layout_marginBottom="@dimen/receive_btn_margin"
+                android:gravity="center"
+                android:text="@string/receive_token_via_qr_description"
+                app:layout_constraintBottom_toTopOf="@id/btnShare"
+                app:layout_constraintTop_toBottomOf="@id/amountView" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnShare"
+                android:layout_width="@dimen/wallet_button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
+                android:background="@drawable/receive_button"
+                app:button_icon="@drawable/ic_share"
+                app:button_text="@string/common_share_qr"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/close"
+        android:layout_width="@dimen/receive_cancel_size"
+        android:layout_height="@dimen/receive_cancel_size"
+        android:contentDescription="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_cancel_receive" />
+</androidx.constraintlayout.widget.ConstraintLayout>

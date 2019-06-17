@@ -37,12 +37,10 @@ interface AddressContract {
         fun showTransactionDetails(txDescription: TxDescription)
         fun showEditAddressScreen(address: WalletAddress)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
-        fun showQR(address : WalletAddress, category: Category?)
+        fun showQR(walletAddress: WalletAddress)
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
-        fun dismissDialog()
         fun configureCategory(findCategory: Category?)
-        fun shareToken(receiveToken: String)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -52,8 +50,6 @@ interface AddressContract {
         fun onAddressWasEdited()
         fun onDeleteAddress()
         fun onMenuCreate(menu: Menu?)
-        fun onDialogSharePressed()
-        fun onDialogClosePressed()
         fun onTransactionPressed(txDescription: TxDescription)
     }
 

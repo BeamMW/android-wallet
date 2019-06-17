@@ -49,7 +49,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onShowQR() {
-        view?.showQR(state.address ?: return, repository.getCategory(state.address?.walletID ?: return))
+        view?.showQR(state.address ?: return)
     }
 
     override fun onCopyAddress() {
@@ -75,22 +75,6 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription)
-    }
-
-    override fun onDialogSharePressed() {
-        if (state.address != null) {
-            view?.shareToken(state.address!!.walletID)
-            view?.dismissDialog()
-        }
-    }
-
-    override fun onDialogClosePressed() {
-        view?.dismissDialog()
-    }
-
-    override fun onDestroy() {
-        view?.dismissDialog()
-        super.onDestroy()
     }
 
     override fun initSubscriptions() {

@@ -45,6 +45,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:background="@drawable/edit_text_selector"
                 app:layout_constraintEnd_toStartOf="@id/scanQR"
                 app:layout_constraintStart_toStartOf="parent"

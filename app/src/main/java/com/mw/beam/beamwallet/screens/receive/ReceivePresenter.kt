@@ -20,10 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
 
 /**
@@ -110,19 +107,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onShowQrPressed() {
         saveAddress()
         state.address?.let { address ->
-            view?.showQR(address.walletID, view?.getAmount(), repository.getCategory(address.walletID))
+            view?.showQR(address, view?.getAmount()?.convertToGroth())
         }
-    }
-
-    override fun onDialogSharePressed() {
-        if (state.address != null) {
-            view?.shareToken(state.address!!.walletID)
-            view?.dismissDialog()
-        }
-    }
-
-    override fun onDialogClosePressed() {
-        view?.dismissDialog()
     }
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
@@ -130,10 +116,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         saveAddress()
     }
 
-    override fun onDestroy() {
-        view?.dismissDialog()
-        super.onDestroy()
-    }
 
     override fun initSubscriptions() {
         super.initSubscriptions()

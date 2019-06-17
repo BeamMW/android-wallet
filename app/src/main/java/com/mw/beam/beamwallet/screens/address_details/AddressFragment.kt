@@ -46,11 +46,6 @@ import kotlinx.android.synthetic.main.fragment_address.*
  */
 class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private lateinit var adapter: TransactionsAdapter
-    private var dialog: AlertDialog? = null
-
-    companion object {
-        private const val QR_SIZE = 160.0
-    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
     override fun getToolbarTitle(): String? = getString(R.string.address_title)
@@ -120,51 +115,9 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         }
     }
 
-    override fun shareToken(receiveToken: String) {
-        shareText(getString(R.string.common_share_title), receiveToken)
-    }
-
     @SuppressLint("InflateParams")
-    override fun showQR(address: WalletAddress, category: Category?) {
-        val view = LayoutInflater.from(context).inflate(R.layout.dialog_receive, null)
-        val qrView = view.findViewById<ImageView>(R.id.qrView)
-        val token = view.findViewById<TextView>(R.id.tokenView)
-        val btnCopy = view.findViewById<BeamButton>(R.id.btnShare)
-        val close = view.findViewById<ImageView>(R.id.close)
-        val tokenTitle = view.findViewById<TextView>(R.id.tokenTitle)
-        val categoryView = view.findViewById<TextView>(R.id.category)
-
-        token.text = address.walletID
-
-        if (address.isContact) {
-            tokenTitle.text = getString(R.string.address_contact_token_title)
-        }
-
-        try {
-            val metrics = DisplayMetrics()
-            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-            val logicalDensity = metrics.density
-            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
-
-            qrView.setImageBitmap(QrHelper.textToImage(address.walletID, px, px,
-                    ContextCompat.getColor(context!!, R.color.common_text_color),
-                    ContextCompat.getColor(context!!, R.color.colorPrimary)))
-        } catch (e: Exception) {
-            return
-        }
-
-        categoryView.visibility = if (category == null) View.GONE else View.VISIBLE
-
-        category?.let {
-            categoryView.text = getString(R.string.receive_dialog_category, it.name)
-            categoryView.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
-        }
-
-        btnCopy.setOnClickListener { presenter?.onDialogSharePressed() }
-        close.setOnClickListener { presenter?.onDialogClosePressed() }
-
-        dialog = AlertDialog.Builder(context!!).setView(view).show()
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    override fun showQR(walletAddress: WalletAddress) {
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToQrDialogFragment(walletAddress))
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
@@ -185,13 +138,6 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
 
     override fun finishScreen() {
         findNavController().popBackStack()
-    }
-
-    override fun dismissDialog() {
-        if (dialog != null) {
-            dialog?.dismiss()
-            dialog = null
-        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
