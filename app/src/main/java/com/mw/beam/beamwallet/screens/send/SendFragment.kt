@@ -50,6 +50,7 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
+import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 
@@ -69,6 +70,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private val amountWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(token: Editable?) {
             presenter?.onAmountChanged()
+        }
+    }
+
+    private val changeAddressCallback = object : ChangeAddressCallback {
+        override fun onChangeAddress(walletAddress: WalletAddress) {
+            presenter?.onAddressChanged(walletAddress)
         }
     }
 
@@ -408,7 +415,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun showChangeAddressFragment() {
-
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment(callback = changeAddressCallback))
     }
 
     override fun setAddress(address: String) {
@@ -459,6 +466,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeSeekBar.progress = defaultFee
         updateFeeValue(defaultFee)
 
+    }
+
+    override fun updateFeeViews() {
+        amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.sent_color))
+        updateFeeValue(feeSeekBar.progress)
     }
 
     override fun pendingSendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {

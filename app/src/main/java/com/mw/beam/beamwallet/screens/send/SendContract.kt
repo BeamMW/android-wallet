@@ -73,6 +73,7 @@ interface SendContract {
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
         fun configCategory(currentCategory: Category?, categories: List<Category>)
+        fun updateFeeViews()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -95,6 +96,7 @@ interface SendContract {
         fun onChangeAddressPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSelectedCategory(category: Category?)
+        fun onAddressChanged(walletAddress: WalletAddress)
     }
 
     interface Repository : MvpRepository {

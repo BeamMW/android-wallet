@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
@@ -33,6 +35,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
+    private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
     companion object {
         private const val DEFAULT_FEE = 10
@@ -52,6 +55,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             onTokenChanged(address)
             view?.setAmount(view?.getAmountFromArguments()?.convertToBeam() ?: 0.0)
         }
+
+        changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
+            setAddress(it, false)
+        })
+    }
+
+    override fun onAddressChanged(walletAddress: WalletAddress) {
+        state.isNeedGenerateNewAddress = false
+        changeAddressLiveData.postValue(walletAddress)
     }
 
     override fun onStart() {
@@ -65,6 +77,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.scannedAddress = null
             state.scannedAmount = null
         }
+
+        view?.handleExpandAdvanced(state.expandAdvanced)
+        view?.handleExpandEditAddress(state.expandEditAddress)
+
+        view?.updateFeeViews()
 
         notifyPrivacyStateChange()
     }
@@ -334,8 +351,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     ?: listOf()
         }
 
-        walletIdSubscription = repository.generateNewAddress().subscribe {
+        walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
             setAddress(it, true)
+        } else {
+            EmptyDisposable()
         }
     }
 
