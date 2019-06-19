@@ -62,7 +62,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             tools:visibility="visible"
-            android:text="@string/common_undo"
+            android:text="@string/undo"
             android:textColor="@color/undo_card_action_color"
             android:textStyle="bold"
             android:textSize="@dimen/common_text_big_size"

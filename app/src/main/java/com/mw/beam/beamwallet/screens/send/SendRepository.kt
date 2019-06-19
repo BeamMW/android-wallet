@@ -19,7 +19,10 @@ package com.mw.beam.beamwallet.screens.send
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
@@ -48,7 +51,39 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     override fun getAddresses(): Subject<OnAddressesData> {
         return getResult(WalletListener.subOnAddresses, "getAddresses") {
             wallet?.getAddresses(true)
+            wallet?.getAddresses(false)
         }
+    }
+
+    override fun generateNewAddress(): Subject<WalletAddress> {
+        return getResult(WalletListener.subOnGeneratedNewAddress, "generateNewAddress") {
+            wallet?.generateNewAddress()
+        }
+    }
+
+    override fun updateAddress(address: WalletAddress) {
+        getResult("updateAddress") {
+            val isNever = address.duration == 0L
+            wallet?.saveAddressChanges(address.walletID, address.label, isNever, makeActive = !isNever, makeExpired = false)
+        }
+    }
+
+    override fun saveAddress(address: WalletAddress) {
+        getResult("saveAddress") {
+            wallet?.saveAddress(address.toDTO(), true)
+        }
+    }
+
+    override fun getAllCategory(): List<Category> {
+        return CategoryHelper.getAllCategory()
+    }
+
+    override fun getCategory(address: String): Category? {
+        return CategoryHelper.getCategoryForAddress(address)
+    }
+
+    override fun changeCategoryForAddress(address: String, category: Category?) {
+        CategoryHelper.changeCategoryForAddress(address, category)
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)

@@ -55,7 +55,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_passwords
-    override fun getToolbarTitle(): String? = getString(R.string.pass_title)
+    override fun getToolbarTitle(): String? = getString(R.string.change_password)
 
     override fun init(isModeChangePass: Boolean) {
         if (isModeChangePass) {
@@ -109,21 +109,21 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
         if (pass.text.isNullOrBlank()) {
             passError.visibility = View.VISIBLE
-            passError.text = getString(R.string.pass_empty_error)
+            passError.text = getString(R.string.password_can_not_be_empty)
             pass.isStateError = true
             hasErrors = true
         }
 
         if (!pass.text.isNullOrBlank() && pass.text.toString() != confirmPass.text.toString()) {
             passError.visibility = View.VISIBLE
-            passError.text = getString(R.string.pass_not_match)
+            passError.text = getString(R.string.password_not_match)
             confirmPass.isStateError = true
             hasErrors = true
         }
 
         if (confirmPass.text.isNullOrBlank()) {
             passError.visibility = View.VISIBLE
-            passError.text = getString(R.string.pass_empty_error)
+            passError.text = getString(R.string.password_can_not_be_empty)
             confirmPass.isStateError = true
             hasErrors = true
         }
@@ -157,7 +157,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         showAlert(message = getString(R.string.pass_return_seed_message),
                 title = getString(R.string.pass_return_seed_title),
                 btnConfirmText = getString(R.string.pass_return_seed_btn_create_new),
-                btnCancelText = getString(R.string.common_cancel),
+                btnCancelText = getString(R.string.cancel),
                 onConfirm = { presenter?.onCreateNewSeed() })
     }
 

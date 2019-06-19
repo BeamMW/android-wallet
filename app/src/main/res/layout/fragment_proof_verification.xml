@@ -31,7 +31,7 @@
                 android:id="@+id/proofTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/payment_proof_verification_title"
+                android:text="@string/paste_your_payment_proof_here"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_section_margin_top"
-                android:text="@string/payment_proof_details_title"
+                android:text="@string/details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/proofError" />
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_send_margin_top"
-                android:text="@string/payment_proof_details_sender"
+                android:text="@string/sender"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsTitle" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_receiver"
+                android:text="@string/receiver"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/senderValue" />
 
@@ -117,7 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_amount"
+                android:text="@string/amount"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/receiverValue" />
 
@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_kernel_id"
+                android:text="@string/kernel_id"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountValue" />
 
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/payment_proof_section_margin_top"
                 app:button_icon="@drawable/ic_btn_copy_dark"
-                app:button_text="@string/payment_proof_details_copy_details"
+                app:button_text="@string/copy_details"
                 app:button_text_color="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

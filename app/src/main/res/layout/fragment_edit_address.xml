@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
                 android:paddingEnd="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_id"
+                android:text="@string/address_id"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="RtlSymmetry" />
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
                 android:paddingEnd="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_expired_title"
+                android:text="@string/expired"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addressId"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
                 android:paddingEnd="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_expire_title"
+                android:text="@string/expires"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/expiredTime"
                 tools:ignore="RtlSymmetry" />
@@ -98,7 +98,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_expires_now_value"
+                android:text="@string/now"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/titlesBarrier"
@@ -143,7 +143,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_category"
+                android:text="@string/category"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
 
@@ -173,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/edit_address_element_offset"
-                android:text="@string/edit_address_annotation"
+                android:text="@string/annotation"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage" />
 
@@ -204,7 +204,7 @@
                 android:layout_marginTop="@dimen/edit_address_btn_offset"
                 android:layout_marginBottom="@dimen/edit_address_btn_offset"
                 app:button_icon="@drawable/ic_btn_save"
-                app:button_text="@string/edit_address_btn_save"
+                app:button_text="@string/save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

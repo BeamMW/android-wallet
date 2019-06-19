@@ -18,19 +18,22 @@ package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
+    var wasAddressSaved: Boolean = false
+    var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
     var walletStatus: WalletStatus? = null
-    var isChangeForbidden = false
     var privacyMode = false
-    var isTokenEmpty = true
     var isTokenValid = true
     var expiredAddresses = listOf<WalletAddress>()
     var scannedAddress : String? = null
-    var oldToken : String? = null
     var scannedAmount: Double? = null
     var prevFee = 0.0
+    var outgoingAddress: WalletAddress? = null
+    var expandAdvanced = false
+    var expandEditAddress = false
 }

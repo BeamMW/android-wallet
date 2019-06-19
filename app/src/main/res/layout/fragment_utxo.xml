@@ -42,7 +42,7 @@
                     style="@style/common_text_big_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/utxo_blockchain_height"
+                    android:text="@string/blockchain_height"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/utxo_item_padding"
-                    android:text="@string/utxo_last_block_hash"
+                    android:text="@string/last_block_hash"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle" />
 

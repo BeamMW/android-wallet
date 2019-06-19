@@ -17,14 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_details
 
 import android.annotation.SuppressLint
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.util.DisplayMetrics
 import android.view.*
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
@@ -35,9 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_address.*
 
@@ -48,7 +39,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private lateinit var adapter: TransactionsAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
-    override fun getToolbarTitle(): String? = getString(R.string.address_title)
+    override fun getToolbarTitle(): String? = getString(R.string.address)
     override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
 
     override fun init(address: WalletAddress) {
@@ -95,7 +86,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
 
     private fun configAddressDetails(address: WalletAddress) {
         addressId.text = address.walletID
-        expirationDate.text = if (address.duration == 0L) getString(R.string.addresses_never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
+        expirationDate.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
         annotation.text = address.label
 
         val annotationVisibility = if (address.label.isNotBlank()) View.VISIBLE else View.GONE

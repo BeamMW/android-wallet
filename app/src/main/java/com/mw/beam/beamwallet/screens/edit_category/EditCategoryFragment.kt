@@ -34,7 +34,7 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
-    override fun getToolbarTitle(): String? = getString(R.string.edit_category_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.edit_category)
 
     override fun getCategoryId(): String? {
         return EditCategoryFragmentArgs.fromBundle(arguments ?: return null).categoryId

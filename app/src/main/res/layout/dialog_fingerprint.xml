@@ -14,7 +14,7 @@
         android:layout_marginEnd="@dimen/common_card_padding"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
-        android:text="@string/dialog_fingerprint_title"
+        android:text="@string/fingerprint_id"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/common_alert_title_text_size"
         android:textStyle="bold"
@@ -44,7 +44,7 @@
 
     <TextView
         style="@style/common_text_big_dark"
-        android:text="@string/touch_sensor_description"
+        android:text="@string/touch_sensor"
         android:layout_marginStart="@dimen/fingerprint_description_margin"
         app:layout_constraintBottom_toBottomOf="@id/touchCard"
         app:layout_constraintTop_toTopOf="@id/touchCard"
@@ -60,7 +60,7 @@
         android:layout_marginTop="@dimen/common_card_padding"
         android:layout_marginEnd="@dimen/common_card_padding"
         android:layout_marginBottom="@dimen/common_card_padding"
-        android:text="@string/common_cancel"
+        android:text="@string/cancel"
         android:textAllCaps="true"
         android:textColor="@color/alert_dialog_cancel_color"
         android:textStyle="bold"

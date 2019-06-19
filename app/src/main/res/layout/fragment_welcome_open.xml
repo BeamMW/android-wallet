@@ -31,7 +31,7 @@
             android:layout_marginEnd="@dimen/welcome_open_margin_side"
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/welcome_open_description_top_offset"
-            android:text="@string/welcome_open_description"
+            android:text="@string/enter_your_password_to_access_the_wallet"
             app:layout_constraintTop_toBottomOf="@id/logo" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +51,7 @@
                 style="@style/welcome_password_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/welcome_pass_hint"
+                android:hint="@string/password"
                 tools:ignore="Autofill,LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,7 +64,7 @@
             android:layout_marginEnd="@dimen/welcome_open_margin_side"
             android:fontFamily="sans-serif"
             android:paddingTop="@dimen/welcome_passwords_items_offset"
-            android:text="@string/pass_not_much"
+            android:text="@string/password_not_match"
             android:textColor="@color/common_error_color"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/btnOpen"

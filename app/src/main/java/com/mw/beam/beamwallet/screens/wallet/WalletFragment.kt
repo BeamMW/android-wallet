@@ -68,7 +68,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
-    override fun getToolbarTitle(): String? = getString(R.string.wallet_title)
+    override fun getToolbarTitle(): String? = getString(R.string.wallet)
 
     override fun configWalletStatus(walletStatus: WalletStatus, isEnablePrivacyMode: Boolean) {
         configAvailable(walletStatus.available, walletStatus.maturing, isEnablePrivacyMode)
@@ -148,7 +148,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         val toolbar = toolbarLayout.toolbar
         (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
 
-        drawerToggle = ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.common_drawer_open, R.string.common_drawer_close)
+        drawerToggle = ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
@@ -295,7 +295,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showActivatePrivacyModeDialog() {
-        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), { presenter?.onCancelDialog() })
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.cancel), { presenter?.onCancelDialog() })
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
@@ -363,9 +363,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private fun configNavView() {
         val menuItems = arrayOf(
 //                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.nav_address_book)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.nav_utxo)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.nav_settings)))
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
 
         navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
@@ -396,10 +396,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun showOpenLinkAlert() {
         showAlert(
                 getString(R.string.common_external_link_dialog_message),
-                getString(R.string.common_drawer_open),
+                getString(R.string.open),
                 { presenter?.onOpenLinkPressed() },
                 getString(R.string.common_external_link_dialog_title),
-                getString(R.string.common_cancel)
+                getString(R.string.cancel)
         )
     }
 

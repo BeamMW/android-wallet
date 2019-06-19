@@ -53,7 +53,7 @@
                     android:layout_marginTop="@dimen/welcome_seed_button_margin"
                     android:layout_marginBottom="@dimen/welcome_seed_button_margin"
                     app:button_icon="@drawable/ic_btn_proceed"
-                    app:button_text="@string/welcome_next"
+                    app:button_text="@string/next"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.activity_scan_qr.*
 class ScanQrActivity : BaseActivity<ScanQrPresenter>(), ScanQrContract.View, DecoratedBarcodeView.TorchListener {
 
     override fun onControllerGetContentLayoutId() = R.layout.activity_scan_qr
-    override fun getToolbarTitle(): String? = getString(R.string.scan_qr_title)
+    override fun getToolbarTitle(): String? = getString(R.string.scan_qr_code)
 
     private lateinit var capture: CaptureManager
 

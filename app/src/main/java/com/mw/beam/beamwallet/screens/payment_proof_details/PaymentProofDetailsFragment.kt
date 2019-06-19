@@ -32,19 +32,19 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
     override fun init(paymentProof: PaymentProof) {
         senderValue.text = paymentProof.senderId
         receiverValue.text = paymentProof.receiverId
-        amountValue.text = getString(R.string.payment_proof_details_beam, paymentProof.amount.convertToBeamString())
+        amountValue.text = (paymentProof.amount.convertToBeamString() + getString(R.string.currency_beam)).toLowerCase()
         kernelIdValue.text = paymentProof.kernelId
         codeValue.text = paymentProof.rawProof
     }
 
     override fun getDetailsContent(paymentProof: PaymentProof): String {
-        return "${getString(R.string.payment_proof_details_sender)} " +
+        return "${getString(R.string.sender)} " +
                 "${paymentProof.senderId} \n" +
-                "${getString(R.string.payment_proof_details_receiver)} " +
+                "${getString(R.string.receiver)} " +
                 "${paymentProof.receiverId} \n" +
-                "${getString(R.string.payment_proof_details_amount)} " +
-                "${getString(R.string.payment_proof_details_beam, paymentProof.amount.convertToBeamString()).toUpperCase()} \n" +
-                "${getString(R.string.payment_proof_details_kernel_id)} " +
+                "${getString(R.string.amount)} " +
+                "${(paymentProof.amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()} \n" +
+                "${getString(R.string.kernel_id)} " +
                 paymentProof.kernelId
     }
 
@@ -59,7 +59,7 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
     }
 
     override fun showCopiedAlert() {
-        showSnackBar(getString(R.string.common_copied_alert))
+        showSnackBar(getString(R.string.copied))
     }
 
     override fun clearListeners() {
@@ -67,7 +67,7 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
         btnCodeCopy.setOnClickListener(null)
     }
 
-    override fun getToolbarTitle(): String? = getString(R.string.payment_proof_details_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.payment_proof)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_payment_proof_details
 

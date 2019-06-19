@@ -35,7 +35,7 @@
                     style="@style/common_text_big_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/address_address_id"
+                    android:text="@string/address_id"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/address_content_offset"
-                    android:text="@string/address_expiration_date"
+                    android:text="@string/expiration_date"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addressId" />
 
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/address_content_offset"
-                    android:text="@string/address_category"
+                    android:text="@string/category"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/expirationDate" />
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/address_content_offset"
-                    android:text="@string/address_annotation"
+                    android:text="@string/annotation"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/category" />
@@ -126,7 +126,7 @@
                 android:paddingTop="@dimen/address_transaction_title_padding_top"
                 android:paddingEnd="@dimen/common_offset"
                 android:paddingBottom="@dimen/address_content_offset"
-                android:text="@string/address_transactions_title"
+                android:text="@string/transactions_list"
                 app:layout_constraintTop_toBottomOf="@id/infoLayout" />
 
             <androidx.recyclerview.widget.RecyclerView

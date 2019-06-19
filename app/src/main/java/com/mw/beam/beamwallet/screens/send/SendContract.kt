@@ -18,11 +18,15 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.view.Menu
 import android.view.MenuInflater
+import androidx.lifecycle.LifecycleOwner
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import io.reactivex.subjects.Subject
 
@@ -36,11 +40,12 @@ interface SendContract {
         fun getFee(): Long
         fun getToken(): String
         fun getComment(): String?
-        fun updateUI(shouldShowParams: Boolean, defaultFee: Int, isEnablePrivacyMode: Boolean)
+        fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)
         fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
+        fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean)
         fun clearErrors()
         fun clearToken(clearedToken: String?)
-        fun init(defaultFee: Int)
+        fun init(defaultFee: Int, maxFee: Int)
         fun close()
         fun setAddressError()
         fun clearAddressError()
@@ -56,20 +61,23 @@ interface SendContract {
         fun isAmountErrorShown() : Boolean
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
-        fun showConfirmDialog(token: String, amount: Double, fee: Long)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
-        fun dismissDialog()
-        fun pendingSendMoney(token: String, comment: String?, amount: Long, fee: Long)
+        fun pendingSendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
+        fun showChangeAddressFragment()
+        fun getLifecycleOwner(): LifecycleOwner
+        fun getCommentOutgoingAddress(): String
+        fun handleExpandEditAddress(expand: Boolean)
+        fun handleExpandAdvanced(expand: Boolean)
+        fun configCategory(currentCategory: Category?, categories: List<Category>)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSend()
         fun onTokenChanged(rawToken: String?)
-        fun onTokenPasted(token: String?, oldToken: String?)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
         fun onScannedQR(text: String?)
@@ -81,16 +89,26 @@ interface SendContract {
         fun onPrivacyModeActivated()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater)
         fun onCancelDialog()
-        fun onDialogClosePressed()
         fun onSendAllPressed()
+        fun onAdvancedPressed()
+        fun onEditAddressPressed()
+        fun onChangeAddressPressed()
+        fun onExpirePeriodChanged(period : ExpirePeriod)
+        fun onSelectedCategory(category: Category?)
     }
 
     interface Repository : MvpRepository {
+        fun generateNewAddress() : Subject<WalletAddress>
         fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean
         fun isConfirmTransactionEnabled(): Boolean
         fun getAddresses(): Subject<OnAddressesData>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
+        fun saveAddress(address: WalletAddress)
+        fun getCategory(address: String): Category?
+        fun getAllCategory(): List<Category>
+        fun changeCategoryForAddress(address: String, category: Category?)
+        fun updateAddress(address: WalletAddress)
     }
 }

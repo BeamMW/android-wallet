@@ -37,7 +37,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     private lateinit var pagerAdapter: UtxosPagerAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo
-    override fun getToolbarTitle(): String? = getString(R.string.utxo_title)
+    override fun getToolbarTitle(): String? = getString(R.string.utxo)
 
     override fun init() {
         val context = context ?: return
@@ -69,7 +69,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun showActivatePrivacyModeDialog() {
-        showAlert(getString(R.string.common_security_mode_message), getString(R.string.common_activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.common_cancel), { presenter?.onCancelDialog() })
+        showAlert(getString(R.string.common_security_mode_message), getString(R.string.activate), { presenter?.onPrivacyModeActivated() }, getString(R.string.common_security_mode_title), getString(R.string.cancel), { presenter?.onCancelDialog() })
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {

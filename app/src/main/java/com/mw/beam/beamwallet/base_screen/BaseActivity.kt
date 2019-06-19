@@ -129,7 +129,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
             NetworkStatus.UPDATING -> {
                 toolbarLayout.progressBar.visibility = View.VISIBLE
                 toolbarLayout.statusIcon.visibility = View.INVISIBLE
-                toolbarLayout.status.text = getString(R.string.common_status_updating)
+                toolbarLayout.status.text = getString(R.string.updating)
             }
         }
     }
@@ -227,7 +227,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
         if (isOnline) {
             toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
-            toolbarLayout.status.text = getString(R.string.common_status_online)
+            toolbarLayout.status.text = getString(R.string.online)
         } else {
             toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_error))
             toolbarLayout.status.text = String.format(getString(R.string.common_status_error), AppConfig.NODE_ADDRESS)

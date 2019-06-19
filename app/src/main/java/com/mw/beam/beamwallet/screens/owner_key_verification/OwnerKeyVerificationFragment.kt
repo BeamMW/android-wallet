@@ -21,10 +21,10 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_owner_key_verification
 
-    override fun getToolbarTitle(): String? = getString(R.string.owner_key_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.show_owner_key)
 
     override fun init(isEnableFingerprint: Boolean) {
-        enterPasswordTitle.setText(if (isEnableFingerprint) R.string.owner_key_verification_title_with_finger else R.string.owner_key_verification_title)
+        enterPasswordTitle.setText(if (isEnableFingerprint) R.string.owner_key_verification_title_with_finger else R.string.enter_your_current_password)
         verificationDescription.visibility = if (isEnableFingerprint) View.VISIBLE else View.GONE
     }
 
@@ -44,7 +44,7 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
 
     override fun showEmptyPasswordError() {
         passError.visibility = View.VISIBLE
-        passError.text = getString(R.string.check_old_pass_empty_error)
+        passError.text = getString(R.string.password_can_not_be_empty)
         pass.isStateError = true
     }
 

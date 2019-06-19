@@ -35,9 +35,9 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         androidx.recyclerview.widget.RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
-    private val expiredDate = context.getString(R.string.addresses_expired)
-    private val expiresDate = context.getString(R.string.addresses_expires)
-    private val expiresNever = context.getString(R.string.addresses_never)
+    private val expiredDate = context.getString(R.string.expired)
+    private val expiresDate = context.getString(R.string.expires)
+    private val expiresNever = context.getString(R.string.never)
 
     private var data: List<WalletAddress> = listOf()
 

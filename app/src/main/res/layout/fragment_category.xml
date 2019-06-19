@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/category_content_offset"
         android:layout_marginTop="@dimen/category_name_margin_top"
-        android:text="@string/category_name"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout" />
 
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/category_content_offset"
         android:layout_marginTop="@dimen/category_list_title_margin_top"
-        android:text="@string/category_addresses"
+        android:text="@string/address"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameValue" />
 

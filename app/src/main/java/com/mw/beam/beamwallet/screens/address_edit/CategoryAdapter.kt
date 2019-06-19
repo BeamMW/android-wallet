@@ -30,7 +30,7 @@ class CategoryAdapter(context: Context, private val categories: List<Category>) 
 
         (view as CategoryItemView).apply {
             colorResId = if (isNoneCategory) null else category.color.getAndroidColorId()
-            text = if (isNoneCategory) context.getString(R.string.edit_address_category_none_name) else category.name
+            text = if (isNoneCategory) context.getString(R.string.none) else category.name
         }
         return view
     }

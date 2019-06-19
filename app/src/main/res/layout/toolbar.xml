@@ -25,6 +25,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/statusLayout"
+        android:background="@android:color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,7 +57,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-regular"
             android:paddingEnd="@dimen/toolbar_padding_end"
-            android:text="@string/common_status_online"
+            android:text="@string/online"
             android:textColor="@color/toolbar_status_color"
             android:textSize="@dimen/toolbar_status_text_size"
             app:layout_constraintBottom_toBottomOf="@id/statusIcon"

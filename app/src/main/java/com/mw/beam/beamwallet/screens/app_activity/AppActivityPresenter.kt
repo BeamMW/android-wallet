@@ -27,6 +27,6 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     }
 
     override fun onPendingSend(info: PendingSendInfo) {
-        view?.startNewSnackbar({}, { repository.sendMoney(info.token, info.comment, info.amount, info.fee) })
+        view?.startNewSnackbar({}, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee) })
     }
 }

@@ -37,8 +37,8 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     private val beamResId = R.drawable.ic_beam
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
-    private val receiveText = context.getString(R.string.wallet_transactions_receive)
-    private val sendText = context.getString(R.string.wallet_transactions_send)
+    private val receiveText = context.getString(R.string.receive)
+    private val sendText = context.getString(R.string.send)
     private val currencyBeam = context.getString(R.string.currency_beam)
     private var privacyMode: Boolean = false
 

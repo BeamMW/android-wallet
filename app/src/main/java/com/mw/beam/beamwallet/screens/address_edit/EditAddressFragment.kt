@@ -64,12 +64,12 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
-    override fun getToolbarTitle(): String? = getString(R.string.edit_address_title)
+    override fun getToolbarTitle(): String? = getString(R.string.edit_address)
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
 
     override fun init(address: WalletAddress) {
-        expireNowString = getString(R.string.edit_address_expire_now)
-        activateString = getString(R.string.edit_address_expire_activate)
+        expireNowString = getString(R.string.expire_address_now)
+        activateString = getString(R.string.active_address)
 
         findViewById<TextView>(R.id.addressId)?.text = address.walletID
         expiresSwitchTitle.text = if (address.isExpired) activateString else expireNowString

@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_description.*
  */
 class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description
-    override fun getToolbarTitle(): String? = getString(R.string.welcome_title)
+    override fun getToolbarTitle(): String? = getString(R.string.create_new_wallet)
 
     override fun generatePhrase() {
         findNavController().navigate(WelcomeDescriptionFragmentDirections.actionWelcomeDescriptionFragmentToWelcomeSeedFragment())

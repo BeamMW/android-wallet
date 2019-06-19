@@ -56,7 +56,7 @@
                         style="@style/common_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_lock_screen"
+                        android:text="@string/lock_screen"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/generalSettings" />
 
@@ -95,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
                         android:paddingBottom="@dimen/settings_common_offset"
-                        android:text="@string/settings_node"
+                        android:text="@string/node"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -263,7 +263,7 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         android:layout_marginTop="@dimen/settings_common_offset"
-                        android:text="@string/language_title"
+                        android:text="@string/language"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/clearData" />
 
@@ -301,7 +301,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
-                        android:text="@string/settings_owner_key"
+                        android:text="@string/show_owner_key"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -328,7 +328,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
-                        android:text="@string/settings_categories"
+                        android:text="@string/categories"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -345,7 +345,7 @@
                         style="@style/common_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_add_new_category"
+                        android:text="@string/add_new_category"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoriesList" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

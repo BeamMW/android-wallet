@@ -33,15 +33,15 @@ import kotlinx.android.synthetic.main.item_utxo.*
  */
 class UtxosAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
         androidx.recyclerview.widget.RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
-    private val spentStatus = context.getString(R.string.utxo_status_spent)
-    private val inProgressStatus = context.getString(R.string.utxo_status_in_progress)
-    private val incomingStatus = context.getString(R.string.utxo_status_incoming)
-    private val changeStatus = context.getString(R.string.utxo_status_change)
-    private val outgoingStatus = context.getString(R.string.utxo_status_outgoing)
-    private val maturingStatus = context.getString(R.string.utxo_status_maturing)
-    private val unavailableStatus = context.getString(R.string.utxo_status_unavailable)
+    private val spentStatus = context.getString(R.string.spent)
+    private val inProgressStatus = context.getString(R.string.in_progress)
+    private val incomingStatus = context.getString(R.string.incoming)
+    private val changeStatus = context.getString(R.string.change)
+    private val outgoingStatus = context.getString(R.string.outgoing)
+    private val maturingStatus = context.getString(R.string.maturing)
+    private val unavailableStatus = context.getString(R.string.unavailable)
     private val resultRollbackStatus = context.getString(R.string.utxo_status_result_rollback)
-    private val availableStatus = context.getString(R.string.utxo_status_available)
+    private val availableStatus = context.getString(R.string.available)
 
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)

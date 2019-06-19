@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Beam Wallet Masternet</string>
-    <string name="common_status_online">online (masternet)</string>
+    <string name="online">Online (masternet)</string>
 </resources>

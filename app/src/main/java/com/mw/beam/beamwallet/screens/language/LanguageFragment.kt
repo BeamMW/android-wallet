@@ -13,7 +13,7 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_language
 
-    override fun getToolbarTitle(): String? = getString(R.string.language_title)
+    override fun getToolbarTitle(): String? = getString(R.string.language)
 
     override fun init(languages: List<String>, currentLanguage: Int) {
         adapter = LanguageAdapter(languages) {
@@ -29,10 +29,10 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
     override fun showConfirmDialog(languageIndex: Int) {
         showAlert(
                 getString(R.string.language_dialog_message),
-                getString(R.string.common_cancel),
+                getString(R.string.cancel),
                 {},
                 null,
-                getString(R.string.language_restart_now),
+                getString(R.string.restart_now),
                 {
                     adapter.setSelected(languageIndex)
                     presenter?.onRestartPressed(languageIndex)

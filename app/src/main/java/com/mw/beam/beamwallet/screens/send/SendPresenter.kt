@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.send
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
 
@@ -31,17 +32,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
+    private lateinit var walletIdSubscription: Disposable
 
     companion object {
-        private const val MAX_TOKEN_LENGTH = 80
         private const val DEFAULT_FEE = 10
+        private const val MAX_FEE = 1000
         private const val ZERO_FEE = 0
         private const val MAX_FEE_LENGTH = 15
     }
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(DEFAULT_FEE)
+        view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
 
         val address: String? = view?.getAddressFromArguments()
@@ -114,39 +116,85 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val comment = view?.getComment()
             val token = view?.getToken()
 
-            if (amount != null && fee != null && token != null && state.isTokenValid) {
+            if (amount != null && fee != null && token != null && isValidToken(token)) {
                 // we can't send money to own expired address
                 if (state.expiredAddresses.find { it.walletID == token } != null) {
-                    view?.dismissDialog()
                     view?.showCantSendToExpiredError()
-                } else {
-                    view?.pendingSendMoney(token, comment, amount.convertToGroth(), fee)
-                    view?.dismissDialog()
+                } else if (state.outgoingAddress != null) {
+                    saveAddress()
+                    view?.pendingSendMoney(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee)
                     view?.close()
                 }
             }
         }
     }
 
-    override fun onConfirm() {
-        if (!repository.isConfirmTransactionEnabled()) {
-            onSend()
-            return
+    private fun isValidToken(token: String): Boolean {
+        return QrHelper.isValidAddress(token)
+    }
+
+    override fun onAdvancedPressed() {
+        state.expandAdvanced = !state.expandAdvanced
+        if (!state.expandAdvanced) {
+            state.expandEditAddress = false
+            view?.handleExpandEditAddress(state.expandEditAddress)
         }
 
-        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
-            val amount = view?.getAmount()
-            val fee = view?.getFee()
-            val token = view?.getToken()
+        view?.handleExpandAdvanced(state.expandAdvanced)
+    }
 
-            if (amount != null && fee != null && token != null && state.isTokenValid) {
-                view?.showConfirmDialog(token, amount, fee)
+    override fun onEditAddressPressed() {
+        state.expandEditAddress = !state.expandEditAddress
+        view?.handleExpandEditAddress(state.expandEditAddress)
+    }
+
+    override fun onChangeAddressPressed() {
+        view?.showChangeAddressFragment()
+    }
+
+    override fun onExpirePeriodChanged(period: ExpirePeriod) {
+        state.expirePeriod = period
+    }
+
+    override fun onSelectedCategory(category: Category?) {
+        state.outgoingAddress?.let { repository.changeCategoryForAddress(it.walletID, category) }
+    }
+
+    private fun saveAddress() {
+        if (state.outgoingAddress != null) {
+            state.outgoingAddress!!.duration = state.expirePeriod.value
+
+            val comment = view?.getCommentOutgoingAddress()
+
+            state.outgoingAddress!!.label = comment ?: ""
+
+            if (state.wasAddressSaved) {
+                repository.updateAddress(state.outgoingAddress!!)
+            } else {
+                repository.saveAddress(state.outgoingAddress!!)
             }
+
+            state.wasAddressSaved = true
         }
     }
 
-    override fun onDialogClosePressed() {
-        view?.dismissDialog()
+    override fun onConfirm() {
+        onSend()
+        return
+
+//        if (!repository.isConfirmTransactionEnabled()) {
+//            return
+//        }
+//
+//        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
+//            val amount = view?.getAmount()
+//            val fee = view?.getFee()
+//            val token = view?.getToken()
+//
+//            if (amount != null && fee != null && token != null && isValidToken(token)) {
+//                view?.showConfirmDialog(token, amount, fee)
+//            }
+//        }
     }
 
     override fun onFeeFocusChanged(isFocused: Boolean, fee: String) {
@@ -199,52 +247,45 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onTokenPasted(token: String?, oldToken: String?) {
-        state.oldToken = oldToken
-        state.isChangeForbidden = token?.replace(QrHelper.tokenRegex, "") != token
-
-        if (token?.replace(QrHelper.tokenRegex, "") != token) {
-            state.isChangeForbidden = true
-            view?.showCantPasteError()
-        }
-    }
-
     override fun onTokenChanged(rawToken: String?) {
-        if (state.isChangeForbidden) {
-            state.isChangeForbidden = false
-            view?.clearToken(state.oldToken)
-        } else {
-            state.isChangeForbidden = false
-            var clearedToken = rawToken?.replace(QrHelper.tokenRegex, "")
+        view?.clearAddressError()
 
-            if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
-                clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
-            }
 
-            if (rawToken == clearedToken) {
-                val isTokenEmpty = rawToken.isNullOrEmpty()
-
-                if (isTokenEmpty != state.isTokenEmpty) {
-                    view?.updateUI(!isTokenEmpty, DEFAULT_FEE, state.privacyMode)
-                }
-
-                if (!isTokenEmpty) {
-                    if (repository.checkAddress(rawToken)) {
-                        view?.clearAddressError()
-                        state.isTokenValid = true
-                    } else {
-                        view?.setAddressError()
-                        state.isTokenValid = false
-                    }
-                } else {
-                    state.isTokenValid = false
-                }
-
-                state.isTokenEmpty = isTokenEmpty
-            } else {
-                view?.clearToken(clearedToken)
-            }
-        }
+//        if (state.isChangeForbidden) {
+//            state.isChangeForbidden = false
+//            view?.clearToken(state.oldToken)
+//        } else {
+//            state.isChangeForbidden = false
+//            var clearedToken = rawToken?.replace(QrHelper.tokenRegex, "")
+//
+//            if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
+//                clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
+//            }
+//
+//            if (rawToken == clearedToken) {
+//                val isTokenEmpty = rawToken.isNullOrEmpty()
+//
+//                if (isTokenEmpty != state.isTokenEmpty) {
+//                    view?.updateUI(DEFAULT_FEE, state.privacyMode)
+//                }
+//
+//                if (!isTokenEmpty) {
+//                    if (repository.checkAddress(rawToken)) {
+//                        view?.clearAddressError()
+//                        state.isTokenValid = true
+//                    } else {
+//                        view?.setAddressError()
+//                        state.isTokenValid = false
+//                    }
+//                } else {
+//                    state.isTokenValid = false
+//                }
+//
+//                state.isTokenEmpty = isTokenEmpty
+//            } else {
+//                view?.clearToken(clearedToken)
+//            }
+//        }
     }
 
     override fun onAmountChanged() {
@@ -289,9 +330,20 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         addressesSubscription = repository.getAddresses().subscribe {
-            state.expiredAddresses = it.addresses?.filter { address -> address.isExpired }
+            state.expiredAddresses = it.addresses?.filter { address -> address.isContact && address.isExpired }
                     ?: listOf()
         }
+
+        walletIdSubscription = repository.generateNewAddress().subscribe {
+            setAddress(it, true)
+        }
+    }
+
+    private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
+        state.outgoingAddress = walletAddress
+        view?.configOutgoingAddress(walletAddress, isGenerated)
+        view?.configCategory(repository.getCategory(walletAddress.walletID), repository.getAllCategory())
+
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, cantSendToExpiredSubscription, addressesSubscription)

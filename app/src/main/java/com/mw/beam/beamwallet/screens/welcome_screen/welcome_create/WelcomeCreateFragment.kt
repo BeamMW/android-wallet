@@ -48,7 +48,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     }
 
     override fun showRestoreNotification() {
-        showAlert(getString(R.string.welcome_restore_notification), getString(R.string.welcome_i_agree), { presenter?.onConfirmRestore() }, getString(R.string.welcome_restore))
+        showAlert(getString(R.string.welcome_restore_notification), getString(R.string.i_agree), { presenter?.onConfirmRestore() }, getString(R.string.restore_wallet))
     }
 
     override fun createWallet() {

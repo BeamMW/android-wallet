@@ -35,7 +35,7 @@
                 android:layout_marginStart="@dimen/receive_common_qr_offset"
                 android:layout_marginTop="@dimen/receive_common_qr_offset"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
-                android:text="@string/receive_token_title"
+                android:text="@string/addresses"
                 app:layout_constraintBottom_toTopOf="@id/tokenView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
                 android:layout_marginBottom="@dimen/receive_btn_margin"
                 android:gravity="center"
-                android:text="@string/receive_token_via_qr_description"
+                android:text="@string/receive_token_description"
                 app:layout_constraintBottom_toTopOf="@id/btnShare"
                 app:layout_constraintTop_toBottomOf="@id/amountView" />
 
@@ -110,7 +110,7 @@
                 android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
                 android:background="@drawable/receive_button"
                 app:button_icon="@drawable/ic_share"
-                app:button_text="@string/common_share_qr"
+                app:button_text="@string/share_qr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

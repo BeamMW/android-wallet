@@ -217,7 +217,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         showAlert(message = getString(R.string.welcome_validation_return_seed_message),
                 title = getString(R.string.pass_back_seed_title),
                 btnConfirmText = getString(R.string.pass_return_seed_btn_create_new),
-                btnCancelText = getString(R.string.common_cancel),
+                btnCancelText = getString(R.string.cancel),
                 onConfirm = { presenter?.onCreateNewSeed() })
     }
 

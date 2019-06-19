@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
-                android:text="@string/payment_proof_details_code"
+                android:text="@string/code"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
                 android:layout_marginTop="@dimen/payment_proof_section_margin_top"
-                android:text="@string/payment_proof_details_title"
+                android:text="@string/details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/codeValue" />
 
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
                 android:layout_marginTop="@dimen/payment_proof_send_margin_top"
-                android:text="@string/payment_proof_details_sender"
+                android:text="@string/sender"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsTitle" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_receiver"
+                android:text="@string/receiver"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/senderValue" />
 
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_amount"
+                android:text="@string/amount"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/receiverValue" />
 
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/payment_proof_content_horizontal_margin"
                 android:layout_marginTop="@dimen/payment_proof_values_margin_top"
-                android:text="@string/payment_proof_details_kernel_id"
+                android:text="@string/kernel_id"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountValue" />
 
@@ -153,7 +153,7 @@
                 android:layout_marginTop="@dimen/payment_proof_section_margin_top"
                 app:button_icon="@drawable/ic_btn_copy"
                 android:background="@drawable/primary_button"
-                app:button_text="@string/payment_proof_details_copy_details"
+                app:button_text="@string/copy_details"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnCodeCopy"
@@ -166,7 +166,7 @@
                 android:layout_width="@dimen/transaction_details_button_width"
                 android:layout_height="wrap_content"
                 app:button_icon="@drawable/ic_btn_copy_dark"
-                app:button_text="@string/payment_proof_details_copy_code"
+                app:button_text="@string/copy_code"
                 app:button_text_color="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnDetailsCopy"

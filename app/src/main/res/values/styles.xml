@@ -14,6 +14,7 @@
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
         <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 

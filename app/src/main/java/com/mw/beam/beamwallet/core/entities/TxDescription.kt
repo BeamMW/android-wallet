@@ -52,7 +52,7 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
     }
 
     val statusString : String = when (status) {
-        TxStatus.Pending -> App.self.getString(R.string.wallet_status_pending)
+        TxStatus.Pending -> App.self.getString(R.string.pending)
         TxStatus.InProgress -> {
             when (sender) {
                 TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_in_progress_sender)
@@ -61,25 +61,25 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
         }
         TxStatus.Registered -> {
             when (sender) {
-                TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_receiving)
-                TxSender.SENT -> App.self.getString(R.string.wallet_status_sending)
+                TxSender.RECEIVED -> App.self.getString(R.string.receiving)
+                TxSender.SENT -> App.self.getString(R.string.sending)
             }
         }
         TxStatus.Completed -> {
             if (selfTx) {
-                App.self.getString(R.string.wallet_status_completed)
+                App.self.getString(R.string.completed)
             } else {
                 when (sender) {
-                    TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_received)
-                    TxSender.SENT -> App.self.getString(R.string.wallet_status_sent)
+                    TxSender.RECEIVED -> App.self.getString(R.string.received)
+                    TxSender.SENT -> App.self.getString(R.string.sent)
                 }
             }
         }
-        TxStatus.Cancelled -> App.self.getString(R.string.wallet_status_cancelled)
+        TxStatus.Cancelled -> App.self.getString(R.string.cancelled)
         TxStatus.Failed -> {
             when (failureReason) {
-                TxFailureReason.TRANSACTION_EXPIRED -> App.self.getString(R.string.wallet_status_expired)
-                else -> App.self.getString(R.string.wallet_status_failed)
+                TxFailureReason.TRANSACTION_EXPIRED -> App.self.getString(R.string.expired)
+                else -> App.self.getString(R.string.failed)
             }
         }
     }

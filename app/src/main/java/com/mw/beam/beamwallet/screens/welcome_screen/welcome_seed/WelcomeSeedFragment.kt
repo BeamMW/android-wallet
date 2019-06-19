@@ -42,7 +42,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
 
-        copiedAlert = getString(R.string.common_copied_alert)
+        copiedAlert = getString(R.string.copied)
     }
 
     override fun addListeners() {
@@ -92,10 +92,10 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
 
     override fun showSaveAlert() {
         showAlert(getString(R.string.welcome_seed_save_description),
-                getString(R.string.common_done),
+                getString(R.string.done),
                 { presenter?.onDonePressed() },
                 getString(R.string.welcome_seed_save_title),
-                getString(R.string.common_cancel))
+                getString(R.string.cancel))
     }
 
     override fun showConfirmFragment(seed: Array<String>) {

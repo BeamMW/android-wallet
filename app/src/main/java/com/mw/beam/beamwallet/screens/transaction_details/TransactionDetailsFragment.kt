@@ -41,7 +41,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     private var moreMenu: Menu? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
-    override fun getToolbarTitle(): String? = getString(R.string.transaction_details_title)
+    override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
@@ -105,8 +105,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     private fun configTransactionDetails(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         message.text = String.format(
                 when (txDescription.sender) {
-                    TxSender.RECEIVED -> getString(R.string.wallet_transactions_receive)
-                    TxSender.SENT -> getString(R.string.wallet_transactions_send)
+                    TxSender.RECEIVED -> getString(R.string.receive)
+                    TxSender.SENT -> getString(R.string.send)
                 },
                 getString(R.string.currency_beam).toUpperCase()) //TODO replace when multiply currency will be available
 
@@ -171,10 +171,10 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun showOpenLinkAlert() {
         showAlert(
                 getString(R.string.common_external_link_dialog_message),
-                getString(R.string.common_drawer_open),
+                getString(R.string.open),
                 { presenter?.onOpenLinkPressed() },
                 getString(R.string.common_external_link_dialog_title),
-                getString(R.string.common_cancel)
+                getString(R.string.cancel)
         )
     }
 
@@ -211,7 +211,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
     override fun showCopiedAlert() {
-        showSnackBar(getString(R.string.common_copied_alert))
+        showSnackBar(getString(R.string.copied))
     }
 
     override fun clearListeners() {

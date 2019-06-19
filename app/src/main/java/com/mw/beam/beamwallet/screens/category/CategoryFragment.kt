@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_category.*
 class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.View {
     private var addressesAdapter: AddressesAdapter? = null
 
-    override fun getToolbarTitle(): String? = getString(R.string.category_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.category)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_category
 
@@ -73,11 +73,11 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
 
     override fun showConfirmDeleteDialog(categoryName: String) {
         showAlert(
-                getString(R.string.category_delete_dialog_message, categoryName),
-                getString(R.string.common_cancel),
+                getString(R.string.category_delete_dialog_message) + categoryName,
+                getString(R.string.cancel),
                 {},
-                getString(R.string.category_delete_dialog_title),
-                getString(R.string.common_delete),
+                getString(R.string.delete_category),
+                getString(R.string.delete),
                 { presenter?.onDeleteCategoryConfirmed() })
     }
 

@@ -21,7 +21,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spanned
@@ -59,7 +58,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private var dialog: AlertDialog? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
-    override fun getToolbarTitle(): String? = getString(R.string.settings_title)
+    override fun getToolbarTitle(): String? = getString(R.string.settings)
 
     override fun init(runOnRandomNode: Boolean) {
         appVersion.text = BuildConfig.VERSION_NAME
@@ -280,23 +279,23 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         val clearData = arrayListOf<String>()
 
         if (clearAddresses) {
-            clearData.add(getString(R.string.settings_confirm_clear_addresses))
+            clearData.add(getString(R.string.addresses))
         }
 
         if (clearContacts) {
-            clearData.add(getString(R.string.settings_confirm_clear_contacts))
+            clearData.add(getString(R.string.contacts))
         }
 
         if (clearTransactions) {
-            clearData.add(getString(R.string.settings_confirm_clear_transaction))
+            clearData.add(getString(R.string.transaction))
         }
 
         showAlert(
                 getString(R.string.settings_confirm_clear_message, clearData.joinToString(separator = ", ")),
-                getString(R.string.common_delete),
+                getString(R.string.delete),
                 { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
                 getString(R.string.settings_dialog_clear_title),
-                getString(R.string.common_cancel)
+                getString(R.string.cancel)
         )
     }
 
@@ -317,9 +316,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     private fun getLockScreenStringValue(millis: Long): String {
         return when {
-            millis <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.settings_never)
-            millis.isLessMinute() -> getString(R.string.settings_after_seconds, TimeUnit.MILLISECONDS.toSeconds(millis).toString())
-            else -> getString(R.string.settings_after_minute, TimeUnit.MILLISECONDS.toMinutes(millis).toString())
+            millis <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.never)
+            millis.isLessMinute() -> (getString(R.string.after) + TimeUnit.MILLISECONDS.toSeconds(millis).toString() + getString(R.string.seconds))
+            else -> (getString(R.string.after) + TimeUnit.MILLISECONDS.toMinutes(millis).toString() + getString(R.string.minute))
         }
     }
 

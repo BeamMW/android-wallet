@@ -69,7 +69,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
             description.setText(R.string.welcome_open_description_with_fingerprint)
         } else {
-            description.setText(R.string.welcome_open_description)
+            description.setText(R.string.enter_your_password_to_access_the_wallet)
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
@@ -93,7 +93,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         pass.isStateAccent = true
 
         if (pass.text.isNullOrBlank()) {
-            passError.text = getString(R.string.pass_empty_error)
+            passError.text = getString(R.string.password_can_not_be_empty)
             passError.visibility = View.VISIBLE
             pass.isStateError = true
             hasErrors = true
@@ -139,7 +139,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                 getString(R.string.welcome_btn_change_alert),
                 { presenter?.onChangeConfirm() },
                 getString(R.string.welcome_title_change_alert),
-                getString(R.string.common_cancel))
+                getString(R.string.cancel))
     }
 
     override fun showFingerprintAuthError() {

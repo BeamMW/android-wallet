@@ -35,7 +35,7 @@
                     android:layout_marginTop="@dimen/wallet_button_margin_top"
                     app:button_icon="@drawable/ic_btn_receive"
                     android:background="@drawable/receive_button"
-                    app:button_text="@string/wallet_btn_receive"
+                    app:button_text="@string/receive"
                     app:layout_constraintEnd_toStartOf="@id/btnSend"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
                     android:layout_marginTop="@dimen/wallet_button_margin_top"
                     app:button_icon="@drawable/ic_btn_send"
                     android:background="@drawable/send_button"
-                    app:button_text="@string/wallet_btn_send"
+                    app:button_text="@string/send"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="0.5"
                     app:layout_constraintStart_toEndOf="@id/btnReceive"
@@ -78,7 +78,7 @@
                         <TextView
                             android:id="@+id/availableTitle"
                             style="@style/wallet_card_title_style"
-                            android:text="@string/wallet_available"
+                            android:text="@string/available"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="RtlSymmetry" />
@@ -152,7 +152,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginStart="@dimen/wallet_card_text_padding_start"
                             android:gravity="center"
-                            android:text="@string/wallet_maturing"
+                            android:text="@string/maturing"
                             android:textSize="@dimen/wallet_maturing_title_text_size"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0"
@@ -234,7 +234,7 @@
                         <TextView
                             android:id="@+id/inProgressTitle"
                             style="@style/wallet_card_title_style"
-                            android:text="@string/wallet_in_progress"
+                            android:text="@string/in_progress"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="RtlSymmetry" />
@@ -291,7 +291,7 @@
                             android:id="@+id/receivingIcon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:contentDescription="@string/wallet_receiving"
+                            android:contentDescription="@string/receiving"
                             app:layout_constraintBottom_toBottomOf="@+id/receiving"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/receiving"
@@ -340,7 +340,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
-                            android:contentDescription="@string/wallet_sending"
+                            android:contentDescription="@string/sending"
                             app:layout_constraintBottom_toBottomOf="@+id/sending"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/sending"
@@ -368,7 +368,7 @@
                     android:paddingTop="@dimen/transactions_title_padding"
                     android:paddingEnd="@dimen/common_offset"
                     android:paddingBottom="@dimen/transactions_title_padding"
-                    android:text="@string/wallet_transactions_title"
+                    android:text="@string/transactions"
                     app:layout_constraintTop_toBottomOf="@id/inProgressLayout" />
 
                 <ImageView

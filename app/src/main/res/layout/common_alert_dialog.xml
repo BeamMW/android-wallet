@@ -38,7 +38,7 @@
         android:textAllCaps="true"
         android:textColor="@color/alert_dialog_cancel_color"
         android:textStyle="bold"
-        tools:text="@string/common_cancel"
+        tools:text="@string/cancel"
         app:layout_constraintWidth_min="wrap"
         app:layout_constraintEnd_toStartOf="@id/btnConfirm"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -54,7 +54,7 @@
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
-        tools:text="@string/common_done"
+        tools:text="@string/done"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/alertText"
         tools:ignore="RtlSymmetry" />

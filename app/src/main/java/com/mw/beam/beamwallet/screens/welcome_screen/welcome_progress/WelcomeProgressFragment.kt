@@ -105,16 +105,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
                 onConfirm = { presenter?.onTryAgain() },
                 title = getString(R.string.welcome_progress_restore_error_title),
-                btnCancelText = getString(R.string.common_cancel),
+                btnCancelText = getString(R.string.cancel),
                 onCancel = { presenter?.onCancel() })
     }
 
     override fun showCancelRestoreAlert() {
         showAlert(message = getString(R.string.welcome_progress_cancel_restore_description),
-                btnConfirmText = getString(R.string.common_ok),
+                btnConfirmText = getString(R.string.ok),
                 onConfirm = { presenter?.onOkToCancelRestore() },
                 title = getString(R.string.welcome_progress_cancel_restore_title),
-                btnCancelText = getString(R.string.common_cancel),
+                btnCancelText = getString(R.string.cancel),
                 onCancel = { presenter?.onCancelToCancelRestore() })
     }
 

@@ -28,7 +28,7 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
 
     override fun isFromReceive(): Boolean = ChangeAddressFragmentArgs.fromBundle(arguments!!).isFromReceive
 
-    override fun getToolbarTitle(): String? = getString(R.string.change_address_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.change_address)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_change_address
 

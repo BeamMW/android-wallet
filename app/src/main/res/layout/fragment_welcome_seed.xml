@@ -50,7 +50,7 @@
                 android:layout_marginBottom="@dimen/welcome_seed_button_margin"
                 app:button_icon="@drawable/ic_btn_copy"
                 android:background="@drawable/primary_button"
-                app:button_text="@string/welcome_copy_to_clipboard"
+                app:button_text="@string/copy"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnNext"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/welcome_seed_button_margin"
                 app:button_icon="@drawable/ic_btn_proceed"
-                app:button_text="@string/welcome_next"
+                app:button_text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnShare" />

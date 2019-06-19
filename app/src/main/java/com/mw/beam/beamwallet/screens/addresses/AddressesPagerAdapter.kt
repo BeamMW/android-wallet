@@ -80,7 +80,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
 }
 
 enum class Tab(val value: Int) {
-    ACTIVE(R.string.addresses_tab_active), EXPIRED(R.string.addresses_tab_expired), CONTACTS(R.string.addresses_tab_contacts);
+    ACTIVE(R.string.addresses_tab_active), EXPIRED(R.string.addresses_tab_expired), CONTACTS(R.string.contacts);
 
     companion object {
         private val map: HashMap<Int, Tab> = HashMap()

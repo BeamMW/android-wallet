@@ -24,8 +24,6 @@
     <color name="testnet_text_color">#80ffffff</color>
     <color name="ic_menu_color">#99ffffff</color>
 
-    <color name="receive_card_background_color">#253381B4</color>
-
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>
     <color name="pass_progress_medium">#f4ce4a</color>

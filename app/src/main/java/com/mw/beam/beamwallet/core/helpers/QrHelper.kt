@@ -35,6 +35,8 @@ object QrHelper {
     const val BEAM_URI_PREFIX = "beam://"
     private const val BEAM_QR_PREFIX = "beam:"
     private const val AMOUNT_PARAMETER = "amount"
+    private const val MAX_TOKEN_LENGTH = 80
+
     val tokenRegex = Regex("[^A-Fa-f0-9]")
     private val amountDecimalFormat = DecimalFormat().apply {
         decimalFormatSymbols = DecimalFormatSymbols().apply {
@@ -47,7 +49,7 @@ object QrHelper {
 
     fun isNewQrVersion(text: String) = text.startsWith(BEAM_QR_PREFIX)
 
-    fun isValidAddress(address: String) = address == address.replace(tokenRegex, "")
+    fun isValidAddress(address: String) = address == address.replace(tokenRegex, "") && address.isNotBlank() && address.length <= MAX_TOKEN_LENGTH
 
     fun getScannedAddress(text: String): String {
         return if (text.startsWith(BEAM_QR_PREFIX)) {

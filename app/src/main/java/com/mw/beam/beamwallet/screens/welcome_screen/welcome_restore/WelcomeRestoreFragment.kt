@@ -42,7 +42,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     private var currentEditText: EditText? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_restore
-    override fun getToolbarTitle(): String = getString(R.string.welcome_restore_title)
+    override fun getToolbarTitle(): String = getString(R.string.restore_wallet)
 
     override fun init() {
         btnRestore.isEnabled = false

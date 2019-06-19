@@ -42,14 +42,14 @@
                     style="@style/transaction_details_title"
                     android:paddingTop="@dimen/transaction_details_title_padding_top"
                     android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
-                    android:text="@string/transaction_details_general_info"
+                    android:text="@string/general_transaction_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/startAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_start_address"
+                    android:text="@string/sending_address"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
 
@@ -78,7 +78,7 @@
                 <TextView
                     android:id="@+id/endAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_end_address"
+                    android:text="@string/receiving_address"
                     android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
@@ -109,7 +109,7 @@
                 <TextView
                     android:id="@+id/transactionFeeTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_transaction_fee"
+                    android:text="@string/transaction_fee"
                     android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/endAddressCategory" />
@@ -125,7 +125,7 @@
                 <TextView
                     android:id="@+id/commentTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_comment"
+                    android:text="@string/comment"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/transactionFee" />
@@ -141,7 +141,7 @@
                 <TextView
                     android:id="@+id/transactionIdTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_transaction_id"
+                    android:text="@string/transaction_id"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/comment" />
 
@@ -156,7 +156,7 @@
                 <TextView
                     android:id="@+id/kernelTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_details_kernel_id"
+                    android:text="@string/kernel_id"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/transactionId" />
 
@@ -222,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
-                    android:text="@string/transaction_details_payment_proof"
+                    android:text="@string/payment_proof"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -233,7 +233,7 @@
                     android:layout_marginTop="@dimen/transaction_details_padding"
                     app:button_icon="@drawable/ic_icon_details"
                     android:background="@drawable/primary_button"
-                    app:button_text="@string/transaction_details_details_btn_text"
+                    app:button_text="@string/details"
                     app:button_text_color="@color/common_text_color"
                     app:layout_constraintEnd_toStartOf="@id/btnPaymentProofCopy"
                     app:layout_constraintStart_toStartOf="parent"
@@ -246,7 +246,7 @@
                     android:layout_marginTop="@dimen/transaction_details_padding"
                     app:button_icon="@drawable/ic_btn_copy"
                     android:background="@drawable/primary_button"
-                    app:button_text="@string/transaction_details_copy_to_clipboard"
+                    app:button_text="@string/copy"
                     app:button_text_color="@color/common_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -270,7 +270,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/transaction_details_utxo_list_title_margin_top"
-                    android:text="@string/transaction_details_utxo_list"
+                    android:text="@string/transaction_utxo_list"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

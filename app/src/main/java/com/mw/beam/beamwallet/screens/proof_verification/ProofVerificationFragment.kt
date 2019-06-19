@@ -35,7 +35,7 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_proof_verification
 
-    override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification)
 
     override fun addListeners() {
         textWatcher = object : TextWatcher {
@@ -72,7 +72,7 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
     override fun showProof(proof: PaymentProof) {
         senderValue.text = proof.senderId
         receiverValue.text = proof.receiverId
-        amountValue.text = getString(R.string.payment_proof_details_beam, proof.amount.convertToBeamString())
+        amountValue.text = (proof.amount.convertToBeamString() + getString(R.string.currency_beam)).toLowerCase()
         kernelIdValue.text = proof.kernelId
 
         TransitionManager.beginDelayedTransition(proofContainer)
@@ -80,17 +80,17 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
     }
 
     override fun showCopiedMessage() {
-        showSnackBar(getString(R.string.common_copied_alert))
+        showSnackBar(getString(R.string.copied))
     }
 
     override fun getDetailsContent(proof: PaymentProof): String {
-        return "${getString(R.string.payment_proof_details_sender)} " +
+        return "${getString(R.string.sender)} " +
                 "${proof.senderId} \n" +
-                "${getString(R.string.payment_proof_details_receiver)} " +
+                "${getString(R.string.receiver)} " +
                 "${proof.receiverId} \n" +
-                "${getString(R.string.payment_proof_details_amount)} " +
-                "${getString(R.string.payment_proof_details_beam, proof.amount.convertToBeamString()).toUpperCase()} \n" +
-                "${getString(R.string.payment_proof_details_kernel_id)} " +
+                "${getString(R.string.amount)} " +
+                "${(proof.amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()} \n" +
+                "${getString(R.string.kernel_id)} " +
                 proof.kernelId
     }
 

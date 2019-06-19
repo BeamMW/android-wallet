@@ -34,8 +34,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.Status
@@ -64,7 +62,7 @@ class ScreenDelegate {
     fun showSnackBar(status: Status, activity: androidx.core.app.ComponentActivity) {
         showSnackBar(
                 when (status) {
-                    Status.STATUS_OK -> activity.getString(R.string.common_successful)
+                    Status.STATUS_OK -> activity.getString(R.string.done)
                     Status.STATUS_ERROR -> activity.getString(R.string.common_error)
                 }, activity
         )

@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.item_utxo.*
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
-    override fun getToolbarTitle(): String? = getString(R.string.utxo_details_title)
+    override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
     override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(arguments!!).utxo
 
     override fun init(utxo: Utxo) {
@@ -59,18 +59,18 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         })
 
         status.text = when (utxo.status) {
-            UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> getString(R.string.utxo_status_in_progress)
-            UtxoStatus.Maturing -> getString(R.string.utxo_status_maturing)
-            UtxoStatus.Spent -> getString(R.string.utxo_status_spent)
-            UtxoStatus.Available -> getString(R.string.utxo_status_available)
-            UtxoStatus.Unavailable -> getString(R.string.utxo_status_unavailable)
+            UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> getString(R.string.in_progress)
+            UtxoStatus.Maturing -> getString(R.string.maturing)
+            UtxoStatus.Spent -> getString(R.string.spent)
+            UtxoStatus.Available -> getString(R.string.available)
+            UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }
 
         detailedStatus.visibility = View.VISIBLE
         detailedStatus.text = when (utxo.status) {
-            UtxoStatus.Incoming -> getString(R.string.utxo_status_incoming)
-            UtxoStatus.Change -> getString(R.string.utxo_status_change)
-            UtxoStatus.Outgoing -> getString(R.string.utxo_status_outgoing)
+            UtxoStatus.Incoming -> getString(R.string.incoming)
+            UtxoStatus.Change -> getString(R.string.change)
+            UtxoStatus.Outgoing -> getString(R.string.outgoing)
             UtxoStatus.Unavailable -> getString(R.string.utxo_status_result_rollback)
             UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
                 detailedStatus.visibility = View.GONE
@@ -84,16 +84,16 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     private fun configUtxoDetails(utxo: Utxo) {
         utxoType.text = when (utxo.keyType) {
-            UtxoKeyType.Commission -> getString(R.string.utxo_type_commission)
-            UtxoKeyType.Coinbase -> getString(R.string.utxo_type_coinbase)
-            UtxoKeyType.Regular -> getString(R.string.utxo_type_regular)
-            UtxoKeyType.Change -> getString(R.string.utxo_type_change)
-            UtxoKeyType.Kernel -> getString(R.string.utxo_type_kernel)
-            UtxoKeyType.Kernel2 -> getString(R.string.utxo_type_kernel2)
-            UtxoKeyType.Identity -> getString(R.string.utxo_type_identity)
-            UtxoKeyType.ChildKey -> getString(R.string.utxo_type_childKey)
-            UtxoKeyType.Bbs -> getString(R.string.utxo_type_bbs)
-            UtxoKeyType.Decoy -> getString(R.string.utxo_type_decoy)
+            UtxoKeyType.Commission -> getString(R.string.commission)
+            UtxoKeyType.Coinbase -> getString(R.string.coinbase)
+            UtxoKeyType.Regular -> getString(R.string.regular)
+            UtxoKeyType.Change -> getString(R.string.change)
+            UtxoKeyType.Kernel -> getString(R.string.kernel)
+            UtxoKeyType.Kernel2 -> getString(R.string.kernel2)
+            UtxoKeyType.Identity -> getString(R.string.identity)
+            UtxoKeyType.ChildKey -> getString(R.string.childKey)
+            UtxoKeyType.Bbs -> getString(R.string.bbs)
+            UtxoKeyType.Decoy -> getString(R.string.decoy)
         }
     }
 

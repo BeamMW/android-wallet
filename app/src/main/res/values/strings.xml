@@ -3,75 +3,70 @@
     <string name="common_logo_text">Scalable confidential cryptocurrency</string>
     <string name="common_testnet">Testnet</string>
     <string name="common_masternet">Masternet</string>
-    <string name="common_successful">done!</string>
+    <string name="done">Done</string>
     <string name="common_error">Oops, something went wrong…</string>
-    <string name="common_status_online">online</string>
-    <string name="common_status_updating">updating</string>
-    <string name="common_status_error">Cannot connect to node: %s</string>
-    <string name="common_drawer_open">open</string>
-    <string name="common_drawer_close">close</string>
-    <string name="common_cancel">Cancel</string>
-    <string name="common_delete">Delete</string>
-    <string name="common_done">done</string>
-    <string name="common_confirm">Confirm</string>
-    <string name="common_change">Change</string>
-    <string name="common_ok">OK</string>
-    <string name="common_undo">UNDO</string>
-    <string name="common_next">next</string>
-    <string name="common_activate">Activate</string>
-    <string name="common_copied_alert">Copied!</string>
-    <string name="common_menu_more">more</string>
-    <string name="common_share_qr">share qr</string>
+    <string name="online">Online</string>
+    <string name="updating">Updating</string>
+    <string name="common_status_error">Cannot connect to node</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="confirm">Confirm</string>
+    <string name="change">Change</string>
+    <string name="ok">OK</string>
+    <string name="undo">Undo</string>
+    <string name="next">Next</string>
+    <string name="activate">Activate</string>
+    <string name="copied">Copied!</string>
+    <string name="more">More</string>
+    <string name="share_qr">Share qr</string>
     <string name="common_security_mode_title">Activate security mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Too many attempts. Please, log in using password.</string>
     <string name="common_share_title">Share…</string>
     <string name="common_external_link_dialog_title">External link</string>
     <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose "Cancel". You can chage your choice in app setting anytime.</string>
-    <string name="currency_beam">beam</string>
-    <string name="currency_groth">groth</string>
+    <string name="currency_beam">Beam</string>
+    <string name="currency_groth">Groth</string>
     <string name="error_no_internet_connection">No Internet connection</string>
     <string name="error_incorrect_node">Incorrect node name or no Internet connection</string>
     <string name="common_stay_active_title">Stay active</string>
-    <string name="common_stay_active_message">Do not close the wallet otherwise transation will not be completed</string>
+    <string name="common_stay_active_message">Do not close the wallet otherwise transaction will not be completed</string>
 
     <!--NavigationDrawer-->
     <string name="nav_dashboard">Dashboard</string>
-    <string name="nav_wallet">Wallet</string>
-    <string name="nav_address_book">Address book</string>
-    <string name="nav_utxo">UTXO</string>
-    <string name="nav_notifications">Notifications</string>
-    <string name="nav_help">Help</string>
-    <string name="nav_settings">Settings</string>
+    <string name="wallet">Wallet</string>
+    <string name="address_book">Address book</string>
+    <string name="notifications">Notifications</string>
+    <string name="help">Help</string>
+    <string name="settings">Settings</string>
 
     <!--Welcome-->
-    <string name="welcome_create_wallet">create new wallet</string>
-    <string name="welcome_restore">Restore wallet</string>
+    <string name="create_new_wallet">Create new wallet</string>
+    <string name="restore_wallet">Restore wallet</string>
     <string name="welcome_restore_or_create">Restore wallet or create new one</string>
-    <string name="welcome_generate_seed_phrase">generate seed phrase</string>
-    <string name="welcome_i_agree">I agree</string>
+    <string name="welcome_generate_seed_phrase">Generate seed phrase</string>
+    <string name="i_agree">I agree</string>
     <string name="welcome_restore_notification">You are trying to restore an existing Beam Wallet. Please notice that if you use your wallet on another device, your balance will be up to date, but  transaction history and addresses will be kept separately on each device.</string>
-    <string name="welcome_next">next</string>
-    <string name="welcome_recover">restore wallet</string>
-    <string name="welcome_copy_to_clipboard">copy</string>
-    <string name="welcome_title">Create new wallet</string>
+    <string name="copy">Copy</string>
     <string name="welcome_description">Create new wallet by generating seed phrase. If you ever lose your device, you will need this phrase to recover your wallet! Never type your seed phrase in keychains or password managers. Never save it in your local or remote folders in any form.</string>
     <string name="welcome_no_see">Do not let anyone see your seed phrase.</string>
     <string name="welcome_no_type">Never type your seed phrase into password managers or elsewhere.</string>
     <string name="welcome_copy">Make at least 2 copies of the phrase in case of emergency.</string>
-    <string name="welcome_pass_hint">Password</string>
+    <string name="password">Password</string>
     <string name="welcome_title_change_alert">Restore wallet or create new one</string>
-    <string name="welcome_change_alert">If you\'ll restore a wallet all transaction history and addresses will be lost.</string>
+    <string name="welcome_change_alert">If you’ll restore a wallet all transaction history and addresses will be lost.</string>
     <string name="welcome_btn_change_alert">Proceed</string>
     <string name="welcome_where_to_buy_beam">Where to buy BEAM?</string>
 
     <!--PasswordFragment-->
-    <string name="pass_proceed_to_wallet">start using your wallet</string>
-    <string name="pass_save_new">save new password</string>
+    <string name="pass_proceed_to_wallet">Start using your wallet</string>
+    <string name="pass_save_new">Save new password</string>
 
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">open my wallet</string>
-    <string name="welcome_open_description">Enter your password to access the wallet.</string>
+    <string name="welcome_open">Open my wallet</string>
+    <string name="enter_your_password_to_access_the_wallet">Enter your password to access the wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Use Touch ID or enter your password\nto access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
@@ -86,7 +81,6 @@
     <string name="welcome_validation_return_seed_message">Your current seed will become obsolete and the new seed will be generated</string>
 
     <!--WelcomeRestoreFragment-->
-    <string name="welcome_restore_title">Restore wallet</string>
     <string name="welcome_restore_description">Type in your seed phrase</string>
 
     <!--WelcomeProgressFragment-->
@@ -94,141 +88,124 @@
     <string name="welcome_progress_open">Loading wallet</string>
     <string name="welcome_progress_restore">Restoring wallet</string>
     <string name="welcome_progress_restore_error_title">Wallet restore failure</string>
-    <string name="welcome_progress_restore_error_description">The wallet can\'t connect to the node. Please try again later.</string>
+    <string name="welcome_progress_restore_error_description">The wallet can’t connect to the node. Please try again later.</string>
     <string name="welcome_progress_restore_btn_try_again">Try again</string>
     <string name="welcome_progress_cancel_restore_title">Canceling restore</string>
     <string name="welcome_progress_cancel_restore_description">You are going to cancel restore process. All data will be lost. Do you want to continue?</string>
-    <string name="welcome_progress_update_utxo_description">Scanning UTXO %1$d/%2$d</string>
-    <string name="welcome_progress_restore_description">Restored %d\%%</string>
-    <string name="welcome_progress_restore_full_description">Please wait for synchronization and do not close or minimize the application.\n\n Only the wallet balance (UTXO) can be restored,  transaction info is always private
-and never kept in the blockchain.</string>
+    <string name="welcome_progress_update_utxo_description">Scanning UTXO</string>
+    <string name="welcome_progress_restore_description">Restored</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application.</string>
+    <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
 
     <!--PasswordFragment-->
-    <string name="pass_title">Password</string>
     <string name="pass_screen_description">Create password to access your wallet</string>
     <string name="pass_screen_change_description">Create new password to access your wallet</string>
-    <string name="pass_not_match">Passwords do not match</string>
-    <string name="pass_description">Strong password needs to meet the following requirements:\n
-•  the length must be at least 10 characters\n
-•  must contain at least one lowercase letter\n
-•  must contain at least one uppercase letter\n
-•  must contain at least one number</string>
-    <string name="pass_not_much">Passwords do not match</string>
-    <string name="pass_empty_error">Password can not be empty</string>
+    <string name="password_not_match">Passwords do not match</string>
+    <string name="pass_description_title">Strong password needs to meet the following requirements:</string>
+    <string name="pass_description_chars">•  the length must be at least 10 characters</string>
+    <string name="pass_description_lowercase">•  must contain at least one lowercase letter</string>
+    <string name="pass_description_uppercase">•  must contain at least one uppercase letter</string>
+    <string name="pass_description_number">•  must contain at least one number</string>
+    <string name="password_can_not_be_empty">Password can not be empty</string>
     <string name="pass_old_pass_error">New password cannot be the same as old</string>
     <string name="pass_wrong">Wrong password</string>
-    <string name="confirm_pass_hint">Confirm password</string>
-    <string name="pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won\’t be saved.</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won’t be saved.</string>
     <string name="pass_back_seed_title">Back to seed phrase</string>
     <string name="pass_return_seed_title">Return to seed phrase</string>
-    <string name="pass_return_seed_btn_create_new">generate</string>
+    <string name="pass_return_seed_btn_create_new">Generate</string>
 
     <!--WalletFragment-->
-    <string name="wallet_title">Wallet</string>
     <string name="wallet_sent_message">Beams sent</string>
-    <string name="wallet_available">Available</string>
-    <string name="wallet_in_progress">In progress</string>
-    <string name="wallet_receiving">Receiving</string>
-    <string name="wallet_sending">Sending</string>
-    <string name="wallet_maturing">(maturing)</string>
-    <string name="wallet_btn_receive">receive</string>
-    <string name="wallet_btn_send">send</string>
-    <string name="wallet_status_completed">completed&#160;</string>
-    <string name="wallet_status_received">received&#160;</string>
-    <string name="wallet_status_sent">sent&#160;</string>
-    <string name="wallet_status_receiving">receiving&#160;</string>
-    <string name="wallet_status_sending">sending&#160;</string>
-    <string name="wallet_status_in_progress_sender">waiting for sender&#160;</string>
-    <string name="wallet_status_in_progress_receiver">waiting for receiver&#160;</string>
-    <string name="wallet_status_failed">failed&#160;</string>
-    <string name="wallet_status_expired">expired&#160;</string>
-    <string name="wallet_status_cancelled">cancelled&#160;</string>
-    <string name="wallet_status_pending">pending&#160;</string>
-    <string name="wallet_transactions_title">Transactions</string>
-    <string name="wallet_empty_transactions_list_message">your transaction history will appear here</string>
-    <string name="wallet_transactions_receive">Receive %s</string>
-    <string name="wallet_transactions_send">Send %s</string>
-    <string name="wallet_transactions_menu_search">Search</string>
-    <string name="wallet_transactions_menu_filter">Filter</string>
-    <string name="wallet_transactions_menu_export">Export</string>
-    <string name="wallet_transactions_menu_proof">Payment proof</string>
-    <string name="wallet_transactions_menu_delete">Delete</string>
+    <string name="available">Available</string>
+    <string name="in_progress">In progress</string>
+    <string name="receiving">Receiving</string>
+    <string name="sending">Sending</string>
+    <string name="maturing">Maturing</string>
+    <string name="receive">Receive</string>
+    <string name="send">Send</string>
+    <string name="completed">Completed</string>
+    <string name="received">Received</string>
+    <string name="sent">Sent</string>
+    <string name="wallet_status_in_progress_sender">Waiting for sender</string>
+    <string name="wallet_status_in_progress_receiver">Waiting for receiver</string>
+    <string name="failed">Failed</string>
+    <string name="expired">Expired</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="pending">Pending</string>
+    <string name="transactions">Transactions</string>
+    <string name="wallet_empty_transactions_list_message">Your transaction history will appear here</string>
+    <string name="search">Search</string>
+    <string name="filter">Filter</string>
+    <string name="export">Export</string>
+    <string name="payment_proof">Payment proof</string>
 
     <!--UtxoFragment-->
-    <string name="utxo_title">UTXO</string>
-    <string name="utxo_tab_active">Active</string>
-    <string name="utxo_tab_all">All</string>
-    <string name="utxo_status_available">available&#160;</string>
-    <string name="utxo_status_incoming">(incoming)&#160;</string>
-    <string name="utxo_status_in_progress">in progress&#160;</string>
-    <string name="utxo_status_change">(change)&#160;</string>
-    <string name="utxo_status_outgoing">(outgoing)&#160;</string>
-    <string name="utxo_status_maturing">maturing&#160;</string>
-    <string name="utxo_status_spent">spent&#160;</string>
-    <string name="utxo_status_unavailable">unavailable&#160;</string>
-    <string name="utxo_status_result_rollback">(mining result rollback)&#160;</string>
-    <string name="utxo_blockchain_height">Blockchain Height:</string>
-    <string name="utxo_last_block_hash">Last block hash:</string>
-    <string name="utxo_security_message">You’re currently in Security Mode.\nTurn it off to see your UTXO list. </string>
+    <string name="utxo">UTXO</string>
+    <string name="active">Active</string>
+    <string name="all">All</string>
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="spent">Spent</string>
+    <string name="unavailable">Unavailable</string>
+    <string name="utxo_status_result_rollback">Mining result rollback</string>
+    <string name="blockchain_height">Blockchain Height</string>
+    <string name="last_block_hash">Last block hash</string>
+    <string name="utxo_security_message">You’re currently in Security Mode.</string>
+    <string name="utxo_turn_off_see_utxo">Turn it off to see your UTXO list.</string>
 
     <!--UtxoDetailsFragment-->
-    <string name="utxo_details_title">UTXO details</string>
-    <string name="utxo_transaction_details">UTXO details</string>
-    <string name="utxo_kernel_id">Kernel ID:</string>
-    <string name="utxo_type">UTXO type:</string>
-    <string name="utxo_completion_time">Completion time:</string>
-    <string name="utxo_contact">Contact:</string>
-    <string name="utxo_transaction_history">UTXO history</string>
-    <string name="utxo_type_commission">Commission</string>
-    <string name="utxo_type_coinbase">Coinbase</string>
-    <string name="utxo_type_decoy">Decoy</string>
-    <string name="utxo_type_regular">Regular</string>
-    <string name="utxo_type_change">Change</string>
-    <string name="utxo_type_kernel">Kernel</string>
-    <string name="utxo_type_kernel2">Kernel2</string>
-    <string name="utxo_type_identity">Identity</string>
-    <string name="utxo_type_childKey">ChildKey</string>
-    <string name="utxo_type_bbs">Bbs</string>
-    <string name="utxo_time_title">Date | time</string>
-    <string name="utxo_id_title">ID</string>
+    <string name="utxo_details">UTXO details</string>
+    <string name="kernel_id">Kernel ID</string>
+    <string name="utxo_type">UTXO type</string>
+    <string name="completion_time">Completion time</string>
+    <string name="contact">Contact</string>
+    <string name="utxo_history">UTXO history</string>
+    <string name="commission">Commission</string>
+    <string name="coinbase">Coinbase</string>
+    <string name="decoy">Decoy</string>
+    <string name="regular">Regular</string>
+    <string name="kernel">Kernel</string>
+    <string name="kernel2">Kernel2</string>
+    <string name="identity">Identity</string>
+    <string name="childKey">ChildKey</string>
+    <string name="bbs">Bbs</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="id">ID</string>
 
     <!--TransactionDetailsFragment-->
-    <string name="transaction_details_title">Transaction details</string>
-    <string name="transaction_details_general_info">General transaction info</string>
-    <string name="transaction_details_start_address">Sending address:</string>
-    <string name="transaction_details_end_address">Receiving address:</string>
-    <string name="transaction_details_currencies_amount">Currency amount:</string>
-    <string name="transaction_details_transaction_fee">Transaction fee:</string>
-    <string name="transaction_details_comment">Comment:</string>
-    <string name="transaction_details_transaction_id">Transaction ID:</string>
-    <string name="transaction_details_kernel_id">Kernel ID:</string>
-    <string name="transaction_details_transaction_history">Transaction history</string>
-    <string name="transaction_details_menu_repeat">Repeat transaction</string>
-    <string name="transaction_details_menu_save">Save peer address</string>
-    <string name="transaction_details_menu_copy_address">Copy address</string>
-    <string name="transaction_details_menu_cancel">Cancel transaction</string>
-    <string name="transaction_details_menu_delete">Delete transaction</string>
-    <string name="transaction_details_utxo_list">Transaction UTXO list:</string>
-    <string name="transaction_details_payment_proof">Payment proof</string>
-    <string name="transaction_details_details_btn_text">details</string>
-    <string name="transaction_details_copy_to_clipboard">copy</string>
+    <string name="transaction_details">Transaction details</string>
+    <string name="general_transaction_info">General transaction info</string>
+    <string name="sending_address">Sending address</string>
+    <string name="receiving_address">Receiving address</string>
+    <string name="currency_amount">Currency amount</string>
+    <string name="transaction_fee">Transaction fee</string>
+    <string name="comment">Comment</string>
+    <string name="transaction_id">Transaction ID</string>
+    <string name="transaction_history">Transaction history</string>
+    <string name="repeat_transaction">Repeat transaction</string>
+    <string name="save_peer_address">Save peer address</string>
+    <string name="copy_address">Copy address</string>
+    <string name="cancel_transaction">Cancel transaction</string>
+    <string name="delete_transaction">Delete transaction</string>
+    <string name="transaction_utxo_list">Transaction UTXO list</string>
+    <string name="details">Details</string>
     <string name="transaction_details_open_in_explorer">Open in Block Explorer</string>
 
     <!--ReceiveFragment-->
-    <string name="receive_title">Receive</string>
-    <string name="receive_switch_title">Swap</string>
-    <string name="receive_send_annotation">Annotation</string>
-    <string name="receive_expires_on">Expires</string>
-    <string name="receive_send_annotation_description">Annotation are local and won\'t be shared.</string>
-    <string name="receive_btn_share">share address</string>
-    <string name="receive_btn_qr">show QR</string>
-    <string name="receive_send_fee">Transaction fee</string>
-    <string name="receive_token_title">ADDRESS</string>
-    <string name="receive_token_title_generated">ADDRESS (autogenerated)</string>
-    <string name="receive_dialog_category">(%1$s)</string>
-    <string name="receive_token_description">Send this address to the sender over an external secure channel. \n\n Please notice, that both you and sender should be online to succeed transaction!</string>
-    <string name="receive_token_via_qr_description">Send this address to the sender over an external secure channel. \n\n Please notice, that both you and sender should be online to succeed transaction!</string>
-    <string name="receive_amount_title">REQUEST AN AMOUNT (optional)</string>
+    <string name="swap">Swap</string>
+    <string name="annotation">Annotation</string>
+    <string name="expires">Expires</string>
+    <string name="receive_send_annotation_description">Annotation are local and won’t be shared.</string>
+    <string name="share_address">Share address</string>
+    <string name="show_qr">show QR</string>
+    <string name="addresses">Addresses</string>
+    <string name="autogenerated">Autogenerated</string>
+    <string name="receive_token_description">Send this address to the sender over an external secure channel.</string>
+    <string name="receive_token_description_online">Please notice, that both you and sender should be online to succeed transaction!</string>
+    <string name="request_an_amount">Request an amount</string>
+    <string name="optional">Optional</string>
     <string name="name">Name</string>
     <string name="edit_address">Edit address</string>
     <string name="advanced">Advanced</string>
@@ -238,150 +215,116 @@ and never kept in the blockchain.</string>
     </string-array>
 
     <!--SendFragment-->
-    <string name="send_title">Send</string>
-    <string name="send_token_title">Send to</string>
-    <string name="send_token_description">Input or scan the recipient\'s address</string>
-    <string name="send_amount_title">Transaction amount</string>
-    <string name="send_btn_title">send</string>
-    <string name="send_amount_empty_error">Amount field can\'t be empty</string>
-    <string name="send_amount_zero_error">Amount can\'t be 0 BEAM</string>
-    <string name="send_amount_overflow_error">Maximum available amount is %1$s B</string>
-    <string name="send_insufficient_funds_error">Insufficient funds</string>
-    <string name="send_error_invalid_address">Invalid address</string>
-    <string name="send_error_expired_address">Can\'t send to the expired address</string>
+    <string name="send_token_description">Input or scan the recipient’s address</string>
+    <string name="send_amount_empty_error">Amount field can’t be empty</string>
+    <string name="send_amount_zero_error">Amount can’t be 0 BEAM</string>
+    <string name="send_amount_overflow_error">Maximum available amount is</string>
+    <string name="insufficient_funds">Insufficient funds</string>
+    <string name="invalid_address">Invalid address</string>
+    <string name="send_error_expired_address">Can’t send to the expired address</string>
     <string name="send_permission_required_title">Permission is required</string>
     <string name="send_permission_required_message">Please, grant camera permission for using QR scanner</string>
-    <string name="send_permission_required_settings">settings</string>
     <string name="send_error_not_beam_address">The scanned code is not a Beam wallet address</string>
-    <string name="send_error_paste">Can\'t paste an invalid address</string>
+    <string name="send_error_paste">Can’t paste an invalid address</string>
     <string name="send_confirm_transaction_details">Confirm transaction details</string>
-    <string name="send_recipient">Recipient:</string>
-    <string name="send_amount">Amount:</string>
+    <string name="recipient">Recipient</string>
+    <string name="amount">Amount</string>
     <string name="send_dialog_description">To broadcast your transaction please enter your password</string>
     <string name="send_dialog_description_with_fingerprint">To broadcast your transaction please use your fingerprint or enter your password</string>
-    <string name="send_amount_beam">%1$s BEAM</string>
-    <string name="send_fee_groth">%1$s GROTH</string>
-    <string name="send_available_title">Total available:</string>
-    <string name="send_send_all">send all</string>
+    <string name="total_available">Total available</string>
+    <string name="send_all">Send all</string>
+    <string name="transaction_comment">Transaction comment</string>
+    <string name="wont_be_shared">won’t be shared</string>
+    <string name="outgoing_address">Outgoing address</string>
 
     <!--SettingsFragment-->
-    <string name="settings_title">Settings</string>
     <string name="settings_report">Report a problem</string>
-    <string name="settings_owner_key">Show owner key</string>
     <string name="settings_change_pass">Change wallet password</string>
-    <string name="settings_version">App Version:&#160;</string>
+    <string name="settings_version">App Version</string>
     <string name="settings_send_logs_description">Send logs…</string>
-    <string name="settings_node">Node</string>
+    <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General settings</string>
-    <string name="settings_categories">Categories</string>
-    <string name="settings_add_new_category">Add new category</string>
-    <string name="settings_lock_screen">Lock screen</string>
-    <string name="settings_never">Never</string>
-    <string name="settings_after_seconds">After %1$s seconds</string>
-    <string name="settings_after_minute">After %1$s minute</string>
+    <string name="categories">Categories</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="lock_screen">Lock screen</string>
+    <string name="never">Never</string>
+    <string name="after">After</string>
+    <string name="seconds">seconds</string>
+    <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
     <string name="settings_run_random_node">Run random node</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
     <string name="settings_allow_open_link">Allow open external link</string>
-    <string name="settings_dialog_confirm_password_title">Confirm password</string>
-    <string name="settings_dialog_node_error">invalid node address</string>
+    <string name="settings_dialog_node_error">Invalid node address</string>
     <string name="settings_dialog_node_title">Node address</string>
     <string name="settings_dialog_clear_title">Clear data</string>
     <string name="settings_dialog_clear_addresses">Delete all addresses</string>
     <string name="settings_dialog_clear_contacts">Delete all contacts</string>
     <string name="settings_dialog_clear_transactions">Delete all transactions</string>
     <string name="settings_confirm_clear_message">Are you sure you want to delete all %1$s from your wallet?</string>
-    <string name="settings_confirm_clear_addresses">addresses</string>
-    <string name="settings_confirm_clear_contacts">contacts</string>
-    <string name="settings_confirm_clear_transaction">transaction</string>
+    <string name="contacts">Contacts</string>
+    <string name="transaction">Transaction</string>
 
 
     <!--ProgressFragment-->
-    <string name="progress_loading">Loading wallet</string>
+    <string name="loading_wallet">Loading wallet</string>
 
     <!--AddressesFragment-->
-    <string name="addresses_title">Addresses</string>
     <string name="addresses_tab_active">My active addresses</string>
     <string name="addresses_tab_expired">My expired addresses</string>
-    <string name="addresses_tab_contacts">Contacts</string>
-    <string name="addresses_expires">Expires: %1$s</string>
-    <string name="addresses_expired">Expired: %1$s</string>
-    <string name="addresses_never">never</string>
 
     <!--AddressFragment-->
-    <string name="address_title">Address</string>
-    <string name="address_contact_token_title">Contact:</string>
-    <string name="address_menu_qr">Show QR code</string>
-    <string name="address_menu_copy">Copy address</string>
-    <string name="address_menu_edit">Edit address</string>
-    <string name="address_menu_delete">Delete address</string>
-    <string name="address_transactions_title">Transactions list</string>
-    <string name="address_address_id">Address ID:</string>
-    <string name="address_expiration_date">Expiration date:</string>
-    <string name="address_category">Category:</string>
-    <string name="address_annotation">Annotation:</string>
+    <string name="address">Address</string>
+    <string name="show_qr_code">Show QR code</string>
+    <string name="delete_address">Delete address</string>
+    <string name="transactions_list">Transactions list</string>
+    <string name="address_id">Address ID</string>
+    <string name="expiration_date">Expiration date</string>
+    <string name="category">Category</string>
 
     <!--EditAddressFragment-->
-    <string name="edit_address_title">Edit address</string>
-    <string name="edit_address_id">Address ID:</string>
-    <string name="edit_address_expire_title">Expires</string>
-    <string name="edit_address_expire_now">Expire address now</string>
-    <string name="edit_address_expire_activate">Activate address</string>
-    <string name="edit_address_btn_save">save</string>
-    <string name="edit_address_expired_title">Expired:</string>
-    <string name="edit_address_expires_now_value">now</string>
-    <string name="edit_address_annotation">Annotation</string>
-    <string name="edit_address_category">Category</string>
+    <string name="expire_address_now">Expire address now</string>
+    <string name="active_address">Activate address</string>
+    <string name="save">Save</string>
+    <string name="now">Now</string>
     <string name="edit_address_category_empty_message">You can create category in Settings</string>
-    <string name="edit_address_category_none_name">None</string>
+    <string name="none">None</string>
 
     <!--CheckOldPassActivity-->
-    <string name="check_old_pass_title">Change password</string>
-    <string name="check_old_pass_description">Enter your current password</string>
-    <string name="check_old_pass_empty_error">Password can not be empty</string>
+    <string name="change_password">Change password</string>
+    <string name="enter_your_current_password">Enter your current password</string>
     <string name="check_old_pass_wrong_pass_error">The old password you have entered is incorrect</string>
 
     <!--ScanQrActivity-->
-    <string name="scan_qr_title">Scan QR code</string>
+    <string name="scan_qr_code">Scan QR code</string>
 
     <!--PaymentProofActivity-->
-    <string name="payment_proof_details_toolbar_title">Payment proof</string>
-    <string name="payment_proof_verification_toolbar_title">Payment proof verification</string>
-    <string name="payment_proof_verification_title">Paste your payment proof here</string>
+    <string name="payment_proof_verification">Payment proof verification</string>
+    <string name="paste_your_payment_proof_here">Paste your payment proof here</string>
     <string name="payment_proof_verification_error">Cannot decode a proof, illegal sequence.</string>
-    <string name="payment_proof_details_copy_details">copy details</string>
-    <string name="payment_proof_details_copy_code">copy code</string>
-    <string name="payment_proof_details_beam">%1$s beam</string>
-    <string name="payment_proof_details_code">Code:</string>
-    <string name="payment_proof_details_title">Details</string>
-    <string name="payment_proof_details_sender">Sender:</string>
-    <string name="payment_proof_details_receiver">Receiver:</string>
-    <string name="payment_proof_details_amount">Amount:</string>
-    <string name="payment_proof_details_kernel_id">Kernel ID:</string>
+    <string name="copy_details">Copy details</string>
+    <string name="copy_code">Copy code</string>
+    <string name="code">Code</string>
+    <string name="sender">Sender</string>
+    <string name="receiver">Receiver</string>
 
     <!--CategoryFragment-->
-    <string name="category_toolbar_title">Category</string>
-    <string name="category_name">Name:</string>
-    <string name="category_addresses">Addresses</string>
-    <string name="category_edit">Edit</string>
-    <string name="category_delete_dialog_title">Delete category</string>
-    <string name="category_delete_dialog_message">Are you sure you want to delete %1$s category?</string>
+    <string name="edit">Edit</string>
+    <string name="delete_category">Delete category</string>
+    <string name="category_delete_dialog_message">Are you sure you want to delete</string>
 
     <!--EditCategory-->
-    <string name="edit_category_toolbar_title">Edit category</string>
-    <string name="edit_category_btn_save">save</string>
-    <string name="edit_category_name">Name</string>
-    <string name="edit_category_color">Color</string>
+    <string name="edit_category">Edit category</string>
+    <string name="color">Color</string>
 
     <!--OwnerKeyFragments-->
-    <string name="owner_key_toolbar_title">Show owner key</string>
+    <string name="show_owner_key">Show owner key</string>
     <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerpring ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingerprint authorization failed. Please try in a few minutes.</string>
-    <string name="owner_key_verification_title">Enter your password to access the wallet</string>
     <string name="owner_key_verification_title_with_finger">Enter your password and use Fingerprint ID to access the wallet</string>
     <string name="owner_key_verification_fingerprint_description">Please use Fingerprint ID to finish verification</string>
-    <string name="owner_key_code_title">Key code:</string>
+    <string name="key_code">Key code</string>
     <string name="owner_key_copied_message">Owner key code copied to clipboard</string>
     <string name="owner_key_code_description">Please notice, that knowing your owner key allows to know all your funds (UTXO). Make sure that you deploy the key at the node you trust completely.</string>
 
@@ -393,17 +336,20 @@ and never kept in the blockchain.</string>
     <string name="notification_channel_description">Default notification channel</string>
 
     <!--FingerprintDialog-->
-    <string name="touch_sensor_description">Touch sensor</string>
-    <string name="dialog_fingerprint_title">Fingerprint ID</string>
+    <string name="touch_sensor">Touch sensor</string>
+    <string name="fingerprint_id">Fingerprint ID</string>
 
     <!--ChangeAddressFragment-->
-    <string name="change_address_toolbar_title">Change address</string>
+    <string name="change_address">Change address</string>
 
     <!-- Language -->
-    <string name="language_title">Language</string>
+    <string name="language">Language</string>
     <string name="language_dialog_message">In order for the language settings to take effect the app needs to be restarted</string>
-    <string name="language_restart_now">restart now</string>
+    <string name="restart_now">Restart now</string>
+
+
     <string name="existing_addresses">Existing addresses</string>
-    <string name="requested_amount">REQUESTED AMOUNT</string>
+    <string name="requested_amount">Requested amount</string>
+    <string name="paste_address_or_choose_contact">Paste address or choose contact</string>
 
 </resources>

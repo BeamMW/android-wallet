@@ -32,7 +32,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     private lateinit var pagerAdapter: AddressesPagerAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_addresses
-    override fun getToolbarTitle(): String? = getString(R.string.addresses_title)
+    override fun getToolbarTitle(): String? = getString(R.string.addresses)
 
     override fun init() {
         val context = context ?: return

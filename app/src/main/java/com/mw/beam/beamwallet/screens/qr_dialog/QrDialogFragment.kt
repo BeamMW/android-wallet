@@ -50,7 +50,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
         amountTitle.visibility = amountVisibility
         amountView.visibility = amountVisibility
 
-        amountView.text = getString(R.string.send_amount_beam, amount.convertToBeamString())
+        amountView.text = (amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()
 
         btnShare.setOnClickListener { presenter?.onSharePressed() }
         close.setOnClickListener { findNavController().popBackStack() }

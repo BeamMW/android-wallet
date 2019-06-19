@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.check_old_pass
 
-import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
@@ -40,7 +39,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_check_old_pass
-    override fun getToolbarTitle(): String? = getString(R.string.check_old_pass_title)
+    override fun getToolbarTitle(): String? = getString(R.string.change_password)
 
     override fun init() {
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
@@ -62,7 +61,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
 
         if (pass.text.isNullOrBlank()) {
             passError.visibility = View.VISIBLE
-            passError.text = getString(R.string.check_old_pass_empty_error)
+            passError.text = getString(R.string.password_can_not_be_empty)
             pass.isStateError = true
             hasErrors = true
         }

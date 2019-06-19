@@ -51,7 +51,7 @@
                     style="@style/common_button_style"
                     android:layout_marginBottom="@dimen/welcome_seed_button_margin"
                     app:button_icon="@drawable/ic_btn_recover"
-                    app:button_text="@string/welcome_recover"
+                    app:button_text="@string/restore_wallet"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />

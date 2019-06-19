@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/send_dialog_card_offset"
             android:layout_marginTop="@dimen/send_dialog_content_offset"
-            android:text="@string/send_recipient"
+            android:text="@string/recipient"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dialogTitle" />
 
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/send_dialog_card_offset"
             android:layout_marginTop="@dimen/send_dialog_content_offset"
-            android:text="@string/send_amount"
+            android:text="@string/amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recipientValue" />
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/send_dialog_card_offset"
             android:layout_marginTop="@dimen/send_dialog_transaction_fee_margin_top"
-            android:text="@string/transaction_details_transaction_fee"
+            android:text="@string/transaction_fee"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountValue" />
 
@@ -139,7 +139,7 @@
                 style="@style/welcome_password_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/welcome_pass_hint"
+                android:hint="@string/password"
                 tools:ignore="Autofill,LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +152,7 @@
             android:layout_marginEnd="@dimen/settings_card_offset"
             android:fontFamily="@font/roboto_regular"
             android:paddingTop="@dimen/welcome_passwords_items_offset"
-            android:text="@string/pass_not_much"
+            android:text="@string/password_not_match"
             android:textColor="@color/common_error_color"
             android:visibility="invisible"
             app:layout_constraintTop_toBottomOf="@id/passLayout" />
@@ -165,7 +165,7 @@
             android:layout_marginBottom="@dimen/send_dialog_content_offset"
             app:button_icon="@drawable/ic_btn_send"
             android:background="@drawable/send_button"
-            app:button_text="@string/send_btn_title"
+            app:button_text="@string/send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

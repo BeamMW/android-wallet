@@ -33,14 +33,14 @@
                 style="@style/transaction_details_title"
                 android:paddingTop="@dimen/transaction_details_title_padding_top"
                 android:paddingBottom="@dimen/transaction_details_title_padding_bottom"
-                android:text="@string/utxo_transaction_details"
+                android:text="@string/transaction_details"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/kernelIdTitle"
                 style="@style/transaction_details_sub_title"
-                android:text="@string/utxo_kernel_id"
+                android:text="@string/kernel_id"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/utxoDetailsTitle" />
 
@@ -70,7 +70,7 @@
             <TextView
                 android:id="@+id/completionTimeTitle"
                 style="@style/transaction_details_sub_title"
-                android:text="@string/utxo_completion_time"
+                android:text="@string/completion_time"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/utxoType" />
@@ -87,7 +87,7 @@
             <TextView
                 android:id="@+id/contactTitle"
                 style="@style/transaction_details_sub_title"
-                android:text="@string/utxo_contact"
+                android:text="@string/contact"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/completionTime" />
@@ -112,7 +112,7 @@
                 android:id="@+id/utxoHistoryTitle"
                 style="@style/transaction_details_title"
                 android:paddingTop="@dimen/transaction_details_title_padding_top"
-                android:text="@string/utxo_transaction_history"
+                android:text="@string/utxo_history"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/contact" />
 

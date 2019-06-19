@@ -24,7 +24,7 @@
             android:id="@+id/description"
             style="@style/welcome_description_text_style"
             android:paddingTop="@dimen/common_passwords_screen_description_padding_top"
-            android:text="@string/check_old_pass_description"
+            android:text="@string/enter_your_current_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +43,7 @@
                 style="@style/welcome_password_view_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/welcome_pass_hint"
+                android:hint="@string/password"
                 tools:ignore="Autofill,LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +66,7 @@
             android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
             android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
             app:button_icon="@drawable/ic_btn_proceed"
-            app:button_text="@string/common_next"
+            app:button_text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

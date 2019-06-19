@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.fragment_owner_key.*
 
 class OwnerKeyFragment: BaseFragment<OwnerKeyPresenter>(), OwnerKeyContract.View {
 
-    override fun getToolbarTitle(): String? = getString(R.string.owner_key_toolbar_title)
+    override fun getToolbarTitle(): String? = getString(R.string.show_owner_key)
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_owner_key
 
     override fun init(key: String) {
