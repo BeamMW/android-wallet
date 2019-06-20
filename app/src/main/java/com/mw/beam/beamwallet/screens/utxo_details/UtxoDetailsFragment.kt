@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo_details.*
 import kotlinx.android.synthetic.main.item_utxo.*
 
@@ -49,8 +50,14 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
         configUtxoDetails(utxo)
+
+        kernelIdTitle.addDoubleDots()
+        utxoTypeTitle.addDoubleDots()
+        completionTimeTitle.addDoubleDots()
+        contactTitle.addDoubleDots()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun configUtxoInfo(utxo: Utxo) {
         status.setTextColor(when (utxo.status) {
             UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(context!!, R.color.received_color)
@@ -64,19 +71,19 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Spent -> getString(R.string.spent)
             UtxoStatus.Available -> getString(R.string.available)
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
-        }
+        }.toLowerCase() + " "
 
         detailedStatus.visibility = View.VISIBLE
-        detailedStatus.text = when (utxo.status) {
+        detailedStatus.text = "(" + when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
             UtxoStatus.Change -> getString(R.string.change)
             UtxoStatus.Outgoing -> getString(R.string.outgoing)
             UtxoStatus.Unavailable -> getString(R.string.utxo_status_result_rollback)
             UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
                 detailedStatus.visibility = View.GONE
-                null //TODO add correct description for maturing
+                "" //TODO add correct description for maturing
             }
-        }
+        }.toLowerCase() + ") "
 
         amount.text = utxo.amount.convertToBeamString()
         utxoLayout.findViewById<TextView>(R.id.addressId).text = utxo.stringId

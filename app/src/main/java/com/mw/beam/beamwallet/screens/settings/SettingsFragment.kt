@@ -279,15 +279,15 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         val clearData = arrayListOf<String>()
 
         if (clearAddresses) {
-            clearData.add(getString(R.string.addresses))
+            clearData.add(getString(R.string.addresses).toLowerCase())
         }
 
         if (clearContacts) {
-            clearData.add(getString(R.string.contacts))
+            clearData.add(getString(R.string.contacts).toLowerCase())
         }
 
         if (clearTransactions) {
-            clearData.add(getString(R.string.transaction))
+            clearData.add(getString(R.string.transactions).toLowerCase())
         }
 
         showAlert(

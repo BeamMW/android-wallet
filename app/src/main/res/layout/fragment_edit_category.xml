@@ -60,6 +60,7 @@
     <com.mw.beam.beamwallet.core.views.BeamButton
         android:id="@+id/btnSave"
         android:layout_width="@dimen/send_transfer_btn_width"
+        app:lower_case="true"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/edit_category_content_margin"
         app:button_icon="@drawable/ic_btn_save"

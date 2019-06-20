@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.payment_proof_details
 
+import android.annotation.SuppressLint
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -23,18 +24,26 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_payment_proof_details.*
 
 class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
 
     override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(arguments!!).paymentProof
 
+    @SuppressLint("SetTextI18n")
     override fun init(paymentProof: PaymentProof) {
         senderValue.text = paymentProof.senderId
         receiverValue.text = paymentProof.receiverId
-        amountValue.text = (paymentProof.amount.convertToBeamString() + getString(R.string.currency_beam)).toLowerCase()
+        amountValue.text = "${paymentProof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
         kernelIdValue.text = paymentProof.kernelId
         codeValue.text = paymentProof.rawProof
+
+        codeTitle.addDoubleDots()
+        senderTitle.addDoubleDots()
+        receiverTitle.addDoubleDots()
+        amountTitle.addDoubleDots()
+        kernelIdTitle.addDoubleDots()
     }
 
     override fun getDetailsContent(paymentProof: PaymentProof): String {
@@ -43,7 +52,7 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
                 "${getString(R.string.receiver)} " +
                 "${paymentProof.receiverId} \n" +
                 "${getString(R.string.amount)} " +
-                "${(paymentProof.amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()} \n" +
+                "${"${paymentProof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()} \n" +
                 "${getString(R.string.kernel_id)} " +
                 paymentProof.kernelId
     }

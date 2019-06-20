@@ -6,6 +6,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_owner_key.*
 
 class OwnerKeyFragment: BaseFragment<OwnerKeyPresenter>(), OwnerKeyContract.View {
@@ -18,6 +19,8 @@ class OwnerKeyFragment: BaseFragment<OwnerKeyPresenter>(), OwnerKeyContract.View
         ownerKeyValue.visibility = View.VISIBLE
 
         ownerKeyValue.text = key
+
+        codeTitle.addDoubleDots()
     }
 
     override fun addListeners() {

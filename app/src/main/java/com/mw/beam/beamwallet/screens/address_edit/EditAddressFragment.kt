@@ -33,6 +33,7 @@ import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.fragment_edit_address.*
 
@@ -93,6 +94,9 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
             expiresSpinner.adapter = adapter
             expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
         }
+
+        idTitle.addDoubleDots()
+        expiredTitle.addDoubleDots()
     }
 
     override fun configCategory(currentCategory: Category?, categories: List<Category>) {

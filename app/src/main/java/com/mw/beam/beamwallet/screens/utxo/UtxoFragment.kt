@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.SystemState
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
 
 /**
@@ -51,6 +52,9 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
         setHasOptionsMenu(true)
+
+        blockchainHeightTitle.addDoubleDots()
+        blockchainHashTitle.addDoubleDots()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

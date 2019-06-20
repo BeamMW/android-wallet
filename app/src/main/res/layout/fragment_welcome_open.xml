@@ -76,6 +76,7 @@
             android:layout_marginBottom="@dimen/welcome_button_margin_offset"
             android:layout_marginTop="@dimen/welcome_open_margin_side"
             app:button_icon="@drawable/ic_btn_show"
+            app:lower_case="true"
             app:button_text="@string/welcome_open"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

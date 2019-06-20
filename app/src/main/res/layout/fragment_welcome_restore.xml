@@ -48,6 +48,7 @@
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnRestore"
+                    app:lower_case="true"
                     style="@style/common_button_style"
                     android:layout_marginBottom="@dimen/welcome_seed_button_margin"
                     app:button_icon="@drawable/ic_btn_recover"

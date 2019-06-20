@@ -89,23 +89,41 @@
                 tools:text="1000 BEAM" />
 
 
-            <TextView
+            <LinearLayout
                 android:id="@+id/tokenDescription"
-                style="@style/common_text_big_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/receive_common_qr_offset"
-                android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
-                android:layout_marginEnd="@dimen/receive_common_qr_offset"
-                android:layout_marginBottom="@dimen/receive_btn_margin"
-                android:gravity="center"
-                android:text="@string/receive_token_description"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toTopOf="@id/btnShare"
-                app:layout_constraintTop_toBottomOf="@id/amountView" />
+                app:layout_constraintTop_toBottomOf="@id/amountView" >
+                <TextView
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/receive_common_qr_offset"
+                    android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
+                    android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                    android:gravity="center"
+                    android:text="@string/receive_token_description" />
+                <TextView
+                    style="@style/common_text_big_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/receive_common_qr_offset"
+                    android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                    android:layout_marginBottom="@dimen/receive_btn_margin"
+                    android:gravity="center"
+                    android:text="@string/receive_token_description_online" />
+            </LinearLayout>
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnShare"
                 android:layout_width="@dimen/wallet_button_width"
+                app:lower_case="true"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
                 android:background="@drawable/receive_button"

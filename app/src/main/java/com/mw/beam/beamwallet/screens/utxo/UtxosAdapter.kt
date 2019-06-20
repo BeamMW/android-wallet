@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +58,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val utxo = data[position]
 
@@ -73,19 +75,19 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
                 UtxoStatus.Spent -> spentStatus
                 UtxoStatus.Available -> availableStatus
                 UtxoStatus.Unavailable -> unavailableStatus
-            }
+            }.toLowerCase() + " "
 
             detailedStatus.visibility = View.VISIBLE
-            detailedStatus.text = when (utxo.status) {
+            detailedStatus.text = "(" + when (utxo.status) {
                 UtxoStatus.Incoming -> incomingStatus
                 UtxoStatus.Change -> changeStatus
                 UtxoStatus.Outgoing -> outgoingStatus
                 UtxoStatus.Unavailable -> resultRollbackStatus
                 UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
                     detailedStatus.visibility = View.GONE
-                    null //TODO add correct description for maturing
+                    "" //TODO add correct description for maturing
                 }
-            }
+            }.toLowerCase() + ") "
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()

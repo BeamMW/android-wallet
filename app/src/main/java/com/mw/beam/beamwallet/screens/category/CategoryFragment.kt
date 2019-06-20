@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_category.*
 
@@ -56,6 +57,8 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)
 
         setHasOptionsMenu(true)
+
+        name.addDoubleDots()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

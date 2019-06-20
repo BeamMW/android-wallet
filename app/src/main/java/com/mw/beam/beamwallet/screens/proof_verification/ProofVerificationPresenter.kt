@@ -22,6 +22,11 @@ class ProofVerificationPresenter(view: ProofVerificationContract.View?, reposito
     : BasePresenter<ProofVerificationContract.View, ProofVerificationContract.Repository>(view, repository), ProofVerificationContract.Presenter {
     private val COPY_TAG = "PROOF_VERIFICATION"
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+        view?.init()
+    }
+
     override fun onProofCodeChanged(proof: String) {
         if (proof.isEmpty()) {
             view?.clear()

@@ -25,7 +25,7 @@
     <dimen name="toolbar_status_offset">10dp</dimen>
     <dimen name="toolbar_progress_size">12dp</dimen>
     <dimen name="navigation_width">304dp</dimen>
-    <dimen name="navigation_padding_top">29dp</dimen>
+    <dimen name="navigation_padding_top">55dp</dimen>
     <dimen name="navigation_accent_size">6dp</dimen>
     <dimen name="navigation_item_size">47dp</dimen>
     <dimen name="navigation_item_icon_margin">20dp</dimen>

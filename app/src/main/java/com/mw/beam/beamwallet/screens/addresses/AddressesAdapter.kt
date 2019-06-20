@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = data[position]
         val addressCategory = categoryProvider?.invoke(address.walletID)
@@ -56,8 +58,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
             addressId.text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             if (!address.isContact) {
-                date.text = String.format(if (address.isExpired) expiredDate else expiresDate,
-                        if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration))
+                date.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
             }
             category.visibility = if (addressCategory == null) View.GONE else View.VISIBLE
             category.text = addressCategory?.name ?: ""

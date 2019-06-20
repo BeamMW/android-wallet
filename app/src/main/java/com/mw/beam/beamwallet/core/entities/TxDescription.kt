@@ -82,7 +82,7 @@ class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
                 else -> App.self.getString(R.string.failed)
             }
         }
-    }
+    }.toLowerCase() + " "
 
     val amountColor = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)

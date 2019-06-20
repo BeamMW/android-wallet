@@ -23,12 +23,12 @@
     <string name="share_qr">Share qr</string>
     <string name="common_security_mode_title">Activate security mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
-    <string name="common_fingerprint_error">Too many attempts. Please, log in using password.</string>
+    <string name="common_fingerprint_error">Too many attempts. Please enter password.</string>
     <string name="common_share_title">Share…</string>
     <string name="common_external_link_dialog_title">External link</string>
     <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose "Cancel". You can chage your choice in app setting anytime.</string>
-    <string name="currency_beam">Beam</string>
-    <string name="currency_groth">Groth</string>
+    <string name="currency_beam">BEAM</string>
+    <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">No Internet connection</string>
     <string name="error_incorrect_node">Incorrect node name or no Internet connection</string>
     <string name="common_stay_active_title">Stay active</string>

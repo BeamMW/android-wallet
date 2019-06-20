@@ -46,6 +46,7 @@
             app:button_icon="@drawable/ic_btn_create"
             android:layout_marginTop="@dimen/welcome_testnet_text_margin"
             app:button_text="@string/create_new_wallet"
+            app:lower_case="true"
             app:layout_constraintBottom_toTopOf="@id/btnRestore"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

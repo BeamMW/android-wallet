@@ -65,6 +65,7 @@
             style="@style/common_button_style"
             android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
             android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
+            app:lower_case="true"
             app:button_icon="@drawable/ic_btn_proceed"
             app:button_text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"

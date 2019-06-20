@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.proof_verification
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Editable
 import android.view.View
@@ -27,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_proof_verification.*
 
@@ -50,6 +52,13 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         }
     }
 
+    override fun init() {
+        senderTitle.addDoubleDots()
+        receiverTitle.addDoubleDots()
+        amountTitle.addDoubleDots()
+        kernelIdTitle.addDoubleDots()
+    }
+
     override fun clear() {
         TransitionManager.beginDelayedTransition(proofContainer)
         proofGroup.visibility = View.GONE
@@ -69,10 +78,11 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         proofValue.setTextColor(context!!.getColor(R.color.common_text_color))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun showProof(proof: PaymentProof) {
         senderValue.text = proof.senderId
         receiverValue.text = proof.receiverId
-        amountValue.text = (proof.amount.convertToBeamString() + getString(R.string.currency_beam)).toLowerCase()
+        amountValue.text = "${proof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
         kernelIdValue.text = proof.kernelId
 
         TransitionManager.beginDelayedTransition(proofContainer)

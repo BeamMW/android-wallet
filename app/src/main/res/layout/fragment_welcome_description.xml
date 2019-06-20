@@ -104,6 +104,7 @@
                 style="@style/common_button_style"
                 android:layout_marginTop="@dimen/welcome_description_button_offset"
                 android:layout_marginBottom="@dimen/welcome_description_button_offset"
+                app:lower_case="true"
                 app:button_icon="@drawable/ic_btn_generate"
                 app:button_text="@string/welcome_generate_seed_phrase"
                 app:layout_constraintBottom_toBottomOf="parent"

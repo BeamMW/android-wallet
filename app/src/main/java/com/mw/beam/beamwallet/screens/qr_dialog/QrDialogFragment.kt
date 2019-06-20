@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.screens.qr_dialog
 
+import android.annotation.SuppressLint
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -27,6 +28,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun getAmount(): Long = QrDialogFragmentArgs.fromBundle(arguments!!).amount
 
+    @SuppressLint("SetTextI18n")
     override fun init(walletAddress: WalletAddress, amount: Long) {
         hideKeyboard()
 
@@ -50,7 +52,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
         amountTitle.visibility = amountVisibility
         amountView.visibility = amountVisibility
 
-        amountView.text = (amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()
+        amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
 
         btnShare.setOnClickListener { presenter?.onSharePressed() }
         close.setOnClickListener { findNavController().popBackStack() }

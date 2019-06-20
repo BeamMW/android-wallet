@@ -30,6 +30,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
@@ -50,6 +51,13 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         setHasOptionsMenu(true)
         activity?.invalidateOptionsMenu()
         moreMenu?.close()
+
+        startAddressTitle.addDoubleDots()
+        endAddressTitle.addDoubleDots()
+        transactionFeeTitle.addDoubleDots()
+        commentTitle.addDoubleDots()
+        transactionIdTitle.addDoubleDots()
+        kernelTitle.addDoubleDots()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

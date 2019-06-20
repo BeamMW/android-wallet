@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.PaymentProof
 interface ProofVerificationContract {
 
     interface View: MvpView {
+        fun init()
         fun showErrorProof()
         fun hideErrorProof()
         fun showProof(proof: PaymentProof)

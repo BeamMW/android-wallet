@@ -200,6 +200,7 @@
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnSave"
                 android:layout_width="@dimen/wallet_button_width"
+                app:lower_case="true"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/edit_address_btn_offset"
                 android:layout_marginBottom="@dimen/edit_address_btn_offset"

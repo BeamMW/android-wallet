@@ -30,6 +30,7 @@
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnReceive"
+                    app:lower_case="true"
                     android:layout_width="@dimen/wallet_button_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/wallet_button_margin_top"
@@ -42,6 +43,7 @@
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnSend"
+                    app:lower_case="true"
                     android:layout_width="@dimen/wallet_button_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/wallet_button_margin_top"
