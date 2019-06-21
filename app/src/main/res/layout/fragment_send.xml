@@ -532,6 +532,7 @@
                 android:layout_marginBottom="@dimen/send_btn_margin"
                 android:background="@drawable/send_button"
                 app:button_icon="@drawable/ic_btn_send"
+                app:lower_case="true"
                 app:button_text="@string/send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

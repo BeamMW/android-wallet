@@ -20,17 +20,20 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.transition.TransitionManager
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.SeekBar
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -43,8 +46,11 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.views.BeamButton
+import com.mw.beam.beamwallet.core.views.BeamEditText
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
+import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
@@ -172,6 +178,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
         feeContainer.setOnLongClickListener {
+            presenter?.onLongPressFee()
+            true
+        }
+
+        feeSeekBar.setOnLongClickListener {
+            presenter?.onLongPressFee()
             true
         }
 
@@ -193,6 +205,29 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showFeeDialog() {
+        var dialog: AlertDialog? = null
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_send_fee, null)
+
+        view.findViewById<ImageView>(R.id.btnClose).setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
+        feeEditText.setText(getFee().toString())
+        feeEditText.filters = arrayOf(InputFilterMinMax(1, SendPresenter.MAX_FEE))
+
+        view.findViewById<BeamButton>(R.id.btnSave).setOnClickListener {
+            presenter?.onEnterFee(feeEditText.text?.toString())
+            dialog?.dismiss()
+        }
+
+        dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
 
@@ -278,11 +313,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setFee(feeAmount: String) {
-        val fee = feeAmount.toInt()
+        val fee = feeAmount.toIntOrNull() ?: 1
         feeSeekBar.progress = fee
         updateFeeValue(fee)
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun updateFeeValue(progress: Int) {

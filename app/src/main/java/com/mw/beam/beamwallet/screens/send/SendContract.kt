@@ -74,6 +74,7 @@ interface SendContract {
         fun handleExpandAdvanced(expand: Boolean)
         fun configCategory(currentCategory: Category?, categories: List<Category>)
         fun updateFeeViews()
+        fun showFeeDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -84,7 +85,6 @@ interface SendContract {
         fun onScannedQR(text: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
-        fun onFeeFocusChanged(isFocused: Boolean, fee: String)
         fun onConfirm()
         fun onChangePrivacyModePressed()
         fun onPrivacyModeActivated()
@@ -97,6 +97,8 @@ interface SendContract {
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSelectedCategory(category: Category?)
         fun onAddressChanged(walletAddress: WalletAddress)
+        fun onLongPressFee()
+        fun onEnterFee(rawFee: String?)
     }
 
     interface Repository : MvpRepository {

@@ -38,9 +38,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
     companion object {
+        const val MAX_FEE = 1000
         private const val DEFAULT_FEE = 10
-        private const val MAX_FEE = 1000
-        private const val ZERO_FEE = 0
         private const val MAX_FEE_LENGTH = 15
     }
 
@@ -150,6 +149,17 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         return QrHelper.isValidAddress(token)
     }
 
+    override fun onEnterFee(rawFee: String?) {
+        rawFee?.let {
+            view?.setFee(it)
+            onFeeChanged(it)
+        }
+    }
+
+    override fun onLongPressFee() {
+        view?.showFeeDialog()
+    }
+
     override fun onAdvancedPressed() {
         state.expandAdvanced = !state.expandAdvanced
         if (!state.expandAdvanced) {
@@ -212,19 +222,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 //                view?.showConfirmDialog(token, amount, fee)
 //            }
 //        }
-    }
-
-    override fun onFeeFocusChanged(isFocused: Boolean, fee: String) {
-        if (!isFocused) {
-            val feeAmount = try {
-                fee.toInt()
-            } catch (exception: NumberFormatException) {
-                ZERO_FEE
-            }
-
-            //to prevent multizero input
-            view?.setFee(feeAmount.toString())
-        }
     }
 
     override fun onScanQrPressed() {

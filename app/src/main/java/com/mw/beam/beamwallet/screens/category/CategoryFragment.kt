@@ -76,7 +76,7 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
 
     override fun showConfirmDeleteDialog(categoryName: String) {
         showAlert(
-                getString(R.string.category_delete_dialog_message) + categoryName,
+                "${getString(R.string.category_delete_dialog_message)} $categoryName ${getString(R.string.category).toLowerCase()}?",
                 getString(R.string.cancel),
                 {},
                 getString(R.string.delete_category),
