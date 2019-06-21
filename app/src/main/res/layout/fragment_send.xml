@@ -7,18 +7,19 @@
     android:filterTouchesWhenObscured="true">
 
     <ScrollView
+        android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/settingsContentLayout"
-            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressContainer"
@@ -87,7 +88,59 @@
                     android:visibility="invisible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:visibility="visible" />
+                    tools:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/contactIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_contact"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/contactName"
+                    app:layout_constraintStart_toStartOf="@id/token"
+                    app:layout_constraintTop_toTopOf="@id/contactName" />
+
+                <TextView
+                    android:id="@+id/contactName"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/common_margin"
+                    android:layout_marginEnd="10dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/contactIcon"
+                    app:layout_constraintEnd_toStartOf="@id/nameLimit"
+                    app:layout_constraintTop_toBottomOf="@id/token"
+                    app:layout_constraintWidth_max="wrap"
+                    tools:text="Sara Scholz" />
+
+                <TextView
+                    android:id="@+id/contactCategory"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/common_margin"
+                    android:textAlignment="viewEnd"
+                    app:layout_constraintEnd_toEndOf="@id/token"
+                    app:layout_constraintStart_toEndOf="@id/contactName"
+                    app:layout_constraintTop_toBottomOf="@id/token"
+                    tools:text="Salary"
+                    tools:textColor="@color/category_yellow" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/nameLimit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.6" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -229,6 +282,7 @@
                 app:layout_constraintTop_toBottomOf="@id/commentTitle"
                 tools:ignore="Autofill,LabelFor,TextFields"
                 tools:text="Payment to Laura" />
+
             <View
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
@@ -532,22 +586,22 @@
                 android:layout_marginBottom="@dimen/send_btn_margin"
                 android:background="@drawable/send_button"
                 app:button_icon="@drawable/ic_btn_send"
-                app:lower_case="true"
                 app:button_text="@string/send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/advancedCard"
-                app:layout_constraintVertical_bias="1" />
+                app:layout_constraintVertical_bias="1"
+                app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <View
         android:layout_width="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/send_toolbar_gradient" />
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"

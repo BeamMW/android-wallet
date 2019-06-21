@@ -75,6 +75,8 @@ interface SendContract {
         fun configCategory(currentCategory: Category?, categories: List<Category>)
         fun updateFeeViews()
         fun showFeeDialog()
+        fun setSendContact(walletAddress: WalletAddress?, category: Category?)
+        fun changeTokenColor(validToken: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {

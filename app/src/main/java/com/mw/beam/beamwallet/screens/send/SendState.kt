@@ -29,8 +29,7 @@ class SendState {
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
     var walletStatus: WalletStatus? = null
     var privacyMode = false
-    var isTokenValid = true
-    var expiredAddresses = listOf<WalletAddress>()
+    val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null
     var scannedAmount: Double? = null
     var prevFee = 0.0

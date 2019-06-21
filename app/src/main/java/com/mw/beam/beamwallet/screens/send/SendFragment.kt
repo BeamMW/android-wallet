@@ -23,9 +23,13 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.Menu
@@ -47,7 +51,6 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
-import com.mw.beam.beamwallet.core.views.BeamEditText
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
@@ -70,6 +73,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         override fun afterTextChanged(rawToken: Editable?) {
             presenter?.onTokenChanged(rawToken.toString())
+            Handler().postDelayed({ contentScrollView?.smoothScrollTo(0,0) }, 50)
         }
     }
 
@@ -82,12 +86,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private val changeAddressCallback = object : ChangeAddressCallback {
         override fun onChangeAddress(walletAddress: WalletAddress) {
             presenter?.onAddressChanged(walletAddress)
-        }
-    }
-
-    private val feeWatcher: TextWatcher = object : TextWatcher {
-        override fun afterTextChanged(token: Editable?) {
-            presenter?.onFeeChanged(token.toString())
         }
     }
 
@@ -172,10 +170,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
-        token.addListener(tokenWatcher)
 
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
+
+        token.addListener(tokenWatcher)
+        token.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                contentScrollView.smoothScrollTo(0,0)
+            }
+        }
 
         feeContainer.setOnLongClickListener {
             presenter?.onLongPressFee()
@@ -474,6 +478,40 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun setAddressError() {
         tokenError.visibility = View.VISIBLE
+
+        contactCategory.visibility = View.GONE
+        contactIcon.visibility = View.GONE
+        contactName.visibility = View.GONE
+    }
+
+    override fun setSendContact(walletAddress: WalletAddress?, category: Category?) {
+        val nameVisibility = if (walletAddress == null || walletAddress.label.isBlank()) View.GONE else View.VISIBLE
+        contactCategory.visibility = if (category == null) View.GONE else View.VISIBLE
+        contactIcon.visibility = nameVisibility
+        contactName.visibility = nameVisibility
+
+        walletAddress?.label?.let { contactName.text = it }
+
+        category?.let {
+            contactCategory.text = it.name
+            contactCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
+        }
+    }
+
+    private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
+    private val foregroundEndColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
+
+    override fun changeTokenColor(validToken: Boolean) {
+        val length = token.text.toString().length
+        val spannable = token.text
+
+        if (validToken) {
+            spannable?.setSpan(foregroundStartColorSpan, 0, if (length < 7) length else 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            spannable?.setSpan(foregroundEndColorSpan, if (length - 6 < 0) 0 else length - 6, length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+        } else {
+            spannable?.removeSpan(foregroundStartColorSpan)
+            spannable?.removeSpan(foregroundEndColorSpan)
+        }
     }
 
     override fun clearAddressError() {

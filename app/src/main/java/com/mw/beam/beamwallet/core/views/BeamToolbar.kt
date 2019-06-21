@@ -81,5 +81,7 @@ class BeamToolbar : LinearLayout {
             hasStatus = a.getBoolean(R.styleable.BeamToolbar_hasStatus, false)
             centerTitle = a.getBoolean(R.styleable.BeamToolbar_centerTitle, false)
         }
+
+        status.text = status.text.toString().toLowerCase()
     }
 }

@@ -134,7 +134,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             if (amount != null && fee != null && token != null && isValidToken(token)) {
                 // we can't send money to own expired address
-                if (state.expiredAddresses.find { it.walletID == token } != null) {
+                if (state.addresses.values.find { it.walletID == token && it.isExpired } != null) {
                     view?.showCantSendToExpiredError()
                 } else if (state.outgoingAddress != null) {
                     saveAddress()
@@ -262,9 +262,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onTokenChanged(rawToken: String?) {
+        view?.changeTokenColor(isValidToken(rawToken ?: ""))
+
         view?.clearAddressError()
-
-
+        if (rawToken != null && isValidToken(rawToken)) {
+            val address = state.addresses.values.firstOrNull { it.walletID == rawToken }
+            val category = address?.let { repository.getCategory(it.walletID) }
+            view?.setSendContact(address, category)
+        }
 //        if (state.isChangeForbidden) {
 //            state.isChangeForbidden = false
 //            view?.clearToken(state.oldToken)
@@ -344,8 +349,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         addressesSubscription = repository.getAddresses().subscribe {
-            state.expiredAddresses = it.addresses?.filter { address -> address.isContact && address.isExpired }
-                    ?: listOf()
+            it.addresses?.forEach { address ->
+                state.addresses[address.walletID] = address
+            }
         }
 
         walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
