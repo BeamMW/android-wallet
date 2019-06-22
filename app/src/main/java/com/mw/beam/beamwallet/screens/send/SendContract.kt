@@ -78,7 +78,6 @@ interface SendContract {
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?)
-        fun scrollToTopSearchList()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -104,7 +103,6 @@ interface SendContract {
         fun onLongPressFee()
         fun onEnterFee(rawFee: String?)
         fun onSelectAddress(walletAddress: WalletAddress)
-        fun onSelectTab(isContactTab: Boolean)
     }
 
     interface Repository : MvpRepository {

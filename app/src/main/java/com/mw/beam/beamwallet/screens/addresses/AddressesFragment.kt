@@ -41,9 +41,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onAddressPressed(item)
             }
-        }) {
+        }, {
             return@AddressesPagerAdapter presenter?.onSearchCategoryForAddress(it)
-        }
+        })
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)

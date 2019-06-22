@@ -631,37 +631,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicatorColor="@color/sent_color"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.tabs.TabItem
-                android:text="@string/contacts"
-                style="@style/common_subheader_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.google.android.material.tabs.TabItem
-                android:text="@string/my_addresses"
-                style="@style/common_subheader_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.tabs.TabLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/searchAddressList"
+            android:layout_height="wrap_content"/>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
             android:background="@color/colorPrimary"
             app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_send_address_suggestions"
-            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="0dp"/>
-        <TextView
-            android:textAlignment="center"
-            android:padding="@dimen/common_offset"
-            android:background="@color/colorPrimaryDark"
-            style="@style/common_text_big_dark"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
-            android:id="@+id/notFoundAddressesMessage"
-            android:text="@string/no_matching_address_found"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -92,11 +92,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.handleAddressSuggestions(null)
     }
 
-    override fun onSelectTab(isContactTab: Boolean) {
-        view?.scrollToTopSearchList()
-        onTokenChanged(view?.getToken())
-    }
-
     private fun notifyPrivacyStateChange() {
         val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled

@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
@@ -28,26 +29,75 @@ import com.mw.beam.beamwallet.core.helpers.Category
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?) : androidx.viewpager.widget.PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
+    private var touchListener: View.OnTouchListener? = null
+
     private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
     private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
     private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
 
+    private var activeLayoutManager: LinearLayoutManager? = null
+    private var expiredLayoutManager: LinearLayoutManager? = null
+    private var contactsLayoutManager: LinearLayoutManager? = null
+
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
-        layout.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.list).apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = when (Tab.values()[position]) {
-                Tab.ACTIVE -> activeAdapter
-                Tab.EXPIRED -> expiredAdapter
-                Tab.CONTACTS -> contactsAdapter
+        val recyclerView = layout.findViewById<RecyclerView>(R.id.list)
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.apply {
+            this.layoutManager = layoutManager
+
+            adapter = if (type == AddressPagerType.FULL) {
+                when (Tab.values()[position]) {
+                    Tab.ACTIVE -> activeAdapter
+                    Tab.EXPIRED -> expiredAdapter
+                    Tab.CONTACTS -> contactsAdapter
+                }
+            } else {
+                when (position) {
+                    0 -> activeAdapter
+                    else -> contactsAdapter
+                }
+            }
+
+            if (type == AddressPagerType.SMALL) {
+                overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+            }
+
+            setOnTouchListener { v, event -> touchListener?.onTouch(v, event) ?: false }
+        }
+
+        if (type == AddressPagerType.FULL) {
+            when (Tab.values()[position]) {
+                Tab.ACTIVE -> activeLayoutManager = layoutManager
+                Tab.EXPIRED -> expiredLayoutManager = layoutManager
+                Tab.CONTACTS -> contactsLayoutManager = layoutManager
+            }
+        } else {
+            when (position) {
+                0 -> activeLayoutManager = layoutManager
+                else -> contactsLayoutManager = layoutManager
             }
         }
+
         container.addView(layout)
         return layout
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
+        if (type == AddressPagerType.FULL) {
+            when (Tab.values()[position]) {
+                Tab.ACTIVE -> activeLayoutManager = null
+                Tab.EXPIRED -> expiredLayoutManager = null
+                Tab.CONTACTS -> contactsLayoutManager = null
+            }
+        } else {
+            when (position) {
+                0 -> activeLayoutManager = null
+                else -> contactsLayoutManager = null
+            }
+        }
+
         container.removeView(view as View)
     }
 
@@ -55,10 +105,31 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
         return view == any
     }
 
-    override fun getCount(): Int = Tab.values().count()
+    override fun getCount(): Int = if (type == AddressPagerType.FULL) Tab.values().count() else 2
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.getString(Tab.values()[position].value)
+        val stringId = if (type == AddressPagerType.FULL) {
+            when (Tab.values()[position]) {
+                Tab.ACTIVE -> R.string.addresses_tab_active
+                Tab.EXPIRED -> R.string.addresses_tab_expired
+                Tab.CONTACTS -> R.string.contacts
+            }
+        } else {
+            when (position) {
+                0 -> R.string.my_addresses
+                else -> R.string.contacts
+            }
+        }
+
+        return context.getString(stringId)
+    }
+
+    fun findFirstCompletelyVisibleItemPosition(currentItemPosition: Int): Int {
+        return when (Tab.values()[currentItemPosition]) {
+            Tab.ACTIVE -> activeLayoutManager
+            Tab.EXPIRED -> expiredLayoutManager
+            Tab.CONTACTS -> contactsLayoutManager
+        }?.findFirstCompletelyVisibleItemPosition() ?: 0
     }
 
     fun setData(tab: Tab, addresses: List<WalletAddress>) {
@@ -77,22 +148,16 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             }
         }
     }
+
+    fun setOnTouchListener(touchListener: View.OnTouchListener?) {
+        this.touchListener = touchListener
+    }
 }
 
-enum class Tab(val value: Int) {
-    ACTIVE(R.string.addresses_tab_active), EXPIRED(R.string.addresses_tab_expired), CONTACTS(R.string.contacts);
+enum class AddressPagerType {
+    FULL, SMALL
+}
 
-    companion object {
-        private val map: HashMap<Int, Tab> = HashMap()
-
-        init {
-            values().forEach {
-                map[it.value] = it
-            }
-        }
-
-        fun fromValue(type: Int): Tab {
-            return map[type] ?: throw IllegalArgumentException("Unknown Tab")
-        }
-    }
+enum class Tab {
+    ACTIVE, EXPIRED, CONTACTS;
 }
