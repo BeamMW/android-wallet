@@ -32,9 +32,9 @@ import com.mw.beam.beamwallet.core.helpers.Category
 class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
+    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider, type == AddressPagerType.FULL)
+    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider, type == AddressPagerType.FULL)
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider, type == AddressPagerType.FULL)
 
     private var activeLayoutManager: LinearLayoutManager? = null
     private var expiredLayoutManager: LinearLayoutManager? = null
