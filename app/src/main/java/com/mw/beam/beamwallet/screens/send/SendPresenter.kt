@@ -82,7 +82,19 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         view?.updateFeeViews()
 
+        onTokenChanged(view?.getToken(), searchAddress = false)
+
         notifyPrivacyStateChange()
+    }
+
+    override fun onSelectAddress(walletAddress: WalletAddress) {
+        view?.setAddress(walletAddress.walletID)
+        view?.handleAddressSuggestions(null)
+    }
+
+    override fun onSelectTab(isContactTab: Boolean) {
+        view?.scrollToTopSearchList()
+        onTokenChanged(view?.getToken())
     }
 
     private fun notifyPrivacyStateChange() {
@@ -261,7 +273,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    override fun onTokenChanged(rawToken: String?) {
+    override fun onTokenChanged(rawToken: String?, searchAddress: Boolean) {
         view?.changeTokenColor(isValidToken(rawToken ?: ""))
 
         view?.clearAddressError()
@@ -269,42 +281,24 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val address = state.addresses.values.firstOrNull { it.walletID == rawToken }
             val category = address?.let { repository.getCategory(it.walletID) }
             view?.setSendContact(address, category)
+        } else {
+            view?.setSendContact(null, null)
         }
-//        if (state.isChangeForbidden) {
-//            state.isChangeForbidden = false
-//            view?.clearToken(state.oldToken)
-//        } else {
-//            state.isChangeForbidden = false
-//            var clearedToken = rawToken?.replace(QrHelper.tokenRegex, "")
-//
-//            if (!clearedToken.isNullOrEmpty() && clearedToken.length > MAX_TOKEN_LENGTH) {
-//                clearedToken = clearedToken.substring(0, MAX_TOKEN_LENGTH)
-//            }
-//
-//            if (rawToken == clearedToken) {
-//                val isTokenEmpty = rawToken.isNullOrEmpty()
-//
-//                if (isTokenEmpty != state.isTokenEmpty) {
-//                    view?.updateUI(DEFAULT_FEE, state.privacyMode)
-//                }
-//
-//                if (!isTokenEmpty) {
-//                    if (repository.checkAddress(rawToken)) {
-//                        view?.clearAddressError()
-//                        state.isTokenValid = true
-//                    } else {
-//                        view?.setAddressError()
-//                        state.isTokenValid = false
-//                    }
-//                } else {
-//                    state.isTokenValid = false
-//                }
-//
-//                state.isTokenEmpty = isTokenEmpty
-//            } else {
-//                view?.clearToken(clearedToken)
-//            }
-//        }
+
+        if (searchAddress) {
+            val addresses = if (!rawToken.isNullOrBlank()) {
+                val searchText = rawToken.trim().toLowerCase()
+                state.addresses.values.filter {
+                    (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().contains(searchText) ||
+                            it.label.trim().toLowerCase().contains(searchText) ||
+                            repository.getCategory(it.walletID)?.name?.trim()?.toLowerCase()?.contains(searchText) ?: false)
+                }
+            } else {
+                null
+            }
+
+            view?.handleAddressSuggestions(addresses)
+        }
     }
 
     override fun onAmountChanged() {

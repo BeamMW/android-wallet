@@ -236,6 +236,8 @@
     <string name="transaction_comment">Transaction comment</string>
     <string name="wont_be_shared">won’t be shared</string>
     <string name="outgoing_address">Outgoing address</string>
+    <string name="my_addresses">My addresses</string>
+    <string name="no_matching_address_found">No matching address found</string>
 
     <!--SettingsFragment-->
     <string name="settings_report">Report a problem</string>

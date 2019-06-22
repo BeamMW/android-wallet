@@ -77,11 +77,13 @@ interface SendContract {
         fun showFeeDialog()
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
+        fun handleAddressSuggestions(addresses: List<WalletAddress>?)
+        fun scrollToTopSearchList()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSend()
-        fun onTokenChanged(rawToken: String?)
+        fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
         fun onScannedQR(text: String?)
@@ -101,6 +103,8 @@ interface SendContract {
         fun onAddressChanged(walletAddress: WalletAddress)
         fun onLongPressFee()
         fun onEnterFee(rawFee: String?)
+        fun onSelectAddress(walletAddress: WalletAddress)
+        fun onSelectTab(isContactTab: Boolean)
     }
 
     interface Repository : MvpRepository {

@@ -88,7 +88,8 @@
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_color</item>
         <item name="android:textSize">@dimen/common_toolbar_text_size</item>
-        <item name="android:letterSpacing">0.6</item>
+        <item name="android:letterSpacing">0.35</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="common_text_big_dark">

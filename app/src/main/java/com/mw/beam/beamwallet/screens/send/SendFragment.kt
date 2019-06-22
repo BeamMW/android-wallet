@@ -28,20 +28,21 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
 import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.transition.AutoTransition
 import android.transition.TransitionManager
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.tabs.TabLayout
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -57,23 +58,29 @@ import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
+import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
+import kotlinx.android.synthetic.main.fragment_send.scanQR
 
 
 /**
  * Created by vain onnellinen on 11/13/18.
  */
 class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
+    private var searchAddressViewDY = 0f
+    private lateinit var searchAddressesAdapter: AddressesAdapter
+    private lateinit var layoutManager: LinearLayoutManager
+
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {}
 
         override fun afterTextChanged(rawToken: Editable?) {
             presenter?.onTokenChanged(rawToken.toString())
-            Handler().postDelayed({ contentScrollView?.smoothScrollTo(0,0) }, 50)
+            Handler().postDelayed({ contentScrollView?.smoothScrollTo(0, 0) }, 50)
         }
     }
 
@@ -107,6 +114,30 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
         override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+    }
+
+    private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(p0: TabLayout.Tab?) {}
+
+        override fun onTabUnselected(p0: TabLayout.Tab?) {}
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            presenter?.onSelectTab(tab.position == 0)
+        }
+    }
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (isOpenSearchView()) {
+                handleAddressSuggestions(null)
+            } else {
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun isOpenSearchView(): Boolean {
+        return searchContainer?.height ?: 0 > 0
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_send
@@ -155,6 +186,48 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             expiresOnSpinner.adapter = adapter
             expiresOnSpinner.setSelection(0)
         }
+
+        ViewCompat.requestApplyInsets(contentScrollView)
+        contentScrollView.smoothScrollTo(0, 0)
+
+        layoutManager = LinearLayoutManager(context)
+        searchAddressList.layoutManager = layoutManager
+
+        searchAddressesAdapter = AddressesAdapter(context!!, object : AddressesAdapter.OnItemClickListener {
+            override fun onItemClick(item: WalletAddress) {
+                presenter?.onSelectAddress(item)
+            }
+        }, { presenter?.repository?.getCategory(it) }, false)
+
+        searchAddressList.adapter = searchAddressesAdapter
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                searchAddressViewDY = (searchContainer.layoutParams as ConstraintLayout.LayoutParams).topMargin - event.rawY
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val newMargin = if ((searchAddressViewDY + event.rawY).toInt() < calculateDefaultMargin()) calculateDefaultMargin() else (searchAddressViewDY + event.rawY).toInt()
+                searchContainer.layoutParams = (searchContainer.layoutParams as ConstraintLayout.LayoutParams).apply {
+                    topMargin = newMargin
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                val params = searchContainer.layoutParams as ConstraintLayout.LayoutParams
+                if (params.topMargin - calculateDefaultMargin() > searchContainer.height * 0.66) {
+                    handleAddressSuggestions(null)
+                } else {
+                    beginTransaction(true)
+                    searchContainer.layoutParams = (params).apply {
+                        topMargin = calculateDefaultMargin()
+                    }
+                }
+            }
+        }
+        return returnValue
     }
 
     override fun addListeners() {
@@ -177,7 +250,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         token.addListener(tokenWatcher)
         token.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                contentScrollView.smoothScrollTo(0,0)
+                contentScrollView.smoothScrollTo(0, 0)
+            } else {
+                handleAddressSuggestions(null)
             }
         }
 
@@ -210,6 +285,43 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
         }
+
+        searchContainer.setOnTouchListener { _, event ->
+            handleMotionAction(event)
+        }
+
+        tabLayout.setOnTouchListener { _, event ->
+            handleMotionAction(event)
+        }
+
+        tabLayout.addOnTabSelectedListener(tabSelectedListener)
+
+        searchAddressList.overScrollMode = ScrollView.OVER_SCROLL_NEVER
+        contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
+
+        var scrollStartY = 0f
+        var isFirstHideFrame = true
+        searchAddressList.setOnTouchListener { _, event ->
+            if ((layoutManager.findFirstCompletelyVisibleItemPosition() <= 0 && (event.action == MotionEvent.ACTION_MOVE || event.action == MotionEvent.ACTION_UP) && scrollStartY < event.y) || (searchContainer.layoutParams as ConstraintLayout.LayoutParams).topMargin > calculateDefaultMargin()) {
+                if (isFirstHideFrame && event.action == MotionEvent.ACTION_MOVE) {
+                    searchAddressViewDY = (searchContainer.layoutParams as ConstraintLayout.LayoutParams).topMargin - event.rawY
+                }
+                isFirstHideFrame = false
+                handleMotionAction(event, false)
+            } else {
+                isFirstHideFrame = true
+            }
+
+            scrollStartY = event.y
+
+            false
+        }
+
+        contentScrollView.setOnTouchListener { _, _ ->  isOpenSearchView() }
+    }
+
+    private fun calculateDefaultMargin(): Int {
+        return addressContainer.height + resources.getDimensionPixelSize(R.dimen.common_offset)
     }
 
     @SuppressLint("InflateParams")
@@ -292,7 +404,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
 
-        TransitionManager.beginDelayedTransition(settingsContentLayout)
+        beginTransaction()
 
         val availableVisibility = if (isEnable) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
@@ -391,7 +503,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         clearFocus()
 
         animateDropDownIcon(btnExpandAdvanced, expand)
-        TransitionManager.beginDelayedTransition(settingsContentLayout)
+        beginTransaction()
         advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
     }
 
@@ -399,14 +511,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         clearFocus()
 
         animateDropDownIcon(btnExpandEditAddress, expand)
-        TransitionManager.beginDelayedTransition(settingsContentLayout)
+        beginTransaction()
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         emptyCategoryListMessage.visibility = if (categorySpinner.adapter?.isEmpty != false && expand) View.VISIBLE else View.GONE
     }
 
     private fun clearFocus() {
-        settingsContentLayout?.requestFocus()
+        contentLayout?.requestFocus()
     }
 
     override fun configCategory(currentCategory: Category?, categories: List<Category>) {
@@ -474,6 +586,49 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun showCantSendToExpiredError() {
         showAlert(getString(R.string.send_error_expired_address), getString(R.string.ok), {})
+    }
+
+    override fun handleAddressSuggestions(addresses: List<WalletAddress>?) {
+        val isContactSelect = tabLayout.selectedTabPosition == 0
+
+        val currentList = addresses?.filter {
+            (isContactSelect && it.isContact) || (!isContactSelect && !it.isContact)
+        } ?: listOf()
+
+        searchAddressesAdapter.setData(currentList)
+
+        Handler().postDelayed({
+            beginTransaction(true)
+            tokenBackground?.visibility = if (addresses == null) View.VISIBLE else View.GONE
+
+            notFoundAddressesMessage?.visibility = if (currentList.isEmpty()) View.VISIBLE else View.GONE
+
+            val params = searchContainer?.layoutParams as? ConstraintLayout.LayoutParams
+            params?.topMargin = calculateDefaultMargin()
+            if (addresses == null) {
+                params?.topToBottom = -1
+            } else {
+                params?.topToBottom = R.id.toolbarLayout
+            }
+            searchContainer?.layoutParams = params
+        }, 25)
+    }
+
+    private fun beginTransaction(isLongAnimation: Boolean = false) {
+        if (sendRootView != null) {
+            if (isLongAnimation) {
+                TransitionManager.beginDelayedTransition(sendRootView, AutoTransition().apply {
+                    duration = 300
+                    excludeChildren(searchAddressList, true)
+                })
+            } else {
+                TransitionManager.beginDelayedTransition(sendRootView)
+            }
+        }
+    }
+
+    override fun scrollToTopSearchList() {
+        searchAddressList.scrollTo(0, 0)
     }
 
     override fun setAddressError() {
@@ -573,6 +728,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnExpandAdvanced.setOnClickListener(null)
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
+        searchContainer.setOnTouchListener(null)
+        tabLayout.setOnTouchListener(null)
+        tabLayout.removeOnTabSelectedListener(tabSelectedListener)
+        searchAddressList.setOnTouchListener(null)
+        contentScrollView.setOnTouchListener(null)
     }
 
     private fun configAmountError(errorString: String) {
