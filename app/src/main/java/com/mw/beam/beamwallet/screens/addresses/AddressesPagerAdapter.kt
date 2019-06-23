@@ -55,8 +55,8 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
                 }
             } else {
                 when (position) {
-                    0 -> activeAdapter
-                    else -> contactsAdapter
+                    0 -> contactsAdapter
+                    else -> activeAdapter
                 }
             }
 
@@ -75,8 +75,8 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             }
         } else {
             when (position) {
-                0 -> activeLayoutManager = layoutManager
-                else -> contactsLayoutManager = layoutManager
+                0 -> contactsLayoutManager = layoutManager
+                else -> activeLayoutManager = layoutManager
             }
         }
 
@@ -93,8 +93,8 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             }
         } else {
             when (position) {
-                0 -> activeLayoutManager = null
-                else -> contactsLayoutManager = null
+                0 -> contactsLayoutManager = null
+                else -> activeLayoutManager = null
             }
         }
 
@@ -116,8 +116,8 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             }
         } else {
             when (position) {
-                0 -> R.string.my_addresses
-                else -> R.string.contacts
+                0 -> R.string.contacts
+                else -> R.string.my_addresses
             }
         }
 
@@ -125,11 +125,20 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
     }
 
     fun findFirstCompletelyVisibleItemPosition(currentItemPosition: Int): Int {
-        return when (Tab.values()[currentItemPosition]) {
-            Tab.ACTIVE -> activeLayoutManager
-            Tab.EXPIRED -> expiredLayoutManager
-            Tab.CONTACTS -> contactsLayoutManager
-        }?.findFirstCompletelyVisibleItemPosition() ?: 0
+        val manager = if (type == AddressPagerType.FULL) {
+            when (Tab.values()[currentItemPosition]) {
+                Tab.ACTIVE -> activeLayoutManager
+                Tab.EXPIRED -> expiredLayoutManager
+                Tab.CONTACTS -> contactsLayoutManager
+            }
+        } else {
+            when (currentItemPosition) {
+                0 -> contactsLayoutManager
+                else -> activeLayoutManager
+            }
+        }
+
+        return manager?.findFirstCompletelyVisibleItemPosition() ?: 0
     }
 
     fun setData(tab: Tab, addresses: List<WalletAddress>) {

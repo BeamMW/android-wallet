@@ -62,6 +62,8 @@ object LocaleHelper {
                 conf?.locales = LocaleList(AppConfig.LOCALE).apply { LocaleList.setDefault(this) }
             }
 
+            Locale.setDefault(AppConfig.LOCALE)
+
             val newContext = if (conf == null) null else context.createConfigurationContext(conf)
             return android.content.ContextWrapper(newContext)
         }
