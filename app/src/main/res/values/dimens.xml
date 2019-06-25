@@ -181,7 +181,7 @@
     <dimen name="send_transfer_btn_width">138dp</dimen>
     <dimen name="send_available_sum_text_size">18sp</dimen>
     <dimen name="send_available_currency_top_offset">7dp</dimen>
-    <dimen name="send_available_margin_top">23dp</dimen>
+    <dimen name="send_available_margin_top">30dp</dimen>
     <dimen name="send_available_sum_margin_top">10dp</dimen>
     <dimen name="send_available_sum_margin_start">7dp</dimen>
     <dimen name="send_available_sum_margin_end">37dp</dimen>

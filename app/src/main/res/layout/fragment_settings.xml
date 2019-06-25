@@ -8,6 +8,7 @@
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
+        app:centerTitle="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />

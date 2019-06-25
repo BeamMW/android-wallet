@@ -115,6 +115,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         view?.setAmount(availableAmount - feeAmount)
+        view?.updateFeeTransactionVisibility(true)
     }
 
     override fun onCancelDialog() {
@@ -292,10 +293,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             0.0
         }
         val maxEnterAmount = availableAmount - feeAmount
-        if (enteredAmount > maxEnterAmount) {
-            view?.setAmount(maxEnterAmount)
-        } else if (enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString()) {
-            view?.setAmount(maxEnterAmount)
+        when {
+            enteredAmount > maxEnterAmount -> {
+                view?.setAmount(maxEnterAmount)
+                view?.updateFeeTransactionVisibility(true)
+            }
+            enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
+                view?.setAmount(maxEnterAmount)
+                view?.updateFeeTransactionVisibility(true)
+            }
+            else -> view?.updateFeeTransactionVisibility(false)
         }
         state.prevFee = feeAmount
     }

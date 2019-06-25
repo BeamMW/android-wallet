@@ -197,6 +197,17 @@
                 app:layout_constraintTop_toBottomOf="@id/amount" />
 
             <TextView
+                android:id="@+id/usedFee"
+                android:visibility="gone"
+                tools:text="1234 USD (+10 GROTH transaction fee)"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/amountDivider"
+                app:layout_constraintStart_toStartOf="@id/amountDivider"
+                app:layout_constraintTop_toBottomOf="@id/amountDivider"/>
+
+            <TextView
                 android:id="@+id/amountError"
                 style="@style/common_text_big_light"
                 android:layout_width="wrap_content"
@@ -207,7 +218,7 @@
                 android:textColor="@color/common_error_color"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amount" />
+                app:layout_constraintTop_toBottomOf="@id/usedFee" />
 
             <TextView
                 android:id="@+id/currency"
