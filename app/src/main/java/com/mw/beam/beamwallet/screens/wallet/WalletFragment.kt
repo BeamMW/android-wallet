@@ -159,7 +159,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     @SuppressLint("RestrictedApi")
     override fun addListeners() {
         btnReceive.setOnClickListener { presenter?.onReceivePressed() }
-        btnSend.setOnClickListener { presenter?.onSendPressed() }
+        btnNext.setOnClickListener { presenter?.onSendPressed() }
 
         btnExpandAvailable.setOnClickListener {
             presenter?.onExpandAvailablePressed()
@@ -324,7 +324,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
-        btnSend.setOnClickListener(null)
+        btnNext.setOnClickListener(null)
         btnExpandAvailable.setOnClickListener(null)
         btnExpandInProgress.setOnClickListener(null)
         btnTransactionsMenu.setOnClickListener(null)

@@ -341,6 +341,13 @@
             <argument android:defaultValue="false"
                 android:name="isFromReceive" />
         </action>
+        <action
+            android:id="@+id/action_sendFragment_to_sendConfirmationFragment"
+            app:destination="@id/sendConfirmationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
@@ -537,6 +544,36 @@
             android:name="callback"
             app:argType="com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_send_confirmation"
+        android:id="@+id/sendConfirmationFragment"
+        android:name="com.mw.beam.beamwallet.screens.send_confirmation.SendConfirmationFragment"
+        android:label="SendConfirmationFragment" >
+        <argument
+            android:name="sendAddress"
+            app:argType="string" />
+        <argument
+            android:name="outgoingAddress"
+            app:argType="string" />
+        <argument
+            android:name="sendAmount"
+            app:argType="long" />
+        <argument
+            android:name="fee"
+            app:argType="long" />
+        <argument
+            android:name="comment"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_sendConfirmationFragment_to_saveAddressFragment"
+            app:destination="@id/saveAddressFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@+id/walletFragment" />
+    </fragment>
     <dialog
         tools:layout="@layout/dialog_qr_code"
         android:id="@+id/qrDialogFragment"
@@ -550,4 +587,13 @@
             app:argType="long"
             android:defaultValue="0L" />
     </dialog>
+    <fragment
+        android:id="@+id/saveAddressFragment"
+        tools:layout="@layout/fragment_save_address"
+        android:name="com.mw.beam.beamwallet.screens.save_address.SaveAddressFragment"
+        android:label="SaveAddressFragment" >
+        <argument
+            android:name="address"
+            app:argType="string" />
+    </fragment>
 </navigation>

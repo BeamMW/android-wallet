@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="30dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contentLayout"
+            android:paddingStart="@dimen/common_offset"
+            android:paddingEnd="@dimen/common_offset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/addressTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/address"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addressTitle"
+                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/nameTitle"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                android:text="@string/name"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/name"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:backgroundTint="@android:color/transparent"
+                android:background="@drawable/edit_text_selector"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameTitle"
+                tools:ignore="Autofill,LabelFor,TextFields" />
+
+            <View
+                android:id="@+id/nameDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/btn_drop_down_color"
+                app:layout_constraintEnd_toEndOf="@id/name"
+                app:layout_constraintStart_toStartOf="@id/name"
+                app:layout_constraintTop_toBottomOf="@id/name" />
+
+            <TextView
+                android:id="@+id/categoryTitle"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                android:text="@string/category"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/categorySpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_address_element_low_offset"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:dropDownVerticalOffset="@dimen/edit_address_element_offset"
+                android:backgroundTint="@color/btn_drop_down_color"
+                android:dropDownSelector="@android:color/transparent"
+                android:popupBackground="@drawable/menu_background"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
+
+            <TextView
+                android:id="@+id/emptyCategoryListMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/edit_address_element_low_offset"
+                android:text="@string/edit_address_category_empty_message"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnSave"
+                android:layout_width="@dimen/send_transfer_btn_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="@dimen/send_btn_margin"
+                android:background="@drawable/send_button"
+                app:button_icon="@drawable/ic_btn_save"
+                app:button_text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btnCancel"
+                app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage"
+                app:layout_constraintVertical_bias="0"
+                app:lower_case="true" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnCancel"
+                android:layout_width="@dimen/send_transfer_btn_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="@dimen/send_btn_margin"
+                app:button_icon="@drawable/ic_btn_cancel"
+                android:background="@drawable/primary_button"
+                app:button_text="@string/cancel"
+                app:button_text_color="@color/common_text_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnSave"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage"
+                app:layout_constraintVertical_bias="0"
+                app:lower_case="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTitle="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

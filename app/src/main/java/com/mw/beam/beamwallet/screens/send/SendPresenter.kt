@@ -32,7 +32,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
-    private lateinit var cantSendToExpiredSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
@@ -132,7 +131,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
-    override fun onSend() {
+    override fun onNext() {
         if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
@@ -145,8 +144,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     view?.showCantSendToExpiredError()
                 } else if (state.outgoingAddress != null) {
                     saveAddress()
-                    view?.pendingSendMoney(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee)
-                    view?.close()
+                    view?.showConfirmTransaction(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee)
                 }
             }
         }
@@ -209,26 +207,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             }
 
             state.wasAddressSaved = true
+            state.isNeedGenerateNewAddress = false
         }
-    }
-
-    override fun onConfirm() {
-        onSend()
-        return
-
-//        if (!repository.isConfirmTransactionEnabled()) {
-//            return
-//        }
-//
-//        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
-//            val amount = view?.getAmount()
-//            val fee = view?.getFee()
-//            val token = view?.getToken()
-//
-//            if (amount != null && fee != null && token != null && isValidToken(token)) {
-//                view?.showConfirmDialog(token, amount, fee)
-//            }
-//        }
     }
 
     override fun onScanQrPressed() {
@@ -332,10 +312,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             }
         }
 
-        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
-            // just for case when address was expired directly before sendMoney() was called
-            view?.close()
-        }
+//        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
+//            // just for case when address was expired directly before sendMoney() was called
+//            view?.close()
+//        }
 
         addressesSubscription = repository.getAddresses().subscribe {
             it.addresses?.forEach { address ->
@@ -357,7 +337,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, cantSendToExpiredSubscription, addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription)
 
     override fun hasStatus(): Boolean = true
 }

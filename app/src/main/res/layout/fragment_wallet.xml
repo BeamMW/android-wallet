@@ -37,12 +37,12 @@
                     app:button_icon="@drawable/ic_btn_receive"
                     android:background="@drawable/receive_button"
                     app:button_text="@string/receive"
-                    app:layout_constraintEnd_toStartOf="@id/btnSend"
+                    app:layout_constraintEnd_toStartOf="@id/btnNext"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnSend"
+                    android:id="@+id/btnNext"
                     app:lower_case="true"
                     android:layout_width="@dimen/wallet_button_width"
                     android:layout_height="wrap_content"

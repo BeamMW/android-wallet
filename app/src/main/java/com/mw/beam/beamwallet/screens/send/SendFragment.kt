@@ -237,8 +237,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun addListeners() {
-        btnSend.setOnClickListener {
-            presenter?.onConfirm()
+        btnNext.setOnClickListener {
+            presenter?.onNext()
         }
 
         btnSendAll.setOnClickListener {
@@ -674,8 +674,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         updateFeeValue(feeSeekBar.progress)
     }
 
-    override fun pendingSendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress))
+    override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment))
     }
 
     override fun updateAvailable(availableString: String) {
@@ -686,12 +686,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return amountError.visibility == View.VISIBLE
     }
 
-    override fun close() {
-        findNavController().popBackStack()
-    }
-
     override fun clearListeners() {
-        btnSend.setOnClickListener(null)
+        btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)

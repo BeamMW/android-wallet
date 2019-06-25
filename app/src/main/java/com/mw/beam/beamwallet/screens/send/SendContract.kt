@@ -46,7 +46,6 @@ interface SendContract {
         fun clearErrors()
         fun clearToken(clearedToken: String?)
         fun init(defaultFee: Int, maxFee: Int)
-        fun close()
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
@@ -64,7 +63,7 @@ interface SendContract {
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
-        fun pendingSendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
+        fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
         fun showChangeAddressFragment()
@@ -81,14 +80,13 @@ interface SendContract {
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onSend()
+        fun onNext()
         fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
         fun onScannedQR(text: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
-        fun onConfirm()
         fun onChangePrivacyModePressed()
         fun onPrivacyModeActivated()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater)
