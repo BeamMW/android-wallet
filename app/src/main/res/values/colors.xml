@@ -40,7 +40,7 @@
     <color name="password_underline_color">@color/colorPrimary</color>
 
     <!--WelcomeSeedFragment-->
-    <color name="phrase_number_text_color">#80d8d8d8</color>
+    <color name="phrase_number_text_color">@color/common_text_color</color>
     <color name="phrase_validated_number_text_color">@color/colorPrimaryDark</color>
     <color name="phrase_error_number_text_color">@color/colorPrimaryDark</color>
 
