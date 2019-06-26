@@ -14,6 +14,7 @@
         android:gravity="center"
         android:textColor="@color/common_text_dark_color"
         android:textSize="@dimen/welcome_number_text_size"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.mw.beam.beamwallet.core.views.BeamEditText
