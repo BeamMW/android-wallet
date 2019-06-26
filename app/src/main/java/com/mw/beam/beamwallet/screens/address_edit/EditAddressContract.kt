@@ -34,7 +34,8 @@ interface EditAddressContract {
         fun configExpireSpinnerTime(shouldExpireNow: Boolean)
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
-        fun configCategory(currentCategory: Category?, categories: List<Category>)
+        fun showAddNewCategory()
+        fun configCategory(currentCategory: Category?)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -43,12 +44,12 @@ interface EditAddressContract {
         fun onSavePressed()
         fun onChangeComment(comment: String)
         fun onSelectedCategory(category: Category?)
+        fun onAddNewCategoryPressed()
     }
 
     interface Repository : MvpRepository {
         fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
         fun getCategory(address: String): Category?
-        fun getAllCategory(): List<Category>
         fun changeCategoryForAddress(address: String, category: Category?)
     }
 }

@@ -37,7 +37,6 @@ import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
-import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**

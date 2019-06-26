@@ -30,9 +30,9 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.fragment_edit_address.*
@@ -99,33 +99,22 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         expiredTitle.addDoubleDots()
     }
 
-    override fun configCategory(currentCategory: Category?, categories: List<Category>) {
-        categorySpinner.isEnabled = categories.isNotEmpty()
+    override fun configCategory(currentCategory: Category?) {
+        categorySpinner.selectCategory(currentCategory)
 
-        emptyCategoryListMessage.visibility = if (categories.isEmpty()) View.VISIBLE else View.GONE
-
-        if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
-
-            if (currentCategory == null) {
-                categorySpinner.setSelection(0)
-            } else {
-                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id } + 1)
+        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
+            override fun onSelect(category: Category?) {
+                presenter?.onSelectedCategory(category)
             }
-        }
 
-
-        categorySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    presenter?.onSelectedCategory(categories[position - 1])
-                } else {
-                    presenter?.onSelectedCategory(null)
-                }
+            override fun onAddNewCategoryPressed() {
+                presenter?.onAddNewCategoryPressed()
             }
-        }
+        })
+    }
+
+    override fun showAddNewCategory() {
+        findNavController().navigate(EditAddressFragmentDirections.actionEditAddressFragmentToEditCategoryFragment())
     }
 
     override fun addListeners() {

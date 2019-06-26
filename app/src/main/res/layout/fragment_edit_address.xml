@@ -147,27 +147,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
 
-            <Spinner
+            <com.mw.beam.beamwallet.core.views.CategorySpinner
                 android:id="@+id/categorySpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edit_address_element_low_offset"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:dropDownVerticalOffset="@dimen/edit_address_element_offset"
-                android:backgroundTint="@color/btn_drop_down_color"
-                android:dropDownSelector="@android:color/transparent"
-                android:popupBackground="@drawable/menu_background"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
-
-            <TextView
-                android:id="@+id/emptyCategoryListMessage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edit_address_element_low_offset"
-                android:text="@string/edit_address_category_empty_message"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle"/>
 
             <TextView
                 android:id="@+id/commentTitle"
@@ -177,7 +161,7 @@
                 android:paddingTop="@dimen/edit_address_element_offset"
                 android:text="@string/annotation"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/emptyCategoryListMessage" />
+                app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
 
             <EditText
                 android:id="@+id/comment"

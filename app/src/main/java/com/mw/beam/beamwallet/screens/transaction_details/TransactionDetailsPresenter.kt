@@ -24,7 +24,6 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import io.reactivex.disposables.Disposable
 
 /**

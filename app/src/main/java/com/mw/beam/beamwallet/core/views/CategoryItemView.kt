@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.core.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -52,6 +53,14 @@ class CategoryItemView: FrameLayout {
         set(value) {
             field = value
             categoryName.text = field
+        }
+
+    var enableCircleTitle: Boolean = true
+        set(value) {
+            field = value
+            val visibility = if (value) View.VISIBLE else View.GONE
+            colorCircle.visibility = visibility
+            emptySpaceDivider.visibility = visibility
         }
 
     override fun setOnClickListener(l: OnClickListener?) {

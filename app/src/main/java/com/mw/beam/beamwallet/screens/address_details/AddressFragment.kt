@@ -17,7 +17,10 @@
 package com.mw.beam.beamwallet.screens.address_details
 
 import android.annotation.SuppressLint
-import android.view.*
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R

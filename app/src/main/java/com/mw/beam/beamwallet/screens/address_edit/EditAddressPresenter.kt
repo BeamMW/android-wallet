@@ -40,7 +40,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         state.tempCategory = currentCategory
         state.currentCategory = currentCategory
 
-        view?.configCategory(currentCategory, repository.getAllCategory())
+        view?.configCategory(currentCategory)
     }
 
     override fun onSelectedCategory(category: Category?) {
@@ -94,6 +94,10 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         val isCategoryChanged = state.currentCategory?.id != state.tempCategory?.id
 
         return isExpireChanged || isCommentChanged || isCategoryChanged
+    }
+
+    override fun onAddNewCategoryPressed() {
+        view?.showAddNewCategory()
     }
 
     override fun onSavePressed() {

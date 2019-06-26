@@ -506,31 +506,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
 
-                    <Spinner
+                    <com.mw.beam.beamwallet.core.views.CategorySpinner
                         android:id="@+id/categorySpinner"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/receive_common_margin"
-                        android:backgroundTint="@color/btn_drop_down_color"
-                        android:dropDownVerticalOffset="@dimen/edit_address_element_offset"
-                        android:dropDownSelector="@android:color/transparent"
-                        android:popupBackground="@drawable/menu_background"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
-
-                    <TextView
-                        android:id="@+id/emptyCategoryListMessage"
-                        style="@style/common_text_small_dark"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/edit_address_element_low_offset"
-                        android:text="@string/edit_address_category_empty_message"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

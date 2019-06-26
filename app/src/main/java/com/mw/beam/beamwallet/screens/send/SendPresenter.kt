@@ -132,6 +132,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
+    override fun onAddNewCategoryPressed() {
+        view?.showAddNewCategory()
+    }
+
     override fun onNext() {
         if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
             val amount = view?.getAmount()
@@ -340,7 +344,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
         state.outgoingAddress = walletAddress
         view?.configOutgoingAddress(walletAddress, isGenerated)
-        view?.configCategory(repository.getCategory(walletAddress.walletID), repository.getAllCategory())
+        view?.configCategory(repository.getCategory(walletAddress.walletID))
 
     }
 

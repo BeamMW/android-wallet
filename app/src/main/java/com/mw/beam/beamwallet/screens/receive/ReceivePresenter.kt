@@ -62,7 +62,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         state.address?.let {
             view?.initAddress(state.isNeedGenerateAddress, it)
-            view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+            view?.configCategory(repository.getCategory(it.walletID))
         }
 
     }
@@ -75,7 +75,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         super.onResume()
         state.address?.let {
             view?.initAddress(state.isNeedGenerateAddress, it)
-            view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+            view?.configCategory(repository.getCategory(it.walletID))
         }
         view?.handleExpandAdvanced(state.expandAdvanced)
         view?.handleExpandEditAddress(state.expandEditAddress)
@@ -116,6 +116,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         saveAddress()
     }
 
+    override fun onAddNewCategoryPressed() {
+        view?.showAddNewCategory()
+    }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
@@ -125,7 +128,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 if (state.address == null) {
                     state.address = it
                     view?.initAddress(true, it)
-                    view?.configCategory(repository.getCategory(it.walletID), repository.getAllCategory())
+                    view?.configCategory(repository.getCategory(it.walletID))
                     saveAddress()
                 }
             }

@@ -72,9 +72,10 @@ interface SendContract {
         fun getCommentOutgoingAddress(): String
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
-        fun configCategory(currentCategory: Category?, categories: List<Category>)
+        fun configCategory(currentCategory: Category?)
         fun updateFeeViews()
         fun showFeeDialog()
+        fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?)
@@ -102,6 +103,7 @@ interface SendContract {
         fun onLongPressFee()
         fun onEnterFee(rawFee: String?)
         fun onSelectAddress(walletAddress: WalletAddress)
+        fun onAddNewCategoryPressed()
     }
 
     interface Repository : MvpRepository {
@@ -114,7 +116,6 @@ interface SendContract {
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun saveAddress(address: WalletAddress)
         fun getCategory(address: String): Category?
-        fun getAllCategory(): List<Category>
         fun changeCategoryForAddress(address: String, category: Category?)
         fun updateAddress(address: WalletAddress)
     }

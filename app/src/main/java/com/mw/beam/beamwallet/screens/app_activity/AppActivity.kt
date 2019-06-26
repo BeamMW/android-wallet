@@ -3,15 +3,16 @@ package com.mw.beam.beamwallet.screens.app_activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.View
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
-import kotlinx.android.synthetic.main.activity_app.*
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 

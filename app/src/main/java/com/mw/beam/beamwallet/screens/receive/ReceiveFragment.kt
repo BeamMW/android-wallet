@@ -32,15 +32,14 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
-import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import kotlinx.android.synthetic.main.fragment_receive.*
-import kotlinx.android.synthetic.main.fragment_receive.categorySpinner
-import kotlinx.android.synthetic.main.fragment_receive.comment
-import kotlinx.android.synthetic.main.fragment_receive.emptyCategoryListMessage
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -120,9 +119,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         animateDropDownIcon(btnExpandEditAddress, expand)
         TransitionManager.beginDelayedTransition(contentLayout)
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
-
-        emptyCategoryListMessage.visibility = if (categorySpinner.adapter?.isEmpty != false && expand) View.VISIBLE else View.GONE
-
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
@@ -175,33 +171,22 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getComment(): String? = comment.text?.toString()
 
-    override fun configCategory(currentCategory: Category?, categories: List<Category>) {
-        categorySpinner.isEnabled = categories.isNotEmpty()
+    override fun configCategory(currentCategory: Category?) {
+        categorySpinner.selectCategory(currentCategory)
 
-        emptyCategoryListMessage.visibility = if (categories.isEmpty() && editAddressGroup.visibility == View.VISIBLE) View.VISIBLE else View.GONE
-
-        if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
-
-            if (currentCategory == null) {
-                categorySpinner.setSelection(0)
-            } else {
-                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id } + 1)
+        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
+            override fun onSelect(category: Category?) {
+                presenter?.onSelectedCategory(category)
             }
-        }
 
-
-        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    presenter?.onSelectedCategory(categories[position - 1])
-                } else {
-                    presenter?.onSelectedCategory(null)
-                }
+            override fun onAddNewCategoryPressed() {
+                presenter?.onAddNewCategoryPressed()
             }
-        }
+        })
+    }
+
+    override fun showAddNewCategory() {
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToEditCategoryFragment())
     }
 
     override fun close() {

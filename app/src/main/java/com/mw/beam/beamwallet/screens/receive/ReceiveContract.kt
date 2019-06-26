@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.receive
 
 import androidx.lifecycle.LifecycleOwner
-import com.google.android.gms.common.api.internal.LifecycleCallback
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -41,9 +40,10 @@ interface ReceiveContract {
         fun getAmount(): Double?
         fun setAmount(newAmount: Double)
         fun showChangeAddressFragment()
-        fun configCategory(currentCategory: Category?, categories: List<Category>)
+        fun configCategory(currentCategory: Category?)
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
+        fun showAddNewCategory()
         fun getLifecycleOwner(): LifecycleOwner
         fun getWalletAddressFromArguments(): WalletAddress?
     }
@@ -57,6 +57,7 @@ interface ReceiveContract {
         fun onAdvancedPressed()
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
+        fun onAddNewCategoryPressed()
         fun onAddressChanged(walletAddress: WalletAddress)
     }
 
@@ -64,7 +65,6 @@ interface ReceiveContract {
         fun generateNewAddress() : Subject<WalletAddress>
         fun saveAddress(address: WalletAddress)
         fun getCategory(address: String): Category?
-        fun getAllCategory(): List<Category>
         fun changeCategoryForAddress(address: String, category: Category?)
         fun updateAddress(address: WalletAddress)
     }

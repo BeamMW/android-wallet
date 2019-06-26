@@ -50,22 +50,19 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
+import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import com.mw.beam.beamwallet.screens.address_edit.CategoryAdapter
 import com.mw.beam.beamwallet.screens.addresses.AddressPagerType
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.addresses.AddressesPagerAdapter
 import com.mw.beam.beamwallet.screens.addresses.Tab
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
-import kotlinx.android.synthetic.main.fragment_send.scanQR
 
 
 /**
@@ -504,41 +501,28 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         animateDropDownIcon(btnExpandEditAddress, expand)
         beginTransaction()
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
-
-        emptyCategoryListMessage.visibility = if (categorySpinner.adapter?.isEmpty != false && expand) View.VISIBLE else View.GONE
     }
 
     private fun clearFocus() {
         contentLayout?.requestFocus()
     }
 
-    override fun configCategory(currentCategory: Category?, categories: List<Category>) {
-        categorySpinner.isEnabled = categories.isNotEmpty()
+    override fun configCategory(currentCategory: Category?) {
+        categorySpinner.selectCategory(currentCategory)
 
-        emptyCategoryListMessage.visibility = if (categories.isEmpty() && editAddressGroup.visibility == View.VISIBLE) View.VISIBLE else View.GONE
-
-        if (categories.isNotEmpty()) {
-            categorySpinner.adapter = CategoryAdapter(context!!, arrayListOf(CategoryHelper.noneCategory).apply { addAll(categories) })
-
-            if (currentCategory == null) {
-                categorySpinner.setSelection(0)
-            } else {
-                categorySpinner.setSelection(categories.indexOfFirst { currentCategory.id == it.id } + 1)
+        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
+            override fun onSelect(category: Category?) {
+                presenter?.onSelectedCategory(category)
             }
-        }
 
-
-        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position > 0) {
-                    presenter?.onSelectedCategory(categories[position - 1])
-                } else {
-                    presenter?.onSelectedCategory(null)
-                }
+            override fun onAddNewCategoryPressed() {
+                presenter?.onAddNewCategoryPressed()
             }
-        }
+        })
+    }
+
+    override fun showAddNewCategory() {
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToEditCategoryFragment())
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {

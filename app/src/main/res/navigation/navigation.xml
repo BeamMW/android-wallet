@@ -316,6 +316,16 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_receiveFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="@null"
+                android:name="categoryId" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/sendFragment"
@@ -348,6 +358,16 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_sendFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="@null"
+                android:name="categoryId" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
@@ -440,6 +460,16 @@
         <argument
             android:name="walletAddress"
             app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress" />
+        <action
+            android:id="@+id/action_editAddressFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="@null"
+                android:name="categoryId" />
+        </action>
     </fragment>
     <fragment
         tools:layout="@layout/fragment_edit_category"

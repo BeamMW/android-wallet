@@ -74,10 +74,6 @@ class SendRepository : BaseRepository(), SendContract.Repository {
         }
     }
 
-    override fun getAllCategory(): List<Category> {
-        return CategoryHelper.getAllCategory()
-    }
-
     override fun getCategory(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)
     }
