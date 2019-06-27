@@ -39,7 +39,7 @@ class BeamButton : LinearLayout {
         set(value) {
             field = value
             if (field != Integer.MIN_VALUE) {
-                text.text = context.getString(field)
+                text.text = if (isLowerCase) context.getString(field).toLowerCase() else context.getString(field)
             }
         }
     var textColorResId: Int = Integer.MIN_VALUE
@@ -49,6 +49,8 @@ class BeamButton : LinearLayout {
                 text.setTextColor(ContextCompat.getColor(context, field))
             }
         }
+
+    private var isLowerCase = false
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context, attrs)
@@ -86,7 +88,8 @@ class BeamButton : LinearLayout {
                 text.setPadding(text.paddingLeft, 0, text.paddingRight,0)
             }
 
-            if (a.getBoolean(R.styleable.BeamButton_lower_case, false)) {
+            isLowerCase = a.getBoolean(R.styleable.BeamButton_lower_case, false)
+            if (isLowerCase) {
                 text.text = text.text.toString().toLowerCase()
             }
         }
