@@ -29,6 +29,7 @@ android {
         versionCode 55
         versionName "2.1.71"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {

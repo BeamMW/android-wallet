@@ -39,6 +39,7 @@ import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
+import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
 
 /**
@@ -68,6 +69,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private val changeAddressCallback = object : ChangeAddressCallback {
         override fun onChangeAddress(walletAddress: WalletAddress) {
             presenter?.onAddressChanged(walletAddress)
+            ChangeAddressFragment.callback = null
         }
     }
 
@@ -159,7 +161,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun showChangeAddressFragment() {
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToChangeAddressFragment(callback = changeAddressCallback))
+        ChangeAddressFragment.callback = changeAddressCallback
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToChangeAddressFragment())
     }
 
     override fun getLifecycleOwner(): LifecycleOwner = this

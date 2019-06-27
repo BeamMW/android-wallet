@@ -61,6 +61,7 @@ import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.addresses.AddressesPagerAdapter
 import com.mw.beam.beamwallet.screens.addresses.Tab
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
+import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 
@@ -90,6 +91,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private val changeAddressCallback = object : ChangeAddressCallback {
         override fun onChangeAddress(walletAddress: WalletAddress) {
             presenter?.onAddressChanged(walletAddress)
+            ChangeAddressFragment.callback = null
         }
     }
 
@@ -540,7 +542,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun showChangeAddressFragment() {
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment(callback = changeAddressCallback))
+        ChangeAddressFragment.callback = changeAddressCallback
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment())
     }
 
     override fun setAddress(address: String) {

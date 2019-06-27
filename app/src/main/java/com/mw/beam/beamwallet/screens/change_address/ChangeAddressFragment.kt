@@ -13,6 +13,11 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import kotlinx.android.synthetic.main.fragment_change_address.*
 
 class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddressContract.View {
+
+    companion object {
+        var callback: ChangeAddressCallback? = null
+    }
+
     private lateinit var adapter: SearchAddressesAdapter
 
     private val textWatcher = object : TextWatcher {
@@ -58,7 +63,7 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
     }
 
     override fun back(walletAddress: WalletAddress) {
-        ChangeAddressFragmentArgs.fromBundle(arguments!!).callback.onChangeAddress(walletAddress)
+        callback?.onChangeAddress(walletAddress)
         findNavController().popBackStack()
     }
 
