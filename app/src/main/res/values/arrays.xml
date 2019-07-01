@@ -10,11 +10,15 @@
     <string-array name="languages">
         <item>English</item>
         <item>Русский</item>
+        <item>Swedish</item>
+        <item>Spanish</item>
     </string-array>
 
     <string-array name="language_codes">
         <item>en</item>
         <item>ru</item>
+        <item>sv</item>
+        <item>es</item>
     </string-array>
 
 </resources>
