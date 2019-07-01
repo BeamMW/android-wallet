@@ -475,7 +475,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return if (isEnablePrivacyMode) {
             getString(R.string.insufficient_funds)
         } else {
-            "${getString(R.string.send_amount_overflow_error)} $amountString ${getString(R.string.currency_beam).toUpperCase()}"
+            getString(R.string.send_amount_overflow_error, amountString)
         }
     }
 
