@@ -2,6 +2,8 @@ package com.mw.beam.beamwallet.screens.change_address
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import io.reactivex.disposables.Disposable
 
 class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: ChangeAddressContract.Repository, private val state: ChangeAddressState)
@@ -16,6 +18,16 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
 
         view?.init(state.viewState)
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if (state.scannedAddress != null) {
+            state.scannedAddress?.let { view?.setAddress(it) }
+
+            state.scannedAddress = null
+        }
     }
 
     override fun initSubscriptions() {
@@ -59,10 +71,33 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
     }
 
     override fun onScanQrPressed() {
-        view?.showScanQr()
+        if (view?.isPermissionGranted() == true) {
+            view?.scanQR()
+        }
     }
 
-    override fun onScannedQr(address: String) {
+    override fun onRequestPermissionsResult(result: PermissionStatus) {
+        when (result) {
+            PermissionStatus.GRANTED -> view?.scanQR()
+            PermissionStatus.NEVER_ASK_AGAIN -> {
+                view?.showPermissionRequiredAlert()
+            }
+            PermissionStatus.DECLINED -> {
+                //do nothing
+            }
+        }
+    }
 
+    override fun onScannedQR(address: String?) {
+        if (address == null) return
+
+        val scannedAddress = QrHelper.getScannedAddress(address)
+        val isValidAddress = QrHelper.isValidAddress(scannedAddress)
+
+        if (isValidAddress) {
+            state.scannedAddress = scannedAddress
+        } else {
+            view?.showNotBeamAddressError()
+        }
     }
 }

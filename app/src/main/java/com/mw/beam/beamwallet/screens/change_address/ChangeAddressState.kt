@@ -6,6 +6,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 class ChangeAddressState {
     private val addresses = HashMap<String, WalletAddress>()
     private val transactions = HashMap<String, TxDescription>()
+    var scannedAddress : String? = null
     var viewState = ChangeAddressContract.ViewState.Receive
 
     fun updateAddresses(walletAddresses: List<WalletAddress>?) {

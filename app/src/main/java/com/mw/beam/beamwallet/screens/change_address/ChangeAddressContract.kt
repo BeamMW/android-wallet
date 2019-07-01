@@ -7,6 +7,7 @@ import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import io.reactivex.subjects.Subject
 
 interface ChangeAddressContract {
@@ -15,14 +16,19 @@ interface ChangeAddressContract {
         fun init(state: ViewState)
         fun updateList(items: List<SearchItem>)
         fun back(walletAddress: WalletAddress)
-        fun showScanQr()
+        fun scanQR()
+        fun isPermissionGranted(): Boolean
+        fun showPermissionRequiredAlert()
+        fun setAddress(address: String)
+        fun showNotBeamAddressError()
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onChangeSearchText(text: String)
         fun onItemPressed(walletAddress: WalletAddress)
         fun onScanQrPressed()
-        fun onScannedQr(address: String)
+        fun onScannedQR(address: String?)
+        fun onRequestPermissionsResult(result: PermissionStatus)
     }
 
     interface Repository: MvpRepository {
