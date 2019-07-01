@@ -49,7 +49,7 @@
                 <TextView
                     android:id="@+id/startAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/sending_address"
+                    tools:text="@string/my_sending_address"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
 
@@ -78,7 +78,7 @@
                 <TextView
                     android:id="@+id/endAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/receiving_address"
+                    tools:text="@string/my_receiving_address"
                     android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />

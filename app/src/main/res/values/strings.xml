@@ -177,8 +177,6 @@
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>
     <string name="general_transaction_info">General transaction info</string>
-    <string name="sending_address">Sending address</string>
-    <string name="receiving_address">Receiving address</string>
     <string name="currency_amount">Currency amount</string>
     <string name="transaction_fee">Transaction fee</string>
     <string name="comment">Comment</string>
@@ -192,6 +190,9 @@
     <string name="transaction_utxo_list">Transaction UTXO list</string>
     <string name="details">Details</string>
     <string name="transaction_details_open_in_explorer">Open in Block Explorer</string>
+    <string name="my_receiving_address">My receiving address</string>
+    <string name="my_sending_address">My sending address</string>
+    <string name="my_address">My address</string>
 
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>

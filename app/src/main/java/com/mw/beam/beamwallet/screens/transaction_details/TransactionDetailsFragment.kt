@@ -52,8 +52,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         activity?.invalidateOptionsMenu()
         moreMenu?.close()
 
-        startAddressTitle.addDoubleDots()
-        endAddressTitle.addDoubleDots()
         transactionFeeTitle.addDoubleDots()
         commentTitle.addDoubleDots()
         transactionIdTitle.addDoubleDots()
@@ -110,13 +108,14 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun configTransactionDetails(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
-        message.text = String.format(
-                when (txDescription.sender) {
-                    TxSender.RECEIVED -> getString(R.string.receive)
-                    TxSender.SENT -> getString(R.string.send)
-                },
-                getString(R.string.currency_beam).toUpperCase()) //TODO replace when multiply currency will be available
+        val messageTitle = when (txDescription.sender) {
+            TxSender.RECEIVED -> getString(R.string.receive)
+            TxSender.SENT -> getString(R.string.send)
+        }
+
+        message.text =  "$messageTitle ${getString(R.string.currency_beam)}"
 
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
@@ -152,11 +151,22 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         paymentProofContainer.visibility = View.VISIBLE
     }
 
+    @SuppressLint("SetTextI18n")
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
         if (txDescription.sender.value) {
             startAddress.text = txDescription.myId
             endAddress.text = txDescription.peerId
+
+            if (txDescription.selfTx) {
+                startAddressTitle.text = "${getString(R.string.my_sending_address)}:"
+                endAddressTitle.text = "${getString(R.string.my_receiving_address)}:"
+            } else {
+                startAddressTitle.text = "${getString(R.string.my_address)}:"
+                endAddressTitle.text = "${getString(R.string.contact)}:"
+            }
         } else {
+            startAddressTitle.text = "${getString(R.string.contact)}:"
+            endAddressTitle.text = "${getString(R.string.my_address)}:"
             startAddress.text = txDescription.peerId
             endAddress.text = txDescription.myId
         }
