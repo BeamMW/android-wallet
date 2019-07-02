@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.receive
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -28,5 +29,6 @@ class ReceiveState {
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
     var expandEditAddress = false
     var expandAdvanced = false
+    var category: Category? = null
     var isNeedGenerateAddress = true
 }

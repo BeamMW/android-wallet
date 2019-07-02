@@ -24,6 +24,7 @@ import android.transition.TransitionManager
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
@@ -56,14 +57,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
     }
 
-    private val commentTextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            presenter?.onCommentChanged()
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            presenter?.onBackPressed()
         }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private val changeAddressCallback = object : ChangeAddressCallback {
@@ -99,6 +96,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         amount.filters = arrayOf(AmountFilter())
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
@@ -152,8 +151,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
         }
-
-        comment.addTextChangedListener(commentTextWatcher)
     }
 
     override fun shareToken(receiveToken: String) {
@@ -188,6 +185,34 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         })
     }
 
+    override fun showSaveAddressDialog(nextStep: () -> Unit) {
+        showAlert(
+                title = getString(R.string.save_address),
+                message = getString(R.string.receive_save_address_message),
+                btnConfirmText = getString(R.string.save),
+                btnCancelText = getString(R.string.dont_save),
+                onCancel = { nextStep() },
+                onConfirm = {
+                    presenter?.onSaveAddressPressed()
+                    nextStep()
+                }
+        )
+    }
+
+    override fun showSaveChangesDialog(nextStep: () -> Unit) {
+        showAlert(
+                title = getString(R.string.save_changes),
+                message = getString(R.string.receive_save_changes_message),
+                btnConfirmText = getString(R.string.save),
+                btnCancelText = getString(R.string.dont_save),
+                onCancel = { nextStep() },
+                onConfirm = {
+                    presenter?.onSaveAddressPressed()
+                    nextStep()
+                }
+        )
+    }
+
     override fun showAddNewCategory() {
         findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToEditCategoryFragment())
     }
@@ -204,8 +229,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnExpandAdvanced.setOnClickListener(null)
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
-
-        comment.removeTextChangedListener(commentTextWatcher)
 
         expiresOnSpinner.onItemSelectedListener = null
     }

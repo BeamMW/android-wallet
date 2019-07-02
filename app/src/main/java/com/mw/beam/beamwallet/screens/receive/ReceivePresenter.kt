@@ -67,10 +67,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     }
 
-    override fun onCommentChanged() {
-        saveAddress()
-    }
-
     override fun onResume() {
         super.onResume()
         state.address?.let {
@@ -81,17 +77,36 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         view?.handleExpandEditAddress(state.expandEditAddress)
     }
 
-    override fun onShareTokenPressed() {
-        saveAddress()
+    override fun onBackPressed() {
+        requestSaveAddress {
+            view?.close()
+        }
+    }
 
+    private fun requestSaveAddress(nextStep: () -> Unit) {
+        if (!state.wasAddressSaved) {
+            view?.showSaveAddressDialog(nextStep)
+        } else if (isAddressInfoChanged()) {
+            view?.showSaveChangesDialog(nextStep)
+        } else {
+            nextStep()
+        }
+    }
+
+    override fun onSaveAddressPressed() {
+        saveAddress()
+    }
+
+    override fun onShareTokenPressed() {
         if (state.address != null) {
             view?.shareToken(state.address!!.walletID)
         }
     }
 
     override fun onChangeAddressPressed() {
-        saveAddress()
-        view?.showChangeAddressFragment()
+        requestSaveAddress {
+            view?.showChangeAddressFragment()
+        }
     }
 
     override fun onAdvancedPressed() {
@@ -105,7 +120,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onShowQrPressed() {
-        saveAddress()
         state.address?.let { address ->
             view?.showQR(address, view?.getAmount()?.convertToGroth())
         }
@@ -113,11 +127,19 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
         state.expirePeriod = period
-        saveAddress()
     }
 
     override fun onAddNewCategoryPressed() {
         view?.showAddNewCategory()
+    }
+
+    private fun isAddressInfoChanged(): Boolean {
+        return state.address?.let { address ->
+            address.label != view?.getComment() ?: "" ||
+                    address.duration != state.expirePeriod.value ||
+                    repository.getCategory(address.walletID)?.id != state.category?.id
+
+        } ?: false
     }
 
     override fun initSubscriptions() {
@@ -129,7 +151,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                     state.address = it
                     view?.initAddress(true, it)
                     view?.configCategory(repository.getCategory(it.walletID))
-                    saveAddress()
                 }
             }
         } else {
@@ -144,25 +165,26 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onSelectedCategory(category: Category?) {
-        state.address?.let { repository.changeCategoryForAddress(it.walletID, category) }
-        saveAddress()
+        state.category = category
     }
 
     private fun saveAddress() {
-        if (state.address != null) {
-            state.address!!.duration = state.expirePeriod.value
+        state.address?.let { address ->
+            address.duration = state.expirePeriod.value
 
             val comment = view?.getComment()
-
-            state.address!!.label = comment ?: ""
+            address.label = comment ?: ""
 
             if (state.wasAddressSaved) {
-                repository.updateAddress(state.address!!)
+                repository.updateAddress(address)
             } else {
-                repository.saveAddress(state.address!!)
+                repository.saveAddress(address)
             }
 
+            repository.changeCategoryForAddress(address.walletID, state.category)
+
             state.wasAddressSaved = true
+            state.isNeedGenerateAddress = false
         }
     }
 

@@ -46,10 +46,11 @@ interface ReceiveContract {
         fun showAddNewCategory()
         fun getLifecycleOwner(): LifecycleOwner
         fun getWalletAddressFromArguments(): WalletAddress?
+        fun showSaveAddressDialog(nextStep: () -> Unit)
+        fun showSaveChangesDialog(nextStep: () -> Unit)
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun onCommentChanged()
         fun onShareTokenPressed()
         fun onShowQrPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
@@ -58,6 +59,8 @@ interface ReceiveContract {
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
         fun onAddNewCategoryPressed()
+        fun onSaveAddressPressed()
+        fun onBackPressed()
         fun onAddressChanged(walletAddress: WalletAddress)
     }
 
