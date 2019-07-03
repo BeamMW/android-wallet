@@ -42,7 +42,7 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
     }
 
     override fun saveAddress(address: WalletAddress) {
-        getResult("saveAddress") {
+        getResult("saveAddressChanges") {
             wallet?.saveAddress(address.toDTO(), true)
         }
     }

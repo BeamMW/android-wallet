@@ -145,7 +145,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             if (amount != null && fee != null && token != null && isValidToken(token)) {
                 // we can't send money to own expired address
-                if (state.addresses.values.find { it.walletID == token && it.isExpired } != null) {
+                if (state.addresses.values.find { it.walletID == token && it.isExpired && !it.isContact } != null) {
                     view?.showCantSendToExpiredError()
                 } else if (state.outgoingAddress != null) {
                     saveAddress()

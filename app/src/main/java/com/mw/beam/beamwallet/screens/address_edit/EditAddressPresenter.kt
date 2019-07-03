@@ -106,19 +106,23 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         repository.changeCategoryForAddress(state.address!!.walletID, state.tempCategory)
 
-        if (address.isExpired) {
-            if (state.shouldActivateNow) {
-                repository.saveAddress(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
-            }
-        } else {
-            if (state.shouldExpireNow) {
-                repository.saveAddress(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = address.duration == 0L)
+        if (!address.isContact) {
+            if (address.isExpired) {
+                if (state.shouldActivateNow) {
+                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
+                }
             } else {
-                when {
-                    state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddress(addr = address.walletID, name = address.label, makeActive = false, makeExpired = false, isNever = true)
-                    state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddress(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = false)
+                if (state.shouldExpireNow) {
+                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = address.duration == 0L)
+                } else {
+                    when {
+                        state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = false, isNever = true)
+                        state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = false)
+                    }
                 }
             }
+        } else {
+            repository.saveAddress(address, false)
         }
 
         view?.finishScreen()

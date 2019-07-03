@@ -63,7 +63,6 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
-        menu?.findItem(R.id.edit)?.isVisible = address.own != 0L
         menu?.findItem(R.id.showQR)?.isVisible = address.isContact || !address.isExpired
     }
 

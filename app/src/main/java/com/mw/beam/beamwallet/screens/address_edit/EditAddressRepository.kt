@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 
@@ -25,9 +26,15 @@ import com.mw.beam.beamwallet.core.helpers.CategoryHelper
  */
 class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 
-    override fun saveAddress(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
-        getResult("saveAddress") {
+    override fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
+        getResult("saveAddressChanges") {
             wallet?.saveAddressChanges(addr, name, isNever, makeActive, makeExpired)
+        }
+    }
+
+    override fun saveAddress(address: WalletAddress, own: Boolean) {
+        getResult("saveAddress") {
+            wallet?.saveAddress(address.toDTO(), own)
         }
     }
 

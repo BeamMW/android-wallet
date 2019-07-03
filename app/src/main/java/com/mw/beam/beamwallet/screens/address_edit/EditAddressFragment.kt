@@ -45,7 +45,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     private lateinit var expireNowString: String
     private lateinit var activateString: String
 
-    private val commentTextWatcher: TextWatcher = object: TextWatcher {
+    private val commentTextWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             presenter?.onChangeComment(s?.toString() ?: "")
         }
@@ -77,12 +77,20 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         comment.setText(address.label)
         btnSave.isEnabled = false
 
-        if (address.isExpired) {
-            expiredTitle.visibility = View.VISIBLE
-            expiredTime.visibility = View.VISIBLE
+        val expiredVisibility = if (address.isExpired && !address.isContact) View.VISIBLE else View.GONE
+        val expiresVisibility = if (address.isExpired || address.isContact) View.GONE else View.VISIBLE
+
+        expiredTitle.visibility = expiredVisibility
+        expiredTime.visibility = expiredVisibility
+        expiresTitle.visibility = expiresVisibility
+        expiresSpinner.visibility = expiresVisibility
+
+        val expireSwitchVisibility = if (address.isContact) View.GONE else View.VISIBLE
+        expiresSwitchTitle.visibility = expireSwitchVisibility
+        expiresSwitch.visibility = expireSwitchVisibility
+
+        if (address.isExpired && !address.isContact) {
             expiredTime.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
-            expiresTitle.visibility = View.GONE
-            expiresSpinner.visibility = View.GONE
         }
 
         ArrayAdapter.createFromResource(
@@ -102,7 +110,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun configCategory(currentCategory: Category?) {
         categorySpinner.selectCategory(currentCategory)
 
-        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
+        categorySpinner.setOnChangeCategoryListener(object : CategorySpinner.OnChangeCategoryListener {
             override fun onSelect(category: Category?) {
                 presenter?.onSelectedCategory(category)
             }
