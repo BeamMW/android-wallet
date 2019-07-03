@@ -18,11 +18,29 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             state.comment = getComment()
 
 
-            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee)
+            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, repository.isConfirmTransactionEnabled())
         }
     }
 
+    override fun onPasswordChanged() {
+        view?.clearPasswordError()
+    }
+
     override fun onSendPressed() {
+        if (repository.isConfirmTransactionEnabled()) {
+            val password = view?.getPassword()
+
+            when {
+                password.isNullOrBlank() -> view?.showEmptyPasswordError()
+                repository.checkPassword(password) -> send()
+                else -> view?.showWrongPasswordError()
+            }
+        } else {
+            send()
+        }
+    }
+
+    private fun send() {
         if (state.contact == null) {
             view?.showSaveContactDialog()
         } else {
@@ -39,7 +57,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             val findAddress = state.addresses.values.find { it.walletID == state.token }
             if (findAddress != null) {
                 state.contact = findAddress
-                view?.configurateContact(findAddress, repository.getCategory(findAddress.walletID))
+                view?.configureContact(findAddress, repository.getCategory(findAddress.walletID))
             }
         }
     }

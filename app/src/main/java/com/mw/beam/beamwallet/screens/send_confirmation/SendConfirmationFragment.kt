@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.send_confirmation
 
 import android.annotation.SuppressLint
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -14,6 +15,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
@@ -21,6 +23,12 @@ import kotlinx.android.synthetic.main.fragment_send_confirmation.*
 class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private val args: SendConfirmationFragmentArgs by lazy {
         SendConfirmationFragmentArgs.fromBundle(arguments!!)
+    }
+
+    private val passWatcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+            presenter?.onPasswordChanged()
+        }
     }
 
     private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
@@ -37,7 +45,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getComment(): String? = args.comment
 
     @SuppressLint("SetTextI18n")
-    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long) {
+    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean) {
         changeUtxoTitle.text = "${getString(R.string.change).toLowerCase()} (${getString(R.string.change_description)})"
 
         sendTo.text = address
@@ -54,9 +62,12 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         this.outgoingAddress.text = outgoingAddress
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
+
+        passLayout.visibility = if (isEnablePasswordConfirm) View.VISIBLE else View.GONE
+        passError.visibility = if (isEnablePasswordConfirm) View.INVISIBLE else View.GONE
     }
 
-    override fun configurateContact(walletAddress: WalletAddress, category: Category?) {
+    override fun configureContact(walletAddress: WalletAddress, category: Category?) {
         if (!walletAddress.label.isBlank()) {
             contactName.visibility = View.VISIBLE
             contactName.text = walletAddress.label
@@ -73,10 +84,13 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         btnSend.setOnClickListener {
             presenter?.onSendPressed()
         }
+
+        pass.addTextChangedListener(passWatcher)
     }
 
     override fun clearListeners() {
         btnSend.setOnClickListener(null)
+        pass.removeTextChangedListener(passWatcher)
     }
 
     @SuppressLint("SetTextI18n")
@@ -92,6 +106,25 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
         (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress))
+    }
+
+    override fun getPassword(): String = pass.text?.toString() ?: ""
+
+    override fun clearPasswordError() {
+        passError.visibility = View.INVISIBLE
+        pass.isStateAccent = true
+    }
+
+    override fun showWrongPasswordError() {
+        pass.isStateError = true
+        passError.text = getString(R.string.pass_wrong)
+        passError.visibility = View.VISIBLE
+    }
+
+    override fun showEmptyPasswordError() {
+        pass.isStateError = true
+        passError.text = getString(R.string.password_can_not_be_empty)
+        passError.visibility = View.VISIBLE
     }
 
     override fun showSaveAddressFragment(address: String) {

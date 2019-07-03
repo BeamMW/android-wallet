@@ -218,14 +218,48 @@
                 app:layout_constraintTop_toBottomOf="@id/changeUtxoTitle"
                 tools:text="2144 BEAM" />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:layout_marginTop="@dimen/common_offset"
+                app:hintTextAppearance="@style/welcome_password_label_style"
+                app:layout_constraintBottom_toTopOf="@id/passError"
+                app:layout_constraintTop_toBottomOf="@id/changeUtxo">
+
+                <com.mw.beam.beamwallet.core.views.BeamEditText
+                    android:id="@+id/pass"
+                    style="@style/welcome_password_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    tools:ignore="Autofill,LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/passError"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingTop="@dimen/welcome_passwords_items_offset"
+                android:text="@string/password_not_match"
+                android:textColor="@color/common_error_color"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/passLayout" />
+
             <TextView
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/changeUtxo"
+                app:layout_constraintTop_toBottomOf="@id/passError"
                 style="@style/common_text_big_light"
                 android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="20dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:layout_marginTop="20dp"
                 android:textStyle="italic"
                 android:textAlignment="center"
                 android:id="@+id/description"

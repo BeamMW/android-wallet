@@ -15,8 +15,12 @@ interface SendConfirmationContract {
         fun getAmount(): Long
         fun getFee(): Long
         fun getComment(): String?
-        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long)
-        fun configurateContact(walletAddress: WalletAddress, category: Category?)
+        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean)
+        fun clearPasswordError()
+        fun showEmptyPasswordError()
+        fun showWrongPasswordError()
+        fun configureContact(walletAddress: WalletAddress, category: Category?)
+        fun getPassword(): String
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
         fun showSaveContactDialog()
         fun showSaveAddressFragment(address: String)
@@ -28,9 +32,12 @@ interface SendConfirmationContract {
         fun onSendPressed()
         fun onSaveContactPressed()
         fun onCancelSaveContactPressed()
+        fun onPasswordChanged()
     }
 
     interface Repository : MvpRepository {
+        fun checkPassword(password: String): Boolean
+        fun isConfirmTransactionEnabled(): Boolean
         fun getCategory(address: String): Category?
         fun getAddresses(): Subject<OnAddressesData>
     }
