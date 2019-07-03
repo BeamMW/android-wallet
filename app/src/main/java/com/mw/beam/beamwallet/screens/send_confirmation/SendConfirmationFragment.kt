@@ -34,6 +34,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getOutgoingAddress(): String = args.outgoingAddress
     override fun getAmount(): Long = args.sendAmount
     override fun getFee(): Long = args.fee
+    override fun getComment(): String? = args.comment
 
     @SuppressLint("SetTextI18n")
     override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long) {

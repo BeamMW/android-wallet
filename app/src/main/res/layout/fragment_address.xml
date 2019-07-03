@@ -30,6 +30,13 @@
                 android:padding="16dp"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/titlesBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="addressIdTitle, expireDateTitle, categoryTitle, annotationTitle" />
+
                 <TextView
                     android:id="@+id/addressIdTitle"
                     style="@style/common_text_big_dark"
@@ -46,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/address_content_offset"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/expireDateTitle"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="asfsdgkldsgklnlwkefnlwenlfkwengjlwengnwenwejg" />
 
@@ -78,6 +85,7 @@
                     android:layout_marginTop="@dimen/address_content_offset"
                     android:text="@string/category"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/expirationDate" />
 
@@ -87,6 +95,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/addressId"
                     app:layout_constraintTop_toTopOf="@id/categoryTitle"
@@ -100,6 +109,7 @@
                     android:layout_marginTop="@dimen/address_content_offset"
                     android:text="@string/annotation"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/category" />
 
@@ -109,6 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
+                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@id/addressId"
                     app:layout_constraintTop_toTopOf="@id/annotationTitle"

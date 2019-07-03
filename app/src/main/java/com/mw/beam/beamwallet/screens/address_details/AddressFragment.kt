@@ -100,6 +100,10 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         val annotationVisibility = if (address.label.isNotBlank()) View.VISIBLE else View.GONE
         annotation.visibility = annotationVisibility
         annotationTitle.visibility = annotationVisibility
+
+        val expirationVisibility = if (address.isContact) View.GONE else View.VISIBLE
+        expirationDate.visibility = expirationVisibility
+        expireDateTitle.visibility = expirationVisibility
     }
 
     override fun configureCategory(findCategory: Category?) {

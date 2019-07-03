@@ -14,6 +14,7 @@ interface SendConfirmationContract {
         fun getOutgoingAddress(): String
         fun getAmount(): Long
         fun getFee(): Long
+        fun getComment(): String?
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long)
         fun configurateContact(walletAddress: WalletAddress, category: Category?)
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)

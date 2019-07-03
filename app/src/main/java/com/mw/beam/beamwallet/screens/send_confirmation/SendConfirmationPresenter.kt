@@ -15,6 +15,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             state.outgoingAddress = getOutgoingAddress()
             state.amount = getAmount()
             state.fee = getFee()
+            state.comment = getComment()
 
 
             init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee)
