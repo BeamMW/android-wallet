@@ -181,9 +181,9 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transaction_utxo_list">Listado de UTXO de la transaccion</string>
     <string name="details">Detalles</string>
     <string name="transaction_details_open_in_explorer">Abrir en el explorador de bloques</string>
-    <string name="my_receiving_address">My receiving address</string>
-    <string name="my_sending_address">My sending address</string>
-    <string name="my_address">My address</string>
+    <string name="my_receiving_address">Mi dirección de recepción</string>
+    <string name="my_sending_address">Mi dirección de envío</string>
+    <string name="my_address">Mi dirección</string>
     <!--ReceiveFragment-->
     <string name="swap">Intercambiar</string>
     <string name="annotation">Anotación</string>
@@ -210,7 +210,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="send_token_description">Ingrese o escanee la dirección del destinatario</string>
     <string name="send_amount_empty_error">El campo de cantidad no puede estar vacío</string>
     <string name="send_amount_zero_error">La cantidad no puede ser 0 BEAM</string>
-    <string name="send_amount_overflow_error">Maximum available amount is %1$s BEAM</string>
+    <string name="send_amount_overflow_error">Máxima cantidad disponible es %1$s BEAM</string>
     <string name="insufficient_funds">Fondos insuficientes</string>
     <string name="invalid_address">Dirección erronea</string>
     <string name="send_error_expired_address">No se puede enviar a la dirección caducada</string>
@@ -228,8 +228,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transaction_comment">Nota de transacción</string>
     <string name="wont_be_shared">no será compartido</string>
     <string name="outgoing_address">Dirección saliente</string>
-    <string name="my_addresses">My addresses</string>
-    <string name="no_matching_address_found">No matching address found</string>
+    <string name="my_addresses">Mis direcciones</string>
+    <string name="no_matching_address_found">No se encontró una dirección coincidente</string>
     <!--SettingsFragment-->
     <string name="settings_report">Informar de un problema</string>
     <string name="settings_change_pass">Cambia la contraseña del wallet</string>
@@ -296,7 +296,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--CategoryFragment-->
     <string name="edit">Editar</string>
     <string name="delete_category">Borrar categoría</string>
-    <string name="category_delete_dialog_message">Are you sure you want to delete %1$s category?</string>
+    <string name="category_delete_dialog_message">¿Está usted seguro de querer borrar %1$s categoría?</string>
     <!--EditCategory-->
     <string name="edit_category">Editar categoría</string>
     <string name="color">Color</string>
@@ -327,15 +327,15 @@ para acceder al wallet</string>
     <string name="existing_addresses">Direcciones existentes</string>
     <string name="requested_amount">Cantidad solicitada</string>
     <string name="paste_address_or_choose_contact">Pegar dirección o elegir contacto</string>
-    <string name="send_to">Send to</string>
-    <string name="amount_to_send">Amount to send</string>
-    <string name="total_utxo_value">Total UTXO value</string>
-    <string name="confirmation_send_description">Please notice, that for transaction to be successful, both you and recipient should be online!</string>
-    <string name="confirmation">Confirmation</string>
-    <string name="change_description">will be locked till the transaction will succeed or expire</string>
-    <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
-    <string name="save_address">Save address</string>
-    <string name="dont_save">Don’t save</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
+    <string name="send_to">Enviar a</string>
+    <string name="amount_to_send">Cantidad a enviar</string>
+    <string name="total_utxo_value">Valor total del UTXO</string>
+    <string name="confirmation_send_description">Atención por favor, para que la transacción sea exitosa, tanto usted como el destinatario deben estar en línea!</string>
+    <string name="confirmation">Confirmación</string>
+    <string name="change_description">se bloqueará hasta que la transacción tenga éxito o caduque</string>
+    <string name="save_recipient_address">¿Le gustaría guardar la dirección del destinatario para futuras transacciones?</string>
+    <string name="save_address">Salvar dirección</string>
+    <string name="dont_save">No guardar</string>
+    <string name="enter_your_current_password_to_proceed_changes_in_settings">Introduzca su contraseña actual para continuar con los cambios en la configuración</string>
     <string name="save_changes">Save changes</string>
 </resources>
