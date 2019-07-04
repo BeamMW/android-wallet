@@ -28,4 +28,10 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
     override fun checkPassword(password: String): Boolean {
         return wallet?.checkWalletPassword(password) ?: false
     }
+
+    override fun calcChange(amount: Long): Subject<Long> {
+        return getResult(WalletListener.subOnChangeCalculated, "calcChange") {
+            wallet?.calcChange(amount)
+        }
+    }
 }

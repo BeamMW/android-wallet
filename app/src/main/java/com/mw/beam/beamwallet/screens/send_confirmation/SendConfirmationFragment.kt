@@ -46,7 +46,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     @SuppressLint("SetTextI18n")
     override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean) {
-        changeUtxoTitle.text = "${getString(R.string.change).toLowerCase()} (${getString(R.string.change_description)})"
+        changeUtxoTitle.text = "${getString(R.string.change).toUpperCase()} (${getString(R.string.change_description)})"
 
         sendTo.text = address
 
