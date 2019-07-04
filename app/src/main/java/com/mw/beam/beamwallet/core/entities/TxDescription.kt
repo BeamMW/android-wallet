@@ -29,7 +29,7 @@ import kotlinx.android.parcel.Parcelize
  * Created by vain onnellinen on 10/2/18.
  */
 @Parcelize
-class TxDescription(private val source: TxDescriptionDTO) : Parcelable {
+class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val id: String = source.id
     val amount: Long = source.amount
     val fee: Long = source.fee

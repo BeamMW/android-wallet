@@ -32,6 +32,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
@@ -135,7 +136,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         if (transactions.isNotEmpty()) {
             adapter.setPrivacyMode(isEnablePrivacyMode)
-            adapter.setData(transactions)
+
+            val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
+            val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
+
+            adapter.data = transactions
+            diffResult.dispatchUpdatesTo(adapter)
         }
     }
 
