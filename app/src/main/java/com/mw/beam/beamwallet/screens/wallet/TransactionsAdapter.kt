@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.item_transaction.*
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class TransactionsAdapter(private val context: Context, private var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
+class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
@@ -77,11 +77,6 @@ class TransactionsAdapter(private val context: Context, private var data: List<T
     }
 
     override fun getItemCount(): Int = data.size
-
-    fun setData(data: List<TxDescription>) {
-        this.data = data
-        notifyDataSetChanged()
-    }
 
     fun setPrivacyMode(isEnable: Boolean) {
         if (privacyMode != isEnable) {
