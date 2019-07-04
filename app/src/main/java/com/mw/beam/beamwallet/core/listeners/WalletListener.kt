@@ -38,7 +38,7 @@ object WalletListener {
     var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
-    var subOnChangeCalculated: Subject<Any> = BehaviorSubject.create<Any>().toSerialized()
+    var subOnChangeCalculated: Subject<Long> = BehaviorSubject.create<Long>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
@@ -65,7 +65,7 @@ object WalletListener {
     fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total), "onNodeSyncProgressUpdated")
 
     @JvmStatic
-    fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, DUMMY_OBJECT, "onChangeCalculated")
+    fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
 
     @JvmStatic
     fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }

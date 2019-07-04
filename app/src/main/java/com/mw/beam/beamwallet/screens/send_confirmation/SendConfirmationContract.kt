@@ -40,5 +40,6 @@ interface SendConfirmationContract {
         fun isConfirmTransactionEnabled(): Boolean
         fun getCategory(address: String): Category?
         fun getAddresses(): Subject<OnAddressesData>
+        fun calcChange(amount: Long): Subject<Long>
     }
 }

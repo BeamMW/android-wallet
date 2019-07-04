@@ -7,6 +7,7 @@ import io.reactivex.disposables.Disposable
 class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository: SendConfirmationContract.Repository, private val state: SendConfirmationState)
     : BasePresenter<SendConfirmationContract.View, SendConfirmationContract.Repository>(view, repository), SendConfirmationContract.Presenter {
     private lateinit var addressesSubscription: Disposable
+    private lateinit var changeSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -60,9 +61,14 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 view?.configureContact(findAddress, repository.getCategory(findAddress.walletID))
             }
         }
+
+        val totalSendAmount = state.amount + state.fee
+        changeSubscription = repository.calcChange(totalSendAmount).subscribe {
+            view?.configUtxoInfo((it + totalSendAmount).convertToBeam(), it.convertToBeam())
+        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
         state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
