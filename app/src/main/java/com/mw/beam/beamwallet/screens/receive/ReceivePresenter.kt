@@ -99,6 +99,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun onShareTokenPressed() {
         if (state.address != null) {
+            saveAddress()
             view?.shareToken(state.address!!.walletID)
         }
     }
@@ -120,6 +121,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onShowQrPressed() {
+        saveAddress()
         state.address?.let { address ->
             view?.showQR(address, view?.getAmount()?.convertToGroth())
         }

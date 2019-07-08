@@ -96,8 +96,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         amount.filters = arrayOf(AmountFilter())
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
@@ -108,6 +106,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         comment.setText(walletAddress.label)
 
         token.text = walletAddress.walletID
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
