@@ -96,8 +96,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         amount.filters = arrayOf(AmountFilter())
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
@@ -151,6 +149,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun shareToken(receiveToken: String) {

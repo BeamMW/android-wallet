@@ -205,8 +205,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             false
         })
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
@@ -302,6 +300,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
 
         contentScrollView.setOnTouchListener { _, _ ->  isOpenSearchView() }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun calculateDefaultMargin(): Int {
