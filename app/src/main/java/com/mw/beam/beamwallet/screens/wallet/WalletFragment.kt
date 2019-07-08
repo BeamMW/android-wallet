@@ -259,6 +259,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         menuHelper.show()
     }
 
+    override fun showSearchTransaction() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSearchTransactionFragment())
+    }
+
     override fun handleTransactionsMenu(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_search -> {

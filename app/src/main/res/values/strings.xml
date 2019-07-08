@@ -367,5 +367,6 @@
     <string name="dont_save">Don’t save</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
+    <string name="search_transaction">Search transaction</string>
 
 </resources>

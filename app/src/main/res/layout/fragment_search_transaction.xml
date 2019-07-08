@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:filterTouchesWhenObscured="true"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_marginTop="@dimen/status_bar_height"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_marginStart="@dimen/common_offset"
+            android:layout_marginEnd="@dimen/common_offset"
+            android:layout_gravity="center"
+            android:src="?attr/homeAsUpIndicator"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchEditText"
+            style="@style/common_text_big_light"
+            android:textSize="20sp"
+            android:layout_marginEnd="@dimen/common_offset"
+            android:backgroundTint="@android:color/transparent"
+            android:hint="@string/search_transaction"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/btnClear"
+            android:visibility="gone"
+            android:contentDescription="@null"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_btn_cancel"
+            android:layout_marginEnd="@dimen/common_offset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:fitsSystemWindows="true"
+        tools:listitem="@layout/item_transaction"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

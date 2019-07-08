@@ -217,6 +217,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_walletFragment_to_searchTransactionFragment"
+            app:destination="@id/searchTransactionFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -632,5 +639,18 @@
             <argument android:defaultValue="@null"
                 android:name="categoryId" />
         </action>
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_search_transaction"
+        android:id="@+id/searchTransactionFragment"
+        android:name="com.mw.beam.beamwallet.screens.search_transaction.SearchTransactionFragment"
+        android:label="SearchTransactionFragment" >
+        <action
+            android:id="@+id/action_searchTransactionFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 </navigation>

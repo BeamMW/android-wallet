@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
         <item
             android:id="@+id/menu_search"
-            android:visible="false"
             android:icon="@drawable/menu_search"
-            app:showAsAction="always"
             android:title="@string/search" />
         <item
             android:id="@+id/menu_filter"

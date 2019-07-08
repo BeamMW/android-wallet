@@ -50,6 +50,7 @@ interface WalletContract {
         fun addTitleListeners(isEnablePrivacyMode: Boolean)
         fun showProofVerification()
         fun showActivatePrivacyModeDialog()
+        fun showSearchTransaction()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
         fun closeDrawer()

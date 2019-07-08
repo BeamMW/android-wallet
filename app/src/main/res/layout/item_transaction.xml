@@ -17,9 +17,9 @@
         android:layout_height="wrap_content"
         android:contentDescription="@null"
         android:paddingEnd="@dimen/transaction_icon_padding_end"
-        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@drawable/ic_beam"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/message"
         tools:ignore="RtlSymmetry" />
 
     <TextView
@@ -28,6 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
+        tools:text="Receive"
         app:layout_constraintBottom_toTopOf="@id/date"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintHorizontal_bias="0.0"

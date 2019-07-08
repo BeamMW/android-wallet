@@ -99,8 +99,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnOpen"
-            app:layout_constraintVertical_bias="" />
+            app:layout_constraintTop_toBottomOf="@id/btnOpen" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -60,7 +60,6 @@
                     android:layout_marginEnd="@dimen/common_offset"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
                     app:layout_constraintEnd_toStartOf="@id/scanQR"

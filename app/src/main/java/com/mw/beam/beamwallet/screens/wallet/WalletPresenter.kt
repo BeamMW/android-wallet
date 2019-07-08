@@ -154,7 +154,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         return view?.handleTransactionsMenu(item) ?: false
     }
 
-    override fun onSearchPressed() = toDo()
+    override fun onSearchPressed() {
+        view?.showSearchTransaction()
+    }
+
     override fun onFilterPressed() = toDo()
     override fun onDeletePressed() = toDo()
 
