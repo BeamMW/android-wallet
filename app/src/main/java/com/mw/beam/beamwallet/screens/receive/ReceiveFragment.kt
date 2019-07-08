@@ -106,8 +106,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         comment.setText(walletAddress.label)
 
         token.text = walletAddress.walletID
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
@@ -151,6 +149,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun shareToken(receiveToken: String) {
