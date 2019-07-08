@@ -27,7 +27,7 @@ interface SearchTransactionContract {
     interface View: MvpView {
         fun init()
         fun clearSearchText()
-        fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean)
+        fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?)
         fun setClearButtonVisible(isVisible: Boolean)
         fun showTransactionDetails(txId: String)
     }

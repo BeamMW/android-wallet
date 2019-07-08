@@ -83,8 +83,9 @@ class SearchTransactionFragment: BaseFragment<SearchTransactionPresenter>(), Sea
         searchEditText.removeTextChangedListener(searchTextWatcher)
     }
 
-    override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean) {
+    override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?) {
         adapter.setPrivacyMode(isEnablePrivacyMode)
+        adapter.setSearchText(searchText)
 
         val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
         val diffResult = DiffUtil.calculateDiff(diffUtilCallback)

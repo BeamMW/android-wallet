@@ -62,7 +62,7 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
             listOf()
         }.sortedByDescending { it.modifyTime }
 
-        view?.configTransactions(transactions, repository.isPrivacyModeEnabled())
+        view?.configTransactions(transactions, repository.isPrivacyModeEnabled(), state.searchText)
     }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
