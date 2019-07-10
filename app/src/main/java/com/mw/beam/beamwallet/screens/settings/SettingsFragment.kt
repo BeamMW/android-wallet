@@ -43,6 +43,7 @@ import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import com.mw.beam.beamwallet.core.views.CategoryItemView
+import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
@@ -61,6 +62,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun getToolbarTitle(): String? = getString(R.string.settings)
 
     override fun init(runOnRandomNode: Boolean) {
+        appVersionTitle.addDoubleDots()
         appVersion.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS

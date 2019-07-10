@@ -121,12 +121,14 @@
     <string name="in_progress">In progress</string>
     <string name="receiving">Receiving</string>
     <string name="sending">Sending</string>
+    <string name="sending_to_own_address">Sending to own address</string>
     <string name="maturing">Maturing</string>
     <string name="receive">Receive</string>
     <string name="send">Send</string>
     <string name="completed">Completed</string>
     <string name="received">Received</string>
     <string name="sent">Sent</string>
+    <string name="sent_to_own_address">Sent to own address</string>
     <string name="wallet_status_in_progress_sender">Waiting for sender</string>
     <string name="wallet_status_in_progress_receiver">Waiting for receiver</string>
     <string name="failed">Failed</string>
@@ -278,6 +280,7 @@
     <!--AddressesFragment-->
     <string name="addresses_tab_active">My active addresses</string>
     <string name="addresses_tab_expired">My expired addresses</string>
+    <string name="no_name">No name</string>
 
     <!--AddressFragment-->
     <string name="address">Address</string>
@@ -313,6 +316,8 @@
     <string name="code">Code</string>
     <string name="sender">Sender</string>
     <string name="receiver">Receiver</string>
+    <string name="current_password_is_incorrect">Current password is incorrect</string>
+
 
     <!--CategoryFragment-->
     <string name="edit">Edit</string>
@@ -359,7 +364,7 @@
     <string name="send_to">Send to</string>
     <string name="amount_to_send">Amount to send</string>
     <string name="total_utxo_value">Total UTXO value</string>
-    <string name="confirmation_send_description">Please notice, that for transaction to be successful, both you and recipient should be online!</string>
+    <string name="confirmation_send_description">For the transaction to complete, the recipient must get online within the next 12 hours and you should get online within 2 hours afterwards.</string>
     <string name="confirmation">Confirmation</string>
     <string name="change_description">will be locked till the transaction will succeed or expire</string>
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
@@ -367,5 +372,6 @@
     <string name="dont_save">Don’t save</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
+    <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
 
 </resources>

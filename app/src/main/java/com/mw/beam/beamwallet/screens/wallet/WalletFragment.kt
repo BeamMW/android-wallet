@@ -136,12 +136,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         if (transactions.isNotEmpty()) {
             adapter.setPrivacyMode(isEnablePrivacyMode)
-
-            val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
-            val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
-
             adapter.data = transactions
-            diffResult.dispatchUpdatesTo(adapter)
+            adapter.notifyDataSetChanged()
         }
     }
 

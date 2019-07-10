@@ -393,6 +393,7 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/settings_version_offset"
                 android:fontFamily="sans-serif-black"
                 app:layout_constraintEnd_toEndOf="parent"

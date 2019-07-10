@@ -83,6 +83,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         onTokenChanged(view?.getToken(), searchAddress = false)
 
+        state.outgoingAddress?.let { setAddress(it, state.isNeedGenerateNewAddress) }
+
         notifyPrivacyStateChange()
     }
 
@@ -348,7 +350,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription)
 
     override fun hasStatus(): Boolean = true
 }

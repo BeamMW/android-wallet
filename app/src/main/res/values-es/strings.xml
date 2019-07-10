@@ -330,7 +330,7 @@ para acceder al wallet</string>
     <string name="send_to">Send to</string>
     <string name="amount_to_send">Amount to send</string>
     <string name="total_utxo_value">Total UTXO value</string>
-    <string name="confirmation_send_description">Please notice, that for transaction to be successful, both you and recipient should be online!</string>
+    <string name="confirmation_send_description">For the transaction to complete, the recipient must get online within the next 12 hours and you should get online within 2 hours afterwards.</string>
     <string name="confirmation">Confirmation</string>
     <string name="change_description">will be locked till the transaction will succeed or expire</string>
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
@@ -338,4 +338,5 @@ para acceder al wallet</string>
     <string name="dont_save">Don’t save</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
+    <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
 </resources>

@@ -423,10 +423,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
         params.horizontalBias = if (progress <= 0) 0f else progress.toFloat() / feeSeekBar.max
 
-        feeProgressValue.text = "${if (progress <= 0) 1 else progress} ${getString(R.string.currency_groth).toUpperCase()}"
+        val fee = if (progress <= 0) 1 else progress
+
+        feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        usedFee.text = "+$progress ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
+        usedFee.text = "+$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
     }
 
     override fun updateFeeTransactionVisibility(isVisible: Boolean) {

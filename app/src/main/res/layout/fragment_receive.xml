@@ -155,9 +155,9 @@
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginStart="14dp"
                         android:layout_marginTop="@dimen/receive_common_margin"
-                        android:layout_marginEnd="@dimen/common_offset"
+                        android:layout_marginEnd="14dp"
                         android:backgroundTint="@color/btn_drop_down_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -178,9 +178,9 @@
                         android:id="@+id/categorySpinner"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginStart="14dp"
                         android:layout_marginTop="@dimen/receive_common_margin"
-                        android:layout_marginEnd="@dimen/common_offset"
+                        android:layout_marginEnd="14dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
@@ -299,6 +299,19 @@
                 android:textStyle="italic"
                 app:layout_constraintTop_toBottomOf="@id/advancedCard" />
 
+            <TextView
+                android:id="@+id/receiveDescription"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:gravity="center"
+                android:text="@string/receive_description"
+                android:textStyle="italic"
+                app:layout_constraintTop_toBottomOf="@id/tokenDescription" />
+
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnShowQR"
                 android:layout_width="@dimen/wallet_button_width"
@@ -312,7 +325,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnShareToken"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tokenDescription"
+                app:layout_constraintTop_toBottomOf="@+id/receiveDescription"
                 app:layout_constraintVertical_bias="1.0" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton

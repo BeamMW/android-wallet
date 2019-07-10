@@ -34,7 +34,6 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
-import com.mw.beam.beamwallet.screens.wallet.TransactionDiffUtilCallback
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_address.*
 
@@ -129,11 +128,8 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
-            val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
-            val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
-
             adapter.data = transactions
-            diffResult.dispatchUpdatesTo(adapter)
+            adapter.notifyDataSetChanged()
         }
     }
 

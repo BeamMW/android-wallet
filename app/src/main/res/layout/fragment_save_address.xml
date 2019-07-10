@@ -20,8 +20,7 @@
             android:paddingStart="@dimen/common_offset"
             android:paddingEnd="@dimen/common_offset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/addressTitle"

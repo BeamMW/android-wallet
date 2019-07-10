@@ -60,14 +60,16 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             }
         }
         TxStatus.Registered -> {
-            when (sender) {
-                TxSender.RECEIVED -> App.self.getString(R.string.receiving)
-                TxSender.SENT -> App.self.getString(R.string.sending)
+            when {
+                TxSender.RECEIVED == sender -> App.self.getString(R.string.receiving)
+                TxSender.SENT == sender && selfTx -> App.self.getString(R.string.sending_to_own_address)
+                TxSender.SENT == sender -> App.self.getString(R.string.sending)
+                else -> ""
             }
         }
         TxStatus.Completed -> {
             if (selfTx) {
-                App.self.getString(R.string.completed)
+                App.self.getString(R.string.sent_to_own_address)
             } else {
                 when (sender) {
                     TxSender.RECEIVED -> App.self.getString(R.string.received)
