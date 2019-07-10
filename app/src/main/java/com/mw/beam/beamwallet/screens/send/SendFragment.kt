@@ -673,8 +673,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment))
     }
 
-    override fun updateAvailable(availableString: String) {
-        availableSum.text = availableString
+    override fun updateAvailable(available: Long) {
+        btnSendAll.isEnabled = available > 0
+        availableSum.text = available.convertToBeamString()
     }
 
     override fun isAmountErrorShown(): Boolean {

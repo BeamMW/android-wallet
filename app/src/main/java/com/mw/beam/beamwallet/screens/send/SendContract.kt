@@ -56,7 +56,7 @@ interface SendContract {
         fun setComment(comment: String)
         fun setFee(feeAmount: String)
         fun scanQR()
-        fun updateAvailable(availableString: String)
+        fun updateAvailable(available: Long)
         fun isAmountErrorShown() : Boolean
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()

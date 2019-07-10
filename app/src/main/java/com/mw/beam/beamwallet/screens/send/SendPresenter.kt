@@ -318,7 +318,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
-            view?.updateAvailable(state.walletStatus!!.available.convertToBeamString())
+            view?.updateAvailable(state.walletStatus!!.available)
 
             if (view?.isAmountErrorShown() == true) {
                 view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode)
