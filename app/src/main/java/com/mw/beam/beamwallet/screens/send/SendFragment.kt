@@ -258,6 +258,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 handleAddressSuggestions(null)
             }
         }
+        token.setOnClickListener {
+            presenter?.onTokenChanged(token.text.toString())
+        }
 
         feeContainer.setOnLongClickListener {
             presenter?.onLongPressFee()
@@ -697,6 +700,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         searchContainer.setOnTouchListener(null)
         tabLayout.setOnTouchListener(null)
         contentScrollView.setOnTouchListener(null)
+        token.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {

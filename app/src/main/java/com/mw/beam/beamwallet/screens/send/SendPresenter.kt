@@ -276,7 +276,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                             repository.getCategory(it.walletID)?.name?.trim()?.toLowerCase()?.contains(searchText) ?: false)
                 }
             } else {
-                null
+                state.addresses.values.filter { !it.isExpired || it.isContact }
             }
 
             view?.handleAddressSuggestions(addresses)
