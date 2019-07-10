@@ -284,7 +284,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onAmountChanged() {
-        view?.clearErrors()
+        view?.apply {
+            clearErrors()
+            val amount = getAmount()
+            val fee = getFee()
+            hasOverAmountError(amount.convertToGroth(), fee, state.walletStatus?.available ?: 0, state.privacyMode)
+
+            val availableAmount = state.walletStatus!!.available.convertToBeam()
+
+            updateFeeTransactionVisibility(amount + fee == availableAmount)
+        }
     }
 
     override fun onFeeChanged(rawFee: String?) {

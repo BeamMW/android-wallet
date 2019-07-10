@@ -42,6 +42,7 @@ interface SendContract {
         fun getComment(): String?
         fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)
         fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
+        fun hasOverAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
         fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean)
         fun clearErrors()
         fun clearToken(clearedToken: String?)

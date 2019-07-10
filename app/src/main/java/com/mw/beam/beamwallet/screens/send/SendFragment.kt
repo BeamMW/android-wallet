@@ -420,6 +420,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     private fun updateFeeValue(progress: Int) {
+        amount.clearFocus()
+
         val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
         params.horizontalBias = if (progress <= 0) 0f else progress.toFloat() / feeSeekBar.max
 
@@ -436,7 +438,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
-        val feeAmount = getFee().convertToBeam()
         var hasErrors = false
         clearErrors()
 
@@ -445,13 +446,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             setAddressError()
         }
 
-        try {
-            if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                configAmountError(configAmountErrorMessage((availableAmount.convertToBeam() - feeAmount).convertToBeamString(), isEnablePrivacyMode))
-                hasErrors = true
-            }
-        } catch (exception: NumberFormatException) {
-            configAmountError(configAmountErrorMessage(availableAmount.convertToBeamString(), isEnablePrivacyMode))
+        if (hasOverAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
             hasErrors = true
         }
 
@@ -473,6 +468,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return hasErrors
     }
 
+    override fun hasOverAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
+        return try {
+            if (amount + fee > availableAmount) {
+                configAmountError(configAmountErrorMessage((availableAmount.convertToBeam() - fee.convertToBeam()).convertToBeamString(), isEnablePrivacyMode))
+                true
+            } else {
+                false
+            }
+        } catch (exception: NumberFormatException) {
+            configAmountError(configAmountErrorMessage(availableAmount.convertToBeamString(), isEnablePrivacyMode))
+            true
+        }
+    }
+
     private fun configAmountErrorMessage(amountString: String, isEnablePrivacyMode: Boolean): String {
         return if (isEnablePrivacyMode) {
             getString(R.string.insufficient_funds)
@@ -492,23 +501,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
-        clearFocus()
-
         animateDropDownIcon(btnExpandAdvanced, expand)
         beginTransaction()
         advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
     }
 
     override fun handleExpandEditAddress(expand: Boolean) {
-        clearFocus()
-
         animateDropDownIcon(btnExpandEditAddress, expand)
         beginTransaction()
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
-    }
-
-    private fun clearFocus() {
-        contentLayout?.requestFocus()
     }
 
     override fun configCategory(currentCategory: Category?) {
@@ -554,7 +555,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setAmount(amount: Double) {
-        clearFocus()
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
     }
