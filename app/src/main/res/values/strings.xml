@@ -327,6 +327,7 @@
 
     <!--EditCategory-->
     <string name="edit_category">Edit category</string>
+    <string name="create_category">Create category</string>
     <string name="color">Color</string>
 
     <!--OwnerKeyFragments-->

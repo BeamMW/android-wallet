@@ -234,7 +234,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     private fun beginTransition() {
-        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply { excludeChildren(transactionsList, true) })
+        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply {
+            excludeChildren(transactionsList, true)
+            excludeChildren(receivingCurrency, true)
+            excludeChildren(sendingCurrency, true)
+        })
     }
 
     @SuppressLint("RestrictedApi")
