@@ -64,6 +64,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         changeAddressLiveData.postValue(walletAddress)
     }
 
+    override fun onLabelAddressChanged(text: String) {
+        if (!state.wasAddressSaved) {
+            state.outgoingAddress?.label = text
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -188,11 +194,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onChangeAddressPressed() {
-        view?.showChangeAddressFragment()
+        if (state.wasAddressSaved) {
+            view?.showChangeAddressFragment(null)
+        } else {
+            view?.showChangeAddressFragment(state.outgoingAddress)
+        }
     }
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
         state.expirePeriod = period
+        state.outgoingAddress?.duration = period.value
     }
 
     override fun onSelectedCategory(category: Category?) {
@@ -347,6 +358,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
             setAddress(it, true)
+            state.isNeedGenerateNewAddress = false
         } else {
             EmptyDisposable()
         }

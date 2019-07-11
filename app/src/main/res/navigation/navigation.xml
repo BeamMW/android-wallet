@@ -570,6 +570,10 @@
         <argument
             android:name="isFromReceive"
             app:argType="boolean" />
+        <argument
+            android:name="generatedAddress"
+            app:argType="com.mw.beam.beamwallet.core.entities.WalletAddress"
+            app:nullable="true" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_send_confirmation"

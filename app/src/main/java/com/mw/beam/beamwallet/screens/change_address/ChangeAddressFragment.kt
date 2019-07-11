@@ -41,14 +41,18 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
 
     override fun isFromReceive(): Boolean = ChangeAddressFragmentArgs.fromBundle(arguments!!).isFromReceive
 
+    override fun getGeneratedAddress(): WalletAddress? = ChangeAddressFragmentArgs.fromBundle(arguments!!).generatedAddress
+
     override fun getToolbarTitle(): String? = getString(R.string.change_address)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_change_address
 
-    override fun init(state: ChangeAddressContract.ViewState) {
+    override fun getSearchText(): String = searchAddress.text?.toString() ?: ""
+
+    override fun init(state: ChangeAddressContract.ViewState, generatedAddress: WalletAddress?) {
         gradientView.setBackgroundResource(if (state == ChangeAddressContract.ViewState.Receive) R.drawable.receive_toolbar_gradient else R.drawable.send_toolbar_gradient)
 
-        adapter = SearchAddressesAdapter(context!!, object : SearchAddressesAdapter.OnSearchAddressClickListener {
+        adapter = SearchAddressesAdapter(context!!, generatedAddress, object : SearchAddressesAdapter.OnSearchAddressClickListener {
             override fun onClick(walletAddress: WalletAddress) {
                 presenter?.onItemPressed(walletAddress)
             }
@@ -74,8 +78,11 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         adapter.setData(items)
     }
 
-    override fun back(walletAddress: WalletAddress) {
-        callback?.onChangeAddress(walletAddress)
+    override fun back(walletAddress: WalletAddress?) {
+        if (walletAddress != null) {
+            callback?.onChangeAddress(walletAddress)
+        }
+
         findNavController().popBackStack()
     }
 

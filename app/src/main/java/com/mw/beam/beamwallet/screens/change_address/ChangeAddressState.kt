@@ -4,6 +4,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 class ChangeAddressState {
+    var generatedAddress: WalletAddress? = null
     private val addresses = HashMap<String, WalletAddress>()
     private val transactions = HashMap<String, TxDescription>()
     var scannedAddress : String? = null
@@ -21,7 +22,9 @@ class ChangeAddressState {
         }
     }
 
-    fun getAddresses() = addresses.values.toList()
+    fun getAddresses() = ArrayList(addresses.values.toList()).apply {
+        generatedAddress?.let { add(0, it) }
+    }
 
     fun getTransactions() = transactions.values.toList().sortedBy { it.modifyTime }
 }

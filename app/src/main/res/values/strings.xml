@@ -198,6 +198,7 @@
 
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
+    <string name="auto_generated">auto-generated</string>
     <string name="annotation">Annotation</string>
     <string name="expires">Expires</string>
     <string name="receive_send_annotation_description">Annotation are local and won’t be shared.</string>

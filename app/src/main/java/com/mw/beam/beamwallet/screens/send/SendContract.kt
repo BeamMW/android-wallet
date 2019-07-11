@@ -67,7 +67,7 @@ interface SendContract {
         fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
-        fun showChangeAddressFragment()
+        fun showChangeAddressFragment(generatedAddress: WalletAddress?)
         fun updateFeeTransactionVisibility(isVisible: Boolean)
         fun getLifecycleOwner(): LifecycleOwner
         fun getCommentOutgoingAddress(): String
@@ -99,6 +99,7 @@ interface SendContract {
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
+        fun onLabelAddressChanged(text: String)
         fun onSelectedCategory(category: Category?)
         fun onAddressChanged(walletAddress: WalletAddress)
         fun onLongPressFee()

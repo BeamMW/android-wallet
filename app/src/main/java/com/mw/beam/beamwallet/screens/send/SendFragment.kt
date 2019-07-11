@@ -82,6 +82,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
+    private val labelWatcher = object  : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            presenter?.onLabelAddressChanged(s?.toString() ?: "")
+        }
+    }
+
     private val amountWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(token: Editable?) {
             presenter?.onAmountChanged()
@@ -246,6 +252,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
+        addressName.addTextChangedListener(labelWatcher)
 
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
@@ -547,9 +554,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return addressName.text?.toString() ?: ""
     }
 
-    override fun showChangeAddressFragment() {
+    override fun showChangeAddressFragment(generatedAddress: WalletAddress?) {
         ChangeAddressFragment.callback = changeAddressCallback
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment())
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment(generatedAddress = generatedAddress))
     }
 
     override fun setAddress(address: String) {
@@ -689,6 +696,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
+        addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
         feeSeekBar.setOnSeekBarChangeListener(null)

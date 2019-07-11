@@ -157,9 +157,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         shareText(getString(R.string.common_share_title), receiveToken)
     }
 
-    override fun showChangeAddressFragment() {
+    override fun showChangeAddressFragment(generatedAddress: WalletAddress?) {
         ChangeAddressFragment.callback = changeAddressCallback
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToChangeAddressFragment())
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToChangeAddressFragment(generatedAddress = generatedAddress))
     }
 
     override fun getLifecycleOwner(): LifecycleOwner = this

@@ -15,8 +15,9 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         super.onViewCreated()
 
         state.viewState = if (view?.isFromReceive() != false) ChangeAddressContract.ViewState.Receive else ChangeAddressContract.ViewState.Send
+        state.generatedAddress = view?.getGeneratedAddress()
 
-        view?.init(state.viewState)
+        view?.init(state.viewState, state.generatedAddress)
 
     }
 
@@ -36,6 +37,8 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         addressesSubscription = repository.getAddresses().subscribe {
             val addresses = it.addresses?.filter { walletAddress -> !walletAddress.isContact && !walletAddress.isExpired }
             state.updateAddresses(addresses)
+
+            onChangeSearchText(view?.getSearchText() ?: "")
         }
 
         transactionsSubscription = repository.getTxStatus().subscribe {
@@ -47,7 +50,7 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
 
     override fun onChangeSearchText(text: String) {
         if (text.isBlank()) {
-            view?.updateList(listOf())
+            view?.updateList(state.getAddresses().map(::addressToSearchItem))
             return
         }
         
@@ -57,17 +60,23 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
             it.label.toLowerCase().contains(searchText) ||
                     it.walletID.toLowerCase().contains(searchText) ||
                     repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
-        }.map { walletAddress ->
-            SearchItem(walletAddress,
-                    state.getTransactions().firstOrNull { it.myId == walletAddress.walletID || it.peerId == walletAddress.walletID },
-                    repository.getCategoryForAddress(walletAddress.walletID))
-        }
+        }.map(::addressToSearchItem)
 
         view?.updateList(newItems)
     }
 
+    private fun addressToSearchItem(walletAddress: WalletAddress): SearchItem {
+        return SearchItem(walletAddress,
+                state.getTransactions().firstOrNull { it.myId == walletAddress.walletID || it.peerId == walletAddress.walletID },
+                repository.getCategoryForAddress(walletAddress.walletID))
+    }
+
     override fun onItemPressed(walletAddress: WalletAddress) {
-        view?.back(walletAddress)
+        if (walletAddress.walletID == state.generatedAddress?.walletID) {
+            view?.back(null)
+        } else {
+            view?.back(walletAddress)
+        }
     }
 
     override fun onScanQrPressed() {

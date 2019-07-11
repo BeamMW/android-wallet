@@ -13,13 +13,15 @@ import io.reactivex.subjects.Subject
 interface ChangeAddressContract {
     interface View: MvpView {
         fun isFromReceive(): Boolean
-        fun init(state: ViewState)
+        fun init(state: ViewState, generatedAddress: WalletAddress?)
+        fun getGeneratedAddress(): WalletAddress?
         fun updateList(items: List<SearchItem>)
-        fun back(walletAddress: WalletAddress)
+        fun back(walletAddress: WalletAddress?)
         fun scanQR()
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
         fun setAddress(address: String)
+        fun getSearchText(): String
         fun showNotBeamAddressError()
     }
 
