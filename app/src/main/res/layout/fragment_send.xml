@@ -461,6 +461,7 @@
                         android:background="@drawable/edit_text_selector"
                         android:backgroundTint="@android:color/transparent"
                         android:imeOptions="actionDone"
+                        android:hint="@string/no_name"
                         android:singleLine="true"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/addressNameTitle"

@@ -125,6 +125,7 @@
                         android:backgroundTint="@android:color/transparent"
                         android:imeOptions="actionDone"
                         android:singleLine="true"
+                        android:hint="@string/no_name"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/commentTitle"
                         tools:ignore="Autofill,LabelFor,TextFields" />
