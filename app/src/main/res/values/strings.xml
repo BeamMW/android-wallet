@@ -303,7 +303,6 @@
     <!--CheckOldPassActivity-->
     <string name="change_password">Change password</string>
     <string name="enter_your_current_password">Enter your current password</string>
-    <string name="check_old_pass_wrong_pass_error">The old password you have entered is incorrect</string>
 
     <!--ScanQrActivity-->
     <string name="scan_qr_code">Scan QR code</string>
