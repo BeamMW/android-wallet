@@ -374,5 +374,6 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
+    <string name="search_by_address_category_or_name">Search by address, category or name</string>
 
 </resources>

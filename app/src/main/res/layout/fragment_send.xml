@@ -60,7 +60,7 @@
                     android:layout_marginEnd="@dimen/common_offset"
                     android:imeOptions="actionNext"
                     android:inputType="text"
-
+                    android:hint="@string/search_by_address_category_or_name"
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
                     app:layout_constraintEnd_toStartOf="@id/scanQR"

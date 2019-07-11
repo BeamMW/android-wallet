@@ -16,8 +16,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_btn_cancel"
-        android:layout_width="24dp"
-        android:layout_height="24dp" />
+        android:layout_width="16dp"
+        android:layout_height="16dp" />
 
     <TextView
         android:layout_marginStart="@dimen/common_card_padding"
@@ -38,7 +38,7 @@
         android:paddingBottom="1dp"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
-        android:layout_marginStart="@dimen/common_offset"
+        android:layout_marginStart="@dimen/common_card_padding"
         android:layout_marginEnd="@dimen/common_card_padding"
         android:backgroundTint="@android:color/transparent"
         android:inputType="number"
@@ -63,7 +63,7 @@
         android:id="@+id/grothCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/common_offset"
+        android:layout_marginEnd="@dimen/common_card_padding"
         android:layout_marginBottom="@dimen/common_margin"
         style="@style/common_text_big_light"
         android:text="@string/currency_groth"
