@@ -34,4 +34,8 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
             wallet?.calcChange(amount)
         }
     }
+
+    override fun isEnableFingerprint(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+    }
 }

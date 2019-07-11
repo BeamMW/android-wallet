@@ -15,7 +15,7 @@ interface SendConfirmationContract {
         fun getAmount(): Long
         fun getFee(): Long
         fun getComment(): String?
-        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean)
+        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean, isEnableFingerprint: Boolean)
         fun clearPasswordError()
         fun showEmptyPasswordError()
         fun showWrongPasswordError()
@@ -26,6 +26,8 @@ interface SendConfirmationContract {
         fun showSaveAddressFragment(address: String)
         fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun showWallet()
+        fun showFingerprintDialog()
+        fun showErrorFingerprintMessage()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -33,6 +35,9 @@ interface SendConfirmationContract {
         fun onSaveContactPressed()
         fun onCancelSaveContactPressed()
         fun onPasswordChanged()
+        fun onFingerprintPressed()
+        fun onFingerprintSuccess()
+        fun onFingerprintError()
     }
 
     interface Repository : MvpRepository {
@@ -41,5 +46,6 @@ interface SendConfirmationContract {
         fun getCategory(address: String): Category?
         fun getAddresses(): Subject<OnAddressesData>
         fun calcChange(amount: Long): Subject<Long>
+        fun isEnableFingerprint(): Boolean
     }
 }
