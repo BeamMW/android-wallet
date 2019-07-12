@@ -17,12 +17,23 @@
         android:paddingBottom="@dimen/addresses_label_offset"
         android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
+        android:maxLines="1"
+        android:ellipsize="end"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintWidth_max="wrap"
         app:layout_constraintBottom_toTopOf="@id/addressId"
-        app:layout_constraintEnd_toStartOf="@+id/category"
+        app:layout_constraintEnd_toStartOf="@+id/labelLimit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:text="label" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/labelLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.6" />
 
     <TextView
         android:id="@+id/addressId"
@@ -54,10 +65,15 @@
         android:visibility="gone"
         tools:visibility="visible"
         style="@style/common_text_small_light"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAlignment="textEnd"
+        android:layout_marginStart="@dimen/common_offset"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Category" />
+        tools:text="Category " />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

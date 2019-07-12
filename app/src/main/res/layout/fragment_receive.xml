@@ -33,7 +33,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="20dp"
-                    android:text="@string/addresses"
+                    tools:text="ADDRESS (auto-generated)"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -237,7 +238,8 @@
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="@dimen/common_offset"
-                    android:text="@string/request_an_amount"
+                    android:textAllCaps="false"
+                    tools:text="@string/request_an_amount"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/advancedTitle" />
 
@@ -274,6 +276,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/common_offset"
                     android:text="@string/currency_beam"
+                    android:textSize="@dimen/send_currency_text_size"
                     android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="@id/amount"
                     app:layout_constraintEnd_toEndOf="parent" />

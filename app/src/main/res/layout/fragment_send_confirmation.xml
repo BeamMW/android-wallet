@@ -247,7 +247,6 @@
                 android:padding="4dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:src="@drawable/ic_touch_success"
-                app:layout_constraintTop_toTopOf="@id/passLayout"
                 app:layout_constraintBottom_toBottomOf="@id/passLayout"
                 app:layout_constraintStart_toEndOf="@id/passLayout"
                 app:layout_constraintEnd_toEndOf="parent"

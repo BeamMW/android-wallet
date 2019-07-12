@@ -106,14 +106,14 @@ class CategorySpinner : LinearLayout {
         }
 
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-            val view = createCategoryView(convertView, position, categories.size <= 1)
+            val view = createCategoryView(convertView, position, categories.size <= 1, true)
 
             val offset = context.resources.getDimensionPixelSize(R.dimen.settings_common_offset)
             view.setPadding(offset, offset / 2, offset, offset / 2)
             return view
         }
 
-        private fun createCategoryView(convertView: View?, position: Int, addNewCategoryItem: Boolean): View {
+        private fun createCategoryView(convertView: View?, position: Int, addNewCategoryItem: Boolean, isDropDown: Boolean = false): View {
             val view = convertView ?: CategoryItemView(context)
             val category = categories[position]
             val isNoneCategory = category.id == CategoryHelper.noneCategory.id
@@ -127,7 +127,7 @@ class CategorySpinner : LinearLayout {
                     else -> category.name
                 }
 
-                enableCircleTitle = !addNewCategoryItem
+                enableCircleTitle = !addNewCategoryItem && (isDropDown || !isNoneCategory)
             }
             return view
         }

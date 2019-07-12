@@ -16,12 +16,14 @@
         android:paddingBottom="6dp"
         android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toTopOf="@id/addressId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
-        tools:text="label" />
+        tools:text="label ewklflweng jenrglnelrkngln elnglnerklng nelrnglenrglkner klgnklerngk" />
 
     <TextView
         android:id="@+id/addressId"
@@ -53,8 +55,11 @@
         android:id="@+id/category"
         android:visibility="gone"
         tools:visibility="visible"
+        android:maxLines="1"
+        android:ellipsize="end"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
+        android:layout_marginStart="@dimen/common_offset"
         app:layout_constraintWidth_max="wrap"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/addressId"
