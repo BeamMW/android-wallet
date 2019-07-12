@@ -34,7 +34,7 @@ interface TransactionDetailsContract {
         fun getTransactionId(): String
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
         fun updatePaymentProof(paymentProof: PaymentProof)
-        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus)
+        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus, isSend: Boolean)
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()

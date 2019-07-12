@@ -62,7 +62,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         presenter?.onMenuCreate(menu, inflater)
     }
 
-    override fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus) {
+    override fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus, isSend: Boolean) {
         if (TxStatus.InProgress == txStatus
                 || TxStatus.Pending == txStatus
                 || TxStatus.Failed == txStatus
@@ -72,6 +72,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             moreMenu = menu
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+            menu?.findItem(R.id.repeat)?.isVisible = isSend && TxStatus.InProgress != txStatus
         }
     }
 

@@ -150,7 +150,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription, addressesSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
-        view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return)
+        view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return, state.txDescription?.sender == TxSender.SENT)
     }
 
     override fun onRepeatTransaction() {
