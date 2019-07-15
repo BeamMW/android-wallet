@@ -481,13 +481,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun hasOverAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         return try {
             if (amount + fee > availableAmount) {
-                configAmountError(configAmountErrorMessage((availableAmount.convertToBeam() - fee.convertToBeam()).convertToBeamString(), isEnablePrivacyMode))
+                configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
                 true
             } else {
                 false
             }
         } catch (exception: NumberFormatException) {
-            configAmountError(configAmountErrorMessage(availableAmount.convertToBeamString(), isEnablePrivacyMode))
+            configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
             true
         }
     }

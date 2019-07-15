@@ -215,13 +215,15 @@
             <TextView
                 android:id="@+id/amountError"
                 style="@style/common_text_big_light"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/send_amount_error_margin_top"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:textColor="@color/common_error_color"
                 android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/usedFee" />
 
