@@ -102,7 +102,7 @@ data class Category(
 
     companion object {
         fun new(): Category {
-            return Category(UUID.randomUUID().toString())
+            return Category(UUID.randomUUID().toString(), color = CategoryColor.values().random())
         }
     }
 
@@ -123,11 +123,11 @@ enum class CategoryColor {
     Red, Orange, Yellow, Green, Blue, Pink;
 
     fun getAndroidColorId() = when(this) {
-        CategoryColor.Red -> R.color.category_red
-        CategoryColor.Orange -> R.color.category_orange
-        CategoryColor.Yellow -> R.color.category_yellow
-        CategoryColor.Green -> R.color.category_green
-        CategoryColor.Blue -> R.color.category_blue
-        CategoryColor.Pink -> R.color.category_pink
+        Red -> R.color.category_red
+        Orange -> R.color.category_orange
+        Yellow -> R.color.category_yellow
+        Green -> R.color.category_green
+        Blue -> R.color.category_blue
+        Pink -> R.color.category_pink
     }
 }

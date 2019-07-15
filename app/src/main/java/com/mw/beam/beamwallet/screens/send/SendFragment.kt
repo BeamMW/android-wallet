@@ -440,7 +440,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        usedFee.text = "+$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
+        usedFee.text = "${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
     }
 
     override fun updateFeeTransactionVisibility(isVisible: Boolean) {
