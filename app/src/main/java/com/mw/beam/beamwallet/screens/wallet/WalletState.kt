@@ -29,18 +29,20 @@ class WalletState {
     var shouldExpandInProgress = false
     var privacyMode = false
 
-    val transactions = HashMap<String, TxDescription>()
+    private val transactions = HashMap<String, TxDescription>()
 
     fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
         tx?.forEach { transaction ->
             transactions[transaction.id] = transaction
         }
 
-        return transactions.values.sortedByDescending { it.modifyTime }
+        return getTransactions()
     }
+
+    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
 
     fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
         tx?.forEach { transactions.remove(it.id) }
-        return transactions.values.sortedByDescending { it.modifyTime }
+        return getTransactions()
     }
 }

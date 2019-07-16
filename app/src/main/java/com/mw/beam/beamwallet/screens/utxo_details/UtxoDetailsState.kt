@@ -26,11 +26,15 @@ class UtxoDetailsState {
     var utxo: Utxo? = null
     val transactions = HashMap<String, TxDescription>()
 
-    fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {
+    fun updateTransactions(tx: List<TxDescription>? = null) {
         tx?.forEach { transaction ->
             transactions[transaction.id] = transaction
         }
-
-        return transactions.values.sortedByDescending { it.modifyTime }
     }
+
+    fun deleteTransactions(tx: List<TxDescription>?) {
+        tx?.forEach { transactions.remove(it.id) }
+    }
+
+    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
 }

@@ -20,6 +20,7 @@ import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
@@ -30,7 +31,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         AddressContract.Presenter {
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
-
+    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -69,8 +70,11 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onDeleteAddress() {
-        repository.deleteAddress(state.address?.walletID ?: return)
-        view?.finishScreen()
+        state.address?.let {
+            view?.showDeleteSnackBar(it)
+            repository.deleteAddress(it)
+            view?.finishScreen()
+        }
     }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
@@ -81,11 +85,30 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         super.initSubscriptions()
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            view?.configTransactions(
-                    when (data.action) {
-                        ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
-                        else -> state.updateTransactions(data.tx)
-                    })
+            when (data.action) {
+                ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
+                else -> state.updateTransactions(data.tx)
+            }
+
+            state.deleteTransaction(repository.getAllTransactionInTrash())
+
+            view?.configTransactions(state.getTransactions())
+        }
+
+        trashSubscription = repository.getTrashSubject().subscribe {
+            when (it.type) {
+                TrashManager.ActionType.Added -> {
+                    state.deleteTransaction(it.data.transactions)
+                    view?.configTransactions(state.getTransactions())
+                }
+
+                TrashManager.ActionType.Restored -> {
+                    state.updateTransactions(it.data.transactions)
+                    view?.configTransactions(state.getTransactions())
+                }
+
+                TrashManager.ActionType.Removed -> {}
+            }
         }
     }
 

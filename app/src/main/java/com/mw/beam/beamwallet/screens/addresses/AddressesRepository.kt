@@ -19,8 +19,10 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -44,5 +46,13 @@ class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
     override fun getCategoryForAddress(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)
+    }
+
+    override fun getTrashSubject(): Subject<TrashManager.Action> {
+        return TrashManager.subOnTrashChanged
+    }
+
+    override fun getAllAddressesInTrash(): List<WalletAddress> {
+        return TrashManager.getAllData().addresses
     }
 }

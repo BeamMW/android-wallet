@@ -184,6 +184,7 @@
     <string name="my_receiving_address">My receiving address</string>
     <string name="my_sending_address">My sending address</string>
     <string name="my_address">My address</string>
+    <string name="transaction_deleted">Transaction deleted</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">auto-generated</string>
@@ -264,6 +265,8 @@
     <string name="addresses_tab_active">Мои активные адреса</string>
     <string name="addresses_tab_expired">Мои просроченные адреса</string>
     <string name="no_name">No name</string>
+    <string name="address_deleted">Address deleted</string>
+    <string name="contact_deleted">Contact deleted</string>
     <!--AddressFragment-->
     <string name="address">Address</string>
     <string name="show_qr_code">Show QR code</string>

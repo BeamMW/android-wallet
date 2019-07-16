@@ -216,6 +216,12 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         }
     }
 
+    override fun showDeleteSnackBar(txDescription: TxDescription) {
+        showSnackBar(getString(R.string.transaction_deleted),
+                onDismiss = { TrashManager.remove(txDescription.id) },
+                onUndo = { TrashManager.restore(txDescription.id) })
+    }
+
     override fun showSendFragment(address: String, amount: Long) {
         findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToSendFragment(address, amount))
     }

@@ -18,7 +18,9 @@ package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -33,5 +35,13 @@ class UtxoDetailsRepository : BaseRepository(), UtxoDetailsContract.Repository {
 
     override fun getTxStatus(): Subject<OnTxStatusData> {
         return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
+    }
+
+    override fun getTrashSubject(): Subject<TrashManager.Action> {
+        return TrashManager.subOnTrashChanged
+    }
+
+    override fun getAllTransactionInTrash(): List<TxDescription> {
+        return TrashManager.getAllData().transactions
     }
 }

@@ -43,6 +43,7 @@ interface TransactionDetailsContract {
         fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?)
         fun showSendFragment(address: String, amount: Long)
         fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?)
+        fun showDeleteSnackBar(txDescription: TxDescription)
     }
 
     interface Presenter : MvpPresenter<View> {

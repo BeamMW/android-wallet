@@ -169,6 +169,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     override fun onDeleteTransaction() {
+        state.txDescription?.let { view?.showDeleteSnackBar(it) }
         repository.deleteTransaction(state.txDescription)
         view?.finishScreen()
     }

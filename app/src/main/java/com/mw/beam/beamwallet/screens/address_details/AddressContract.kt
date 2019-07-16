@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 /**
@@ -41,6 +42,7 @@ interface AddressContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
         fun configureCategory(findCategory: Category?)
+        fun showDeleteSnackBar(walletAddress: WalletAddress)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -54,8 +56,10 @@ interface AddressContract {
     }
 
     interface Repository : MvpRepository {
-        fun deleteAddress(addressId: String)
+        fun deleteAddress(walletAddress: WalletAddress)
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getCategory(address: String): Category?
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }

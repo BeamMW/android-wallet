@@ -20,8 +20,10 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 import java.io.File
@@ -65,5 +67,13 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         val transactionID = App.intentTransactionID
         App.intentTransactionID = null
         return transactionID
+    }
+
+    override fun getTrashSubject(): Subject<TrashManager.Action> {
+        return TrashManager.subOnTrashChanged
+    }
+
+    override fun getAllTransactionInTrash(): List<TxDescription> {
+        return TrashManager.getAllData().transactions
     }
 }

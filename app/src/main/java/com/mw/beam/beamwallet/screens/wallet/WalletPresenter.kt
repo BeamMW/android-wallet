@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
 
@@ -36,6 +37,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -147,7 +149,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun onTransactionsMenuButtonPressed(menu: View) {
-        view?.showTransactionsMenu(menu, state.transactions.isNullOrEmpty())
+        view?.showTransactionsMenu(menu, state.getTransactions().isNullOrEmpty())
     }
 
     override fun onTransactionsMenuPressed(item: MenuItem): Boolean {
@@ -163,7 +165,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val stringBuilder = StringBuilder()
         stringBuilder.append(TransactionFields.HEAD_LINE)
 
-        state.transactions.values.sortedByDescending { it.modifyTime }.forEach {
+        state.getTransactions().forEach {
             stringBuilder.append(TransactionFields.formatTransaction(it))
         }
         file.writeBytes(stringBuilder.toString().toByteArray())
@@ -184,11 +186,28 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            view?.configTransactions(
-                    when (data.action) {
-                        ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
-                        else -> state.updateTransactions(data.tx)
-                    }, state.privacyMode)
+            when (data.action) {
+                ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
+                else -> state.updateTransactions(data.tx)
+            }
+
+            val transactions = state.deleteTransaction(repository.getAllTransactionInTrash())
+
+            view?.configTransactions(transactions, state.privacyMode)
+        }
+
+        trashSubscription = repository.getTrashSubject().subscribe {
+            when (it.type) {
+                TrashManager.ActionType.Added -> {
+                    view?.configTransactions(state.deleteTransaction(it.data.transactions), state.privacyMode)
+                }
+
+                TrashManager.ActionType.Restored -> {
+                    view?.configTransactions(state.updateTransactions(it.data.transactions), state.privacyMode)
+                }
+
+                TrashManager.ActionType.Removed -> {}
+            }
         }
     }
 
@@ -197,7 +216,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, trashSubscription)
 
     private fun toDo() {
         view?.showSnackBar("Coming soon...")

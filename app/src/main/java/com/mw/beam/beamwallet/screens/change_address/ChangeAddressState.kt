@@ -16,6 +16,14 @@ class ChangeAddressState {
         }
     }
 
+    fun deleteAddresses(walletAddresses: List<WalletAddress>?) {
+        walletAddresses?.forEach { addresses.remove(it.walletID) }
+    }
+
+    fun deleteTransactions(transactions: List<TxDescription>?) {
+        transactions?.forEach { this.transactions.remove(it.id) }
+    }
+
     fun updateTransactions(transactions: List<TxDescription>?) {
         transactions?.forEach {
             this.transactions[it.id] = it

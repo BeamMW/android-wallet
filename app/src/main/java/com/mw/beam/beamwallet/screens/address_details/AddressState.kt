@@ -27,18 +27,17 @@ class AddressState {
 
     private val transactions = HashMap<String, TxDescription>()
 
-    fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
+    fun updateTransactions(tx: List<TxDescription>?) {
         tx?.forEach { transaction ->
             if (transaction.myId == address?.walletID || transaction.peerId == address?.walletID) {
                 transactions[transaction.id] = transaction
             }
         }
-
-        return transactions.values.sortedByDescending { it.modifyTime }
     }
 
-    fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
+    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
+
+    fun deleteTransaction(tx: List<TxDescription>?) {
         tx?.forEach { transactions.remove(it.id) }
-        return transactions.values.sortedByDescending { it.modifyTime }
     }
 }

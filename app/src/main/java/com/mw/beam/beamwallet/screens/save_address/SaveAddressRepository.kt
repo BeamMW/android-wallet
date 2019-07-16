@@ -7,7 +7,7 @@ import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 
 class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
     override fun saveAddress(address: WalletAddress, own: Boolean) {
-        getResult("saveAddress") {
+        getResult("updateAddress") {
             wallet?.saveAddress(address.toDTO(), own)
         }
     }

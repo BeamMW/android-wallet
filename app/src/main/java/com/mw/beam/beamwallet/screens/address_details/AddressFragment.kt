@@ -32,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
@@ -122,6 +123,12 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     @SuppressLint("InflateParams")
     override fun showQR(walletAddress: WalletAddress) {
         findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToQrDialogFragment(walletAddress))
+    }
+
+    override fun showDeleteSnackBar(walletAddress: WalletAddress) {
+        showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
+                onDismiss = { TrashManager.remove(walletAddress.walletID) },
+                onUndo = { TrashManager.restore(walletAddress.walletID) })
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {

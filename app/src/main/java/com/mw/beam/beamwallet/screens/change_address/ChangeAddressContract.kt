@@ -5,9 +5,11 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 interface ChangeAddressContract {
@@ -37,6 +39,9 @@ interface ChangeAddressContract {
         fun getTxStatus(): Subject<OnTxStatusData>
         fun getAddresses(): Subject<OnAddressesData>
         fun getCategoryForAddress(address: String): Category?
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllAddressesInTrash(): List<WalletAddress>
+        fun getAllTransactionInTrash(): List<TxDescription>
     }
 
     enum class ViewState {

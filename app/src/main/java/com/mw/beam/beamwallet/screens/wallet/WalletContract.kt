@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 import java.io.File
 import android.view.View as MenuView
@@ -85,5 +86,7 @@ interface WalletContract {
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun isAllowOpenExternalLink(): Boolean
         fun getIntentTransactionId(): String?
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }

@@ -456,35 +456,29 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             setAddressError()
         }
 
-        if (hasOverAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
-            hasErrors = true
-        }
-
-        if (amount.text.isNullOrBlank()) {
-            configAmountError(getString(R.string.send_amount_empty_error))
-            hasErrors = true
-        }
-
-        try {
-            if (amount.text.toString().toDouble() == 0.0) {
-                configAmountError(getString(R.string.send_amount_zero_error))
-                hasErrors = true
-            }
-        } catch (exception: NumberFormatException) {
-            configAmountError(getString(R.string.send_amount_empty_error))
+        if (hasAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
             hasErrors = true
         }
 
         return hasErrors
     }
 
-    override fun hasOverAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
+    override fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         return try {
-            if (amount + fee > availableAmount) {
-                configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
-                true
-            } else {
-                false
+            when {
+                this.amount.text.isNullOrBlank() -> {
+                    configAmountError(getString(R.string.send_amount_empty_error))
+                    true
+                }
+                amount == 0L -> {
+                    configAmountError(getString(R.string.send_amount_zero_error))
+                    true
+                }
+                amount + fee > availableAmount -> {
+                    configAmountError(configAmountErrorMessage((amount + fee).convertToBeamString(), isEnablePrivacyMode))
+                    true
+                }
+                else -> false
             }
         } catch (exception: NumberFormatException) {
             configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
@@ -578,9 +572,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         showAlert(getString(R.string.send_error_expired_address), getString(R.string.ok), {})
     }
 
-    override fun handleAddressSuggestions(addresses: List<WalletAddress>?) {
+    override fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean) {
         pagerAdapter.setData(Tab.ACTIVE, addresses?.filter { !it.isContact } ?: listOf())
         pagerAdapter.setData(Tab.CONTACTS, addresses?.filter { it.isContact } ?: listOf())
+
+        if (!showSuggestions) return
 
         Handler().postDelayed({
             beginTransaction(true)
