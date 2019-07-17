@@ -213,6 +213,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         })
     }
 
+    override fun isFullScreenView(): Boolean = true
+
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -266,6 +268,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
         }
         token.setOnClickListener {
+            contentScrollView.smoothScrollTo(0, 0)
             presenter?.onTokenChanged(token.text.toString())
         }
 

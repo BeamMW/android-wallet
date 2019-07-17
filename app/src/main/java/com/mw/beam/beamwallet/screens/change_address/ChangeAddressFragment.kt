@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.zxing.integration.android.IntentIntegrator
@@ -61,6 +62,8 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)
         addressesRecyclerView.adapter = adapter
     }
+
+    override fun isFullScreenView(): Boolean = true
 
     override fun addListeners() {
         searchAddress.addTextChangedListener(textWatcher)

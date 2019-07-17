@@ -356,6 +356,7 @@
         android:background="@drawable/receive_toolbar_gradient" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:layout_marginTop="@dimen/status_bar_height"
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -70,6 +70,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         btnFingerprint.visibility = if (isEnableFingerprint) View.VISIBLE else View.GONE
     }
 
+    override fun isFullScreenView(): Boolean = true
+
     override fun configureContact(walletAddress: WalletAddress, category: Category?) {
         if (!walletAddress.label.isBlank()) {
             contactName.visibility = View.VISIBLE

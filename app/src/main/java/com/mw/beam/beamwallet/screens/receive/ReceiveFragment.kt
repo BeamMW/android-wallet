@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.transition.TransitionManager
@@ -100,6 +101,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amountTitle.text = "${getString(R.string.request_an_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
     }
+
+    override fun isFullScreenView(): Boolean = true
 
     override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
         tokenTitle.text = if (isGenerateAddress) "${getString(R.string.address).toUpperCase()} (${getString(R.string.auto_generated).toLowerCase()})" else getString(R.string.address).toUpperCase()
