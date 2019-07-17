@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 /**
@@ -42,6 +43,7 @@ interface SendContract {
         fun getComment(): String?
         fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)
         fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
+        fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
         fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean)
         fun clearErrors()
         fun clearToken(clearedToken: String?)
@@ -56,7 +58,7 @@ interface SendContract {
         fun setComment(comment: String)
         fun setFee(feeAmount: String)
         fun scanQR()
-        fun updateAvailable(availableString: String)
+        fun updateAvailable(available: Long)
         fun isAmountErrorShown() : Boolean
         fun isPermissionGranted(): Boolean
         fun showPermissionRequiredAlert()
@@ -66,7 +68,7 @@ interface SendContract {
         fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
-        fun showChangeAddressFragment()
+        fun showChangeAddressFragment(generatedAddress: WalletAddress?)
         fun updateFeeTransactionVisibility(isVisible: Boolean)
         fun getLifecycleOwner(): LifecycleOwner
         fun getCommentOutgoingAddress(): String
@@ -78,7 +80,7 @@ interface SendContract {
         fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
-        fun handleAddressSuggestions(addresses: List<WalletAddress>?)
+        fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -98,6 +100,7 @@ interface SendContract {
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
+        fun onLabelAddressChanged(text: String)
         fun onSelectedCategory(category: Category?)
         fun onAddressChanged(walletAddress: WalletAddress)
         fun onLongPressFee()
@@ -118,5 +121,7 @@ interface SendContract {
         fun getCategory(address: String): Category?
         fun changeCategoryForAddress(address: String, category: Category?)
         fun updateAddress(address: WalletAddress)
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllAddressesInTrash(): List<WalletAddress>
     }
 }

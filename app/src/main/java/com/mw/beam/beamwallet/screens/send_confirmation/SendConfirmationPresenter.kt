@@ -35,7 +35,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             state.comment = getComment()
 
 
-            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, repository.isConfirmTransactionEnabled())
+            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, repository.isConfirmTransactionEnabled(), repository.isEnableFingerprint())
         }
     }
 
@@ -63,6 +63,18 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         } else {
             showWallet()
         }
+    }
+
+    override fun onFingerprintPressed() {
+        view?.showFingerprintDialog()
+    }
+
+    override fun onFingerprintSuccess() {
+        send()
+    }
+
+    override fun onFingerprintError() {
+        view?.showErrorFingerprintMessage()
     }
 
     override fun initSubscriptions() {

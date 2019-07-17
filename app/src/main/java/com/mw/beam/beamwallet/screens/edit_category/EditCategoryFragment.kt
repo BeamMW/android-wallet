@@ -32,12 +32,20 @@ import kotlinx.android.synthetic.main.fragment_edit_category.*
 class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
     private var colorListAdapter: ColorListAdapter? = null
 
+    private val categoryIdFromArgument by lazy {
+        if (arguments == null) {
+            null
+        } else {
+            EditCategoryFragmentArgs.fromBundle(arguments!!).categoryId
+        }
+    }
+
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
-    override fun getToolbarTitle(): String? = getString(R.string.edit_category)
+    override fun getToolbarTitle(): String? = if (categoryIdFromArgument == null) getString(R.string.create_category) else getString(R.string.edit_category)
 
     override fun getCategoryId(): String? {
-        return EditCategoryFragmentArgs.fromBundle(arguments ?: return null).categoryId
+        return categoryIdFromArgument
     }
 
     override fun init(category: Category) {

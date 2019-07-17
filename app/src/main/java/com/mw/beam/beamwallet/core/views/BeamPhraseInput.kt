@@ -93,7 +93,7 @@ class BeamPhraseInput : ConstraintLayout {
                 if (isForEnsure) {
                     when {
                         isEmpty -> {
-                            numberTextColorResId = R.color.common_text_dark_color
+                            numberTextColorResId = R.color.common_text_color
                             numberBackgroundResId = R.drawable.empty_number_background
                             phraseView.isStateNormal = true
                         }

@@ -39,7 +39,7 @@ interface ReceiveContract {
         fun getAmountFromArguments(): Long
         fun getAmount(): Double?
         fun setAmount(newAmount: Double)
-        fun showChangeAddressFragment()
+        fun showChangeAddressFragment(generatedAddress: WalletAddress?)
         fun configCategory(currentCategory: Category?)
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)

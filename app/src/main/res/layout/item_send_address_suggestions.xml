@@ -14,8 +14,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingBottom="6dp"
-        android:textSize="16sp"
+        android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
+        android:singleLine="true"
+        android:ellipsize="middle"
         app:layout_constraintBottom_toTopOf="@id/addressId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,14 +28,24 @@
     <TextView
         android:id="@+id/addressId"
         style="@style/common_text_big_dark"
-        android:layout_width="@dimen/addresses_label_id_width"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="middle"
         android:singleLine="true"
-        tools:text="lwmef2llk124n12kln 23n"
+        android:layout_marginEnd="@dimen/common_offset"
+        tools:text="167jbffhfhgfhhg39nas7167jbffhfhgfhhg39nas7167jbffhfhgfhhg39nas7167jbffhfhgfhhg39nas7"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/category"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/categoryLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/addresses_label_id_width" />
+
 
     <TextView
         android:id="@+id/date"
@@ -53,11 +65,14 @@
         android:id="@+id/category"
         android:visibility="gone"
         tools:visibility="visible"
+        android:singleLine="true"
+        android:ellipsize="middle"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
+        android:layout_marginStart="@dimen/common_offset"
         app:layout_constraintWidth_max="wrap"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/addressId"
+        app:layout_constraintStart_toEndOf="@id/categoryLimit"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label"

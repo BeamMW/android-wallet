@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -55,16 +56,17 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = data[position]
 
         holder.apply {
-            message.text = String.format(
-                    when (transaction.sender) {
-                        TxSender.RECEIVED -> receiveText
-                        TxSender.SENT -> sendText
-                    },
-                    currencyBeam.toUpperCase()) //TODO replace when multiply currency will be available
+            val messageStatus = when (transaction.sender) {
+                TxSender.RECEIVED -> receiveText
+                TxSender.SENT -> sendText
+            }
+
+            message.text = "$messageStatus ${currencyBeam.toUpperCase()}" //TODO replace when multiply currency will be available
 
             itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             icon.setImageResource(beamResId)

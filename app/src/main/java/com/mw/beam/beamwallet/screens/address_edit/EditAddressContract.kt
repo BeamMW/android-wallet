@@ -49,7 +49,7 @@ interface EditAddressContract {
 
     interface Repository : MvpRepository {
         fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
-        fun saveAddress(address: WalletAddress, own: Boolean)
+        fun updateAddress(address: WalletAddress, own: Boolean)
         fun getCategory(address: String): Category?
         fun changeCategoryForAddress(address: String, category: Category?)
     }

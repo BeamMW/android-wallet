@@ -71,7 +71,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
 
     override fun showWrongPassError() {
         passError.visibility = View.VISIBLE
-        passError.text = getString(R.string.check_old_pass_wrong_pass_error)
+        passError.text = getString(R.string.current_password_is_incorrect)
         pass.isStateError = true
     }
 

@@ -20,19 +20,22 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: ChangeAddressContract.Repository, private val state: ChangeAddressState)
     : BasePresenter<ChangeAddressContract.View, ChangeAddressContract.Repository>(view, repository), ChangeAddressContract.Presenter {
     private lateinit var addressesSubscription: Disposable
     private lateinit var transactionsSubscription: Disposable
+    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
 
         state.viewState = if (view?.isFromReceive() != false) ChangeAddressContract.ViewState.Receive else ChangeAddressContract.ViewState.Send
+        state.generatedAddress = view?.getGeneratedAddress()
 
-        view?.init(state.viewState)
+        view?.init(state.viewState, state.generatedAddress)
 
     }
 
@@ -52,18 +55,40 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         addressesSubscription = repository.getAddresses().subscribe {
             val addresses = it.addresses?.filter { walletAddress -> !walletAddress.isContact && !walletAddress.isExpired }
             state.updateAddresses(addresses)
+            state.deleteAddresses(repository.getAllAddressesInTrash())
+
+            onChangeSearchText(view?.getSearchText() ?: "")
         }
 
         transactionsSubscription = repository.getTxStatus().subscribe {
             state.updateTransactions(it.tx)
+            state.deleteTransactions(repository.getAllTransactionInTrash())
+        }
+
+        trashSubscription = repository.getTrashSubject().subscribe {
+            when (it.type) {
+                TrashManager.ActionType.Added -> {
+                    state.deleteTransactions(it.data.transactions)
+                    state.deleteAddresses(it.data.addresses)
+                    onChangeSearchText(view?.getSearchText() ?: "")
+                }
+
+                TrashManager.ActionType.Restored -> {
+                    state.updateAddresses(it.data.addresses)
+                    state.updateTransactions(it.data.transactions)
+                    onChangeSearchText(view?.getSearchText() ?: "")
+                }
+
+                TrashManager.ActionType.Removed -> {}
+            }
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, transactionsSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, transactionsSubscription, trashSubscription)
 
     override fun onChangeSearchText(text: String) {
         if (text.isBlank()) {
-            view?.updateList(listOf())
+            view?.updateList(state.getAddresses().map(::addressToSearchItem))
             return
         }
         
@@ -73,17 +98,23 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
             it.label.toLowerCase().contains(searchText) ||
                     it.walletID.toLowerCase().contains(searchText) ||
                     repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
-        }.map { walletAddress ->
-            SearchItem(walletAddress,
-                    state.getTransactions().firstOrNull { it.myId == walletAddress.walletID || it.peerId == walletAddress.walletID },
-                    repository.getCategoryForAddress(walletAddress.walletID))
-        }
+        }.map(::addressToSearchItem)
 
         view?.updateList(newItems)
     }
 
+    private fun addressToSearchItem(walletAddress: WalletAddress): SearchItem {
+        return SearchItem(walletAddress,
+                state.getTransactions().firstOrNull { it.myId == walletAddress.walletID || it.peerId == walletAddress.walletID },
+                repository.getCategoryForAddress(walletAddress.walletID))
+    }
+
     override fun onItemPressed(walletAddress: WalletAddress) {
-        view?.back(walletAddress)
+        if (walletAddress.walletID == state.generatedAddress?.walletID) {
+            view?.back(null)
+        } else {
+            view?.back(walletAddress)
+        }
     }
 
     override fun onScanQrPressed() {

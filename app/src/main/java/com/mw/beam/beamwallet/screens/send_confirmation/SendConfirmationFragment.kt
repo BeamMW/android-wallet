@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
+import com.mw.beam.beamwallet.screens.fingerprint_dialog.FingerprintDialog
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
 
 class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
@@ -61,7 +62,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getComment(): String? = args.comment
 
     @SuppressLint("SetTextI18n")
-    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean) {
+    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean, isEnableFingerprint: Boolean) {
         changeUtxoTitle.text = "${getString(R.string.change).toUpperCase()} (${getString(R.string.change_description)})"
 
         sendTo.text = address
@@ -81,6 +82,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
         passLayout.visibility = if (isEnablePasswordConfirm) View.VISIBLE else View.GONE
         passError.visibility = if (isEnablePasswordConfirm) View.INVISIBLE else View.GONE
+
+        btnFingerprint.visibility = if (isEnableFingerprint) View.VISIBLE else View.GONE
     }
 
     override fun configureContact(walletAddress: WalletAddress, category: Category?) {
@@ -96,17 +99,30 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         }
     }
 
+    override fun showErrorFingerprintMessage() {
+        showSnackBar(getString(R.string.owner_key_verification_fingerprint_error))
+    }
+
+    override fun showFingerprintDialog() {
+        FingerprintDialog.show(childFragmentManager, { presenter?.onFingerprintSuccess() }, {  }, { presenter?.onFingerprintError() })
+    }
+
     override fun addListeners() {
         btnSend.setOnClickListener {
             presenter?.onSendPressed()
         }
 
         pass.addTextChangedListener(passWatcher)
+
+        btnFingerprint.setOnClickListener {
+            presenter?.onFingerprintPressed()
+        }
     }
 
     override fun clearListeners() {
         btnSend.setOnClickListener(null)
         pass.removeTextChangedListener(passWatcher)
+        btnFingerprint.setOnClickListener(null)
     }
 
     @SuppressLint("SetTextI18n")

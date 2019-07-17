@@ -35,7 +35,7 @@
                 android:layout_marginStart="@dimen/receive_common_qr_offset"
                 android:layout_marginTop="@dimen/receive_common_qr_offset"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
-                android:text="@string/addresses"
+                android:text="@string/address"
                 app:layout_constraintBottom_toTopOf="@id/tokenView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -123,7 +123,6 @@
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnShare"
                 android:layout_width="@dimen/wallet_button_width"
-                app:lower_case="true"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
                 android:background="@drawable/receive_button"

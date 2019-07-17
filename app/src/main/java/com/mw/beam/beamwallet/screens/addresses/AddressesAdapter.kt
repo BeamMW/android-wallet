@@ -39,6 +39,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
     private val expiredDate = context.getString(R.string.expired)
     private val expiresDate = context.getString(R.string.expires)
     private val expiresNever = context.getString(R.string.never)
+    private val noNameLabel = context.getString(R.string.no_name)
 
     private var data: List<WalletAddress> = listOf()
 
@@ -54,11 +55,13 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         val addressCategory = categoryProvider?.invoke(address.walletID)
 
         holder.apply {
-            itemView.findViewById<TextView>(R.id.label).text = address.label
+            itemView.findViewById<TextView>(R.id.label).text = if (address.label.isBlank()) noNameLabel else address.label
             itemView.findViewById<TextView>(R.id.addressId).text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
+            val dateTextView = itemView.findViewById<TextView>(R.id.date)
+            dateTextView.visibility = if (address.isContact) View.GONE else View.VISIBLE
             if (!address.isContact) {
-                itemView.findViewById<TextView>(R.id.date).text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
+                dateTextView.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
             }
 
             val category = itemView.findViewById<TextView>(R.id.category)

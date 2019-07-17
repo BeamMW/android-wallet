@@ -82,6 +82,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
+    private val labelWatcher = object  : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            presenter?.onLabelAddressChanged(s?.toString() ?: "")
+        }
+    }
+
     private val amountWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(token: Editable?) {
             presenter?.onAmountChanged()
@@ -150,7 +156,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun getComment(): String? = comment.text.toString()
     override fun getFee(): Long {
         val progress = feeSeekBar.progress.toLong()
-        return if (progress <= 0) 1 else progress
+        return if (progress < 0) 0 else progress
     }
 
     @SuppressLint("SetTextI18n")
@@ -160,7 +166,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         setHasOptionsMenu(true)
         token.requestFocus()
         feeSeekBar.max = maxFee
-        minFeeValue.text = "1 ${getString(R.string.currency_groth).toUpperCase()}"
+        minFeeValue.text = "0 ${getString(R.string.currency_groth).toUpperCase()}"
         maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
 
         feeSeekBar.progress = defaultFee
@@ -246,6 +252,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
+        addressName.addTextChangedListener(labelWatcher)
 
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
@@ -257,6 +264,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             } else {
                 handleAddressSuggestions(null)
             }
+        }
+        token.setOnClickListener {
+            presenter?.onTokenChanged(token.text.toString())
         }
 
         feeContainer.setOnLongClickListener {
@@ -420,13 +430,17 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     private fun updateFeeValue(progress: Int) {
-        val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
-        params.horizontalBias = if (progress <= 0) 0f else progress.toFloat() / feeSeekBar.max
+        amount.clearFocus()
 
-        feeProgressValue.text = "${if (progress <= 0) 1 else progress} ${getString(R.string.currency_groth).toUpperCase()}"
+        val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
+        params.horizontalBias = if (progress < 0) 0f else progress.toFloat() / feeSeekBar.max
+
+        val fee = if (progress < 0) 0 else progress
+
+        feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        usedFee.text = "+$progress ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
+        usedFee.text = "${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
     }
 
     override fun updateFeeTransactionVisibility(isVisible: Boolean) {
@@ -434,7 +448,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
-        val feeAmount = getFee().convertToBeam()
         var hasErrors = false
         clearErrors()
 
@@ -443,32 +456,34 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             setAddressError()
         }
 
-        try {
-            if (amount.text.toString().toDouble() + feeAmount > availableAmount.convertToBeam()) {
-                configAmountError(configAmountErrorMessage((availableAmount.convertToBeam() - feeAmount).convertToBeamString(), isEnablePrivacyMode))
-                hasErrors = true
-            }
-        } catch (exception: NumberFormatException) {
-            configAmountError(configAmountErrorMessage(availableAmount.convertToBeamString(), isEnablePrivacyMode))
-            hasErrors = true
-        }
-
-        if (amount.text.isNullOrBlank()) {
-            configAmountError(getString(R.string.send_amount_empty_error))
-            hasErrors = true
-        }
-
-        try {
-            if (amount.text.toString().toDouble() == 0.0) {
-                configAmountError(getString(R.string.send_amount_zero_error))
-                hasErrors = true
-            }
-        } catch (exception: NumberFormatException) {
-            configAmountError(getString(R.string.send_amount_empty_error))
+        if (hasAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
             hasErrors = true
         }
 
         return hasErrors
+    }
+
+    override fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
+        return try {
+            when {
+                this.amount.text.isNullOrBlank() -> {
+                    configAmountError(getString(R.string.send_amount_empty_error))
+                    true
+                }
+                amount == 0L -> {
+                    configAmountError(getString(R.string.send_amount_zero_error))
+                    true
+                }
+                amount + fee > availableAmount -> {
+                    configAmountError(configAmountErrorMessage((amount + fee).convertToBeamString(), isEnablePrivacyMode))
+                    true
+                }
+                else -> false
+            }
+        } catch (exception: NumberFormatException) {
+            configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
+            true
+        }
     }
 
     private fun configAmountErrorMessage(amountString: String, isEnablePrivacyMode: Boolean): String {
@@ -481,7 +496,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
-        outgoingAddressTitle.text = "${getString(R.string.outgoing_address).toUpperCase()}${if (isGenerated) " (${getString(R.string.autogenerated).toLowerCase()})" else ""}"
+        outgoingAddressTitle.text = "${getString(R.string.outgoing_address).toUpperCase()}${if (isGenerated) " (${getString(R.string.auto_generated).toLowerCase()})" else ""}"
         outgoingAddress.text = walletAddress.walletID
 
         addressName.setText(walletAddress.label)
@@ -490,23 +505,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
-        clearFocus()
-
         animateDropDownIcon(btnExpandAdvanced, expand)
         beginTransaction()
         advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
     }
 
     override fun handleExpandEditAddress(expand: Boolean) {
-        clearFocus()
-
         animateDropDownIcon(btnExpandEditAddress, expand)
         beginTransaction()
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
-    }
-
-    private fun clearFocus() {
-        contentLayout?.requestFocus()
     }
 
     override fun configCategory(currentCategory: Category?) {
@@ -541,9 +548,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return addressName.text?.toString() ?: ""
     }
 
-    override fun showChangeAddressFragment() {
+    override fun showChangeAddressFragment(generatedAddress: WalletAddress?) {
         ChangeAddressFragment.callback = changeAddressCallback
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment())
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToChangeAddressFragment(generatedAddress = generatedAddress))
     }
 
     override fun setAddress(address: String) {
@@ -552,7 +559,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setAmount(amount: Double) {
-        clearFocus()
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
     }
@@ -566,9 +572,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         showAlert(getString(R.string.send_error_expired_address), getString(R.string.ok), {})
     }
 
-    override fun handleAddressSuggestions(addresses: List<WalletAddress>?) {
+    override fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean) {
         pagerAdapter.setData(Tab.ACTIVE, addresses?.filter { !it.isContact } ?: listOf())
         pagerAdapter.setData(Tab.CONTACTS, addresses?.filter { it.isContact } ?: listOf())
+
+        if (!showSuggestions) return
 
         Handler().postDelayed({
             beginTransaction(true)
@@ -671,8 +679,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment))
     }
 
-    override fun updateAvailable(availableString: String) {
-        availableSum.text = availableString
+    override fun updateAvailable(available: Long) {
+        btnSendAll.isEnabled = available > 0
+        availableSum.text = available.convertToBeamString()
     }
 
     override fun isAmountErrorShown(): Boolean {
@@ -683,6 +692,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
+        addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
         feeSeekBar.setOnSeekBarChangeListener(null)
@@ -694,6 +704,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         searchContainer.setOnTouchListener(null)
         tabLayout.setOnTouchListener(null)
         contentScrollView.setOnTouchListener(null)
+        token.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {

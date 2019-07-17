@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -31,9 +32,10 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
 
     override fun deleteTransaction(txDescription: TxDescription?) {
         if (txDescription != null) {
-            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
-                wallet?.deleteTx(txDescription.id)
-            }
+            TrashManager.add(txDescription.id, txDescription)
+//            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
+//                wallet?.deleteTx(txDescription.id)
+//            }
         }
     }
 

@@ -136,12 +136,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         if (transactions.isNotEmpty()) {
             adapter.setPrivacyMode(isEnablePrivacyMode)
-
-            val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
-            val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
-
             adapter.data = transactions
-            diffResult.dispatchUpdatesTo(adapter)
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -238,7 +234,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     private fun beginTransition() {
-        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply { excludeChildren(transactionsList, true) })
+        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply {
+            excludeChildren(transactionsList, true)
+            excludeChildren(receivingCurrency, true)
+            excludeChildren(sendingCurrency, true)
+        })
     }
 
     @SuppressLint("RestrictedApi")

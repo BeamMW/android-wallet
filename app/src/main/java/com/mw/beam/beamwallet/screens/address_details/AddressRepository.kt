@@ -18,8 +18,11 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -28,10 +31,9 @@ import io.reactivex.subjects.Subject
  */
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
-    override fun deleteAddress(addressId: String) {
-        CategoryHelper.changeCategoryForAddress(addressId, null)
+    override fun deleteAddress(walletAddress: WalletAddress) {
         getResult("deleteAddress") {
-            wallet?.deleteAddress(addressId)
+            TrashManager.add(walletAddress.walletID, walletAddress)
         }
     }
 
@@ -43,5 +45,13 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
 
     override fun getCategory(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)
+    }
+
+    override fun getTrashSubject(): Subject<TrashManager.Action> {
+        return TrashManager.subOnTrashChanged
+    }
+
+    override fun getAllTransactionInTrash(): List<TxDescription> {
+        return TrashManager.getAllData().transactions
     }
 }

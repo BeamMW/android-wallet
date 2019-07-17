@@ -144,15 +144,15 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
     fun setData(tab: Tab, addresses: List<WalletAddress>) {
         when (tab) {
             Tab.ACTIVE -> activeAdapter.apply {
-                setData(addresses)
+                setData(addresses.sortedByDescending { it.createTime })
                 notifyDataSetChanged()
             }
             Tab.EXPIRED -> expiredAdapter.apply {
-                setData(addresses)
+                setData(addresses.sortedByDescending { it.createTime + it.duration })
                 notifyDataSetChanged()
             }
             Tab.CONTACTS -> contactsAdapter.apply {
-                setData(addresses)
+                setData(addresses.sortedByDescending { it.createTime })
                 notifyDataSetChanged()
             }
         }

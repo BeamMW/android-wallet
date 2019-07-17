@@ -105,8 +105,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onChangeAddressPressed() {
-        requestSaveAddress {
-            view?.showChangeAddressFragment()
+        if (state.wasAddressSaved) {
+            view?.showChangeAddressFragment(null)
+        } else {
+            view?.showChangeAddressFragment(state.address)
         }
     }
 

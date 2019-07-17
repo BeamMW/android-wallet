@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.utxo_details
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
@@ -27,6 +29,7 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
         UtxoDetailsContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -45,12 +48,11 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            data.tx?.filter { it.id == state.utxo?.createTxId || it.id == state.utxo?.spentTxId }?.let {
-                state.configTransactions(it)
+            data.tx?.filter(::transactionFilter)?.let {
+                state.updateTransactions(it)
+                state.deleteTransactions(repository.getAllTransactionInTrash().filter(::transactionFilter))
 
-                if (state.utxo != null) {
-                    view?.configUtxoHistory(state.utxo!!, state.transactions.values.toList())
-                }
+                updateUtxoHistory()
             }
 
             var kernelID = state.transactions.values.find { it.id == state.utxo?.spentTxId }?.kernelId
@@ -61,7 +63,31 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
             view?.configUtxoKernel(kernelID)
         }
+
+        trashSubscription = repository.getTrashSubject().subscribe {
+            when (it.type) {
+                TrashManager.ActionType.Added -> {
+                    state.deleteTransactions(it.data.transactions)
+                    updateUtxoHistory()
+                }
+                TrashManager.ActionType.Restored -> {
+                    state.updateTransactions(it.data.transactions.filter(::transactionFilter))
+                    updateUtxoHistory()
+                }
+                TrashManager.ActionType.Removed -> {}
+            }
+        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
+    private fun transactionFilter(txDescription: TxDescription): Boolean {
+        return txDescription.id == state.utxo?.createTxId || txDescription.id == state.utxo?.spentTxId
+    }
+
+    private fun updateUtxoHistory() {
+        if (state.utxo != null) {
+            view?.configUtxoHistory(state.utxo!!, state.getTransactions())
+        }
+    }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription, trashSubscription)
 }

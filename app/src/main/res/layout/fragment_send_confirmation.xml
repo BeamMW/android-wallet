@@ -18,8 +18,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/sendToTitle"
@@ -220,12 +219,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:layout_marginTop="@dimen/common_offset"
                 app:hintTextAppearance="@style/welcome_password_label_style"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnFingerprint"
                 app:layout_constraintBottom_toTopOf="@id/passError"
                 app:layout_constraintTop_toBottomOf="@id/changeUtxo">
 
@@ -237,6 +238,20 @@
                     android:hint="@string/password"
                     tools:ignore="Autofill,LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:id="@+id/btnFingerprint"
+                android:contentDescription="@null"
+                android:padding="4dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:src="@drawable/ic_touch_success"
+                app:layout_constraintBottom_toBottomOf="@id/passLayout"
+                app:layout_constraintStart_toEndOf="@id/passLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/passError"

@@ -19,15 +19,17 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository)
+class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository, private val state: AddressesState)
     : BasePresenter<AddressesContract.View, AddressesContract.Repository>(currentView, currentRepository),
         AddressesContract.Presenter {
     private lateinit var addressesSubscription: Disposable
+    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -42,18 +44,39 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         super.initSubscriptions()
 
         addressesSubscription = repository.getAddresses().subscribe {
-            if (it.own) {
-                view?.updateAddresses(Tab.ACTIVE, it.addresses?.filter { address -> !address.isExpired } ?: listOf())
-                view?.updateAddresses(Tab.EXPIRED, it.addresses?.filter { address -> address.isExpired } ?: listOf())
-            } else {
-                view?.updateAddresses(Tab.CONTACTS, it.addresses ?: listOf())
+            state.updateAddresses(it.addresses)
+
+            state.deleteAddresses(repository.getAllAddressesInTrash())
+
+            updateView()
+        }
+
+        trashSubscription = repository.getTrashSubject().subscribe {
+            when(it.type) {
+                TrashManager.ActionType.Added -> {
+                    state.deleteAddresses(it.data.addresses)
+                    updateView()
+                }
+                TrashManager.ActionType.Restored -> {
+                    state.updateAddresses(it.data.addresses)
+                    updateView()
+                }
+                TrashManager.ActionType.Removed -> {}
             }
         }
     }
 
+    private fun updateView() {
+        val addresses = state.getAddresses()
+
+        view?.updateAddresses(Tab.ACTIVE, addresses.filter { !it.isExpired && !it.isContact })
+        view?.updateAddresses(Tab.EXPIRED, addresses.filter { it.isExpired && !it.isContact })
+        view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
+    }
+
     override fun onSearchCategoryForAddress(address: String): Category? = repository.getCategoryForAddress(address)
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
 
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true

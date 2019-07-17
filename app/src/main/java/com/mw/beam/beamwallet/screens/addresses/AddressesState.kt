@@ -14,25 +14,24 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.core.entities.dto
+package com.mw.beam.beamwallet.screens.addresses
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 
-/**
- * Created by vain onnellinen on 1/4/19.
- */
-@Parcelize
-data class WalletAddressDTO(val walletID: String,
-                            var label: String,
-                            val category: String,
-                            val createTime: Long,
-                            var duration: Long,
-                            val own: Long) : Parcelable {
-    
-    enum class WalletAddressExpirationStatus {
-        Expired,
-        OneDay,
-        Never
+class AddressesState {
+    private val addresses = HashMap<String, WalletAddress>()
+
+    fun updateAddresses(addresses: List<WalletAddress>?){
+        addresses?.forEach {
+            this.addresses[it.walletID] = it
+        }
+    }
+
+    fun getAddresses() = addresses.values.toList()
+
+    fun deleteAddresses(addresses: List<WalletAddress>?) {
+        addresses?.forEach {
+            this.addresses.remove(it.walletID)
+        }
     }
 }

@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -69,7 +70,7 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     }
 
     override fun saveAddress(address: WalletAddress) {
-        getResult("saveAddress") {
+        getResult("updateAddress") {
             wallet?.saveAddress(address.toDTO(), true)
         }
     }
@@ -83,4 +84,12 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
+
+    override fun getTrashSubject(): Subject<TrashManager.Action> {
+        return TrashManager.subOnTrashChanged
+    }
+
+    override fun getAllAddressesInTrash(): List<WalletAddress> {
+        return TrashManager.getAllData().addresses
+    }
 }

@@ -34,7 +34,7 @@ interface TransactionDetailsContract {
         fun getTransactionId(): String
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
         fun updatePaymentProof(paymentProof: PaymentProof)
-        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus)
+        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus, isSend: Boolean)
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()
@@ -43,6 +43,7 @@ interface TransactionDetailsContract {
         fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?)
         fun showSendFragment(address: String, amount: Long)
         fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?)
+        fun showDeleteSnackBar(txDescription: TxDescription)
     }
 
     interface Presenter : MvpPresenter<View> {
