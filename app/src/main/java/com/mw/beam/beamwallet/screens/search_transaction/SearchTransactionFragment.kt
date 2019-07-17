@@ -28,7 +28,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.screens.wallet.TransactionDiffUtilCallback
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_search_transaction.*
 
@@ -86,12 +85,8 @@ class SearchTransactionFragment: BaseFragment<SearchTransactionPresenter>(), Sea
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?) {
         adapter.setPrivacyMode(isEnablePrivacyMode)
         adapter.setSearchText(searchText)
-
-        val diffUtilCallback = TransactionDiffUtilCallback(adapter.data, transactions)
-        val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
-
         adapter.data = transactions
-        diffResult.dispatchUpdatesTo(adapter)
+        adapter.notifyDataSetChanged()
     }
 
     override fun setClearButtonVisible(isVisible: Boolean) {
