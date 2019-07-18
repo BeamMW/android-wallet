@@ -129,7 +129,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             0.0
         }
 
-        view?.setAmount(availableAmount - feeAmount)
+        setAmount(availableAmount - feeAmount)
         view?.updateFeeTransactionVisibility(true)
     }
 
@@ -334,16 +334,24 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val maxEnterAmount = availableAmount - feeAmount
         when {
             enteredAmount > maxEnterAmount -> {
-                view?.setAmount(maxEnterAmount)
+                setAmount(maxEnterAmount)
                 view?.updateFeeTransactionVisibility(true)
             }
             enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                view?.setAmount(maxEnterAmount)
+                setAmount(maxEnterAmount)
                 view?.updateFeeTransactionVisibility(true)
             }
             else -> view?.updateFeeTransactionVisibility(false)
         }
         state.prevFee = feeAmount
+    }
+
+    private fun setAmount(amount: Double) {
+        if (amount > 0) {
+            view?.setAmount(amount)
+        } else {
+            view?.setAmount(0.0)
+        }
     }
 
     override fun initSubscriptions() {
