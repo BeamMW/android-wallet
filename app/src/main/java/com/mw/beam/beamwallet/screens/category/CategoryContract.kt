@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 interface CategoryContract {
@@ -46,5 +47,7 @@ interface CategoryContract {
         fun getAddresses(): Subject<OnAddressesData>
         fun deleteCategory(category: Category)
         fun getCategoryFromId(categoryId: String): Category?
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllAddressesInTrash(): List<WalletAddress>
     }
 }
