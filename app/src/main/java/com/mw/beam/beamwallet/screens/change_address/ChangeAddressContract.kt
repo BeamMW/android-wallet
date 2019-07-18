@@ -10,6 +10,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 interface ChangeAddressContract {
@@ -36,7 +37,7 @@ interface ChangeAddressContract {
     }
 
     interface Repository: MvpRepository {
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddresses(): Subject<OnAddressesData>
         fun getCategoryForAddress(address: String): Category?
         fun getTrashSubject(): Subject<TrashManager.Action>

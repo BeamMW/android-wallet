@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 import java.io.File
 import android.view.View as MenuView
@@ -81,7 +82,7 @@ interface WalletContract {
 
     interface Repository : MvpRepository {
         fun getWalletStatus(): Subject<WalletStatus>
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getTransactionsFile(): File
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun isAllowOpenExternalLink(): Boolean

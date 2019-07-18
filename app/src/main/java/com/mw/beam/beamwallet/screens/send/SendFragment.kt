@@ -332,7 +332,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
-        feeEditText.filters = arrayOf(InputFilterMinMax(1, SendPresenter.MAX_FEE))
+        feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
 
         view.findViewById<BeamButton>(R.id.btnSave).setOnClickListener {
             presenter?.onEnterFee(feeEditText.text?.toString())

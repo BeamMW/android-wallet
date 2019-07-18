@@ -19,7 +19,7 @@
         android:singleLine="true"
         android:ellipsize="middle"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintBottom_toTopOf="@id/addressId"
         app:layout_constraintEnd_toStartOf="@+id/labelLimit"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,6 +86,6 @@
         app:layout_constraintStart_toEndOf="@id/label"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/label"
-        tools:text="Category" />
+        tools:text="Category Category Category Category Category" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

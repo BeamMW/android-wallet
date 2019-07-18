@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -57,7 +58,7 @@ interface AddressContract {
 
     interface Repository : MvpRepository {
         fun deleteAddress(walletAddress: WalletAddress)
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getCategory(address: String): Category?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllTransactionInTrash(): List<TxDescription>

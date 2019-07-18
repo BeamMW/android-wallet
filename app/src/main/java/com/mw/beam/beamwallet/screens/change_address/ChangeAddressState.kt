@@ -34,5 +34,5 @@ class ChangeAddressState {
         generatedAddress?.let { add(0, it) }
     }
 
-    fun getTransactions() = transactions.values.toList().sortedBy { it.modifyTime }
+    fun getTransactions() = transactions.values.toList().sortedByDescending { it.modifyTime }
 }

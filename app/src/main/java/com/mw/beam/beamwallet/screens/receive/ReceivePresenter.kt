@@ -179,6 +179,12 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             val comment = view?.getComment()
             address.label = comment ?: ""
 
+            view?.getTxComment()?.let {
+                if (it.isNotBlank()) {
+                    ReceiveTxCommentHelper.saveCommentToAddress(address.walletID, it)
+                }
+            }
+
             if (state.wasAddressSaved) {
                 repository.updateAddress(address)
             } else {

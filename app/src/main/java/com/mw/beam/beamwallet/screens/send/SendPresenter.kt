@@ -47,6 +47,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         super.onViewCreated()
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
+        state.prevFee = DEFAULT_FEE.toLong().convertToBeam()
 
         val address: String? = view?.getAddressFromArguments()
         if (!address.isNullOrBlank()) {

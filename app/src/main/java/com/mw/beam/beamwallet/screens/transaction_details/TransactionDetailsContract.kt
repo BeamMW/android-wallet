@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.TxStatus
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -60,7 +61,7 @@ interface TransactionDetailsContract {
     interface Repository : MvpRepository {
         fun deleteTransaction(txDescription: TxDescription?)
         fun cancelTransaction(txDescription: TxDescription?)
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddresses(): Subject<OnAddressesData>
         fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>

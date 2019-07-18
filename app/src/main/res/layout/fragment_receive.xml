@@ -197,15 +197,54 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:layout_marginTop="30dp"
+                android:id="@+id/txCommentTitle"
+                style="@style/common_subheader_dark"
+                android:textAllCaps="false"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                tools:text="TRANSACTION COMMENT (won’t be shared)"
+                app:layout_constraintTop_toBottomOf="@id/addressGroup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txComment"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:background="@drawable/edit_text_selector"
+                android:backgroundTint="@android:color/transparent"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/txCommentTitle"
+                tools:ignore="Autofill,LabelFor,TextFields" />
+
+            <View
+                android:id="@+id/txCommentDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/btn_drop_down_color"
+                app:layout_constraintEnd_toEndOf="@id/txComment"
+                app:layout_constraintStart_toStartOf="@id/txComment"
+                app:layout_constraintTop_toBottomOf="@id/txComment" />
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/advancedCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
+                android:layout_marginTop="30dp"
                 android:paddingTop="@dimen/receive_card_padding"
                 android:paddingBottom="@dimen/receive_card_padding"
-                app:layout_constraintTop_toBottomOf="@id/addressGroup">
+                app:layout_constraintTop_toBottomOf="@id/txCommentDivider">
 
                 <TextView
                     android:id="@+id/advancedTitle"
