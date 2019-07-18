@@ -130,7 +130,7 @@
     <dimen name="main_link_text_margin">10dp</dimen>
     <dimen name="main_link_text_margin_end">52dp</dimen>
     <dimen name="main_link_icon_size">16dp</dimen>
-    <dimen name="toolbar_gradient_size">180dp</dimen>
+    <dimen name="toolbar_gradient_size">160dp</dimen>
     <dimen name="small_button_padding_vertical">8dp</dimen>
     <dimen name="small_button_padding_horizontal">20dp</dimen>
 
