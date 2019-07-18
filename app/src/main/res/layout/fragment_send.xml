@@ -59,7 +59,7 @@
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginEnd="@dimen/common_offset"
                     android:imeOptions="actionNext"
-                    android:inputType="text"
+                    android:inputType="text|textCapSentences"
                     android:hint="@string/search_by_address_category_or_name"
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
@@ -184,13 +184,14 @@
                 android:inputType="numberDecimal"
                 android:textColor="@color/sent_color"
                 android:imeOptions="actionDone"
+                android:hint="@string/_0"
+                android:textColorHint="@color/common_text_dark_color"
                 android:textSize="@dimen/send_amount_text_size"
                 app:layout_constraintEnd_toStartOf="@id/currency"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountTitle"
-                tools:ignore="Autofill,LabelFor"
-                tools:text="123.521" />
+                tools:ignore="Autofill,LabelFor" />
 
             <View
                 android:id="@+id/amountDivider"

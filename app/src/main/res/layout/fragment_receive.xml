@@ -122,6 +122,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginEnd="@dimen/common_offset"
+                        android:inputType="text|textCapSentences"
                         android:background="@drawable/edit_text_selector"
                         android:backgroundTint="@android:color/transparent"
                         android:imeOptions="actionDone"

@@ -47,6 +47,7 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:singleLine="true"
+                android:inputType="text|textCapSentences"
                 android:hint="@string/search_by_address_category_or_name"
                 android:imeOptions="actionDone"
                 android:background="@drawable/edit_text_selector"
