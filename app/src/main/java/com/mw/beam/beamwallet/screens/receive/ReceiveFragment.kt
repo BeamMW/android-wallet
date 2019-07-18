@@ -162,7 +162,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                amount.hint = getString(R.string._0)
+                amount.hint = "0"
             } else {
                 amount.hint = ""
             }

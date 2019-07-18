@@ -294,7 +294,7 @@
                     android:inputType="numberDecimal"
                     android:textColor="@color/received_color"
                     android:textSize="@dimen/receive_amount_text_size"
-                    tools:hint="@string/_0"
+                    tools:hint="0"
                     android:textColorHint="@color/common_text_dark_color"
                     app:layout_constraintEnd_toStartOf="@id/currency"
                     app:layout_constraintHorizontal_bias="0.0"

@@ -23,6 +23,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
@@ -72,6 +73,7 @@ import kotlinx.android.synthetic.main.fragment_send.*
 class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var searchAddressViewDY = 0f
     private lateinit var pagerAdapter: AddressesPagerAdapter
+    private var minFee = 0
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {}
@@ -112,8 +114,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val onFeeChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            presenter?.onFeeChanged(progress.toString())
-            updateFeeValue(progress)
+            if (progress >= minFee) {
+                presenter?.onFeeChanged(progress.toString())
+                updateFeeValue(progress)
+            } else {
+                feeSeekBar.progress = minFee
+            }
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -166,7 +172,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         setHasOptionsMenu(true)
         token.requestFocus()
         feeSeekBar.max = maxFee
-        minFeeValue.text = "0 ${getString(R.string.currency_groth).toUpperCase()}"
+        minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
         maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
 
         feeSeekBar.progress = defaultFee
@@ -213,6 +219,28 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         })
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun setupMinFee(fee: Int) {
+        minFee = fee
+
+        if (feeSeekBar.progress < minFee) {
+            feeSeekBar.progress = minFee
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
+            feeSeekBar.min = minFee
+        }
+    }
+
+    override fun showMinFeeError() {
+        showAlert(
+                message = "",
+                btnConfirmText = "",
+                onConfirm = {}
+        )
+    }
+
     override fun requestFocusToAmount() {
         amount.requestFocus()
     }
@@ -246,6 +274,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun addListeners() {
+        btnFeeKeyboard.setOnClickListener {
+            presenter?.onLongPressFee()
+        }
+
         btnNext.setOnClickListener {
             presenter?.onNext()
         }
@@ -265,7 +297,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                amount.hint = getString(R.string._0)
+                amount.hint = "0"
             } else {
                 amount.hint = ""
             }
@@ -346,10 +378,27 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
         feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
+        feeEditText.addTextChangedListener(object: android.text.TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
         view.findViewById<BeamButton>(R.id.btnSave).setOnClickListener {
-            presenter?.onEnterFee(feeEditText.text?.toString())
-            dialog?.dismiss()
+            val rawFee = feeEditText.text?.toString()
+            val fee = rawFee?.toLongOrNull() ?: 0
+            if (fee >= minFee) {
+                presenter?.onEnterFee(rawFee)
+                dialog?.dismiss()
+            } else {
+                val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
+                feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
+                feeErrorTextView.visibility = View.VISIBLE
+            }
         }
 
         dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
@@ -494,7 +543,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     true
                 }
                 amount + fee > availableAmount -> {
-                    configAmountError(configAmountErrorMessage((amount + fee).convertToBeamString(), isEnablePrivacyMode))
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToBeamString(), isEnablePrivacyMode))
                     true
                 }
                 else -> false
@@ -708,6 +757,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun clearListeners() {
+        btnFeeKeyboard.setOnClickListener(null)
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)

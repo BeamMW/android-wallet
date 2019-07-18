@@ -60,6 +60,19 @@
         app:layout_constraintTop_toBottomOf="@id/feeEditText" />
 
     <TextView
+        android:id="@+id/feeError"
+        android:visibility="gone"
+        style="@style/common_text_big_light"
+        android:textColor="@color/common_error_color"
+        tools:text="The minimum fee is 100 GROTH"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="@id/grothCurrency"
+        app:layout_constraintStart_toStartOf="@id/feeEditText"
+        app:layout_constraintTop_toBottomOf="@id/feeEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/grothCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +98,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/feeEditText"
+        app:layout_constraintTop_toBottomOf="@id/feeError"
         app:layout_constraintVertical_bias="1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

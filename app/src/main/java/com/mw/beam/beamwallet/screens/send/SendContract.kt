@@ -82,6 +82,8 @@ interface SendContract {
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
         fun requestFocusToAmount()
+        fun showMinFeeError()
+        fun setupMinFee(fee: Int)
     }
 
     interface Presenter : MvpPresenter<View> {

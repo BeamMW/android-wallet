@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
@@ -38,6 +39,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
     companion object {
+        const val FORK_MIN_FEE = 100
         const val MAX_FEE = 1000
         private const val DEFAULT_FEE = 10
         private const val MAX_FEE_LENGTH = 15
@@ -159,6 +161,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && isValidToken(token)) {
+
+                if (isFork() && fee < FORK_MIN_FEE) {
+                    view?.showMinFeeError()
+                    return
+                }
+
                 // we can't send money to own expired address
                 if (state.addresses.values.find { it.walletID == token && it.isExpired && !it.isContact } != null) {
                     view?.showCantSendToExpiredError()
@@ -357,12 +365,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
+    private fun isFork() = state.walletStatus?.system?.height ?: 0 >= AppConfig.FORK_HEIGTH
+
     override fun initSubscriptions() {
         super.initSubscriptions()
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
             view?.updateAvailable(state.walletStatus!!.available)
+            view?.setupMinFee(FORK_MIN_FEE)
 
             if (view?.isAmountErrorShown() == true) {
                 view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode)
@@ -387,7 +398,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         trashSubscription = repository.getTrashSubject().subscribe {
             when (it.type) {
                 TrashManager.ActionType.Added -> {
-                    it.data.addresses.forEach {address ->
+                    it.data.addresses.forEach { address ->
                         state.addresses.remove(address.walletID)
                     }
                     updateSuggestions(view?.getToken(), false)

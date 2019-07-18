@@ -184,7 +184,7 @@
                 android:inputType="numberDecimal"
                 android:textColor="@color/sent_color"
                 android:imeOptions="actionDone"
-                tools:hint="@string/_0"
+                tools:hint="0"
                 android:textColorHint="@color/common_text_dark_color"
                 android:textSize="@dimen/send_amount_text_size"
                 app:layout_constraintEnd_toStartOf="@id/currency"
@@ -546,6 +546,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/btnFeeKeyboard"
+                        app:layout_constraintTop_toTopOf="@id/feeTitle"
+                        app:layout_constraintBottom_toBottomOf="@id/feeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:src="@drawable/ic_keyboard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@null" />
+
                     <TextView
                         android:id="@+id/minFeeValue"
                         style="@style/common_text_big_light"
@@ -554,7 +565,7 @@
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/feeTitle"
+                        app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
                         tools:text="1 GROTH" />
 
                     <TextView
@@ -565,7 +576,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/feeTitle"
+                        app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
                         tools:text="10000000 GROTH" />
 
                     <androidx.appcompat.widget.AppCompatSeekBar
@@ -577,7 +588,7 @@
                         android:progressDrawable="@drawable/fee_seekbar_style"
                         android:splitTrack="false"
                         android:thumb="@drawable/fee_thumb"
-                        app:layout_constraintTop_toBottomOf="@id/minFeeValue"
+                        app:layout_constraintTop_toBottomOf="@id/feeProgressValue"
                         tools:progress="30" />
 
                     <TextView
@@ -585,12 +596,12 @@
                         style="@style/common_text_big_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:textColor="@color/sent_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.3"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
+                        app:layout_constraintTop_toBottomOf="@id/feeTitle"
                         tools:text="10 GROTH" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
