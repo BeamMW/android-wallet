@@ -77,7 +77,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         // we need to apply scanned address after watchers were added
         if (state.scannedAddress != null) {
-            state.scannedAddress?.let { view?.setAddress(it) }
+            state.scannedAddress?.let {
+                view?.setAddress(it)
+                view?.handleAddressSuggestions(null)
+                view?.requestFocusToAmount()
+            }
             state.scannedAmount?.let { view?.setAmount(it) }
 
             state.scannedAddress = null
@@ -87,7 +91,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.handleExpandAdvanced(state.expandAdvanced)
         view?.handleExpandEditAddress(state.expandEditAddress)
 
-        view?.updateFeeViews()
+        view?.updateFeeViews(false)
 
         onTokenChanged(view?.getToken(), searchAddress = false)
 
@@ -99,6 +103,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onSelectAddress(walletAddress: WalletAddress) {
         view?.setAddress(walletAddress.walletID)
         view?.handleAddressSuggestions(null)
+        view?.requestFocusToAmount()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -251,6 +256,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
                 state.scannedAmount = qrObject.amount
             }
+
+            view?.requestFocusToAmount()
         } else {
             view?.showNotBeamAddressError()
         }

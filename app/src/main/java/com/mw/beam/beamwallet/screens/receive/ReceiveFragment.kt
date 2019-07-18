@@ -160,6 +160,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onChangeAddressPressed()
         }
 
+        amount.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                amount.hint = getString(R.string._0)
+            } else {
+                amount.hint = ""
+            }
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
@@ -240,6 +248,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
 
+        amount.onFocusChangeListener = null
         expiresOnSpinner.onItemSelectedListener = null
     }
 

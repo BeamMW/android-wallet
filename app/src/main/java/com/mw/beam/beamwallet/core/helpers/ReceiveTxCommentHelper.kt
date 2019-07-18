@@ -27,7 +27,8 @@ object ReceiveTxCommentHelper {
 
     fun getSavedComment(tx: TxDescription): String {
         val txCommentKey = "tx_comment:${tx.id}"
-        return PreferencesManager.getString(txCommentKey) ?: ""
+        val s = PreferencesManager.getString(txCommentKey) ?: ""
+        return s
     }
 
     fun getSavedCommnetAndSaveForTx(tx: TxDescription): String {

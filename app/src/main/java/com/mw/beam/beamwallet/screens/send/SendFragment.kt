@@ -213,6 +213,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         })
     }
 
+    override fun requestFocusToAmount() {
+        amount.requestFocus()
+    }
+
     override fun isFullScreenView(): Boolean = true
 
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
@@ -259,10 +263,19 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
+        amount.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                amount.hint = getString(R.string._0)
+            } else {
+                amount.hint = ""
+            }
+        }
+
         token.addListener(tokenWatcher)
         token.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 contentScrollView.smoothScrollTo(0, 0)
+                presenter?.onTokenChanged(token.text.toString())
             } else {
                 handleAddressSuggestions(null)
             }
@@ -432,8 +445,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateFeeValue(progress: Int) {
-        amount.clearFocus()
+    private fun updateFeeValue(progress: Int, clearAmountFocus: Boolean = true) {
+        if (clearAmountFocus) {
+            amount.clearFocus()
+        }
 
         val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
         params.horizontalBias = if (progress < 0) 0f else progress.toFloat() / feeSeekBar.max
@@ -673,9 +688,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     }
 
-    override fun updateFeeViews() {
+    override fun updateFeeViews(clearAmountFocus: Boolean) {
         amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.sent_color))
-        updateFeeValue(feeSeekBar.progress)
+        updateFeeValue(feeSeekBar.progress, clearAmountFocus)
     }
 
     override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
@@ -698,6 +713,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
+        amount.onFocusChangeListener = null
         feeSeekBar.setOnSeekBarChangeListener(null)
         feeContainer.setOnLongClickListener(null)
         advancedTitle.setOnClickListener(null)

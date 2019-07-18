@@ -75,12 +75,13 @@ interface SendContract {
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
         fun configCategory(currentCategory: Category?)
-        fun updateFeeViews()
+        fun updateFeeViews(clearAmountFocus: Boolean = true)
         fun showFeeDialog()
         fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
+        fun requestFocusToAmount()
     }
 
     interface Presenter : MvpPresenter<View> {

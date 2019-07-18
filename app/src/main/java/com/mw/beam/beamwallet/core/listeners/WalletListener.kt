@@ -39,8 +39,12 @@ object WalletListener {
     private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
     val obsOnTxStatus = subOnTxStatus.map {
         it.tx?.forEach { tx ->
-            if (!tx.sender.value && tx.message.isBlank()) {
-                tx.message = if (it.action == ChangeAction.ADDED) ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx) else ReceiveTxCommentHelper.getSavedComment(tx)
+            if (!tx.sender.value) {
+                val savedComment = if (it.action == ChangeAction.ADDED || it.action == ChangeAction.UPDATED)
+                    ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
+                else ReceiveTxCommentHelper.getSavedComment(tx)
+
+                tx.message = if (savedComment.isNotBlank()) savedComment else ""
             }
         }
         it
