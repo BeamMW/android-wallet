@@ -245,7 +245,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.requestFocus()
     }
 
-    override fun isFullScreenView(): Boolean = true
+    override fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, R.color.sent_color)
+    }
 
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
         when (event.action) {

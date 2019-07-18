@@ -7,6 +7,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.zxing.integration.android.IntentIntegrator
@@ -63,7 +64,9 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         addressesRecyclerView.adapter = adapter
     }
 
-    override fun isFullScreenView(): Boolean = true
+    override fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, if (isFromReceive()) R.color.received_color else R.color.sent_color)
+    }
 
     override fun addListeners() {
         searchAddress.addTextChangedListener(textWatcher)

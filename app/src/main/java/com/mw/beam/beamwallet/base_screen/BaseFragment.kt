@@ -17,8 +17,8 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
@@ -75,11 +75,12 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onResume() {
         super.onResume()
-        val visibility = if (isFullScreenView()) View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN else View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        activity?.window?.decorView?.systemUiVisibility = visibility
+        activity?.window?.statusBarColor = getStatusBarColor()
     }
 
-    open fun isFullScreenView() = false
+    open fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, android.R.color.transparent)
+    }
 
     override fun dismissAlert() {
         delegate.dismissAlert()

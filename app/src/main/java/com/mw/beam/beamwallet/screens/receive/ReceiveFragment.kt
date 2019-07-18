@@ -26,6 +26,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
@@ -106,7 +107,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         txCommentTitle.text = "${getString(R.string.transaction_comment).toUpperCase()} (${getString(R.string.wont_be_shared).toLowerCase()})"
     }
 
-    override fun isFullScreenView(): Boolean = true
+    override fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, R.color.received_color)
+    }
 
     override fun initAddress(isGenerateAddress: Boolean, walletAddress: WalletAddress) {
         tokenTitle.text = if (isGenerateAddress) "${getString(R.string.address).toUpperCase()} (${getString(R.string.auto_generated).toLowerCase()})" else getString(R.string.address).toUpperCase()
