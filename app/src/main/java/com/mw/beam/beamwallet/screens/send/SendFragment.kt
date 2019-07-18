@@ -478,17 +478,18 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             hasErrors = true
         }
 
+        if (this.amount.text.isNullOrBlank()) {
+            configAmountError(getString(R.string.send_amount_empty_error))
+            hasErrors = true
+        }
+
         return hasErrors
     }
 
     override fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         return try {
             when {
-                this.amount.text.isNullOrBlank() -> {
-                    configAmountError(getString(R.string.send_amount_empty_error))
-                    true
-                }
-                amount == 0L -> {
+                amount == 0L && fee < availableAmount -> {
                     configAmountError(getString(R.string.send_amount_zero_error))
                     true
                 }

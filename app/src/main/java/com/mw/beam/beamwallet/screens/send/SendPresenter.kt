@@ -129,7 +129,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             0.0
         }
 
-        setAmount(availableAmount - feeAmount)
+        setAmount(view?.getAmount() ?: 0.0, availableAmount, feeAmount)
         view?.updateFeeTransactionVisibility(true)
     }
 
@@ -321,6 +321,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onFeeChanged(rawFee: String?) {
+        view?.clearErrors()
+
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
@@ -334,11 +336,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val maxEnterAmount = availableAmount - feeAmount
         when {
             enteredAmount > maxEnterAmount -> {
-                setAmount(maxEnterAmount)
+                setAmount(enteredAmount, availableAmount, feeAmount)
                 view?.updateFeeTransactionVisibility(true)
             }
             enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                setAmount(maxEnterAmount)
+                setAmount(enteredAmount, availableAmount, feeAmount)
                 view?.updateFeeTransactionVisibility(true)
             }
             else -> view?.updateFeeTransactionVisibility(false)
@@ -346,11 +348,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.prevFee = feeAmount
     }
 
-    private fun setAmount(amount: Double) {
-        if (amount > 0) {
-            view?.setAmount(amount)
+    private fun setAmount(enteredAmount: Double, availableAmount: Double, fee: Double) {
+        val maxEnterAmount = availableAmount - fee
+        if (maxEnterAmount > 0) {
+            view?.setAmount(maxEnterAmount)
         } else {
-            view?.setAmount(0.0)
+            view?.hasAmountError(enteredAmount.convertToGroth(), fee.convertToGroth(), state.walletStatus!!.available, state.privacyMode)
         }
     }
 
