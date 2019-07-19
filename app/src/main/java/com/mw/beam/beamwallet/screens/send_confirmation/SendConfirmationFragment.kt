@@ -152,17 +152,6 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         findNavController().navigate(SendConfirmationFragmentDirections.actionSendConfirmationFragmentToSaveAddressFragment(address))
     }
 
-    override fun showSaveContactDialog() {
-        showAlert(
-                getString(R.string.save_recipient_address),
-                getString(R.string.save),
-                { presenter?.onSaveContactPressed() },
-                getString(R.string.save_address),
-                getString(R.string.dont_save),
-                { presenter?.onCancelSaveContactPressed() }
-        )
-    }
-
     override fun showWallet() {
         findNavController().popBackStack(R.id.walletFragment, false)
     }
