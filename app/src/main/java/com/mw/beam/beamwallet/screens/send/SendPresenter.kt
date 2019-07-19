@@ -127,8 +127,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
-        state.afterSendAllPressed = true
-
         val availableAmount = state.walletStatus!!.available
         val feeAmount = try {
             view?.getFee() ?: 0L
@@ -137,7 +135,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         setAmount(availableAmount, feeAmount)
-        view?.hasAmountError(view?.getAmount()?.convertToGroth() ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
+        view?.hasAmountError(view?.getAmount()?.convertToGroth()
+                ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
         if (availableAmount == feeAmount) {
             view?.setAmount(availableAmount.convertToBeam())
         }
@@ -335,25 +334,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onAmountChanged() {
         view?.apply {
             clearErrors()
-            val amount = getAmount()
-            val fee = getFee()
-            val availableAmount = state.walletStatus!!.available.convertToBeam()
-
-            updateFeeTransactionVisibility(amount + fee == availableAmount)
+            updateFeeTransactionVisibility(false)
         }
     }
 
     override fun onAmountUnfocused() {
         view?.apply {
-            state.afterSendAllPressed = false
-
             val amount = getAmount()
             val fee = getFee()
-            val availableAmount = state.walletStatus!!.available.convertToBeam()
 
 
-            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available ?: 0, state.privacyMode)
-            updateFeeTransactionVisibility(amount + fee == availableAmount)
+            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                    ?: 0, state.privacyMode)
         }
     }
 
@@ -367,20 +359,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             0L
         }
 
-        if (state.afterSendAllPressed) {
-            view?.clearErrors()
+        view?.clearErrors()
 
-            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
-            val availableAmount = state.walletStatus!!.available
-            val maxEnterAmount = availableAmount - feeAmount
-            when {
-                enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                    setAmount(availableAmount, feeAmount)
-                    view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
-                    view?.updateFeeTransactionVisibility(true)
-                }
-                else -> view?.updateFeeTransactionVisibility(false)
+        val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+        val availableAmount = state.walletStatus!!.available
+        val maxEnterAmount = availableAmount - feeAmount
+        when {
+            enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
+                setAmount(availableAmount, feeAmount)
+                view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
+                view?.updateFeeTransactionVisibility(true)
             }
+            else -> view?.updateFeeTransactionVisibility(false)
         }
 
         state.prevFee = feeAmount
@@ -404,17 +394,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.setupMinFee(FORK_MIN_FEE)
         }
 
-//        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
-//            // just for case when address was expired directly before sendMoney() was called
-//            view?.close()
-//        }
-
         addressesSubscription = repository.getAddresses().subscribe {
             it.addresses?.forEach { address ->
                 state.addresses[address.walletID] = address
             }
 
-            repository.getAllAddressesInTrash().forEach {address ->
+            repository.getAllAddressesInTrash().forEach { address ->
                 state.addresses.remove(address.walletID)
             }
         }
@@ -433,7 +418,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     }
                     updateSuggestions(view?.getToken(), false)
                 }
-                TrashManager.ActionType.Removed -> {}
+                TrashManager.ActionType.Removed -> {
+                }
             }
         }
 

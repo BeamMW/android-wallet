@@ -24,7 +24,6 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
-    var afterSendAllPressed = false
     var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
