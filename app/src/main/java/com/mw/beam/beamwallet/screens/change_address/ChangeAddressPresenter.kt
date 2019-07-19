@@ -79,8 +79,8 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         val searchText = text.trim().toLowerCase()
         
         val newItems = state.getAddresses().filter {
-            it.label.toLowerCase().contains(searchText) ||
-                    it.walletID.toLowerCase().contains(searchText) ||
+            it.label.trim().toLowerCase().contains(searchText) ||
+                    it.walletID.trim().toLowerCase().startsWith(searchText) ||
                     repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
         }.map(::addressToSearchItem)
 

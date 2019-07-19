@@ -318,7 +318,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val addresses = if (!rawToken.isNullOrBlank()) {
             val searchText = rawToken.trim().toLowerCase()
             state.addresses.values.filter {
-                (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().contains(searchText) ||
+                (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().startsWith(searchText) ||
                         it.label.trim().toLowerCase().contains(searchText) ||
                         repository.getCategory(it.walletID)?.name?.trim()?.toLowerCase()?.contains(searchText) ?: false)
             }
