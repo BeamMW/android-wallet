@@ -70,14 +70,10 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
 
     override fun addListeners() {
         searchAddress.addTextChangedListener(textWatcher)
-        scanQR.setOnClickListener {
-            presenter?.onScanQrPressed()
-        }
     }
 
     override fun clearListeners() {
         searchAddress.removeTextChangedListener(textWatcher)
-        scanQR.setOnClickListener(null)
     }
 
     override fun updateList(items: List<SearchItem>) {
@@ -92,58 +88,8 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         findNavController().popBackStack()
     }
 
-    override fun isPermissionGranted(): Boolean {
-        return PermissionsHelper.requestPermissions(this, PermissionsHelper.PERMISSIONS_CAMERA, PermissionsHelper.REQUEST_CODE_PERMISSION)
-    }
-
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        var isGranted = true
-
-        for ((index, permission) in permissions.withIndex()) {
-            if (grantResults[index] == PackageManager.PERMISSION_DENIED) {
-                isGranted = false
-                if (!shouldShowRequestPermissionRationale(permission)) {
-                    presenter?.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN)
-                } else if (PermissionsHelper.PERMISSIONS_CAMERA == permission) {
-                    presenter?.onRequestPermissionsResult(PermissionStatus.DECLINED)
-                }
-            }
-        }
-
-        if (isGranted) {
-            presenter?.onRequestPermissionsResult(PermissionStatus.GRANTED)
-        }
-    }
-
-    override fun showPermissionRequiredAlert() {
-        showAlert(message = getString(R.string.send_permission_required_message),
-                btnConfirmText = getString(R.string.settings),
-                onConfirm = { showAppDetailsPage() },
-                title = getString(R.string.send_permission_required_title),
-                btnCancelText = getString(R.string.cancel))
-    }
-
-    private fun showAppDetailsPage() {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        intent.data = Uri.parse("package:${context?.packageName}")
-        startActivity(intent)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        presenter?.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents)
-    }
-
     override fun setAddress(address: String) {
         searchAddress.setText(address)
-    }
-
-    override fun scanQR() {
-        val integrator = IntentIntegrator.forSupportFragment(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
-        integrator.captureActivity = ScanQrActivity::class.java
-        integrator.setBeepEnabled(false)
-        integrator.initiateScan()
     }
 
     override fun showNotBeamAddressError() {

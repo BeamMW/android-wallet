@@ -51,7 +51,7 @@
                 android:hint="@string/search_by_address_category_or_name"
                 android:imeOptions="actionDone"
                 android:background="@drawable/edit_text_selector"
-                app:layout_constraintEnd_toStartOf="@id/scanQR"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tokenTitle"
                 tools:ignore="Autofill,LabelFor,TextFields" />
@@ -64,17 +64,6 @@
                 app:layout_constraintEnd_toEndOf="@id/searchAddress"
                 app:layout_constraintStart_toStartOf="@id/searchAddress"
                 app:layout_constraintTop_toBottomOf="@id/searchAddress" />
-
-            <ImageView
-                android:id="@+id/scanQR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:contentDescription="@null"
-                app:layout_constraintBottom_toBottomOf="@id/searchAddress"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/searchAddress"
-                app:srcCompat="@drawable/ic_scan_qr" />
 
             <TextView
                 android:id="@+id/existingAddressTitle"

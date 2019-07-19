@@ -110,6 +110,7 @@ interface SendContract {
         fun onEnterFee(rawFee: String?)
         fun onSelectAddress(walletAddress: WalletAddress)
         fun onAddNewCategoryPressed()
+        fun onPaste()
     }
 
     interface Repository : MvpRepository {

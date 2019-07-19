@@ -20,9 +20,6 @@ interface ChangeAddressContract {
         fun getGeneratedAddress(): WalletAddress?
         fun updateList(items: List<SearchItem>)
         fun back(walletAddress: WalletAddress?)
-        fun scanQR()
-        fun isPermissionGranted(): Boolean
-        fun showPermissionRequiredAlert()
         fun setAddress(address: String)
         fun getSearchText(): String
         fun showNotBeamAddressError()
@@ -31,9 +28,6 @@ interface ChangeAddressContract {
     interface Presenter: MvpPresenter<View> {
         fun onChangeSearchText(text: String)
         fun onItemPressed(walletAddress: WalletAddress)
-        fun onScanQrPressed()
-        fun onScannedQR(address: String?)
-        fun onRequestPermissionsResult(result: PermissionStatus)
     }
 
     interface Repository: MvpRepository {

@@ -76,7 +76,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var minFee = 0
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
-        override fun onPaste() {}
+        override fun onPaste() {
+            presenter?.onPaste()
+        }
 
         override fun afterTextChanged(rawToken: Editable?) {
             presenter?.onTokenChanged(rawToken.toString())

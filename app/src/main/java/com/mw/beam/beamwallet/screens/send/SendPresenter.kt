@@ -59,12 +59,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
-            setAddress(it, false)
+            if (it.walletID != state.outgoingAddress?.walletID) {
+                state.isNeedGenerateNewAddress = false
+                state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID
+                setAddress(it, !state.wasAddressSaved)
+            }
         })
     }
 
     override fun onAddressChanged(walletAddress: WalletAddress) {
-        state.isNeedGenerateNewAddress = false
         changeAddressLiveData.postValue(walletAddress)
     }
 
@@ -97,7 +100,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         onTokenChanged(view?.getToken(), searchAddress = false)
 
-        state.outgoingAddress?.let { setAddress(it, state.isNeedGenerateNewAddress) }
+        state.outgoingAddress?.let { setAddress(it, !state.wasAddressSaved) }
 
         notifyPrivacyStateChange()
     }
@@ -132,7 +135,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         setAmount(view?.getAmount() ?: 0.0, availableAmount, feeAmount)
+        if (availableAmount == feeAmount) {
+            view?.setAmount(availableAmount)
+        }
         view?.updateFeeTransactionVisibility(true)
+    }
+
+    override fun onPaste() {
+        state.isPastedText = true
     }
 
     override fun onCancelDialog() {
@@ -209,11 +219,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onChangeAddressPressed() {
-        if (state.wasAddressSaved) {
-            view?.showChangeAddressFragment(null)
-        } else {
-            view?.showChangeAddressFragment(state.outgoingAddress)
-        }
+        view?.showChangeAddressFragment(state.generatedAddress)
     }
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
@@ -284,7 +290,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onTokenChanged(rawToken: String?, searchAddress: Boolean) {
-        view?.changeTokenColor(isValidToken(rawToken ?: ""))
+        val validToken = isValidToken(rawToken ?: "")
+        view?.changeTokenColor(validToken)
 
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
@@ -295,9 +302,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.setSendContact(null, null)
         }
 
-        if (searchAddress) {
+        val isPastedToken = state.isPastedText && validToken
+
+        if (searchAddress && !isPastedToken) {
             updateSuggestions(rawToken, true)
+        } else if (isPastedToken) {
+            view?.handleAddressSuggestions(null)
+            view?.requestFocusToAmount()
         }
+
+        state.isPastedText = false
     }
 
     private fun updateSuggestions(rawToken: String?, changeSuggestionsVisibility: Boolean) {
@@ -374,10 +388,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.walletStatus = it
             view?.updateAvailable(state.walletStatus!!.available)
             view?.setupMinFee(FORK_MIN_FEE)
-
-            if (view?.isAmountErrorShown() == true) {
-                view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode)
-            }
         }
 
 //        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
@@ -414,6 +424,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
+            state.generatedAddress = it
             setAddress(it, true)
             state.isNeedGenerateNewAddress = false
         } else {

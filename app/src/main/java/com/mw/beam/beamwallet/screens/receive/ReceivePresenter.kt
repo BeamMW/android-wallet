@@ -47,8 +47,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
-            state.address = it
-            initViewAddress(it)
+            if (it.walletID != state.address?.walletID) {
+                state.address = it
+                initViewAddress(it)
+            }
         })
     }
 
@@ -57,11 +59,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             state.address = address
             state.expirePeriod = if (address.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
             state.isNeedGenerateAddress = false
-            state.wasAddressSaved = true
+            state.wasAddressSaved = state.generatedAddress?.walletID != address.walletID
         }
 
         state.address?.let {
-            view?.initAddress(state.isNeedGenerateAddress, it)
+            view?.initAddress(!state.wasAddressSaved, it)
             view?.configCategory(repository.getCategory(it.walletID))
         }
 
@@ -70,7 +72,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onResume() {
         super.onResume()
         state.address?.let {
-            view?.initAddress(state.isNeedGenerateAddress, it)
+            view?.initAddress(!state.wasAddressSaved, it)
             view?.configCategory(repository.getCategory(it.walletID))
         }
         view?.handleExpandAdvanced(state.expandAdvanced)
@@ -105,11 +107,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onChangeAddressPressed() {
-        if (state.wasAddressSaved) {
-            view?.showChangeAddressFragment(null)
-        } else {
-            view?.showChangeAddressFragment(state.address)
-        }
+        view?.showChangeAddressFragment(state.generatedAddress)
     }
 
     override fun onAdvancedPressed() {
@@ -153,6 +151,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             repository.generateNewAddress().subscribe {
                 if (state.address == null) {
                     state.address = it
+                    state.generatedAddress = it
                     view?.initAddress(true, it)
                     view?.configCategory(repository.getCategory(it.walletID))
                 }
@@ -163,8 +162,6 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onAddressChanged(walletAddress: WalletAddress) {
-        state.isNeedGenerateAddress = false
-        state.wasAddressSaved = true
         changeAddressLiveData.postValue(walletAddress)
     }
 

@@ -76,6 +76,7 @@
         android:id="@+id/category"
         android:visibility="gone"
         tools:visibility="visible"
+        android:layout_marginBottom="2dp"
         style="@style/common_text_small_light"
         android:layout_width="0dp"
         android:singleLine="true"
