@@ -304,6 +304,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 amount.hint = "0"
             } else {
                 amount.hint = ""
+                presenter?.onAmountUnfocused()
             }
         }
 
@@ -364,6 +365,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.setOnTouchListener { _, _ ->  isOpenSearchView() }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+        if (amount.isFocused) {
+            presenter?.onAmountUnfocused()
+        }
     }
 
     private fun calculateDefaultMargin(): Int {

@@ -49,7 +49,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         super.onViewCreated()
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
-        state.prevFee = DEFAULT_FEE.toLong().convertToBeam()
+        state.prevFee = DEFAULT_FEE.toLong()
 
         val address: String? = view?.getAddressFromArguments()
         if (!address.isNullOrBlank()) {
@@ -127,16 +127,19 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
-        val availableAmount = state.walletStatus!!.available.convertToBeam()
+        state.afterSendAllPressed = true
+
+        val availableAmount = state.walletStatus!!.available
         val feeAmount = try {
-            view?.getFee()?.convertToBeam() ?: 0.0
+            view?.getFee() ?: 0L
         } catch (exception: NumberFormatException) {
-            0.0
+            0L
         }
 
-        setAmount(view?.getAmount() ?: 0.0, availableAmount, feeAmount)
+        setAmount(availableAmount, feeAmount)
+        view?.hasAmountError(view?.getAmount()?.convertToGroth() ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
         if (availableAmount == feeAmount) {
-            view?.setAmount(availableAmount)
+            view?.setAmount(availableAmount.convertToBeam())
         }
         view?.updateFeeTransactionVisibility(true)
     }
@@ -334,48 +337,59 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             clearErrors()
             val amount = getAmount()
             val fee = getFee()
-            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available ?: 0, state.privacyMode)
-
             val availableAmount = state.walletStatus!!.available.convertToBeam()
 
             updateFeeTransactionVisibility(amount + fee == availableAmount)
         }
     }
 
-    override fun onFeeChanged(rawFee: String?) {
-        view?.clearErrors()
+    override fun onAmountUnfocused() {
+        view?.apply {
+            state.afterSendAllPressed = false
 
+            val amount = getAmount()
+            val fee = getFee()
+            val availableAmount = state.walletStatus!!.available.convertToBeam()
+
+
+            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available ?: 0, state.privacyMode)
+            updateFeeTransactionVisibility(amount + fee == availableAmount)
+        }
+    }
+
+    override fun onFeeChanged(rawFee: String?) {
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
-        val enteredAmount = view?.getAmount() ?: 0.0
-        val availableAmount = state.walletStatus!!.available.convertToBeam()
         val feeAmount = try {
-            view?.getFee()?.convertToBeam() ?: 0.0
+            view?.getFee() ?: 0L
         } catch (exception: NumberFormatException) {
-            0.0
+            0L
         }
-        val maxEnterAmount = availableAmount - feeAmount
-        when {
-            enteredAmount > maxEnterAmount -> {
-                setAmount(enteredAmount, availableAmount, feeAmount)
-                view?.updateFeeTransactionVisibility(true)
+
+        if (state.afterSendAllPressed) {
+            view?.clearErrors()
+
+            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+            val availableAmount = state.walletStatus!!.available
+            val maxEnterAmount = availableAmount - feeAmount
+            when {
+                enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
+                    setAmount(availableAmount, feeAmount)
+                    view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
+                    view?.updateFeeTransactionVisibility(true)
+                }
+                else -> view?.updateFeeTransactionVisibility(false)
             }
-            enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                setAmount(enteredAmount, availableAmount, feeAmount)
-                view?.updateFeeTransactionVisibility(true)
-            }
-            else -> view?.updateFeeTransactionVisibility(false)
         }
+
         state.prevFee = feeAmount
     }
 
-    private fun setAmount(enteredAmount: Double, availableAmount: Double, fee: Double) {
+    private fun setAmount(availableAmount: Long, fee: Long) {
         val maxEnterAmount = availableAmount - fee
         if (maxEnterAmount > 0) {
-            view?.setAmount(maxEnterAmount)
-        } else {
-            view?.hasAmountError(enteredAmount.convertToGroth(), fee.convertToGroth(), state.walletStatus!!.available, state.privacyMode)
+            view?.setAmount(maxEnterAmount.convertToBeam())
         }
     }
 

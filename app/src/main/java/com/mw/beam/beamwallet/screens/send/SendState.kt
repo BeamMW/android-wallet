@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
+    var afterSendAllPressed = false
     var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
@@ -33,7 +34,7 @@ class SendState {
     val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null
     var scannedAmount: Double? = null
-    var prevFee = 0.0
+    var prevFee = 0L
     var outgoingAddress: WalletAddress? = null
     var generatedAddress: WalletAddress? = null
     var expandAdvanced = false
