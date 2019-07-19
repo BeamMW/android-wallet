@@ -344,4 +344,5 @@
     <string name="save_changes">Spara ändringar</string>
     <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
     <string name="search_by_address_category_or_name">Sök med adress, kategori eller namn</string>
+    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
 </resources>

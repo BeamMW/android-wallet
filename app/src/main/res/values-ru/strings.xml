@@ -344,4 +344,5 @@
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_category_or_name">Search by address, category or name</string>
+    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
 </resources>
