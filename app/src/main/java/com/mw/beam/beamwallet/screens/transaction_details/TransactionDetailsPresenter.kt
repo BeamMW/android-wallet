@@ -84,6 +84,17 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
         addressesSubscription = repository.getAddresses().subscribe {
             state.updateAddresses(it.addresses)
+
+            val myAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.myId }
+            val peerAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.peerId }
+
+            if (state.txDescription?.sender?.value == true) {
+                view?.configSenderAddressInfo(myAddress)
+                view?.configReceiverAddressInfo(peerAddress)
+            } else {
+                view?.configSenderAddressInfo(peerAddress)
+                view?.configReceiverAddressInfo(myAddress)
+            }
         }
     }
 

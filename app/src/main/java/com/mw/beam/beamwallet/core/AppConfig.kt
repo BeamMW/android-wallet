@@ -46,17 +46,11 @@ object AppConfig {
     var DB_PATH = ""
     var LOG_PATH = ""
     var TRANSACTIONS_PATH = ""
+    var CACHE_PATH = ""
     var LOCALE: Locale = Locale.ENGLISH
     val EXPLORER_LINK
         get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
-
-    val FORK_HEIGTH
-        get() = when (BuildConfig.FLAVOR) {
-            "mainnet" -> 321321
-            "masternet" -> 199403
-            "beamtestnet" -> 270910
-            else -> 0
-        }
+    var FORK_HEIGTH = 0
 
     fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"
 }

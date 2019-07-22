@@ -56,7 +56,7 @@ class ScreenDelegate {
 
     fun showKeyboard(activity: androidx.core.app.ComponentActivity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0)
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
     fun showSnackBar(status: Status, activity: androidx.core.app.ComponentActivity) {

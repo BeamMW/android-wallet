@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.screens.qr_dialog
 
+import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 class QrDialogPresenter(view: QrDialogContract.View?, repository: QrDialogContract.Repository, private val state: QrDialogState)
@@ -16,8 +17,8 @@ class QrDialogPresenter(view: QrDialogContract.View?, repository: QrDialogContra
         }
     }
 
-    override fun onSharePressed() {
-        view?.shareAddress(state.walletAddress?.walletID ?: "")
+    override fun onSharePressed(bitmap: Bitmap) {
+        view?.shareQR(repository.saveImage(bitmap))
     }
 
 }

@@ -36,6 +36,7 @@
                 android:layout_marginTop="@dimen/receive_common_qr_offset"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
                 android:text="@string/address"
+                android:textAllCaps="false"
                 app:layout_constraintBottom_toTopOf="@id/tokenView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,22 +103,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/receive_common_qr_offset"
                     android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
+                    android:layout_marginBottom="@dimen/receive_qr_token_description_margin_top"
                     android:layout_marginEnd="@dimen/receive_common_qr_offset"
                     android:gravity="center"
-                    android:text="@string/receive_token_description" />
-                <TextView
-                    style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    style="@style/common_text_big_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/receive_common_qr_offset"
-                    android:layout_marginEnd="@dimen/receive_common_qr_offset"
-                    android:layout_marginBottom="@dimen/receive_btn_margin"
-                    android:gravity="center"
-                    android:text="@string/receive_token_description_online" />
+                    android:text="@string/receive_description" />
             </LinearLayout>
 
             <com.mw.beam.beamwallet.core.views.BeamButton

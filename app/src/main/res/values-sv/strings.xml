@@ -195,7 +195,6 @@
     <string name="show_qr">visa QR</string>
     <string name="addresses">Adresser</string>
     <string name="receive_token_description">Skicka denna adress till sändaren över en extern säker kanal.</string>
-    <string name="receive_token_description_online">Vänligen notera att både du och den som skickar bör vara online för en lyckad transaktion!</string>
     <string name="receive_save_address_message">Vill du spara skapade adresser och använda dessa vid ett senare tillfälle?</string>
     <string name="receive_save_changes_message">Vill du spara ändringar för denna adress?</string>
     <string name="request_an_amount">Begär belopp</string>

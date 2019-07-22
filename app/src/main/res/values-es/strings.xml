@@ -197,7 +197,6 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="show_qr">mostrar QR</string>
     <string name="addresses">Direcciones</string>
     <string name="receive_token_description">Enviar esta dirección al remitente a través de un canal externo seguro.</string>
-    <string name="receive_token_description_online">Por favor, tenga en cuenta que tanto usted como el remitente deben estar en línea para tener éxito en la transacción!</string>
     <string name="receive_save_address_message">¿Te gustaría guardar la dirección creada y usarla más tarde?</string>
     <string name="receive_save_changes_message">¿Te gustaría guardar los cambios en esta dirección?</string>
     <string name="request_an_amount">Solicite una cantidad</string>

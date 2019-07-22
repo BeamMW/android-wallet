@@ -302,6 +302,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 amount.hint = "0"
+                showKeyboard()
             } else {
                 amount.hint = ""
                 presenter?.onAmountUnfocused()
@@ -539,17 +540,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             hasErrors = true
         }
 
-        if (this.amount.text.isNullOrBlank()) {
-            configAmountError(getString(R.string.send_amount_empty_error))
-            hasErrors = true
-        }
-
         return hasErrors
     }
 
     override fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         return try {
             when {
+                this.amount.text.isNullOrBlank() -> {
+                    configAmountError(getString(R.string.send_amount_empty_error))
+                    true
+                }
                 amount == 0L && fee < availableAmount -> {
                     configAmountError(getString(R.string.send_amount_zero_error))
                     true
@@ -695,12 +695,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setSendContact(walletAddress: WalletAddress?, category: Category?) {
-        val nameVisibility = if (walletAddress == null || walletAddress.label.isBlank()) View.GONE else View.VISIBLE
         contactCategory.visibility = if (category == null) View.GONE else View.VISIBLE
-        contactIcon.visibility = nameVisibility
-        contactName.visibility = nameVisibility
+        contactIcon.visibility = if (walletAddress != null || category != null) View.VISIBLE else View.GONE
+        contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
 
-        walletAddress?.label?.let { contactName.text = it }
+        walletAddress?.label?.let {
+            contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
+        }
 
         category?.let {
             contactCategory.text = it.name

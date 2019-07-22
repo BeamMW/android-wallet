@@ -67,6 +67,13 @@ class App : Application() {
             AppConfig.FLAVOR_TESTNET -> AppConfig.EXPLORER_PREFIX = AppConfig.TESTNET_EXPLORER_PREFIX
         }
 
+        AppConfig.FORK_HEIGTH = when (BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MAINNET -> 321321
+            AppConfig.FLAVOR_MASTERNET -> 199403
+            AppConfig.FLAVOR_TESTNET -> 270910
+            else -> 0
+        }
+
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -77,6 +84,7 @@ class App : Application() {
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
+        AppConfig.CACHE_PATH = AppConfig.DB_PATH + "/cache"
         LocaleHelper.loadLocale()
 
         if (BuildConfig.DEBUG) {
