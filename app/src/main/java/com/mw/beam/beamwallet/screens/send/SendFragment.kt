@@ -172,7 +172,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         commentTitle.text = "${getString(R.string.transaction_comment)} (${getString(R.string.wont_be_shared)})"
 
         setHasOptionsMenu(true)
-        token.requestFocus()
         feeSeekBar.max = maxFee
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
         maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
