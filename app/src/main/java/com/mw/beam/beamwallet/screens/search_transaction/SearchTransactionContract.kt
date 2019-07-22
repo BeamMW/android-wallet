@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 interface SearchTransactionContract {
@@ -37,6 +38,6 @@ interface SearchTransactionContract {
         fun onTransactionPressed(txDescription: TxDescription)
     }
     interface Repository: MvpRepository {
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
     }
 }
