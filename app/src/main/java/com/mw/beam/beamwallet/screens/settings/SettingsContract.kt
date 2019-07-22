@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.Category
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -93,7 +94,7 @@ interface SettingsContract {
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
         fun getAddresses(): Subject<OnAddressesData>
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAllCategory(): List<Category>
         fun getCurrentLanguage(): String
     }

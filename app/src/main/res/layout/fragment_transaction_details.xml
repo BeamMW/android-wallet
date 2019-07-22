@@ -54,13 +54,28 @@
                     app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
 
                 <TextView
+                    android:id="@+id/startAddressName"
+                    style="@style/common_text_big_light"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Name"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+
+                <TextView
                     android:id="@+id/startAddress"
                     style="@style/transaction_details_value"
                     android:paddingBottom="0dp"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/startAddressName" />
 
                 <TextView
                     android:id="@+id/startAddressCategory"
@@ -75,23 +90,45 @@
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/startAddress" />
 
+                <View
+                    android:id="@+id/addressesDivider"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
                 <TextView
                     android:id="@+id/endAddressTitle"
                     style="@style/transaction_details_sub_title"
                     tools:text="@string/my_receiving_address"
-                    android:layout_marginTop="@dimen/transaction_details_padding"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
+                    app:layout_constraintTop_toBottomOf="@id/addressesDivider" />
+
+                <TextView
+                    android:id="@+id/endAddressName"
+                    style="@style/common_text_big_light"
+                    android:textStyle="bold"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Name"
+                    app:layout_constraintStart_toEndOf="@id/titlesBarrier"
+                    app:layout_constraintTop_toBottomOf="@id/addressesDivider" />
 
                 <TextView
                     android:id="@+id/endAddress"
                     style="@style/transaction_details_value"
                     android:textIsSelectable="true"
                     android:paddingBottom="0dp"
-                    android:layout_marginTop="@dimen/transaction_details_padding"
+                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
+                    app:layout_constraintTop_toBottomOf="@id/endAddressName" />
 
                 <TextView
                     android:id="@+id/endAddressCategory"

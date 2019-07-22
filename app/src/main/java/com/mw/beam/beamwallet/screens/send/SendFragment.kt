@@ -23,6 +23,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
@@ -72,9 +73,12 @@ import kotlinx.android.synthetic.main.fragment_send.*
 class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var searchAddressViewDY = 0f
     private lateinit var pagerAdapter: AddressesPagerAdapter
+    private var minFee = 0
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
-        override fun onPaste() {}
+        override fun onPaste() {
+            presenter?.onPaste()
+        }
 
         override fun afterTextChanged(rawToken: Editable?) {
             presenter?.onTokenChanged(rawToken.toString())
@@ -112,8 +116,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val onFeeChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            presenter?.onFeeChanged(progress.toString())
-            updateFeeValue(progress)
+            if (progress >= minFee) {
+                presenter?.onFeeChanged(progress.toString())
+                updateFeeValue(progress)
+            } else {
+                feeSeekBar.progress = minFee
+            }
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -164,9 +172,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         commentTitle.text = "${getString(R.string.transaction_comment)} (${getString(R.string.wont_be_shared)})"
 
         setHasOptionsMenu(true)
-        token.requestFocus()
         feeSeekBar.max = maxFee
-        minFeeValue.text = "0 ${getString(R.string.currency_groth).toUpperCase()}"
+        minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
         maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
 
         feeSeekBar.progress = defaultFee
@@ -213,6 +220,36 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         })
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun setupMinFee(fee: Int) {
+        minFee = fee
+
+        if (feeSeekBar.progress < minFee) {
+            feeSeekBar.progress = minFee
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
+            feeSeekBar.min = minFee
+        }
+    }
+
+    override fun showMinFeeError() {
+        showAlert(
+                message = "",
+                btnConfirmText = "",
+                onConfirm = {}
+        )
+    }
+
+    override fun requestFocusToAmount() {
+        amount.requestFocus()
+    }
+
+    override fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, R.color.sent_color)
+    }
+
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -240,6 +277,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun addListeners() {
+        btnFeeKeyboard.setOnClickListener {
+            presenter?.onLongPressFee()
+        }
+
         btnNext.setOnClickListener {
             presenter?.onNext()
         }
@@ -257,15 +298,27 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.addTextChangedListener(amountWatcher)
         amount.filters = Array<InputFilter>(1) { AmountFilter() }
 
+        amount.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                amount.hint = "0"
+                showKeyboard()
+            } else {
+                amount.hint = ""
+                presenter?.onAmountUnfocused()
+            }
+        }
+
         token.addListener(tokenWatcher)
         token.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 contentScrollView.smoothScrollTo(0, 0)
+                presenter?.onTokenChanged(token.text.toString())
             } else {
                 handleAddressSuggestions(null)
             }
         }
         token.setOnClickListener {
+            contentScrollView.smoothScrollTo(0, 0)
             presenter?.onTokenChanged(token.text.toString())
         }
 
@@ -314,6 +367,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+        if (amount.isFocused) {
+            presenter?.onAmountUnfocused()
+        }
+    }
+
     private fun calculateDefaultMargin(): Int {
         return addressContainer.height + resources.getDimensionPixelSize(R.dimen.common_offset)
     }
@@ -329,11 +389,28 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
-        feeEditText.filters = arrayOf(InputFilterMinMax(1, SendPresenter.MAX_FEE))
+        feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
+        feeEditText.addTextChangedListener(object: android.text.TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
 
         view.findViewById<BeamButton>(R.id.btnSave).setOnClickListener {
-            presenter?.onEnterFee(feeEditText.text?.toString())
-            dialog?.dismiss()
+            val rawFee = feeEditText.text?.toString()
+            val fee = rawFee?.toLongOrNull() ?: 0
+            if (fee >= minFee) {
+                presenter?.onEnterFee(rawFee)
+                dialog?.dismiss()
+            } else {
+                val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
+                feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
+                feeErrorTextView.visibility = View.VISIBLE
+            }
         }
 
         dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
@@ -429,8 +506,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateFeeValue(progress: Int) {
-        amount.clearFocus()
+    private fun updateFeeValue(progress: Int, clearAmountFocus: Boolean = true) {
+        if (clearAmountFocus) {
+            amount.clearFocus()
+        }
 
         val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
         params.horizontalBias = if (progress < 0) 0f else progress.toFloat() / feeSeekBar.max
@@ -470,12 +549,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     configAmountError(getString(R.string.send_amount_empty_error))
                     true
                 }
-                amount == 0L -> {
+                amount == 0L && fee < availableAmount -> {
                     configAmountError(getString(R.string.send_amount_zero_error))
                     true
                 }
                 amount + fee > availableAmount -> {
-                    configAmountError(configAmountErrorMessage((amount + fee).convertToBeamString(), isEnablePrivacyMode))
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToBeamString(), isEnablePrivacyMode))
                     true
                 }
                 else -> false
@@ -615,12 +694,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setSendContact(walletAddress: WalletAddress?, category: Category?) {
-        val nameVisibility = if (walletAddress == null || walletAddress.label.isBlank()) View.GONE else View.VISIBLE
         contactCategory.visibility = if (category == null) View.GONE else View.VISIBLE
-        contactIcon.visibility = nameVisibility
-        contactName.visibility = nameVisibility
+        contactIcon.visibility = if (walletAddress != null || category != null) View.VISIBLE else View.GONE
+        contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
 
-        walletAddress?.label?.let { contactName.text = it }
+        walletAddress?.label?.let {
+            contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
+        }
 
         category?.let {
             contactCategory.text = it.name
@@ -670,9 +750,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     }
 
-    override fun updateFeeViews() {
+    override fun updateFeeViews(clearAmountFocus: Boolean) {
         amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.sent_color))
-        updateFeeValue(feeSeekBar.progress)
+        updateFeeValue(feeSeekBar.progress, clearAmountFocus)
     }
 
     override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
@@ -689,12 +769,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun clearListeners() {
+        btnFeeKeyboard.setOnClickListener(null)
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
         addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
+        amount.onFocusChangeListener = null
         feeSeekBar.setOnSeekBarChangeListener(null)
         feeContainer.setOnLongClickListener(null)
         advancedTitle.setOnClickListener(null)

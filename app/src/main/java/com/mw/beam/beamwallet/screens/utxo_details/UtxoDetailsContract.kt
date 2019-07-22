@@ -23,6 +23,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -40,7 +41,7 @@ interface UtxoDetailsContract {
 
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<List<Utxo>>
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllTransactionInTrash(): List<TxDescription>
     }

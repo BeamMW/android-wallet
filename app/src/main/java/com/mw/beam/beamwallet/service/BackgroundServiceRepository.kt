@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 class BackgroundServiceRepository: BaseRepository() {
@@ -32,7 +33,7 @@ class BackgroundServiceRepository: BaseRepository() {
         return PreferencesManager.getString(PreferencesManager.KEY_PASSWORD)
     }
 
-    fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
+    fun getTxStatus(): Observable<OnTxStatusData> {
+        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
     }
 }

@@ -60,6 +60,7 @@
         android:layout_width="0dp"
         android:singleLine="true"
         android:ellipsize="middle"
+        app:layout_constraintWidth_default="wrap"
         app:layout_constraintStart_toEndOf="@id/labelLimit"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

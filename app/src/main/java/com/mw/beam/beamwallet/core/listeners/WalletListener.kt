@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
+import com.mw.beam.beamwallet.core.helpers.ReceiveTxCommentHelper
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
@@ -35,7 +36,19 @@ object WalletListener {
     private val DUMMY_OBJECT = Any()
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
-    var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
+    private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
+    val obsOnTxStatus = subOnTxStatus.map {
+        it.tx?.forEach { tx ->
+            if (!tx.sender.value) {
+                val savedComment = if (it.action == ChangeAction.ADDED || it.action == ChangeAction.UPDATED)
+                    ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
+                else ReceiveTxCommentHelper.getSavedComment(tx)
+
+                tx.message = if (savedComment.isNotBlank()) savedComment else ""
+            }
+        }
+        it
+    }
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnChangeCalculated: Subject<Long> = BehaviorSubject.create<Long>().toSerialized()

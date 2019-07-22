@@ -75,12 +75,15 @@ interface SendContract {
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
         fun configCategory(currentCategory: Category?)
-        fun updateFeeViews()
+        fun updateFeeViews(clearAmountFocus: Boolean = true)
         fun showFeeDialog()
         fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, category: Category?)
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
+        fun requestFocusToAmount()
+        fun showMinFeeError()
+        fun setupMinFee(fee: Int)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -88,6 +91,7 @@ interface SendContract {
         fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
+        fun onAmountUnfocused()
         fun onScannedQR(text: String?)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
@@ -107,6 +111,7 @@ interface SendContract {
         fun onEnterFee(rawFee: String?)
         fun onSelectAddress(walletAddress: WalletAddress)
         fun onAddNewCategoryPressed()
+        fun onPaste()
     }
 
     interface Repository : MvpRepository {

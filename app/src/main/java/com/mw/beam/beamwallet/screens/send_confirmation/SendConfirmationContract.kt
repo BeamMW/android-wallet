@@ -38,7 +38,6 @@ interface SendConfirmationContract {
         fun configureContact(walletAddress: WalletAddress, category: Category?)
         fun getPassword(): String
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
-        fun showSaveContactDialog()
         fun showSaveAddressFragment(address: String)
         fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun showWallet()
@@ -48,8 +47,6 @@ interface SendConfirmationContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onSendPressed()
-        fun onSaveContactPressed()
-        fun onCancelSaveContactPressed()
         fun onPasswordChanged()
         fun onFingerprintPressed()
         fun onFingerprintSuccess()

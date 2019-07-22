@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
@@ -38,6 +39,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
     companion object {
+        const val FORK_MIN_FEE = 100
         const val MAX_FEE = 1000
         private const val DEFAULT_FEE = 10
         private const val MAX_FEE_LENGTH = 15
@@ -47,6 +49,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         super.onViewCreated()
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
+        state.prevFee = DEFAULT_FEE.toLong()
 
         val address: String? = view?.getAddressFromArguments()
         if (!address.isNullOrBlank()) {
@@ -56,12 +59,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
-            setAddress(it, false)
+            if (it.walletID != state.outgoingAddress?.walletID) {
+                state.isNeedGenerateNewAddress = false
+                state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID
+                setAddress(it, !state.wasAddressSaved)
+            }
         })
     }
 
     override fun onAddressChanged(walletAddress: WalletAddress) {
-        state.isNeedGenerateNewAddress = false
         changeAddressLiveData.postValue(walletAddress)
     }
 
@@ -76,7 +82,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         // we need to apply scanned address after watchers were added
         if (state.scannedAddress != null) {
-            state.scannedAddress?.let { view?.setAddress(it) }
+            state.scannedAddress?.let {
+                view?.setAddress(it)
+                view?.handleAddressSuggestions(null)
+                view?.requestFocusToAmount()
+            }
             state.scannedAmount?.let { view?.setAmount(it) }
 
             state.scannedAddress = null
@@ -86,11 +96,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.handleExpandAdvanced(state.expandAdvanced)
         view?.handleExpandEditAddress(state.expandEditAddress)
 
-        view?.updateFeeViews()
+        view?.updateFeeViews(false)
 
         onTokenChanged(view?.getToken(), searchAddress = false)
 
-        state.outgoingAddress?.let { setAddress(it, state.isNeedGenerateNewAddress) }
+        state.outgoingAddress?.let { setAddress(it, !state.wasAddressSaved) }
 
         notifyPrivacyStateChange()
     }
@@ -98,6 +108,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onSelectAddress(walletAddress: WalletAddress) {
         view?.setAddress(walletAddress.walletID)
         view?.handleAddressSuggestions(null)
+        view?.requestFocusToAmount()
     }
 
     private fun notifyPrivacyStateChange() {
@@ -116,15 +127,24 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
-        val availableAmount = state.walletStatus!!.available.convertToBeam()
+        val availableAmount = state.walletStatus!!.available
         val feeAmount = try {
-            view?.getFee()?.convertToBeam() ?: 0.0
+            view?.getFee() ?: 0L
         } catch (exception: NumberFormatException) {
-            0.0
+            0L
         }
 
-        view?.setAmount(availableAmount - feeAmount)
+        setAmount(availableAmount, feeAmount)
+        view?.hasAmountError(view?.getAmount()?.convertToGroth()
+                ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
+        if (availableAmount == feeAmount) {
+            view?.setAmount(availableAmount.convertToBeam())
+        }
         view?.updateFeeTransactionVisibility(true)
+    }
+
+    override fun onPaste() {
+        state.isPastedText = true
     }
 
     override fun onCancelDialog() {
@@ -153,6 +173,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && isValidToken(token)) {
+
+                if (isFork() && fee < FORK_MIN_FEE) {
+                    view?.showMinFeeError()
+                    return
+                }
+
                 // we can't send money to own expired address
                 if (state.addresses.values.find { it.walletID == token && it.isExpired && !it.isContact } != null) {
                     view?.showCantSendToExpiredError()
@@ -195,11 +221,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onChangeAddressPressed() {
-        if (state.wasAddressSaved) {
-            view?.showChangeAddressFragment(null)
-        } else {
-            view?.showChangeAddressFragment(state.outgoingAddress)
-        }
+        view?.showChangeAddressFragment(state.generatedAddress)
     }
 
     override fun onExpirePeriodChanged(period: ExpirePeriod) {
@@ -250,6 +272,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
                 state.scannedAmount = qrObject.amount
             }
+
+            view?.requestFocusToAmount()
         } else {
             view?.showNotBeamAddressError()
         }
@@ -268,7 +292,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onTokenChanged(rawToken: String?, searchAddress: Boolean) {
-        view?.changeTokenColor(isValidToken(rawToken ?: ""))
+        val validToken = isValidToken(rawToken ?: "")
+        view?.changeTokenColor(validToken)
 
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
@@ -279,16 +304,23 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.setSendContact(null, null)
         }
 
-        if (searchAddress) {
+        val isPastedToken = state.isPastedText && validToken
+
+        if (searchAddress && !isPastedToken) {
             updateSuggestions(rawToken, true)
+        } else if (isPastedToken) {
+            view?.handleAddressSuggestions(null)
+            view?.requestFocusToAmount()
         }
+
+        state.isPastedText = false
     }
 
     private fun updateSuggestions(rawToken: String?, changeSuggestionsVisibility: Boolean) {
         val addresses = if (!rawToken.isNullOrBlank()) {
             val searchText = rawToken.trim().toLowerCase()
             state.addresses.values.filter {
-                (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().contains(searchText) ||
+                (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().startsWith(searchText) ||
                         it.label.trim().toLowerCase().contains(searchText) ||
                         repository.getCategory(it.walletID)?.name?.trim()?.toLowerCase()?.contains(searchText) ?: false)
             }
@@ -302,13 +334,18 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onAmountChanged() {
         view?.apply {
             clearErrors()
+            updateFeeTransactionVisibility(false)
+        }
+    }
+
+    override fun onAmountUnfocused() {
+        view?.apply {
             val amount = getAmount()
             val fee = getFee()
-            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available ?: 0, state.privacyMode)
 
-            val availableAmount = state.walletStatus!!.available.convertToBeam()
 
-            updateFeeTransactionVisibility(amount + fee == availableAmount)
+            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                    ?: 0, state.privacyMode)
         }
     }
 
@@ -316,27 +353,37 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
-        val enteredAmount = view?.getAmount() ?: 0.0
-        val availableAmount = state.walletStatus!!.available.convertToBeam()
         val feeAmount = try {
-            view?.getFee()?.convertToBeam() ?: 0.0
+            view?.getFee() ?: 0L
         } catch (exception: NumberFormatException) {
-            0.0
+            0L
         }
+
+        view?.clearErrors()
+
+        val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+        val availableAmount = state.walletStatus!!.available
         val maxEnterAmount = availableAmount - feeAmount
         when {
-            enteredAmount > maxEnterAmount -> {
-                view?.setAmount(maxEnterAmount)
-                view?.updateFeeTransactionVisibility(true)
-            }
-            enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                view?.setAmount(maxEnterAmount)
+            enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
+                setAmount(availableAmount, feeAmount)
+                view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
                 view?.updateFeeTransactionVisibility(true)
             }
             else -> view?.updateFeeTransactionVisibility(false)
         }
+
         state.prevFee = feeAmount
     }
+
+    private fun setAmount(availableAmount: Long, fee: Long) {
+        val maxEnterAmount = availableAmount - fee
+        if (maxEnterAmount > 0) {
+            view?.setAmount(maxEnterAmount.convertToBeam())
+        }
+    }
+
+    private fun isFork() = state.walletStatus?.system?.height ?: 0 >= AppConfig.FORK_HEIGTH
 
     override fun initSubscriptions() {
         super.initSubscriptions()
@@ -344,23 +391,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
             view?.updateAvailable(state.walletStatus!!.available)
-
-            if (view?.isAmountErrorShown() == true) {
-                view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode)
-            }
+            view?.setupMinFee(FORK_MIN_FEE)
         }
-
-//        cantSendToExpiredSubscription = repository.onCantSendToExpired().subscribe {
-//            // just for case when address was expired directly before sendMoney() was called
-//            view?.close()
-//        }
 
         addressesSubscription = repository.getAddresses().subscribe {
             it.addresses?.forEach { address ->
                 state.addresses[address.walletID] = address
             }
 
-            repository.getAllAddressesInTrash().forEach {address ->
+            repository.getAllAddressesInTrash().forEach { address ->
                 state.addresses.remove(address.walletID)
             }
         }
@@ -368,7 +407,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         trashSubscription = repository.getTrashSubject().subscribe {
             when (it.type) {
                 TrashManager.ActionType.Added -> {
-                    it.data.addresses.forEach {address ->
+                    it.data.addresses.forEach { address ->
                         state.addresses.remove(address.walletID)
                     }
                     updateSuggestions(view?.getToken(), false)
@@ -379,11 +418,13 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     }
                     updateSuggestions(view?.getToken(), false)
                 }
-                TrashManager.ActionType.Removed -> {}
+                TrashManager.ActionType.Removed -> {
+                }
             }
         }
 
         walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
+            state.generatedAddress = it
             setAddress(it, true)
             state.isNeedGenerateNewAddress = false
         } else {

@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -74,8 +75,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         }
     }
 
-    override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
+    override fun getTxStatus(): Observable<OnTxStatusData> {
+        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
     }

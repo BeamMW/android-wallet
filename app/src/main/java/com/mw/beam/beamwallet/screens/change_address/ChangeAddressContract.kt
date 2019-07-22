@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 interface ChangeAddressContract {
@@ -35,9 +36,6 @@ interface ChangeAddressContract {
         fun getGeneratedAddress(): WalletAddress?
         fun updateList(items: List<SearchItem>)
         fun back(walletAddress: WalletAddress?)
-        fun scanQR()
-        fun isPermissionGranted(): Boolean
-        fun showPermissionRequiredAlert()
         fun setAddress(address: String)
         fun getSearchText(): String
         fun showNotBeamAddressError()
@@ -46,13 +44,10 @@ interface ChangeAddressContract {
     interface Presenter: MvpPresenter<View> {
         fun onChangeSearchText(text: String)
         fun onItemPressed(walletAddress: WalletAddress)
-        fun onScanQrPressed()
-        fun onScannedQR(address: String?)
-        fun onRequestPermissionsResult(result: PermissionStatus)
     }
 
     interface Repository: MvpRepository {
-        fun getTxStatus(): Subject<OnTxStatusData>
+        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddresses(): Subject<OnAddressesData>
         fun getCategoryForAddress(address: String): Category?
         fun getTrashSubject(): Subject<TrashManager.Action>

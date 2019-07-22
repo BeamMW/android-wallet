@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
+    var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
@@ -32,8 +33,9 @@ class SendState {
     val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null
     var scannedAmount: Double? = null
-    var prevFee = 0.0
+    var prevFee = 0L
     var outgoingAddress: WalletAddress? = null
+    var generatedAddress: WalletAddress? = null
     var expandAdvanced = false
     var expandEditAddress = false
 }

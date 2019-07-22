@@ -46,9 +46,9 @@ class ChangeAddressState {
         }
     }
 
-    fun getAddresses() = ArrayList(addresses.values.toList()).apply {
+    fun getAddresses() = ArrayList(addresses.apply { remove(generatedAddress?.walletID) }.values.toList()).apply {
         generatedAddress?.let { add(0, it) }
     }
 
-    fun getTransactions() = transactions.values.toList().sortedBy { it.modifyTime }
+    fun getTransactions() = transactions.values.toList().sortedByDescending { it.modifyTime }
 }

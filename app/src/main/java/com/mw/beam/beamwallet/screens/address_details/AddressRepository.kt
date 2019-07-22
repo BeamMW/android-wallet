@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.helpers.CategoryHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -37,8 +38,8 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
         }
     }
 
-    override fun getTxStatus(): Subject<OnTxStatusData> {
-        return getResult(WalletListener.subOnTxStatus, "getTxStatus") {
+    override fun getTxStatus(): Observable<OnTxStatusData> {
+        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
         }
     }

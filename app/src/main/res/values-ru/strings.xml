@@ -195,7 +195,6 @@
     <string name="show_qr">show QR</string>
     <string name="addresses">Addresses</string>
     <string name="receive_token_description">Send this address to the sender over an external secure channel.</string>
-    <string name="receive_token_description_online">Please notice, that both you and sender should be online to succeed transaction!</string>
     <string name="receive_save_address_message">Would you like to save created address and use it later?</string>
     <string name="receive_save_changes_message">Would you like to save changes in that address?</string>
     <string name="request_an_amount">Request an amount</string>
@@ -344,4 +343,5 @@
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_category_or_name">Search by address, category or name</string>
+    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
 </resources>

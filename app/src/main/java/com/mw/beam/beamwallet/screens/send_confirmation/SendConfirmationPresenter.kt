@@ -59,7 +59,8 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     private fun send() {
         if (state.contact == null) {
-            view?.showSaveContactDialog()
+            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
+            view?.showSaveAddressFragment(state.token)
         } else {
             showWallet()
         }
@@ -101,15 +102,6 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     private fun showWallet() {
         state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
         view?.showWallet()
-    }
-
-    override fun onCancelSaveContactPressed() {
-        showWallet()
-    }
-
-    override fun onSaveContactPressed() {
-        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
-        view?.showSaveAddressFragment(state.token)
     }
 
 

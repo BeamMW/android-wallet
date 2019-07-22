@@ -95,8 +95,8 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         val searchText = text.trim().toLowerCase()
         
         val newItems = state.getAddresses().filter {
-            it.label.toLowerCase().contains(searchText) ||
-                    it.walletID.toLowerCase().contains(searchText) ||
+            it.label.trim().toLowerCase().contains(searchText) ||
+                    it.walletID.trim().toLowerCase().startsWith(searchText) ||
                     repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
         }.map(::addressToSearchItem)
 
@@ -110,41 +110,6 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
     }
 
     override fun onItemPressed(walletAddress: WalletAddress) {
-        if (walletAddress.walletID == state.generatedAddress?.walletID) {
-            view?.back(null)
-        } else {
-            view?.back(walletAddress)
-        }
-    }
-
-    override fun onScanQrPressed() {
-        if (view?.isPermissionGranted() == true) {
-            view?.scanQR()
-        }
-    }
-
-    override fun onRequestPermissionsResult(result: PermissionStatus) {
-        when (result) {
-            PermissionStatus.GRANTED -> view?.scanQR()
-            PermissionStatus.NEVER_ASK_AGAIN -> {
-                view?.showPermissionRequiredAlert()
-            }
-            PermissionStatus.DECLINED -> {
-                //do nothing
-            }
-        }
-    }
-
-    override fun onScannedQR(address: String?) {
-        if (address == null) return
-
-        val scannedAddress = QrHelper.getScannedAddress(address)
-        val isValidAddress = QrHelper.isValidAddress(scannedAddress)
-
-        if (isValidAddress) {
-            state.scannedAddress = scannedAddress
-        } else {
-            view?.showNotBeamAddressError()
-        }
+        view?.back(walletAddress)
     }
 }

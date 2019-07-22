@@ -108,6 +108,16 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         }
     }
 
+    override fun configReceiverAddressInfo(walletAddress: WalletAddress?) {
+        endAddressName.visibility = if (walletAddress != null && walletAddress.label.isNotBlank()) View.VISIBLE else View.GONE
+        endAddressName.text = walletAddress?.label ?: ""
+    }
+
+    override fun configSenderAddressInfo(walletAddress: WalletAddress?) {
+        startAddressName.visibility = if (walletAddress != null && walletAddress.label.isNotBlank()) View.VISIBLE else View.GONE
+        startAddressName.text = walletAddress?.label ?: ""
+    }
+
     @SuppressLint("SetTextI18n")
     private fun configTransactionDetails(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         val messageTitle = when (txDescription.sender) {

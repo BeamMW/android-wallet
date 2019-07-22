@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -109,6 +110,20 @@ open class BaseRepository : MvpRepository {
     }
 
     fun <T> getResult(subject: Subject<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Subject<T> {
+        LogUtils.log(StringBuilder()
+                .append(LogUtils.LOG_REQUEST)
+                .append(" ")
+                .append(requestName)
+                .append("\n")
+                .append(additionalInfo)
+                .append("\n")
+                .append("--------------------------")
+                .append("\n").toString())
+        block.invoke()
+        return subject
+    }
+
+    fun <T> getResult(subject: Observable<T>, requestName: String, additionalInfo: String = "", block: () -> Unit = {}): Observable<T> {
         LogUtils.log(StringBuilder()
                 .append(LogUtils.LOG_REQUEST)
                 .append(" ")

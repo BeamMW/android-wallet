@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.base_screen
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
@@ -70,6 +71,15 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun showToast(message: String, duration: Int) {
         delegate.showToast(context, message, duration)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.statusBarColor = getStatusBarColor()
+    }
+
+    open fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, android.R.color.transparent)
     }
 
     override fun dismissAlert() {

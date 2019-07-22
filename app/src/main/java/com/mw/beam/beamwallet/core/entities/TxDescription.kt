@@ -37,7 +37,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val minHeight: Long = source.minHeight
     val peerId: String = source.peerId.replaceFirst(Regex("^0+"), "")
     val myId: String = source.myId.replaceFirst(Regex("^0+"), "")
-    val message: String = source.message ?: ""
+    var message: String = source.message ?: ""
     val createTime: Long = source.createTime
     val modifyTime: Long = source.modifyTime
     val sender: TxSender = TxSender.fromValue(source.sender)

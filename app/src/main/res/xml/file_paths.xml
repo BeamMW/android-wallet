@@ -6,4 +6,7 @@
     <files-path
         name="transactions"
         path="transactions/"/>
+    <files-path
+        name="cache"
+        path="cache/"/>
 </paths>

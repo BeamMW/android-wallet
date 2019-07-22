@@ -22,6 +22,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -84,6 +85,10 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         passError.visibility = if (isEnablePasswordConfirm) View.INVISIBLE else View.GONE
 
         btnFingerprint.visibility = if (isEnableFingerprint) View.VISIBLE else View.GONE
+    }
+
+    override fun getStatusBarColor(): Int {
+        return ContextCompat.getColor(context!!, R.color.sent_color)
     }
 
     override fun configureContact(walletAddress: WalletAddress, category: Category?) {
@@ -161,17 +166,6 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     override fun showSaveAddressFragment(address: String) {
         findNavController().navigate(SendConfirmationFragmentDirections.actionSendConfirmationFragmentToSaveAddressFragment(address))
-    }
-
-    override fun showSaveContactDialog() {
-        showAlert(
-                getString(R.string.save_recipient_address),
-                getString(R.string.save),
-                { presenter?.onSaveContactPressed() },
-                getString(R.string.save_address),
-                getString(R.string.dont_save),
-                { presenter?.onCancelSaveContactPressed() }
-        )
     }
 
     override fun showWallet() {

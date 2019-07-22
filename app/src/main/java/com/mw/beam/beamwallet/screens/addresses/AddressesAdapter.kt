@@ -59,7 +59,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
             itemView.findViewById<TextView>(R.id.addressId).text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             val dateTextView = itemView.findViewById<TextView>(R.id.date)
-            dateTextView.visibility = if (address.isContact) View.GONE else View.VISIBLE
+            dateTextView.visibility = if (address.isContact || !withExpireDate) View.GONE else View.VISIBLE
             if (!address.isContact) {
                 dateTextView.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
             }
