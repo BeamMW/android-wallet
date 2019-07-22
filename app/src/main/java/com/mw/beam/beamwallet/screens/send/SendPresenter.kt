@@ -391,7 +391,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
             view?.updateAvailable(state.walletStatus!!.available)
-            view?.setupMinFee(FORK_MIN_FEE)
+            if (isFork()) {
+                view?.setupMinFee(FORK_MIN_FEE)
+            }
         }
 
         addressesSubscription = repository.getAddresses().subscribe {
