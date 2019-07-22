@@ -30,7 +30,7 @@ class ChangeAddressState {
         }
     }
 
-    fun getAddresses() = ArrayList(addresses.values.toList()).apply {
+    fun getAddresses() = ArrayList(addresses.apply { remove(generatedAddress?.walletID) }.values.toList()).apply {
         generatedAddress?.let { add(0, it) }
     }
 
