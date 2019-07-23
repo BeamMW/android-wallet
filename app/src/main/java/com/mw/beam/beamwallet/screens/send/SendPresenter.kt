@@ -383,7 +383,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
-    private fun isFork() = state.walletStatus?.system?.height ?: 0 >= AppConfig.FORK_HEIGTH
+    private fun isFork() = state.walletStatus?.system?.height ?: 0 >= AppConfig.FORK_HEIGHT
 
     override fun initSubscriptions() {
         super.initSubscriptions()
