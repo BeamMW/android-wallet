@@ -91,7 +91,9 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
     }
 
-    val statusColor = if (selfTx || TxStatus.Failed == status || TxStatus.Cancelled == status) {
+    val statusColor = if (TxStatus.Failed == status || TxStatus.Cancelled == status) {
+        ContextCompat.getColor(App.self, R.color.failed_status_color)
+    } else if (selfTx) {
         ContextCompat.getColor(App.self, R.color.common_text_color)
     } else {
         when (sender) {
