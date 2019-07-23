@@ -1,86 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/initial_background"
-        android:filterTouchesWhenObscured="true">
+        android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="@dimen/welcome_logo_width"
-            android:layout_height="@dimen/welcome_logo_height"
-            android:layout_marginTop="@dimen/welcome_logo_margin_top"
-            android:contentDescription="@null"
-            app:layout_constraintBottom_toTopOf="@id/logoText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
-
-        <TextView
-            android:id="@+id/logoText"
+    <ScrollView
+        android:fillViewport="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/welcome_logo_text_margin_top"
-            android:fontFamily="@font/slogan_font"
-            android:text="@string/common_logo_text"
-            android:textAlignment="center"
-            android:textColor="@color/logo_text_color"
-            android:textSize="@dimen/logo_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logo" />
+            android:background="@drawable/initial_background"
+            android:filterTouchesWhenObscured="true">
 
-        <TextView
-            android:id="@+id/flavorText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/welcome_testnet_text_margin"
-            android:fontFamily="@font/slogan_font"
-            android:text="@string/common_masternet"
-            android:textAllCaps="true"
-            android:textColor="@color/testnet_text_color"
-            android:textSize="@dimen/testnet_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logoText" />
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="@dimen/welcome_logo_width"
+                android:layout_height="@dimen/welcome_logo_height"
+                android:layout_marginTop="@dimen/welcome_logo_margin_top"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toTopOf="@id/logoText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo" />
 
-        <com.mw.beam.beamwallet.core.views.BeamButton
-            android:id="@+id/btnCreate"
-            style="@style/common_button_style"
-            android:layout_marginTop="@dimen/welcome_testnet_text_margin"
-            app:button_icon="@drawable/ic_btn_create"
-            app:button_text="@string/create_new_wallet"
-            app:layout_constraintBottom_toTopOf="@id/btnRestore"
-            android:layout_marginBottom="@dimen/welcome_button_margin_offset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/flavorText"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_bias="1"/>
+            <TextView
+                android:id="@+id/logoText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/welcome_logo_text_margin_top"
+                android:fontFamily="@font/slogan_font"
+                android:text="@string/common_logo_text"
+                android:textAlignment="center"
+                android:textColor="@color/logo_text_color"
+                android:textSize="@dimen/logo_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logo" />
 
-        <TextView
-            android:id="@+id/btnRestore"
-            style="@style/common_subheader_light"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:textAlignment="center"
-            app:layout_constraintWidth_max="wrap"
-            android:layout_marginTop="@dimen/welcome_button_margin_offset"
-            android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
-            android:text="@string/restore_wallet"
-            android:visibility="gone"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnCreate"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/flavorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/welcome_testnet_text_margin"
+                android:fontFamily="@font/slogan_font"
+                android:text="@string/common_masternet"
+                android:textAllCaps="true"
+                android:textColor="@color/testnet_text_color"
+                android:textSize="@dimen/testnet_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logoText" />
 
-</ScrollView>
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnCreate"
+                style="@style/common_button_style"
+                android:layout_marginTop="@dimen/welcome_testnet_text_margin"
+                app:button_icon="@drawable/ic_btn_create"
+                app:button_text="@string/create_new_wallet"
+                app:layout_constraintBottom_toTopOf="@id/btnRestore"
+                android:layout_marginBottom="@dimen/welcome_button_margin_offset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flavorText"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_constraintVertical_bias="1"/>
+
+            <TextView
+                android:id="@+id/btnRestore"
+                style="@style/common_subheader_light"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:textAlignment="center"
+                app:layout_constraintWidth_max="wrap"
+                android:layout_marginTop="@dimen/welcome_button_margin_offset"
+                android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
+                android:text="@string/restore_wallet"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnCreate"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

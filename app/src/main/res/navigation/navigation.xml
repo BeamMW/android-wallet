@@ -23,6 +23,10 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="hasBackArrow"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeOpenFragment"
@@ -36,6 +40,16 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_welcomeOpenFragment_to_welcomeCreateFragment"
+            app:destination="@id/welcomeCreateFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="true"
+                android:name="hasBackArrow" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/welcomeRestoreFragment"

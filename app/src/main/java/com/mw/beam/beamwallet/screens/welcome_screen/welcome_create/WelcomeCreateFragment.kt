@@ -30,7 +30,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_create.*
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create
     override fun getToolbarTitle(): String? = ""
-    override fun hasBackArrow(): Boolean = activity?.supportFragmentManager?.backStackEntryCount ?: 0 > 1
+    override fun hasBackArrow(): Boolean = WelcomeCreateFragmentArgs.fromBundle(arguments!!).hasBackArrow
 
     override fun addListeners() {
         btnCreate.setOnClickListener {

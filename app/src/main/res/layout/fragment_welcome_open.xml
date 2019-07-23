@@ -91,7 +91,6 @@
             android:textAlignment="center"
             app:layout_constraintWidth_max="wrap"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:layout_marginTop="@dimen/welcome_button_margin_offset"
             android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
             android:text="@string/welcome_restore_or_create"
