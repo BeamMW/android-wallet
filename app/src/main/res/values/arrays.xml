@@ -12,6 +12,7 @@
         <item>Русский</item>
         <item>Swedish</item>
         <item>Spanish</item>
+        <item>Turkish</item>
     </string-array>
 
     <string-array name="language_codes">
@@ -19,6 +20,7 @@
         <item>ru</item>
         <item>sv</item>
         <item>es</item>
+        <item>tr</item>
     </string-array>
 
 </resources>
