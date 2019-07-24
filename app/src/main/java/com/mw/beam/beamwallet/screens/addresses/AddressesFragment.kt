@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -48,6 +49,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
     }
+
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun showAddressDetails(address: WalletAddress) {
         findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment(address))

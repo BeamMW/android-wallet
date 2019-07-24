@@ -24,10 +24,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -36,9 +40,6 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
         androidx.recyclerview.widget.RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
-    private val expiredDate = context.getString(R.string.expired)
-    private val expiresDate = context.getString(R.string.expires)
-    private val expiresNever = context.getString(R.string.never)
     private val noNameLabel = context.getString(R.string.no_name)
 
     private var data: List<WalletAddress> = listOf()
@@ -60,8 +61,26 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             val dateTextView = itemView.findViewById<TextView>(R.id.date)
             dateTextView.visibility = if (address.isContact || !withExpireDate) View.GONE else View.VISIBLE
-            if (!address.isContact) {
-                dateTextView.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
+            if (!address.isContact && withExpireDate) {
+//                dateTextView.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
+                val expireStateString = when {
+                    address.isExpired -> {
+                        val dateString = CalendarUtils.fromTimestamp(address.createTime + address.duration, SimpleDateFormat("d MMM yyyy", AppConfig.LOCALE))
+                        "${context.getString(R.string.expired).toLowerCase()} $dateString"
+                    }
+                    address.duration == 0L -> context.getString(R.string.never_expires)
+                    else -> {
+//                        val calendar = CalendarUtils.calendarFromTimestamp(address.createTime + address.duration)
+//                        val currentDate = Calendar.getInstance()
+//                        val timeDiff = calendar.timeInMillis - currentDate.timeInMillis
+//
+//                        val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
+
+
+                        val timeLeftString = ""
+                        context.getString(R.string.expires_in, timeLeftString).toLowerCase()
+                    }
+                }
             }
 
             val category = itemView.findViewById<TextView>(R.id.category)

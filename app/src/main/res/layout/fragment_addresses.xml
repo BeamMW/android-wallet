@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
+    
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/address_toolbar_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"/>
+    
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         app:centerTitle="true"
@@ -16,10 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:tabMode="scrollable"
         app:tabPaddingEnd="@dimen/addresses_tab_padding"
         app:tabPaddingStart="@dimen/addresses_tab_padding"
-        app:tabSelectedTextColor="@color/colorAccent" />
+        app:tabSelectedTextColor="@color/address_tab_text_color"
+        app:tabTextColor="@color/address_tab_text_color"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"

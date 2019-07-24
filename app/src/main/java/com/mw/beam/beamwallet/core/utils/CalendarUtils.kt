@@ -28,21 +28,24 @@ object CalendarUtils {
     private const val SHORT_TIME_FORMAT = "d MMM"
     private val US_TIME_FORMAT = SimpleDateFormat(TIME_FORMAT, Locale.US)
 
-    fun fromTimestamp(timestamp: Long): String {
+    fun fromTimestamp(timestamp: Long, dataFormat: SimpleDateFormat = SimpleDateFormat(TIME_FORMAT, AppConfig.LOCALE)): String {
+        val calendar = calendarFromTimestamp(timestamp)
+        return dataFormat.format(calendar.time)
+    }
+
+    fun calendarFromTimestamp(timestamp: Long): Calendar {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timestamp * 1000
-        return SimpleDateFormat(TIME_FORMAT, AppConfig.LOCALE).format(calendar.time)
+        return calendar
     }
 
     fun fromTimestampUS(timestamp: Long): String {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = timestamp * 1000
+        val calendar = calendarFromTimestamp(timestamp)
         return US_TIME_FORMAT.format(calendar.time)
     }
 
     fun fromTimestampShort(timestamp: Long): String {
-        val calendar = Calendar.getInstance()
-        calendar.timeInMillis = timestamp * 1000
+        val calendar = calendarFromTimestamp(timestamp)
         return SimpleDateFormat(SHORT_TIME_FORMAT, AppConfig.LOCALE).format(calendar.time)
     }
 }
