@@ -26,24 +26,24 @@ object LocaleHelper {
         get() = localeIndex
 
     fun loadLocale() {
-//        val indexFromSettings = PreferencesManager.getInt(PreferencesManager.KEY_LOCALE_INDEX, -1)
-//
-//        if (indexFromSettings < 0) {
-//            val systemLocaleCode = Locale.getDefault().language
-//
-//            localeIndex = if (localeCodes.contains(systemLocaleCode)) {
-//                localeCodes.indexOf(systemLocaleCode)
-//            } else {
-//                enLocaleIndex
-//            }
-//        } else {
-//
-//            localeIndex = if (indexFromSettings >= localeCodes.size) {
-//                enLocaleIndex
-//            } else {
-//                indexFromSettings
-//            }
-//        }
+        val indexFromSettings = PreferencesManager.getInt(PreferencesManager.KEY_LOCALE_INDEX, -1)
+
+        if (indexFromSettings < 0) {
+            val systemLocaleCode = Locale.getDefault().language
+
+            localeIndex = if (localeCodes.contains(systemLocaleCode)) {
+                localeCodes.indexOf(systemLocaleCode)
+            } else {
+                enLocaleIndex
+            }
+        } else {
+
+            localeIndex = if (indexFromSettings >= localeCodes.size) {
+                enLocaleIndex
+            } else {
+                indexFromSettings
+            }
+        }
 
         updateApplicationConfig()
     }
