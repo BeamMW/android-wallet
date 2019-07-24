@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.addresses
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +30,10 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Category
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_address.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -60,27 +64,40 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
             itemView.findViewById<TextView>(R.id.addressId).text = address.walletID
             itemView.setBackgroundColor(if (position % 2 == 0)  notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
             val dateTextView = itemView.findViewById<TextView>(R.id.date)
-            dateTextView.visibility = if (address.isContact || !withExpireDate) View.GONE else View.VISIBLE
+            val expireDateVisibility = if (address.isContact || !withExpireDate) View.GONE else View.VISIBLE
+            dateTextView.visibility = expireDateVisibility
+            expireStateIcon?.visibility = expireDateVisibility
+
             if (!address.isContact && withExpireDate) {
-//                dateTextView.text = "${if (address.isExpired) expiredDate else expiresDate}: ${if (address.duration == 0L) expiresNever else CalendarUtils.fromTimestamp(address.createTime + address.duration)}"
-                val expireStateString = when {
+                var expireStateString: String = ""
+                var iconId = 0
+                when {
                     address.isExpired -> {
                         val dateString = CalendarUtils.fromTimestamp(address.createTime + address.duration, SimpleDateFormat("d MMM yyyy", AppConfig.LOCALE))
-                        "${context.getString(R.string.expired).toLowerCase()} $dateString"
+
+                        expireStateString = "${context.getString(R.string.expired).toLowerCase()} $dateString"
+                        iconId = R.drawable.ic_expired
                     }
-                    address.duration == 0L -> context.getString(R.string.never_expires)
+                    address.duration == 0L -> {
+                        expireStateString = context.getString(R.string.never_expires).toLowerCase()
+                        iconId = R.drawable.ic_infinity
+                    }
+
                     else -> {
-//                        val calendar = CalendarUtils.calendarFromTimestamp(address.createTime + address.duration)
-//                        val currentDate = Calendar.getInstance()
-//                        val timeDiff = calendar.timeInMillis - currentDate.timeInMillis
-//
-//                        val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
+                        val calendar = CalendarUtils.calendarFromTimestamp(address.createTime + address.duration)
+                        val currentDate = Calendar.getInstance()
+                        val timeDiff = calendar.timeInMillis - currentDate.timeInMillis
 
+                        val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
+                        val minutes = TimeUnit.MILLISECONDS.toMinutes(timeDiff) - hours * 60
 
-                        val timeLeftString = ""
-                        context.getString(R.string.expires_in, timeLeftString).toLowerCase()
+                        expireStateString = context.getString(R.string.expires_in, hours.toString(), minutes.toString()).toLowerCase()
+                        iconId = R.drawable.ic_exp
                     }
                 }
+
+                dateTextView.text = expireStateString
+                expireStateIcon?.setImageDrawable(ContextCompat.getDrawable(context, iconId))
             }
 
             val category = itemView.findViewById<TextView>(R.id.category)

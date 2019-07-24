@@ -380,6 +380,6 @@
     <string name="search_transaction">Search transaction</string>
 
     <string name="never_expires">Never expires</string>
-    <string name="expires_in">Expires in %1$s</string>
+    <string name="expires_in">Expires in %1$s h %2$s m</string>
 
 </resources>
