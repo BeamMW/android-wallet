@@ -23,8 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:tabPaddingEnd="@dimen/addresses_tab_padding"
-        app:tabPaddingStart="@dimen/addresses_tab_padding"
+        app:tabTextAppearance="@style/common_subheader_dark"
         app:tabSelectedTextColor="@color/address_tab_text_color"
         app:tabTextColor="@color/address_tab_text_color"/>
 
