@@ -292,6 +292,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_addressesFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/utxoFragment"
@@ -674,5 +681,21 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addContactFragment"
+        android:name="com.mw.beam.beamwallet.screens.add_contact.AddContactFragment"
+        tools:layout="@layout/fragment_add_contact"
+        android:label="AddContactFragment" >
+        <action
+            android:id="@+id/action_addContactFragment_to_editCategoryFragment"
+            app:destination="@id/editCategoryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument android:defaultValue="@null"
+                android:name="categoryId" />
+        </action>
     </fragment>
 </navigation>

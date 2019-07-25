@@ -35,11 +35,13 @@ interface AddressesContract {
         fun init()
         fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
         fun showAddressDetails(address: WalletAddress)
+        fun navigateToAddContactScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
         fun onSearchCategoryForAddress(address: String): Category?
+        fun onAddContactPressed()
     }
 
     interface Repository : MvpRepository {

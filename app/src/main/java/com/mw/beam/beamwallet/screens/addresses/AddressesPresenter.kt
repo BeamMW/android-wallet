@@ -66,6 +66,10 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         }
     }
 
+    override fun onAddContactPressed() {
+        view?.navigateToAddContactScreen()
+    }
+
     private fun updateView() {
         val addresses = state.getAddresses()
 

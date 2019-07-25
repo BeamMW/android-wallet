@@ -348,4 +348,5 @@ para acceder al wallet</string>
     <string name="search_by_address_category_or_name">Buscar por dirección, categoría o nombre</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="search_transaction">Search transaction</string>
+    <string name="add_contact">Add contact</string>
 </resources>

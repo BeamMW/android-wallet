@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
@@ -37,6 +40,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun init() {
         val context = context ?: return
+        setHasOptionsMenu(true)
 
         pagerAdapter = AddressesPagerAdapter(context, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
@@ -48,6 +52,21 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.addresses_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.add) {
+            presenter?.onAddContactPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun navigateToAddContactScreen() {
+        findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddContactFragment())
     }
 
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
