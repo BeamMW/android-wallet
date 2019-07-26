@@ -500,7 +500,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setFee(feeAmount: String) {
-        val fee = feeAmount.toIntOrNull() ?: 1
+        val fee = feeAmount.toIntOrNull() ?: 0
         feeSeekBar.progress = fee
         updateFeeValue(fee)
     }
@@ -533,6 +533,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if (!QrHelper.isValidAddress(getToken())) {
             hasErrors = true
             setAddressError()
+            contentScrollView?.smoothScrollTo(0, 0)
         }
 
         if (hasAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
