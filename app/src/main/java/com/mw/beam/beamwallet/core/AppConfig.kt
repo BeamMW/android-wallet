@@ -28,6 +28,9 @@ object AppConfig {
     const val FLAVOR_MAINNET = "mainnet"
     const val FLAVOR_MASTERNET = "masternet"
     const val FLAVOR_TESTNET = "beamtestnet"
+    const val MAINNET_FORK_HEIGHT = 321321
+    const val MASTERNET_FORK_HEIGHT = 199403
+    const val TESTNET_FORK_HEIGHT = 270910
     const val LOG_CLEAN_TIME: Long = 259200000
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
     const val SHARE_TYPE = "text/plain"
@@ -50,7 +53,7 @@ object AppConfig {
     var LOCALE: Locale = Locale.ENGLISH
     val EXPLORER_LINK
         get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
-    var FORK_HEIGTH = 0
+    var FORK_HEIGHT = 0
 
     fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"
 }

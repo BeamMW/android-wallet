@@ -278,8 +278,8 @@
     <string name="loading_wallet">Loading wallet</string>
 
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">My active</string>
-    <string name="addresses_tab_expired">My expired</string>
+    <string name="addresses_tab_active">My active addresses</string>
+    <string name="addresses_tab_expired">My expired addresses</string>
     <string name="no_name">No name</string>
     <string name="address_deleted">Address deleted</string>
     <string name="contact_deleted">Contact deleted</string>
@@ -377,8 +377,8 @@
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_category_or_name">Search by address, category or name</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
+    <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="search_transaction">Search transaction</string>
-
     <string name="never_expires">Never expires</string>
     <string name="expires_in">Expires in %1$s h %2$s m</string>
     <string name="add_contact">Add contact</string>

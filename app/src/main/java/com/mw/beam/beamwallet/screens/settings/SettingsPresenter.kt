@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.settings
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.disposables.Disposable
 import java.net.URI
@@ -178,6 +179,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         if (clearTransactions) {
+            val trashId = "clear_data"
+            TrashManager.add(trashId, TrashManager.ActionData(state.transactions.values.toList(), listOf()))
             state.transactions.values.forEach { repository.deleteTransaction(it) }
         }
     }

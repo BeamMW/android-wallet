@@ -33,17 +33,23 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
         }
     }
 
-    override fun updateAddress(address: WalletAddress, own: Boolean) {
-        getResult("updateAddress") {
-            val addressExpiration = when {
-                address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
-                address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
-                else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
-            }
-
-            wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)
+    override fun saveAddress(address: WalletAddress, own: Boolean) {
+        getResult("saveAddress") {
+            wallet?.saveAddress(address.toDTO(), own)
         }
     }
+
+//    override fun updateAddress(address: WalletAddress, own: Boolean) {
+//        getResult("updateAddress") {
+//            val addressExpiration = when {
+//                address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
+//                address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
+//                else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
+//            }
+//
+//            wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)
+//        }
+//    }
 
     override fun getCategory(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)

@@ -42,6 +42,7 @@ interface AddressContract {
         fun showQR(walletAddress: WalletAddress)
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
+        fun showDeleteAddressDialog()
         fun configureCategory(findCategory: Category?)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
     }
@@ -52,12 +53,13 @@ interface AddressContract {
         fun onEditAddress()
         fun onAddressWasEdited()
         fun onDeleteAddress()
+        fun onConfirmDeleteAddress(withTransactions: Boolean)
         fun onMenuCreate(menu: Menu?)
         fun onTransactionPressed(txDescription: TxDescription)
     }
 
     interface Repository : MvpRepository {
-        fun deleteAddress(walletAddress: WalletAddress)
+        fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
         fun getTxStatus(): Observable<OnTxStatusData>
         fun getCategory(address: String): Category?
         fun getTrashSubject(): Subject<TrashManager.Action>

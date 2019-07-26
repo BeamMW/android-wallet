@@ -32,9 +32,9 @@ import io.reactivex.subjects.Subject
  */
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
-    override fun deleteAddress(walletAddress: WalletAddress) {
+    override fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>) {
         getResult("deleteAddress") {
-            TrashManager.add(walletAddress.walletID, walletAddress)
+            TrashManager.add(walletAddress.walletID, TrashManager.ActionData(txDescriptions, listOf(walletAddress)))
         }
     }
 

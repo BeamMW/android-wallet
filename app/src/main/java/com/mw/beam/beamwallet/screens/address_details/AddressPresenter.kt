@@ -70,9 +70,17 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onDeleteAddress() {
+        if (state.getTransactions().isNotEmpty()) {
+            view?.showDeleteAddressDialog()
+        } else {
+            onConfirmDeleteAddress(false)
+        }
+    }
+
+    override fun onConfirmDeleteAddress(withTransactions: Boolean) {
         state.address?.let {
             view?.showDeleteSnackBar(it)
-            repository.deleteAddress(it)
+            repository.deleteAddress(it, if (withTransactions) state.getTransactions() else listOf())
             view?.finishScreen()
         }
     }

@@ -13,6 +13,8 @@
         <item>Swedish</item>
         <item>Spanish</item>
         <item>Turkish</item>
+        <item>Vietnamese</item>
+        <item>Chinese Simplified</item>
     </string-array>
 
     <string-array name="language_codes">
@@ -21,6 +23,8 @@
         <item>sv</item>
         <item>es</item>
         <item>tr</item>
+        <item>vi</item>
+        <item>zh</item>
     </string-array>
 
 </resources>
