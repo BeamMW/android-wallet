@@ -137,8 +137,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         setAmount(availableAmount, feeAmount)
         view?.hasAmountError(view?.getAmount()?.convertToGroth()
                 ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
-        if (availableAmount == feeAmount) {
+        if (availableAmount <= feeAmount) {
             view?.setAmount(availableAmount.convertToBeam())
+            onAmountUnfocused()
         }
         view?.updateFeeTransactionVisibility(true)
     }
