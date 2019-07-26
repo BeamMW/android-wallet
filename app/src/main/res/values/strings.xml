@@ -377,5 +377,6 @@
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_category_or_name">Search by address, category or name</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
+    <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
 
 </resources>

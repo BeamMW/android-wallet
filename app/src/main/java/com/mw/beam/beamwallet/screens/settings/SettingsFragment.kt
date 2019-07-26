@@ -319,8 +319,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private fun getLockScreenStringValue(millis: Long): String {
         return when {
             millis <= LockScreenManager.LOCK_SCREEN_NEVER_VALUE -> getString(R.string.never)
-            millis.isLessMinute() -> (getString(R.string.after) + TimeUnit.MILLISECONDS.toSeconds(millis).toString() + getString(R.string.seconds))
-            else -> (getString(R.string.after) + TimeUnit.MILLISECONDS.toMinutes(millis).toString() + getString(R.string.minute))
+            millis.isLessMinute() -> "${getString(R.string.after)} ${TimeUnit.MILLISECONDS.toSeconds(millis)} ${getString(R.string.seconds)}"
+            else -> "${getString(R.string.after)} ${TimeUnit.MILLISECONDS.toMinutes(millis)} ${getString(R.string.minute)}"
         }
     }
 

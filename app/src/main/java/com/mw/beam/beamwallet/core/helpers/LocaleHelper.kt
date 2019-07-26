@@ -29,13 +29,14 @@ object LocaleHelper {
         val indexFromSettings = PreferencesManager.getInt(PreferencesManager.KEY_LOCALE_INDEX, -1)
 
         if (indexFromSettings < 0) {
-            val systemLocaleCode = Locale.getDefault().language
-
-            localeIndex = if (localeCodes.contains(systemLocaleCode)) {
-                localeCodes.indexOf(systemLocaleCode)
-            } else {
-                enLocaleIndex
-            }
+//            val systemLocaleCode = Locale.getDefault().language
+//
+//            localeIndex = if (localeCodes.contains(systemLocaleCode)) {
+//                localeCodes.indexOf(systemLocaleCode)
+//            } else {
+//                enLocaleIndex
+//            }
+            localeIndex = enLocaleIndex
         } else {
 
             localeIndex = if (indexFromSettings >= localeCodes.size) {

@@ -122,7 +122,8 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
                 }
             }
         } else {
-            repository.updateAddress(address, false)
+
+            repository.saveAddress(address, false)
         }
 
         view?.finishScreen()

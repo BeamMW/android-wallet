@@ -346,5 +346,6 @@ para acceder al wallet</string>
     <string name="save_changes">Salvar cambios</string>
     <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
     <string name="search_by_address_category_or_name">Buscar por dirección, categoría o nombre</string>
-    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
+    <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
+    <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
 </resources>

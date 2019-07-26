@@ -17,10 +17,10 @@
 package com.mw.beam.beamwallet.screens.address_details
 
 import android.annotation.SuppressLint
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.view.*
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
+import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
@@ -129,6 +130,22 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
                 onDismiss = { TrashManager.remove(walletAddress.walletID) },
                 onUndo = { TrashManager.restore(walletAddress.walletID) })
+    }
+
+    override fun showDeleteAddressDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+            val dialog = AlertDialog.Builder(it).setView(view).show()
+
+            view.btnConfirm.setOnClickListener {
+                presenter?.onConfirmDeleteAddress(view.deleteAllTransactionsCheckbox.isChecked)
+                dialog.dismiss()
+            }
+
+            view.btnCancel.setOnClickListener { dialog.dismiss() }
+
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
