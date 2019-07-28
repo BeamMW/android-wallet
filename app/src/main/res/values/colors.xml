@@ -7,6 +7,7 @@
     <color name="colorAccentPicked">#025664</color>
     <color name="common_text_color">#ffffff</color>
     <color name="common_error_color">#ff625c</color>
+    <color name="common_error_color_opacity_20">#33FF625C</color>
     <color name="common_text_dark_color">#8da1ad</color>
     <color name="common_header_small_color">#60ffffff</color>
     <color name="snack_bar_color">@color/colorPrimary</color>

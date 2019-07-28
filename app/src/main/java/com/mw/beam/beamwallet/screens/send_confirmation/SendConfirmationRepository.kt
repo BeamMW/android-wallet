@@ -41,17 +41,9 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
     }
 
-    override fun checkPassword(password: String): Boolean {
-        return wallet?.checkWalletPassword(password) ?: false
-    }
-
     override fun calcChange(amount: Long): Subject<Long> {
         return getResult(WalletListener.subOnChangeCalculated, "calcChange") {
             wallet?.calcChange(amount)
         }
-    }
-
-    override fun isEnableFingerprint(): Boolean {
-        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
     }
 }

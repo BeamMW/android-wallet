@@ -28,7 +28,7 @@
     <string name="common_fingerprint_error">Quá nhiều lần thử. Vui lòng nhập mật khẩu.</string>
     <string name="common_share_title">Chia sẻ…</string>
     <string name="common_external_link_dialog_title">Liên kết bên ngoài</string>
-    <string name="common_external_link_dialog_message">Ứng dụng Beam Wallet yêu cầu sự cho phép để mở liên kết ngoài trong trình duyệt. Hành động này sẽ hiển thị IP của bạn cho máy chủ web. Để tránh điều này, chọn \"Hủy\". Bạn có thể thay đổi lựa chọn của mình trong cài đặt ứng dụng bất cứ lúc nào.</string>
+    <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
     <string name="currency_beam">BEAM</string>
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">Không có kết nối Internet</string>
@@ -261,8 +261,8 @@
     <!--ProgressFragment-->
     <string name="loading_wallet">Đang tải ví</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">Địa chỉ đang hoạt động của tôi</string>
-    <string name="addresses_tab_expired">Địa chỉ đã hết hạn của tôi</string>
+    <string name="addresses_tab_active">My active</string>
+    <string name="addresses_tab_expired">My expired</string>
     <string name="no_name">Không tên</string>
     <string name="address_deleted">Địa chỉ đã xoá</string>
     <string name="contact_deleted">Liên hệ đã xóa</string>
@@ -345,6 +345,11 @@
     <string name="search_by_address_category_or_name">Tìm kiếm theo địa chỉ, danh mục hoặc tên</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
-    <string name="add_contact">Add contact</string>
     <string name="search_transaction">Search transaction</string>
+    <string name="never_expires">Never expires</string>
+    <string name="expires_in">Expires in %1$s h %2$s m</string>
+    <string name="add_contact">Add contact</string>
+    <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
+    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
 </resources>

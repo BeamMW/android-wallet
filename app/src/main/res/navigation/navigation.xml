@@ -632,6 +632,13 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:popUpTo="@+id/walletFragment" />
+        <action
+            android:id="@+id/action_sendConfirmationFragment_to_confirmTransactionDialog"
+            app:destination="@id/confirmTransactionDialog"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_qr_code"
@@ -698,4 +705,9 @@
                 android:name="categoryId" />
         </action>
     </fragment>
+    <dialog
+        android:id="@+id/confirmTransactionDialog"
+        tools:layout="@layout/dialog_confirm_transaction"
+        android:name="com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionDialog"
+        android:label="ConfirmTransactionDialog" />
 </navigation>

@@ -31,34 +31,24 @@ interface SendConfirmationContract {
         fun getAmount(): Long
         fun getFee(): Long
         fun getComment(): String?
-        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, isEnablePasswordConfirm: Boolean, isEnableFingerprint: Boolean)
-        fun clearPasswordError()
-        fun showEmptyPasswordError()
-        fun showWrongPasswordError()
+        fun init(address: String, outgoingAddress: String, amount: Double, fee: Long)
         fun configureContact(walletAddress: WalletAddress, category: Category?)
-        fun getPassword(): String
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
         fun showSaveAddressFragment(address: String)
         fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun showWallet()
-        fun showFingerprintDialog()
-        fun showErrorFingerprintMessage()
+        fun showConfirmDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onSendPressed()
-        fun onPasswordChanged()
-        fun onFingerprintPressed()
-        fun onFingerprintSuccess()
-        fun onFingerprintError()
+        fun onConfirmed()
     }
 
     interface Repository : MvpRepository {
-        fun checkPassword(password: String): Boolean
         fun isConfirmTransactionEnabled(): Boolean
         fun getCategory(address: String): Category?
         fun getAddresses(): Subject<OnAddressesData>
         fun calcChange(amount: Long): Subject<Long>
-        fun isEnableFingerprint(): Boolean
     }
 }

@@ -35,26 +35,20 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             state.comment = getComment()
 
 
-            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, repository.isConfirmTransactionEnabled(), repository.isEnableFingerprint())
+            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee)
         }
-    }
-
-    override fun onPasswordChanged() {
-        view?.clearPasswordError()
     }
 
     override fun onSendPressed() {
         if (repository.isConfirmTransactionEnabled()) {
-            val password = view?.getPassword()
-
-            when {
-                password.isNullOrBlank() -> view?.showEmptyPasswordError()
-                repository.checkPassword(password) -> send()
-                else -> view?.showWrongPasswordError()
-            }
+            view?.showConfirmDialog()
         } else {
             send()
         }
+    }
+
+    override fun onConfirmed() {
+        send()
     }
 
     private fun send() {
@@ -64,18 +58,6 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         } else {
             showWallet()
         }
-    }
-
-    override fun onFingerprintPressed() {
-        view?.showFingerprintDialog()
-    }
-
-    override fun onFingerprintSuccess() {
-        send()
-    }
-
-    override fun onFingerprintError() {
-        view?.showErrorFingerprintMessage()
     }
 
     override fun initSubscriptions() {
