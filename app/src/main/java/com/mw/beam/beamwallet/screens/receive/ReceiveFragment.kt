@@ -18,10 +18,8 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.transition.TransitionManager
+import android.view.GestureDetector
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -44,11 +42,15 @@ import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
+import android.view.MotionEvent
+
+
 
 /**
  * Created by vain onnellinen on 11/13/18.
  */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
+    private val copyTag = "ADDRESS"
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -121,6 +123,11 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         token.text = walletAddress.walletID
     }
 
+    override fun copyAddress(address: String) {
+        copyToClipboard(address, copyTag)
+        showSnackBar(getString(R.string.address_copied_to_clipboard))
+    }
+
     override fun handleExpandAdvanced(expand: Boolean) {
         animateDropDownIcon(btnExpandAdvanced, expand)
         TransitionManager.beginDelayedTransition(contentLayout)
@@ -171,6 +178,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 amount.hint = ""
             }
         }
+
+        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onLongPress(e: MotionEvent) {
+                presenter?.onAddressLongPressed()
+            }
+        })
+
+        token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
 
         requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
@@ -251,6 +266,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnExpandAdvanced.setOnClickListener(null)
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
+        token.setOnTouchListener(null)
 
         amount.onFocusChangeListener = null
         expiresOnSpinner.onItemSelectedListener = null

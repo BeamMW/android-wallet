@@ -39,6 +39,7 @@ interface ReceiveContract {
         fun getAmountFromArguments(): Long
         fun getAmount(): Double?
         fun getTxComment(): String?
+        fun copyAddress(address: String)
         fun setAmount(newAmount: Double)
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
         fun configCategory(currentCategory: Category?)
@@ -62,6 +63,7 @@ interface ReceiveContract {
         fun onAddNewCategoryPressed()
         fun onSaveAddressPressed()
         fun onBackPressed()
+        fun onAddressLongPressed()
         fun onAddressChanged(walletAddress: WalletAddress)
     }
 

@@ -54,6 +54,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         })
     }
 
+    override fun onAddressLongPressed() {
+        saveAddress()
+        view?.copyAddress(state.address?.walletID ?: "")
+    }
+
     private fun initViewAddress(address: WalletAddress?) {
         if (address != null) {
             state.address = address
