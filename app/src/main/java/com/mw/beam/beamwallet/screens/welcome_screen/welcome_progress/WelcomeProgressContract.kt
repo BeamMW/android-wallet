@@ -56,6 +56,7 @@ interface WelcomeProgressContract {
         fun getFailedNodeStart(): Subject<Any>
         fun removeNode()
         fun removeWallet()
+        fun getImportRecoveryState(pass: String?, seed: String?): Subject<OnSyncProgressData>
         fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status
     }
 }

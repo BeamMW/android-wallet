@@ -49,7 +49,7 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(state.isModeChangePass)
+        view?.init(state.isModeChangePass, state.mode ?: return)
     }
 
     override fun onProceed() {
@@ -61,13 +61,15 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
                     repository.changePass(view?.getPass())
                     view?.completePassChanging()
                 }
-            } else {
+            } else if (state.mode != WelcomeMode.RESTORE) {
                 if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"), state.mode ?: WelcomeMode.CREATE)) {
                     //if somehow we get mode null here - seems to be better to apply create mode instead of restore one
                     view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return, view?.getSeed() ?: return)
                 } else {
                     view?.showSnackBar(Status.STATUS_ERROR)
                 }
+            } else {
+                view?.showRestoreModeChoice(view?.getPass() ?: return, view?.getSeed() ?: return)
             }
         }
     }

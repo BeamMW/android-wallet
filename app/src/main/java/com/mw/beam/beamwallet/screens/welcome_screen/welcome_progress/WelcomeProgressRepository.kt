@@ -24,7 +24,13 @@ import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.net.URL
 
 /**
  * Created by vain onnellinen on 1/24/19.
@@ -53,6 +59,35 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     override fun removeWallet() {
         removeDatabase()
+    }
+
+    override fun getImportRecoveryState(pass: String?, seed: String?): Subject<OnSyncProgressData> {
+        closeWallet()
+
+        val subject = PublishSubject.create<OnSyncProgressData>()
+        val file = File(AppConfig.CACHE_PATH, "recovery.bin")
+
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        } else {
+            file.parentFile.listFiles().forEach { it.delete() }
+        }
+        file.createNewFile()
+
+        subject.onNext(OnSyncProgressData(40, 80))
+        val disposable = Api.downloadRestoreFile(file).subscribe({
+            subject.onNext(OnSyncProgressData(80, 120))
+
+            removeWallet()
+            createWallet(pass, seed, WelcomeMode.RESTORE_AUTOMATIC)
+            getResult("importRecovery") {
+                wallet?.importRecovery(it.absolutePath)
+            }
+        }, {
+            subject.onError(it)
+        })
+
+        return subject
     }
 
     override fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status {

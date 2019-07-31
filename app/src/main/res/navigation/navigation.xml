@@ -162,6 +162,13 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/welcomeDescriptionFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_passwordFragment_to_restoreModeChoiceFragment2"
+            app:destination="@id/restoreModeChoiceFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/welcomeDescriptionFragment"
@@ -710,4 +717,57 @@
         tools:layout="@layout/dialog_confirm_transaction"
         android:name="com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionDialog"
         android:label="ConfirmTransactionDialog" />
+    <fragment
+        android:id="@+id/restoreModeChoiceFragment"
+        tools:layout="@layout/fragment_restore_mode_choice"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_mode_choice.RestoreModeChoiceFragment"
+        android:label="RestoreModeChoiceFragment">
+        <argument
+            android:name="pass"
+            app:argType="string"/>
+        <argument
+            android:name="seed"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/action_restoreModeChoiceFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_restoreModeChoiceFragment_to_restoreTustedNodeFragment"
+            app:destination="@id/restoreTustedNodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_restore_trusted_node"
+        android:id="@+id/restoreTustedNodeFragment"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_trusted_node.RestoreTustedNodeFragment"
+        android:label="RestoreTustedNodeFragment">
+
+        <action
+            android:id="@+id/action_restoreTustedNodeFragment_to_restoreOwnerKeyFragment"
+            app:destination="@id/restoreOwnerKeyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
+    </fragment>
+    <fragment
+        android:id="@+id/restoreOwnerKeyFragment"
+        tools:layout="@layout/fragment_restore_owner_key"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_owner_key.RestoreOwnerKeyFragment"
+        android:label="RestoreOwnerKeyFragment" >
+        <action
+            android:id="@+id/action_restoreOwnerKeyFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"  />
+    </fragment>
 </navigation>

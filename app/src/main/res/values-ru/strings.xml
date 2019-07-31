@@ -353,4 +353,13 @@
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
+    <string name="restore_with_trusted_node">Restore with trusted node</string>
+    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
+    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="ip_port">ip:port</string>
+    <string name="owner_key">Owner key</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
 </resources>

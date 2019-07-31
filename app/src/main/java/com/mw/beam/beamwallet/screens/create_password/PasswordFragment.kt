@@ -36,6 +36,10 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
  * Created by vain onnellinen on 10/23/18.
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
+    private val args by lazy {
+        PasswordFragmentArgs.fromBundle(arguments!!)
+    }
+
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
             presenter?.onPassChanged(password?.toString())
@@ -55,18 +59,26 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_passwords
-    override fun getToolbarTitle(): String? = getString(R.string.change_password)
+    override fun getToolbarTitle(): String? = if (args.passChangeMode) getString(R.string.change_password) else getString(R.string.password)
 
-    override fun init(isModeChangePass: Boolean) {
-        if (isModeChangePass) {
-            description.text = getString(R.string.pass_screen_change_description)
-            btnProceed.textResId = R.string.pass_save_new
-            btnProceed.iconResId = R.drawable.ic_btn_save
-        } else {
-            description.text = getString(R.string.pass_screen_description)
-            btnProceed.textResId = R.string.pass_proceed_to_wallet
-            btnProceed.iconResId = R.drawable.ic_btn_proceed
-            requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    override fun init(isModeChangePass: Boolean, mode: WelcomeMode) {
+        when {
+            mode == WelcomeMode.RESTORE -> {
+                description.text = getString(R.string.pass_screen_description)
+                btnProceed.textResId = R.string.next
+                btnProceed.iconResId = R.drawable.ic_btn_proceed
+            }
+            isModeChangePass -> {
+                description.text = getString(R.string.pass_screen_change_description)
+                btnProceed.textResId = R.string.pass_save_new
+                btnProceed.iconResId = R.drawable.ic_btn_save
+            }
+            else -> {
+                description.text = getString(R.string.pass_screen_description)
+                btnProceed.textResId = R.string.pass_proceed_to_wallet
+                btnProceed.iconResId = R.drawable.ic_btn_proceed
+                requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+            }
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
@@ -82,14 +94,11 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         }
     }
 
-    override fun getSeed(): Array<String>? = arguments?.let { PasswordFragmentArgs.fromBundle(it).phrases }
+    override fun getSeed(): Array<String>? = args.phrases
     override fun getPass(): String = pass.text?.toString() ?: ""
-    override fun isModeChangePass(): Boolean = arguments?.let { PasswordFragmentArgs.fromBundle(it).passChangeMode } ?: false
+    override fun isModeChangePass(): Boolean = args.passChangeMode
     override fun getWelcomeMode(): WelcomeMode? {
-        return arguments?.let {
-            val modeName = PasswordFragmentArgs.fromBundle(it).mode
-            WelcomeMode.valueOf(modeName ?: return null)
-        }
+        return WelcomeMode.valueOf(args.mode ?: return null)
     }
 
     override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) {
@@ -97,6 +106,10 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
     override fun showSeedFragment() {
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())
+    }
+
+    override fun showRestoreModeChoice(pass: String, seed: Array<String>) {
+        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
     }
 
     override fun completePassChanging() {

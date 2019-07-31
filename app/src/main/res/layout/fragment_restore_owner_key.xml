@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hasStatus="false" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:filterTouchesWhenObscured="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/common_offset"
+            android:paddingEnd="@dimen/common_offset">
+
+            <TextView
+                android:id="@+id/codeTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/code"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ownerKey"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/codeTitle"
+                tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e0976800000000000000ebb27b5501213c84eb212ea276e8ced74f540fbcceb0f4c1c2da2c5108188651a1864ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e03fbbbb5942e5e63d1a7728a2954a10d3bfb9938f0c17509a6a0e870c6bb22ff2d1297f3dae7f54592b00e84c6b3c9ea3e3ad9bc43661b6dcf7dbd818ccc92707d1d75b429697e" />
+
+            <TextView
+                android:id="@+id/pasteDescription"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="14dp"
+                android:text="@string/paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ownerKey" />
+
+            <TextView
+                android:id="@+id/automaticallyDescription"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="@dimen/common_offset"
+                android:layout_marginEnd="14dp"
+                android:text="@string/once_you_ll_paste_the_code_restore_will_start_automatically"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/pasteDescription" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnNext"
+                style="@style/common_button_style"
+                android:layout_marginTop="@dimen/common_offset"
+                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                app:button_icon="@drawable/ic_btn_copy_dark"
+                app:button_text="@string/copy"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/automaticallyDescription"
+                app:layout_constraintVertical_bias="1"
+                app:lower_case="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

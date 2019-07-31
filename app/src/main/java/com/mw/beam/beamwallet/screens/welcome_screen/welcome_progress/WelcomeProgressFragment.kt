@@ -63,7 +63,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun init(mode: WelcomeMode) {
         when (mode) {
             WelcomeMode.OPEN -> title.text = openTitleString
-            WelcomeMode.RESTORE -> {
+            WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = restoreTitleString
                 restoreFullDescription.visibility = View.VISIBLE
             }

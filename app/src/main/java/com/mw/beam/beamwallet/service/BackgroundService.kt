@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Process
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.mw.beam.beamwallet.R
@@ -45,6 +46,7 @@ class BackgroundService : JobService() {
         private var txDisposable: Disposable? = null
         private const val CHANNEL_ID = "com.mw.beam.beamwallet.service.BackgroundService"
         private const val REQUEST_CODE = 86131
+        private const val LOG_TAG = "BackgroundService"
 
         private fun createNotificationChannel(context: Context) {
             // Create the NotificationChannel, but only on API 26+ because
@@ -102,6 +104,7 @@ class BackgroundService : JobService() {
 
 
     override fun onStartJob(params: JobParameters?): Boolean {
+        Log.d(LOG_TAG, "onStartJob")
         val password = repository.getPassword()
 
         if (repository.isWalletRunning() || password.isNullOrBlank()) {
@@ -115,6 +118,7 @@ class BackgroundService : JobService() {
         }
 
 
+        Log.d(LOG_TAG, "onStartJob::Subscribe")
         txDisposable = repository.getTxStatus().subscribe {
             receiveOnTxData(it)
         }
@@ -123,10 +127,10 @@ class BackgroundService : JobService() {
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
+        Log.d(LOG_TAG, "onStopJob")
+        txDisposable?.dispose()
         if (!App.isAppRunning) {
             repository.closeWallet()
-            txDisposable?.dispose()
-            Process.killProcess(Process.myPid())
         }
         return false
     }

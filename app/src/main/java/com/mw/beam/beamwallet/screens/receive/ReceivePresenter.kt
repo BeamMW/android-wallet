@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.utils.subscribeIf
 import io.reactivex.disposables.Disposable
 
 /**
@@ -152,17 +153,13 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        walletIdSubscription = if (state.isNeedGenerateAddress) {
-            repository.generateNewAddress().subscribe {
-                if (state.address == null) {
-                    state.address = it
-                    state.generatedAddress = it
-                    view?.initAddress(true, it)
-                    view?.configCategory(repository.getCategory(it.walletID))
-                }
+        walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateAddress) {
+            if (state.address == null) {
+                state.address = it
+                state.generatedAddress = it
+                view?.initAddress(true, it)
+                view?.configCategory(repository.getCategory(it.walletID))
             }
-        } else {
-            EmptyDisposable()
         }
     }
 

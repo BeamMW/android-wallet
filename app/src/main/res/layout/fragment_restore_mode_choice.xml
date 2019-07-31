@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hasStatus="false" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:filterTouchesWhenObscured="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:id="@+id/radioGroupRestore"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/cloudIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_cloud" />
+
+                <TextView
+                    style="@style/common_subheader_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="23dp"
+                    android:text="@string/automatic_restore_recommended"
+                    android:textAllCaps="false" />
+
+                <RadioButton
+                    android:id="@+id/automaticRestore"
+                    style="@style/common_text_big_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:checked="true"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="50dp"
+                    android:text="@string/beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud" />
+
+                <ImageView
+                    android:id="@+id/laptopIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_laptop" />
+
+                <TextView
+                    style="@style/common_subheader_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="23dp"
+                    android:text="@string/restore_with_trusted_node" />
+
+                <RadioButton
+                    android:id="@+id/trustedNodeRestore"
+                    style="@style/common_text_big_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:paddingStart="7dp"
+                    android:paddingEnd="50dp"
+                    android:text="@string/beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain" />
+            </RadioGroup>
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnNext"
+                style="@style/common_button_style"
+                android:layout_marginTop="@dimen/common_offset"
+                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                app:button_icon="@drawable/ic_btn_proceed"
+                app:button_text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radioGroupRestore"
+                app:layout_constraintVertical_bias="1"
+                app:lower_case="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

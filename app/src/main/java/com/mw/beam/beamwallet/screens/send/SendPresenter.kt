@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.utils.subscribeIf
 import io.reactivex.disposables.Disposable
 
 /**
@@ -426,12 +427,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             }
         }
 
-        walletIdSubscription = if (state.isNeedGenerateNewAddress) repository.generateNewAddress().subscribe {
+        walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateNewAddress) {
             state.generatedAddress = it
             setAddress(it, true)
             state.isNeedGenerateNewAddress = false
-        } else {
-            EmptyDisposable()
         }
     }
 

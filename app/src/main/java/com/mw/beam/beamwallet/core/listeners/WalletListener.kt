@@ -64,6 +64,7 @@ object WalletListener {
     var subOnFailedToStartNode: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
     var subOnCoinsByTx: Subject<List<Utxo>?> = BehaviorSubject.create<List<Utxo>?>().toSerialized()
+    val subOnImportRecoveryProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), "onStatus")
@@ -116,6 +117,9 @@ object WalletListener {
 
     @JvmStatic
     fun onCoinsByTx(utxos: Array<UtxoDTO>?) = returnResult(subOnCoinsByTx, utxos?.map { Utxo(it) }, "onCoinsByTx")
+
+    @JvmStatic
+    fun onImportRecoveryProgress(done: Int, total: Int) = returnResult(subOnImportRecoveryProgress, OnSyncProgressData(done, total), "onImportRecoveryProgress")
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hasStatus="false" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:filterTouchesWhenObscured="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp">
+
+            <TextView
+                android:id="@+id/description"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/enter_trusted_node_address"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/ipPortTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/ip_port"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nodeAddressLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/ipPortTitle">
+
+                <com.mw.beam.beamwallet.core.views.BeamEditText
+                    android:id="@+id/nodeAddress"
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="Autofill,LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/stateText"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nodeAddressLayout"
+                tools:text="Node connection is ok and it supports restore."
+                tools:visibility="visible" />
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnNext"
+                style="@style/common_button_style"
+                android:layout_marginTop="@dimen/common_offset"
+                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                app:button_icon="@drawable/ic_btn_proceed"
+                app:button_text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stateText"
+                app:layout_constraintVertical_bias="1"
+                app:lower_case="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>

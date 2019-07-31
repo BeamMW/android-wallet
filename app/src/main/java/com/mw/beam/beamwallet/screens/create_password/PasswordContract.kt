@@ -36,10 +36,11 @@ interface PasswordContract {
         fun getWelcomeMode(): WelcomeMode?
         fun isModeChangePass(): Boolean
         fun proceedToWallet(mode : WelcomeMode, pass: String, seed: Array<String>)
+        fun showRestoreModeChoice(pass: String, seed: Array<String>)
         fun showSeedAlert()
         fun showSeedFragment()
         fun showOldPassError()
-        fun init(isModeChangePass: Boolean)
+        fun init(isModeChangePass: Boolean, mode: WelcomeMode)
         fun completePassChanging()
     }
 

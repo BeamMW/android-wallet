@@ -18,9 +18,11 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
 import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.utils.subscribeIf
 import io.reactivex.disposables.Disposable
 
 /**
@@ -35,6 +37,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeStoppedSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
     private lateinit var nodeThreadFinishedSubscription: Disposable
+    private var importRecoverySubscription: Disposable = EmptyDisposable()
+        set(value) {
+            if (!field.isDisposed)
+                field.dispose()
+
+            field = value
+        }
 
     private var isNodeSyncFinished = false
     private var isFailedToStartNode = false
@@ -75,7 +84,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun onBackPressed() {
         when (state.mode) {
-            WelcomeMode.RESTORE -> {
+            WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 view?.showCancelRestoreAlert()
             }
             WelcomeMode.CREATE, WelcomeMode.OPEN -> {
@@ -86,7 +95,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun initSubscriptions() {
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            if (WelcomeMode.RESTORE != state.mode) {
+            if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
                 if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
                     showWallet()
@@ -107,6 +116,17 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     repository.closeWallet()
                 }
             }
+        }
+
+        if (state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
+            importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"))
+                    .subscribe ({
+                        view?.updateProgress(it, state.mode)
+
+                        if (it.done == it.total) {
+                            showWallet()
+                        }
+                    }, { it.printStackTrace() })
         }
 
         nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
@@ -189,7 +209,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
-        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription)
+        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription, importRecoverySubscription)
     }
 
     private fun showWallet() {

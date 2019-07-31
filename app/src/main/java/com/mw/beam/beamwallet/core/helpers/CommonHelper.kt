@@ -25,7 +25,7 @@ import java.io.File
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 
 enum class WelcomeMode {
-    OPEN, CREATE, RESTORE
+    OPEN, CREATE, RESTORE, RESTORE_AUTOMATIC
 }
 
 enum class NetworkStatus {
