@@ -8,7 +8,7 @@ interface RestoreModeChoiceContract {
     interface View: MvpView {
         fun getPassword(): String
         fun getSeed(): Array<String>
-        fun showRestoreNode(pass: String, seed: Array<String>)
+        fun showRestoreOwnerKey(pass: String, seed: Array<String>)
         fun showAutomaticProgressRestore(pass: String, seed: Array<String>)
     }
     interface Presenter: MvpPresenter<View> {

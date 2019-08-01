@@ -36,8 +36,8 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
         findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToWelcomeProgressFragment(pass, WelcomeMode.RESTORE_AUTOMATIC.name, seed))
     }
 
-    override fun showRestoreNode(pass: String, seed: Array<String>) {
-        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToRestoreTustedNodeFragment())
+    override fun showRestoreOwnerKey(pass: String, seed: Array<String>) {
+        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToRestoreOwnerKeyFragment())
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

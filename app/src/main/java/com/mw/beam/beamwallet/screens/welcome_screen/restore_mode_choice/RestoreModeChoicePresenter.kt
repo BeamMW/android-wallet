@@ -10,7 +10,7 @@ class RestoreModeChoicePresenter(view: RestoreModeChoiceContract.View?, reposito
             if (isAutomaticRestore) {
                 showAutomaticProgressRestore(getPassword(), getSeed())
             } else {
-                showRestoreNode(getPassword(), getSeed())
+                showRestoreOwnerKey(getPassword(), getSeed())
             }
         }
     }

@@ -6,13 +6,13 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
-class RestoreTustedNodeFragment : BaseFragment<RestoreTustedNodePresenter>(), RestoreTustedNodeContract.View {
+class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), RestoreTrustedNodeContract.View {
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_restore_trusted_node
 
     override fun getToolbarTitle(): String? = getString(R.string.restore_wallet)
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        return RestoreTustedNodePresenter(this, RestoreTustedNodeRepository())
+        return RestoreTrustedNodePresenter(this, RestoreTrustedNodeRepository())
     }
 }

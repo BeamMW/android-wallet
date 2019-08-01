@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.TxSender
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
@@ -104,7 +105,7 @@ class BackgroundService : JobService() {
 
 
     override fun onStartJob(params: JobParameters?): Boolean {
-        Log.d(LOG_TAG, "onStartJob")
+        LogUtils.log("$LOG_TAG::onStartJob")
         val password = repository.getPassword()
 
         if (repository.isWalletRunning() || password.isNullOrBlank()) {
@@ -118,7 +119,7 @@ class BackgroundService : JobService() {
         }
 
 
-        Log.d(LOG_TAG, "onStartJob::Subscribe")
+        LogUtils.log("$LOG_TAG::onStartJob::Subscribe")
         txDisposable = repository.getTxStatus().subscribe {
             receiveOnTxData(it)
         }
@@ -127,7 +128,7 @@ class BackgroundService : JobService() {
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
-        Log.d(LOG_TAG, "onStopJob")
+        LogUtils.log("$LOG_TAG::onStopJob")
         txDisposable?.dispose()
         if (!App.isAppRunning) {
             repository.closeWallet()

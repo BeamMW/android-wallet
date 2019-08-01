@@ -736,26 +736,17 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_restoreModeChoiceFragment_to_restoreTustedNodeFragment"
-            app:destination="@id/restoreTustedNodeFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"  />
+            android:id="@+id/action_restoreModeChoiceFragment_to_restoreOwnerKeyFragment"
+            app:destination="@id/restoreOwnerKeyFragment" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_restore_trusted_node"
         android:id="@+id/restoreTustedNodeFragment"
-        android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_trusted_node.RestoreTustedNodeFragment"
+        android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_trusted_node.RestoreTrustedNodeFragment"
         android:label="RestoreTustedNodeFragment">
-
         <action
-            android:id="@+id/action_restoreTustedNodeFragment_to_restoreOwnerKeyFragment"
-            app:destination="@id/restoreOwnerKeyFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"  />
+            android:id="@+id/action_restoreTustedNodeFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment" />
     </fragment>
     <fragment
         android:id="@+id/restoreOwnerKeyFragment"
@@ -763,11 +754,7 @@
         android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_owner_key.RestoreOwnerKeyFragment"
         android:label="RestoreOwnerKeyFragment" >
         <action
-            android:id="@+id/action_restoreOwnerKeyFragment_to_welcomeProgressFragment"
-            app:destination="@id/welcomeProgressFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"  />
+            android:id="@+id/action_restoreOwnerKeyFragment_to_restoreTustedNodeFragment"
+            app:destination="@id/restoreTustedNodeFragment" />
     </fragment>
 </navigation>
