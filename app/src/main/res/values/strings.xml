@@ -395,5 +395,10 @@
     <string name="owner_key">Owner key</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
+    <string name="privacy_mode">Privacy mode</string>
+    <string name="gallery">Gallery</string>
+    <string name="selectPickture">Select Picture</string>
+    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
 
 </resources>

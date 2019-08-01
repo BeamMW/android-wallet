@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/privacy_mode"
-        android:title="@string/privacy_mode"
-        android:icon="@drawable/ic_eye_crossed"
+    <item android:id="@+id/qrFromGallery"
+        android:title="@string/gallery"
+        android:icon="@drawable/ic_gallery"
         app:showAsAction="always"/>
+
 </menu>
