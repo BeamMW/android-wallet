@@ -18,7 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.mw.beam.beamwallet.core.views.BeamEditText
-        android:id="@+id/phraseView"
+        android:tag="input"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

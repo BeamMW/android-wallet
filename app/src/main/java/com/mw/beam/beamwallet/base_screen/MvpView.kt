@@ -28,7 +28,7 @@ interface MvpView {
     fun hideKeyboard()
     fun showSnackBar(status: Status)
     fun showSnackBar(message: String, onDismiss: (() -> Unit)? = null, onUndo: (() -> Unit)? = null)
-    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}): AlertDialog?
+    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}, cancelable: Boolean = true): AlertDialog?
     fun dismissAlert()
     fun copyToClipboard(content: String?, tag: String)
     fun showToast(message: String, duration: Int)

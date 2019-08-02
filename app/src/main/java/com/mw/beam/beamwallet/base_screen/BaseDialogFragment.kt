@@ -61,9 +61,9 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
 
     override fun configStatus(networkStatus: NetworkStatus) {}
 
-    override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit): AlertDialog? {
+    override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
-                ?: return null)
+                ?: return null, cancelable)
     }
 
     override fun showToast(message: String, duration: Int) {

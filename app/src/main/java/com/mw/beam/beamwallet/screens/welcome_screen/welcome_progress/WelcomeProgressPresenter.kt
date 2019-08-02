@@ -68,6 +68,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         state.seed = view?.getSeed()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (state.isFailedNetworkConnect && state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
+            view?.showFailedDownloadRestoreFileAlert()
+        }
+    }
+
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(state.mode)
@@ -81,28 +88,34 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         })
 
         if (state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
-            val file = repository.createRestoreFile()
-            downloadSubscription = repository.downloadRestoreFile(file)
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-
-                        onRecoveryLiveData.postValue {
-                            view?.updateProgress(it, state.mode)
-                        }
-
-                        if (it.done == it.total) {
-                            startImport(file)
-                        }
-                    }, {
-                        it.printStackTrace()
-                    })
+            startAutomaticRestore()
         }
+    }
+
+    private fun startAutomaticRestore() {
+        state.isFailedNetworkConnect = false
+        val file = repository.createRestoreFile()
+        downloadSubscription = repository.downloadRestoreFile(file)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+
+                    onRecoveryLiveData.postValue {
+                        view?.updateProgress(it, state.mode)
+                    }
+
+                    if (it.done == it.total) {
+                        startImport(file)
+                    }
+                }, {
+                    state.isFailedNetworkConnect = true
+                    view?.showFailedDownloadRestoreFileAlert()
+                })
     }
 
     private fun startImport(file: File) {
         importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
-                .subscribe({ data ->
+                .subscribe { data ->
                     onRecoveryLiveData.postValue {
                         view?.updateProgress(data, state.mode)
 
@@ -110,11 +123,16 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                             showWallet()
                         }
                     }
-                }, { error -> error.printStackTrace() })
+                }
     }
 
     override fun onTryAgain() {
-        repository.closeWallet()
+        view?.updateProgress(OnSyncProgressData(0, 100), state.mode)
+        if (state.mode != WelcomeMode.RESTORE_AUTOMATIC) {
+            repository.closeWallet()
+        } else {
+            startAutomaticRestore()
+        }
     }
 
     override fun onCancel() {

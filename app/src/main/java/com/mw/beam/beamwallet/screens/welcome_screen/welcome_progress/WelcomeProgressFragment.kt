@@ -99,7 +99,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun addListeners() {
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
     }
 
     override fun getLifecycleOwner(): LifecycleOwner = this
@@ -113,12 +113,22 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun showFailedRestoreAlert() {
-        showAlert(message = getString(R.string.welcome_progress_restore_error_description),
+        showAlert(message = getString(R.string.welcome_progress_restore_networ_error_description),
                 btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
                 onConfirm = { presenter?.onTryAgain() },
                 title = getString(R.string.welcome_progress_restore_error_title),
                 btnCancelText = getString(R.string.cancel),
                 onCancel = { presenter?.onCancel() })
+    }
+
+    override fun showFailedDownloadRestoreFileAlert() {
+        showAlert(message = getString(R.string.welcome_progress_restore_error_description),
+                btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
+                onConfirm = { presenter?.onTryAgain() },
+                title = getString(R.string.welcome_progress_restore_error_title),
+                btnCancelText = getString(R.string.cancel),
+                onCancel = { presenter?.onOkToCancelRestore() },
+                cancelable = false)
     }
 
     override fun showCancelRestoreAlert() {

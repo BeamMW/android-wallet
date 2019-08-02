@@ -41,6 +41,7 @@ interface WelcomeProgressContract {
         fun showIncorrectNodeMessage()
         fun showCancelRestoreAlert()
         fun showFailedRestoreAlert()
+        fun showFailedDownloadRestoreFileAlert()
         fun getLifecycleOwner(): LifecycleOwner
         fun navigateToCreateFragment()
     }

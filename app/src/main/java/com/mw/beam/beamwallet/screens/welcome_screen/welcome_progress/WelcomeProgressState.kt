@@ -26,4 +26,5 @@ class WelcomeProgressState {
     var mode : WelcomeMode = WelcomeMode.CREATE
     var password = ""
     var seed : Array<String>? = null
+    var isFailedNetworkConnect = false
 }

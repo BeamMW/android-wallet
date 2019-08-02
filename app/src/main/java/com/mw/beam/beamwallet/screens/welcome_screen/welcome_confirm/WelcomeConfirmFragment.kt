@@ -131,7 +131,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         }
 
         //to hide keyboard at last phrase
-        (seedLayout.getChildAt(seedToValidate.size - 1) as BeamPhraseInput).phraseView.imeOptions = EditorInfo.IME_ACTION_DONE
+        (seedLayout.getChildAt(seedToValidate.size - 1) as BeamPhraseInput).editText.imeOptions = EditorInfo.IME_ACTION_DONE
 
         (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
         showKeyboard()
@@ -159,13 +159,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
         phrase.layoutParams = params
 
-        phrase.phraseView.addTextChangedListener(object : TextWatcher {
+        phrase.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(phrase: Editable?) {
                 presenter?.onSeedChanged(phrase.toString())
             }
         })
 
-        phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
+        phrase.editText.setOnFocusChangeListener { v, hasFocus ->
             presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
                 currentEditText = v as EditText?

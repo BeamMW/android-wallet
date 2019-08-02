@@ -25,18 +25,30 @@ import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
-import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import java.io.BufferedInputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.net.URL
 
 /**
  * Created by vain onnellinen on 1/24/19.
  */
 class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repository {
+    private var downloadProgressSubject: Subject<OnSyncProgressData>? = null
+
+    init {
+        subscribeToDownloadProgress()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun subscribeToDownloadProgress() {
+        Api.subDownloadProgress.subscribe {
+            downloadProgressSubject?.apply {
+                if (!hasComplete() && !hasThrowable()) {
+                    onNext(it)
+                }
+            }
+        }
+    }
 
     override fun getNodeProgressUpdated(): Subject<OnSyncProgressData> {
         return getResult(WalletListener.subOnNodeSyncProgressUpdated, "getNodeProgressUpdated")
@@ -87,8 +99,9 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     @SuppressLint("CheckResult")
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
-        Api.downloadRestoreFile(file).subscribe({ }, { Api.subDownloadProgress.onError(it) })
-        return Api.subDownloadProgress
+        downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
+        Api.downloadRestoreFile(file).subscribe({ }, { downloadProgressSubject?.onError(it) })
+        return downloadProgressSubject!!
     }
 
     override fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status {

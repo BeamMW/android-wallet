@@ -21,6 +21,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
+import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -32,7 +33,6 @@ import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.views.Suggestions
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_restore.*
 
 /**
@@ -121,7 +121,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         }
 
         //hide keyboard at last phrase
-        (seedLayout.getChildAt(phrasesCount - 1) as BeamPhraseInput).phraseView.imeOptions = EditorInfo.IME_ACTION_DONE
+        (seedLayout.getChildAt(phrasesCount - 1) as BeamPhraseInput).editText.imeOptions = EditorInfo.IME_ACTION_DONE
 
         (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
         showKeyboard()
@@ -150,13 +150,13 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
         phrase.layoutParams = params
 
-        phrase.phraseView.addTextChangedListener(object : TextWatcher {
+        phrase.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(phrase: Editable?) {
                 presenter?.onSeedChanged(phrase.toString())
             }
         })
 
-        phrase.phraseView.setOnFocusChangeListener { v, hasFocus ->
+        phrase.editText.setOnFocusChangeListener { v, hasFocus ->
             presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
                 currentEditText = v as EditText?
@@ -174,7 +174,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         val seed = ArrayList<String>()
 
         for (i in 0 until seedLayout.childCount) {
-            seed.add((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString().trim())
+            seed.add((seedLayout.getChildAt(i) as BeamPhraseInput).editText.text.toString().trim())
         }
 
         return seed.toTypedArray()
@@ -183,7 +183,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     private fun arePhrasesFilled(): Boolean {
         for (i in 0 until seedLayout.childCount) {
             val phraseInput = seedLayout.getChildAt(i) as BeamPhraseInput
-            if (phraseInput.phraseView.text.isNullOrBlank() || !phraseInput.isValid) {
+            if (phraseInput.editText.text.isNullOrBlank() || !phraseInput.isValid) {
                 return false
             }
         }

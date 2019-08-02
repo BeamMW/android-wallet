@@ -367,4 +367,5 @@
     <string name="selectPickture">Select Picture</string>
     <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
+    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
 </resources>

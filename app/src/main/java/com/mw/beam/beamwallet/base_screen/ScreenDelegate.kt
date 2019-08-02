@@ -92,7 +92,7 @@ class ScreenDelegate {
     }
 
     @SuppressLint("InflateParams")
-    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, context: Context): AlertDialog? {
+    fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, context: Context, cancelable: Boolean = true): AlertDialog? {
         val view = LayoutInflater.from(context).inflate(R.layout.common_alert_dialog, null)
         val alertTitle = view.findViewById<TextView>(R.id.title)
         val alertText = view.findViewById<TextView>(R.id.alertText)
@@ -118,7 +118,10 @@ class ScreenDelegate {
             alert?.dismiss()
         }
 
-        val dialog = AlertDialog.Builder(context).setView(view).show()
+        val dialog = AlertDialog.Builder(context)
+                .setView(view)
+                .setCancelable(cancelable)
+                .show()
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         alert = dialog
 

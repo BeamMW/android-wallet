@@ -32,9 +32,9 @@ class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""
     var isForEnsure: Boolean = false
     val isEmpty: Boolean
-        get() = phraseView.text?.toString()?.isEmpty() ?: true
+        get() = editText.text?.toString()?.isEmpty() ?: true
     val isValid: Boolean
-        get() = phrase == phraseView.text?.toString()?.trim() || validator?.invoke(phraseView.text?.toString()?.trim()) ?: false
+        get() = phrase == editText.text?.toString()?.trim() || validator?.invoke(editText.text?.toString()?.trim()) ?: false
     var number: Int = Int.MIN_VALUE
         set(value) {
             field = value
@@ -56,6 +56,10 @@ class BeamPhraseInput : ConstraintLayout {
                 numberView.background = ContextCompat.getDrawable(context, field)
             }
         }
+
+    val editText: BeamEditText by lazy {
+        findViewWithTag("input") as BeamEditText
+    }
 
     var validator: ((String?) -> Boolean)? = null
 
@@ -88,35 +92,35 @@ class BeamPhraseInput : ConstraintLayout {
             numberBackgroundResId = a.getResourceId(R.styleable.BeamPhraseInput_number_background, Integer.MIN_VALUE)
         }
 
-        phraseView.addTextChangedListener(object : TextWatcher {
+        editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if (isForEnsure) {
                     when {
                         isEmpty -> {
                             numberTextColorResId = R.color.common_text_color
                             numberBackgroundResId = R.drawable.empty_number_background
-                            phraseView.isStateNormal = true
+                            editText.isStateNormal = true
                         }
                         isValid -> {
                             numberTextColorResId = R.color.phrase_validated_number_text_color
                             numberBackgroundResId = R.drawable.validated_number_background
-                            phraseView.isStateAccent = true
+                            editText.isStateAccent = true
                         }
                         else -> {
                             numberTextColorResId = R.color.phrase_error_number_text_color
                             numberBackgroundResId = R.drawable.error_number_background
-                            phraseView.isStateError = true
+                            editText.isStateError = true
                         }
                     }
                 } else {
-                    if (phraseView.text?.toString()?.trim().isNullOrBlank()) {
+                    if (editText.text?.toString()?.trim().isNullOrBlank()) {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.empty_number_background
-                        phraseView.isStateNormal = true
+                        editText.isStateNormal = true
                     } else {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.number_background
-                        phraseView.isStateNormal = true
+                        editText.isStateNormal = true
                     }
                 }
             }
@@ -124,6 +128,6 @@ class BeamPhraseInput : ConstraintLayout {
 
 
         //necessary to prevent BeamEditText from changing text color
-        phraseView.onFocusChangeListener = null
+        editText.onFocusChangeListener = null
     }
 }
