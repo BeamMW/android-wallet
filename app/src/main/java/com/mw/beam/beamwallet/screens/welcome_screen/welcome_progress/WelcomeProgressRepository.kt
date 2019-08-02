@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.annotation.SuppressLint
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
@@ -61,10 +62,17 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         removeDatabase()
     }
 
-    override fun getImportRecoveryState(pass: String?, seed: String?): Subject<OnSyncProgressData> {
+    override fun getImportRecoveryState(pass: String?, seed: String?, file: File): Subject<OnSyncProgressData> {
         closeWallet()
+        removeWallet()
+        createWallet(pass, seed, WelcomeMode.RESTORE_AUTOMATIC)
 
-        val subject = PublishSubject.create<OnSyncProgressData>()
+        return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
+            wallet?.importRecovery(file.absolutePath)
+        }
+    }
+
+    override fun createRestoreFile(): File {
         val file = File(AppConfig.CACHE_PATH, "recovery.bin")
 
         if (!file.parentFile.exists()) {
@@ -74,20 +82,13 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
         file.createNewFile()
 
-        subject.onNext(OnSyncProgressData(40, 80))
-        val disposable = Api.downloadRestoreFile(file).subscribe({
-            subject.onNext(OnSyncProgressData(80, 120))
+        return file
+    }
 
-            removeWallet()
-            createWallet(pass, seed, WelcomeMode.RESTORE_AUTOMATIC)
-            getResult("importRecovery") {
-                wallet?.importRecovery(it.absolutePath)
-            }
-        }, {
-            subject.onError(it)
-        })
-
-        return subject
+    @SuppressLint("CheckResult")
+    override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
+        Api.downloadRestoreFile(file).subscribe({ }, { Api.subDownloadProgress.onError(it) })
+        return Api.subDownloadProgress
     }
 
     override fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status {

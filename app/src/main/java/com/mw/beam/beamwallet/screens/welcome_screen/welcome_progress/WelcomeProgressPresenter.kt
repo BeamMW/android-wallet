@@ -16,14 +16,18 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
 import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.core.utils.subscribeIf
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import java.io.File
 
 /**
  * Created by vain onnellinen on 1/24/19.
@@ -37,6 +41,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeStoppedSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
     private lateinit var nodeThreadFinishedSubscription: Disposable
+    private lateinit var downloadSubscription: Disposable
+    private val onRecoveryLiveData = MutableLiveData<() -> Unit>()
     private var importRecoverySubscription: Disposable = EmptyDisposable()
         set(value) {
             if (!field.isDisposed)
@@ -63,6 +69,42 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
             repository.wallet?.syncWithNode()
         }
+
+        onRecoveryLiveData.observe(view!!.getLifecycleOwner(), Observer {
+            it.invoke()
+        })
+
+        if (state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
+            val file = repository.createRestoreFile()
+            downloadSubscription = repository.downloadRestoreFile(file)
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({
+
+                        onRecoveryLiveData.postValue {
+                            view?.updateProgress(it, state.mode)
+                        }
+
+                        if (it.done == it.total) {
+                            startImport(file)
+                        }
+                    }, {
+                        it.printStackTrace()
+                    })
+        }
+    }
+
+    private fun startImport(file: File) {
+        importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
+                .subscribe({ data ->
+                    onRecoveryLiveData.postValue {
+                        view?.updateProgress(data, state.mode)
+
+                        if (data.done == data.total) {
+                            showWallet()
+                        }
+                    }
+                }, { error -> error.printStackTrace() })
     }
 
     override fun onTryAgain() {
@@ -116,17 +158,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     repository.closeWallet()
                 }
             }
-        }
-
-        if (state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
-            importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"))
-                    .subscribe ({
-                        view?.updateProgress(it, state.mode)
-
-                        if (it.done == it.total) {
-                            showWallet()
-                        }
-                    }, { it.printStackTrace() })
         }
 
         nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
@@ -209,7 +240,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
-        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription, importRecoverySubscription)
+        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription)
+    }
+
+    override fun onDestroy() {
+        importRecoverySubscription.dispose()
+        downloadSubscription.dispose()
+        super.onDestroy()
     }
 
     private fun showWallet() {

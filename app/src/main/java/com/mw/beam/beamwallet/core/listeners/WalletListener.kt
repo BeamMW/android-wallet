@@ -17,6 +17,7 @@ package com.mw.beam.beamwallet.core.listeners
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
@@ -27,6 +28,7 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import kotlin.math.absoluteValue
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -119,7 +121,10 @@ object WalletListener {
     fun onCoinsByTx(utxos: Array<UtxoDTO>?) = returnResult(subOnCoinsByTx, utxos?.map { Utxo(it) }, "onCoinsByTx")
 
     @JvmStatic
-    fun onImportRecoveryProgress(done: Int, total: Int) = returnResult(subOnImportRecoveryProgress, OnSyncProgressData(done, total), "onImportRecoveryProgress")
+    fun onImportRecoveryProgress(done: Long, total: Long) {
+        LogUtils.log("onImportRecoveryProgress:: done:$done total:$total")
+        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(if (done == total) 100 else ((done / total) * 100).toInt().absoluteValue, 100), "onImportRecoveryProgress")
+    }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

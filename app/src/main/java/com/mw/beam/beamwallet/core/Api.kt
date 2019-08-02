@@ -18,11 +18,15 @@ package com.mw.beam.beamwallet.core
 
 import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.network.MobileRestoreService
+import com.mw.beam.beamwallet.core.network.getOkHttpDownloadClientBuilder
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import retrofit2.Retrofit
 import java.io.File
 import okio.Okio
@@ -33,10 +37,13 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
  * Created by vain onnellinen on 10/1/18.
  */
 object Api {
+    val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
+
     private val restoreService by lazy {
         Retrofit.Builder()
                 .baseUrl("https://mobile-restore.beam.mw")
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getOkHttpDownloadClientBuilder(subDownloadProgress).build())
                 .build().create(MobileRestoreService::class.java)
     }
 

@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -87,10 +88,19 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     configProgress(countProgress(progressData), String.format(restoreDescriptionString, countProgress(progressData)))
                 }
             }
-            WelcomeMode.CREATE -> {
+            WelcomeMode.RESTORE_AUTOMATIC -> {
+                if (isSyncProcess) {
+                    // FULL_PROGRESS is needed to prevent UI progress rollback after node sync was finished
+                    configProgress(FULL_PROGRESS, String.format(updateUtxoDescriptionString, progressData.done, progressData.total))
+                } else {
+                    configProgress(countProgress(progressData), String.format(restoreDescriptionString, countProgress(progressData)))
+                }
             }
+            WelcomeMode.CREATE -> { }
         }
     }
+
+    override fun getLifecycleOwner(): LifecycleOwner = this
 
     override fun showNoInternetMessage() {
         showToast(getString(R.string.error_no_internet_connection), Toast.LENGTH_SHORT)

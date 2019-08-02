@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import androidx.lifecycle.LifecycleOwner
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -23,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.subjects.Subject
+import java.io.File
 
 /**
  * Created by vain onnellinen on 1/24/19.
@@ -39,6 +41,7 @@ interface WelcomeProgressContract {
         fun showIncorrectNodeMessage()
         fun showCancelRestoreAlert()
         fun showFailedRestoreAlert()
+        fun getLifecycleOwner(): LifecycleOwner
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -56,7 +59,9 @@ interface WelcomeProgressContract {
         fun getFailedNodeStart(): Subject<Any>
         fun removeNode()
         fun removeWallet()
-        fun getImportRecoveryState(pass: String?, seed: String?): Subject<OnSyncProgressData>
+        fun getImportRecoveryState(pass: String?, seed: String?, file: File): Subject<OnSyncProgressData>
         fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status
+        fun downloadRestoreFile(file: File): Subject<OnSyncProgressData>
+        fun createRestoreFile(): File
     }
 }
