@@ -123,7 +123,7 @@ object WalletListener {
     @JvmStatic
     fun onImportRecoveryProgress(done: Long, total: Long) {
         LogUtils.log("onImportRecoveryProgress:: done:$done total:$total")
-        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(if (done == total) 100 else ((done / total) * 100).toInt().absoluteValue, 100), "onImportRecoveryProgress")
+        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(((done / total) * 100).toInt().absoluteValue, 100), "onImportRecoveryProgress")
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
