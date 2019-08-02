@@ -41,8 +41,15 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeStoppedSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
     private lateinit var nodeThreadFinishedSubscription: Disposable
-    private lateinit var downloadSubscription: Disposable
     private val onRecoveryLiveData = MutableLiveData<() -> Unit>()
+    private var downloadSubscription: Disposable = EmptyDisposable()
+        set(value) {
+            if (!field.isDisposed)
+                field.dispose()
+
+            field = value
+        }
+
     private var importRecoverySubscription: Disposable = EmptyDisposable()
         set(value) {
             if (!field.isDisposed)
