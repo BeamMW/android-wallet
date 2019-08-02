@@ -174,7 +174,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         val seed = ArrayList<String>()
 
         for (i in 0 until seedLayout.childCount) {
-            seed.add((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString())
+            seed.add((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.toString().trim())
         }
 
         return seed.toTypedArray()
@@ -182,7 +182,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     private fun arePhrasesFilled(): Boolean {
         for (i in 0 until seedLayout.childCount) {
-            if ((seedLayout.getChildAt(i) as BeamPhraseInput).phraseView.text.isNullOrBlank()) {
+            val phraseInput = seedLayout.getChildAt(i) as BeamPhraseInput
+            if (phraseInput.phraseView.text.isNullOrBlank() || !phraseInput.isValid) {
                 return false
             }
         }

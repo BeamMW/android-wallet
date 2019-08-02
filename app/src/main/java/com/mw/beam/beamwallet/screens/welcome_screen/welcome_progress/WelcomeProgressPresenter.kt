@@ -279,7 +279,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
         repository.closeWallet()
-        view?.back()
+        view?.navigateToCreateFragment()
     }
 
     override fun hasBackArrow(): Boolean? = false

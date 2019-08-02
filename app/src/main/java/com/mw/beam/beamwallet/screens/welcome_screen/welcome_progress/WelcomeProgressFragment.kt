@@ -130,8 +130,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 onCancel = { presenter?.onCancelToCancelRestore() })
     }
 
-    override fun back() {
-        findNavController().popBackStack()
+    override fun navigateToCreateFragment() {
+        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
     }
 
     private fun countProgress(progressData: OnSyncProgressData): Int {
