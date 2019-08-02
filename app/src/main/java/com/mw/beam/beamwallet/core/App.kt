@@ -34,6 +34,8 @@ import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
@@ -89,6 +91,10 @@ class App : Application() {
 
         if (BuildConfig.DEBUG) {
             LeakCanary.install(self)
+        }
+
+        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
+            removeDatabase()
         }
 
         val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler

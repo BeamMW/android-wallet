@@ -77,4 +77,8 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
     override fun getAllTransactionInTrash(): List<TxDescription> {
         return TrashManager.getAllData().transactions
     }
+
+    override fun saveFinishRestoreFlag() {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE, false)
+    }
 }

@@ -41,6 +41,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
     override fun onViewCreated() {
         super.onViewCreated()
+        repository.saveFinishRestoreFlag()
+
         view?.init()
         state.privacyMode = repository.isPrivacyModeEnabled()
         val txId = repository.getIntentTransactionId()

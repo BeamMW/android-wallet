@@ -90,5 +90,6 @@ interface WalletContract {
         fun getIntentTransactionId(): String?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllTransactionInTrash(): List<TxDescription>
+        fun saveFinishRestoreFlag()
     }
 }

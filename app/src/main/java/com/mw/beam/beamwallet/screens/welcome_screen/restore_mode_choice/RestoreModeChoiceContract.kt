@@ -14,5 +14,8 @@ interface RestoreModeChoiceContract {
     interface Presenter: MvpPresenter<View> {
         fun onNextPressed(isAutomaticRestore: Boolean)
     }
-    interface Repository: MvpRepository
+    interface Repository: MvpRepository {
+        fun removeWallet()
+        fun saveStartRestoreFlag()
+    }
 }
