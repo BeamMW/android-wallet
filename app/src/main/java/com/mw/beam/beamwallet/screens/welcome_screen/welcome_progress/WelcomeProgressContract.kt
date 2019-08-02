@@ -42,6 +42,7 @@ interface WelcomeProgressContract {
         fun showCancelRestoreAlert()
         fun showFailedRestoreAlert()
         fun getLifecycleOwner(): LifecycleOwner
+        fun back()
     }
 
     interface Presenter : MvpPresenter<View> {

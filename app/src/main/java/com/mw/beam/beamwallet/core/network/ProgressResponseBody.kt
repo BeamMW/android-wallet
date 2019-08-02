@@ -40,7 +40,7 @@ class ProgressResponseBody(private val responseBody: ResponseBody, private val p
 
                 val percent = if (bytesRead == -1L) 100f else totalBytesRead.toFloat() / responseBody.contentLength().toFloat() * 100
 
-                val done = percent.toInt()
+                val done = if (percent < 100) percent.toInt() else 99
                 if (done != prevProgress) {
                     prevProgress = done
                     progressListener.onNext(OnSyncProgressData(done, 100))

@@ -78,6 +78,8 @@ object Api {
                         sink.writeAll(body.source())
                         sink.close()
                     }
+
+                    subDownloadProgress.onNext(OnSyncProgressData(100, 100))
                     file
                 }
     }

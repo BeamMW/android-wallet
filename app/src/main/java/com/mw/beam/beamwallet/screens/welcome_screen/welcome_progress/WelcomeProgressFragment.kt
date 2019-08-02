@@ -71,8 +71,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.CREATE -> {
             }
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean) {
@@ -98,6 +96,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             }
             WelcomeMode.CREATE -> { }
         }
+    }
+
+    override fun addListeners() {
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun getLifecycleOwner(): LifecycleOwner = this
@@ -126,6 +128,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 title = getString(R.string.welcome_progress_cancel_restore_title),
                 btnCancelText = getString(R.string.cancel),
                 onCancel = { presenter?.onCancelToCancelRestore() })
+    }
+
+    override fun back() {
+        findNavController().popBackStack()
     }
 
     private fun countProgress(progressData: OnSyncProgressData): Int {

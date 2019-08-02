@@ -270,7 +270,10 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     private fun cancelRestore() {
         shouldCloseWallet = true
+        importRecoverySubscription.dispose()
+        downloadSubscription.dispose()
         repository.closeWallet()
+        view?.back()
     }
 
     override fun hasBackArrow(): Boolean? = false

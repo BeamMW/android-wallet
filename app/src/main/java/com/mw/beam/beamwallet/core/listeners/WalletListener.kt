@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.ReceiveTxCommentHelper
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -39,7 +40,7 @@ object WalletListener {
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
-    val obsOnTxStatus = subOnTxStatus.map {
+    val obsOnTxStatus: Observable<OnTxStatusData> = subOnTxStatus.map {
         it.tx?.forEach { tx ->
             if (!tx.sender.value) {
                 val savedComment = if (it.action == ChangeAction.ADDED || it.action == ChangeAction.UPDATED)
@@ -123,7 +124,7 @@ object WalletListener {
     @JvmStatic
     fun onImportRecoveryProgress(done: Long, total: Long) {
         LogUtils.log("onImportRecoveryProgress:: done:$done total:$total")
-        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(((done / total) * 100).toInt().absoluteValue, 100), "onImportRecoveryProgress")
+        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(((done / total) * 100).toInt(), 100), "onImportRecoveryProgress")
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
