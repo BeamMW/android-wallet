@@ -44,20 +44,21 @@ object LocaleHelper {
         get() = localeIndex
 
     fun loadLocale() {
-        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: enLanguageCode
+        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: ""
         val indexFromSettings = localeCodes.indexOf(languageCode)
 
 
         if (indexFromSettings < 0) {
-//            val systemLocaleCode = Locale.getDefault().language
-//
-//            localeIndex = if (localeCodes.contains(systemLocaleCode)) {
-//                localeCodes.indexOf(systemLocaleCode)
-//            } else {
-//                enLocaleIndex
-//            }
-            localeIndex = enLocaleIndex
-            languageCode = enLanguageCode
+            val systemLocaleCode = Locale.getDefault().language
+
+            if (localeCodes.contains(systemLocaleCode)) {
+                localeIndex = localeCodes.indexOf(systemLocaleCode)
+                languageCode = localeCodes[localeIndex]
+            } else {
+                localeIndex = enLocaleIndex
+                languageCode = enLanguageCode
+            }
+
         } else {
             localeIndex = indexFromSettings
         }
