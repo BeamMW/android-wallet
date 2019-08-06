@@ -21,7 +21,7 @@
     <string name="copied">Copied!</string>
     <string name="more">More</string>
     <string name="share_qr">share QR</string>
-    <string name="common_security_mode_title">Activate security mode</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Too many attempts. Please enter password.</string>
     <string name="common_share_title">Share…</string>
@@ -153,7 +153,7 @@
     <string name="utxo_status_result_rollback">Mining result rollback</string>
     <string name="blockchain_height">Blockchain Height</string>
     <string name="last_block_hash">Last block hash</string>
-    <string name="utxo_security_message">You’re currently in Security Mode.</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Turn it off to see your UTXO list.</string>
 
     <!--UtxoDetailsFragment-->

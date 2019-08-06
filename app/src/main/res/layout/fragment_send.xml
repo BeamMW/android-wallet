@@ -72,7 +72,7 @@
                     android:id="@+id/tokenDivider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/btn_drop_down_color"
+                    android:background="@color/divider_color"
                     app:layout_constraintEnd_toEndOf="@id/token"
                     app:layout_constraintStart_toStartOf="@id/token"
                     app:layout_constraintTop_toBottomOf="@id/token" />
@@ -185,7 +185,7 @@
                 android:textColor="@color/sent_color"
                 android:imeOptions="actionDone"
                 tools:hint="0"
-                android:textColorHint="@color/common_text_dark_color"
+                android:textColorHint="@color/common_hint_text_color"
                 android:textSize="@dimen/send_amount_text_size"
                 app:layout_constraintEnd_toStartOf="@id/currency"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -197,7 +197,7 @@
                 android:id="@+id/amountDivider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/btn_drop_down_color"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="@id/amount"
                 app:layout_constraintStart_toStartOf="@id/amount"
                 app:layout_constraintTop_toBottomOf="@id/amount" />
@@ -321,7 +321,7 @@
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/btn_drop_down_color"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="@id/comment"
                 app:layout_constraintStart_toStartOf="@id/comment"
                 app:layout_constraintTop_toBottomOf="@id/comment" />
@@ -480,7 +480,7 @@
                         android:id="@+id/commentDivider"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:background="@color/btn_drop_down_color"
+                        android:background="@color/divider_color"
                         app:layout_constraintEnd_toEndOf="@id/addressName"
                         app:layout_constraintStart_toStartOf="@id/addressName"
                         app:layout_constraintTop_toBottomOf="@id/addressName" />
@@ -501,7 +501,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/receive_common_margin"
-                        android:backgroundTint="@color/btn_drop_down_color"
+                        android:backgroundTint="@color/divider_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/expiresTitle" />

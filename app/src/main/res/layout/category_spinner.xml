@@ -7,7 +7,7 @@
         android:layout_marginTop="@dimen/edit_address_element_low_offset"
         style="@style/Widget.AppCompat.Spinner.Underlined"
         android:dropDownVerticalOffset="34dp"
-        android:backgroundTint="@color/btn_drop_down_color"
+        android:backgroundTint="@color/divider_color"
         android:dropDownSelector="@android:color/transparent"
         android:popupBackground="@drawable/menu_background"/>
 

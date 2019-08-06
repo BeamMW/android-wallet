@@ -54,7 +54,7 @@
         android:id="@+id/feeEditTextDivider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:background="@color/btn_drop_down_color"
+        android:background="@color/divider_color"
         app:layout_constraintEnd_toEndOf="@id/feeEditText"
         app:layout_constraintStart_toStartOf="@id/feeEditText"
         app:layout_constraintTop_toBottomOf="@id/feeEditText" />

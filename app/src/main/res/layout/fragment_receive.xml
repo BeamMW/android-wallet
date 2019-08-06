@@ -136,7 +136,7 @@
                         android:id="@+id/commentDivider"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:background="@color/btn_drop_down_color"
+                        android:background="@color/divider_color"
                         app:layout_constraintEnd_toEndOf="@id/comment"
                         app:layout_constraintStart_toStartOf="@id/comment"
                         app:layout_constraintTop_toBottomOf="@id/comment" />
@@ -161,7 +161,7 @@
                         android:layout_marginStart="14dp"
                         android:layout_marginTop="@dimen/receive_common_margin"
                         android:layout_marginEnd="14dp"
-                        android:backgroundTint="@color/btn_drop_down_color"
+                        android:backgroundTint="@color/divider_color"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
@@ -231,7 +231,7 @@
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="@color/btn_drop_down_color"
+                android:background="@color/divider_color"
                 app:layout_constraintEnd_toEndOf="@id/txComment"
                 app:layout_constraintStart_toStartOf="@id/txComment"
                 app:layout_constraintTop_toBottomOf="@id/txComment" />
@@ -295,7 +295,7 @@
                     android:textColor="@color/received_color"
                     android:textSize="@dimen/receive_amount_text_size"
                     tools:hint="0"
-                    android:textColorHint="@color/common_text_dark_color"
+                    android:textColorHint="@color/common_hint_text_color"
                     app:layout_constraintEnd_toStartOf="@id/currency"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -306,7 +306,7 @@
                     android:id="@+id/amountDivider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:background="@color/btn_drop_down_color"
+                    android:background="@color/divider_color"
                     app:layout_constraintEnd_toEndOf="@id/amount"
                     app:layout_constraintStart_toStartOf="@id/amount"
                     app:layout_constraintTop_toBottomOf="@id/amount" />
