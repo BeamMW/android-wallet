@@ -28,7 +28,7 @@
     <string name="common_fingerprint_error">Demasiados intentos. Por favor, inicie sesión con contraseña.</string>
     <string name="common_share_title">Compartir…</string>
     <string name="common_external_link_dialog_title">Enlace externo</string>
-    <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
+    <string name="common_external_link_dialog_message">La aplicación Beam Wallet requiere permiso para abrir un enlace externo en el navegador. Esta acción expondrá su IP al servidor web. Para evitarlo, elige \"Cancelar\". Puede cambiar su elección en la configuración de la aplicación en cualquier momento.</string>
     <string name="currency_beam">BEAM</string>
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">No hay conexión a Internet</string>
@@ -196,7 +196,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="share_address">Compartir dirección</string>
     <string name="show_qr">mostrar QR</string>
     <string name="addresses">Direcciones</string>
-    <string name="receive_token_description">Enviar esta dirección al remitente a través de un canal externo seguro.</string>
+    <string name="receive_token_description">Send this address over an external secure channel.</string>
     <string name="receive_save_address_message">¿Te gustaría guardar la dirección creada y usarla más tarde?</string>
     <string name="receive_save_changes_message">¿Te gustaría guardar los cambios en esta dirección?</string>
     <string name="request_an_amount">Solicite una cantidad</string>
@@ -226,7 +226,6 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="send_dialog_description">Para transmitir su transacción por favor introduzca su contraseña</string>
     <string name="send_dialog_description_with_fingerprint">Para transmitir su transacción por favor usa tu huella dactilar o introduce su contraseña</string>
     <string name="total_available">Total disponible</string>
-    <string name="send_all">Enviar todo</string>
     <string name="transaction_comment">Nota de transacción</string>
     <string name="wont_be_shared">no será compartido</string>
     <string name="outgoing_address">Dirección saliente</string>
@@ -263,8 +262,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--ProgressFragment-->
     <string name="loading_wallet">Cargando wallet</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">My active</string>
-    <string name="addresses_tab_expired">My expired</string>
+    <string name="addresses_tab_active">Mis activas</string>
+    <string name="addresses_tab_expired">Mis caducadas</string>
     <string name="no_name">Sin nombre</string>
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
@@ -347,14 +346,14 @@ para acceder al wallet</string>
     <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
     <string name="search_by_address_category_or_name">Buscar por dirección, categoría o nombre</string>
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
-    <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
-    <string name="search_transaction">Search transaction</string>
-    <string name="never_expires">Never expires</string>
-    <string name="expires_in">Expires in %1$s h %2$s m</string>
-    <string name="add_contact">Add contact</string>
-    <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
-    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
-    <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
+    <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
+    <string name="search_transaction">Biscar transacción</string>
+    <string name="never_expires">Nunca caduca</string>
+    <string name="expires_in">Caduca en %1$s h %2$s m</string>
+    <string name="add_contact">Añadir contacto</string>
+    <string name="enter_your_password_to_confirm_transaction">Introduce tu contraseña para confirmar la transacción</string>
+    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utiliza huella digital o introduce tu contraseña para confirmar la transacción</string>
+    <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>

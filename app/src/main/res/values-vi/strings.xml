@@ -194,7 +194,7 @@
     <string name="share_address">Chia sẻ địa chỉ</string>
     <string name="show_qr">hiển thị mã QR</string>
     <string name="addresses">Địa chỉ</string>
-    <string name="receive_token_description">Gửi địa chỉ này cho người gửi qua kênh bảo mật bên ngoài.</string>
+    <string name="receive_token_description">Send this address over an external secure channel.</string>
     <string name="receive_save_address_message">Bạn có muốn lưu địa chỉ đã tạo và dùng sau đó?</string>
     <string name="receive_save_changes_message">Bạn có muốn lưu thay đổi trong địa chỉ đó?</string>
     <string name="request_an_amount">Yêu cầu số tiền</string>
@@ -224,7 +224,6 @@
     <string name="send_dialog_description">Để truyền giao dịch của bạn xin vui lòng nhập mật khẩu</string>
     <string name="send_dialog_description_with_fingerprint">Để truyền giao dịch của bạn, vui lòng sử dụng dấu vân tay hoặc nhập mật khẩu của bạn</string>
     <string name="total_available">Tổng số có sẵn</string>
-    <string name="send_all">Gửi tất cả</string>
     <string name="transaction_comment">Bình luận giao dịch</string>
     <string name="wont_be_shared">không chia sẻ</string>
     <string name="outgoing_address">Địa chỉ gửi đi</string>

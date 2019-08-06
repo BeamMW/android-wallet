@@ -28,7 +28,7 @@
     <string name="common_fingerprint_error">För många försök. Vänligen ange lösenord.</string>
     <string name="common_share_title">Dela…</string>
     <string name="common_external_link_dialog_title">Extern länk</string>
-    <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
+    <string name="common_external_link_dialog_message">Beam-plånboken behöver tillstånd för att öppna en extern länk i webläsaren. Denna åtgärd kommer att exponera din IP-adress mot web-servern. För att undvika detta, välj \"Avbryt\". Du kan ändra ditt val i applikationens inställningar när som helst.</string>
     <string name="currency_beam">BEAM</string>
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">Internetåtkomst saknas</string>
@@ -184,7 +184,7 @@
     <string name="my_receiving_address">Min mottagande adress</string>
     <string name="my_sending_address">Mina skickande adresser</string>
     <string name="my_address">Min adress</string>
-    <string name="transaction_deleted">Transaction deleted</string>
+    <string name="transaction_deleted">Transaktion borttagen</string>
     <!--ReceiveFragment-->
     <string name="swap">Swappa</string>
     <string name="auto_generated">automatiskt genererad</string>
@@ -194,7 +194,7 @@
     <string name="share_address">Dela adress</string>
     <string name="show_qr">visa QR</string>
     <string name="addresses">Adresser</string>
-    <string name="receive_token_description">Skicka denna adress till sändaren över en extern säker kanal.</string>
+    <string name="receive_token_description">Send this address over an external secure channel.</string>
     <string name="receive_save_address_message">Vill du spara skapade adresser och använda dessa vid ett senare tillfälle?</string>
     <string name="receive_save_changes_message">Vill du spara ändringar för denna adress?</string>
     <string name="request_an_amount">Begär belopp</string>
@@ -210,7 +210,7 @@
     <string name="send_token_description">Mata in eller scanna mottagarens adress</string>
     <string name="send_amount_empty_error">Belopp kan ej vara tom</string>
     <string name="send_amount_zero_error">Belopp kan ej vara 0 BEAM</string>
-    <string name="send_amount_overflow_error">Insufficient funds: you would need %1$s beams to complete the transaction.</string>
+    <string name="send_amount_overflow_error">Otillräckliga medel; du behöver %1$s beam för att slutföra transaktionen.</string>
     <string name="insufficient_funds">Otillräckliga medel</string>
     <string name="invalid_address">Ogiltig adress</string>
     <string name="send_error_expired_address">Kan inte skicka till den utgångna adressen</string>
@@ -224,7 +224,6 @@
     <string name="send_dialog_description">För att skicka transaktion, vänligen ange lösenord</string>
     <string name="send_dialog_description_with_fingerprint">För att skicka transaktion, vänligen använd fingeravtrycks-Id eller ange lösenord</string>
     <string name="total_available">Totalt tillgängligt</string>
-    <string name="send_all">Skicka allt</string>
     <string name="transaction_comment">Transaktions-kommentar</string>
     <string name="wont_be_shared">kommer inte att delas med någon</string>
     <string name="outgoing_address">Utgående adress</string>
@@ -261,11 +260,11 @@
     <!--ProgressFragment-->
     <string name="loading_wallet">Laddar plånbok</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">My active</string>
-    <string name="addresses_tab_expired">My expired</string>
+    <string name="addresses_tab_active">Mina aktiva</string>
+    <string name="addresses_tab_expired">Mina utgångna</string>
     <string name="no_name">Inget namn</string>
-    <string name="address_deleted">Address deleted</string>
-    <string name="contact_deleted">Contact deleted</string>
+    <string name="address_deleted">Adress borttagen</string>
+    <string name="contact_deleted">Kontakt borttagen</string>
     <!--AddressFragment-->
     <string name="address">Adress</string>
     <string name="show_qr_code">Visa QR-kod</string>
@@ -343,15 +342,15 @@
     <string name="save_changes">Spara ändringar</string>
     <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
     <string name="search_by_address_category_or_name">Sök med adress, kategori eller namn</string>
-    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
-    <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
-    <string name="search_transaction">Search transaction</string>
-    <string name="never_expires">Never expires</string>
-    <string name="expires_in">Expires in %1$s h %2$s m</string>
-    <string name="add_contact">Add contact</string>
-    <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
-    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
-    <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
+    <string name="min_fee_error">Minsta avgift är %1$s GROTH</string>
+    <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
+    <string name="search_transaction">Sök transaktion</string>
+    <string name="never_expires">Utgår aldrig</string>
+    <string name="expires_in">Utgår om %1$s t %2$s m</string>
+    <string name="add_contact">Lägg till kontakt</string>
+    <string name="enter_your_password_to_confirm_transaction">Ange ditt lösenord för att bekräfta transaktion</string>
+    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Använd fingeravtryck eller ange ditt lösenord för att bekräfta transaktion</string>
+    <string name="fingerprint_not_recognized">Fingeravtryck känns inte igen</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
