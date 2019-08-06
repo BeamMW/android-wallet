@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="@dimen/send_token_title_margin_top"
-                    android:text="@string/paste_address_or_choose_contact"
+                    android:text="@string/send_to"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry" />
@@ -279,7 +279,7 @@
                 android:paddingEnd="@dimen/small_button_padding_horizontal"
                 android:paddingBottom="@dimen/small_button_padding_vertical"
                 app:button_icon="@drawable/ic_history_sent"
-                app:button_text="@string/send_all"
+                app:button_text="@string/add_all"
                 app:button_text_color="@color/sent_color"
                 app:layout_constraintBottom_toBottomOf="@id/availableSum"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -296,10 +296,9 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/send_title_margin_top"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:textAllCaps="false"
+                android:text="@string/transaction_comment"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/availableSum"
-                tools:text="TRANSACTION COMMENT (won’t be shared)" />
+                app:layout_constraintTop_toBottomOf="@id/availableSum"/>
 
             <EditText
                 android:id="@+id/comment"

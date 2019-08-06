@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import android.content.Intent
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -35,6 +36,11 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
 
     override fun getName(): String {
         return name.text?.toString() ?: ""
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        categorySpinner.selectCategory(null)
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_add_contact

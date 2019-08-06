@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_change_address.*
 
 class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddressContract.View {
@@ -35,7 +36,7 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         var callback: ChangeAddressCallback? = null
     }
 
-    private lateinit var adapter: SearchAddressesAdapter
+    private lateinit var adapter: AddressesAdapter
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -61,11 +62,11 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
     override fun init(state: ChangeAddressContract.ViewState, generatedAddress: WalletAddress?) {
         gradientView.setBackgroundResource(if (state == ChangeAddressContract.ViewState.Receive) R.drawable.receive_toolbar_gradient else R.drawable.send_toolbar_gradient)
 
-        adapter = SearchAddressesAdapter(context!!, generatedAddress, object : SearchAddressesAdapter.OnSearchAddressClickListener {
-            override fun onClick(walletAddress: WalletAddress) {
-                presenter?.onItemPressed(walletAddress)
+        adapter = AddressesAdapter(context!!, object: AddressesAdapter.OnItemClickListener {
+            override fun onItemClick(item: WalletAddress) {
+                presenter?.onItemPressed(item)
             }
-        })
+        }, { presenter?.repository?.getCategoryForAddress(it) }, generatedAddress)
 
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)
         addressesRecyclerView.adapter = adapter
@@ -83,7 +84,7 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         searchAddress.removeTextChangedListener(textWatcher)
     }
 
-    override fun updateList(items: List<SearchItem>) {
+    override fun updateList(items: List<WalletAddress>) {
         adapter.setData(items)
     }
 

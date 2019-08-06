@@ -34,7 +34,7 @@ interface ChangeAddressContract {
         fun isFromReceive(): Boolean
         fun init(state: ViewState, generatedAddress: WalletAddress?)
         fun getGeneratedAddress(): WalletAddress?
-        fun updateList(items: List<SearchItem>)
+        fun updateList(items: List<WalletAddress>)
         fun back(walletAddress: WalletAddress?)
         fun setAddress(address: String)
         fun getSearchText(): String
@@ -47,12 +47,10 @@ interface ChangeAddressContract {
     }
 
     interface Repository: MvpRepository {
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddresses(): Subject<OnAddressesData>
         fun getCategoryForAddress(address: String): Category?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
-        fun getAllTransactionInTrash(): List<TxDescription>
     }
 
     enum class ViewState {

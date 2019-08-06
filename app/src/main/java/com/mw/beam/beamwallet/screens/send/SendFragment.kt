@@ -170,8 +170,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init(defaultFee: Int, maxFee: Int) {
-        commentTitle.text = "${getString(R.string.transaction_comment)} (${getString(R.string.wont_be_shared)})"
-
         setHasOptionsMenu(true)
         feeSeekBar.max = maxFee
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"

@@ -36,22 +36,12 @@ class ChangeAddressRepository: BaseRepository(), ChangeAddressContract.Repositor
         }
     }
 
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
-
     override fun getCategoryForAddress(address: String): Category? {
         return CategoryHelper.getCategoryForAddress(address)
     }
 
     override fun getTrashSubject(): Subject<TrashManager.Action> {
         return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
     }
 
     override fun getAllAddressesInTrash(): List<WalletAddress> {

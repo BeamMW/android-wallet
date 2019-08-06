@@ -26,7 +26,6 @@ import io.reactivex.disposables.Disposable
 class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: ChangeAddressContract.Repository, private val state: ChangeAddressState)
     : BasePresenter<ChangeAddressContract.View, ChangeAddressContract.Repository>(view, repository), ChangeAddressContract.Presenter {
     private lateinit var addressesSubscription: Disposable
-    private lateinit var transactionsSubscription: Disposable
     private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
@@ -60,22 +59,15 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
             onChangeSearchText(view?.getSearchText() ?: "")
         }
 
-        transactionsSubscription = repository.getTxStatus().subscribe {
-            state.updateTransactions(it.tx)
-            state.deleteTransactions(repository.getAllTransactionInTrash())
-        }
-
         trashSubscription = repository.getTrashSubject().subscribe {
             when (it.type) {
                 TrashManager.ActionType.Added -> {
-                    state.deleteTransactions(it.data.transactions)
                     state.deleteAddresses(it.data.addresses)
                     onChangeSearchText(view?.getSearchText() ?: "")
                 }
 
                 TrashManager.ActionType.Restored -> {
                     state.updateAddresses(it.data.addresses)
-                    state.updateTransactions(it.data.transactions)
                     onChangeSearchText(view?.getSearchText() ?: "")
                 }
 
@@ -84,11 +76,11 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, transactionsSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
 
     override fun onChangeSearchText(text: String) {
         if (text.isBlank()) {
-            view?.updateList(state.getAddresses().map(::addressToSearchItem))
+            view?.updateList(state.getAddresses())
             return
         }
         
@@ -98,15 +90,9 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
             it.label.trim().toLowerCase().contains(searchText) ||
                     it.walletID.trim().toLowerCase().startsWith(searchText) ||
                     repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
-        }.map(::addressToSearchItem)
+        }
 
         view?.updateList(newItems)
-    }
-
-    private fun addressToSearchItem(walletAddress: WalletAddress): SearchItem {
-        return SearchItem(walletAddress,
-                state.getTransactions().firstOrNull { it.myId == walletAddress.walletID || it.peerId == walletAddress.walletID },
-                repository.getCategoryForAddress(walletAddress.walletID))
     }
 
     override fun onItemPressed(walletAddress: WalletAddress) {

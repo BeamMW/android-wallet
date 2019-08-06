@@ -373,4 +373,6 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="understand">I understand</string>
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
+    <string name="add_all">Add all</string>
+    <string name="my_active_addresses">My active addresses</string>
 </resources>

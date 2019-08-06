@@ -206,7 +206,7 @@
     <string name="share_address">Share address</string>
     <string name="show_qr">show QR</string>
     <string name="addresses">Addresses</string>
-    <string name="receive_token_description">Send this address to the sender over an external secure channel.</string>
+    <string name="receive_token_description">Send this address over an external secure channel.</string>
     <string name="receive_save_address_message">Would you like to save created address and use it later?</string>
     <string name="receive_save_changes_message">Would you like to save changes in that address?</string>
     <string name="request_an_amount">Request an amount</string>
@@ -237,7 +237,6 @@
     <string name="send_dialog_description">To broadcast your transaction please enter your password</string>
     <string name="send_dialog_description_with_fingerprint">To broadcast your transaction please use your fingerprint or enter your password</string>
     <string name="total_available">Total available</string>
-    <string name="send_all">Send all</string>
     <string name="transaction_comment">Transaction comment</string>
     <string name="wont_be_shared">won’t be shared</string>
     <string name="outgoing_address">Outgoing address</string>
@@ -405,5 +404,7 @@
     <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="understand">I understand</string>
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
+    <string name="add_all">Add all</string>
+    <string name="my_active_addresses">My active addresses</string>
 
 </resources>

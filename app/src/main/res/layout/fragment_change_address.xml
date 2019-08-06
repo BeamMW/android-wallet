@@ -68,7 +68,7 @@
             <TextView
                 android:id="@+id/existingAddressTitle"
                 style="@style/common_subheader_dark"
-                android:text="@string/existing_addresses"
+                android:text="@string/my_active_addresses"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/change_existing_addresses_title_margin_top"
                 app:layout_constraintTop_toBottomOf="@id/searchAddress"
@@ -79,7 +79,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addressesRecyclerView"
                 android:layout_marginTop="@dimen/change_addresses_list_margin_top"
-                tools:listitem="@layout/item_address_with_transaction"
+                tools:listitem="@layout/item_address"
                 app:layout_constraintTop_toBottomOf="@id/existingAddressTitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="match_parent"
