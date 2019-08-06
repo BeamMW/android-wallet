@@ -5,7 +5,18 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 interface RestoreTrustedNodeContract {
-    interface View: MvpView
-    interface Presenter: MvpPresenter<View>
-    interface Repository: MvpRepository
+
+    interface View: MvpView {
+        fun init()
+        fun getNodeAddress(): String
+        fun navigateToProgress()
+    }
+
+    interface Presenter: MvpPresenter<View> {
+        fun onNextPressed()
+    }
+
+    interface Repository : MvpRepository {
+        fun connectToNode(address: String)
+    }
 }

@@ -60,6 +60,16 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
     }
 
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
     override fun onDestroy() {
         onBackPressedCallback.isEnabled = false
         onBackPressedCallback.remove()

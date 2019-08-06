@@ -28,6 +28,24 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
         }
     }
 
+    override fun showAutoRestoreWarning() {
+        showWarning(true)
+    }
+
+    override fun showNodeRestoreWarning() {
+        showWarning(false)
+    }
+
+    private fun showWarning(isAutomaticRestore: Boolean) {
+        val message = getString(if (isAutomaticRestore) R.string.automatic_restore_warning else R.string.node_restore_warning)
+        showAlert(
+                message = message,
+                btnConfirmText = getString(R.string.understand),
+                onConfirm = { presenter?.onConfirmRestorePressed(isAutomaticRestore) },
+                btnCancelText = getString(R.string.cancel)
+        )
+    }
+
     override fun clearListeners() {
         btnNext.setOnClickListener(null)
     }
@@ -37,7 +55,7 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
     }
 
     override fun showRestoreOwnerKey(pass: String, seed: Array<String>) {
-        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToRestoreOwnerKeyFragment())
+        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToRestoreOwnerKeyFragment(pass, seed))
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

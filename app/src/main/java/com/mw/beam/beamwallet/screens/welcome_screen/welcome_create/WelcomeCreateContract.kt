@@ -29,13 +29,19 @@ interface WelcomeCreateContract {
         fun restoreWallet()
         fun showRestoreNotification()
         fun hasBackArrow(): Boolean
+        fun back()
+        fun finish()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onCreateWallet()
         fun onRestoreWallet()
         fun onConfirmRestore()
+        fun onBackPressed()
     }
 
-    interface Repository : MvpRepository
+    interface Repository : MvpRepository {
+        fun isUnfinishedRestore(): Boolean
+        fun clearAllData()
+    }
 }

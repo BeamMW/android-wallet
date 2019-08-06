@@ -11,6 +11,14 @@ class RestoreModeChoicePresenter(view: RestoreModeChoiceContract.View?, reposito
     }
 
     override fun onNextPressed(isAutomaticRestore: Boolean) {
+        if (isAutomaticRestore) {
+            view?.showAutoRestoreWarning()
+        } else {
+            view?.showNodeRestoreWarning()
+        }
+    }
+
+    override fun onConfirmRestorePressed(isAutomaticRestore: Boolean) {
         view?.apply {
             repository.saveStartRestoreFlag()
             if (isAutomaticRestore) {

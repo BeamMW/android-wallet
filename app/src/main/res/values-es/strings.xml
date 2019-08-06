@@ -371,4 +371,8 @@ para acceder al wallet</string>
     <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
+    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
+    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
+    <string name="understand">I understand</string>
+    <string name="downloading_blockchain_info">Downloading blockchain info</string>
 </resources>

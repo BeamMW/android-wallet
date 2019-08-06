@@ -32,7 +32,7 @@ import java.io.File
 interface WelcomeProgressContract {
     interface View : MvpView {
         fun init(mode: WelcomeMode)
-        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean = false)
+        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean = false)
         fun getMode(): WelcomeMode?
         fun getPassword(): String?
         fun getSeed(): Array<String>?
@@ -62,7 +62,7 @@ interface WelcomeProgressContract {
         fun removeNode()
         fun removeWallet()
         fun getImportRecoveryState(pass: String?, seed: String?, file: File): Subject<OnSyncProgressData>
-        fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status
+        fun createWallet(pass: String?, seed: String?): Status
         fun downloadRestoreFile(file: File): Subject<OnSyncProgressData>
         fun createRestoreFile(): File
     }

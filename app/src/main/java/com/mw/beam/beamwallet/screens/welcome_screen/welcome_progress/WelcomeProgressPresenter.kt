@@ -101,7 +101,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 .subscribe({
 
                     onRecoveryLiveData.postValue {
-                        view?.updateProgress(it, state.mode)
+                        view?.updateProgress(it, state.mode, true)
                     }
 
                     if (it.done == it.total) {
@@ -187,7 +187,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE == state.mode) {
                 if (it.total == 0) {
-                    finishNodeProgressSubscription()
+//                    finishNodeProgressSubscription()
                 } else {
                     view?.updateProgress(it, state.mode)
 
@@ -234,7 +234,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             } else {
                 clearWalletProgress()
 
-                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
+                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"))) {
                     view?.init(state.mode)
                 } else {
                     view?.showFailedRestoreAlert()
@@ -254,7 +254,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             if (shouldCloseWallet) {
                 view?.logOut()
             } else {
-                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), state.mode)) {
+                if (Status.STATUS_OK == repository.createWallet(state.password, state.seed?.joinToString(separator = ";", postfix = ";"))) {
                     view?.init(state.mode)
                 } else {
                     view?.showFailedRestoreAlert()

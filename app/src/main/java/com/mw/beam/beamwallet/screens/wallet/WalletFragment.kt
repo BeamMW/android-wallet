@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -155,7 +156,17 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         drawerToggle.syncState()
 
         configNavView()
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     @SuppressLint("RestrictedApi")
@@ -420,10 +431,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onStart() {
         super.onStart()
         App.showNotification = false
+        onBackPressedCallback.isEnabled = true
     }
 
     override fun onStop() {
         App.showNotification = true
+        onBackPressedCallback.isEnabled = false
         super.onStop()
     }
 

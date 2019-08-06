@@ -28,10 +28,12 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         WelcomeOpenContract.Presenter {
     private val VIBRATION_LENGTH: Long = 100
     private var isOpenedWallet = false
+    private var isRestore = false
 
     override fun onStart() {
         super.onStart()
         view?.init(repository.isFingerPrintEnabled())
+        isRestore = false
     }
 
     override fun onOpenWallet() {
@@ -52,11 +54,12 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     }
 
     override fun onChangeConfirm() {
+        isRestore = true
         view?.changeWallet()
     }
 
     override fun onFingerprintError() {
-        if (!isOpenedWallet) {
+        if (!isOpenedWallet && !isRestore) {
             view?.showFingerprintAuthError()
         }
     }

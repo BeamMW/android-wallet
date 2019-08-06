@@ -25,6 +25,21 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
     : BasePresenter<WelcomeCreateContract.View, WelcomeCreateContract.Repository>(currentView, currentRepository),
         WelcomeCreateContract.Presenter {
 
+    override fun onStart() {
+        super.onStart()
+        if (repository.isUnfinishedRestore()) {
+            repository.clearAllData()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (hasBackArrow() == true) {
+            view?.back()
+        } else {
+            view?.finish()
+        }
+    }
+
     override fun onCreateWallet() {
         view?.createWallet()
     }
@@ -37,5 +52,5 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
         view?.restoreWallet()
     }
 
-    override fun hasBackArrow(): Boolean? = view?.hasBackArrow() ?: false
+    override fun hasBackArrow(): Boolean? = (view?.hasBackArrow() ?: false) && !repository.isUnfinishedRestore()
 }

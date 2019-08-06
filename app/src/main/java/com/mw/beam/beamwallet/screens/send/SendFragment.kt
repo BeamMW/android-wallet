@@ -24,6 +24,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
@@ -363,8 +364,27 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
 
         contentScrollView.setOnTouchListener { _, _ ->  isOpenSearchView() }
+    }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     override fun onHideKeyboard() {

@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.create_password
 
+import android.content.Context
+import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -77,12 +79,37 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                 description.text = getString(R.string.pass_screen_description)
                 btnProceed.textResId = R.string.pass_proceed_to_wallet
                 btnProceed.iconResId = R.drawable.ic_btn_proceed
-                requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
             }
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
         confirmPassLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
+
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
+
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
     }
 
     override fun addListeners() {

@@ -755,15 +755,29 @@
         android:label="RestoreTustedNodeFragment">
         <action
             android:id="@+id/action_restoreTustedNodeFragment_to_welcomeProgressFragment"
-            app:destination="@id/welcomeProgressFragment" />
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/restoreOwnerKeyFragment"
         tools:layout="@layout/fragment_restore_owner_key"
         android:name="com.mw.beam.beamwallet.screens.welcome_screen.restore_owner_key.RestoreOwnerKeyFragment"
         android:label="RestoreOwnerKeyFragment" >
+        <argument
+            android:name="pass"
+            app:argType="string"/>
+        <argument
+            android:name="seed"
+            app:argType="string[]" />
         <action
             android:id="@+id/action_restoreOwnerKeyFragment_to_restoreTustedNodeFragment"
-            app:destination="@id/restoreTustedNodeFragment" />
+            app:destination="@id/restoreTustedNodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

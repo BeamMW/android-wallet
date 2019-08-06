@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.GestureDetector
 import android.view.View
@@ -186,8 +187,27 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         })
 
         token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+    }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     override fun shareToken(receiveToken: String) {

@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
+import android.os.Bundle
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -32,6 +35,12 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun getToolbarTitle(): String? = ""
     override fun hasBackArrow(): Boolean = WelcomeCreateFragmentArgs.fromBundle(arguments!!).hasBackArrow
 
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            presenter?.onBackPressed()
+        }
+    }
+
     override fun addListeners() {
         btnCreate.setOnClickListener {
             presenter?.onCreateWallet()
@@ -40,6 +49,35 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnRestore.setOnClickListener {
             presenter?.onRestoreWallet()
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
+    }
+
+    override fun back() {
+        findNavController().popBackStack()
+    }
+
+    override fun finish() {
+        activity?.finish()
     }
 
     override fun clearListeners() {

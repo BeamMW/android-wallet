@@ -56,6 +56,7 @@
 
                 <com.mw.beam.beamwallet.core.views.BeamEditText
                     android:id="@+id/nodeAddress"
+                    android:imeOptions="actionDone"
                     style="@style/common_text_big_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

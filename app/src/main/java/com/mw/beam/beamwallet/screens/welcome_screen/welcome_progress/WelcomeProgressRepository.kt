@@ -77,7 +77,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
     override fun getImportRecoveryState(pass: String?, seed: String?, file: File): Subject<OnSyncProgressData> {
         closeWallet()
         removeWallet()
-        createWallet(pass, seed, WelcomeMode.RESTORE_AUTOMATIC)
+        createWallet(pass, seed)
 
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
             wallet?.importRecovery(file.absolutePath)
@@ -104,7 +104,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return downloadProgressSubject!!
     }
 
-    override fun createWallet(pass: String?, seed: String?, mode: WelcomeMode): Status {
+    override fun createWallet(pass: String?, seed: String?): Status {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && seed != null) {
@@ -120,7 +120,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
-            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed, WelcomeMode.RESTORE == mode)
+            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)

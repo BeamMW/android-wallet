@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -39,6 +40,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var restoreTitleString: String
     private lateinit var restoreDescriptionString: String
     private lateinit var updateUtxoDescriptionString: String
+    private lateinit var downloadDescriptionString: String
 
     companion object {
         private const val FULL_PROGRESS = 100
@@ -59,6 +61,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         restoreTitleString = getString(R.string.welcome_progress_restore)
         restoreDescriptionString = getString(R.string.welcome_progress_restore_description)
         updateUtxoDescriptionString = getString(R.string.welcome_progress_update_utxo_description)
+        downloadDescriptionString = getString(R.string.downloading_blockchain_info)
     }
 
     override fun init(mode: WelcomeMode) {
@@ -73,33 +76,42 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         }
     }
 
-    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isSyncProcess: Boolean) {
+    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                configProgress(countProgress(progressData), String.format(updateUtxoDescriptionString, progressData.done, progressData.total))
+                configProgress(countProgress(progressData),"$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
             }
-            WelcomeMode.RESTORE -> {
-                if (isSyncProcess) {
-                    // FULL_PROGRESS is needed to prevent UI progress rollback after node sync was finished
-                    configProgress(FULL_PROGRESS, String.format(updateUtxoDescriptionString, progressData.done, progressData.total))
-                } else {
-                    configProgress(countProgress(progressData), String.format(restoreDescriptionString, countProgress(progressData)))
-                }
-            }
+            WelcomeMode.RESTORE -> { }
             WelcomeMode.RESTORE_AUTOMATIC -> {
-                if (isSyncProcess) {
-                    // FULL_PROGRESS is needed to prevent UI progress rollback after node sync was finished
-                    configProgress(FULL_PROGRESS, String.format(updateUtxoDescriptionString, progressData.done, progressData.total))
+                if (isDownloadProgress) {
+                    configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
                 } else {
-                    configProgress(countProgress(progressData), String.format(restoreDescriptionString, countProgress(progressData)))
+                    configProgress(countProgress(progressData), "$restoreDescriptionString ${countProgress(progressData)}%")
                 }
             }
             WelcomeMode.CREATE -> { }
         }
     }
 
-    override fun addListeners() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     override fun getLifecycleOwner(): LifecycleOwner = this
