@@ -46,7 +46,7 @@ object PreferencesManager {
     const val KEY_NODE_ADDRESS = "KEY_NODE_ADDRESS"
     const val KEY_ALWAYS_OPEN_LINK = "KEY_ALWAYS_OPEN_LINK"
     const val KEY_CATEGORY_DATA = "KEY_CATEGORY_DATA"
-    const val KEY_LOCALE_INDEX = "KEY_LOCALE_INDEX"
+    const val KEY_LANGUAGE_CODE = "KEY_LOCALE_INDEX"
     const val KEY_UNFINISHED_RESTORE = "KEY_UNFINISHED_RESTORE"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

@@ -26,7 +26,9 @@ import java.util.*
 
 object LocaleHelper {
     private const val enLocaleIndex = 0
+    private const val enLanguageCode = "en"
     private var localeIndex = enLocaleIndex
+    private var languageCode = enLanguageCode
     private val localeCodes: List<String> by lazy {
         App.self.resources.getStringArray(R.array.language_codes).toList()
     }
@@ -42,7 +44,9 @@ object LocaleHelper {
         get() = localeIndex
 
     fun loadLocale() {
-        val indexFromSettings = PreferencesManager.getInt(PreferencesManager.KEY_LOCALE_INDEX, -1)
+        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: enLanguageCode
+        val indexFromSettings = localeCodes.indexOf(languageCode)
+
 
         if (indexFromSettings < 0) {
 //            val systemLocaleCode = Locale.getDefault().language
@@ -53,21 +57,17 @@ object LocaleHelper {
 //                enLocaleIndex
 //            }
             localeIndex = enLocaleIndex
+            languageCode = enLanguageCode
         } else {
-
-            localeIndex = if (indexFromSettings >= localeCodes.size) {
-                enLocaleIndex
-            } else {
-                indexFromSettings
-            }
+            localeIndex = indexFromSettings
         }
 
         updateApplicationConfig()
     }
 
     private fun updateApplicationConfig() {
-        PreferencesManager.putInt(PreferencesManager.KEY_LOCALE_INDEX, localeIndex)
-        AppConfig.LOCALE = Locale(localeCodes[localeIndex])
+        PreferencesManager.putString(PreferencesManager.KEY_LANGUAGE_CODE, languageCode)
+        AppConfig.LOCALE = Locale(languageCode)
     }
 
     object ContextWrapper {
@@ -88,6 +88,7 @@ object LocaleHelper {
 
     fun selectLanguage(languageIndex: Int) {
         localeIndex = if (languageIndex >= localeCodes.size) 0 else languageIndex
+        languageCode = localeCodes[localeIndex]
 
         updateApplicationConfig()
     }
