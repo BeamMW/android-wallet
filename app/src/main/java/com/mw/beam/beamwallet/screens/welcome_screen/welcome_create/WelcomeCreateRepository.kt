@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.helpers.removeNodeDatabase
@@ -34,6 +35,10 @@ class WelcomeCreateRepository : BaseRepository(), WelcomeCreateContract.Reposito
         App.wallet = null
         removeDatabase()
         removeNodeDatabase()
+    }
+
+    override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
+        return LocaleHelper.getCurrentLanguage()
     }
 
 }

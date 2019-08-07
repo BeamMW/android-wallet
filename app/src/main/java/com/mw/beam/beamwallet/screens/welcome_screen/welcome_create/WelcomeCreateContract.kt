@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 /**
  * Created by vain onnellinen on 12/4/18.
@@ -31,6 +32,8 @@ interface WelcomeCreateContract {
         fun hasBackArrow(): Boolean
         fun back()
         fun finish()
+        fun setupLanguageButton(currentLanguage: LocaleHelper.SupportedLanguage)
+        fun navigateToLanguageSettings()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -38,10 +41,12 @@ interface WelcomeCreateContract {
         fun onRestoreWallet()
         fun onConfirmRestore()
         fun onBackPressed()
+        fun onChangeLanguagePressed()
     }
 
     interface Repository : MvpRepository {
         fun isUnfinishedRestore(): Boolean
         fun clearAllData()
+        fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
     }
 }

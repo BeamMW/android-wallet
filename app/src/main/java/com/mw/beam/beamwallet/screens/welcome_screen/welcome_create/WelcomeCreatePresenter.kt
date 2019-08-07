@@ -30,6 +30,8 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
         if (repository.isUnfinishedRestore()) {
             repository.clearAllData()
         }
+
+        view?.setupLanguageButton(repository.getCurrentLanguage())
     }
 
     override fun onBackPressed() {
@@ -38,6 +40,10 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
         } else {
             view?.finish()
         }
+    }
+
+    override fun onChangeLanguagePressed() {
+        view?.navigateToLanguageSettings()
     }
 
     override fun onCreateWallet() {

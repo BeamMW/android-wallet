@@ -24,7 +24,13 @@ class LanguagePresenter(view: LanguageContract.View?, repository: LanguageContra
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(repository.getLanguages(), repository.getCurrentLanguage())
+        val languages = repository.getLanguages()
+        val sortedLanguages = ArrayList(languages.minus(languages[0])).apply {
+            sortBy { language -> language.englishName }
+            add(0, languages[0])
+        }
+
+        view?.init(sortedLanguages, repository.getCurrentLanguage())
     }
 
     override fun onRestartPressed(language: LocaleHelper.SupportedLanguage) {

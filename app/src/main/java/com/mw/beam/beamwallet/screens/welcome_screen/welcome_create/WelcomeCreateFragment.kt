@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import kotlinx.android.synthetic.main.fragment_welcome_create.*
 
 /**
@@ -49,6 +50,16 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnRestore.setOnClickListener {
             presenter?.onRestoreWallet()
         }
+
+        btnBack.setOnClickListener {
+            if (onBackPressedCallback.isEnabled) {
+                onBackPressedCallback.handleOnBackPressed()
+            }
+        }
+
+        btnChangeLanguage.setOnClickListener {
+            presenter?.onChangeLanguagePressed()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +70,16 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun onStart() {
         super.onStart()
         onBackPressedCallback.isEnabled = true
+
+        btnBack.visibility = if (presenter?.hasBackArrow() == true) View.VISIBLE else View.GONE
+    }
+
+    override fun setupLanguageButton(currentLanguage: LocaleHelper.SupportedLanguage) {
+        btnChangeLanguage.text = currentLanguage.languageCode.toUpperCase()
+    }
+
+    override fun navigateToLanguageSettings() {
+        findNavController().navigate(WelcomeCreateFragmentDirections.actionWelcomeCreateFragmentToLanguageFragment())
     }
 
     override fun onStop() {
@@ -83,6 +104,8 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun clearListeners() {
         btnCreate.setOnClickListener(null)
         btnRestore.setOnClickListener(null)
+        btnBack.setOnClickListener(null)
+        btnChangeLanguage.setOnClickListener(null)
     }
 
     override fun showRestoreNotification() {
