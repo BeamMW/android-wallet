@@ -16,13 +16,16 @@
 
 package com.mw.beam.beamwallet.screens.language
 
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_language.*
 
 class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View {
@@ -54,6 +57,14 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
                 null,
                 getString(R.string.cancel),
                 {})
+    }
+
+    override fun logOut() {
+        App.isAuthenticated = false
+        startActivity(Intent(context, AppActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        })
+        activity?.finish()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
