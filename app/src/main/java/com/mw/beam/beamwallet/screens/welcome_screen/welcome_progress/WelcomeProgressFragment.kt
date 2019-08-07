@@ -70,10 +70,21 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = restoreTitleString
                 restoreFullDescription.visibility = View.VISIBLE
+                btnCancel.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
             }
         }
+    }
+
+    override fun addListeners() {
+        btnCancel.setOnClickListener {
+            presenter?.onBackPressed()
+        }
+    }
+
+    override fun clearListeners() {
+        btnCancel.setOnClickListener(null)
     }
 
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean) {

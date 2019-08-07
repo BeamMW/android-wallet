@@ -94,7 +94,7 @@
     <string name="welcome_progress_cancel_restore_description">You are going to cancel restore process. All data will be lost. Do you want to continue?</string>
     <string name="welcome_progress_update_utxo_description">Scanning UTXO</string>
     <string name="welcome_progress_restore_description">Restored</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
 
     <!--PasswordFragment-->

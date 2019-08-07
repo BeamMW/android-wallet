@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
     android:fillViewport="true"
     android:layout_height="match_parent">
@@ -63,28 +64,46 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/description" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/restoreFullDescription"
-            style="@style/common_header_small"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingStart="@dimen/welcome_progress_description_side_offset"
-            android:paddingTop="@dimen/welcome_progress_description_top_offset"
-            android:paddingEnd="@dimen/welcome_progress_description_side_offset"
-            android:text="@string/welcome_progress_restore_description_full_top"
-            android:textColor="@color/common_text_dark_color"
-            android:textStyle="italic"
             android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/btnCancel"
             app:layout_constraintTop_toBottomOf="@id/progress"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintVertical_bias="0">
+            <TextView
+                style="@style/common_header_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="@dimen/welcome_progress_description_side_offset"
+                android:paddingTop="@dimen/welcome_progress_description_top_offset"
+                android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+                android:text="@string/welcome_progress_restore_description_full_top"
+                android:textColor="@color/common_text_dark_color"
+                android:textStyle="italic" />
+            <TextView
+                style="@style/common_header_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="@dimen/welcome_progress_description_side_offset"
+                android:paddingTop="10dp"
+                android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+                android:text="@string/welcome_progress_restore_description_full_bottom"
+                android:textColor="@color/common_text_dark_color"
+                android:textStyle="italic"/>
+        </LinearLayout>
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnCancel"
             style="@style/common_button_style"
             android:layout_marginBottom="@dimen/welcome_progress_button_margin"
             android:visibility="gone"
+            tools:visibility="visible"
             app:button_icon="@drawable/ic_btn_cancel"
             android:background="@drawable/primary_button"
             app:button_text="@string/cancel"
