@@ -59,6 +59,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun dismissAlert() = delegate.dismissAlert()
     override fun showToast(message: String, duration: Int) = delegate.showToast(this, message, duration)
 
+    override fun dismissSnackBar() {
+        delegate.dismissSnackBar(this)
+    }
+
     override fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
         setupToolbar(toolbarLayout, title, hasBackArrow, hasStatus)

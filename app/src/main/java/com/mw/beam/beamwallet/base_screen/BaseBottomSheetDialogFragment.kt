@@ -1,34 +1,16 @@
-/*
- * // Copyright 2018 Beam Development
- * //
- * // Licensed under the Apache License, Version 2.0 (the "License");
- * // you may not use this file except in compliance with the License.
- * // You may obtain a copy of the License at
- * //
- * //    http://www.apache.org/licenses/LICENSE-2.0
- * //
- * // Unless required by applicable law or agreed to in writing, software
- * // distributed under the License is distributed on an "AS IS" BASIS,
- * // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * // See the License for the specific language governing permissions and
- * // limitations under the License.
- */
-
 package com.mw.beam.beamwallet.base_screen
 
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ViewGroup
+import android.view.View
 import androidx.appcompat.app.AlertDialog
-import com.eightsines.holycycle.app.ViewControllerDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
-abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
+abstract class BaseBottomSheetDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: BottomSheetDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()
@@ -93,37 +75,36 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun clearListeners() {}
 
     @Suppress("UNCHECKED_CAST")
-    override fun onControllerCreate(extras: Bundle?) {
-        super.onControllerCreate(extras)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         presenter = initPresenter() as T
         presenter?.onCreate()
     }
 
-    override fun onControllerContentViewCreated() {
-        super.onControllerContentViewCreated()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         presenter?.onViewCreated()
     }
 
-    override fun onControllerStart() {
-        super.onControllerStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    override fun onStart() {
+        super.onStart()
         presenter?.onStart()
     }
 
-    override fun onControllerResume() {
-        super.onControllerResume()
+    override fun onResume() {
+        super.onResume()
         presenter?.onResume()
     }
 
-    override fun onControllerPause() {
+
+    override fun onPause() {
         presenter?.onPause()
-        super.onControllerPause()
+        super.onPause()
     }
 
-    override fun onControllerStop() {
+    override fun onStop() {
         presenter?.onStop()
-        super.onControllerStop()
+        super.onStop()
     }
 
     override fun onDestroy() {

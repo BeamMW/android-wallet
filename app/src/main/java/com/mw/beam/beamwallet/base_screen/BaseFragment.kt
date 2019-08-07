@@ -47,6 +47,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         delegate.showKeyboard(activity ?: return)
     }
 
+    override fun dismissSnackBar() {}
+
     override fun showSnackBar(status: Status) {
         delegate.showSnackBar(status, activity ?: return)
     }

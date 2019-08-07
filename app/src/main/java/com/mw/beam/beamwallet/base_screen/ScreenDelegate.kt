@@ -168,6 +168,11 @@ class ScreenDelegate {
         }
     }
 
+    fun dismissSnackBar(activity: androidx.core.app.ComponentActivity) {
+        val snackBarsView = activity.findViewById<SnackBarsView>(R.id.snackbars_view)
+        snackBarsView?.dismiss()
+    }
+
     interface ViewDelegate {
         fun onHideKeyboard()
         fun onShowKeyboard()

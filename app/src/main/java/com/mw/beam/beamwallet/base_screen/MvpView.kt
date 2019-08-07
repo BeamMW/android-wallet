@@ -46,4 +46,5 @@ interface MvpView {
     fun unregisterKeyboardStateListener()
     fun vibrate(length: Long)
     fun logOut()
+    fun dismissSnackBar()
 }

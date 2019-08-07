@@ -86,6 +86,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         isActivityStopped = true
         disposable.dispose()
         view?.dismissAlert()
+        view?.dismissSnackBar()
         view?.clearListeners()
         view?.unregisterKeyboardStateListener()
     }
