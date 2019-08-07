@@ -46,14 +46,14 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
     override fun showConfirmDialog(language: LocaleHelper.SupportedLanguage) {
         showAlert(
                 getString(R.string.language_dialog_message),
-                getString(R.string.cancel),
-                {},
-                null,
                 getString(R.string.restart_now),
                 {
                     adapter.setSelected(language)
                     presenter?.onRestartPressed(language)
-                })
+                },
+                null,
+                getString(R.string.cancel),
+                {})
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
