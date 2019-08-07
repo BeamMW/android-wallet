@@ -6,13 +6,32 @@
     android:background="?android:selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <TextView
-        android:id="@+id/language"
-        style="@style/common_text_big_light"
+    <LinearLayout
         android:layout_weight="1"
-        android:textSize="@dimen/common_settings_size"
-        tools:text="English"
-        tools:drawableEnd="@drawable/ic_list_ckecked"
+        android:orientation="vertical"
         android:layout_width="0dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/language"
+            style="@style/common_text_big_light"
+            android:textSize="@dimen/common_settings_size"
+            tools:text="English"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/nativeLanguageName"
+            tools:text="English"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/selectedImage"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_list_ckecked"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

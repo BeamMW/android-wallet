@@ -99,8 +99,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         }
     }
 
-    override fun getCurrentLanguage(): String {
-        return LocaleHelper.currentLanguage
+    override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
+        return LocaleHelper.getCurrentLanguage()
     }
 
     override fun setNodeAddress(address: String) {

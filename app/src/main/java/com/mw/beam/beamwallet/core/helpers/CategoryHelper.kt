@@ -68,6 +68,25 @@ object CategoryHelper {
         saveCategoryData()
     }
 
+//    fun getCategoryForAddress(address: String): List<Category> {
+//        return categoryData.getAllCategory().values.filter { it.addresses.contains(address) }
+//    }
+//
+//    fun changeCategoryForAddress(address: String, categoryList: List<Category>?) {
+//        if (categoryList == null) {
+//            removeAddressFromAllCategory(address)
+//        } else {
+//            categoryData.getAllCategory().values.forEach {
+//                if (categoryList.any { category -> category.id == it.id }) {
+//                    it.addAddress(address)
+//                } else {
+//                    it.removeAddress(address)
+//                }
+//            }
+//        }
+//        saveCategoryData()
+//    }
+
     private fun removeAddressFromAllCategory(address: String) {
         categoryData.getAllCategory().values.forEach { it.removeAddress(address) }
     }

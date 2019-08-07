@@ -17,24 +17,24 @@
 package com.mw.beam.beamwallet.screens.language
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 class LanguagePresenter(view: LanguageContract.View?, repository: LanguageContract.Repository)
     : BasePresenter<LanguageContract.View, LanguageContract.Repository>(view, repository), LanguageContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(repository.getLanguages(), repository.getCurrentLanguageIndex())
+        view?.init(repository.getLanguages(), repository.getCurrentLanguage())
     }
 
-    override fun onRestartPressed(index: Int) {
-        repository.setLanguage(index)
+    override fun onRestartPressed(language: LocaleHelper.SupportedLanguage) {
+        repository.setLanguage(language)
         view?.logOut()
     }
 
-    override fun onSelectLanguage(index: Int) {
-        if (index != repository.getCurrentLanguageIndex()) {
-            view?.showConfirmDialog(index)
+    override fun onSelectLanguage(language: LocaleHelper.SupportedLanguage) {
+        if (language.languageCode != repository.getCurrentLanguage().languageCode) {
+            view?.showConfirmDialog(language)
         }
     }
-
 }

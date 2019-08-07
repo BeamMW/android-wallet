@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
@@ -34,7 +35,7 @@ interface SettingsContract {
     interface View : MvpView {
         fun init(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
-        fun setLanguage(language: String)
+        fun setLanguage(language: LocaleHelper.SupportedLanguage)
         fun changePass()
         fun showLockScreenSettingsDialog()
         fun showFingerprintSettings(isFingerprintEnabled: Boolean)
@@ -96,6 +97,6 @@ interface SettingsContract {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Observable<OnTxStatusData>
         fun getAllCategory(): List<Category>
-        fun getCurrentLanguage(): String
+        fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
     }
 }

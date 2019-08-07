@@ -21,15 +21,15 @@ import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 class LanguageRepository: BaseRepository(), LanguageContract.Repository {
 
-    override fun getLanguages(): List<String> {
-        return LocaleHelper.languages
+    override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
+        return LocaleHelper.getCurrentLanguage()
     }
 
-    override fun getCurrentLanguageIndex(): Int {
-        return LocaleHelper.currentLanguageIndex
+    override fun getLanguages(): List<LocaleHelper.SupportedLanguage> {
+        return LocaleHelper.supportedLanguages
     }
 
-    override fun setLanguage(index: Int) {
-        return LocaleHelper.selectLanguage(index)
+    override fun setLanguage(language: LocaleHelper.SupportedLanguage) {
+        LocaleHelper.selectLanguage(language)
     }
 }

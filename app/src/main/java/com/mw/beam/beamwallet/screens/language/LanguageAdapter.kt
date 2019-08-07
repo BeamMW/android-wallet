@@ -19,12 +19,14 @@ package com.mw.beam.beamwallet.screens.language
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
-class LanguageAdapter(private val languages: List<String>, private val onSelected: (Int) -> Unit): RecyclerView.Adapter<LanguageAdapter.ViewHolder>() {
-    private var selectedIndex = 0
+class LanguageAdapter(private val languages: List<LocaleHelper.SupportedLanguage>, private val onSelected: (LocaleHelper.SupportedLanguage) -> Unit): RecyclerView.Adapter<LanguageAdapter.ViewHolder>() {
+    private var selectedLanguage: LocaleHelper.SupportedLanguage? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -34,13 +36,16 @@ class LanguageAdapter(private val languages: List<String>, private val onSelecte
     override fun getItemCount(): Int = languages.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.selected = selectedIndex == position
-        holder.text = languages[position]
-        holder.itemView.setOnClickListener { onSelected(position) }
+        val language = languages[position]
+
+        holder.selected = selectedLanguage?.languageCode == language.languageCode
+        holder.englishName = language.englishName
+        holder.nativeName = language.nativeName
+        holder.itemView.setOnClickListener { onSelected(language) }
     }
 
-    fun setSelected(index: Int) {
-        selectedIndex = index
+    fun setSelected(language: LocaleHelper.SupportedLanguage) {
+        selectedLanguage = language
         notifyDataSetChanged()
     }
 
@@ -48,14 +53,20 @@ class LanguageAdapter(private val languages: List<String>, private val onSelecte
         var selected: Boolean = false
             set(value) {
                 field = value
-                val endDrawable = if (field) itemView.context.getDrawable(R.drawable.ic_list_ckecked) else null
-                itemView.findViewById<TextView>(R.id.language).setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, endDrawable, null)
+                val visibility = if (field) View.VISIBLE else View.GONE
+                itemView.findViewById<ImageView>(R.id.selectedImage).visibility = visibility
             }
 
-        var text: String = ""
+        var englishName: String = ""
             set(value) {
                 field = value
                 itemView.findViewById<TextView>(R.id.language).text = field
+            }
+
+        var nativeName: String = ""
+            set(value) {
+                field = value
+                itemView.findViewById<TextView>(R.id.nativeLanguageName).text = field
             }
     }
 }

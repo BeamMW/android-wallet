@@ -19,22 +19,23 @@ package com.mw.beam.beamwallet.screens.language
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 interface LanguageContract {
 
     interface View: MvpView {
-        fun init(languages: List<String>, currentLanguage: Int)
-        fun showConfirmDialog(languageIndex: Int)
+        fun init(languages: List<LocaleHelper.SupportedLanguage>, language: LocaleHelper.SupportedLanguage)
+        fun showConfirmDialog(language: LocaleHelper.SupportedLanguage)
     }
 
     interface Presenter: MvpPresenter<View> {
-        fun onSelectLanguage(index: Int)
-        fun onRestartPressed(index: Int)
+        fun onSelectLanguage(language: LocaleHelper.SupportedLanguage)
+        fun onRestartPressed(language: LocaleHelper.SupportedLanguage)
     }
 
     interface Repository: MvpRepository {
-        fun getLanguages(): List<String>
-        fun getCurrentLanguageIndex(): Int
-        fun setLanguage(index: Int)
+        fun getLanguages(): List<LocaleHelper.SupportedLanguage>
+        fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
+        fun setLanguage(language: LocaleHelper.SupportedLanguage)
     }
 }

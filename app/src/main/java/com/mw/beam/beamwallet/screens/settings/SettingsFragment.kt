@@ -40,6 +40,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
 import com.mw.beam.beamwallet.core.views.CategoryItemView
@@ -107,8 +108,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun setLanguage(language: String) {
-        languageValue.text = language
+    override fun setLanguage(language: LocaleHelper.SupportedLanguage) {
+        languageValue.text = language.nativeName
     }
 
     override fun sendMailWithLogs() {

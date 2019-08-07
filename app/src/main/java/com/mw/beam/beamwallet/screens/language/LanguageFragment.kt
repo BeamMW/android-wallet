@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import kotlinx.android.synthetic.main.fragment_language.*
 
 class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View {
@@ -31,7 +32,7 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
 
     override fun getToolbarTitle(): String? = getString(R.string.language)
 
-    override fun init(languages: List<String>, currentLanguage: Int) {
+    override fun init(languages: List<LocaleHelper.SupportedLanguage>, language: LocaleHelper.SupportedLanguage) {
         adapter = LanguageAdapter(languages) {
             presenter?.onSelectLanguage(it)
         }
@@ -39,10 +40,10 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter.setSelected(currentLanguage)
+        adapter.setSelected(language)
     }
 
-    override fun showConfirmDialog(languageIndex: Int) {
+    override fun showConfirmDialog(language: LocaleHelper.SupportedLanguage) {
         showAlert(
                 getString(R.string.language_dialog_message),
                 getString(R.string.cancel),
@@ -50,8 +51,8 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
                 null,
                 getString(R.string.restart_now),
                 {
-                    adapter.setSelected(languageIndex)
-                    presenter?.onRestartPressed(languageIndex)
+                    adapter.setSelected(language)
+                    presenter?.onRestartPressed(language)
                 })
     }
 

@@ -19,48 +19,45 @@ package com.mw.beam.beamwallet.core.helpers
 import android.content.Context
 import android.os.Build
 import android.os.LocaleList
-import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import java.util.*
 
 object LocaleHelper {
-    private const val enLocaleIndex = 0
     private const val enLanguageCode = "en"
-    private var localeIndex = enLocaleIndex
+    private val englishLanguage = SupportedLanguage(enLanguageCode, "English", "English")
+
+    val supportedLanguages = listOf(
+            englishLanguage,
+            SupportedLanguage("ru", "Russian", "Русский"),
+            SupportedLanguage("sv", "Swedish", "Svenska"),
+            SupportedLanguage("es", "Spanish", "Español"),
+            SupportedLanguage("tr", "Turkish", "Türk"),
+            SupportedLanguage("vi", "Vietnamese", "Tiếng Việt"),
+            SupportedLanguage("zh", "Chinese", "中文"),
+            SupportedLanguage("fr", "French", "Français"),
+            SupportedLanguage("ja", "Japanese", "日本語"),
+            SupportedLanguage("ko", "Korean", "한국어")
+    )
+
     private var languageCode = enLanguageCode
-    private val localeCodes: List<String> by lazy {
-        App.self.resources.getStringArray(R.array.language_codes).toList()
+
+    fun getCurrentLanguage(): SupportedLanguage {
+        return supportedLanguages.firstOrNull { it.languageCode == languageCode} ?: englishLanguage
     }
-
-    val languages: List<String> by lazy {
-        App.self.resources.getStringArray(R.array.languages).toList()
-    }
-
-    val currentLanguage: String
-        get() = languages[localeIndex]
-
-    val currentLanguageIndex: Int
-        get() = localeIndex
 
     fun loadLocale() {
         languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: ""
-        val indexFromSettings = localeCodes.indexOf(languageCode)
+        val isSupportedSavedLanguage = supportedLanguages.any { it.languageCode == languageCode }
 
+        if (!isSupportedSavedLanguage) {
+            val systemLanguageCode = Locale.getDefault().language
+            val isSupportedSystemLanguage = supportedLanguages.any { it.languageCode == systemLanguageCode }
 
-        if (indexFromSettings < 0) {
-            val systemLocaleCode = Locale.getDefault().language
-
-            if (localeCodes.contains(systemLocaleCode)) {
-                localeIndex = localeCodes.indexOf(systemLocaleCode)
-                languageCode = localeCodes[localeIndex]
+            languageCode = if (isSupportedSystemLanguage) {
+                systemLanguageCode
             } else {
-                localeIndex = enLocaleIndex
-                languageCode = enLanguageCode
+                enLanguageCode
             }
-
-        } else {
-            localeIndex = indexFromSettings
         }
 
         updateApplicationConfig()
@@ -87,10 +84,10 @@ object LocaleHelper {
         }
     }
 
-    fun selectLanguage(languageIndex: Int) {
-        localeIndex = if (languageIndex >= localeCodes.size) 0 else languageIndex
-        languageCode = localeCodes[localeIndex]
-
+    fun selectLanguage(language: SupportedLanguage) {
+        languageCode = language.languageCode
         updateApplicationConfig()
     }
+
+    data class SupportedLanguage(val languageCode: String, val englishName: String, val nativeName: String)
 }
