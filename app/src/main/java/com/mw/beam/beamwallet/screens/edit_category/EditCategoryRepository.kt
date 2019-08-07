@@ -17,23 +17,23 @@
 package com.mw.beam.beamwallet.screens.edit_category
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 
 class EditCategoryRepository: BaseRepository(), EditCategoryContract.Repository {
-    override fun saveCategory(category: Category) {
-        CategoryHelper.saveCategory(category)
+    override fun saveCategory(tag: Tag) {
+        TagHelper.saveTag(tag)
     }
 
-    override fun getCategoryFromId(categoryId: String): Category? {
-        return CategoryHelper.getCategory(categoryId)
+    override fun getCategoryFromId(categoryId: String): Tag? {
+        return TagHelper.getTag(categoryId)
     }
 
-    override fun createNewCategory(): Category {
-        return Category.new()
+    override fun createNewCategory(): Tag {
+        return Tag.new()
     }
 
-    override fun getAllCategory(): List<Category> {
-        return CategoryHelper.getAllCategory()
+    override fun getAllCategory(): List<Tag> {
+        return TagHelper.getAllTags()
     }
 }

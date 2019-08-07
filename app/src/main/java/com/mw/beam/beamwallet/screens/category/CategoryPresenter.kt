@@ -28,9 +28,9 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
 
     override fun onStart() {
         super.onStart()
-        state.category = repository.getCategoryFromId(view?.getCategoryId() ?: "")
+        state.tag = repository.getCategoryFromId(view?.getCategoryId() ?: "")
 
-        state.category?.let {
+        state.tag?.let {
             view?.init(it)
 
             val addresses = state.getAddresses().filter { address -> it.addresses.contains(address.walletID) }
@@ -70,7 +70,7 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
         }
     }
 
-    private fun filterAddresses(walletAddress: WalletAddress) = state.category?.addresses?.contains(walletAddress.walletID) ?: false
+    private fun filterAddresses(walletAddress: WalletAddress) = state.tag?.addresses?.contains(walletAddress.walletID) ?: false
 
     private fun updateView() {
         view?.updateAddresses(state.getAddresses())
@@ -83,15 +83,15 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
 
     override fun onEditCategoryPressed() {
-        state.category?.let { view?.navigateToEditCategory(it.id) }
+        state.tag?.let { view?.navigateToEditCategory(it.id) }
     }
 
     override fun onDeleteCategoryConfirmed() {
-        state.category?.let { repository.deleteCategory(it) }
+        state.tag?.let { repository.deleteCategory(it) }
         view?.finish()
     }
 
     override fun onDeleteCategoryPressed() {
-        view?.showConfirmDeleteDialog(state.category?.name ?: "")
+        view?.showConfirmDeleteDialog(state.tag?.name ?: "")
     }
 }

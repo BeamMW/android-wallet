@@ -19,19 +19,19 @@ package com.mw.beam.beamwallet.screens.category
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
 class CategoryRepository: BaseRepository(), CategoryContract.Repository {
-    override fun deleteCategory(category: Category) {
-        CategoryHelper.deleteCategory(category)
+    override fun deleteCategory(tag: Tag) {
+        TagHelper.deleteTag(tag)
     }
 
-    override fun getCategoryFromId(categoryId: String): Category? {
-        return CategoryHelper.getCategory(categoryId)
+    override fun getCategoryFromId(categoryId: String): Tag? {
+        return TagHelper.getTag(categoryId)
     }
 
     override fun getAddresses(): Subject<OnAddressesData> {

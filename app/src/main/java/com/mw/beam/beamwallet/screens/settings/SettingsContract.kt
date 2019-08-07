@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
@@ -49,7 +49,7 @@ interface SettingsContract {
         fun clearInvalidNodeAddressError()
         fun showClearDataDialog()
         fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
-        fun updateCategoryList(allCategory: List<Category>)
+        fun updateCategoryList(allTag: List<Tag>)
         fun navigateToCategory(categoryId: String)
         fun navigateToAddCategory()
         fun navigateToLanguage()
@@ -96,7 +96,7 @@ interface SettingsContract {
         fun deleteTransaction(txDescription: TxDescription?)
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Observable<OnTxStatusData>
-        fun getAllCategory(): List<Category>
+        fun getAllCategory(): List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
     }
 }

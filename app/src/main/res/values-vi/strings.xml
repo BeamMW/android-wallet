@@ -237,8 +237,8 @@
     <string name="node">Nút</string>
     <string name="settings_ip_title">cổng:ip:</string>
     <string name="settings_general_settings">Cài đặt chung</string>
-    <string name="categories">Danh mục</string>
-    <string name="add_new_category">Thêm danh mục mới</string>
+    <string name="tags">Danh mục</string>
+    <string name="add_new_tag">Thêm danh mục mới</string>
     <string name="lock_screen">Màn hình khoá</string>
     <string name="never">Không bao giờ</string>
     <string name="after">Sau</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">Danh sách giao dịch</string>
     <string name="address_id">Địa chỉ ID</string>
     <string name="expiration_date">Ngày hết hạn</string>
-    <string name="category">Danh mục</string>
+    <string name="tag">Danh mục</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Địa chỉ hết hạn ngay bây giờ</string>
     <string name="active_address">Kích hoạt địa chỉ</string>
     <string name="save">Lưu</string>
     <string name="now">Bây giờ</string>
-    <string name="edit_address_category_empty_message">Bạn có thể tạo danh mục trong Cài đặt</string>
+    <string name="edit_address_tags_empty_message">Bạn có thể tạo danh mục trong Cài đặt</string>
     <string name="none">Không có gì</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Thay đổi mật khẩu</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">Mật khẩu hiện tại không chính xác</string>
     <!--CategoryFragment-->
     <string name="edit">Chỉnh sửa</string>
-    <string name="delete_category">Xoá danh mục</string>
-    <string name="category_delete_dialog_message">Bạn có chắc chắn muốn xóa danh mục %1$s?</string>
+    <string name="delete_tag">Xoá danh mục</string>
+    <string name="tag_delete_dialog_message">Bạn có chắc chắn muốn xóa danh mục %1$s?</string>
     <!--EditCategory-->
-    <string name="edit_category">Chỉnh sửa danh mục</string>
-    <string name="create_category">Tạo danh mục</string>
+    <string name="edit_tag">Chỉnh sửa danh mục</string>
+    <string name="create_tag">Tạo danh mục</string>
     <string name="color">Màu</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Hiển thị khóa chủ sở hữu</string>
@@ -341,7 +341,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Nhập mật khẩu hiện tại của bạn để thay đổi cài đặt</string>
     <string name="save_changes">Lưu địa chỉ</string>
     <string name="receive_description">Để giao dịch hoàn tất, bạn nên truy cập trực tuyến trong vòng 12 giờ sau khi Beams được gửi.</string>
-    <string name="search_by_address_category_or_name">Tìm kiếm theo địa chỉ, danh mục hoặc tên</string>
+    <string name="search_by_address_tag_or_name">Tìm kiếm theo địa chỉ, danh mục hoặc tên</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="search_transaction">Search transaction</string>
@@ -373,4 +373,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

@@ -145,7 +145,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         return state.address?.let { address ->
             address.label != view?.getComment() ?: "" ||
                     address.duration != state.expirePeriod.value ||
-                    repository.getCategory(address.walletID)?.id != state.category?.id
+                    repository.getCategory(address.walletID)?.id != state.tag?.id
 
         } ?: false
     }
@@ -167,8 +167,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         changeAddressLiveData.postValue(walletAddress)
     }
 
-    override fun onSelectedCategory(category: Category?) {
-        state.category = category
+    override fun onSelectedCategory(tag: Tag?) {
+        state.tag = tag
     }
 
     private fun saveAddress() {
@@ -190,7 +190,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 repository.saveAddress(address)
             }
 
-            repository.changeCategoryForAddress(address.walletID, state.category)
+            repository.changeCategoryForAddress(address.walletID, state.tag)
 
             state.wasAddressSaved = true
             state.isNeedGenerateAddress = false

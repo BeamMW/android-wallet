@@ -18,8 +18,8 @@ package com.mw.beam.beamwallet.screens.save_address
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 
 class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
     override fun saveAddress(address: WalletAddress, own: Boolean) {
@@ -28,11 +28,11 @@ class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
         }
     }
 
-    override fun getCategory(address: String): Category? {
-        return CategoryHelper.getCategoryForAddress(address)
+    override fun getCategory(address: String): Tag? {
+        return TagHelper.getTagsForAddress(address)
     }
 
-    override fun changeCategoryForAddress(address: String, category: Category?) {
-        CategoryHelper.changeCategoryForAddress(address, category)
+    override fun changeCategoryForAddress(address: String, tag: Tag?) {
+        TagHelper.changeTagsForAddress(address, tag)
     }
 }

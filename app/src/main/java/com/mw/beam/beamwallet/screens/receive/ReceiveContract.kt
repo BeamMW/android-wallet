@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import io.reactivex.subjects.Subject
 
@@ -42,7 +42,7 @@ interface ReceiveContract {
         fun copyAddress(address: String)
         fun setAmount(newAmount: Double)
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
-        fun configCategory(currentCategory: Category?)
+        fun configCategory(currentTag: Tag?)
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
         fun showAddNewCategory()
@@ -56,7 +56,7 @@ interface ReceiveContract {
         fun onShareTokenPressed()
         fun onShowQrPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
-        fun onSelectedCategory(category: Category?)
+        fun onSelectedCategory(tag: Tag?)
         fun onAdvancedPressed()
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
@@ -70,8 +70,8 @@ interface ReceiveContract {
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
         fun saveAddress(address: WalletAddress)
-        fun getCategory(address: String): Category?
-        fun changeCategoryForAddress(address: String, category: Category?)
+        fun getCategory(address: String): Tag?
+        fun changeCategoryForAddress(address: String, tag: Tag?)
         fun updateAddress(address: WalletAddress)
     }
 }

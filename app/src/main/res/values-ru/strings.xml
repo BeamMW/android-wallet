@@ -237,8 +237,8 @@
     <string name="node">Узел</string>
     <string name="settings_ip_title">ip адрес:порт:</string>
     <string name="settings_general_settings">Основные настройки</string>
-    <string name="categories">Категории</string>
-    <string name="add_new_category">Добавить категорию</string>
+    <string name="tags">Категории</string>
+    <string name="add_new_tag">Добавить категорию</string>
     <string name="lock_screen">Блокировать экран</string>
     <string name="never">Бессрочно</string>
     <string name="after">После</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
-    <string name="category">Категория</string>
+    <string name="tag">Категория</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Деактивировать</string>
     <string name="active_address">Активировать адрес</string>
     <string name="save">Сохранить</string>
     <string name="now">До текущего времени</string>
-    <string name="edit_address_category_empty_message">Категории можно создавать в настройках</string>
+    <string name="edit_address_tags_empty_message">Категории можно создавать в настройках</string>
     <string name="none">Никакой</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Поменять пароль</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">Текущий пароль неверен</string>
     <!--CategoryFragment-->
     <string name="edit">Править</string>
-    <string name="delete_category">Удалить категорию</string>
-    <string name="category_delete_dialog_message">Вы уверены, что хотите удалить категорию %1$s?</string>
+    <string name="delete_tag">Удалить категорию</string>
+    <string name="tag_delete_dialog_message">Вы уверены, что хотите удалить категорию %1$s?</string>
     <!--EditCategory-->
-    <string name="edit_category">Редактировать категорию</string>
-    <string name="create_category">Создать категорию</string>
+    <string name="edit_tag">Редактировать категорию</string>
+    <string name="create_tag">Создать категорию</string>
     <string name="color">Цвет</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Показать owner key</string>
@@ -341,7 +341,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Введите свой текущий пароль, чтобы изменить настройки</string>
     <string name="save_changes">Сохранить изменения</string>
     <string name="receive_description">Для завершения транзакции вы должны быть онлайн в течение 12 часов после отправки.</string>
-    <string name="search_by_address_category_or_name">Искать по адресу, категории, имени</string>
+    <string name="search_by_address_tag_or_name">Искать по адресу, категории, имени</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
     <string name="search_transaction">Поиск транзакций</string>
@@ -373,4 +373,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

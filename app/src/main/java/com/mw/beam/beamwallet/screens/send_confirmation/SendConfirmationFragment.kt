@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.send_confirmation
 
 import android.annotation.SuppressLint
-import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -30,12 +29,10 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
-import com.mw.beam.beamwallet.screens.fingerprint_dialog.FingerprintDialog
 import com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionContract
 import com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionDialog
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
@@ -91,16 +88,16 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         return ContextCompat.getColor(context!!, R.color.sent_color)
     }
 
-    override fun configureContact(walletAddress: WalletAddress, category: Category?) {
+    override fun configureContact(walletAddress: WalletAddress, tag: Tag?) {
         if (!walletAddress.label.isBlank()) {
             contactName.visibility = View.VISIBLE
             contactName.text = walletAddress.label
         }
 
-        if (category != null) {
+        if (tag != null) {
             contactCategory.visibility = View.VISIBLE
-            contactCategory.text = category.name
-            contactCategory.setTextColor(resources.getColor(category.color.getAndroidColorId(), context?.theme))
+            contactCategory.text = tag.name
+            contactCategory.setTextColor(resources.getColor(tag.color.getAndroidColorId(), context?.theme))
         }
     }
 

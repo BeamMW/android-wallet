@@ -22,7 +22,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
@@ -41,7 +41,7 @@ interface TransactionDetailsContract {
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
         fun showOpenLinkAlert()
-        fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?)
+        fun configCategoryAddresses(senderTag: Tag?, receiverTag: Tag?)
         fun showSendFragment(address: String, amount: Long)
         fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?)
         fun showDeleteSnackBar(txDescription: TxDescription)
@@ -69,6 +69,6 @@ interface TransactionDetailsContract {
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
         fun isAllowOpenExternalLink(): Boolean
-        fun getCategoryForAddress(address: String): Category?
+        fun getCategoryForAddress(address: String): Tag?
     }
 }

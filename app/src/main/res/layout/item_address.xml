@@ -78,7 +78,7 @@
 
     <TextView
         android:layout_marginTop="6dp"
-        android:id="@+id/category"
+        android:id="@+id/tag"
         android:visibility="gone"
         tools:visibility="visible"
         style="@style/common_text_big_light"

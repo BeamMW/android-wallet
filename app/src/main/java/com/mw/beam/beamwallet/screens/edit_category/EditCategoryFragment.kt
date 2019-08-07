@@ -25,8 +25,8 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryColor
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagColor
 import kotlinx.android.synthetic.main.fragment_edit_category.*
 
 class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
@@ -42,14 +42,14 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
-    override fun getToolbarTitle(): String? = if (categoryIdFromArgument == null) getString(R.string.create_category) else getString(R.string.edit_category)
+    override fun getToolbarTitle(): String? = if (categoryIdFromArgument == null) getString(R.string.create_tag) else getString(R.string.edit_tag)
 
     override fun getCategoryId(): String? {
         return categoryIdFromArgument
     }
 
-    override fun init(category: Category) {
-        nameValue.setText(category.name)
+    override fun init(tag: Tag) {
+        nameValue.setText(tag.name)
         colorListAdapter = ColorListAdapter {
             presenter?.onChangeColor(it)
         }
@@ -59,8 +59,8 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
             orientation = androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
         }
 
-        colorListAdapter?.setData(CategoryColor.values().asList())
-        colorListAdapter?.setSelectedColor(category.color)
+        colorListAdapter?.setData(TagColor.values().asList())
+        colorListAdapter?.setSelectedColor(tag.color)
         btnSave.isEnabled = false
     }
 
@@ -92,8 +92,8 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
         return nameValue.text.toString()
     }
 
-    override fun getSelectedCategoryColor(): CategoryColor {
-        return colorListAdapter?.getSelectedColor() ?: CategoryColor.Red
+    override fun getSelectedCategoryColor(): TagColor {
+        return colorListAdapter?.getSelectedColor() ?: TagColor.Red
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

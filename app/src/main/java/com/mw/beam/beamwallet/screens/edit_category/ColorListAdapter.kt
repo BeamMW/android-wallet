@@ -17,11 +17,11 @@
 package com.mw.beam.beamwallet.screens.edit_category
 
 import android.view.ViewGroup
-import com.mw.beam.beamwallet.core.helpers.CategoryColor
+import com.mw.beam.beamwallet.core.helpers.TagColor
 import com.mw.beam.beamwallet.core.views.ColorSelector
 
-class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = null): androidx.recyclerview.widget.RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
-    private val data = ArrayList<CategoryColor>()
+class ColorListAdapter(private val onSelectColor: ((TagColor) -> Unit)? = null): androidx.recyclerview.widget.RecyclerView.Adapter<ColorListAdapter.ViewHolder>() {
+    private val data = ArrayList<TagColor>()
     private var selectedIndex = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): ViewHolder {
@@ -43,13 +43,13 @@ class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = n
         holder.colorSelector.colorResId = data[position].getAndroidColorId()
     }
 
-    fun setData(colors: List<CategoryColor>) {
+    fun setData(colors: List<TagColor>) {
         data.clear()
         data.addAll(colors)
         notifyDataSetChanged()
     }
 
-    fun setSelectedColor(color: CategoryColor) {
+    fun setSelectedColor(color: TagColor) {
         selectedIndex = data.indexOf(color)
         if (selectedIndex < 0){
             selectedIndex = 0
@@ -57,7 +57,7 @@ class ColorListAdapter(private val onSelectColor: ((CategoryColor) -> Unit)? = n
         notifyDataSetChanged()
     }
 
-    fun getSelectedColor(): CategoryColor {
+    fun getSelectedColor(): TagColor {
         return data[selectedIndex]
     }
 

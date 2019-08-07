@@ -19,15 +19,15 @@ package com.mw.beam.beamwallet.screens.edit_category
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryColor
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagColor
 
 interface EditCategoryContract {
     interface View: MvpView {
         fun getCategoryId(): String?
-        fun init(category: Category)
+        fun init(tag: Tag)
         fun getName(): String
-        fun getSelectedCategoryColor(): CategoryColor
+        fun getSelectedCategoryColor(): TagColor
         fun setSaveEnabled(enable: Boolean)
         fun finish()
     }
@@ -35,13 +35,13 @@ interface EditCategoryContract {
     interface Presenter: MvpPresenter<View> {
         fun onSavePressed()
         fun onNameChanged(name: String)
-        fun onChangeColor(categoryColor: CategoryColor)
+        fun onChangeColor(tagColor: TagColor)
     }
 
     interface Repository: MvpRepository {
-        fun saveCategory(category: Category)
-        fun getCategoryFromId(categoryId: String): Category?
-        fun createNewCategory(): Category
-        fun getAllCategory(): List<Category>
+        fun saveCategory(tag: Tag)
+        fun getCategoryFromId(categoryId: String): Tag?
+        fun createNewCategory(): Tag
+        fun getAllCategory(): List<Tag>
     }
 }

@@ -82,14 +82,14 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun deleteAddress(addressId: String) {
-        CategoryHelper.changeCategoryForAddress(addressId, null)
+        TagHelper.changeTagsForAddress(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }
     }
 
-    override fun getAllCategory(): List<Category> {
-        return CategoryHelper.getAllCategory()
+    override fun getAllCategory(): List<Tag> {
+        return TagHelper.getAllTags()
     }
 
     override fun getAddresses(): Subject<OnAddressesData> {

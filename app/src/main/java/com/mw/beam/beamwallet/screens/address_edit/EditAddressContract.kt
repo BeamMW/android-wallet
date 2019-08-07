@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -35,7 +35,7 @@ interface EditAddressContract {
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
         fun showAddNewCategory()
-        fun configCategory(currentCategory: Category?)
+        fun configCategory(currentTag: Tag?)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -43,15 +43,15 @@ interface EditAddressContract {
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSavePressed()
         fun onChangeComment(comment: String)
-        fun onSelectedCategory(category: Category?)
+        fun onSelectedCategory(tag: Tag?)
         fun onAddNewCategoryPressed()
     }
 
     interface Repository : MvpRepository {
         fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
 //        fun updateAddress(address: WalletAddress, own: Boolean)
-        fun getCategory(address: String): Category?
-        fun changeCategoryForAddress(address: String, category: Category?)
+        fun getCategory(address: String): Tag?
+        fun changeCategoryForAddress(address: String, tag: Tag?)
         fun saveAddress(address: WalletAddress, own: Boolean)
     }
 }

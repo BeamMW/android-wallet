@@ -237,8 +237,8 @@
     <string name="node">Nod</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Generella inställningar</string>
-    <string name="categories">Kategorier</string>
-    <string name="add_new_category">Lägg till ny kategori</string>
+    <string name="tags">Kategorier</string>
+    <string name="add_new_tag">Lägg till ny kategori</string>
     <string name="lock_screen">Lås skärm</string>
     <string name="never">Aldrig</string>
     <string name="after">Efter</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">Transaktionslista</string>
     <string name="address_id">Adress ID</string>
     <string name="expiration_date">Utgångsdatum</string>
-    <string name="category">Kategori</string>
+    <string name="tag">Kategori</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Sätt adress som utgånget nu</string>
     <string name="active_address">Aktivera adress</string>
     <string name="save">Spara</string>
     <string name="now">Nu</string>
-    <string name="edit_address_category_empty_message">Du kan skapa kategori i Inställningar</string>
+    <string name="edit_address_tags_empty_message">Du kan skapa kategori i Inställningar</string>
     <string name="none">Inga</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Byt lösenord</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">Nuvarande lösenord är felaktigt</string>
     <!--CategoryFragment-->
     <string name="edit">Ändra</string>
-    <string name="delete_category">Ta bort kategori</string>
-    <string name="category_delete_dialog_message">Är du säker på att du vill ta bort %1$s kategorin?</string>
+    <string name="delete_tag">Ta bort kategori</string>
+    <string name="tag_delete_dialog_message">Är du säker på att du vill ta bort %1$s kategorin?</string>
     <!--EditCategory-->
-    <string name="edit_category">Ändra kategori</string>
-    <string name="create_category">Skapa kategori</string>
+    <string name="edit_tag">Ändra kategori</string>
+    <string name="create_tag">Skapa kategori</string>
     <string name="color">Färg</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Visa ägar-nyckel</string>
@@ -341,7 +341,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Ange nuvarande lösenord för att ändra förändringarna i inställningarna</string>
     <string name="save_changes">Spara ändringar</string>
     <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
-    <string name="search_by_address_category_or_name">Sök med adress, kategori eller namn</string>
+    <string name="search_by_address_tag_or_name">Sök med adress, kategori eller namn</string>
     <string name="min_fee_error">Minsta avgift är %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
     <string name="search_transaction">Sök transaktion</string>
@@ -373,4 +373,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

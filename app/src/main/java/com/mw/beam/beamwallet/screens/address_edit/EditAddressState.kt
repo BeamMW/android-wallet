@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -28,7 +28,7 @@ class EditAddressState {
     var tempComment: String = ""
     var shouldExpireNow = false
     var shouldActivateNow = false
-    var currentCategory: Category? = null
-    var tempCategory: Category? = null
+    var currentTag: Tag? = null
+    var tempTag: Tag? = null
     lateinit var chosenPeriod: ExpirePeriod
 }

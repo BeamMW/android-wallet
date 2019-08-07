@@ -237,8 +237,8 @@
     <string name="node">Düğüm</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Genel ayarlar</string>
-    <string name="categories">Kategoriler</string>
-    <string name="add_new_category">Yeni kategori ekle</string>
+    <string name="tags">Kategoriler</string>
+    <string name="add_new_tag">Yeni kategori ekle</string>
     <string name="lock_screen">Ekranı kilitle</string>
     <string name="never">Asla</string>
     <string name="after">Daha sonra</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">İşlem listesi</string>
     <string name="address_id">Adres kimliği</string>
     <string name="expiration_date">Son kullanım tarihi</string>
-    <string name="category">Kategori</string>
+    <string name="tag">Kategori</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Adresi şimdi sonlandır</string>
     <string name="active_address">Aktif adresler</string>
     <string name="save">Kaydet</string>
     <string name="now">Şimdi</string>
-    <string name="edit_address_category_empty_message">Ayarlarda kategori oluşturabilirsiniz</string>
+    <string name="edit_address_tags_empty_message">Ayarlarda kategori oluşturabilirsiniz</string>
     <string name="none">Hiçbiri</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Şifreyi değiştir</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">Şu anki şifre yanlış</string>
     <!--CategoryFragment-->
     <string name="edit">Düzenle</string>
-    <string name="delete_category">Kategoriyi sil</string>
-    <string name="category_delete_dialog_message">%1$s bu kategoriyi silmek istediğinize emin misiniz?</string>
+    <string name="delete_tag">Kategoriyi sil</string>
+    <string name="tag_delete_dialog_message">%1$s bu kategoriyi silmek istediğinize emin misiniz?</string>
     <!--EditCategory-->
-    <string name="edit_category">Kategoriyi düzenle</string>
-    <string name="create_category">Kategori oluştur</string>
+    <string name="edit_tag">Kategoriyi düzenle</string>
+    <string name="create_tag">Kategori oluştur</string>
     <string name="color">Renk</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
@@ -342,7 +342,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Ayarlarda değişiklik yapmak için mevcut şifrenizi girin</string>
     <string name="save_changes">Değişiklikleri kaydedin</string>
     <string name="receive_description">İşlemin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde çevrimiçi olmalısınız.</string>
-    <string name="search_by_address_category_or_name">Adrese, kategoriye veya isme göre ara</string>
+    <string name="search_by_address_tag_or_name">Adrese, kategoriye veya isme göre ara</string>
     <string name="min_fee_error">Minimum işlem ücreti %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Bu adresle ilintili tüm işlemleri sil</string>
     <string name="search_transaction">İşlemlerde Ara</string>
@@ -374,4 +374,8 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

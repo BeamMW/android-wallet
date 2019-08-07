@@ -17,10 +17,10 @@
 package com.mw.beam.beamwallet.screens.category
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 
 class CategoryState {
-    var category: Category? = null
+    var tag: Tag? = null
     private val hashMapAddresses: HashMap<String, WalletAddress> = HashMap()
 
     fun addAddresses(addresses: List<WalletAddress>) {

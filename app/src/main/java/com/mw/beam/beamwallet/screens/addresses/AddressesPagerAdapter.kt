@@ -24,17 +24,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, categoryProvider: (address: String) -> Category?, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, tagProvider: (address: String) -> Tag?, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, categoryProvider)
+    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
+    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
 
     private var activeLayoutManager: LinearLayoutManager? = null
     private var expiredLayoutManager: LinearLayoutManager? = null

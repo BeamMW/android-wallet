@@ -22,7 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.*
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -31,7 +30,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
@@ -109,15 +108,15 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         expireDateTitle.visibility = expirationVisibility
     }
 
-    override fun configureCategory(findCategory: Category?) {
-        val categoryVisibility = if (findCategory == null) View.GONE else View.VISIBLE
-        category.visibility = categoryVisibility
+    override fun configureCategory(findTag: Tag?) {
+        val categoryVisibility = if (findTag == null) View.GONE else View.VISIBLE
+        tags.visibility = categoryVisibility
         categoryTitle.visibility = categoryVisibility
 
-        category.text = findCategory?.name ?: ""
+        tags.text = findTag?.name ?: ""
 
-        if (findCategory != null) {
-            category.setTextColor(resources.getColor(findCategory.color.getAndroidColorId(), context?.theme))
+        if (findTag != null) {
+            tags.setTextColor(resources.getColor(findTag.color.getAndroidColorId(), context?.theme))
         }
     }
 

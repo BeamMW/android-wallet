@@ -52,12 +52,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:paddingTop="0dp"
+                android:layout_marginEnd="@dimen/common_offset"
                 android:background="@drawable/edit_text_selector"
                 android:backgroundTint="@android:color/transparent"
                 android:importantForAutofill="noExcludeDescendants"
+                android:paddingTop="0dp"
                 app:layout_constraintEnd_toStartOf="@id/scanQR"
-                android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addressTitle"
                 tools:ignore="Autofill,LabelFor,TextFields"
@@ -137,16 +137,31 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:text="@string/category"
+                android:text="@string/tag"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/name" />
 
-            <com.mw.beam.beamwallet.core.views.CategorySpinner
-                android:id="@+id/categorySpinner"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tags"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="@dimen/common_offset"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle" />
+                app:layout_constraintEnd_toStartOf="@id/tagAction"
+                app:layout_constraintStart_toStartOf="@id/categoryTitle"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                tools:text="Salary, Payments" />
+
+            <ImageView
+                android:id="@+id/tagAction"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnSave"
@@ -159,7 +174,7 @@
                 app:button_text="@string/save"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnCancel"
-                app:layout_constraintTop_toBottomOf="@id/categorySpinner"
+                app:layout_constraintTop_toBottomOf="@id/tags"
                 app:lower_case="true" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
@@ -174,9 +189,10 @@
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintEnd_toStartOf="@id/btnSave"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categorySpinner"
+                app:layout_constraintTop_toBottomOf="@id/tags"
                 app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+    <!--<include layout="@layout/tags_bottom_sheet"/>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

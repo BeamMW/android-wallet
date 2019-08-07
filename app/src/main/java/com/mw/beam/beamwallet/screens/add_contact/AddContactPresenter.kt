@@ -1,7 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 
 class AddContactPresenter(view: AddContactContract.View?, repository: AddContactContract.Repository, private val state: AddContactState):
@@ -11,13 +11,17 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         view?.close()
     }
 
+    override fun onStart() {
+        super.onStart()
+        view?.setupTagAction(repository.getTags().isEmpty())
+    }
+
     override fun onSavePressed() {
         val address = view?.getAddress() ?: ""
         val name = view?.getName() ?: ""
-        val category = state.category
 
         if (QrHelper.isValidAddress(address)) {
-            repository.saveContact(address, name.trim(), category)
+            repository.saveContact(address, name.trim(), state.tags)
             view?.close()
         } else {
             view?.showTokenError()
@@ -36,8 +40,16 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         }
     }
 
-    override fun onSelectCategory(category: Category?) {
-        state.category = category
+    override fun onSelectTags(tags: List<Tag>) {
+        state.tags = tags
+    }
+
+    override fun onTagActionPressed() {
+        if (repository.getTags().isEmpty()) {
+            view?.showCreateTagDialog()
+        } else {
+            view?.showTagsDialog(state.tags)
+        }
     }
 
     override fun onAddNewCategoryPressed() {

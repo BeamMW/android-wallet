@@ -21,14 +21,14 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 interface CategoryContract {
     interface View: MvpView {
         fun getCategoryId(): String
-        fun init(category: Category)
+        fun init(tag: Tag)
         fun updateAddresses(addresses: List<WalletAddress>)
         fun navigateToEditCategory(categoryId: String)
         fun finish()
@@ -45,8 +45,8 @@ interface CategoryContract {
 
     interface Repository: MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
-        fun deleteCategory(category: Category)
-        fun getCategoryFromId(categoryId: String): Category?
+        fun deleteCategory(tag: Tag)
+        fun getCategoryFromId(categoryId: String): Tag?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
     }

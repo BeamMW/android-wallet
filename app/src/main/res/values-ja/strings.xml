@@ -237,8 +237,8 @@
     <string name="node">ノード</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">一般設定</string>
-    <string name="categories">カテゴリ</string>
-    <string name="add_new_category">新しいカテゴリーを追加</string>
+    <string name="tags">カテゴリ</string>
+    <string name="add_new_tag">新しいカテゴリーを追加</string>
     <string name="lock_screen">ロックスクリーン</string>
     <string name="never">無期限</string>
     <string name="after">経過後：</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">トランザクションリスト</string>
     <string name="address_id">アドレスID</string>
     <string name="expiration_date">有効期限</string>
-    <string name="category">カテゴリ</string>
+    <string name="tag">カテゴリ</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">アドレスを今すぐ期限切れにする</string>
     <string name="active_address">アドレスを有効化</string>
     <string name="save">保存</string>
     <string name="now">今</string>
-    <string name="edit_address_category_empty_message">設定でカテゴリを作成できます。</string>
+    <string name="edit_address_tags_empty_message">設定でカテゴリを作成できます。</string>
     <string name="none">無し</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">パスワードを変更</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">パスワードが違います</string>
     <!--CategoryFragment-->
     <string name="edit">編集</string>
-    <string name="delete_category">カテゴリの削除</string>
-    <string name="category_delete_dialog_message">%1$s カテゴリを本当に削除してもよろしいですか?</string>
+    <string name="delete_tag">カテゴリの削除</string>
+    <string name="tag_delete_dialog_message">%1$s カテゴリを本当に削除してもよろしいですか?</string>
     <!--EditCategory-->
-    <string name="edit_category">カテゴリーを編集</string>
-    <string name="create_category">カテゴリーを作成</string>
+    <string name="edit_tag">カテゴリーを編集</string>
+    <string name="create_tag">カテゴリーを作成</string>
     <string name="color">カラー</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">オーナーキーを表示</string>
@@ -341,7 +341,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">現在のパスワードを入力して設定を変更</string>
     <string name="save_changes">変更を保存</string>
     <string name="receive_description">トランザクションを完了する為に、Beamの送信後12時間オンラインでいてください。</string>
-    <string name="search_by_address_category_or_name">アドレス、カテゴリ、名前で検索</string>
+    <string name="search_by_address_tag_or_name">アドレス、カテゴリ、名前で検索</string>
     <string name="min_fee_error">最小手数料は %1$s GROTHです</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
     <string name="search_transaction">トランザクションを検索</string>
@@ -373,4 +373,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

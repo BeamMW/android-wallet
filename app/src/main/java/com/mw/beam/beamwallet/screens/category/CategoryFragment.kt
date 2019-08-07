@@ -27,7 +27,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_category.*
@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_category.*
 class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.View {
     private var addressesAdapter: AddressesAdapter? = null
 
-    override fun getToolbarTitle(): String? = getString(R.string.category)
+    override fun getToolbarTitle(): String? = getString(R.string.tag)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_category
 
@@ -43,9 +43,9 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         return CategoryFragmentArgs.fromBundle(arguments!!).categoryId
     }
 
-    override fun init(category: Category) {
-        nameValue.text = category.name
-        nameValue.setTextColor(resources.getColor(category.color.getAndroidColorId(), context?.theme))
+    override fun init(tag: Tag) {
+        nameValue.text = tag.name
+        nameValue.setTextColor(resources.getColor(tag.color.getAndroidColorId(), context?.theme))
 
         addressesAdapter = AddressesAdapter(context!!, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
@@ -76,10 +76,10 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
 
     override fun showConfirmDeleteDialog(categoryName: String) {
         showAlert(
-                getString(R.string.category_delete_dialog_message, categoryName),
+                getString(R.string.tag_delete_dialog_message, categoryName),
                 getString(R.string.delete),
                 { presenter?.onDeleteCategoryConfirmed() },
-                getString(R.string.delete_category),
+                getString(R.string.delete_tag),
                 getString(R.string.cancel),
                 {})
     }

@@ -249,8 +249,8 @@
     <string name="node">节点</string>
     <string name="settings_ip_title">IP地址:端口</string>
     <string name="settings_general_settings">通用设置</string>
-    <string name="categories">类别</string>
-    <string name="add_new_category">新建类别</string>
+    <string name="tags">类别</string>
+    <string name="add_new_tag">新建类别</string>
     <string name="lock_screen">锁定屏幕</string>
     <string name="never">永不</string>
     <string name="after">之后</string>
@@ -284,13 +284,13 @@
     <string name="transactions_list">交易列表</string>
     <string name="address_id">地址ID</string>
     <string name="expiration_date">失效日期</string>
-    <string name="category">类别</string>
+    <string name="tag">类别</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">立即令地址失效</string>
     <string name="active_address">激活地址</string>
     <string name="save">保存</string>
     <string name="now">现在</string>
-    <string name="edit_address_category_empty_message">您可以在设置中创建类别</string>
+    <string name="edit_address_tags_empty_message">您可以在设置中创建类别</string>
     <string name="none">无</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">修改密码</string>
@@ -310,11 +310,11 @@
     <string name="current_password_is_incorrect">当前密码不正确</string>
     <!--CategoryFragment-->
     <string name="edit">编辑</string>
-    <string name="delete_category">删除类别</string>
-    <string name="category_delete_dialog_message">确定要删除%1$s类别吗?</string>
+    <string name="delete_tag">删除类别</string>
+    <string name="tag_delete_dialog_message">确定要删除%1$s类别吗?</string>
     <!--EditCategory-->
-    <string name="edit_category">编辑类别</string>
-    <string name="create_category">创建类别</string>
+    <string name="edit_tag">编辑类别</string>
+    <string name="create_tag">创建类别</string>
     <string name="color">颜色</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">显示所有者密钥</string>
@@ -357,7 +357,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">请输入当前密码以修改设置</string>
     <string name="save_changes">保存修改</string>
     <string name="receive_description">为使交易顺利完成，您需要在支付完Beam后12小时内上线同步钱包</string>
-    <string name="search_by_address_category_or_name">按地址、类别、或名称搜索</string>
+    <string name="search_by_address_tag_or_name">按地址、类别、或名称搜索</string>
     <string name="min_fee_error">最小交易费为 %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">删除与该地址有关的所有交易</string>
     <string name="search_transaction">搜索交易</string>
@@ -389,4 +389,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

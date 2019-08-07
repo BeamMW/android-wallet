@@ -140,15 +140,15 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         sum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
     }
 
-    override fun configCategoryAddresses(senderCategory: Category?, receiverCategory: Category?) {
-        startAddressCategory.visibility = if (senderCategory == null) View.GONE else View.VISIBLE
-        senderCategory?.let {
+    override fun configCategoryAddresses(senderTag: Tag?, receiverTag: Tag?) {
+        startAddressCategory.visibility = if (senderTag == null) View.GONE else View.VISIBLE
+        senderTag?.let {
             startAddressCategory.text = it.name
             startAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }
 
-        endAddressCategory.visibility = if (receiverCategory == null) View.GONE else View.VISIBLE
-        receiverCategory?.let {
+        endAddressCategory.visibility = if (receiverTag == null) View.GONE else View.VISIBLE
+        receiverTag?.let {
             endAddressCategory.text = it.name
             endAddressCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }

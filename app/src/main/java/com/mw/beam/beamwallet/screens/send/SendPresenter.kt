@@ -231,8 +231,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.outgoingAddress?.duration = period.value
     }
 
-    override fun onSelectedCategory(category: Category?) {
-        state.outgoingAddress?.let { repository.changeCategoryForAddress(it.walletID, category) }
+    override fun onSelectedCategory(tag: Tag?) {
+        state.outgoingAddress?.let { repository.changeCategoryForAddress(it.walletID, tag) }
     }
 
     private fun saveAddress() {

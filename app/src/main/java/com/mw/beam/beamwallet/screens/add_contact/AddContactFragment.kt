@@ -13,8 +13,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.views.CategorySpinner
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_add_contact.*
 
@@ -38,11 +37,6 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         return name.text?.toString() ?: ""
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        categorySpinner.selectCategory(null)
-    }
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_add_contact
 
     override fun getToolbarTitle(): String? = getString(R.string.add_contact)
@@ -63,16 +57,6 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         }
 
         address.addTextChangedListener(tokenWatcher)
-
-        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
-            override fun onSelect(category: Category?) {
-                presenter?.onSelectCategory(category)
-            }
-
-            override fun onAddNewCategoryPressed() {
-                presenter?.onAddNewCategoryPressed()
-            }
-        })
     }
 
     override fun setAddress(address: String) {
@@ -95,6 +79,26 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         findNavController().navigate(AddContactFragmentDirections.actionAddContactFragmentToEditCategoryFragment())
     }
 
+    override fun setupTagAction(isEmptyTags: Boolean) {
+        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
+        val drawable = ContextCompat.getDrawable(context!!, resId)
+        tagAction.setImageDrawable(drawable)
+    }
+
+    override fun showCreateTagDialog() {
+        showAlert(
+                getString(R.string.dialog_empty_tags_message),
+                getString(R.string.create_tag),
+                { presenter?.onCreateNewTagPressed() },
+                getString(R.string.tag_list_is_empty),
+                getString(R.string.cancel)
+        )
+    }
+
+    override fun showTagsDialog(selectedTags: List<Tag>) {
+        
+    }
+
     override fun showTokenError() {
         tokenError.visibility = View.VISIBLE
     }
@@ -107,7 +111,6 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         btnCancel.setOnClickListener(null)
         btnSave.setOnClickListener(null)
         scanQR.setOnClickListener(null)
-        categorySpinner.setOnChangeCategoryListener(null)
         address.removeTextChangedListener(tokenWatcher)
     }
 

@@ -237,8 +237,8 @@
     <string name="node">노드</string>
     <string name="settings_ip_title">아이피 : 포트:</string>
     <string name="settings_general_settings">일반 설정</string>
-    <string name="categories">카테고리</string>
-    <string name="add_new_category">새로운 카테고리 더하기</string>
+    <string name="tags">카테고리</string>
+    <string name="add_new_tag">새로운 카테고리 더하기</string>
     <string name="lock_screen">잠금 화면</string>
     <string name="never">Never</string>
     <string name="after">다음</string>
@@ -272,13 +272,13 @@
     <string name="transactions_list">거래내역</string>
     <string name="address_id">주소 ID</string>
     <string name="expiration_date">만료 일자</string>
-    <string name="category">카테고리</string>
+    <string name="tag">카테고리</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">주소 만료시키기</string>
     <string name="active_address">주소 활성화</string>
     <string name="save">저장</string>
     <string name="now">현재</string>
-    <string name="edit_address_category_empty_message">카테고리를 설정에서 생성할 수 있습니다</string>
+    <string name="edit_address_tags_empty_message">카테고리를 설정에서 생성할 수 있습니다</string>
     <string name="none">없음</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">비밀번호 바꾸기</string>
@@ -297,11 +297,11 @@
     <string name="current_password_is_incorrect">올바른 비밀번호가 아닙니다</string>
     <!--CategoryFragment-->
     <string name="edit">수정</string>
-    <string name="delete_category">카테고리 삭제</string>
-    <string name="category_delete_dialog_message">정말 %1$s 카테고리를 삭제 하시겠습니까?</string>
+    <string name="delete_tag">카테고리 삭제</string>
+    <string name="tag_delete_dialog_message">정말 %1$s 카테고리를 삭제 하시겠습니까?</string>
     <!--EditCategory-->
-    <string name="edit_category">카테고리 수정</string>
-    <string name="create_category">카테고리 생성</string>
+    <string name="edit_tag">카테고리 수정</string>
+    <string name="create_tag">카테고리 생성</string>
     <string name="color">색깔</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">소유자 키 보이기</string>
@@ -341,7 +341,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">설정 변경하시려면 비밀번호를 입력하세요</string>
     <string name="save_changes">변경사항 저장</string>
     <string name="receive_description">거래를 완료하기 위해서는, Beam 을 보낸 후 12시간 안으로 온라인 상태이어야 합니다.</string>
-    <string name="search_by_address_category_or_name">주소, 카테고리 혹은 이름으로 검색하기</string>
+    <string name="search_by_address_tag_or_name">주소, 카테고리 혹은 이름으로 검색하기</string>
     <string name="min_fee_error">최소 수수료는 %1$s GROTH 입니다</string>
     <string name="delete_all_transactions_related_to_this_address">해당 주소와 연관된 거래 모두 삭제하기</string>
     <string name="search_transaction">Search transaction</string>
@@ -373,4 +373,8 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

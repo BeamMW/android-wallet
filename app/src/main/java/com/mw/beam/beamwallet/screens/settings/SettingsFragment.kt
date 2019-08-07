@@ -39,7 +39,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.isLessMinute
@@ -95,10 +95,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOwnerKeyVerificationFragment())
     }
 
-    override fun updateCategoryList(allCategory: List<Category>) {
+    override fun updateCategoryList(allTag: List<Tag>) {
         categoriesList.removeAllViews()
 
-        allCategory.forEach { category ->
+        allTag.forEach { category ->
             categoriesList.addView(CategoryItemView(context!!).apply {
                 colorResId = category.color.getAndroidColorId()
                 text = category.name

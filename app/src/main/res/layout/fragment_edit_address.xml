@@ -142,16 +142,31 @@
                 style="@style/common_subheader_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/edit_address_element_offset"
-                android:text="@string/category"
+                android:layout_marginTop="@dimen/edit_address_element_offset"
+                android:text="@string/tag"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/expiresSwitch" />
 
-            <com.mw.beam.beamwallet.core.views.CategorySpinner
-                android:id="@+id/categorySpinner"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tags"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="@dimen/common_offset"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle"/>
+                app:layout_constraintEnd_toStartOf="@id/tagAction"
+                app:layout_constraintStart_toStartOf="@id/categoryTitle"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                tools:text="Salary, Payments" />
+
+            <ImageView
+                android:id="@+id/tagAction"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_add"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
             <TextView
                 android:id="@+id/commentTitle"
@@ -161,7 +176,7 @@
                 android:paddingTop="@dimen/edit_address_element_offset"
                 android:text="@string/annotation"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/categorySpinner" />
+                app:layout_constraintTop_toBottomOf="@id/tags" />
 
             <EditText
                 android:id="@+id/comment"

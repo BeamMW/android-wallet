@@ -16,12 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.edit_category
 
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryColor
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagColor
 
 class EditCategoryState {
-    var category: Category? = null
-    var tempColor: CategoryColor = CategoryColor.Red
+    var tag: Tag? = null
+    var tempColor: TagColor = TagColor.Red
     var tempName: String = ""
-    var allCategory: List<Category> = listOf()
+    var allTag: List<Tag> = listOf()
 }

@@ -18,8 +18,8 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -77,8 +77,8 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-    override fun getCategoryForAddress(address: String): Category? {
-        return CategoryHelper.getCategoryForAddress(address)
+    override fun getCategoryForAddress(address: String): Tag? {
+        return TagHelper.getTagsForAddress(address)
     }
 
     override fun isAllowOpenExternalLink(): Boolean {

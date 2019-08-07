@@ -22,7 +22,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
@@ -40,14 +40,14 @@ interface AddressesContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
-        fun onSearchCategoryForAddress(address: String): Category?
+        fun onSearchCategoryForAddress(address: String): Tag?
         fun onAddContactPressed()
     }
 
     interface Repository : MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Observable<OnTxStatusData>
-        fun getCategoryForAddress(address: String): Category?
+        fun getCategoryForAddress(address: String): Tag?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
     }

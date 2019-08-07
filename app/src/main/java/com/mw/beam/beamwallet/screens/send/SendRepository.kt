@@ -21,8 +21,8 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.helpers.CategoryHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -75,12 +75,12 @@ class SendRepository : BaseRepository(), SendContract.Repository {
         }
     }
 
-    override fun getCategory(address: String): Category? {
-        return CategoryHelper.getCategoryForAddress(address)
+    override fun getCategory(address: String): Tag? {
+        return TagHelper.getTagsForAddress(address)
     }
 
-    override fun changeCategoryForAddress(address: String, category: Category?) {
-        CategoryHelper.changeCategoryForAddress(address, category)
+    override fun changeCategoryForAddress(address: String, tag: Tag?) {
+        TagHelper.changeTagsForAddress(address, tag)
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)

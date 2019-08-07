@@ -58,7 +58,7 @@ object TrashManager {
     fun remove(id: String) {
         actions[id]?.apply {
             addresses.forEach {
-                CategoryHelper.changeCategoryForAddress(it.walletID, null)
+                TagHelper.changeTagsForAddress(it.walletID, null)
                 App.wallet?.deleteAddress(it.walletID)
             }
 

@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.edit_category
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.helpers.CategoryColor
+import com.mw.beam.beamwallet.core.helpers.TagColor
 
 class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCategoryContract.Repository, private val state: EditCategoryState)
     : BasePresenter<EditCategoryContract.View, EditCategoryContract.Repository>(view, repository), EditCategoryContract.Presenter {
@@ -31,17 +31,17 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
             category = repository.createNewCategory()
         }
 
-        state.category = category
+        state.tag = category
         state.tempName = category.name
         state.tempColor = category.color
 
-        state.allCategory = repository.getAllCategory()
+        state.allTag = repository.getAllCategory()
 
         view?.init(category)
     }
 
-    override fun onChangeColor(categoryColor: CategoryColor) {
-        state.tempColor = categoryColor
+    override fun onChangeColor(tagColor: TagColor) {
+        state.tempColor = tagColor
         checkSaveButtonEnabled()
     }
 
@@ -51,16 +51,16 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
     }
 
     private fun checkSaveButtonEnabled() {
-        val isNameChanged = state.category?.name != state.tempName && state.tempName.isNotBlank()
-        val isColorChanged = state.category?.color != state.tempColor
+        val isNameChanged = state.tag?.name != state.tempName && state.tempName.isNotBlank()
+        val isColorChanged = state.tag?.color != state.tempColor
         val isValidName = checkIsUniqueName(state.tempName)
-        if (!state.category?.name.isNullOrBlank()) {
-            view?.setSaveEnabled((isNameChanged || isColorChanged) && state.tempName.isNotBlank() && (isValidName || state.category?.name == state.tempName.trim()))
+        if (!state.tag?.name.isNullOrBlank()) {
+            view?.setSaveEnabled((isNameChanged || isColorChanged) && state.tempName.isNotBlank() && (isValidName || state.tag?.name == state.tempName.trim()))
         } else view?.setSaveEnabled(isNameChanged && isValidName)
     }
 
     private fun checkIsUniqueName(name: String): Boolean {
-        return state.allCategory.firstOrNull { category -> category.name == name.trim() } == null
+        return state.allTag.firstOrNull { category -> category.name == name.trim() } == null
     }
 
     override fun onSavePressed() {
@@ -68,7 +68,7 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
             return
         }
 
-        state.category?.let {
+        state.tag?.let {
             it.name = view!!.getName().trim()
             it.color = view!!.getSelectedCategoryColor()
 

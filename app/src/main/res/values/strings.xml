@@ -251,8 +251,8 @@
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General settings</string>
-    <string name="categories">Categories</string>
-    <string name="add_new_category">Add new category</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Lock screen</string>
     <string name="never">Never</string>
     <string name="after">After</string>
@@ -290,14 +290,13 @@
     <string name="transactions_list">Transactions list</string>
     <string name="address_id">Address ID</string>
     <string name="expiration_date">Expiration date</string>
-    <string name="category">Category</string>
+    <string name="tag">Tag</string>
 
     <!--EditAddressFragment-->
     <string name="expire_address_now">Expire address now</string>
     <string name="active_address">Activate address</string>
     <string name="save">Save</string>
     <string name="now">Now</string>
-    <string name="edit_address_category_empty_message">You can create category in Settings</string>
     <string name="none">None</string>
 
     <!--CheckOldPassActivity-->
@@ -321,12 +320,12 @@
 
     <!--CategoryFragment-->
     <string name="edit">Edit</string>
-    <string name="delete_category">Delete category</string>
-    <string name="category_delete_dialog_message">Are you sure you want to delete %1$s category?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
 
     <!--EditCategory-->
-    <string name="edit_category">Edit category</string>
-    <string name="create_category">Create category</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Color</string>
 
     <!--OwnerKeyFragments-->
@@ -374,7 +373,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
-    <string name="search_by_address_category_or_name">Search by address, category or name</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="search_transaction">Search transaction</string>
@@ -406,5 +405,9 @@
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 
 </resources>

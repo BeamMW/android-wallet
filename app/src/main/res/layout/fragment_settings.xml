@@ -327,7 +327,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
-                        android:text="@string/categories"
+                        android:text="@string/tags"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -344,7 +344,7 @@
                         style="@style/common_menu_item"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/add_new_category"
+                        android:text="@string/add_new_tag"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoriesList" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

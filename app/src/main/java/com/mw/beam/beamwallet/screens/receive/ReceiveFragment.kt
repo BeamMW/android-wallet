@@ -34,10 +34,9 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
@@ -227,18 +226,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getComment(): String? = comment.text?.toString()
 
-    override fun configCategory(currentCategory: Category?) {
-        categorySpinner.selectCategory(currentCategory)
+    override fun configCategory(currentTag: Tag?) {
 
-        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
-            override fun onSelect(category: Category?) {
-                presenter?.onSelectedCategory(category)
-            }
-
-            override fun onAddNewCategoryPressed() {
-                presenter?.onAddNewCategoryPressed()
-            }
-        })
     }
 
     override fun showSaveAddressDialog(nextStep: () -> Unit) {

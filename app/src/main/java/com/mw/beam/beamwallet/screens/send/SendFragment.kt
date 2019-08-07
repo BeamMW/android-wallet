@@ -52,7 +52,6 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
-import com.mw.beam.beamwallet.core.views.CategorySpinner
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
@@ -614,18 +613,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
     }
 
-    override fun configCategory(currentCategory: Category?) {
-        categorySpinner.selectCategory(currentCategory)
+    override fun configCategory(currentTag: Tag?) {
 
-        categorySpinner.setOnChangeCategoryListener(object: CategorySpinner.OnChangeCategoryListener {
-            override fun onSelect(category: Category?) {
-                presenter?.onSelectedCategory(category)
-            }
-
-            override fun onAddNewCategoryPressed() {
-                presenter?.onAddNewCategoryPressed()
-            }
-        })
     }
 
     override fun showAddNewCategory() {
@@ -712,16 +701,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contactName.visibility = View.GONE
     }
 
-    override fun setSendContact(walletAddress: WalletAddress?, category: Category?) {
-        contactCategory.visibility = if (category == null) View.GONE else View.VISIBLE
-        contactIcon.visibility = if (walletAddress != null || category != null) View.VISIBLE else View.GONE
+    override fun setSendContact(walletAddress: WalletAddress?, tag: Tag?) {
+        contactCategory.visibility = if (tag == null) View.GONE else View.VISIBLE
+        contactIcon.visibility = if (walletAddress != null || tag != null) View.VISIBLE else View.GONE
         contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
 
         walletAddress?.label?.let {
             contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
         }
 
-        category?.let {
+        tag?.let {
             contactCategory.text = it.name
             contactCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
         }

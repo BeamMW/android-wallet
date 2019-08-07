@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.Category
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -74,11 +74,11 @@ interface SendContract {
         fun getCommentOutgoingAddress(): String
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
-        fun configCategory(currentCategory: Category?)
+        fun configCategory(currentTag: Tag?)
         fun updateFeeViews(clearAmountFocus: Boolean = true)
         fun showFeeDialog()
         fun showAddNewCategory()
-        fun setSendContact(walletAddress: WalletAddress?, category: Category?)
+        fun setSendContact(walletAddress: WalletAddress?, tag: Tag?)
         fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
         fun requestFocusToAmount()
@@ -105,7 +105,7 @@ interface SendContract {
         fun onChangeAddressPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onLabelAddressChanged(text: String)
-        fun onSelectedCategory(category: Category?)
+        fun onSelectedCategory(tag: Tag?)
         fun onAddressChanged(walletAddress: WalletAddress)
         fun onLongPressFee()
         fun onEnterFee(rawFee: String?)
@@ -123,8 +123,8 @@ interface SendContract {
         fun getAddresses(): Subject<OnAddressesData>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun saveAddress(address: WalletAddress)
-        fun getCategory(address: String): Category?
-        fun changeCategoryForAddress(address: String, category: Category?)
+        fun getCategory(address: String): Tag?
+        fun changeCategoryForAddress(address: String, tag: Tag?)
         fun updateAddress(address: WalletAddress)
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>

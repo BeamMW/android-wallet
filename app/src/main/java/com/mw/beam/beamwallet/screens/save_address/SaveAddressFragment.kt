@@ -22,8 +22,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.helpers.Category
-import com.mw.beam.beamwallet.core.views.CategorySpinner
+import com.mw.beam.beamwallet.core.helpers.Tag
 import kotlinx.android.synthetic.main.fragment_save_address.*
 
 class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressContract.View {
@@ -31,9 +30,8 @@ class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressCont
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_save_address
 
-    override fun init(address: String, category: Category?) {
+    override fun init(address: String, tag: Tag?) {
         this.address.text = address
-        categorySpinner.selectCategory(category)
     }
 
     override fun addListeners() {
@@ -45,15 +43,6 @@ class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressCont
             presenter?.onCancelPressed()
         }
 
-        categorySpinner.setOnChangeCategoryListener(object : CategorySpinner.OnChangeCategoryListener {
-            override fun onSelect(category: Category?) {
-                presenter?.onSelectCategory(category)
-            }
-
-            override fun onAddNewCategoryPressed() {
-                presenter?.onAddNewCategoryPressed()
-            }
-        })
     }
 
     override fun getName(): String {
@@ -67,7 +56,6 @@ class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressCont
     override fun clearListeners() {
         btnSave.setOnClickListener(null)
         btnCancel.setOnClickListener(null)
-        categorySpinner.setOnChangeCategoryListener(null)
     }
 
     override fun close() {

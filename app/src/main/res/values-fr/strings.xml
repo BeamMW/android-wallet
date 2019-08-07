@@ -239,8 +239,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="node">Noeud</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Paramètres généraux</string>
-    <string name="categories">Catégories</string>
-    <string name="add_new_category">Ajouter une catégorie</string>
+    <string name="tags">Catégories</string>
+    <string name="add_new_tag">Ajouter une catégorie</string>
     <string name="lock_screen">Écran de verrouillage</string>
     <string name="never">Jamais</string>
     <string name="after">Après le</string>
@@ -274,13 +274,13 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
     <string name="expiration_date">Date d\'expiration</string>
-    <string name="category">Catégorie</string>
+    <string name="tag">Catégorie</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Faire expirer l\'adresse maintenant</string>
     <string name="active_address">Activer l\'adresse</string>
     <string name="save">Sauvegarder</string>
     <string name="now">Maintenant</string>
-    <string name="edit_address_category_empty_message">Vous pouvez créer une catégorie dans les paramètres</string>
+    <string name="edit_address_tags_empty_message">Vous pouvez créer une catégorie dans les paramètres</string>
     <string name="none">Aucun</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Modifier mot de passe</string>
@@ -299,11 +299,11 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="current_password_is_incorrect">Le mot de passe actuel est incorrect</string>
     <!--CategoryFragment-->
     <string name="edit">Modifier</string>
-    <string name="delete_category">Effacer catégorie</string>
-    <string name="category_delete_dialog_message">Êtes-vous sûr de vouloir supprimer la catégorie %1$s?</string>
+    <string name="delete_tag">Effacer catégorie</string>
+    <string name="tag_delete_dialog_message">Êtes-vous sûr de vouloir supprimer la catégorie %1$s?</string>
     <!--EditCategory-->
-    <string name="edit_category">Modifier catégorie</string>
-    <string name="create_category">Créer une catégorie</string>
+    <string name="edit_tag">Modifier catégorie</string>
+    <string name="create_tag">Créer une catégorie</string>
     <string name="color">Couleur </string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Afficher la clé propriétaire</string>
@@ -343,7 +343,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Saisir votre mot de passe pour procéder aux changements de paramètres</string>
     <string name="save_changes">Confirmer les modifications</string>
     <string name="receive_description">Pour compléter la transaction, vous devez être en ligne dans les douze heures après que les Beams ont été envoyés.</string>
-    <string name="search_by_address_category_or_name">Rechercher par adresse, catégorie ou nom</string>
+    <string name="search_by_address_tag_or_name">Rechercher par adresse, catégorie ou nom</string>
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
     <string name="search_transaction">Rechercher des transactions</string>
@@ -375,4 +375,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
     <string name="my_active_addresses">My active addresses</string>
+    <string name="tag_list_is_empty">Tag list is empty</string>
+    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="choose_tag">Choose tag</string>
 </resources>

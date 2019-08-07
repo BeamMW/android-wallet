@@ -61,7 +61,7 @@
     <color name="address_tab_text_color">#8798a9</color>
     <color name="addresses_status_bar_color">#035b8f</color>
 
-    <!--Category-->
+    <!--Tag-->
     <color name="category_red">#ff746b</color>
     <color name="category_orange">#ffba55</color>
     <color name="category_yellow">#fee65a</color>
