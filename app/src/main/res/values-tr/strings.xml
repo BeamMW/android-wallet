@@ -23,7 +23,7 @@
     <string name="copied">Kopyalandı!</string>
     <string name="more">Daha fazla</string>
     <string name="share_qr">QR kodunu paylaş</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">Gizlilik modunu etkinleştir</string>
     <string name="common_security_mode_message">Göz simgesine tıklayana kadar tüm bakiyeler gizli kalacaktır.</string>
     <string name="common_fingerprint_error">Çok fazla deneme yapıldı. Lütfen şifre giriniz.</string>
     <string name="common_share_title">Paylaş…</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Geri yükleme işlemini iptal edeceksiniz. Tüm veriler kaybolacak. Devam etmek istiyor musun?</string>
     <string name="welcome_progress_update_utxo_description">UTXO aranıyor</string>
     <string name="welcome_progress_restore_description">Geri yüklendi</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
+    <string name="welcome_progress_restore_description_full_top">Lütfen senkronizasyonu bekleyin ve uygulamayı kapatmayın veya simge durumuna küçültmeyin. Cüzdanın geri yüklenmesi biraz zaman alabilir. Geri yüklemenin kesintiye uğramaması için cihazınızı güç kaynağına bağlayın.</string>
     <string name="welcome_progress_restore_description_full_bottom">Yalnızca cüzdan bakiyesi (UTXO) geri yüklenebilir, işlem bilgileri her zaman gizlidir ve hiçbir zaman blokzincirinde tutulmaz.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Cüzdanınıza erişmek için bir şifre oluşturun</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Madencilik geri dönüşe neden oldu</string>
     <string name="blockchain_height">Blokzincir Yüksekliği</string>
     <string name="last_block_hash">Son blok hashi</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">Şu anda gizli modu kullanıyorsunuz.</string>
     <string name="utxo_turn_off_see_utxo">UTXO listesini görmek için kapatın.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO detayları</string>
@@ -237,8 +237,8 @@
     <string name="node">Düğüm</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Genel ayarlar</string>
-    <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
+    <string name="tags">Etiketler</string>
+    <string name="add_new_tag">Yeni etiket ekle</string>
     <string name="lock_screen">Ekranı kilitle</string>
     <string name="never">Asla</string>
     <string name="after">Daha sonra</string>
@@ -272,7 +272,7 @@
     <string name="transactions_list">İşlem listesi</string>
     <string name="address_id">Adres kimliği</string>
     <string name="expiration_date">Son kullanım tarihi</string>
-    <string name="tag">Tag</string>
+    <string name="tag">Etiket</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Adresi şimdi sonlandır</string>
     <string name="active_address">Aktif adresler</string>
@@ -296,11 +296,11 @@
     <string name="current_password_is_incorrect">Şu anki şifre yanlış</string>
     <!--CategoryFragment-->
     <string name="edit">Düzenle</string>
-    <string name="delete_tag">Delete tag</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="delete_tag">Etiketi sil</string>
+    <string name="tag_delete_dialog_message">%s etiketini silmek istediğinizden emin misiniz?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">Etiketi düzenle</string>
+    <string name="create_tag">Etiket oluştur</string>
     <string name="color">Renk</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
@@ -341,7 +341,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Ayarlarda değişiklik yapmak için mevcut şifrenizi girin</string>
     <string name="save_changes">Değişiklikleri kaydedin</string>
     <string name="receive_description">İşlemin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde çevrimiçi olmalısınız.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Adrese, etikete veya isme göre ara</string>
     <string name="min_fee_error">Minimum işlem ücreti %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Bu adresle ilintili tüm işlemleri sil</string>
     <string name="search_transaction">İşlemlerde Ara</string>
@@ -373,8 +373,8 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="downloading_blockchain_info">Blokzincir bilgileri indiriliyor</string>
     <string name="add_all">Tümünü ekle</string>
     <string name="my_active_addresses">Aktif adreslerim</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
-    <string name="choose_tag">Choose tag</string>
+    <string name="tag_list_is_empty">Etiket listesi boş</string>
+    <string name="dialog_empty_tags_message">Henüz bir etiketiniz yok. Şimdi bir etiket oluşturmak ister misiniz?</string>
+    <string name="you_can_create_more_tags_in_settings">Ayarlarda daha fazla etiket oluşturabilirsiniz.</string>
+    <string name="choose_tag">Etiket seçin</string>
 </resources>

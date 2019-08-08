@@ -23,7 +23,7 @@
     <string name="copied">Kopierat!</string>
     <string name="more">Mer</string>
     <string name="share_qr">dela QR</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">Aktivera privat läge</string>
     <string name="common_security_mode_message">Alla balanser kommer att döljas tills ögonikonen klickas på igen.</string>
     <string name="common_fingerprint_error">För många försök. Vänligen ange lösenord.</string>
     <string name="common_share_title">Dela…</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Du är på väg att avbryta en återställningsprocess. All data kommer att gå förlorade. Vill du fortsätta?</string>
     <string name="welcome_progress_update_utxo_description">Scannar UTXO</string>
     <string name="welcome_progress_restore_description">Återställd</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
+    <string name="welcome_progress_restore_description_full_top">Vänligen vänta på synkroniseringen och stäng eller minimera ej applikationen. Återställning av plånboken kan ta en stund. Anslut din enhet till en strömkälla för att undvika att återställningen stoppas.</string>
     <string name="welcome_progress_restore_description_full_bottom">Endast plånbokens balans (UTXO) kan återställas, transaktionsinformation är alltid privata och lagras aldrig i block-kedjan.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Skapa lösenord för åtkomst av din plånbok</string>
@@ -109,13 +109,13 @@
     <string name="pass_return_seed_btn_create_new">Generera</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beam skickade</string>
-    <string name="available">Tillgänglig</string>
+    <string name="available">Tillgängligt</string>
     <string name="in_progress">Pågående</string>
     <string name="receiving">Mottager</string>
     <string name="sending">Skickar</string>
     <string name="sending_to_own_address">Skickar till egen adress</string>
     <string name="maturing">Mognar</string>
-    <string name="receive">Motta</string>
+    <string name="receive">Ta emot</string>
     <string name="send">Skicka</string>
     <string name="completed">Avslutade</string>
     <string name="received">Mottaget</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Mining-resultat rollback</string>
     <string name="blockchain_height">Block-kedjans höjd</string>
     <string name="last_block_hash">Senaste blockets hash</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">Du är för närvarande i privat läge.</string>
     <string name="utxo_turn_off_see_utxo">Stäng av detta för att se din UTXO-lista.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO-detaljer</string>
@@ -194,7 +194,7 @@
     <string name="share_address">Dela adress</string>
     <string name="show_qr">visa QR</string>
     <string name="addresses">Adresser</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">Skicka denna adress över en extern säker kanal.</string>
     <string name="receive_save_address_message">Vill du spara skapade adresser och använda dessa vid ett senare tillfälle?</string>
     <string name="receive_save_changes_message">Vill du spara ändringar för denna adress?</string>
     <string name="request_an_amount">Begär belopp</string>
@@ -238,7 +238,7 @@
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Generella inställningar</string>
     <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
+    <string name="add_new_tag">Lägg till ny tag</string>
     <string name="lock_screen">Lås skärm</string>
     <string name="never">Aldrig</string>
     <string name="after">Efter</string>
@@ -296,11 +296,11 @@
     <string name="current_password_is_incorrect">Nuvarande lösenord är felaktigt</string>
     <!--CategoryFragment-->
     <string name="edit">Ändra</string>
-    <string name="delete_tag">Delete tag</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="delete_tag">Ta bort tag</string>
+    <string name="tag_delete_dialog_message">Vill du verkligen ta bort %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">Redigera tag</string>
+    <string name="create_tag">Skapa Tag</string>
     <string name="color">Färg</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Visa ägar-nyckel</string>
@@ -340,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Ange nuvarande lösenord för att ändra förändringarna i inställningarna</string>
     <string name="save_changes">Spara ändringar</string>
     <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Sök med adress, tag eller namn</string>
     <string name="min_fee_error">Minsta avgift är %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
     <string name="search_transaction">Sök transaktion</string>
@@ -350,30 +350,30 @@
     <string name="enter_your_password_to_confirm_transaction">Ange ditt lösenord för att bekräfta transaktion</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Använd fingeravtryck eller ange ditt lösenord för att bekräfta transaktion</string>
     <string name="fingerprint_not_recognized">Fingeravtryck känns inte igen</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="address_copied_to_clipboard">Adress kopierat till urklipp</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-plånboken kommer att ladda ner block-kedjans ögonblicksbild från molnet.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam-plånboken kommer att ansluta till en specifik nod och du kommer att hitta dina tillgångar i block-kedjan.</string>
+    <string name="restore_with_trusted_node">Återställ med pålitlig nod</string>
+    <string name="automatic_restore_recommended">AUTOMATISK ÅTERSTÄLLNING (rekommenderat)</string>
+    <string name="enter_trusted_node_address">Mata in pålitlig nod-adress</string>
     <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
-    <string name="choose_tag">Choose tag</string>
+    <string name="owner_key">Ägar-nyckel</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Klistra in denna kod i Beam-plånboken på din dator för att fortsätta återställningen från noden.</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">När du väl klistrat in koden kommer återställningen att starta automatiskt.</string>
+    <string name="privacy_mode">Integritetsläge</string>
+    <string name="gallery">Galleri</string>
+    <string name="selectPickture">Välj bild</string>
+    <string name="storage_permission_required_message">Vänligen ge lagringsutrymmet tillåtelse att användas för ditt galleri</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR-koden känns inte igen. Vänligen testa en annan bild.</string>
+    <string name="welcome_progress_restore_networ_error_description">Nätverksanslutningen misslyckades. Vänligen testa igen efter att du återanslutit mot nätverket.</string>
+    <string name="automatic_restore_warning">Vänligen se till att inga transaktioner (från någon enhet) gjorts under den senaste timmen. Om du har det, vänta i åtminstone en timme efter den senaste transaktionen innan du fortsätter med Återställning. Annars kan din återställda balans vara felaktig och ytterligare återställningsprocedurer kommer att krävas.</string>
+    <string name="node_restore_warning">Verifiera att din nod är fullt synkroniserad med blockkedjan innan du startar återställningsproceduren. Om inte så kommer din återställda balans att eventuellt vara felaktig och ytterligare återställningsprocedurer kommer att vara nödvändiga.</string>
+    <string name="understand">Jag förstår</string>
+    <string name="downloading_blockchain_info">Laddar ner blockkedje-info</string>
+    <string name="add_all">Lägg till alla</string>
+    <string name="my_active_addresses">Mina aktiva adresser</string>
+    <string name="tag_list_is_empty">Tag-listan är tom</string>
+    <string name="dialog_empty_tags_message">Du har inga tags ännu. Vill du skapa en tag nu?</string>
+    <string name="you_can_create_more_tags_in_settings">Du kan skapa fler tags under Inställningar.</string>
+    <string name="choose_tag">Välj tag</string>
 </resources>
