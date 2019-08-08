@@ -134,7 +134,7 @@
                 android:layout_marginBottom="@dimen/send_btn_margin"
                 app:button_icon="@drawable/ic_btn_cancel"
                 android:background="@drawable/primary_button"
-                app:button_text="@string/cancel"
+                app:button_text="@string/dont_save"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnSave"
