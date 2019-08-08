@@ -23,7 +23,7 @@
     <string name="copied">Đã sao chép!</string>
     <string name="more">Nhiều hơn</string>
     <string name="share_qr">chia sẻ mã QR</string>
-    <string name="common_security_mode_title">Kích hoạt chế độ bảo mật</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">Tất cả số dư sẽ được ẩn cho đến khi biểu tượng mắt được gõ một lần nữa.</string>
     <string name="common_fingerprint_error">Quá nhiều lần thử. Vui lòng nhập mật khẩu.</string>
     <string name="common_share_title">Chia sẻ…</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Bạn sẽ hủy quá trình khôi phục. Tất cả dữ liệu sẽ bị mất. Bạn có muốn tiếp tục?</string>
     <string name="welcome_progress_update_utxo_description">Đang quét UTXO</string>
     <string name="welcome_progress_restore_description">Đã khôi phục</string>
-    <string name="welcome_progress_restore_description_full_top">Vui lòng đợi đồng bộ hóa và không đóng hoặc thu nhỏ ứng dụng.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">Chỉ có thể khôi phục số dư ví (UTXO), thông tin giao dịch luôn ở chế độ riêng tư và không bao giờ được giữ trong blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Tạo mật khẩu để truy cập vào ví của bạn</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Huỷ kết quả khai thác</string>
     <string name="blockchain_height">Chiều cao chuỗi khối</string>
     <string name="last_block_hash">Hàm băm cuối cùng</string>
-    <string name="utxo_security_message">Bạn hiện đang ở Chế độ bảo mật.</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Tắt nó để xem danh sách UTXO của bạn.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Chi tiết UTXO</string>
@@ -237,8 +237,8 @@
     <string name="node">Nút</string>
     <string name="settings_ip_title">cổng:ip:</string>
     <string name="settings_general_settings">Cài đặt chung</string>
-    <string name="tags">Danh mục</string>
-    <string name="add_new_tag">Thêm danh mục mới</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Màn hình khoá</string>
     <string name="never">Không bao giờ</string>
     <string name="after">Sau</string>
@@ -272,13 +272,12 @@
     <string name="transactions_list">Danh sách giao dịch</string>
     <string name="address_id">Địa chỉ ID</string>
     <string name="expiration_date">Ngày hết hạn</string>
-    <string name="tag">Danh mục</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Địa chỉ hết hạn ngay bây giờ</string>
     <string name="active_address">Kích hoạt địa chỉ</string>
     <string name="save">Lưu</string>
     <string name="now">Bây giờ</string>
-    <string name="edit_address_tags_empty_message">Bạn có thể tạo danh mục trong Cài đặt</string>
     <string name="none">Không có gì</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Thay đổi mật khẩu</string>
@@ -297,11 +296,11 @@
     <string name="current_password_is_incorrect">Mật khẩu hiện tại không chính xác</string>
     <!--CategoryFragment-->
     <string name="edit">Chỉnh sửa</string>
-    <string name="delete_tag">Xoá danh mục</string>
-    <string name="tag_delete_dialog_message">Bạn có chắc chắn muốn xóa danh mục %1$s?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Chỉnh sửa danh mục</string>
-    <string name="create_tag">Tạo danh mục</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Màu</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Hiển thị khóa chủ sở hữu</string>
@@ -341,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Nhập mật khẩu hiện tại của bạn để thay đổi cài đặt</string>
     <string name="save_changes">Lưu địa chỉ</string>
     <string name="receive_description">Để giao dịch hoàn tất, bạn nên truy cập trực tuyến trong vòng 12 giờ sau khi Beams được gửi.</string>
-    <string name="search_by_address_tag_or_name">Tìm kiếm theo địa chỉ, danh mục hoặc tên</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="search_transaction">Search transaction</string>

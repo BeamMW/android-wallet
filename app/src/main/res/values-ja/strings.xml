@@ -23,7 +23,7 @@
     <string name="copied">コピーされました!</string>
     <string name="more">もっと</string>
     <string name="share_qr">QRを共有</string>
-    <string name="common_security_mode_title">セキュリティモードを有効化</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">すべての残高が目のアイコンを再タップするまで非表示になります。</string>
     <string name="common_fingerprint_error">試行数が多すぎます。パスワードを入力してください。</string>
     <string name="common_share_title">共有...</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">あなたはリストアプロセスをキャンセルしようとしています。すべてのデータは失われます。本当によろしいですか？</string>
     <string name="welcome_progress_update_utxo_description">UTXOをスキャン中</string>
     <string name="welcome_progress_restore_description">リストアされました</string>
-    <string name="welcome_progress_restore_description_full_top">同期を待ってください。アプリケーションを閉じたり最小化したりしないでください。</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">ウォレット残高（UTXO）のみ復元可能で、トランザクション情報は常にプライベートであり、ブロックチェーンに残ることはありません。</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">パスワードを作成しあなたのウォレットにアクセス</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">マイニング結果のロールバック</string>
     <string name="blockchain_height">ブロック高</string>
     <string name="last_block_hash">最新のブロックハッシュ</string>
-    <string name="utxo_security_message">現在、ウォレットはセキュリティモードです。</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">無効にしてUTXOリストを表示</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO詳細</string>
@@ -167,7 +167,7 @@
     <string name="id">ID</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">トランザクション詳細</string>
-    <string name="general_transaction_info">一般トランザクションの表示</string>
+    <string name="general_transaction_info">トランザクションの詳細</string>
     <string name="currency_amount">通貨数量</string>
     <string name="transaction_fee">トランザクション手数料</string>
     <string name="comment">コメント</string>
@@ -178,7 +178,7 @@
     <string name="copy_address">アドレスをコピー</string>
     <string name="cancel_transaction">トランザクションをキャンセル</string>
     <string name="delete_transaction">トランザクションを削除</string>
-    <string name="transaction_utxo_list">トランザクションUTXOリスト</string>
+    <string name="transaction_utxo_list">トランザクション（UTXO）リスト</string>
     <string name="details">詳細</string>
     <string name="transaction_details_open_in_explorer">ブロックエクスプローラーで表示</string>
     <string name="my_receiving_address">自分の受信アドレス</string>
@@ -194,7 +194,7 @@
     <string name="share_address">アドレスを共有</string>
     <string name="show_qr">QRを表示</string>
     <string name="addresses">アドレス</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">このアドレスを安全に共有してください</string>
     <string name="receive_save_address_message">作成されたアドレスを後に使用するために保存しますか？</string>
     <string name="receive_save_changes_message">このアドレスの変更を保存しますか？</string>
     <string name="request_an_amount">指定数量を請求</string>
@@ -210,7 +210,7 @@
     <string name="send_token_description">受信者のアドレスをスキャンもしくは入力</string>
     <string name="send_amount_empty_error">数量欄は入力必須です</string>
     <string name="send_amount_zero_error">数量は0BEAMにはできません</string>
-    <string name="send_amount_overflow_error">残高不足：トランザクションを完了する為には %1$s が必要です。</string>
+    <string name="send_amount_overflow_error">残高不足：トランザクションを完了する為にはあと %1$s が必要です。</string>
     <string name="insufficient_funds">残高不足</string>
     <string name="invalid_address">不正なアドレス</string>
     <string name="send_error_expired_address">期限切れアドレスには送信できません</string>
@@ -225,7 +225,7 @@
     <string name="send_dialog_description_with_fingerprint">トランザクションをブロードキャストするには指紋認証を行うか、パスワードを入力してください</string>
     <string name="total_available">使用可能総量</string>
     <string name="transaction_comment">送信量</string>
-    <string name="wont_be_shared">シェアされません</string>
+    <string name="wont_be_shared">このコメントはシェアされません</string>
     <string name="outgoing_address">送信アドレス</string>
     <string name="my_addresses">自分のアドレス</string>
     <string name="no_matching_address_found">一致するアドレスが見つかりませんでした</string>
@@ -237,8 +237,8 @@
     <string name="node">ノード</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">一般設定</string>
-    <string name="tags">カテゴリ</string>
-    <string name="add_new_tag">新しいカテゴリーを追加</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">ロックスクリーン</string>
     <string name="never">無期限</string>
     <string name="after">経過後：</string>
@@ -272,13 +272,12 @@
     <string name="transactions_list">トランザクションリスト</string>
     <string name="address_id">アドレスID</string>
     <string name="expiration_date">有効期限</string>
-    <string name="tag">カテゴリ</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">アドレスを今すぐ期限切れにする</string>
     <string name="active_address">アドレスを有効化</string>
     <string name="save">保存</string>
     <string name="now">今</string>
-    <string name="edit_address_tags_empty_message">設定でカテゴリを作成できます。</string>
     <string name="none">無し</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">パスワードを変更</string>
@@ -297,11 +296,11 @@
     <string name="current_password_is_incorrect">パスワードが違います</string>
     <!--CategoryFragment-->
     <string name="edit">編集</string>
-    <string name="delete_tag">カテゴリの削除</string>
-    <string name="tag_delete_dialog_message">%1$s カテゴリを本当に削除してもよろしいですか?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">カテゴリーを編集</string>
-    <string name="create_tag">カテゴリーを作成</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">カラー</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">オーナーキーを表示</string>
@@ -329,7 +328,7 @@
     <string name="existing_addresses">既存アドレス</string>
     <string name="requested_amount">請求数量</string>
     <string name="paste_address_or_choose_contact">アドレスを貼り付けるか、コンタクトを選択してください</string>
-    <string name="send_to">送信先</string>
+    <string name="send_to">送信先：</string>
     <string name="amount_to_send">送信数量</string>
     <string name="total_utxo_value">UTXOの総数量</string>
     <string name="confirmation_send_description">トランザクションを完了させる為に、受信者は次の12時間オンラインである必要があり、送信者であるあなたはその後2時間オンラインである必要があります。</string>
@@ -341,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">現在のパスワードを入力して設定を変更</string>
     <string name="save_changes">変更を保存</string>
     <string name="receive_description">トランザクションを完了する為に、Beamの送信後12時間オンラインでいてください。</string>
-    <string name="search_by_address_tag_or_name">アドレス、カテゴリ、名前で検索</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">最小手数料は %1$s GROTHです</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
     <string name="search_transaction">トランザクションを検索</string>
@@ -351,28 +350,28 @@
     <string name="enter_your_password_to_confirm_transaction">トランザクションの確定のためにパスワードを入力</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">指紋認証もしくはパスワードでトランザクションを認証</string>
     <string name="fingerprint_not_recognized">指紋が認識されていません</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="address_copied_to_clipboard">アドレスがクリップボードにコピーされました</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beamウォレットはブロックチェーンのスナップショットをクラウドからダウンロードします</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beamウォレットは特定のノードに接続し、ノードはあなたのすべての資金をブロックチェーンから発見します</string>
+    <string name="restore_with_trusted_node">信頼できるノードでリストア</string>
+    <string name="automatic_restore_recommended">自動リストア（推奨）</string>
+    <string name="enter_trusted_node_address">信頼できるノードアドレスを入力してください</string>
     <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="owner_key">オーナーキー</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">デスクトップ版Beamウォレットでこのコードを入力してノードからリストアを進めください。</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">コードを貼り付けるとリストアが自動で開始されます。</string>
+    <string name="privacy_mode">プライバシーモード</string>
+    <string name="gallery">ギャラリー</string>
+    <string name="selectPickture">画像を選択</string>
+    <string name="storage_permission_required_message">ギャラリーの使用の為にストレージの使用を許可してください</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QRコードが認識できません。再試行してください。</string>
+    <string name="welcome_progress_restore_networ_error_description">ネットワークに接続できません。確認後再試行してください。</string>
+    <string name="automatic_restore_warning">過去1時間以内に（どのデバイスからも）トランザクションを実行していないことを確認してください。 もし、行った場合は、最後のトランザクションから少なくとも1時間待ってからリストアを続行してください。 それ以外の場合、リストアした残高が正しくならない可能性があり、追加のリストア手順が必要になります。</string>
+    <string name="node_restore_warning">リストアの手順を開始する前に、ノードがブロックチェーンと完全に同期していることを確認してください。 それ以外の場合、リストア後の残高が正しくならない可能性があり、追加のリストア手順が必要になります。</string>
+    <string name="understand">理解しました</string>
+    <string name="downloading_blockchain_info">ブロックチェーン情報をダウンロード中</string>
+    <string name="add_all">すべて追加</string>
+    <string name="my_active_addresses">自分の有効なアドレス</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>

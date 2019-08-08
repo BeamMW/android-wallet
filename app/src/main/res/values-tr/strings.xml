@@ -23,7 +23,7 @@
     <string name="copied">Kopyalandı!</string>
     <string name="more">Daha fazla</string>
     <string name="share_qr">QR kodunu paylaş</string>
-    <string name="common_security_mode_title">Güvenlik modunu aktifleştir</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">Göz simgesine tıklayana kadar tüm bakiyeler gizli kalacaktır.</string>
     <string name="common_fingerprint_error">Çok fazla deneme yapıldı. Lütfen şifre giriniz.</string>
     <string name="common_share_title">Paylaş…</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Geri yükleme işlemini iptal edeceksiniz. Tüm veriler kaybolacak. Devam etmek istiyor musun?</string>
     <string name="welcome_progress_update_utxo_description">UTXO aranıyor</string>
     <string name="welcome_progress_restore_description">Geri yüklendi</string>
-    <string name="welcome_progress_restore_description_full_top">Lütfen senkronizasyonu bekleyin ve uygulamayı kapatmayın veya simge durumuna almayın.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">Yalnızca cüzdan bakiyesi (UTXO) geri yüklenebilir, işlem bilgileri her zaman gizlidir ve hiçbir zaman blokzincirinde tutulmaz.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Cüzdanınıza erişmek için bir şifre oluşturun</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Madencilik geri dönüşe neden oldu</string>
     <string name="blockchain_height">Blokzincir Yüksekliği</string>
     <string name="last_block_hash">Son blok hashi</string>
-    <string name="utxo_security_message">Şu anda güvenlik modundasınız.</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">UTXO listesini görmek için kapatın.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO detayları</string>
@@ -194,7 +194,7 @@
     <string name="share_address">Adresi paylaş</string>
     <string name="show_qr">QR kodunu göster</string>
     <string name="addresses">Adresler</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">Bu adresi gönderene harici güvenli bir kanal üzerinden gönderin.</string>
     <string name="receive_save_address_message">Oluşturulan adresi kaydedip daha sonra kullanmak ister misiniz?</string>
     <string name="receive_save_changes_message">Bu adresdeki değişiklikleri kaydetmek ister misiniz?</string>
     <string name="request_an_amount">Bir meblağ isteyin</string>
@@ -237,8 +237,8 @@
     <string name="node">Düğüm</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Genel ayarlar</string>
-    <string name="tags">Kategoriler</string>
-    <string name="add_new_tag">Yeni kategori ekle</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Ekranı kilitle</string>
     <string name="never">Asla</string>
     <string name="after">Daha sonra</string>
@@ -272,13 +272,12 @@
     <string name="transactions_list">İşlem listesi</string>
     <string name="address_id">Adres kimliği</string>
     <string name="expiration_date">Son kullanım tarihi</string>
-    <string name="tag">Kategori</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Adresi şimdi sonlandır</string>
     <string name="active_address">Aktif adresler</string>
     <string name="save">Kaydet</string>
     <string name="now">Şimdi</string>
-    <string name="edit_address_tags_empty_message">Ayarlarda kategori oluşturabilirsiniz</string>
     <string name="none">Hiçbiri</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Şifreyi değiştir</string>
@@ -297,11 +296,11 @@
     <string name="current_password_is_incorrect">Şu anki şifre yanlış</string>
     <!--CategoryFragment-->
     <string name="edit">Düzenle</string>
-    <string name="delete_tag">Kategoriyi sil</string>
-    <string name="tag_delete_dialog_message">%1$s bu kategoriyi silmek istediğinize emin misiniz?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Kategoriyi düzenle</string>
-    <string name="create_tag">Kategori oluştur</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Renk</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
@@ -342,7 +341,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Ayarlarda değişiklik yapmak için mevcut şifrenizi girin</string>
     <string name="save_changes">Değişiklikleri kaydedin</string>
     <string name="receive_description">İşlemin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde çevrimiçi olmalısınız.</string>
-    <string name="search_by_address_tag_or_name">Adrese, kategoriye veya isme göre ara</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">Minimum işlem ücreti %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Bu adresle ilintili tüm işlemleri sil</string>
     <string name="search_transaction">İşlemlerde Ara</string>
@@ -352,28 +351,28 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="enter_your_password_to_confirm_transaction">İşlemi onaylamak için şifrenizi girin</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">İşlemi onaylamak için parmak izi kullanın veya şifrenizi girin</string>
     <string name="fingerprint_not_recognized">Parmak izi tanınmadı</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="address_copied_to_clipboard">Adres panoya kopyalandı</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam cüzdanı buluttan blokzincirin anlık görüntüsünü indirecek.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam cüzdanı belirli bir noda bağlanacak ve nod tüm paranızı blokzincirinde bulacak.</string>
+    <string name="restore_with_trusted_node">Güvenilir nod ile geri yükle</string>
+    <string name="automatic_restore_recommended">OTOMATİK GERİ YÜKLE (önerilen)</string>
+    <string name="enter_trusted_node_address">Güvenilir nod adresini girin</string>
     <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="owner_key">Sahiplik anahtarı</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Nod ile geri yükleme işlemine devam etmek için bu kodu masaüstünüzdeki Beam cüzdanınıza yapıştırın.</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Kodu yapıştırdığınızda, ger, yükleme otomatik olarak başlayacak.</string>
+    <string name="privacy_mode">Gizlilik Modu</string>
+    <string name="gallery">Galeri</string>
+    <string name="selectPickture">Resim Seçin</string>
+    <string name="storage_permission_required_message">Lütfen, galeriyi kullanmak için depolama izni verin</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR kodu tanınamıyor. Lütfen başka bir resim deneyin.</string>
+    <string name="welcome_progress_restore_networ_error_description">Başarısız ağ bağlantısı. Lütfen ağa tekrar bağlandıktan sonra tekrar deneyin.</string>
+    <string name="automatic_restore_warning">Lütfen son bir saat içinde hiçbir işlem yapmadığınızdan (herhangi bir cihazdan) emin olun. Yaptıysanız, lütfen Geri Yükleme işlemine devam etmeden önce son işlemden sonra en az bir saat bekleyin. Aksi halde, geri yüklenen bakiyeniz yanlış olabilir bunun yanında ek geri yükleme prosedürü gerekli oalcaktır.</string>
+    <string name="node_restore_warning">Geri yükleme işlemine başlamadan önce nodun blokzincir ile tam olarak senkronize olduğunu doğrulayın. Aksi halde, geri yüklenen bakiyeniz yanlış olabilir bunun yanında ek geri yükleme prosedürü gerekli olacaktır.</string>
+    <string name="understand">Anladım</string>
+    <string name="downloading_blockchain_info">Blokzincir bilgileri indiriliyor</string>
+    <string name="add_all">Tümünü ekle</string>
+    <string name="my_active_addresses">Aktif adreslerim</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>

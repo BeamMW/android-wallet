@@ -23,7 +23,7 @@
     <string name="copied">Скопировано!</string>
     <string name="more">Далее</string>
     <string name="share_qr">поделиться QR</string>
-    <string name="common_security_mode_title">Включить секретный режим</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">Все суммы будут скрыты до следующего нажатия на иконку глаза.</string>
     <string name="common_fingerprint_error">Слишком много попыток. Пожалуйста, используйте пароль.</string>
     <string name="common_share_title">Поделиться…</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Вы уверены, что хотите прекратить процесс восстановления?</string>
     <string name="welcome_progress_update_utxo_description">Сканирование UTXO</string>
     <string name="welcome_progress_restore_description">Кошелек восстановлен</string>
-    <string name="welcome_progress_restore_description_full_top">Пожалуйста, дождитесь завершения синхронизации, не закрывайте и не сворачивайте окно.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">Будет восстановлен только баланс кошелька (UTXO). Информация о транзакциях не хранится в блокчейне.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Создайте пароль доступа к кошельку</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Откат майнинга</string>
     <string name="blockchain_height">Высота блоков</string>
     <string name="last_block_hash">Хэш блока</string>
-    <string name="utxo_security_message">В настоящее время вы находитесь в режиме безопасности.</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Выключите, чтобы увидеть список UTXO.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Информация о UTXO</string>
@@ -237,8 +237,8 @@
     <string name="node">Узел</string>
     <string name="settings_ip_title">ip адрес:порт:</string>
     <string name="settings_general_settings">Основные настройки</string>
-    <string name="tags">Категории</string>
-    <string name="add_new_tag">Добавить категорию</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Блокировать экран</string>
     <string name="never">Бессрочно</string>
     <string name="after">После</string>
@@ -272,13 +272,12 @@
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
-    <string name="tag">Категория</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Деактивировать</string>
     <string name="active_address">Активировать адрес</string>
     <string name="save">Сохранить</string>
     <string name="now">До текущего времени</string>
-    <string name="edit_address_tags_empty_message">Категории можно создавать в настройках</string>
     <string name="none">Никакой</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Поменять пароль</string>
@@ -297,11 +296,11 @@
     <string name="current_password_is_incorrect">Текущий пароль неверен</string>
     <!--CategoryFragment-->
     <string name="edit">Править</string>
-    <string name="delete_tag">Удалить категорию</string>
-    <string name="tag_delete_dialog_message">Вы уверены, что хотите удалить категорию %1$s?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Редактировать категорию</string>
-    <string name="create_tag">Создать категорию</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Цвет</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Показать owner key</string>
@@ -341,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Введите свой текущий пароль, чтобы изменить настройки</string>
     <string name="save_changes">Сохранить изменения</string>
     <string name="receive_description">Для завершения транзакции вы должны быть онлайн в течение 12 часов после отправки.</string>
-    <string name="search_by_address_tag_or_name">Искать по адресу, категории, имени</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
     <string name="search_transaction">Поиск транзакций</string>

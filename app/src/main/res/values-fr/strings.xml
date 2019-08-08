@@ -23,7 +23,7 @@
     <string name="copied">Copié !</string>
     <string name="more">Continuer</string>
     <string name="share_qr">partager le code QR</string>
-    <string name="common_security_mode_title">Activer le mode sécurisé</string>
+    <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">Toutes les balances seront seront masquées jusqu\'à ce que l\'icône de l\'œil soit à nouveau activée.</string>
     <string name="common_fingerprint_error">Trop d\'essais. Veuillez réessayer plus tard.</string>
     <string name="common_share_title">Partager…</string>
@@ -90,7 +90,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_cancel_restore_description">Vous êtes sur le point d\'annuler la restauration. Toutes les données seront perdues. Voulez-vous poursuivre ?</string>
     <string name="welcome_progress_update_utxo_description">Analyse UTXO</string>
     <string name="welcome_progress_restore_description">Restauré</string>
-    <string name="welcome_progress_restore_description_full_top">Veuillez attendre la synchronisation et ne pas fermer ni réduire l\'application.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
     <string name="welcome_progress_restore_description_full_bottom">Seul le solde du portefeuille (UTXO) peut être restauré. Les informations et adresses de transaction sont toujours privées et ne sont jamais conservées sur la blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Créer un mot de passe pour accéder à votre portefeuille</string>
@@ -146,7 +146,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="utxo_status_result_rollback">Rétrométrage du résultat de minage</string>
     <string name="blockchain_height">Hauteur de la blockchain</string>
     <string name="last_block_hash">Dernier hash du bloc</string>
-    <string name="utxo_security_message">Vous êtes en mode Sécurité.</string>
+    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Désactivez-le pour voir votre liste UTXO.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Détails UTXO</string>
@@ -239,8 +239,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="node">Noeud</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Paramètres généraux</string>
-    <string name="tags">Catégories</string>
-    <string name="add_new_tag">Ajouter une catégorie</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Écran de verrouillage</string>
     <string name="never">Jamais</string>
     <string name="after">Après le</string>
@@ -274,13 +274,12 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
     <string name="expiration_date">Date d\'expiration</string>
-    <string name="tag">Catégorie</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Faire expirer l\'adresse maintenant</string>
     <string name="active_address">Activer l\'adresse</string>
     <string name="save">Sauvegarder</string>
     <string name="now">Maintenant</string>
-    <string name="edit_address_tags_empty_message">Vous pouvez créer une catégorie dans les paramètres</string>
     <string name="none">Aucun</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Modifier mot de passe</string>
@@ -299,11 +298,11 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="current_password_is_incorrect">Le mot de passe actuel est incorrect</string>
     <!--CategoryFragment-->
     <string name="edit">Modifier</string>
-    <string name="delete_tag">Effacer catégorie</string>
-    <string name="tag_delete_dialog_message">Êtes-vous sûr de vouloir supprimer la catégorie %1$s?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Modifier catégorie</string>
-    <string name="create_tag">Créer une catégorie</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Couleur </string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Afficher la clé propriétaire</string>
@@ -343,7 +342,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Saisir votre mot de passe pour procéder aux changements de paramètres</string>
     <string name="save_changes">Confirmer les modifications</string>
     <string name="receive_description">Pour compléter la transaction, vous devez être en ligne dans les douze heures après que les Beams ont été envoyés.</string>
-    <string name="search_by_address_tag_or_name">Rechercher par adresse, catégorie ou nom</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
     <string name="search_transaction">Rechercher des transactions</string>

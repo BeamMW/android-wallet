@@ -23,7 +23,7 @@
     <string name="copied">¡Copiado!</string>
     <string name="more">Mas</string>
     <string name="share_qr">compartir QR</string>
-    <string name="common_security_mode_title">Activar modo de seguridad</string>
+    <string name="common_security_mode_title">Activar modo privacidad</string>
     <string name="common_security_mode_message">Se ocultarán todos los saldos hasta que se toque el icono del ojo nuevamente.</string>
     <string name="common_fingerprint_error">Demasiados intentos. Por favor, inicie sesión con contraseña.</string>
     <string name="common_share_title">Compartir…</string>
@@ -90,7 +90,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_cancel_restore_description">Vas a cancelar el proceso de restauración. Todos los datos se perderán. ¿Quieres continuar?</string>
     <string name="welcome_progress_update_utxo_description">Escaneando UTXO</string>
     <string name="welcome_progress_restore_description">Restaurado</string>
-    <string name="welcome_progress_restore_description_full_top">Por favor espere a la sincronización y no cierre ni minimice la aplicación.</string>
+    <string name="welcome_progress_restore_description_full_top">Por favor, espere a la sincronización y no cierre o minimice la aplicación. Restaurar la wallet puede tomar un tiempo. Conecte su dispositivo a la fuente de energía para evitar restaurar la parada.</string>
     <string name="welcome_progress_restore_description_full_bottom">Solo se puede restaurar el saldo del wallet (UTXO), la información de la transacción siempre es privada y nunca se mantiene en la cadena de bloques.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Crea la contraseña para acceder a tu wallet</string>
@@ -146,7 +146,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="utxo_status_result_rollback">Reducción de resultados mineros</string>
     <string name="blockchain_height">Altura de la blockchain</string>
     <string name="last_block_hash">Hash del último bloque</string>
-    <string name="utxo_security_message">Actualmente estás en modo seguro.</string>
+    <string name="utxo_security_message">Actualmente estás en Modo Privacidad.</string>
     <string name="utxo_turn_off_see_utxo">Apáguelo para ver su lista de UTXO.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Detalles de la UTXO</string>
@@ -196,7 +196,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="share_address">Compartir dirección</string>
     <string name="show_qr">mostrar QR</string>
     <string name="addresses">Direcciones</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">Enviar esta dirección a través de un canal externo seguro.</string>
     <string name="receive_save_address_message">¿Te gustaría guardar la dirección creada y usarla más tarde?</string>
     <string name="receive_save_changes_message">¿Te gustaría guardar los cambios en esta dirección?</string>
     <string name="request_an_amount">Solicite una cantidad</string>
@@ -239,8 +239,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="node">Nodo</string>
     <string name="settings_ip_title">ip: puerto:</string>
     <string name="settings_general_settings">Configuración general</string>
-    <string name="tags">Categorías</string>
-    <string name="add_new_tag">Añadir nueva categoría</string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Bloquear pantalla</string>
     <string name="never">Nunca</string>
     <string name="after">Después</string>
@@ -274,13 +274,12 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
-    <string name="tag">Categoría</string>
+    <string name="tag">Tag</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Caducar dirección ahora</string>
     <string name="active_address">Activar dirección</string>
     <string name="save">Salvar</string>
     <string name="now">Ahora</string>
-    <string name="edit_address_tags_empty_message">Puede crear categoría en Ajustes</string>
     <string name="none">Ninguno</string>
     <!--CheckOldPassActivity-->
     <string name="change_password">Cambia la contraseña</string>
@@ -299,11 +298,11 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="current_password_is_incorrect">La contraseña actual es incorrecta</string>
     <!--CategoryFragment-->
     <string name="edit">Editar</string>
-    <string name="delete_tag">Borrar categoría</string>
-    <string name="tag_delete_dialog_message">¿Está usted seguro de querer borrar %1$s categoría?</string>
+    <string name="delete_tag">Delete tag</string>
+    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Editar categoría</string>
-    <string name="create_tag">Crear categoría</string>
+    <string name="edit_tag">Edit tag</string>
+    <string name="create_tag">Create tag</string>
     <string name="color">Color</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Mostrar la clave de propietario</string>
@@ -344,7 +343,7 @@ para acceder al wallet</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Introduzca su contraseña actual para continuar con los cambios en la configuración</string>
     <string name="save_changes">Salvar cambios</string>
     <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
-    <string name="search_by_address_tag_or_name">Buscar por dirección, categoría o nombre</string>
+    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
     <string name="search_transaction">Biscar transacción</string>
@@ -354,28 +353,28 @@ para acceder al wallet</string>
     <string name="enter_your_password_to_confirm_transaction">Introduce tu contraseña para confirmar la transacción</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utiliza huella digital o introduce tu contraseña para confirmar la transacción</string>
     <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
-    <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="address_copied_to_clipboard">Dirección copiada al portapapeles</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet descargará la captura de pantalla blockchain de la nube.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet se conectará a un nodo específico y el nodo encontrará todos sus fondos en blockchain.</string>
+    <string name="restore_with_trusted_node">Restaurar con nodo de confianza</string>
+    <string name="automatic_restore_recommended">RESTAURACIÓN AUTOMÁTICA (recomendado)</string>
+    <string name="enter_trusted_node_address">Introduzca la dirección de nodo de confianza</string>
+    <string name="ip_port">ip: puerto</string>
+    <string name="owner_key">Clave de propietario</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Pegue este código en el Wallet de Beam en su escritorio para proceder a la restauración del nodo.</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Una vez que ha pegado el código, la restauración se iniciará automáticamente.</string>
+    <string name="privacy_mode">Modo privado</string>
+    <string name="gallery">Galería</string>
+    <string name="selectPickture">Seleccionar Imagen</string>
+    <string name="storage_permission_required_message">Por favor, concede permiso de almacenamiento para usar tu galería</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">El código QR no puede ser reconocido. Por favor, inténtelo de otra imagen.</string>
+    <string name="welcome_progress_restore_networ_error_description">Conexión de red fallida. Por favor, inténtalo de nuevo después de reconectar a la red.</string>
+    <string name="automatic_restore_warning">Por favor, asegúrese de que no ha realizado ninguna transacción (desde cualquier dispositivo) en la última hora. Si lo hizo, espere al menos una hora después de la última transacción antes de proceder con la restauración. De lo contrario, su saldo restaurado puede ser incorrecto y se requerirá un procedimiento adicional de restauración.</string>
+    <string name="node_restore_warning">Verifica que tu nodo esté completamente sincronizado con la blockchain antes de iniciar el procedimiento de restauración. De lo contrario, su saldo restaurado puede ser incorrecto y se requerirá un procedimiento de restauración adicional.</string>
+    <string name="understand">Lo entiendo</string>
+    <string name="downloading_blockchain_info">Descargando información de blockchain</string>
+    <string name="add_all">Añadir todo</string>
+    <string name="my_active_addresses">Mis direcciones activas</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
