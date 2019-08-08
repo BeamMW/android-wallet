@@ -66,7 +66,7 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onItemPressed(item)
             }
-        }, { presenter?.repository?.getCategoryForAddress(it) }, generatedAddress)
+        }, { presenter?.onSearchTagsForAddress(it) ?: listOf() }, generatedAddress)
 
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)
         addressesRecyclerView.adapter = adapter

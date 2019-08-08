@@ -35,17 +35,35 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         view?.init(state.address ?: return)
 
-        val currentCategory = repository.getCategory(state.address!!.walletID)
+        val currentTags = repository.getAddressTags(state.address!!.walletID)
 
-        state.tempTag = currentCategory
-        state.currentTag = currentCategory
+        state.tempTags = currentTags
+        state.currentTags = currentTags
 
-        view?.configCategory(currentCategory)
+        view?.setTags(currentTags)
     }
 
-    override fun onSelectedCategory(tag: Tag?) {
-        state.tempTag = tag
+    override fun onStart() {
+        super.onStart()
+        view?.setupTagAction(repository.getAllTags().isEmpty())
+    }
+
+    override fun onSelectTags(tags: List<Tag>) {
+        state.tempTags = tags
+        view?.setTags(tags)
         view?.configSaveButton(shouldEnableButton())
+    }
+
+    override fun onTagActionPressed() {
+        if (repository.getAllTags().isEmpty()) {
+            view?.showCreateTagDialog()
+        } else {
+            view?.showTagsDialog(state.tempTags)
+        }
+    }
+
+    override fun onCreateNewTagPressed() {
+        view?.showAddNewCategory()
     }
 
     override fun onSwitchCheckedChange(isChecked: Boolean) {
@@ -91,20 +109,16 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         val isCommentChanged = state.tempComment != state.address?.label ?: return false
 
-        val isCategoryChanged = state.currentTag?.id != state.tempTag?.id
+        val isCategoryChanged = !state.tempTags.containsAll(state.currentTags) || state.tempTags.size != state.currentTags.size
 
         return isExpireChanged || isCommentChanged || isCategoryChanged
-    }
-
-    override fun onAddNewCategoryPressed() {
-        view?.showAddNewCategory()
     }
 
     override fun onSavePressed() {
         val address = state.address ?: return
         address.label = state.tempComment.trim()
 
-        repository.changeCategoryForAddress(state.address!!.walletID, state.tempTag)
+        repository.saveTagsForAddress(state.address!!.walletID, state.tempTags)
 
         if (!address.isContact) {
             if (address.isExpired) {

@@ -19,8 +19,12 @@ package com.mw.beam.beamwallet.screens.receive
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.transition.TransitionManager
 import android.view.GestureDetector
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -43,7 +47,12 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
 import android.view.MotionEvent
-
+import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
+import com.mw.beam.beamwallet.core.views.TagAdapter
 
 
 /**
@@ -184,6 +193,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             }
         })
 
+        tagAction.setOnClickListener {
+            presenter?.onTagActionPressed()
+        }
+
         token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
     }
 
@@ -226,8 +239,48 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getComment(): String? = comment.text?.toString()
 
-    override fun configCategory(currentTag: Tag?) {
+    override fun setupTagAction(isEmptyTags: Boolean) {
+        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
+        val drawable = ContextCompat.getDrawable(context!!, resId)
+        tagAction.setImageDrawable(drawable)
+    }
 
+    override fun showCreateTagDialog() {
+        showAlert(
+                getString(R.string.dialog_empty_tags_message),
+                getString(R.string.create_tag),
+                { presenter?.onCreateNewTagPressed() },
+                getString(R.string.tag_list_is_empty),
+                getString(R.string.cancel)
+        )
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showTagsDialog(selectedTags: List<Tag>) {
+        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
+            setContentView(view)
+
+            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
+
+            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
+            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
+
+            tagList.layoutManager = LinearLayoutManager(context)
+            tagList.adapter = tagAdapter
+
+            tagAdapter.setSelectedTags(selectedTags)
+
+            btnBottomSheetClose.setOnClickListener {
+                dismiss()
+            }
+
+            show()
+        }
+    }
+
+    override fun setTags(tags: List<Tag>) {
+        this.tags.text = tags.createSpannableString(context!!)
     }
 
     override fun showSaveAddressDialog(nextStep: () -> Unit) {
@@ -275,6 +328,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         editAddressTitle.setOnClickListener(null)
         btnExpandEditAddress.setOnClickListener(null)
         token.setOnTouchListener(null)
+        tagAction.setOnTouchListener(null)
 
         amount.onFocusChangeListener = null
         expiresOnSpinner.onItemSelectedListener = null

@@ -69,7 +69,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             val findAddress = state.addresses.values.find { it.walletID == state.token }
             if (findAddress != null) {
                 state.contact = findAddress
-                view?.configureContact(findAddress, repository.getCategory(findAddress.walletID))
+                view?.configureContact(findAddress, repository.getAddressTags(findAddress.walletID))
             }
         }
 

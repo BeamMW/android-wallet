@@ -18,6 +18,7 @@ interface AddContactContract {
         fun setupTagAction(isEmptyTags: Boolean)
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
+        fun setTags(tags: List<Tag>)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -34,6 +35,7 @@ interface AddContactContract {
 
     interface Repository: MvpRepository {
         fun saveContact(address: String, name: String, tags: List<Tag>)
-        fun getTags(): List<Tag>
+        fun getAddressTags(address: String): List<Tag>
+        fun getAllTags(): List<Tag>
     }
 }

@@ -41,7 +41,7 @@ interface TransactionDetailsContract {
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
         fun showOpenLinkAlert()
-        fun configCategoryAddresses(senderTag: Tag?, receiverTag: Tag?)
+        fun configCategoryAddresses(senderTags: List<Tag>, receiverTags: List<Tag>)
         fun showSendFragment(address: String, amount: Long)
         fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?)
         fun showDeleteSnackBar(txDescription: TxDescription)
@@ -69,6 +69,6 @@ interface TransactionDetailsContract {
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
         fun isAllowOpenExternalLink(): Boolean
-        fun getCategoryForAddress(address: String): Tag?
+        fun getAddressTags(address: String): List<Tag>
     }
 }

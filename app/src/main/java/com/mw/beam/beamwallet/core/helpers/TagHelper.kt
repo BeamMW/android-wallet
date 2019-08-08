@@ -16,6 +16,12 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
+import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.mw.beam.beamwallet.R
@@ -51,7 +57,7 @@ object TagHelper {
     }
 
     fun changeTagsForAddress(address: String, tagList: List<Tag>?) {
-        if (tagList == null) {
+        if (tagList.isNullOrEmpty()) {
             removeAddressFromAllTags(address)
         } else {
             tagData.getAllTags().values.forEach {
@@ -113,6 +119,19 @@ data class Tag(
         addresses = addresses.toHashSet().apply {
             remove(address)
         }.toList()
+    }
+}
+
+fun List<Tag>?.createSpannableString(context: Context): Spannable {
+    return if (this == null || isEmpty()) SpannableString("") else {
+        val spannableBuilder = SpannableStringBuilder()
+        forEach {
+            val color = ContextCompat.getColor(context, it.color.getAndroidColorId())
+            val text = if (indexOf(it) != size - 1) "${it.name}, " else it.name
+            spannableBuilder.append(text, ForegroundColorSpan(color), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        spannableBuilder
     }
 }
 

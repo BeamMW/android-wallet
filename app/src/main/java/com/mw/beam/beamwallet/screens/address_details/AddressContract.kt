@@ -43,7 +43,7 @@ interface AddressContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
         fun showDeleteAddressDialog()
-        fun configureCategory(findTag: Tag?)
+        fun configureTags(findTag: List<Tag>)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
     }
 
@@ -61,7 +61,7 @@ interface AddressContract {
     interface Repository : MvpRepository {
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
         fun getTxStatus(): Observable<OnTxStatusData>
-        fun getCategory(address: String): Tag?
+        fun getAddressTags(address: String): List<Tag>
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllTransactionInTrash(): List<TxDescription>
     }

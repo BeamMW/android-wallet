@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
@@ -78,6 +79,10 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
 
+    override fun onSearchTagsForAddress(address: String): List<Tag> {
+        return repository.getAddressTags(address)
+    }
+
     override fun onChangeSearchText(text: String) {
         if (text.isBlank()) {
             view?.updateList(state.getAddresses())
@@ -89,7 +94,7 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         val newItems = state.getAddresses().filter {
             it.label.trim().toLowerCase().contains(searchText) ||
                     it.walletID.trim().toLowerCase().startsWith(searchText) ||
-                    repository.getCategoryForAddress(it.walletID)?.name?.toLowerCase()?.contains(searchText) ?: false
+                    repository.getAddressTags(it.walletID).any { tag ->  tag.name.toLowerCase().contains(searchText) }
         }
 
         view?.updateList(newItems)

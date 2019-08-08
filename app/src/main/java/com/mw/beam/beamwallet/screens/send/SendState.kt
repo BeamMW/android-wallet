@@ -19,11 +19,13 @@ package com.mw.beam.beamwallet.screens.send
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.Tag
 
 /**
  * Created by vain onnellinen on 1/2/19.
  */
 class SendState {
+    var tags: List<Tag> = listOf()
     var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false

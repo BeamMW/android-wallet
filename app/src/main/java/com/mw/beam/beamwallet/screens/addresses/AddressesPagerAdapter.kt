@@ -29,7 +29,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, tagProvider: (address: String) -> Tag?, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
+class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, tagProvider: (address: String) -> List<Tag>, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
     private val activeAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)

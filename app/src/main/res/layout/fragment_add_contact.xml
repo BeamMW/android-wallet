@@ -1,198 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
-
-    <View
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_gradient_size"
+            android:background="@drawable/address_toolbar_gradient"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mw.beam.beamwallet.core.views.BeamToolbar
-        android:id="@+id/toolbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/contentScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        android:fillViewport="true"
-        android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/contentLayout"
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/common_offset"
-            android:paddingEnd="@dimen/common_offset">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/addressTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/address"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:background="@drawable/edit_text_selector"
-                android:backgroundTint="@android:color/transparent"
-                android:importantForAutofill="noExcludeDescendants"
-                android:paddingTop="0dp"
-                app:layout_constraintEnd_toStartOf="@id/scanQR"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addressTitle"
-                tools:ignore="Autofill,LabelFor,TextFields"
-                tools:targetApi="o"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:fillViewport="true"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
-            <TextView
-                android:id="@+id/tokenError"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_amount_error_margin_top"
-                android:text="@string/invalid_address"
-                android:textColor="@color/common_error_color"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/scanQR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/address"
-                app:srcCompat="@drawable/ic_scan_qr" />
-
-            <View
-                android:id="@+id/addressDivider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                app:layout_constraintEnd_toEndOf="@id/address"
-                app:layout_constraintStart_toStartOf="@id/address"
-                app:layout_constraintTop_toBottomOf="@id/address" />
-
-            <TextView
-                android:id="@+id/nameTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address" />
-
-            <EditText
-                android:id="@+id/name"
-                style="@style/common_text_big_light"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_selector"
-                android:backgroundTint="@android:color/transparent"
-                android:hint="@string/no_name"
-                android:importantForAutofill="noExcludeDescendants"
-                android:singleLine="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameTitle"
-                tools:ignore="Autofill,LabelFor,TextFields"
-                tools:targetApi="o" />
+                android:paddingStart="@dimen/common_offset"
+                android:paddingEnd="@dimen/common_offset">
 
-            <View
-                android:id="@+id/nameDivider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                app:layout_constraintEnd_toEndOf="@id/name"
-                app:layout_constraintStart_toStartOf="@id/name"
-                app:layout_constraintTop_toBottomOf="@id/name" />
+                <TextView
+                    android:id="@+id/addressTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/categoryTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/tag"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name" />
+                <EditText
+                    android:id="@+id/address"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:background="@drawable/edit_text_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:paddingTop="0dp"
+                    app:layout_constraintEnd_toStartOf="@id/scanQR"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/addressTitle"
+                    tools:ignore="Autofill,LabelFor,TextFields"
+                    tools:targetApi="o"
+                    tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
-            <TextView
-                android:id="@+id/tags"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@id/tagAction"
-                app:layout_constraintStart_toStartOf="@id/categoryTitle"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
-                tools:text="Salary, Payments" />
+                <TextView
+                    android:id="@+id/tokenError"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/send_amount_error_margin_top"
+                    android:text="@string/invalid_address"
+                    android:textColor="@color/common_error_color"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address"
+                    tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/tagAction"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+                <ImageView
+                    android:id="@+id/scanQR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/address"
+                    app:srcCompat="@drawable/ic_scan_qr" />
 
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnSave"
-                android:layout_width="@dimen/send_transfer_btn_width"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="@dimen/send_btn_margin"
-                android:background="@drawable/accept_button"
-                app:button_icon="@drawable/ic_btn_save"
-                app:button_text="@string/save"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnCancel"
-                app:layout_constraintTop_toBottomOf="@id/tags"
-                app:lower_case="true" />
+                <View
+                    android:id="@+id/addressDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/address"
+                    app:layout_constraintStart_toStartOf="@id/address"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
 
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnCancel"
-                android:layout_width="@dimen/send_transfer_btn_width"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="@dimen/send_btn_margin"
-                android:background="@drawable/primary_button"
-                app:button_icon="@drawable/ic_btn_cancel"
-                app:button_text="@string/cancel"
-                app:button_text_color="@color/common_text_color"
-                app:layout_constraintEnd_toStartOf="@id/btnSave"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tags"
-                app:lower_case="true" />
+                <TextView
+                    android:id="@+id/nameTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="@string/name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-    <!--<include layout="@layout/tags_bottom_sheet"/>-->
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <EditText
+                    android:id="@+id/name"
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/no_name"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameTitle"
+                    tools:ignore="Autofill,LabelFor,TextFields"
+                    tools:targetApi="o" />
+
+                <View
+                    android:id="@+id/nameDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/name"
+                    app:layout_constraintStart_toStartOf="@id/name"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
+
+                <TextView
+                    android:id="@+id/categoryTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:text="@string/tag"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
+
+                <TextView
+                    android:id="@+id/tags"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/tagAction"
+                    app:layout_constraintStart_toStartOf="@id/categoryTitle"
+                    app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                    tools:text="Salary, Payments" />
+
+                <ImageView
+                    android:id="@+id/tagAction"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnSave"
+                    android:layout_width="@dimen/send_transfer_btn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="@dimen/send_btn_margin"
+                    android:background="@drawable/accept_button"
+                    app:button_icon="@drawable/ic_btn_save"
+                    app:button_text="@string/save"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnCancel"
+                    app:layout_constraintTop_toBottomOf="@id/tags"
+                    app:lower_case="true" />
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnCancel"
+                    android:layout_width="@dimen/send_transfer_btn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="@dimen/send_btn_margin"
+                    android:background="@drawable/primary_button"
+                    app:button_icon="@drawable/ic_btn_cancel"
+                    app:button_text="@string/cancel"
+                    app:button_text_color="@color/common_text_color"
+                    app:layout_constraintEnd_toStartOf="@id/btnSave"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tags"
+                    app:lower_case="true" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

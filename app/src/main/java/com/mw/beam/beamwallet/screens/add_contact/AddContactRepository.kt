@@ -14,4 +14,11 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
         }
     }
 
+    override fun getAddressTags(address: String): List<Tag> {
+        return TagHelper.getTagsForAddress(address)
+    }
+
+    override fun getAllTags(): List<Tag> {
+        return TagHelper.getAllTags()
+    }
 }

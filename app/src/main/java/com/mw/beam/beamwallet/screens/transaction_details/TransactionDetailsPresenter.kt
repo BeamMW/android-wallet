@@ -48,7 +48,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         val senderAddress = if (txDescription.sender.value) txDescription.myId else txDescription.peerId
         val receiverAddress = if (txDescription.sender.value) txDescription.peerId else txDescription.myId
 
-        view?.configCategoryAddresses(repository.getCategoryForAddress(senderAddress), repository.getCategoryForAddress(receiverAddress))
+        view?.configCategoryAddresses(repository.getAddressTags(senderAddress), repository.getAddressTags(receiverAddress))
     }
 
     override fun initSubscriptions() {

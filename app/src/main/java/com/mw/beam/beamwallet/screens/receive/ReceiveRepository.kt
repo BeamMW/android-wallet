@@ -47,11 +47,15 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
         }
     }
 
-    override fun getCategory(address: String): Tag? {
+    override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
     }
 
-    override fun changeCategoryForAddress(address: String, tag: Tag?) {
-        TagHelper.changeTagsForAddress(address, tag)
+    override fun getAllTags(): List<Tag> {
+        return TagHelper.getAllTags()
+    }
+
+    override fun saveTagsForAddress(address: String, tags: List<Tag>) {
+        TagHelper.changeTagsForAddress(address, tags)
     }
 }

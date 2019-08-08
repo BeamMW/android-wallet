@@ -40,13 +40,14 @@ interface ChangeAddressContract {
     interface Presenter: MvpPresenter<View> {
         fun onChangeSearchText(text: String)
         fun onItemPressed(walletAddress: WalletAddress)
+        fun onSearchTagsForAddress(address: String): List<Tag>
     }
 
     interface Repository: MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
-        fun getCategoryForAddress(address: String): Tag?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
+        fun getAddressTags(address: String): List<Tag>
     }
 
     enum class ViewState {

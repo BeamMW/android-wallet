@@ -1,12 +1,16 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.*
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -14,6 +18,8 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
+import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_add_contact.*
 
@@ -56,6 +62,10 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
             presenter?.onScanPressed()
         }
 
+        tagAction.setOnClickListener {
+            presenter?.onTagActionPressed()
+        }
+
         address.addTextChangedListener(tokenWatcher)
     }
 
@@ -95,8 +105,32 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         )
     }
 
+    @SuppressLint("InflateParams")
     override fun showTagsDialog(selectedTags: List<Tag>) {
-        
+        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
+            setContentView(view)
+
+            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
+
+            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
+            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
+
+            tagList.layoutManager = LinearLayoutManager(context)
+            tagList.adapter = tagAdapter
+
+            tagAdapter.setSelectedTags(selectedTags)
+
+            btnBottomSheetClose.setOnClickListener {
+                dismiss()
+            }
+
+            show()
+        }
+    }
+
+    override fun setTags(tags: List<Tag>) {
+        this.tags.text = tags.createSpannableString(context!!)
     }
 
     override fun showTokenError() {
@@ -111,6 +145,7 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         btnCancel.setOnClickListener(null)
         btnSave.setOnClickListener(null)
         scanQR.setOnClickListener(null)
+        tagAction.setOnClickListener(null)
         address.removeTextChangedListener(tokenWatcher)
     }
 

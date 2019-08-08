@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Tag
 import kotlinx.android.synthetic.main.fragment_addresses.*
 
 /**
@@ -47,7 +48,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                 presenter?.onAddressPressed(item)
             }
         }, {
-            return@AddressesPagerAdapter presenter?.onSearchCategoryForAddress(it)
+            return@AddressesPagerAdapter presenter?.onSearchTagsForAddress(it) ?: listOf()
         })
 
         pager.adapter = pagerAdapter

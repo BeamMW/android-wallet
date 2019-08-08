@@ -33,7 +33,7 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
         }
     }
 
-    override fun getCategory(address: String): Tag? {
+    override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
     }
 

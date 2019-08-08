@@ -167,4 +167,16 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
     </style>
+
+    <style name="common_bottom_sheet_style" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/common_text_big_dark</item>
+        <item name="android:textAppearance">@style/common_text_big_dark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:buttonStyle">@style/common_button_text_style</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/common_hint_text_color</item>
+    </style>
 </resources>

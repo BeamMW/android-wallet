@@ -13,7 +13,8 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
 
     override fun onStart() {
         super.onStart()
-        view?.setupTagAction(repository.getTags().isEmpty())
+        val allTags = repository.getAllTags()
+        view?.setupTagAction(allTags.isEmpty())
     }
 
     override fun onSavePressed() {
@@ -26,6 +27,10 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         } else {
             view?.showTokenError()
         }
+    }
+
+    override fun onCreateNewTagPressed() {
+        view?.navigateToAddNewCategory()
     }
 
     override fun onScannedQR(text: String?) {
@@ -42,10 +47,11 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
 
     override fun onSelectTags(tags: List<Tag>) {
         state.tags = tags
+        view?.setTags(tags)
     }
 
     override fun onTagActionPressed() {
-        if (repository.getTags().isEmpty()) {
+        if (repository.getAllTags().isEmpty()) {
             view?.showCreateTagDialog()
         } else {
             view?.showTagsDialog(state.tags)

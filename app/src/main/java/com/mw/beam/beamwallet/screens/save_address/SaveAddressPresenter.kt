@@ -28,27 +28,41 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
         super.onViewCreated()
         view?.apply {
             state.address = getAddress()
-            state.tag = repository.getCategory(state.address)
+            state.tags = repository.getAddressTags(state.address)
 
-            init(state.address, state.tag)
+            init(state.address)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        view?.setupTagAction(repository.getAllTags().isEmpty())
     }
 
     override fun onSavePressed() {
         view?.apply {
             val address = WalletAddress(WalletAddressDTO(state.address, getName(), "", System.currentTimeMillis(), 0, 0))
             repository.saveAddress(address, false)
-            repository.changeCategoryForAddress(state.address, state.tag)
+            repository.saveTagsForAddress(state.address, state.tags)
             close()
         }
     }
 
-    override fun onSelectCategory(tag: Tag?) {
-        state.tag = tag
+    override fun onCreateNewTagPressed() {
+        view?.showAddNewCategory()
     }
 
-    override fun onAddNewCategoryPressed() {
-        view?.showAddNewCategory()
+    override fun onSelectTags(tags: List<Tag>) {
+        state.tags = tags
+        view?.setTags(tags)
+    }
+
+    override fun onTagActionPressed() {
+        if (repository.getAllTags().isEmpty()) {
+            view?.showCreateTagDialog()
+        } else {
+            view?.showTagsDialog(state.tags)
+        }
     }
 
     override fun onCancelPressed() {

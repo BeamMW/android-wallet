@@ -28,7 +28,7 @@ class EditAddressState {
     var tempComment: String = ""
     var shouldExpireNow = false
     var shouldActivateNow = false
-    var currentTag: Tag? = null
-    var tempTag: Tag? = null
+    var currentTags: List<Tag> = listOf()
+    var tempTags: List<Tag> = listOf()
     lateinit var chosenPeriod: ExpirePeriod
 }

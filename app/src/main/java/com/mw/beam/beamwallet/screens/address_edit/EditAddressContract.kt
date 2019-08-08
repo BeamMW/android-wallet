@@ -35,7 +35,10 @@ interface EditAddressContract {
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
         fun showAddNewCategory()
-        fun configCategory(currentTag: Tag?)
+        fun setupTagAction(isEmptyTags: Boolean)
+        fun showTagsDialog(selectedTags: List<Tag>)
+        fun showCreateTagDialog()
+        fun setTags(tags: List<Tag>)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -43,15 +46,17 @@ interface EditAddressContract {
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSavePressed()
         fun onChangeComment(comment: String)
-        fun onSelectedCategory(tag: Tag?)
-        fun onAddNewCategoryPressed()
+        fun onTagActionPressed()
+        fun onSelectTags(tags: List<Tag>)
+        fun onCreateNewTagPressed()
     }
 
     interface Repository : MvpRepository {
         fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
 //        fun updateAddress(address: WalletAddress, own: Boolean)
-        fun getCategory(address: String): Tag?
-        fun changeCategoryForAddress(address: String, tag: Tag?)
+        fun getAddressTags(address: String): List<Tag>
+        fun getAllTags(): List<Tag>
+        fun saveTagsForAddress(address: String, tags: List<Tag>)
         fun saveAddress(address: WalletAddress, own: Boolean)
     }
 }

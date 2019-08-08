@@ -77,7 +77,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-    override fun getCategoryForAddress(address: String): Tag? {
+    override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
     }
 

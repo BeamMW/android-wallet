@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.change_address
 
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 class ChangeAddressState {

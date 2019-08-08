@@ -43,6 +43,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -53,6 +56,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.BeamButton
 import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
+import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -86,7 +90,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
-    private val labelWatcher = object  : TextWatcher {
+    private val labelWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             presenter?.onLabelAddressChanged(s?.toString() ?: "")
         }
@@ -129,7 +133,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         override fun onStopTrackingTouch(seekBar: SeekBar?) {}
     }
 
-    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (isOpenSearchView()) {
                 handleAddressSuggestions(null)
@@ -194,7 +198,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onSelectAddress(item)
             }
-        }, { presenter?.repository?.getCategory(it) }, AddressPagerType.SMALL)
+        }, { presenter?.repository?.getAddressTags(it) ?: listOf() }, AddressPagerType.SMALL)
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
@@ -358,9 +362,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             handleMotionAction(event)
         }
 
+        tagAction.setOnClickListener {
+            presenter?.onTagActionPressed()
+        }
+
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
 
-        contentScrollView.setOnTouchListener { _, _ ->  isOpenSearchView() }
+        contentScrollView.setOnTouchListener { _, _ -> isOpenSearchView() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -407,7 +415,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
         feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
-        feeEditText.addTextChangedListener(object: android.text.TextWatcher {
+        feeEditText.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
             }
@@ -613,8 +621,48 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
     }
 
-    override fun configCategory(currentTag: Tag?) {
+    override fun setTags(currentTags: List<Tag>) {
+        tags.text = currentTags.createSpannableString(context!!)
+    }
 
+    override fun setupTagAction(isEmptyTags: Boolean) {
+        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
+        val drawable = ContextCompat.getDrawable(context!!, resId)
+        tagAction.setImageDrawable(drawable)
+    }
+
+    override fun showCreateTagDialog() {
+        showAlert(
+                getString(R.string.dialog_empty_tags_message),
+                getString(R.string.create_tag),
+                { presenter?.onCreateNewTagPressed() },
+                getString(R.string.tag_list_is_empty),
+                getString(R.string.cancel)
+        )
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showTagsDialog(selectedTags: List<Tag>) {
+        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
+            setContentView(view)
+
+            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
+
+            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
+            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
+
+            tagList.layoutManager = LinearLayoutManager(context)
+            tagList.adapter = tagAdapter
+
+            tagAdapter.setSelectedTags(selectedTags)
+
+            btnBottomSheetClose.setOnClickListener {
+                dismiss()
+            }
+
+            show()
+        }
     }
 
     override fun showAddNewCategory() {
@@ -701,7 +749,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contactName.visibility = View.GONE
     }
 
-    override fun setSendContact(walletAddress: WalletAddress?, tag: Tag?) {
+    override fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>) {
         contactCategory.visibility = if (tag == null) View.GONE else View.VISIBLE
         contactIcon.visibility = if (walletAddress != null || tag != null) View.VISIBLE else View.GONE
         contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
@@ -710,10 +758,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
         }
 
-        tag?.let {
-            contactCategory.text = it.name
-            contactCategory.setTextColor(resources.getColor(it.color.getAndroidColorId(), context?.theme))
-        }
+        contactCategory.text = tags.createSpannableString(context!!)
     }
 
     private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
@@ -795,6 +840,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         tabLayout.setOnTouchListener(null)
         contentScrollView.setOnTouchListener(null)
         token.setOnClickListener(null)
+        tagAction.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {

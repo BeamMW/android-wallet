@@ -16,13 +16,20 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
+import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -31,7 +38,9 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.fragment_edit_address.*
@@ -106,8 +115,48 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         expiredTitle.addDoubleDots()
     }
 
-    override fun configCategory(currentTag: Tag?) {
+    override fun setupTagAction(isEmptyTags: Boolean) {
+        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
+        val drawable = ContextCompat.getDrawable(context!!, resId)
+        tagAction.setImageDrawable(drawable)
+    }
 
+    override fun showCreateTagDialog() {
+        showAlert(
+                getString(R.string.dialog_empty_tags_message),
+                getString(R.string.create_tag),
+                { presenter?.onCreateNewTagPressed() },
+                getString(R.string.tag_list_is_empty),
+                getString(R.string.cancel)
+        )
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showTagsDialog(selectedTags: List<Tag>) {
+        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
+            setContentView(view)
+
+            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
+
+            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
+            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
+
+            tagList.layoutManager = LinearLayoutManager(context)
+            tagList.adapter = tagAdapter
+
+            tagAdapter.setSelectedTags(selectedTags)
+
+            btnBottomSheetClose.setOnClickListener {
+                dismiss()
+            }
+
+            show()
+        }
+    }
+
+    override fun setTags(tags: List<Tag>) {
+        this.tags.text = tags.createSpannableString(context!!)
     }
 
     override fun showAddNewCategory() {
@@ -123,6 +172,10 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
 
         btnSave.setOnClickListener {
             presenter?.onSavePressed()
+        }
+
+        tagAction.setOnClickListener {
+            presenter?.onTagActionPressed()
         }
 
         comment.addTextChangedListener(commentTextWatcher)
@@ -166,6 +219,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun clearListeners() {
         expiresSwitch.setOnCheckedChangeListener(null)
         btnSave.setOnClickListener(null)
+        tagAction.setOnClickListener(null)
         comment.removeTextChangedListener(commentTextWatcher)
         expiresSpinner.onItemSelectedListener = null
     }

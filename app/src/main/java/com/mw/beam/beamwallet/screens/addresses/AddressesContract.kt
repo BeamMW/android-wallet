@@ -40,14 +40,14 @@ interface AddressesContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
-        fun onSearchCategoryForAddress(address: String): Tag?
+        fun onSearchTagsForAddress(address: String): List<Tag>
         fun onAddContactPressed()
     }
 
     interface Repository : MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTxStatus(): Observable<OnTxStatusData>
-        fun getCategoryForAddress(address: String): Tag?
+        fun getAddressTags(address: String): List<Tag>
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
     }

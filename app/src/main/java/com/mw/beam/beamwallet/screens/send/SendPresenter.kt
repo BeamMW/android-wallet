@@ -103,6 +103,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         state.outgoingAddress?.let { setAddress(it, !state.wasAddressSaved) }
 
+        view?.setupTagAction(repository.getAllTags().isEmpty())
+
         notifyPrivacyStateChange()
     }
 
@@ -163,7 +165,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
-    override fun onAddNewCategoryPressed() {
+    override fun onCreateNewTagPressed() {
         view?.showAddNewCategory()
     }
 
@@ -231,8 +233,17 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.outgoingAddress?.duration = period.value
     }
 
-    override fun onSelectedCategory(tag: Tag?) {
-        state.outgoingAddress?.let { repository.changeCategoryForAddress(it.walletID, tag) }
+    override fun onSelectTags(tags: List<Tag>) {
+        state.tags = tags
+        view?.setTags(tags)
+    }
+
+    override fun onTagActionPressed() {
+        if (repository.getAllTags().isEmpty()) {
+            view?.showCreateTagDialog()
+        } else {
+            view?.showTagsDialog(state.tags)
+        }
     }
 
     private fun saveAddress() {
@@ -242,6 +253,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val comment = view?.getCommentOutgoingAddress()
 
             state.outgoingAddress!!.label = comment ?: ""
+            repository.saveTagsForAddress(state.outgoingAddress!!.walletID, state.tags)
 
             if (state.wasAddressSaved) {
                 repository.updateAddress(state.outgoingAddress!!)
@@ -300,10 +312,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
             val address = state.addresses.values.firstOrNull { it.walletID == rawToken }
-            val category = address?.let { repository.getCategory(it.walletID) }
+            val category = address?.let { repository.getAddressTags(it.walletID) } ?: listOf()
             view?.setSendContact(address, category)
         } else {
-            view?.setSendContact(null, null)
+            view?.setSendContact(null, listOf())
         }
 
         val isPastedToken = state.isPastedText && validToken
@@ -324,7 +336,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.addresses.values.filter {
                 (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().startsWith(searchText) ||
                         it.label.trim().toLowerCase().contains(searchText) ||
-                        repository.getCategory(it.walletID)?.name?.trim()?.toLowerCase()?.contains(searchText) ?: false)
+                        repository.getAddressTags(it.walletID).any { tag -> tag.name.trim().toLowerCase().contains(searchText) })
             }
         } else {
             state.addresses.values.filter { !it.isExpired || it.isContact }
@@ -436,8 +448,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
         state.outgoingAddress = walletAddress
+        state.tags = repository.getAddressTags(walletAddress.walletID)
         view?.configOutgoingAddress(walletAddress, isGenerated)
-        view?.configCategory(repository.getCategory(walletAddress.walletID))
+        view?.setTags(state.tags)
 
     }
 

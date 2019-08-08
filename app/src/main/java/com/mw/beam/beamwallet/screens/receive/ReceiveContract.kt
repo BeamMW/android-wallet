@@ -42,7 +42,6 @@ interface ReceiveContract {
         fun copyAddress(address: String)
         fun setAmount(newAmount: Double)
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
-        fun configCategory(currentTag: Tag?)
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
         fun showAddNewCategory()
@@ -50,28 +49,34 @@ interface ReceiveContract {
         fun getWalletAddressFromArguments(): WalletAddress?
         fun showSaveAddressDialog(nextStep: () -> Unit)
         fun showSaveChangesDialog(nextStep: () -> Unit)
+        fun setupTagAction(isEmptyTags: Boolean)
+        fun showTagsDialog(selectedTags: List<Tag>)
+        fun showCreateTagDialog()
+        fun setTags(tags: List<Tag>)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShareTokenPressed()
         fun onShowQrPressed()
         fun onExpirePeriodChanged(period : ExpirePeriod)
-        fun onSelectedCategory(tag: Tag?)
         fun onAdvancedPressed()
         fun onEditAddressPressed()
         fun onChangeAddressPressed()
-        fun onAddNewCategoryPressed()
         fun onSaveAddressPressed()
         fun onBackPressed()
         fun onAddressLongPressed()
         fun onAddressChanged(walletAddress: WalletAddress)
+        fun onTagActionPressed()
+        fun onSelectTags(tags: List<Tag>)
+        fun onCreateNewTagPressed()
     }
 
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
         fun saveAddress(address: WalletAddress)
-        fun getCategory(address: String): Tag?
-        fun changeCategoryForAddress(address: String, tag: Tag?)
+        fun getAddressTags(address: String): List<Tag>
+        fun getAllTags(): List<Tag>
+        fun saveTagsForAddress(address: String, tags: List<Tag>)
         fun updateAddress(address: WalletAddress)
     }
 }

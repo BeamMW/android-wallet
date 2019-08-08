@@ -32,6 +32,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
@@ -108,16 +109,12 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         expireDateTitle.visibility = expirationVisibility
     }
 
-    override fun configureCategory(findTag: Tag?) {
-        val categoryVisibility = if (findTag == null) View.GONE else View.VISIBLE
+    override fun configureTags(findTag: List<Tag>) {
+        val categoryVisibility = if (findTag.isEmpty()) View.GONE else View.VISIBLE
         tags.visibility = categoryVisibility
         categoryTitle.visibility = categoryVisibility
 
-        tags.text = findTag?.name ?: ""
-
-        if (findTag != null) {
-            tags.setTextColor(resources.getColor(findTag.color.getAndroidColorId(), context?.theme))
-        }
+        tags.text = findTag.createSpannableString(context!!)
     }
 
     @SuppressLint("InflateParams")

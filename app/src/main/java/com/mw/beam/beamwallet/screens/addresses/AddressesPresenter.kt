@@ -78,7 +78,9 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
     }
 
-    override fun onSearchCategoryForAddress(address: String): Tag? = repository.getCategoryForAddress(address)
+    override fun onSearchTagsForAddress(address: String): List<Tag> {
+        return repository.getAddressTags(address)
+    }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
 

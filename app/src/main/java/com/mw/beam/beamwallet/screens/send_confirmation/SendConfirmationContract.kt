@@ -32,7 +32,7 @@ interface SendConfirmationContract {
         fun getFee(): Long
         fun getComment(): String?
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long)
-        fun configureContact(walletAddress: WalletAddress, tag: Tag?)
+        fun configureContact(walletAddress: WalletAddress, tags: List<Tag>)
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
         fun showSaveAddressFragment(address: String)
         fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
@@ -47,7 +47,7 @@ interface SendConfirmationContract {
 
     interface Repository : MvpRepository {
         fun isConfirmTransactionEnabled(): Boolean
-        fun getCategory(address: String): Tag?
+        fun getAddressTags(address: String): List<Tag>
         fun getAddresses(): Subject<OnAddressesData>
         fun calcChange(amount: Long): Subject<Long>
     }

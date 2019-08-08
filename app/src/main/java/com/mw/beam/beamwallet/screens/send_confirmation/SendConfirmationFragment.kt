@@ -31,6 +31,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionContract
@@ -88,16 +89,15 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         return ContextCompat.getColor(context!!, R.color.sent_color)
     }
 
-    override fun configureContact(walletAddress: WalletAddress, tag: Tag?) {
+    override fun configureContact(walletAddress: WalletAddress, tags: List<Tag>) {
         if (!walletAddress.label.isBlank()) {
             contactName.visibility = View.VISIBLE
             contactName.text = walletAddress.label
         }
 
-        if (tag != null) {
+        if (tags.isNotEmpty()) {
             contactCategory.visibility = View.VISIBLE
-            contactCategory.text = tag.name
-            contactCategory.setTextColor(resources.getColor(tag.color.getAndroidColorId(), context?.theme))
+            contactCategory.text = tags.createSpannableString(context!!)
         }
     }
 

@@ -44,10 +44,9 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
         }
     }
 
-    override fun getCategory(address: String): Tag? {
+    override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
     }
-
     override fun getTrashSubject(): Subject<TrashManager.Action> {
         return TrashManager.subOnTrashChanged
     }

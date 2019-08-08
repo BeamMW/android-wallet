@@ -19,6 +19,9 @@ package com.mw.beam.beamwallet.screens.addresses
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +32,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_address.*
@@ -39,7 +43,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesAdapter(private val context: Context, private val clickListener: OnItemClickListener, private val tagProvider: ((address: String) -> Tag?)? = null, private val generatedAddress: WalletAddress? = null) :
+class AddressesAdapter(private val context: Context, private val clickListener: OnItemClickListener, private val tagProvider: ((address: String) -> List<Tag>)? = null, private val generatedAddress: WalletAddress? = null) :
         androidx.recyclerview.widget.RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
@@ -58,7 +62,7 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = data[position]
-        val addressCategory = tagProvider?.invoke(address.walletID)
+        val findTags = tagProvider?.invoke(address.walletID)
 
         holder.apply {
             val isGeneratedAddress = address.walletID == generatedAddress?.walletID
@@ -113,12 +117,9 @@ class AddressesAdapter(private val context: Context, private val clickListener: 
 
             val category = itemView.findViewById<TextView>(R.id.tag)
 
-            category.visibility = if (addressCategory == null) View.GONE else View.VISIBLE
-            category.text = addressCategory?.name ?: ""
+            category.visibility = if (findTags.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-            if (addressCategory != null) {
-                category.setTextColor(context.resources.getColor(addressCategory.color.getAndroidColorId(), context.theme))
-            }
+            category.text = findTags.createSpannableString(context)
         }
     }
 

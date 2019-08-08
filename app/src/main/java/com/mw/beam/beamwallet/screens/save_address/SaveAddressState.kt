@@ -20,5 +20,5 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 
 class SaveAddressState {
     var address = ""
-    var tag: Tag? = null
+    var tags: List<Tag> = listOf()
 }
