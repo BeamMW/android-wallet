@@ -27,7 +27,7 @@
     <dimen name="navigation_width">304dp</dimen>
     <dimen name="navigation_padding_top">30dp</dimen>
     <dimen name="navigation_accent_size">6dp</dimen>
-    <dimen name="navigation_item_size">47dp</dimen>
+    <dimen name="navigation_item_size">60dp</dimen>
     <dimen name="navigation_item_icon_margin">20dp</dimen>
     <dimen name="navigation_item_text_size">16sp</dimen>
     <dimen name="alert_dialog_button_padding">20dp</dimen>

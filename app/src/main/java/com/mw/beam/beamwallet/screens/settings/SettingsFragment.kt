@@ -103,7 +103,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
                 setOnClickListener { presenter?.onCategoryPressed(category.id) }
-                setPadding(0, 0, 0, context.resources.getDimensionPixelSize(R.dimen.settings_common_offset))
+                setPadding(0,0,0,20)
             })
         }
     }
@@ -145,11 +145,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter?.onReportProblem()
         }
 
-        val lockScreenSettingsOnClick = View.OnClickListener {
+        lockScreenLayout.setOnClickListener {
             presenter?.onShowLockScreenSettings()
         }
-        lockScreenTitle.setOnClickListener(lockScreenSettingsOnClick)
-        lockScreenValue.setOnClickListener(lockScreenSettingsOnClick)
 
         confirmTransactionSwitch.setOnCheckedChangeListener { _, isChecked ->
             presenter?.onChangeConfirmTransactionSettings(isChecked)
@@ -171,16 +169,21 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter?.onShowOwnerKey()
         }
 
-        val languageOnClickListener = View.OnClickListener { presenter?.onLanguagePressed() }
-        languageValue.setOnClickListener(languageOnClickListener)
-        languageTitle.setOnClickListener(languageOnClickListener)
+        languageLayout.setOnClickListener {
+            presenter?.onLanguagePressed()
+        }
 
-        clearData.setOnClickListener { presenter?.onClearDataPressed() }
+        clearData.setOnClickListener {
+            presenter?.onClearDataPressed()
+        }
 
-        addNewCategory.setOnClickListener { presenter?.onAddCategoryPressed() }
+        addNewCategory.setOnClickListener {
+            presenter?.onAddCategoryPressed()
+        }
 
-        ip.setOnClickListener { presenter?.onNodeAddressPressed() }
-        ipTitle.setOnClickListener { presenter?.onNodeAddressPressed() }
+        nodeLayout.setOnClickListener {
+            presenter?.onNodeAddressPressed()
+        }
     }
 
     @SuppressLint("InflateParams")
