@@ -317,22 +317,37 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.onTokenChanged(token.text.toString())
             } else {
                 handleAddressSuggestions(null)
+
+                if (!QrHelper.isValidAddress(getToken())) {
+                    setAddressError()
+                }
             }
         }
         token.setOnClickListener {
             contentScrollView.smoothScrollTo(0, 0)
             presenter?.onTokenChanged(token.text.toString())
         }
-
-        feeContainer.setOnLongClickListener {
-            presenter?.onLongPressFee()
-            true
+        token.setOnEditorActionListener { _, _, event ->
+            when(event.keyCode){
+                KeyEvent.KEYCODE_ENTER -> {
+                    Handler().postDelayed({
+                        requestFocusToAmount();
+                    },100)
+                    true
+                }
+                else -> false
+            }
         }
 
-        feeSeekBar.setOnLongClickListener {
-            presenter?.onLongPressFee()
-            true
-        }
+//        feeContainer.setOnLongClickListener {
+//            presenter?.onLongPressFee()
+//            true
+//        }
+//
+//        feeSeekBar.setOnLongClickListener {
+//            presenter?.onLongPressFee()
+//            true
+//        }
 
         feeSeekBar.setOnSeekBarChangeListener(onFeeChangeListener)
 

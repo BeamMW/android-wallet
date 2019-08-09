@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.view.View
 import android.view.WindowManager
@@ -31,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.views.BeamEditText
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.views.Suggestions
@@ -113,6 +115,20 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return true
     }
 
+    private fun onFocusNextField() {
+        for (i in 0 until seedLayout.childCount) {
+            val phrase = (seedLayout.getChildAt(i) as BeamPhraseInput)
+            if (!phrase.isValid) {
+                phrase.editText.requestFocus()
+                return
+            }
+        }
+
+        currentEditText?.clearFocus()
+
+        hideKeyboard()
+    }
+
     override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
     override fun showPasswordsFragment(seed: Array<String>) {
         findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
@@ -170,8 +186,12 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         phrase.layoutParams = params
 
         phrase.editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(phrase: Editable?) {
-                presenter?.onSeedChanged(phrase.toString())
+            override fun afterTextChanged(input: Editable?) {
+                presenter?.onSeedChanged(input.toString())
+
+                if (phrase.isValid && phrase.editText.hasFocus()) {
+                    onFocusNextField()
+                }
             }
         })
 
