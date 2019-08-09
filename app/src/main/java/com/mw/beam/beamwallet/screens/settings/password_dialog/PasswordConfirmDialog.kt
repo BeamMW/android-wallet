@@ -1,8 +1,11 @@
 package com.mw.beam.beamwallet.screens.settings.password_dialog
 
 import android.content.DialogInterface
+import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseDialogFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -32,8 +35,18 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_password_confirm
 
     override fun init() {
-        pass.requestFocus()
+
     }
+
+    override fun onStart() {
+        super.onStart()
+
+        Handler().postDelayed({
+            pass.requestFocus()
+            showKeyboard()
+        }, 100)
+    }
+
 
     override fun confirm() {
         onConfirm?.invoke()
