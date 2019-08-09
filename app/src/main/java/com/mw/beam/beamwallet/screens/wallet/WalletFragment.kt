@@ -22,6 +22,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -390,6 +391,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
+
                 drawerLayout.closeDrawer(GravityCompat.START)
 
                 val direction = when (navItem.id) {
@@ -403,9 +405,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                     else -> null
                 }
 
-                if (direction != null) {
-                    findNavController().navigate(direction)
-                }
+                Handler().postDelayed({
+                    if (direction != null) {
+                        findNavController().navigate(direction)
+                    }
+                }, 220)
             }
         })
         navMenu.layoutManager = LinearLayoutManager(context)

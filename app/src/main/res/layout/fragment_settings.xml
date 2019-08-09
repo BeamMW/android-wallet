@@ -14,10 +14,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:fitsSystemWindows="true"
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,6 +32,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -52,24 +54,35 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
 
-                    <TextView
-                        android:id="@+id/lockScreenTitle"
-                        style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/lockScreenLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/lock_screen"
+                        android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/generalSettings" />
+                        app:layout_constraintTop_toBottomOf="@+id/generalSettings">
 
-                    <TextView
-                        android:id="@+id/lockScreenValue"
-                        style="@style/common_text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/settings_small_text_margin"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/lockScreenTitle"
-                        tools:text="Never" />
+                        <TextView
+                            android:id="@+id/lockScreenTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lock_screen" />
+
+                        <TextView
+                            android:id="@+id/lockScreenValue"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/settings_small_text_margin"
+                            tools:text="Never" />
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -80,6 +93,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/generalSettingsCard">
 
@@ -106,6 +120,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/settings_common_offset"
+                        android:paddingBottom="@dimen/settings_common_offset"
                         android:text="@string/settings_run_random_node"
                         app:layout_constraintEnd_toStartOf="@+id/runRandomNodeSwitch"
                         app:layout_constraintStart_toStartOf="parent"
@@ -118,28 +133,38 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/runRandomNodeTitle" />
 
-                    <TextView
-                        android:id="@+id/ipTitle"
-                        style="@style/common_text_big_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/settings_common_offset"
-                        android:paddingEnd="@dimen/settings_common_offset"
-                        android:text="@string/settings_ip_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/runRandomNodeTitle"
-                        tools:ignore="RtlSymmetry" />
-
-                    <TextView
-                        android:id="@+id/ip"
-                        style="@style/common_text_big_dark"
+                    <LinearLayout
+                        android:id="@+id/nodeLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/settings_small_text_margin"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ipTitle"
-                        tools:text="12.123.123.1234" />
+                        android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="@+id/runRandomNodeSwitch"
+                        app:layout_constraintStart_toStartOf="@+id/runRandomNodeTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/runRandomNodeTitle">
+
+                        <TextView
+                            android:id="@+id/ipTitle"
+                            style="@style/common_text_big_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingEnd="@dimen/settings_common_offset"
+                            android:text="@string/settings_ip_title"
+                            tools:ignore="RtlSymmetry" />
+
+                        <TextView
+                            android:id="@+id/ip"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/settings_small_text_margin"
+                            tools:text="12.123.123.1234" />
+
+                    </LinearLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
@@ -149,6 +174,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nodeCard">
 
@@ -227,6 +253,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsCard">
 
@@ -239,43 +266,68 @@
                     <TextView
                         android:id="@+id/changePass"
                         style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/settings_change_pass"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/clearData"
                         style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
                         android:background="@color/colorPrimary"
-                        android:paddingTop="@dimen/settings_common_offset"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/settings_dialog_clear_title"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/changePass" />
 
-                    <TextView
-                        android:id="@+id/languageTitle"
-                        style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/languageLayout"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/settings_common_offset"
-                        android:text="@string/language"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/clearData" />
+                        app:layout_constraintTop_toBottomOf="@+id/clearData">
 
-                    <TextView
-                        android:id="@+id/languageValue"
-                        style="@style/common_text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="@dimen/settings_small_text_margin"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/languageTitle"
-                        tools:text="English" />
+                        <TextView
+                            android:id="@+id/languageTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/language" />
+
+                        <TextView
+                            android:id="@+id/languageValue"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/settings_small_text_margin"
+                            tools:text="English" />
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -285,6 +337,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsWalletCard">
 
@@ -292,15 +345,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:padding="@dimen/common_card_padding">
+                    android:paddingStart="@dimen/common_card_padding"
+                    android:paddingLeft="@dimen/common_card_padding"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingRight="@dimen/common_card_padding"
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:id="@+id/ownerKey"
                         style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/show_owner_key"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -312,6 +376,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsOwnerKey">
 
@@ -342,9 +407,16 @@
                     <TextView
                         android:id="@+id/addNewCategory"
                         style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/add_new_category"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/categoriesList" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -355,6 +427,7 @@
                 style="@style/common_card_style"
                 android:layout_marginTop="@dimen/settings_card_offset"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingsCategoryCard">
 
@@ -362,15 +435,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorPrimary"
-                    android:padding="@dimen/common_card_padding">
+                    android:paddingStart="@dimen/common_card_padding"
+                    android:paddingLeft="@dimen/common_card_padding"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="15dp"
+                    android:paddingRight="@dimen/common_card_padding"
+                    android:paddingBottom="15dp">
 
                     <TextView
                         android:id="@+id/reportProblem"
                         style="@style/common_menu_item"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:background="@color/colorPrimary"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/settings_report"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
