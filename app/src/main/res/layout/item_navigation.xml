@@ -4,6 +4,7 @@
     android:id="@+id/containerView"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_item_size"
+    android:background="?android:attr/selectableItemBackground"
     android:filterTouchesWhenObscured="true">
 
     <View

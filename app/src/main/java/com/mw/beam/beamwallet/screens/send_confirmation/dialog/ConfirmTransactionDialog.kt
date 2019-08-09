@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send_confirmation.dialog
 
+import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.view.animation.Animation
@@ -34,6 +35,10 @@ import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_transaction.*
+import kotlinx.android.synthetic.main.dialog_confirm_transaction.description
+import kotlinx.android.synthetic.main.dialog_confirm_transaction.pass
+import kotlinx.android.synthetic.main.dialog_confirm_transaction.passError
+import kotlinx.android.synthetic.main.fragment_check_old_pass.*
 
 class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>(), ConfirmTransactionContract.View {
     private var withFingerprint = false
@@ -59,6 +64,15 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
         description.setText(if (withFingerprint) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
 
         touchCard.visibility = if (withFingerprint) View.VISIBLE else View.GONE
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (!withFingerprint) {
+            pass.requestFocus()
+            showKeyboard()
+        }
     }
 
     override fun addListeners() {

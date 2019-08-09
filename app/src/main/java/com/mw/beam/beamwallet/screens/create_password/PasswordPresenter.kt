@@ -40,6 +40,7 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
         if (view != null) {
             if (view!!.isModeChangePass()) {
                 state.isModeChangePass = true
+                state.mode = WelcomeMode.CHANGE_PASS
             } else {
                 state.phrases = view?.getSeed()
                 state.mode = view?.getWelcomeMode()

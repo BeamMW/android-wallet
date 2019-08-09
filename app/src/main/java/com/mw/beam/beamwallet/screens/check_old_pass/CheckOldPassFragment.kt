@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_check_old_pass.*
 
@@ -43,6 +44,13 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
 
     override fun init() {
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        pass.requestFocus()
+        showKeyboard()
     }
 
     override fun addListeners() {
@@ -76,7 +84,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
     }
 
     override fun showNewPassFragment() {
-        findNavController().navigate(CheckOldPassFragmentDirections.actionCheckOldPassFragmentToPasswordChangeFragment(null, null, true))
+        findNavController().navigate(CheckOldPassFragmentDirections.actionCheckOldPassFragmentToPasswordChangeFragment(null, WelcomeMode.CHANGE_PASS.name, true))
     }
 
 

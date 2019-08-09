@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
+    tools:openDrawer="left"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -425,11 +426,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/navMenu"
-                tools:listitem="@layout/item_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/navigation_padding_top" />
+                android:paddingTop="@dimen/navigation_padding_top"
+                tools:listitem="@layout/item_navigation" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -454,14 +455,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/main_link_text_margin"
-                    android:layout_marginEnd="@dimen/main_link_text_margin_end"
+                    android:alpha="0.5"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/welcome_where_to_buy_beam"
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/navigation_item_text_size"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/smallLogo"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintWidth_max="wrap" />
@@ -470,14 +469,12 @@
                     android:id="@+id/buyBeamLinkIcon"
                     android:layout_width="@dimen/main_link_icon_size"
                     android:layout_height="@dimen/main_link_icon_size"
-                    android:layout_marginStart="@dimen/main_link_text_margin"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_external_link_dark"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/whereBuyBeamLink"
+                    app:layout_constraintStart_toEndOf="@+id/whereBuyBeamLink"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

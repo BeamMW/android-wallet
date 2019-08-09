@@ -96,11 +96,16 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
     override fun onStart() {
         super.onStart()
+
+        pass.requestFocus()
+        showKeyboard()
+
         onBackPressedCallback.isEnabled = true
     }
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
+
         super.onStop()
     }
 
