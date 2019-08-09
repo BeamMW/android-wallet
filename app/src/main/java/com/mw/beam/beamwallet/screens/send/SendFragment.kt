@@ -338,17 +338,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         expiresOnSpinner.onItemSelectedListener = expireListener
 
-        val advancedClickListener = View.OnClickListener {
+        advancedContainer.setOnClickListener {
             presenter?.onAdvancedPressed()
         }
-        advancedTitle.setOnClickListener(advancedClickListener)
-        btnExpandAdvanced.setOnClickListener(advancedClickListener)
 
-        val editAddressClickListener = View.OnClickListener {
+        editAddressContainer.setOnClickListener {
             presenter?.onEditAddressPressed()
         }
-        editAddressTitle.setOnClickListener(editAddressClickListener)
-        btnExpandEditAddress.setOnClickListener(editAddressClickListener)
 
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
@@ -832,10 +828,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.onFocusChangeListener = null
         feeSeekBar.setOnSeekBarChangeListener(null)
         feeContainer.setOnLongClickListener(null)
-        advancedTitle.setOnClickListener(null)
-        btnExpandAdvanced.setOnClickListener(null)
-        editAddressTitle.setOnClickListener(null)
-        btnExpandEditAddress.setOnClickListener(null)
+        advancedContainer.setOnClickListener(null)
+        editAddressContainer.setOnClickListener(null)
         searchContainer.setOnTouchListener(null)
         tabLayout.setOnTouchListener(null)
         contentScrollView.setOnTouchListener(null)

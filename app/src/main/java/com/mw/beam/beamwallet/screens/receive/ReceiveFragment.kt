@@ -162,17 +162,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnShowQR.setOnClickListener { presenter?.onShowQrPressed() }
         expiresOnSpinner.onItemSelectedListener = expireListener
 
-        val advancedClickListener = View.OnClickListener {
+        advancedContainer.setOnClickListener {
             presenter?.onAdvancedPressed()
         }
-        advancedTitle.setOnClickListener(advancedClickListener)
-        btnExpandAdvanced.setOnClickListener(advancedClickListener)
 
-        val editAddressClickListener = View.OnClickListener {
+        editAddressContainer.setOnClickListener {
             presenter?.onEditAddressPressed()
         }
-        editAddressTitle.setOnClickListener(editAddressClickListener)
-        btnExpandEditAddress.setOnClickListener(editAddressClickListener)
 
         btnChangeAddress.setOnClickListener {
             presenter?.onChangeAddressPressed()
@@ -323,10 +319,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         btnShareToken.setOnClickListener(null)
         btnShowQR.setOnClickListener(null)
         btnChangeAddress.setOnClickListener(null)
-        advancedTitle.setOnClickListener(null)
-        btnExpandAdvanced.setOnClickListener(null)
-        editAddressTitle.setOnClickListener(null)
-        btnExpandEditAddress.setOnClickListener(null)
+        advancedContainer.setOnClickListener(null)
+        editAddressContainer.setOnClickListener(null)
         token.setOnTouchListener(null)
         tagAction.setOnTouchListener(null)
 

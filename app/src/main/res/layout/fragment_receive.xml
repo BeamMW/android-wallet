@@ -76,32 +76,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/receive_common_margin"
-                    android:paddingTop="@dimen/receive_card_padding"
-                    android:paddingBottom="@dimen/receive_card_padding"
                     app:layout_constraintTop_toBottomOf="@id/token">
 
-                    <TextView
-                        android:id="@+id/editAddressTitle"
-                        style="@style/common_subheader_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:letterSpacing="0.15"
-                        android:text="@string/edit_address"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/common_text_small_size"
+                    <LinearLayout
+                        android:id="@+id/editAddressContainer"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingTop="@dimen/receive_card_padding"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingBottom="@dimen/receive_card_padding"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/editAddressTitle"
+                            style="@style/common_subheader_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:letterSpacing="0.15"
+                            android:text="@string/edit_address"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/common_text_small_size"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:id="@+id/btnExpandEditAddress"
-                        android:layout_width="@dimen/wallet_expandable_icon_size"
-                        android:layout_height="@dimen/wallet_expandable_icon_size"
-                        android:background="@drawable/btn_drop_down"
-                        android:contentDescription="@null"
-                        app:layout_constraintBottom_toBottomOf="@id/editAddressTitle"
-                        app:layout_constraintStart_toEndOf="@id/editAddressTitle"
-                        app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
+                        <View
+                            android:id="@+id/btnExpandEditAddress"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/editAddressTitle"
+                            app:layout_constraintStart_toEndOf="@id/editAddressTitle"
+                            app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/commentTitle"
@@ -109,11 +119,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginTop="@dimen/receive_comment_title_margin_top"
+                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:text="@string/name"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/editAddressTitle" />
+                        app:layout_constraintTop_toBottomOf="@id/editAddressContainer" />
 
                     <EditText
                         android:id="@+id/comment"
@@ -183,6 +193,7 @@
                         android:layout_width="0dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/common_offset"
+                        android:paddingBottom="@dimen/receive_card_padding"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toStartOf="@id/tagAction"
                         app:layout_constraintStart_toStartOf="@id/categoryTitle"
@@ -254,32 +265,42 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:layout_marginTop="30dp"
-                android:paddingTop="@dimen/receive_card_padding"
-                android:paddingBottom="@dimen/receive_card_padding"
                 app:layout_constraintTop_toBottomOf="@id/txCommentDivider">
 
-                <TextView
-                    android:id="@+id/advancedTitle"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:letterSpacing="0.15"
-                    android:text="@string/advanced"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/common_text_small_size"
+                <LinearLayout
+                    android:id="@+id/advancedContainer"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingTop="@dimen/receive_card_padding"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingBottom="@dimen/receive_card_padding"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/advancedTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:letterSpacing="0.15"
+                        android:text="@string/advanced"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/common_text_small_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/btnExpandAdvanced"
-                    android:layout_width="@dimen/wallet_expandable_icon_size"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    android:background="@drawable/btn_drop_down"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/advancedTitle"
-                    app:layout_constraintStart_toEndOf="@id/advancedTitle"
-                    app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                    <View
+                        android:id="@+id/btnExpandAdvanced"
+                        android:layout_width="@dimen/wallet_expandable_icon_size"
+                        android:layout_height="@dimen/wallet_expandable_icon_size"
+                        android:background="@drawable/btn_drop_down"
+                        android:contentDescription="@null"
+                        app:layout_constraintBottom_toBottomOf="@id/advancedTitle"
+                        app:layout_constraintStart_toEndOf="@id/advancedTitle"
+                        app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/amountTitle"
@@ -287,12 +308,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/common_offset"
                     android:textAllCaps="false"
                     tools:text="@string/request_an_amount"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/advancedTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/advancedContainer" />
 
                 <EditText
                     android:id="@+id/amount"
@@ -334,12 +355,20 @@
                     app:layout_constraintBottom_toBottomOf="@id/amount"
                     app:layout_constraintEnd_toEndOf="parent" />
 
+                <View
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amountDivider"
+                    android:id="@+id/emptySpaceDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"/>
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/advancedGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    app:constraint_referenced_ids="currency,amountDivider,amount,amountTitle"
+                    app:constraint_referenced_ids="currency,amountDivider,amount,amountTitle,emptySpaceDivider"
                     tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

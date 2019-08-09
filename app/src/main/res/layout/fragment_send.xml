@@ -332,7 +332,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="@color/colorPrimary"
-                android:paddingTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comment">
@@ -345,28 +344,39 @@
                     app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress"
                     tools:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/advancedTitle"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:letterSpacing="0.15"
-                    android:paddingBottom="20dp"
-                    android:text="@string/advanced"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/common_text_small_size"
+                <LinearLayout
+                    android:id="@+id/advancedContainer"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingTop="@dimen/receive_card_padding"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:paddingBottom="@dimen/receive_card_padding"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/advancedTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:letterSpacing="0.15"
+                        android:text="@string/advanced"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/common_text_small_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/btnExpandAdvanced"
-                    android:layout_width="@dimen/wallet_expandable_icon_size"
-                    android:layout_height="@dimen/wallet_expandable_icon_size"
-                    android:background="@drawable/btn_drop_down"
-                    android:contentDescription="@null"
-                    app:layout_constraintStart_toEndOf="@id/advancedTitle"
-                    app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                    <View
+                        android:id="@+id/btnExpandAdvanced"
+                        android:layout_width="@dimen/wallet_expandable_icon_size"
+                        android:layout_height="@dimen/wallet_expandable_icon_size"
+                        android:background="@drawable/btn_drop_down"
+                        android:contentDescription="@null"
+                        app:layout_constraintStart_toEndOf="@id/advancedTitle"
+                        app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/outgoingAddressTitle"
@@ -377,7 +387,7 @@
                     android:layout_marginTop="10dp"
                     android:textAllCaps="false"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/advancedTitle"
+                    app:layout_constraintTop_toBottomOf="@id/advancedContainer"
                     tools:text="OUTGOING ADDRESS (auto-generated)" />
 
                 <TextView
@@ -415,9 +425,7 @@
                     android:id="@+id/editAddressCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:paddingStart="@dimen/common_offset"
-                    android:paddingEnd="@dimen/common_offset"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/outgoingAddress">
 
                     <androidx.constraintlayout.widget.Group
@@ -428,41 +436,57 @@
                         app:constraint_referenced_ids="addressNameTitle,addressName,expiresTitle,tags,tagAction,categoryTitle,expiresOnSpinner,commentDivider"
                         tools:visibility="visible" />
 
-                    <TextView
-                        android:id="@+id/editAddressTitle"
-                        style="@style/common_subheader_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:letterSpacing="0.15"
-                        android:text="@string/edit_address"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/common_text_small_size"
+                    <LinearLayout
+                        android:id="@+id/editAddressContainer"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingTop="@dimen/receive_card_padding"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingBottom="@dimen/receive_card_padding"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/editAddressTitle"
+                            style="@style/common_subheader_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:letterSpacing="0.15"
+                            android:text="@string/edit_address"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/common_text_small_size"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <View
-                        android:id="@+id/btnExpandEditAddress"
-                        android:layout_width="@dimen/wallet_expandable_icon_size"
-                        android:layout_height="@dimen/wallet_expandable_icon_size"
-                        android:background="@drawable/btn_drop_down"
-                        android:contentDescription="@null"
-                        app:layout_constraintBottom_toBottomOf="@id/editAddressTitle"
-                        app:layout_constraintStart_toEndOf="@id/editAddressTitle"
-                        app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
-
+                        <View
+                            android:id="@+id/btnExpandEditAddress"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/editAddressTitle"
+                            app:layout_constraintStart_toEndOf="@id/editAddressTitle"
+                            app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/addressNameTitle"
                         style="@style/common_subheader_dark"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/receive_comment_title_margin_top"
+                        android:layout_marginTop="10dp"
                         android:text="@string/name"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/editAddressTitle" />
+                        app:layout_constraintTop_toBottomOf="@id/editAddressContainer" />
 
                     <EditText
                         android:id="@+id/addressName"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
                         style="@style/common_text_big_light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -488,6 +512,8 @@
                     <TextView
                         android:id="@+id/expiresTitle"
                         style="@style/common_subheader_dark"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/receive_title_margin_top"
@@ -496,6 +522,8 @@
                         app:layout_constraintTop_toBottomOf="@id/addressName" />
 
                     <Spinner
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:id="@+id/expiresOnSpinner"
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="0dp"
@@ -507,6 +535,8 @@
                         app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
 
                     <TextView
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:id="@+id/categoryTitle"
                         style="@style/common_subheader_dark"
                         android:layout_width="wrap_content"
@@ -532,6 +562,7 @@
                         android:id="@+id/tagAction"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_add"
                         app:layout_constraintEnd_toEndOf="parent"
