@@ -94,12 +94,16 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
         touchCard.setCardBackgroundColor(ContextCompat.getColor(context!!, R.color.fingerprint_card_background_color))
         fingerprintImage.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_touch))
 
-        cancellationSignal = CancellationSignal()
+        if (withFingerprint)
+        {
+            cancellationSignal = CancellationSignal()
 
-        authCallback = FingerprintCallback(presenter, cancellationSignal)
+            authCallback = FingerprintCallback(presenter, cancellationSignal)
 
-        FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                authCallback!!, null)
+            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                    authCallback!!, null)
+        }
+
     }
 
     override fun clearListeners() {
