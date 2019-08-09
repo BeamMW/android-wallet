@@ -52,7 +52,7 @@
 
     <TextView
         android:paddingTop="@dimen/transaction_date_padding"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="10dp"
         style="@style/common_text_small_dark"
         tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
         android:maxLines="1"
@@ -60,7 +60,7 @@
         tools:visibility="visible"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@id/date"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/status"
         app:layout_constraintTop_toBottomOf="@id/date"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/searchTextView"
@@ -106,6 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
+        tools:text="@string/sending_to_own_address"
         android:paddingStart="@dimen/wallet_currency_padding"
         android:paddingTop="@dimen/transaction_status_padding_top"
         android:paddingEnd="@dimen/wallet_currency_padding"

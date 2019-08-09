@@ -4,7 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/common_alert_dialog_background"
+    android:background="@drawable/common_alert_dialog_background_without_padding"
+    android:paddingStart="60dp"
+    android:paddingEnd="50dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="10dp"
     android:filterTouchesWhenObscured="true">
 
     <TextView
@@ -13,6 +17,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_regular"
         tools:text="Title"
+        app:layout_constraintStart_toStartOf="parent"
         android:paddingBottom="@dimen/alert_dialog_title_padding"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/common_alert_title_text_size"
@@ -24,7 +29,9 @@
         style="@style/common_text_big_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/alert_dialog_alert_padding"
+        android:paddingBottom="30dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="10dp"
         tools:text="Alert text Alert text Alert text Alert text Alert text Alert text"
         app:layout_constraintBottom_toTopOf="@id/btnConfirm"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,8 +40,12 @@
 
     <TextView
         android:id="@+id/btnCancel"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textAllCaps="true"
         android:textColor="@color/alert_dialog_cancel_color"
         android:textStyle="bold"
@@ -48,9 +59,12 @@
 
     <TextView
         android:id="@+id/btnConfirm"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/alert_dialog_button_padding"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:textAllCaps="true"
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
