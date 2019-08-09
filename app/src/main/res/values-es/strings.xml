@@ -239,8 +239,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="node">Nodo</string>
     <string name="settings_ip_title">ip: puerto:</string>
     <string name="settings_general_settings">Configuración general</string>
-    <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
+    <string name="tags">Etiquetas</string>
+    <string name="add_new_tag">Añadir nueva etiqueta</string>
     <string name="lock_screen">Bloquear pantalla</string>
     <string name="never">Nunca</string>
     <string name="after">Después</string>
@@ -274,7 +274,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
-    <string name="tag">Tag</string>
+    <string name="tag">Etiqueta</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Caducar dirección ahora</string>
     <string name="active_address">Activar dirección</string>
@@ -298,11 +298,11 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="current_password_is_incorrect">La contraseña actual es incorrecta</string>
     <!--CategoryFragment-->
     <string name="edit">Editar</string>
-    <string name="delete_tag">Delete tag</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="delete_tag">Borrar etiqueta</string>
+    <string name="tag_delete_dialog_message">¿Está seguro de que desea eliminar %1$s etiqueta?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">Editar etiqueta</string>
+    <string name="create_tag">Crear etiqueta</string>
     <string name="color">Color</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Mostrar la clave de propietario</string>
@@ -343,7 +343,7 @@ para acceder al wallet</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Introduzca su contraseña actual para continuar con los cambios en la configuración</string>
     <string name="save_changes">Salvar cambios</string>
     <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Buscar por dirección, etiqueta o nombre</string>
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
     <string name="search_transaction">Biscar transacción</string>
@@ -375,8 +375,8 @@ para acceder al wallet</string>
     <string name="downloading_blockchain_info">Descargando información de blockchain</string>
     <string name="add_all">Añadir todo</string>
     <string name="my_active_addresses">Mis direcciones activas</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
-    <string name="choose_tag">Choose tag</string>
+    <string name="tag_list_is_empty">La lista de etiquetas esta vacía</string>
+    <string name="dialog_empty_tags_message">Aún no tienes etiquetas. ¿Quieres crear una etiqueta ahora?</string>
+    <string name="you_can_create_more_tags_in_settings">Puede crear más etiquetas en Ajustes.</string>
+    <string name="choose_tag">Elegir etiqueta</string>
 </resources>
