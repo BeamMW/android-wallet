@@ -298,11 +298,11 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="current_password_is_incorrect">Le mot de passe actuel est incorrect</string>
     <!--CategoryFragment-->
     <string name="edit">Modifier</string>
-    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag">Supprimer le tag</string>
     <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">Éditer le tag</string>
+    <string name="create_tag">Créer un tag</string>
     <string name="color">Couleur </string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Afficher la clé propriétaire</string>
@@ -342,7 +342,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Saisir votre mot de passe pour procéder aux changements de paramètres</string>
     <string name="save_changes">Confirmer les modifications</string>
     <string name="receive_description">Pour compléter la transaction, vous devez être en ligne dans les douze heures après que les Beams ont été envoyés.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Rechercher par adresse, tag ou nom</string>
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
     <string name="search_transaction">Rechercher des transactions</string>
@@ -352,15 +352,15 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="enter_your_password_to_confirm_transaction">Entrez votre mot de passe pour confirmer la transaction</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utilisez Touch Id ou entrez votre mot de passe pour confirmer la transaction</string>
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
+    <string name="address_copied_to_clipboard">Adresse copiée</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Le portefeuille Beam va télécharger une image de la blockchain à partir du Cloud.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
+    <string name="restore_with_trusted_node">Restaurer avec un noeud vérifié</string>
     <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="enter_trusted_node_address">Entrez l\'adresse du noeud vérifié</string>
     <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
+    <string name="owner_key">Clé propriétaire</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Collez ce code dans le portefeuille Beam sur votre bureau pour continuer à restaurer à partir du nœud.</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
     <string name="privacy_mode">Privacy mode</string>
     <string name="gallery">Gallery</string>
@@ -370,12 +370,12 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
     <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="understand">Je comprends</string>
+    <string name="downloading_blockchain_info">Téléchargement de la blockchain en cours</string>
+    <string name="add_all">Tout ajouter</string>
+    <string name="my_active_addresses">Adresses actives</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="you_can_create_more_tags_in_settings">Vous pouvez créer plus de tags dans Paramètres.</string>
     <string name="choose_tag">Choose tag</string>
 </resources>

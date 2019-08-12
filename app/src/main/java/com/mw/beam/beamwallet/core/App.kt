@@ -60,9 +60,9 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
+//        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
             Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-        }
+//        }
 
         when(BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX

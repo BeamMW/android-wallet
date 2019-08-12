@@ -15,7 +15,7 @@
     <string name="cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="confirm">Подтвердить</string>
-    <string name="change">Change</string>
+    <string name="change">Сдача</string>
     <string name="ok">ОК</string>
     <string name="undo">Отменить</string>
     <string name="next">Дальше</string>
@@ -23,7 +23,7 @@
     <string name="copied">Скопировано!</string>
     <string name="more">Далее</string>
     <string name="share_qr">поделиться QR</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">Включить режим конфиденциальности</string>
     <string name="common_security_mode_message">Все суммы будут скрыты до следующего нажатия на иконку глаза.</string>
     <string name="common_fingerprint_error">Слишком много попыток. Пожалуйста, используйте пароль.</string>
     <string name="common_share_title">Поделиться…</string>
@@ -144,7 +144,7 @@
     <string name="utxo_status_result_rollback">Откат майнинга</string>
     <string name="blockchain_height">Высота блоков</string>
     <string name="last_block_hash">Хэш блока</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">Вы находитесь в режиме безопасности.</string>
     <string name="utxo_turn_off_see_utxo">Выключите, чтобы увидеть список UTXO.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Информация о UTXO</string>
@@ -194,7 +194,7 @@
     <string name="share_address">Переслать адрес</string>
     <string name="show_qr">показать QR</string>
     <string name="addresses">Мои адреса</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">Отправьте этот адрес отправителю средств, по любому безопасному внешнему каналу.</string>
     <string name="receive_save_address_message">Xотите сохранить созданный адрес чтобы использовать его позже?</string>
     <string name="receive_save_changes_message">Сохранить отредактированный адрес?</string>
     <string name="request_an_amount">Запросить сумму</string>
@@ -237,8 +237,8 @@
     <string name="node">Узел</string>
     <string name="settings_ip_title">ip адрес:порт:</string>
     <string name="settings_general_settings">Основные настройки</string>
-    <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
+    <string name="tags">Метки</string>
+    <string name="add_new_tag">Добавить метку</string>
     <string name="lock_screen">Блокировать экран</string>
     <string name="never">Бессрочно</string>
     <string name="after">После</string>
@@ -272,7 +272,7 @@
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
-    <string name="tag">Tag</string>
+    <string name="tag">Метка</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Деактивировать</string>
     <string name="active_address">Активировать адрес</string>
@@ -296,11 +296,11 @@
     <string name="current_password_is_incorrect">Текущий пароль неверен</string>
     <!--CategoryFragment-->
     <string name="edit">Править</string>
-    <string name="delete_tag">Delete tag</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="delete_tag">Удалить метку</string>
+    <string name="tag_delete_dialog_message">Вы уверены, что хотите удалить метку %1$s?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">Редактировать метку</string>
+    <string name="create_tag">Создать метку</string>
     <string name="color">Цвет</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Показать owner key</string>
@@ -340,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Введите свой текущий пароль, чтобы изменить настройки</string>
     <string name="save_changes">Сохранить изменения</string>
     <string name="receive_description">Для завершения транзакции вы должны быть онлайн в течение 12 часов после отправки.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Поиск по адресу, метке или имени</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
     <string name="search_transaction">Поиск транзакций</string>
@@ -350,30 +350,30 @@
     <string name="enter_your_password_to_confirm_transaction">Введите пароль для подтверждения транзакции</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Используйте Fingerprint ID или введите пароль для подтверждения транзакции</string>
     <string name="fingerprint_not_recognized">Отпечаток пальца не распознан</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
-    <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
+    <string name="address_copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Кошелек загрузит часть блокчейна из облака.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Кошелек свяжется с конкретным узлом, а узел найдет все ваши средства в блокчейне.</string>
+    <string name="restore_with_trusted_node">Восстановить с помощью вашего узла</string>
+    <string name="automatic_restore_recommended">Автоматическое восстановление (рекомендовано)</string>
+    <string name="enter_trusted_node_address">Введите адрес доверенного узла</string>
+    <string name="ip_port">ip адрес:порт</string>
+    <string name="owner_key">Ключ владельца</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Вставьте этот код в Beam Wallet на рабочем столе, чтобы продолжить восстановление с узла.</string>
+    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">После вставки кода восстановление начнется автоматически.</string>
+    <string name="privacy_mode">Режим конфиденциальности</string>
+    <string name="gallery">Галерея</string>
+    <string name="selectPickture">Выберите изображение</string>
+    <string name="storage_permission_required_message">Для сканирования QR кода необходимо разрешение пользоваться камерой</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR код не распознается. Выберите другую картинку.</string>
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
-    <string name="choose_tag">Choose tag</string>
+    <string name="automatic_restore_warning">Пожалуйста, убедитесь, что вы не сделали никаких транзакций (с любого устройства) в течение последнего часа. Если вы сделали, пожалуйста, подождите, как минимум, час с момента последней транзакции, прежде чем продолжить восстановление. В противном случае, ваш восстановленный баланс может быть неправильным и потребуется повторная процедура восстановления.</string>
+    <string name="node_restore_warning">Убедитесь, что ваш узел полностью синхронизирован с блокчейном перед началом процедуры восстановления. В противном случае, ваш восстановленный баланс может быть неправильным и потребуется повторная процедура восстановления.</string>
+    <string name="understand">Ясно</string>
+    <string name="downloading_blockchain_info">Загрузка информации о блокчейне</string>
+    <string name="add_all">Добавить все</string>
+    <string name="my_active_addresses">Мои активные адреса</string>
+    <string name="tag_list_is_empty">У вас еще нет созданных меток</string>
+    <string name="dialog_empty_tags_message">У вас пока нет созданных меток. Хотите ли вы создать первую метку сейчас?</string>
+    <string name="you_can_create_more_tags_in_settings">Вы можете создать больше меток в настройках.</string>
+    <string name="choose_tag">Выберите метку</string>
 </resources>

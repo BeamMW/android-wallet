@@ -237,7 +237,7 @@
     <string name="node">노드</string>
     <string name="settings_ip_title">아이피 : 포트:</string>
     <string name="settings_general_settings">일반 설정</string>
-    <string name="tags">Tags</string>
+    <string name="tags">태그 목록</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">잠금 화면</string>
     <string name="never">Never</string>
@@ -260,8 +260,8 @@
     <!--ProgressFragment-->
     <string name="loading_wallet">지갑 불러오는 중</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">My active</string>
-    <string name="addresses_tab_expired">My expired</string>
+    <string name="addresses_tab_active">활성화 상태 주소</string>
+    <string name="addresses_tab_expired">만료된 주소</string>
     <string name="no_name">이름 없음</string>
     <string name="address_deleted">주소 삭제됨</string>
     <string name="contact_deleted">연락처 삭제됨</string>
@@ -272,7 +272,7 @@
     <string name="transactions_list">거래내역</string>
     <string name="address_id">주소 ID</string>
     <string name="expiration_date">만료 일자</string>
-    <string name="tag">Tag</string>
+    <string name="tag">태그</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">주소 만료시키기</string>
     <string name="active_address">주소 활성화</string>
@@ -296,11 +296,11 @@
     <string name="current_password_is_incorrect">올바른 비밀번호가 아닙니다</string>
     <!--CategoryFragment-->
     <string name="edit">수정</string>
-    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag">태그 삭제</string>
     <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">태그 편집</string>
+    <string name="create_tag">태그 생성</string>
     <string name="color">색깔</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">소유자 키 보이기</string>
@@ -340,25 +340,25 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">설정 변경하시려면 비밀번호를 입력하세요</string>
     <string name="save_changes">변경사항 저장</string>
     <string name="receive_description">거래를 완료하기 위해서는, Beam 을 보낸 후 12시간 안으로 온라인 상태이어야 합니다.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">주소, 태그 혹은 이름으로 검색하기</string>
     <string name="min_fee_error">최소 수수료는 %1$s GROTH 입니다</string>
     <string name="delete_all_transactions_related_to_this_address">해당 주소와 연관된 거래 모두 삭제하기</string>
     <string name="search_transaction">Search transaction</string>
-    <string name="never_expires">Never expires</string>
+    <string name="never_expires">만료 안됨</string>
     <string name="expires_in">Expires in %1$s h %2$s m</string>
-    <string name="add_contact">Add contact</string>
-    <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
+    <string name="add_contact">연락처 추가</string>
+    <string name="enter_your_password_to_confirm_transaction">비밀번호를 입력하여 거래 확인을 하십시오</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
+    <string name="address_copied_to_clipboard">주소가 클립보드에 저장 되었습니다.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam 지갑이 클라우드에서 블록체인 스냅샷을 다운로드 받을 것입니다.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
+    <string name="restore_with_trusted_node">신뢰할 수 있는 노드로 복구하기</string>
     <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
-    <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
+    <string name="enter_trusted_node_address">신뢰할 수 있는 노드 주소를 입력하세요</string>
+    <string name="ip_port">아이피 : 포트</string>
+    <string name="owner_key">소유자 키</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">복구하려면 이 코드를 데스크탑 Beam 지갑에 붙여넣기 하십시오.</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
     <string name="privacy_mode">Privacy mode</string>
     <string name="gallery">Gallery</string>
@@ -368,12 +368,12 @@
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
     <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
+    <string name="understand">이해합니다</string>
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="add_all">모두 추가</string>
+    <string name="my_active_addresses">활성화 상태의 주소들</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="you_can_create_more_tags_in_settings">설정에서 더 많은 태그를 생성할 수 있습니다.</string>
     <string name="choose_tag">Choose tag</string>
 </resources>

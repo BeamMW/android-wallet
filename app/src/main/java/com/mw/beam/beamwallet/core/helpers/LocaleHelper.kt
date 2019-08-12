@@ -36,7 +36,8 @@ object LocaleHelper {
             SupportedLanguage("zh", "Chinese", "中文"),
             SupportedLanguage("fr", "French", "Français"),
             SupportedLanguage("ja", "Japanese", "日本語"),
-            SupportedLanguage("ko", "Korean", "한국어")
+            SupportedLanguage("ko", "Korean", "한국어"),
+            SupportedLanguage("th", "Thai", "ภาษาไทย")
     )
 
     private var languageCode = enLanguageCode

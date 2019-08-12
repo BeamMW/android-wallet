@@ -237,7 +237,7 @@
     <string name="node">ノード</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">一般設定</string>
-    <string name="tags">Tags</string>
+    <string name="tags">タグ</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">ロックスクリーン</string>
     <string name="never">無期限</string>
@@ -272,7 +272,7 @@
     <string name="transactions_list">トランザクションリスト</string>
     <string name="address_id">アドレスID</string>
     <string name="expiration_date">有効期限</string>
-    <string name="tag">Tag</string>
+    <string name="tag">タグ</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">アドレスを今すぐ期限切れにする</string>
     <string name="active_address">アドレスを有効化</string>
@@ -296,11 +296,11 @@
     <string name="current_password_is_incorrect">パスワードが違います</string>
     <!--CategoryFragment-->
     <string name="edit">編集</string>
-    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag">タグを削除</string>
     <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">タグを編集</string>
+    <string name="create_tag">タグを作成</string>
     <string name="color">カラー</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">オーナーキーを表示</string>
@@ -340,7 +340,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">現在のパスワードを入力して設定を変更</string>
     <string name="save_changes">変更を保存</string>
     <string name="receive_description">トランザクションを完了する為に、Beamの送信後12時間オンラインでいてください。</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">アドレス、タグ、名前で検索</string>
     <string name="min_fee_error">最小手数料は %1$s GROTHです</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
     <string name="search_transaction">トランザクションを検索</string>
@@ -374,6 +374,6 @@
     <string name="my_active_addresses">自分の有効なアドレス</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="you_can_create_more_tags_in_settings">設定でさらに多くのタグを作成できます。</string>
     <string name="choose_tag">Choose tag</string>
 </resources>
