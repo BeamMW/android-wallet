@@ -69,7 +69,7 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
-
+import android.content.ClipboardManager
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -389,6 +389,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun onStart() {
         super.onStart()
+
         onBackPressedCallback.isEnabled = true
     }
 
@@ -411,7 +412,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     private fun calculateDefaultMargin(): Int {
-        return addressContainer.height + resources.getDimensionPixelSize(R.dimen.common_offset)
+        var offset = 0
+        if (contactIcon.visibility == View.GONE) {
+            offset = 20
+        }
+        return addressContainer.height - offset
     }
 
     @SuppressLint("InflateParams")

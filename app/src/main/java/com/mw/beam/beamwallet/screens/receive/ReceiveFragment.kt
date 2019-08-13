@@ -193,6 +193,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onTagActionPressed()
         }
 
+        tags.setOnClickListener {
+            presenter?.onTagActionPressed()
+        }
+
         token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
     }
 

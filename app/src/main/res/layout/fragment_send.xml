@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
 
+    <View
+        android:layout_width="match_parent"
+        android:alpha="1"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
@@ -24,13 +31,14 @@
 
             <View
                 android:id="@+id/tokenBackground"
-                android:background="@color/colorPrimary"
-                app:layout_constraintStart_toStartOf="@id/addressContainer"
-                app:layout_constraintEnd_toEndOf="@id/addressContainer"
-                app:layout_constraintTop_toTopOf="@id/addressContainer"
-                app:layout_constraintBottom_toBottomOf="@id/addressContainer"
                 android:layout_width="0dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp"
+                android:background="#00242424"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@id/addressContainer"
+                app:layout_constraintEnd_toEndOf="@id/addressContainer"
+                app:layout_constraintStart_toStartOf="@id/addressContainer"
+                app:layout_constraintTop_toTopOf="@id/addressContainer" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressContainer"
@@ -595,14 +603,15 @@
 
                     <ImageView
                         android:id="@+id/btnFeeKeyboard"
-                        app:layout_constraintTop_toTopOf="@id/feeTitle"
-                        app:layout_constraintBottom_toBottomOf="@id/feeTitle"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:src="@drawable/ic_keyboard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:contentDescription="@null" />
+                        android:layout_marginEnd="8dp"
+                        android:contentDescription="@null"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_keyboard"
+                        app:layout_constraintBottom_toBottomOf="@id/feeTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/feeTitle" />
 
                     <TextView
                         android:id="@+id/minFeeValue"
@@ -705,12 +714,6 @@
             android:layout_height="0dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/send_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
 

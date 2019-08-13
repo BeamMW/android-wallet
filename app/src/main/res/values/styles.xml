@@ -100,9 +100,9 @@
     </style>
 
     <style name="common_subheader_dark" parent="common_text_small_dark">
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:letterSpacing">0.15</item>
+        <item name="android:letterSpacing">0.2</item>
     </style>
 
     <style name="common_text_small_light" parent="common_text_big_light">

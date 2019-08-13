@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.core.helpers
 
 import com.mw.beam.beamwallet.core.AppConfig
 import java.io.File
+import android.content.ClipData
+import android.content.ClipboardManager
 
 /**
  * Created by vain onnellinen on 3/14/19.
@@ -79,3 +81,6 @@ fun removeNodeDatabase() {
     File(AppConfig.DB_PATH, AppConfig.NODE_DB_FILE_NAME).delete()
     File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME).delete()
 }
+
+
+

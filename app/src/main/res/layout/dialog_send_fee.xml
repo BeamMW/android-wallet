@@ -10,14 +10,18 @@
 
     <ImageView
         android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="@null"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="@dimen/common_card_padding"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
         android:src="@drawable/ic_btn_cancel"
-        android:layout_width="16dp"
-        android:layout_height="16dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_marginStart="@dimen/common_card_padding"

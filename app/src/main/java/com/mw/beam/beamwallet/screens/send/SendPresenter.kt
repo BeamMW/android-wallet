@@ -357,7 +357,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val amount = getAmount()
             val fee = getFee()
 
-
             hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
                     ?: 0, state.privacyMode)
         }
