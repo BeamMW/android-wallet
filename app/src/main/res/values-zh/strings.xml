@@ -249,7 +249,7 @@
     <string name="node">节点</string>
     <string name="settings_ip_title">IP地址:端口</string>
     <string name="settings_general_settings">通用设置</string>
-    <string name="tags">Tags</string>
+    <string name="tags">标签</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">锁定屏幕</string>
     <string name="never">永不</string>
@@ -284,7 +284,7 @@
     <string name="transactions_list">交易列表</string>
     <string name="address_id">地址ID</string>
     <string name="expiration_date">失效日期</string>
-    <string name="tag">Tag</string>
+    <string name="tag">标签</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">立即令地址失效</string>
     <string name="active_address">激活地址</string>
@@ -309,11 +309,11 @@
     <string name="current_password_is_incorrect">当前密码不正确</string>
     <!--CategoryFragment-->
     <string name="edit">编辑</string>
-    <string name="delete_tag">Delete tag</string>
+    <string name="delete_tag">删除标签</string>
     <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
-    <string name="create_tag">Create tag</string>
+    <string name="edit_tag">修改标签</string>
+    <string name="create_tag">创建标签</string>
     <string name="color">颜色</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">显示所有者密钥</string>
@@ -356,7 +356,7 @@
     <string name="enter_your_current_password_to_proceed_changes_in_settings">请输入当前密码以修改设置</string>
     <string name="save_changes">保存修改</string>
     <string name="receive_description">为使交易顺利完成，您需要在支付完Beam后12小时内上线同步钱包</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">按地址、标签、或名称搜索</string>
     <string name="min_fee_error">最小交易费为 %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">删除与该地址有关的所有交易</string>
     <string name="search_transaction">搜索交易</string>
@@ -366,15 +366,15 @@
     <string name="enter_your_password_to_confirm_transaction">请输入密码以确认交易</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">请使用指纹或输入密码以确认交易</string>
     <string name="fingerprint_not_recognized">无法识别指纹</string>
-    <string name="address_copied_to_clipboard">Address copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
+    <string name="address_copied_to_clipboard">地址已被复制到剪贴板</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam钱包将会从云端下载区块链快照</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
+    <string name="restore_with_trusted_node">通过信任节点恢复</string>
     <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
-    <string name="ip_port">ip:port</string>
-    <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
+    <string name="enter_trusted_node_address">请输入信任的节点地址</string>
+    <string name="ip_port">IP地址:端口</string>
+    <string name="owner_key">所有者密钥</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">将该代码粘贴入桌面上的Beam钱包中，继续从节点恢复</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
     <string name="privacy_mode">Privacy mode</string>
     <string name="gallery">Gallery</string>
@@ -382,14 +382,17 @@
     <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="understand">I understand</string>
-    <string name="downloading_blockchain_info">Downloading blockchain info</string>
-    <string name="add_all">Add all</string>
-    <string name="my_active_addresses">My active addresses</string>
+    <string name="automatic_restore_warning">请确保您在过去一小时内没有对本钱包进行任何交易(在任何设备上)
+如果有进行过交易，请在该交易完成后等待至少一小时再进行恢复钱包操作
+否则，您恢复的余额可能不正确，或需要执行额外的恢复操作</string>
+    <string name="node_restore_warning">请在恢复操作执行前确保您的节点已同步到区块链最新高度
+否则，您恢复的余额可能不正确，或需要执行额外的恢复操作</string>
+    <string name="understand">我理解</string>
+    <string name="downloading_blockchain_info">正在下载区块链信息</string>
+    <string name="add_all">添加总余额</string>
+    <string name="my_active_addresses">有效地址</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
-    <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
+    <string name="you_can_create_more_tags_in_settings">您可以在设置中创建更多标签</string>
     <string name="choose_tag">Choose tag</string>
 </resources>

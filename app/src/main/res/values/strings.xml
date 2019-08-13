@@ -330,7 +330,7 @@
 
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Show owner key</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerpring ID)</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingerprint authorization failed. Please try in a few minutes.</string>
     <string name="owner_key_verification_title_with_finger">Enter your password and use Fingerprint ID to access the wallet</string>
     <string name="owner_key_verification_fingerprint_description">Please use Fingerprint ID to finish verification</string>
