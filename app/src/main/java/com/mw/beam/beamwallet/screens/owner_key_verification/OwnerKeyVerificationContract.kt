@@ -27,22 +27,24 @@ interface OwnerKeyVerificationContract {
         fun init(isEnableFingerprint: Boolean)
         fun getPassword(): String
         fun getContext(): Context?
-        fun showFingerprintDialog()
         fun showEmptyPasswordError()
         fun showWrongPasswordError()
-        fun showErrorFingerprintMessage()
         fun clearPasswordError()
-        fun showFingerprintDescription()
-        fun hideFingerprintDescription()
         fun navigateToOwnerKey()
+        fun displayFingerPrint(display: Boolean)
+        fun success()
+        fun showFailed()
+        fun error()
+        fun clearFingerprintCallback()
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onChangePassword()
         fun onNext()
         fun onFingerprintSuccess()
-        fun onFingerprintError()
-        fun onCancelFingerprintDialog()
+        fun onSuccess()
+        fun onFailed()
+        fun onError()
     }
 
     interface Repository: MvpRepository {

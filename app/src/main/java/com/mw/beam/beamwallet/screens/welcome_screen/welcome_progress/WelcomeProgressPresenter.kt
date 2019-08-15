@@ -153,8 +153,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 view?.showCancelRestoreAlert()
             }
-            WelcomeMode.CREATE, WelcomeMode.OPEN -> {
+            WelcomeMode.OPEN -> {
                 //for now do nothing
+            }
+            WelcomeMode.CREATE -> {
+                view?.showCancelCreateAlert()
             }
         }
     }

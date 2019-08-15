@@ -41,6 +41,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var restoreDescriptionString: String
     private lateinit var updateUtxoDescriptionString: String
     private lateinit var downloadDescriptionString: String
+    private lateinit var createTitleString: String
 
     companion object {
         private const val FULL_PROGRESS = 100
@@ -62,6 +63,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         restoreDescriptionString = getString(R.string.welcome_progress_restore_description)
         updateUtxoDescriptionString = getString(R.string.welcome_progress_update_utxo_description)
         downloadDescriptionString = getString(R.string.downloading_blockchain_info)
+        createTitleString = getString(R.string.welcome_progress_create);
     }
 
     override fun init(mode: WelcomeMode) {
@@ -73,6 +75,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 btnCancel.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
+                title.text = createTitleString
+                restoreFullDescription.visibility = View.INVISIBLE
+                btnCancel.visibility = View.VISIBLE
             }
         }
     }
@@ -161,6 +166,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 title = getString(R.string.welcome_progress_cancel_restore_title),
                 btnCancelText = getString(R.string.cancel),
                 onCancel = { presenter?.onCancelToCancelRestore() })
+    }
+
+    override fun showCancelCreateAlert() {
+        presenter?.onOkToCancelRestore()
     }
 
     override fun navigateToCreateFragment() {

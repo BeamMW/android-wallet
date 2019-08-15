@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.owner_key
 
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -31,17 +32,19 @@ class OwnerKeyFragment: BaseFragment<OwnerKeyPresenter>(), OwnerKeyContract.View
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_owner_key
 
     override fun init(key: String) {
+        ownerKeyValue.text = key
+        codeTitle.addDoubleDots()
+
         progressBar.visibility = View.GONE
         ownerKeyValue.visibility = View.VISIBLE
-
-        ownerKeyValue.text = key
-
-        codeTitle.addDoubleDots()
+        ownerKeyDescription.visibility = View.VISIBLE
+        btnCopy.visibility = View.VISIBLE
     }
 
     override fun addListeners() {
         btnCopy.setOnClickListener {
             presenter?.onCopyPressed()
+            findNavController().popBackStack()
         }
     }
 

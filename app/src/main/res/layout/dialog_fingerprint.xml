@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/touchCard"
+        android:id="@+id/btnTouch"
         android:layout_marginStart="@dimen/common_card_padding"
         android:layout_marginTop="@dimen/common_alert_dialog_margin"
         app:layout_constraintTop_toBottomOf="@id/title"
@@ -46,11 +46,11 @@
         style="@style/common_text_big_dark"
         android:text="@string/touch_sensor"
         android:layout_marginStart="@dimen/fingerprint_description_margin"
-        app:layout_constraintBottom_toBottomOf="@id/touchCard"
-        app:layout_constraintTop_toTopOf="@id/touchCard"
+        app:layout_constraintBottom_toBottomOf="@id/btnTouch"
+        app:layout_constraintTop_toTopOf="@id/btnTouch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/touchCard"
+        app:layout_constraintStart_toEndOf="@id/btnTouch"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
@@ -66,6 +66,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/touchCard" />
+        app:layout_constraintTop_toBottomOf="@id/btnTouch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

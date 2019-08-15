@@ -376,4 +376,10 @@
     <string name="dialog_empty_tags_message">У вас пока нет созданных меток. Хотите ли вы создать первую метку сейчас?</string>
     <string name="you_can_create_more_tags_in_settings">Вы можете создать больше меток в настройках.</string>
     <string name="choose_tag">Выберите метку</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="use_finger">Use your Fingerprint </string>
+
 </resources>

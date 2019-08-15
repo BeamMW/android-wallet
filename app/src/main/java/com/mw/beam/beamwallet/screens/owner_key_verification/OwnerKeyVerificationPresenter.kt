@@ -28,40 +28,43 @@ class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, re
     }
 
     override fun onFingerprintSuccess() {
-        view?.navigateToOwnerKey()
+        view?.displayFingerPrint(false)
     }
 
-    override fun onFingerprintError() {
-        view?.showErrorFingerprintMessage()
+    override fun onError() {
+        view?.error()
     }
 
-    override fun onCancelFingerprintDialog() {
-        view?.showFingerprintDescription()
+    override fun onFailed() {
+        view?.showFailed()
+    }
+
+    override fun onSuccess() {
+        view?.success()
     }
 
     override fun onNext() {
         val password = view?.getPassword()
 
-        view?.hideFingerprintDescription()
-
         when {
             password.isNullOrBlank() -> view?.showEmptyPasswordError()
             repository.checkPassword(password) -> {
-                if (isEnableFingerprint()) {
-                    view?.showFingerprintDialog()
-                } else {
-                    view?.navigateToOwnerKey()
-                }
+                view?.navigateToOwnerKey()
             }
             else -> view?.showWrongPasswordError()
         }
     }
 
-    private fun isEnableFingerprint(): Boolean {
+    fun isEnableFingerprint(): Boolean {
         return repository.isEnableFingerprint() && FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
     }
 
     override fun onChangePassword() {
         view?.clearPasswordError()
+    }
+
+    override fun onStop() {
+        view?.clearFingerprintCallback()
+        super.onStop()
     }
 }

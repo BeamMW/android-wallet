@@ -39,19 +39,21 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.isLessMinute
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.CategoryItemView
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.dialog_node_address.view.*
+import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
 import java.util.concurrent.TimeUnit
+import retrofit2.adapter.rxjava2.Result.response
+import android.R.string
+
+
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -91,8 +93,19 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment())
     }
 
+    private fun isEnableFingerprint(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED) && FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
+    }
+
     override fun navigateToOwnerKeyVerification() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOwnerKeyVerificationFragment())
+        val message = if (isEnableFingerprint()) getString(R.string.owner_key_verification_pass_finger) else getString(R.string.owner_key_verification_pass)
+
+        showAlert(message = message,
+                btnConfirmText = getString(R.string.ok),
+                onConfirm = { findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOwnerKeyVerificationFragment()) },
+                title = getString(R.string.owner_key),
+                btnCancelText = null,
+                onCancel = {  })
     }
 
     override fun updateCategoryList(allTag: List<Tag>) {

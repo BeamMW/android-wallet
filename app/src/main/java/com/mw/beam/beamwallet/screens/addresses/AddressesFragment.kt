@@ -41,7 +41,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun init() {
         val context = context ?: return
+
         setHasOptionsMenu(true)
+        setMenuVisibility(false)
 
         pagerAdapter = AddressesPagerAdapter(context, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
@@ -52,6 +54,17 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         })
 
         pager.adapter = pagerAdapter
+        pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                setMenuVisibility(position==Tab.CONTACTS.value)
+            }
+        })
+
         tabLayout.setupWithViewPager(pager)
     }
 

@@ -82,7 +82,7 @@
         app:lower_case="true" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/touchCard"
+        android:id="@+id/btnTouch"
         android:visibility="gone"
         tools:visibility="visible"
         android:layout_marginStart="@dimen/common_card_padding"
@@ -114,7 +114,7 @@
         android:textColor="@color/common_error_color"
         android:layout_marginTop="10dp"
         android:text="@string/fingerprint_not_recognized"
-        app:layout_constraintTop_toBottomOf="@id/touchCard"
+        app:layout_constraintTop_toBottomOf="@id/btnTouch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

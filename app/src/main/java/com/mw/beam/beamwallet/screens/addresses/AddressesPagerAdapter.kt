@@ -167,6 +167,8 @@ enum class AddressPagerType {
     FULL, SMALL
 }
 
-enum class Tab {
-    ACTIVE, EXPIRED, CONTACTS;
+enum class Tab(val value: Int) {
+    ACTIVE(0),
+    EXPIRED(1),
+    CONTACTS(2)
 }

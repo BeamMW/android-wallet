@@ -40,6 +40,7 @@ interface WelcomeProgressContract {
         fun showNoInternetMessage()
         fun showIncorrectNodeMessage()
         fun showCancelRestoreAlert()
+        fun showCancelCreateAlert()
         fun showFailedRestoreAlert()
         fun showFailedDownloadRestoreFileAlert()
         fun getLifecycleOwner(): LifecycleOwner

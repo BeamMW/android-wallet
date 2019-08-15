@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.views.BeamEditText
 import com.mw.beam.beamwallet.core.views.BeamPhraseInput
 import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.views.Suggestions
@@ -97,6 +98,16 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun onShowKeyboard() {
         presenter?.onKeyboardStateChange(true)
+
+        if (currentEditText != null)
+        {
+            val view = seedLayout.findFocus() as BeamEditText
+            val rowIndex = view.tag as Int
+            if (rowIndex > 3) {
+                val y = view.height * rowIndex + suggestionsView.height
+                mainScroll.smoothScrollTo(0, y)
+            }
+        }
     }
 
     override fun showPasswordsFragment(seed: Array<String>) {
@@ -149,6 +160,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         }
 
         phrase.layoutParams = params
+        phrase.editText.tag = rowIndex
 
         phrase.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(phrase: Editable?) {
@@ -160,6 +172,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
             presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
                 currentEditText = v as EditText?
+
+                val index = phrase.number/2
+                if (index > 3) {
+                    val y = phrase.height * index + suggestionsView.height
+                    mainScroll.smoothScrollTo(0, y)
+                }
             }
         }
 
