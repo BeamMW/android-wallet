@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.utxo_details
 
+import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -90,4 +91,5 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription, trashSubscription)
+
 }

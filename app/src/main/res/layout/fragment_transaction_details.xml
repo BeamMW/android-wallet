@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:filterTouchesWhenObscured="true"
     android:orientation="vertical">
+
+    <com.mw.beam.beamwallet.screens.transaction_details.ShareTransactionDetailsView
+        android:id="@+id/share_transaction_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:fitsSystemWindows="true"/>
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content" />
 
     <ScrollView
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:fitsSystemWindows="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/transactionDetailsMainContainer"
@@ -28,7 +36,7 @@
                 layout="@layout/item_transaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/transactionInfoLayout"
@@ -49,23 +57,23 @@
                 <TextView
                     android:id="@+id/startAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    tools:text="@string/my_sending_address"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle"
+                    tools:text="@string/my_sending_address" />
 
                 <TextView
                     android:id="@+id/startAddressName"
                     style="@style/common_text_big_light"
-                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
+                    android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Name"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/generalInfoTitle"
+                    tools:text="Name"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/startAddress"
@@ -73,89 +81,89 @@
                     android:paddingBottom="0dp"
                     android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/startAddressName" />
+                    app:layout_constraintTop_toBottomOf="@id/startAddressName"
+                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t" />
 
                 <TextView
                     android:id="@+id/startAddressCategory"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:textIsSelectable="true"
-                    tools:text="Salary"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/startAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/startAddress"
+                    tools:text="Salary"
+                    tools:visibility="visible" />
 
                 <View
                     android:id="@+id/addressesDivider"
-                    android:layout_marginTop="@dimen/transaction_details_padding"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/transaction_details_padding"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/startAddressCategory" />
 
                 <TextView
                     android:id="@+id/endAddressTitle"
                     style="@style/transaction_details_sub_title"
-                    tools:text="@string/my_receiving_address"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/addressesDivider" />
+                    app:layout_constraintTop_toBottomOf="@id/addressesDivider"
+                    tools:text="@string/my_receiving_address" />
 
                 <TextView
                     android:id="@+id/endAddressName"
                     style="@style/common_text_big_light"
-                    android:textStyle="bold"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingBottom="4dp"
+                    android:textStyle="bold"
                     android:visibility="gone"
-                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Name"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/addressesDivider" />
+                    app:layout_constraintTop_toBottomOf="@id/addressesDivider"
+                    tools:text="Name"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/endAddress"
                     style="@style/transaction_details_value"
-                    android:textIsSelectable="true"
                     android:paddingBottom="0dp"
-                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t"
+                    android:textIsSelectable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/endAddressName" />
+                    app:layout_constraintTop_toBottomOf="@id/endAddressName"
+                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N6uzbg9t" />
 
                 <TextView
                     android:id="@+id/endAddressCategory"
-                    android:layout_height="wrap_content"
-                    android:layout_width="0dp"
-                    android:visibility="gone"
-                    tools:visibility="visible"
                     style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:textIsSelectable="true"
-                    tools:text="Salary"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
-                    app:layout_constraintTop_toBottomOf="@id/endAddress" />
+                    app:layout_constraintTop_toBottomOf="@id/endAddress"
+                    tools:text="Salary"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/transactionFeeTitle"
                     style="@style/transaction_details_sub_title"
-                    android:text="@string/transaction_fee"
                     android:layout_marginTop="@dimen/transaction_details_padding"
+                    android:text="@string/transaction_fee"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/endAddressCategory" />
 
                 <TextView
                     android:id="@+id/transactionFee"
                     style="@style/transaction_details_value"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginTop="@dimen/transaction_details_padding"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/endAddressCategory" />
 
@@ -268,29 +276,29 @@
                     android:layout_width="@dimen/transaction_details_button_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/transaction_details_padding"
-                    app:button_icon="@drawable/ic_icon_details"
-                    app:lower_case="true"
                     android:background="@drawable/primary_button"
+                    app:button_icon="@drawable/ic_icon_details"
                     app:button_text="@string/details"
                     app:button_text_color="@color/common_text_color"
                     app:layout_constraintEnd_toStartOf="@id/btnPaymentProofCopy"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle"
+                    app:lower_case="true" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnPaymentProofCopy"
                     android:layout_width="@dimen/transaction_details_button_width"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/transaction_details_padding"
-                    app:lower_case="true"
-                    app:button_icon="@drawable/ic_btn_copy"
                     android:background="@drawable/primary_button"
+                    app:button_icon="@drawable/ic_btn_copy"
                     app:button_text="@string/copy"
                     app:button_text_color="@color/common_text_color"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/btnPaymentProofDetails"
-                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/paymentProofTitle"
+                    app:lower_case="true" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -321,7 +329,7 @@
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle"/>
+                    app:layout_constraintTop_toBottomOf="@id/transactionUtxoListTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

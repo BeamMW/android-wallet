@@ -17,14 +17,19 @@
 package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Bitmap
 import android.transition.TransitionManager
 import android.view.*
+import androidx.core.content.FileProvider
+import androidx.core.view.*
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -33,7 +38,9 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction.*
+import kotlinx.android.synthetic.main.item_transaction.icon
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
+import java.io.File
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -82,10 +89,12 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             R.id.repeat -> presenter?.onRepeatTransaction()
             R.id.cancel -> presenter?.onCancelTransaction()
             R.id.delete -> presenter?.onDeleteTransaction()
+            R.id.share -> presenter?.onSharePressed()
         }
 
         return true
     }
+
 
     @SuppressLint("InflateParams")
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
@@ -95,7 +104,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         utxoInfoList.forEach { utxo ->
             val utxoView = LayoutInflater.from(context).inflate(R.layout.item_transaction_utxo, null)
 
-            val drawableId = when(utxo.type) {
+            val drawableId = when (utxo.type) {
                 UtxoType.Send -> R.drawable.ic_history_sent
                 UtxoType.Receive -> R.drawable.ic_history_received
                 UtxoType.Exchange -> R.drawable.menu_utxo
@@ -125,7 +134,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             TxSender.SENT -> getString(R.string.send)
         }
 
-        message.text =  "$messageTitle ${getString(R.string.currency_beam)}"
+        message.text = "$messageTitle ${getString(R.string.currency_beam)}"
 
         icon.setImageResource(R.drawable.ic_beam)
         date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
@@ -256,4 +265,29 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
     }
+
+    override fun convertViewIntoBitmap(txDescription: TxDescription?): Bitmap? {
+        share_transaction_details.visibility = View.VISIBLE
+        share_transaction_details.setFieldsFromTxDescription(txDescription)
+        return share_transaction_details.drawToBitmap(Bitmap.Config.ARGB_8888)
+    }
+
+    override fun shareTransactionDetails(file: File?) {
+        if (file != null) {
+            val uri = FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, file)
+
+            context?.apply {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    type = "image/png"
+                    putExtra(Intent.EXTRA_STREAM, uri)
+                }
+
+                startActivity(Intent.createChooser(intent, getString(R.string.common_share_title)))
+            }
+//            findNavController().popBackStack()
+
+        }
+    }
+
 }

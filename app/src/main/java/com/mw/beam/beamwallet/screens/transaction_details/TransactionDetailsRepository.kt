@@ -16,7 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
+import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
@@ -25,6 +27,8 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.File
+import java.io.FileOutputStream
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -84,4 +88,27 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     override fun isAllowOpenExternalLink(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
     }
+
+    override fun saveImage(bitmap: Bitmap?): File? {
+        val file = File(AppConfig.CACHE_PATH, "tx_desc" + System.currentTimeMillis() + ".png")
+
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        } else {
+            file.parentFile.listFiles().forEach { it.delete() }
+        }
+        file.createNewFile()
+
+        try {
+            val out = FileOutputStream(file)
+            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, out)
+            out.flush()
+            out.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return file
+    }
+
 }

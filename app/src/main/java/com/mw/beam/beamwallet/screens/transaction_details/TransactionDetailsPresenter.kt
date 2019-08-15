@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
@@ -188,5 +189,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun onStart() {
         super.onStart()
         view?.init(state.txDescription ?: return, repository.isPrivacyModeEnabled())
+    }
+
+    override fun onSharePressed() {
+        view?.shareTransactionDetails(repository.saveImage(view?.convertViewIntoBitmap(state.txDescription)))
+
     }
 }

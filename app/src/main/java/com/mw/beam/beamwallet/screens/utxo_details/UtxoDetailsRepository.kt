@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.utxo_details
 
+import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
@@ -24,6 +25,7 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.File
 
 /**
  * Created by vain onnellinen on 12/20/18.
@@ -45,4 +47,5 @@ class UtxoDetailsRepository : BaseRepository(), UtxoDetailsContract.Repository {
     override fun getAllTransactionInTrash(): List<TxDescription> {
         return TrashManager.getAllData().transactions
     }
+
 }

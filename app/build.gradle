@@ -203,6 +203,7 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
     implementation "com.google.code.gson:gson:$ver_gson"
+    implementation 'androidx.core:core-ktx:1.0.1'
 
     testImplementation "junit:junit:$ver_junit"
     testImplementation "org.powermock:powermock-module-junit4:$ver_powermock"

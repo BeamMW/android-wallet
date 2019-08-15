@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/share_transaction_details_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:background="@drawable/share_transaction_gradient_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="78dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/share_transaction_details_title"
+            android:layout_marginTop="32dp"
+            android:text="@string/transaction_details"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp"
+            android:fontFamily="@font/roboto_regular"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/share_transaction_details_value_date_placeholder"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <View
+            android:id="@+id/container"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:background="#0DEEEEEE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/share_transaction_details_sent_icon"
+            android:layout_marginStart="40dp"
+            android:contentDescription="@string/sent"
+            android:src="@drawable/ic_sending_share_transaction_details"
+            app:layout_constraintBottom_toBottomOf="@+id/confirming_state_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/confirming_state_text" />
+
+        <TextView
+            android:id="@+id/confirming_state_text"
+            style="@style/share_transaction_details_confirming_state_text"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/share_transaction_details_value_confirming_placeholder"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/date" />
+
+        <TextView
+            android:id="@+id/amount"
+            style="@style/share_transaction_details_amount"
+            android:layout_marginStart="41dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_amount_placeholder"
+            app:layout_constraintBottom_toBottomOf="@+id/confirming_state_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/confirming_state_text"
+            app:layout_constraintTop_toTopOf="@+id/confirming_state_text" />
+
+
+        <TextView
+            android:id="@+id/contact"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/contact"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/container" />
+
+        <TextView
+            android:id="@+id/contact_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginStart="54dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_placeholder"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/contact"
+            app:layout_constraintTop_toTopOf="@+id/contact" />
+
+        <TextView
+            android:id="@+id/my_address"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/my_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact" />
+
+        <TextView
+            android:id="@+id/my_address_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/contact_value"
+            app:layout_constraintTop_toTopOf="@+id/my_address" />
+
+        <TextView
+            android:id="@+id/transaction_id"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/transaction_id"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_address" />
+
+        <TextView
+            android:id="@+id/transaction_id_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_placeholder_long"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/my_address_value"
+            app:layout_constraintTop_toTopOf="@+id/transaction_id" />
+
+        <TextView
+            android:id="@+id/transaction_fee"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/transaction_fee"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_id" />
+
+        <TextView
+            android:id="@+id/transaction_fee_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_fee_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/transaction_fee" />
+
+        <View
+            android:id="@+id/divider"
+            style="@style/share_transaction_details_divider"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/transaction_fee_value" />
+
+        <TextView
+            android:id="@+id/transaction_history"
+            style="@style/share_transaction_details_subtitle"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/transaction_history"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/initiated"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/initiated"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/transaction_history" />
+
+        <TextView
+            android:id="@+id/initiated_date_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_date_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/initiated" />
+
+        <TextView
+            android:id="@+id/latest_confirmation"
+            style="@style/share_transaction_details_parameter"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/latest_confirmation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/initiated" />
+
+        <TextView
+            android:id="@+id/latest_confirmation_value"
+            style="@style/share_transaction_details_value"
+            android:layout_marginEnd="20dp"
+            android:text="@string/share_transaction_details_value_date_placeholder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/latest_confirmation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.utxo_details
 
+import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
@@ -25,6 +26,7 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.File
 
 /**
  * Created by vain onnellinen on 12/20/18.
@@ -34,7 +36,7 @@ interface UtxoDetailsContract {
         fun getUtxo(): Utxo
         fun init(utxo: Utxo)
         fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
-        fun configUtxoKernel(kernelIdString : String?)
+        fun configUtxoKernel(kernelIdString: String?)
     }
 
     interface Presenter : MvpPresenter<View>

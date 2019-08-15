@@ -68,4 +68,7 @@
     <color name="category_green">#73ff7c</color>
     <color name="category_blue">#4fa5ff</color>
     <color name="category_pink">#d785ff</color>
+
+    <!--Share transaction details-->
+    <color name="share_transaction_details_divider_color">#22FFFFFF</color>
 </resources>

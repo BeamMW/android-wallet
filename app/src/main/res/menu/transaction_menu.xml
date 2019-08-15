@@ -27,6 +27,11 @@
                 android:icon="@drawable/tx_delete"
                 android:title="@string/delete_transaction"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/share"
+                android:icon="@drawable/ic_share_white"
+                android:title="@string/share_transaction"
+                app:showAsAction="never" />
         </menu>
     </item>
 </menu>
