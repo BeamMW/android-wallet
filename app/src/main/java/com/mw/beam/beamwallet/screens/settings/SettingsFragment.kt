@@ -69,6 +69,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         appVersion.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
+
+        if(runOnRandomNode)
+        {
+            ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
+        }
+        else{
+            ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
+        }
     }
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
