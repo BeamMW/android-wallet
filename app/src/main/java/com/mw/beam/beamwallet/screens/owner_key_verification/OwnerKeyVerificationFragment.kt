@@ -81,6 +81,7 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     override fun displayFingerPrint(display: Boolean) {
         mainScrollView.visibility = if (display) View.GONE else View.VISIBLE
         fingerMainView.visibility = if (display) View.VISIBLE else View.GONE
+        fingerErrorLabel.visibility = View.GONE
     }
 
     override fun addListeners() {
@@ -155,9 +156,14 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     override fun error() {
         delayedTask?.cancel(true)
 
-        fingerErrorLabel.visible(true)
+        if (fingerErrorLabel != null) {
+            fingerErrorLabel.text = getString(R.string.owner_key_verification_fingerprint_error)
+            fingerErrorLabel.visible(true)
 
-        animatedChangeDrawable(R.drawable.ic_touch_error)
+            animatedChangeDrawable(R.drawable.ic_touch_error)
+
+            showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
+        }
     }
 
     private fun animatedChangeDrawable(resId: Int) {

@@ -128,7 +128,7 @@
         android:id="@+id/fingerMainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnTouch"
@@ -165,9 +165,9 @@
             android:id="@+id/fingerErrorLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="32dp"
             android:fontFamily="@font/roboto_regular"
             android:text="@string/fingerprint_not_recognized"
             android:textColor="@color/common_error_color"
