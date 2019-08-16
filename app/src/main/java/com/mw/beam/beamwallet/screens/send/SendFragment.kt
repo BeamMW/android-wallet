@@ -730,8 +730,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if (!showSuggestions) return
 
         Handler().postDelayed({
+            if (context == null) return@postDelayed
+
             beginTransaction(true)
-            tokenBackground?.visibility = if (addresses == null) View.VISIBLE else View.GONE
+
+            val colorId = if (addresses == null) R.color.colorPrimary else android.R.color.transparent
+            addressContainer?.setBackgroundColor(ContextCompat.getColor(context!!, colorId))
 
             val params = searchContainer?.layoutParams as? ConstraintLayout.LayoutParams
             params?.topMargin = calculateDefaultMargin()

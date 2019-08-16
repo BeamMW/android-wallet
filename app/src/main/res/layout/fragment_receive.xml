@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/receive_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,7 +23,7 @@
                 android:id="@+id/addressGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#00242424"
+                android:background="@color/colorPrimary"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
@@ -39,11 +33,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="20dp"
+                    tools:text="ADDRESS (auto-generated)"
                     android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="ADDRESS (auto-generated)" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/token"
@@ -86,16 +80,15 @@
 
                     <LinearLayout
                         android:id="@+id/editAddressContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:orientation="horizontal"
-                        android:paddingTop="@dimen/receive_card_padding"
-                        android:paddingBottom="@dimen/receive_card_padding"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:paddingTop="@dimen/receive_card_padding"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:paddingBottom="@dimen/receive_card_padding"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                         <TextView
                             android:id="@+id/editAddressTitle"
                             style="@style/common_subheader_light"
@@ -139,12 +132,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginEnd="@dimen/common_offset"
+                        android:inputType="text|textCapSentences"
                         android:background="@drawable/edit_text_selector"
                         android:backgroundTint="@android:color/transparent"
-                        android:hint="@string/no_name"
                         android:imeOptions="actionDone"
-                        android:inputType="text|textCapSentences"
                         android:singleLine="true"
+                        android:hint="@string/no_name"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/commentTitle"
                         tools:ignore="Autofill,LabelFor,TextFields" />
@@ -198,10 +191,10 @@
                         android:id="@+id/tags"
                         style="@style/common_text_big_light"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:paddingBottom="@dimen/receive_card_padding"
+                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toStartOf="@id/tagAction"
                         app:layout_constraintStart_toStartOf="@id/categoryTitle"
                         app:layout_constraintTop_toBottomOf="@id/categoryTitle"
@@ -442,6 +435,12 @@
                 app:layout_constraintTop_toTopOf="@+id/btnShowQR" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <View
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/receive_toolbar_gradient" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
 

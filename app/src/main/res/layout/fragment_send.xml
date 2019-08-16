@@ -7,13 +7,6 @@
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
 
-    <View
-        android:layout_width="match_parent"
-        android:alpha="1"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/send_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
@@ -29,21 +22,11 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true">
 
-            <View
-                android:id="@+id/tokenBackground"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#00242424"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/addressContainer"
-                app:layout_constraintEnd_toEndOf="@id/addressContainer"
-                app:layout_constraintStart_toStartOf="@id/addressContainer"
-                app:layout_constraintTop_toTopOf="@id/addressContainer" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
                 android:paddingBottom="@dimen/common_offset"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -714,6 +697,12 @@
             android:layout_height="0dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:alpha="1"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
 
