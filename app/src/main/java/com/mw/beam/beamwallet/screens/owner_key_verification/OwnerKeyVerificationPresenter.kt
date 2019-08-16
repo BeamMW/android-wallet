@@ -56,7 +56,7 @@ class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, re
     }
 
     fun isEnableFingerprint(): Boolean {
-        return repository.isEnableFingerprint() && FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
+        return FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
     }
 
     override fun onChangePassword() {
