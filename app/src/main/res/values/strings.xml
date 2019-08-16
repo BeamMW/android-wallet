@@ -257,7 +257,7 @@
     <string name="seconds">seconds</string>
     <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
-    <string name="settings_run_random_node">Run random node</string>
+    <string name="settings_run_random_node">Connect to random node</string>
     <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
     <string name="settings_allow_open_link">Allow open external link</string>
     <string name="settings_dialog_node_error">Invalid node address</string>
@@ -358,7 +358,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="language_dialog_message">In order for the language settings to take effect the app needs to be restarted</string>
     <string name="restart_now">Restart now</string>
 
-
+    <string name="rate_app">Rate the app</string>
     <string name="existing_addresses">Existing addresses</string>
     <string name="requested_amount">Requested amount</string>
     <string name="paste_address_or_choose_contact">Paste address or choose contact</string>
