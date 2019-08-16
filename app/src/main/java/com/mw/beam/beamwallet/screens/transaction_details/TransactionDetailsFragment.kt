@@ -63,6 +63,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         commentTitle.addDoubleDots()
         transactionIdTitle.addDoubleDots()
         kernelTitle.addDoubleDots()
+
+        share_transaction_details.setFieldsFromTxDescription(txDescription)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -266,10 +268,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         return TransactionDetailsPresenter(this, TransactionDetailsRepository(), TransactionDetailsState())
     }
 
-    override fun convertViewIntoBitmap(txDescription: TxDescription?): Bitmap? {
-        share_transaction_details.visibility = View.VISIBLE
-        share_transaction_details.setFieldsFromTxDescription(txDescription)
-        return share_transaction_details.drawToBitmap(Bitmap.Config.ARGB_8888)
+    override fun convertViewIntoBitmap(): Bitmap? {
+        return share_transaction_details.drawToBitmap()
     }
 
     override fun shareTransactionDetails(file: File?) {

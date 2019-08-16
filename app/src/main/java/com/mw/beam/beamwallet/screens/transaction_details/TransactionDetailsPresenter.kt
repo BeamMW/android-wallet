@@ -192,7 +192,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     override fun onSharePressed() {
-        view?.shareTransactionDetails(repository.saveImage(view?.convertViewIntoBitmap(state.txDescription)))
+        view?.shareTransactionDetails(repository.saveImage(view?.convertViewIntoBitmap()))
 
     }
 }

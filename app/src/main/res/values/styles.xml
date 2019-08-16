@@ -193,7 +193,7 @@
 
     <style name="share_transaction_details_divider">
         <item name="android:background">@color/share_transaction_details_divider_color</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/suggestions_divider_wight</item>
     </style>
 
@@ -203,7 +203,7 @@
         <item name="android:gravity">left</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">1</item>
+        <item name="android:letterSpacing">0.07</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -225,23 +225,21 @@
 
     <style name="share_transaction_details_confirming_state_text">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textStyle">italic|bold</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/sent_color</item>
         <item name="android:textSize">@dimen/common_text_big_size</item>
         <item name="android:letterSpacing">0.07</item>
         <item name="android:gravity">left</item>
     </style>
 
     <style name="share_transaction_details_amount">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textAlignment">textEnd</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/sent_color</item>
         <item name="android:textSize">@dimen/common_toolbar_text_size</item>
     </style>
 </resources>
