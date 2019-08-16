@@ -30,7 +30,7 @@
     <string name="common_external_link_dialog_title">Liên kết bên ngoài</string>
     <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
     <string name="currency_beam">BEAM</string>
-    <string name="currency_groth">GROTH</string>
+    <string name="currency_groth">Groth: đơn vị nhỏ nhất của Beam </string>
     <string name="error_no_internet_connection">Không có kết nối Internet</string>
     <string name="error_incorrect_node">Tên nút không chính xác hoặc không có kết nối Internet</string>
     <string name="common_stay_active_title">Duy trì hoạt động</string>
@@ -70,7 +70,7 @@
     <string name="welcome_seed_description">Cụm từ hạt giống của bạn là khóa truy cập vào tất cả các khoản tiền trong ví của bạn. In hoặc viết cụm từ để giữ nó an toàn hoặc trong một hầm có khóa. Nếu không có cụm từ, bạn sẽ không thể lấy lại tiền của mình.</string>
     <string name="welcome_seed_title">Cụm từ hạt giống</string>
     <string name="welcome_seed_save_title">Lưu cụm từ hạt giống</string>
-    <string name="welcome_seed_save_description">Vui lòng viết cụm từ hạt giống ra. Không chụp ảnh màn hình và lưu nó trong bộ sưu tập ảnh của bạn. Điều này khiến cụm từ dễ bị tấn công mạng và do đó, kém an toàn hơn.</string>
+    <string name="welcome_seed_save_description">Vui lòng viết cụm từ hạt giống. Không chụp ảnh màn hình và lưu nó trong bộ sưu tập ảnh của bạn. Điều này khiến cụm từ dễ bị tấn công mạng và do đó, kém an toàn hơn.</string>
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Xác nhận cụm từ hạt giống</string>
     <string name="welcome_validation_description">Để đảm bảo cụm từ hạt giống được viết chính xác, vui lòng điền vào các từ cụ thể bên dưới.</string>
@@ -88,12 +88,12 @@
     <string name="welcome_progress_cancel_restore_description">Bạn sẽ hủy quá trình khôi phục. Tất cả dữ liệu sẽ bị mất. Bạn có muốn tiếp tục?</string>
     <string name="welcome_progress_update_utxo_description">Đang quét UTXO</string>
     <string name="welcome_progress_restore_description">Đã khôi phục</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
+    <string name="welcome_progress_restore_description_full_top">Vui lòng đợi đồng bộ hóa và không đóng hoặc thu nhỏ ứng dụng.</string>
     <string name="welcome_progress_restore_description_full_bottom">Chỉ có thể khôi phục số dư ví (UTXO), thông tin giao dịch luôn ở chế độ riêng tư và không bao giờ được giữ trong blockchain.</string>
     <!--PasswordFragment-->
-    <string name="pass_screen_description">Tạo mật khẩu để truy cập vào ví của bạn</string>
+    <string name="pass_screen_description">Tạo mật khẩu mới để truy cập vào ví của bạn</string>
     <string name="pass_screen_change_description">Tạo mật khẩu mới để truy cập vào ví của bạn</string>
-    <string name="password_not_match">Mật khẩu không tương thích</string>
+    <string name="password_not_match">Mật khẩu không đúng</string>
     <string name="pass_description_title">Mật khẩu mạnh cần đáp ứng các điều sau:</string>
     <string name="pass_description_chars">độ dài ít nhất 10 ký tự</string>
     <string name="pass_description_lowercase">• phải chứa ít nhất một chữ cái viết thường</string>
@@ -113,7 +113,7 @@
     <string name="in_progress">Trong quá trình</string>
     <string name="receiving">Đang nhận</string>
     <string name="sending">Đang gửi</string>
-    <string name="sending_to_own_address">Gửi đến địa chỉ riêng</string>
+    <string name="sending_to_own_address">Đang gửi đến địa chỉ riêng</string>
     <string name="maturing">Đáo hạn</string>
     <string name="receive">Nhận</string>
     <string name="send">Gửi</string>
@@ -226,7 +226,7 @@
     <string name="total_available">Tổng số có sẵn</string>
     <string name="transaction_comment">Bình luận giao dịch</string>
     <string name="wont_be_shared">không chia sẻ</string>
-    <string name="outgoing_address">Địa chỉ gửi đi</string>
+    <string name="outgoing_address">Outgoing address</string>
     <string name="my_addresses">Địa chỉ của tôi</string>
     <string name="no_matching_address_found">Không tìm thấy địa chỉ phù hợp</string>
     <!--SettingsFragment-->
@@ -237,15 +237,13 @@
     <string name="node">Nút</string>
     <string name="settings_ip_title">cổng:ip:</string>
     <string name="settings_general_settings">Cài đặt chung</string>
-    <string name="tags">Nhãn</string>
-    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">Màn hình khoá</string>
     <string name="never">Không bao giờ</string>
     <string name="after">Sau</string>
     <string name="seconds">giây</string>
     <string name="minute">phút</string>
     <string name="settings_ask_password_on_send">Yêu cầu mật khẩu với mỗi lần gửi</string>
-    <string name="settings_run_random_node">Chạy nút ngẫu nhiên</string>
+    <string name="settings_run_random_node">Connect to random node</string>
     <string name="settings_enable_fingerprint">Cho phép mở khóa bằng vân tay</string>
     <string name="settings_allow_open_link">Cho phép mở liên kết bên ngoài</string>
     <string name="settings_dialog_node_error">Địa chỉ nút không hợp lệ</string>
@@ -292,7 +290,7 @@
     <string name="copy_code">Sao chép mã</string>
     <string name="code">Mã</string>
     <string name="sender">Người gửi</string>
-    <string name="receiver">Nhận</string>
+    <string name="receiver">Người nhận</string>
     <string name="current_password_is_incorrect">Mật khẩu hiện tại không chính xác</string>
     <!--CategoryFragment-->
     <string name="edit">Chỉnh sửa</string>
@@ -304,13 +302,17 @@
     <string name="color">Màu</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Hiển thị khóa chủ sở hữu</string>
-    <string name="owner_key_verification_description">Để xem khóa chủ sở hữu, bạn phải vượt qua xác minh 2 bước này (gửi mật khẩu và sử dụng Face ID)</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Xác minh vân tay thất bại. Vui lòng thử lại sau vài phút.</string>
     <string name="owner_key_verification_title_with_finger">Nhập mật khẩu của bạn và dùng ID vân tay để truy cập ví</string>
     <string name="owner_key_verification_fingerprint_description">Vui lòng sử dụng ID vân tay để hoàn tất xác minh</string>
-    <string name="key_code">Mã khóa</string>
+    <string name="key_code">Mã khoá</string>
     <string name="owner_key_copied_message">Mã khóa chủ sở hữu được sao chép vào bảng tạm</string>
-    <string name="owner_key_code_description">Xin lưu ý rằng việc biết khóa chủ sở hữu của bạn cho phép biết tất cả tiền của bạn (UTXO). Hãy chắc chắn rằng bạn triển khai khóa tại nút mà bạn tin tưởng hoàn toàn.</string>
+    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Đang nhận giao dịch mới</string>
     <string name="notification_receive_content_text">Vui lòng bấm vào để xem chi tiết</string>
@@ -325,6 +327,7 @@
     <string name="language">Ngôn ngữ</string>
     <string name="language_dialog_message">Để cài đặt ngôn ngữ có hiệu lực, ứng dụng cần được khởi động lại</string>
     <string name="restart_now">Khởi động lại bây giờ</string>
+    <string name="rate_app">Đánh giá ứng dụng</string>
     <string name="existing_addresses">Địa chỉ đã tồn tại</string>
     <string name="requested_amount">Số tiền yêu cầu</string>
     <string name="paste_address_or_choose_contact">Dán địa chỉ hoặc chọn liên hệ</string>
@@ -338,10 +341,10 @@
     <string name="save_address">Lưu địa chỉ</string>
     <string name="dont_save">Không lưu</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Nhập mật khẩu hiện tại của bạn để thay đổi cài đặt</string>
-    <string name="save_changes">Lưu địa chỉ</string>
-    <string name="receive_description">Để giao dịch hoàn tất, bạn nên truy cập trực tuyến trong vòng 12 giờ sau khi Beams được gửi.</string>
+    <string name="save_changes">Lưu thay đổi</string>
+    <string name="receive_description">Để giao dịch hoàn tất, bạn cần truy cập trực tuyến trong vòng 12 giờ sau khi Beams được gửi.</string>
     <string name="search_by_address_tag_or_name">Tìm kiếm theo địa chỉ, nhãn hoặc tên</string>
-    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
+    <string name="min_fee_error">Phí tối thiểu là %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="search_transaction">Search transaction</string>
     <string name="never_expires">Không bao giờ hết hạn</string>
@@ -376,10 +379,10 @@
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">Bạn có thể tạo nhãn mới trong Cài đặt.</string>
     <string name="choose_tag">Choose tag</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
-
+    <string name="tags">Nhãn</string>
+    <string name="add_new_tag">Add new tag</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>

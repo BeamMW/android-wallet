@@ -15,7 +15,7 @@
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
     <string name="confirm">确认</string>
-    <string name="change">更换</string>
+    <string name="change">找零</string>
     <string name="ok">好</string>
     <string name="undo">撤销</string>
     <string name="next">下一步</string>
@@ -50,7 +50,8 @@
     <string name="welcome_restore_or_create">恢复钱包或创建新钱包</string>
     <string name="welcome_generate_seed_phrase">生成助记词</string>
     <string name="i_agree">我同意</string>
-    <string name="welcome_restore_notification">您正在尝试还原现有的Beam钱包。请注意，如果您在其他设备上使用该钱包，您的余额将是最新的，但交易历史和地址将分别保存在每个设备上。</string>
+    <string name="welcome_restore_notification">您正在尝试还原已存在的Beam钱包
+请注意：如果您在其他设备上使用该钱包，您的余额将是最新的，但交易历史和地址将分别保存在每个设备上</string>
     <string name="copy">复制</string>
     <string name="welcome_description">通过种子短语创建新的钱包。
 如果您丢了手机
@@ -72,9 +73,9 @@
     <string name="enter_your_password_to_access_the_wallet">请输入密码以访问钱包</string>
     <string name="welcome_open_description_with_fingerprint">使用触控ID或输入密码\n以访问钱包</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">种子短语是进入你钱包的钥匙
-打印或写下这个短语并妥善保存
-如果您丢失种子短语，您将失去该钱包所有的资金</string>
+    <string name="welcome_seed_description">助记词是访问您账户资金的密钥
+必须打印或誊写助记词，并将其妥善保存在保险箱中
+如果您遗失或忘记助记词，您将无法找回或恢复钱包中的资金</string>
     <string name="welcome_seed_title">助记词</string>
     <string name="welcome_seed_save_title">保存助记词</string>
     <string name="welcome_seed_save_description">请誊写记录助记词并妥善保存
@@ -88,7 +89,7 @@
     <string name="welcome_restore_description">请输入助记词</string>
     <!--WelcomeProgressFragment-->
     <string name="welcome_progress_create">正在创建钱包</string>
-    <string name="welcome_progress_open">正在加载钱包</string>
+    <string name="welcome_progress_open">正在载入钱包</string>
     <string name="welcome_progress_restore">正在恢复钱包</string>
     <string name="welcome_progress_restore_error_title">钱包恢复失败</string>
     <string name="welcome_progress_restore_error_description">钱包无法连接到节点
@@ -99,7 +100,7 @@
 是否确认取消？</string>
     <string name="welcome_progress_update_utxo_description">正在扫描UTXO</string>
     <string name="welcome_progress_restore_description">已恢复</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
+    <string name="welcome_progress_restore_description_full_top">请等待同步，不要关闭或最小化应用程序</string>
     <string name="welcome_progress_restore_description_full_bottom">仅可恢复钱包余额(UTXO)
 交易历史信息保存在本地，区块链上不保存交易历史</string>
     <!--PasswordFragment-->
@@ -151,7 +152,7 @@
     <string name="all">所有</string>
     <string name="incoming">入账</string>
     <string name="outgoing">出账</string>
-    <string name="spent">已付</string>
+    <string name="spent">已使用</string>
     <string name="unavailable">不可用</string>
     <string name="utxo_status_result_rollback">挖矿回滚</string>
     <string name="blockchain_height">区块高度</string>
@@ -164,7 +165,7 @@
     <string name="utxo_type">UTXO类型</string>
     <string name="completion_time">完成时间</string>
     <string name="contact">联系人</string>
-    <string name="utxo_history">UTXO历史</string>
+    <string name="utxo_history">UTXO历史记录</string>
     <string name="commission">手续费</string>
     <string name="coinbase">Coinbase</string>
     <string name="decoy">诱饵</string>
@@ -249,15 +250,13 @@
     <string name="node">节点</string>
     <string name="settings_ip_title">IP地址:端口</string>
     <string name="settings_general_settings">通用设置</string>
-    <string name="tags">标签</string>
-    <string name="add_new_tag">Add new tag</string>
     <string name="lock_screen">锁定屏幕</string>
     <string name="never">永不</string>
     <string name="after">之后</string>
     <string name="seconds">秒</string>
     <string name="minute">分钟</string>
     <string name="settings_ask_password_on_send">每次付款时均要求输入密码</string>
-    <string name="settings_run_random_node">运行随机节点</string>
+    <string name="settings_run_random_node">Connect to random node</string>
     <string name="settings_enable_fingerprint">启用指纹解锁</string>
     <string name="settings_allow_open_link">允许打开外部链接</string>
     <string name="settings_dialog_node_error">无效的节点地址</string>
@@ -317,16 +316,18 @@
     <string name="color">颜色</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">显示所有者密钥</string>
-    <string name="owner_key_verification_description">只有设置了两步验证（提交密码并使用指纹ID）方可获取所有者密钥</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">指纹验证失败
 请等待几分钟后重试</string>
     <string name="owner_key_verification_title_with_finger">请输入密码并使用指纹ID访问钱包</string>
     <string name="owner_key_verification_fingerprint_description">请使用指纹ID完成认证</string>
     <string name="key_code">密钥代码</string>
     <string name="owner_key_copied_message">所有者密钥已被复制到剪贴板</string>
-    <string name="owner_key_code_description">请注意：
-使用所有者密钥可以查看资金记录（UTXO）
-请确保只将所有者密钥共享给完全信任的节点</string>
+    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">正在接收新交易</string>
     <string name="notification_receive_content_text">请点击查看详情</string>
@@ -341,6 +342,7 @@
     <string name="language">语言</string>
     <string name="language_dialog_message">为使语言设置生效，需重新启动App</string>
     <string name="restart_now">立即重启</string>
+    <string name="rate_app">评价App</string>
     <string name="existing_addresses">已存在地址</string>
     <string name="requested_amount">请求数量</string>
     <string name="paste_address_or_choose_contact">粘贴地址或选择联系人</string>
@@ -395,9 +397,10 @@
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">您可以在设置中创建更多标签</string>
     <string name="choose_tag">Choose tag</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
+    <string name="tags">标签</string>
+    <string name="add_new_tag">Add new tag</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>

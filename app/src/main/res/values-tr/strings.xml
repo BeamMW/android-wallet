@@ -9,7 +9,7 @@
     <string name="common_error">Oops, bişeyler yanlış oldu…</string>
     <string name="online">Çevrimiçi</string>
     <string name="updating">Güncelleniyor</string>
-    <string name="common_status_error">Nod\'a bağlanamıyor</string>
+    <string name="common_status_error">Nod&apos;a bağlanamıyor</string>
     <string name="open">Açık</string>
     <string name="close">Kapalı</string>
     <string name="cancel">İptal</string>
@@ -44,7 +44,7 @@
     <string name="settings">Ayarlar</string>
     <!--Welcome-->
     <string name="create_new_wallet">Yeni cüzdan oluştur</string>
-    <string name="restore_wallet">Cüzdanı kurtar</string>
+    <string name="restore_wallet">Cüzdanı geri yükle</string>
     <string name="welcome_restore_or_create">Cüzdanı geri yükle ya da yeni cüzdan oluştur</string>
     <string name="welcome_generate_seed_phrase">Anahtar kelimeleri oluştur</string>
     <string name="i_agree">Kabul ediyorum</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Geri yükleme işlemini iptal edeceksiniz. Tüm veriler kaybolacak. Devam etmek istiyor musun?</string>
     <string name="welcome_progress_update_utxo_description">UTXO aranıyor</string>
     <string name="welcome_progress_restore_description">Geri yüklendi</string>
-    <string name="welcome_progress_restore_description_full_top">Lütfen senkronizasyonu bekleyin ve uygulamayı kapatmayın veya simge durumuna küçültmeyin. Cüzdanın geri yüklenmesi biraz zaman alabilir. Geri yüklemenin kesintiye uğramaması için cihazınızı güç kaynağına bağlayın.</string>
+    <string name="welcome_progress_restore_description_full_top">Lütfen senkronizasyonu bekleyin ve uygulamayı kapatmayın veya simge durumuna almayın.</string>
     <string name="welcome_progress_restore_description_full_bottom">Yalnızca cüzdan bakiyesi (UTXO) geri yüklenebilir, işlem bilgileri her zaman gizlidir ve hiçbir zaman blokzincirinde tutulmaz.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Cüzdanınıza erişmek için bir şifre oluşturun</string>
@@ -151,7 +151,7 @@
     <string name="kernel_id">Kernel Kimliği</string>
     <string name="utxo_type">UTXO tipi</string>
     <string name="completion_time">Tamamlanma zamanı</string>
-    <string name="contact">Kontakt</string>
+    <string name="contact">Bağlantılar</string>
     <string name="utxo_history">UTXO geçmişi</string>
     <string name="commission">Komisyon</string>
     <string name="coinbase">Coinbase</string>
@@ -171,9 +171,9 @@
     <string name="currency_amount">Para miktarı</string>
     <string name="transaction_fee">İşlem ücreti</string>
     <string name="comment">Yorum</string>
-    <string name="transaction_id">İşlem</string>
+    <string name="transaction_id">İşlem Kimliği</string>
     <string name="transaction_history">İşlem listesi</string>
-    <string name="repeat_transaction">Tekrarlanan işlem</string>
+    <string name="repeat_transaction">İşlemi tekrar et</string>
     <string name="save_peer_address">Adresi kaydet</string>
     <string name="copy_address">Adresi kopyala</string>
     <string name="cancel_transaction">İşlemi iptal et</string>
@@ -234,18 +234,16 @@
     <string name="settings_change_pass">Cüzdan şifresini değiştirin</string>
     <string name="settings_version">App Versiyonu</string>
     <string name="settings_send_logs_description">Kayıtları gönder…</string>
-    <string name="node">Düğüm</string>
+    <string name="node">Nod</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Genel ayarlar</string>
-    <string name="tags">Etiketler</string>
-    <string name="add_new_tag">Yeni etiket ekle</string>
     <string name="lock_screen">Ekranı kilitle</string>
     <string name="never">Asla</string>
     <string name="after">Daha sonra</string>
     <string name="seconds">saniyeler</string>
     <string name="minute">dakika</string>
     <string name="settings_ask_password_on_send">Her yollama işleminde şifre iste</string>
-    <string name="settings_run_random_node">Rastgele bir düğüm çalıştır</string>
+    <string name="settings_run_random_node">Connect to random node</string>
     <string name="settings_enable_fingerprint">Parmak izi ile açmayı etkinleştir</string>
     <string name="settings_allow_open_link">Harici linkleri açmaya izin ver</string>
     <string name="settings_dialog_node_error">Yanlış düğüm adresi</string>
@@ -266,7 +264,7 @@
     <string name="address_deleted">Adres silindi</string>
     <string name="contact_deleted">Kişi silindi</string>
     <!--AddressFragment-->
-    <string name="address">Adresler</string>
+    <string name="address">Adres</string>
     <string name="show_qr_code">QR kodunu göster</string>
     <string name="delete_address">Adresi sil</string>
     <string name="transactions_list">İşlem listesi</string>
@@ -275,7 +273,7 @@
     <string name="tag">Etiket</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Adresi şimdi sonlandır</string>
-    <string name="active_address">Aktif adresler</string>
+    <string name="active_address">Adresi aktifleştir</string>
     <string name="save">Kaydet</string>
     <string name="now">Şimdi</string>
     <string name="none">Hiçbiri</string>
@@ -299,19 +297,23 @@
     <string name="delete_tag">Etiketi sil</string>
     <string name="tag_delete_dialog_message">%s etiketini silmek istediğinizden emin misiniz?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Etiketi düzenle</string>
+    <string name="edit_tag">Etiketi değiştir</string>
     <string name="create_tag">Etiket oluştur</string>
     <string name="color">Renk</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
-    <string name="owner_key_verification_description">Sahiplik anahtarını görmek için 2 adımlı doğrulamayı geçmelisiniz (şifrenizi girip ve Parmak izi kimliğinizi kullanın)</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Parmak izi doğrulaması başarısız oldu. Lütfen birkaç dakika içinde tekrar deneyin.</string>
     <string name="owner_key_verification_title_with_finger">Cüzdana erişmek için şifrenizi girin ve Parmak İzi Kimliğinizi kullanın</string>
     <string name="owner_key_verification_fingerprint_description">48/5000
 Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</string>
     <string name="key_code">Anahtar kodu</string>
     <string name="owner_key_copied_message">Sahiplik kodu kopyalandı</string>
-    <string name="owner_key_code_description">Lütfen, sahiplik anahtarınızı bilmenin tüm paranızı (UTXO) bilmenizi sağladığını unutmayın. Anahtarı, güvendiğiniz düğümde tamamen dağıttığınızdan emin olun.</string>
+    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Yeni transfer alınıyor</string>
     <string name="notification_receive_content_text">Ayrıntıları görmek için lütfen tıklayınız</string>
@@ -326,6 +328,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="language">Dil</string>
     <string name="language_dialog_message">Dil ayarlarının etkili olması için uygulamanın yeniden başlatılması gerekiyor</string>
     <string name="restart_now">Şimdi yeniden başlat</string>
+    <string name="rate_app">Uygulamayı oyla</string>
     <string name="existing_addresses">Varolan adresler</string>
     <string name="requested_amount">İstenen miktar</string>
     <string name="paste_address_or_choose_contact">Adresi yapıştır veya bir kişi seç</string>
@@ -369,7 +372,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="welcome_progress_restore_networ_error_description">Başarısız ağ bağlantısı. Lütfen ağa tekrar bağlandıktan sonra tekrar deneyin.</string>
     <string name="automatic_restore_warning">Lütfen son bir saat içinde hiçbir işlem yapmadığınızdan (herhangi bir cihazdan) emin olun. Yaptıysanız, lütfen Geri Yükleme işlemine devam etmeden önce son işlemden sonra en az bir saat bekleyin. Aksi halde, geri yüklenen bakiyeniz yanlış olabilir bunun yanında ek geri yükleme prosedürü gerekli oalcaktır.</string>
     <string name="node_restore_warning">Geri yükleme işlemine başlamadan önce nodun blokzincir ile tam olarak senkronize olduğunu doğrulayın. Aksi halde, geri yüklenen bakiyeniz yanlış olabilir bunun yanında ek geri yükleme prosedürü gerekli olacaktır.</string>
-    <string name="understand">Anladım</string>
+    <string name="understand">Anlıyorum</string>
     <string name="downloading_blockchain_info">Blokzincir bilgileri indiriliyor</string>
     <string name="add_all">Tümünü ekle</string>
     <string name="my_active_addresses">Aktif adreslerim</string>
@@ -377,10 +380,10 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="dialog_empty_tags_message">Henüz bir etiketiniz yok. Şimdi bir etiket oluşturmak ister misiniz?</string>
     <string name="you_can_create_more_tags_in_settings">Ayarlarda daha fazla etiket oluşturabilirsiniz.</string>
     <string name="choose_tag">Etiket seçin</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
-
+    <string name="tags">Etiketler</string>
+    <string name="add_new_tag">Yeni etiket ekle</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>

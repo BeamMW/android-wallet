@@ -15,7 +15,7 @@
     <string name="cancel">Cancelar</string>
     <string name="delete">Borrar</string>
     <string name="confirm">Confirme</string>
-    <string name="change">Cambio</string>
+    <string name="change">Cambiar</string>
     <string name="ok">OK</string>
     <string name="undo">Deshacer</string>
     <string name="next">Siguiente</string>
@@ -44,7 +44,7 @@
     <string name="settings">Ajustes</string>
     <!--Welcome-->
     <string name="create_new_wallet">Crear nuevo wallet</string>
-    <string name="restore_wallet">Restaurar wallet</string>
+    <string name="restore_wallet">Restaura wallet</string>
     <string name="welcome_restore_or_create">Restaure wallet o cree uno nuevo</string>
     <string name="welcome_generate_seed_phrase">Generar frase semilla</string>
     <string name="i_agree">Estoy de acuerdo</string>
@@ -72,7 +72,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_seed_description">Su frase semilla es la clave de acceso a todas las criptomonedas en su wallet. Imprime o escribe la frase para guardarla en un lugar seguro o caja de seguridad. Sin la frase no podrás recuperar tu dinero.</string>
     <string name="welcome_seed_title">Frase semilla</string>
     <string name="welcome_seed_save_title">Salvar frase semilla</string>
-    <string name="welcome_seed_save_description">Por favor, escriba la frase semilla. No haga capturas de pantalla y no la guarde en su galería de fotos. Esto hace que la frase sea propensa a los ciberataques y, por lo tanto, menos segura.</string>
+    <string name="welcome_seed_save_description">Por favor, escriba la frase semilla. No haga capturas de pantalla y no la guarde en su galería de fotos. Esto hace que la frase sea propensa a los ataques cibernéticos y, por lo tanto, menos segura.</string>
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Confirma la frase semilla</string>
     <string name="welcome_validation_description">Para asegurarse de que la frase semilla esté escrita correctamente, complete las palabras específicas a continuación.</string>
@@ -90,7 +90,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_cancel_restore_description">Vas a cancelar el proceso de restauración. Todos los datos se perderán. ¿Quieres continuar?</string>
     <string name="welcome_progress_update_utxo_description">Escaneando UTXO</string>
     <string name="welcome_progress_restore_description">Restaurado</string>
-    <string name="welcome_progress_restore_description_full_top">Por favor, espere a la sincronización y no cierre o minimice la aplicación. Restaurar la wallet puede tomar un tiempo. Conecte su dispositivo a la fuente de energía para evitar restaurar la parada.</string>
+    <string name="welcome_progress_restore_description_full_top">Por favor espere a la sincronización y no cierre ni minimice la aplicación.</string>
     <string name="welcome_progress_restore_description_full_bottom">Solo se puede restaurar el saldo del wallet (UTXO), la información de la transacción siempre es privada y nunca se mantiene en la cadena de bloques.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Crea la contraseña para acceder a tu wallet</string>
@@ -141,7 +141,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="all">Todo</string>
     <string name="incoming">Llegando</string>
     <string name="outgoing">Saliendo</string>
-    <string name="spent">Gastado</string>
+    <string name="spent">Agotado</string>
     <string name="unavailable">Indisponible</string>
     <string name="utxo_status_result_rollback">Reducción de resultados mineros</string>
     <string name="blockchain_height">Altura de la blockchain</string>
@@ -151,7 +151,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Detalles de la UTXO</string>
     <string name="kernel_id">ID del Kernel</string>
-    <string name="utxo_type">Escribe UTXO</string>
+    <string name="utxo_type">UTXO tipo</string>
     <string name="completion_time">Tiempo de finalización</string>
     <string name="contact">Contacto</string>
     <string name="utxo_history">Historial de UTXO</string>
@@ -171,16 +171,16 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transaction_details">Detalles de la transacción</string>
     <string name="general_transaction_info">Información general de la transacción</string>
     <string name="currency_amount">Cantidad</string>
-    <string name="transaction_fee">Tarifa de transacción</string>
+    <string name="transaction_fee">Tarifa de la transacción</string>
     <string name="comment">Comentario</string>
     <string name="transaction_id">ID de la transacción</string>
     <string name="transaction_history">Listado de transacciones</string>
     <string name="repeat_transaction">Repetir transacción</string>
     <string name="save_peer_address">Guardar la dirección</string>
     <string name="copy_address">Copiar dirección</string>
-    <string name="cancel_transaction">Cancelar transacción</string>
-    <string name="delete_transaction">Borrar transacción</string>
-    <string name="transaction_utxo_list">Listado de UTXO de la transaccion</string>
+    <string name="cancel_transaction">Transacción cancelada</string>
+    <string name="delete_transaction">Transacción borrada</string>
+    <string name="transaction_utxo_list">Listado de transacciones UTXO</string>
     <string name="details">Detalles</string>
     <string name="transaction_details_open_in_explorer">Abrir en el explorador de bloques</string>
     <string name="my_receiving_address">Mi dirección de recepción</string>
@@ -239,15 +239,13 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="node">Nodo</string>
     <string name="settings_ip_title">ip: puerto:</string>
     <string name="settings_general_settings">Configuración general</string>
-    <string name="tags">Etiquetas</string>
-    <string name="add_new_tag">Añadir nueva etiqueta</string>
     <string name="lock_screen">Bloquear pantalla</string>
     <string name="never">Nunca</string>
     <string name="after">Después</string>
     <string name="seconds">segundos</string>
     <string name="minute">minuto</string>
     <string name="settings_ask_password_on_send">Pedir contraseña en cada envío</string>
-    <string name="settings_run_random_node">Ejecutar nodo aleatorio</string>
+    <string name="settings_run_random_node">Conectar al nodo aleatorio</string>
     <string name="settings_enable_fingerprint">Habilitar desbloqueo por huella digital</string>
     <string name="settings_allow_open_link">Permitir abrir enlace externo</string>
     <string name="settings_dialog_node_error">Dirección de nodo inválida</string>
@@ -262,8 +260,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--ProgressFragment-->
     <string name="loading_wallet">Cargando wallet</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">Mis activas</string>
-    <string name="addresses_tab_expired">Mis caducadas</string>
+    <string name="addresses_tab_active">Mi activo</string>
+    <string name="addresses_tab_expired">Mi caducado</string>
     <string name="no_name">Sin nombre</string>
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
@@ -302,18 +300,22 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="tag_delete_dialog_message">¿Está seguro de que desea eliminar %1$s etiqueta?</string>
     <!--EditCategory-->
     <string name="edit_tag">Editar etiqueta</string>
-    <string name="create_tag">Crear etiqueta</string>
+    <string name="create_tag">Crea una etiqueta</string>
     <string name="color">Color</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Mostrar la clave de propietario</string>
-    <string name="owner_key_verification_description">Para ver la clave de propietario, debe pasar esta verificación de 2 pasos (enviar una contraseña y usar la identificación Face ID)</string>
+    <string name="owner_key_verification_description">Para ver la clave del propietario debe pasar esta verificación de dos pasos (envíe una contraseña y utilice el ID de huella digital)</string>
     <string name="owner_key_verification_fingerprint_error">La autorización de huellas dactilares falló. Por favor intente en unos minutos.</string>
     <string name="owner_key_verification_title_with_finger">Introduzca su contraseña y use Face ID
 para acceder al wallet</string>
     <string name="owner_key_verification_fingerprint_description">Por favor use Face ID para finalizar la verificación</string>
     <string name="key_code">Código clave</string>
     <string name="owner_key_copied_message">El código de la clave de propietario ha sido copiada al portapapeles</string>
-    <string name="owner_key_code_description">Tenga en cuenta que saber su clave de propietario le permite conocer todos sus fondos (UTXO). Asegúrese de implementar la clave en el nodo en el que confía por completo.</string>
+    <string name="owner_key_code_description">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todo UTXO enviado a cualquier wallet generado con la misma frase de semilla.\n\n No comparta su Clave Propietaria con otros - permite la inspección y el control de sus fondos.</string>
+    <string name="owner_key_verification_pass">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
+Debe introducir su contraseña para ver la clave del propietario.</string>
+    <string name="owner_key_verification_pass_finger">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
+Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huella digital) para ver su Clave del propietario.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Recibiendo nueva transacción</string>
     <string name="notification_receive_content_text">Por favor, haz click para ver detalles</string>
@@ -328,6 +330,7 @@ para acceder al wallet</string>
     <string name="language">Idioma</string>
     <string name="language_dialog_message">Para que la configuración de idioma tenga efecto, la aplicación debe reiniciarse</string>
     <string name="restart_now">Reiniciar ahora</string>
+    <string name="rate_app">Califica la aplicación</string>
     <string name="existing_addresses">Direcciones existentes</string>
     <string name="requested_amount">Cantidad solicitada</string>
     <string name="paste_address_or_choose_contact">Pegar dirección o elegir contacto</string>
@@ -353,7 +356,7 @@ para acceder al wallet</string>
     <string name="enter_your_password_to_confirm_transaction">Introduce tu contraseña para confirmar la transacción</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utiliza huella digital o introduce tu contraseña para confirmar la transacción</string>
     <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
-    <string name="address_copied_to_clipboard">Dirección copiada al portapapeles</string>
+    <string name="address_copied_to_clipboard">La dirección ha sido copiada al portapapeles</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet descargará la captura de pantalla blockchain de la nube.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet se conectará a un nodo específico y el nodo encontrará todos sus fondos en blockchain.</string>
     <string name="restore_with_trusted_node">Restaurar con nodo de confianza</string>
@@ -361,7 +364,7 @@ para acceder al wallet</string>
     <string name="enter_trusted_node_address">Introduzca la dirección de nodo de confianza</string>
     <string name="ip_port">ip: puerto</string>
     <string name="owner_key">Clave de propietario</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Pegue este código en el Wallet de Beam en su escritorio para proceder a la restauración del nodo.</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Pegue este código en el Wallet de Beam en su escritorio para proceder a la restauración desde el nodo.</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Una vez que ha pegado el código, la restauración se iniciará automáticamente.</string>
     <string name="privacy_mode">Modo privado</string>
     <string name="gallery">Galería</string>
@@ -377,12 +380,12 @@ para acceder al wallet</string>
     <string name="my_active_addresses">Mis direcciones activas</string>
     <string name="tag_list_is_empty">La lista de etiquetas esta vacía</string>
     <string name="dialog_empty_tags_message">Aún no tienes etiquetas. ¿Quieres crear una etiqueta ahora?</string>
-    <string name="you_can_create_more_tags_in_settings">Puede crear más etiquetas en Ajustes.</string>
+    <string name="you_can_create_more_tags_in_settings">Puede crear mas etiquetas en Ajustes.</string>
     <string name="choose_tag">Elegir etiqueta</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
-
+    <string name="tags">Etiquetas</string>
+    <string name="add_new_tag">Añadir nueva etiqueta</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>

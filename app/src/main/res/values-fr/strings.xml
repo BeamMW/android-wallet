@@ -44,11 +44,12 @@
     <string name="settings">Paramètres</string>
     <!--Welcome-->
     <string name="create_new_wallet">Créer un nouveau portefeuille</string>
-    <string name="restore_wallet">Restaurer le portefeuille</string>
+    <string name="restore_wallet">Restauration du Portefeuille</string>
     <string name="welcome_restore_or_create">Restaurer un portefeuille existant ou créer un nouveau portefeuille</string>
     <string name="welcome_generate_seed_phrase">Générer une phrase clé</string>
-    <string name="i_agree">\"J\'accepte\"</string>
-    <string name="welcome_restore_notification">Vous essayez de restaurer un portefeuille de Beam existant. Veuillez noter que si vous utilisez votre portefeuille sur un autre appareil, votre solde sera à jour, mais l\'historique des transactions et les adresses seront conservées séparément sur chaque appareil.</string>
+    <string name="i_agree">J&apos;accepte</string>
+    <string name="welcome_restore_notification">224/5000
+Vous essayez de restaurer un portefeuille Beam existant. Veuillez noter que si vous utilisez votre portefeuille sur un autre appareil, votre solde sera à jour, mais l&apos;historique et les adresses des transactions seront conservés séparément sur chaque appareil.</string>
     <string name="copy">Copier</string>
     <string name="welcome_description">Créer un nouveau portefeuille en générant une phrase clé.
 Si vous perdez votre appareil,
@@ -90,7 +91,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_cancel_restore_description">Vous êtes sur le point d\'annuler la restauration. Toutes les données seront perdues. Voulez-vous poursuivre ?</string>
     <string name="welcome_progress_update_utxo_description">Analyse UTXO</string>
     <string name="welcome_progress_restore_description">Restauré</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. Restoring the wallet may take a while. Connect your device to power source to avoid restore stopping.</string>
+    <string name="welcome_progress_restore_description_full_top">Veuillez attendre la synchronisation et ne pas fermer ni réduire l&apos;application.</string>
     <string name="welcome_progress_restore_description_full_bottom">Seul le solde du portefeuille (UTXO) peut être restauré. Les informations et adresses de transaction sont toujours privées et ne sont jamais conservées sur la blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Créer un mot de passe pour accéder à votre portefeuille</string>
@@ -102,9 +103,9 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="pass_description_uppercase">Le mot de passe doit contenir au moins 1 lettre minuscule</string>
     <string name="pass_description_number">Le mot de passe doit contenir au moins un chiffre</string>
     <string name="password_can_not_be_empty">Le mot de passe ne peut pas être sans entrée</string>
-    <string name="pass_old_pass_error">Votre nouveau mot de passe ne peut pas être identitique à votre ancien mot de passe</string>
+    <string name="pass_old_pass_error">Votre nouveau mot de passe ne peut pas être identitique à votre ancien mot de passe </string>
     <string name="pass_wrong">Mauvais mot de passe</string>
-    <string name="confirm_password">Confirmer votre mot de passe</string>
+    <string name="confirm_password">Confirmer votre nouveau mot de passe</string>
     <string name="pass_return_seed_message">Si vous revenez à la phrasé clé, elle sera modifiée et votre mot de passe local ne sera pas sauvegardé.</string>
     <string name="pass_back_seed_title">Retour à la phrase clé</string>
     <string name="pass_return_seed_title">Retour à la phrase clé</string>
@@ -172,7 +173,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="general_transaction_info">Information générale de la transaction</string>
     <string name="currency_amount">Montant de la devise</string>
     <string name="transaction_fee">Frais de transaction</string>
-    <string name="comment">Comment</string>
+    <string name="comment">Commentaire</string>
     <string name="transaction_id">Identifiant de la transaction</string>
     <string name="transaction_history">Historique des transactions</string>
     <string name="repeat_transaction">Répéter la transaction</string>
@@ -239,15 +240,13 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="node">Noeud</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Paramètres généraux</string>
-    <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
-    <string name="lock_screen">Écran de verrouillage</string>
+    <string name="lock_screen">Vérouiller écran</string>
     <string name="never">Jamais</string>
     <string name="after">Après le</string>
     <string name="seconds">secondes</string>
     <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Demander le mot de passe pour chaque Envoi</string>
-    <string name="settings_run_random_node">Lancer un noeud aléatoire</string>
+    <string name="settings_run_random_node">Connect to random node</string>
     <string name="settings_enable_fingerprint">Activer le déverrouillage par empreinte digitale</string>
     <string name="settings_allow_open_link">Autoriser l\'ouverture d\'un lien externe</string>
     <string name="settings_dialog_node_error">Adresse du noeud invalide</string>
@@ -269,15 +268,15 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="contact_deleted">Contact supprimé</string>
     <!--AddressFragment-->
     <string name="address">Adresse</string>
-    <string name="show_qr_code">Afficher le QR Code</string>
-    <string name="delete_address">Supprimer l\'adresse</string>
+    <string name="show_qr_code">Montrer le code QR</string>
+    <string name="delete_address">Supprimer mon adresse</string>
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
-    <string name="expiration_date">Date d\'expiration</string>
+    <string name="expiration_date">Date d&apos;expiration</string>
     <string name="tag">Tag</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Faire expirer l\'adresse maintenant</string>
-    <string name="active_address">Activer l\'adresse</string>
+    <string name="expire_address_now">Expiration de l&apos;adresse maintenant</string>
+    <string name="active_address">Activer l&apos;adresse</string>
     <string name="save">Sauvegarder</string>
     <string name="now">Maintenant</string>
     <string name="none">Aucun</string>
@@ -288,14 +287,14 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="scan_qr_code">Scanner le code QR</string>
     <!--PaymentProofActivity-->
     <string name="payment_proof_verification">Vérification de la preuve de paiement</string>
-    <string name="paste_your_payment_proof_here">Collez votre preuve de paiement ici</string>
+    <string name="paste_your_payment_proof_here">Merci de copier et de coller votre preuve de paiement ici</string>
     <string name="payment_proof_verification_error">Impossible de décoder une preuve, séquence illégale.</string>
     <string name="copy_details">Copier détails</string>
     <string name="copy_code">Copier code</string>
     <string name="code">Code</string>
     <string name="sender">Expéditeur</string>
     <string name="receiver">Récipiendaire</string>
-    <string name="current_password_is_incorrect">Le mot de passe actuel est incorrect</string>
+    <string name="current_password_is_incorrect">Ce mot de passe est incorrect</string>
     <!--CategoryFragment-->
     <string name="edit">Modifier</string>
     <string name="delete_tag">Supprimer le tag</string>
@@ -305,14 +304,18 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="create_tag">Créer un tag</string>
     <string name="color">Couleur </string>
     <!--OwnerKeyFragments-->
-    <string name="show_owner_key">Afficher la clé propriétaire</string>
-    <string name="owner_key_verification_description">Pour voir la clé propriétaire, vous devez valider cette vérification à deux étapes (soumettre un mot de passe et utiliser Face ID)</string>
+    <string name="show_owner_key">Montrer la clé propriétaire</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">L\'autorisation d\'empreinte digitale a échoué. Veuillez essayer dans quelques minutes.</string>
     <string name="owner_key_verification_title_with_finger">Merci de saisir votre mot de passe et d\'utiliser Face ID pour accéder à votre portefeuille</string>
     <string name="owner_key_verification_fingerprint_description">Merci d\'utiliser Face ID pour finaliser la vérification</string>
-    <string name="key_code">Code clé</string>
-    <string name="owner_key_copied_message">Code clé propriétaire copié dans le presse-papiers</string>
-    <string name="owner_key_code_description">Veuillez noter que la révélation de votre clé propriétaire permet de connaître tous vos fonds (UTXO). Assurez-vous de déployer la clé sur un nœud auquel vous faites confiance.</string>
+    <string name="key_code">Codes clé</string>
+    <string name="owner_key_copied_message">La clé propriétaire a été copiée</string>
+    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Réception d\'une nouvelle transaction</string>
     <string name="notification_receive_content_text">Veuillez cliquer pour voir les détails</string>
@@ -327,6 +330,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="language">Langue</string>
     <string name="language_dialog_message">Pour que les paramètres de langue prennent effet, l\'application doit être redémarrée</string>
     <string name="restart_now">Redémarrer maintenant</string>
+    <string name="rate_app">Évaluer l’application</string>
     <string name="existing_addresses">Adresses existantes</string>
     <string name="requested_amount">Montant demandé</string>
     <string name="paste_address_or_choose_contact">Coller adresse ou choisir un contact</string>
@@ -349,7 +353,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="never_expires">N\'expire jamais</string>
     <string name="expires_in">Expire dans %1$s h %2$s m</string>
     <string name="add_contact">Ajouter un contact</string>
-    <string name="enter_your_password_to_confirm_transaction">Entrez votre mot de passe pour confirmer la transaction</string>
+    <string name="enter_your_password_to_confirm_transaction">Saisissez votre mot de passe pour confirmer</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utilisez Touch Id ou entrez votre mot de passe pour confirmer la transaction</string>
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
     <string name="address_copied_to_clipboard">Adresse copiée</string>
@@ -378,10 +382,10 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">Vous pouvez créer plus de tags dans Paramètres.</string>
     <string name="choose_tag">Choose tag</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
-
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>

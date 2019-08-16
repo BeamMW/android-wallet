@@ -9,13 +9,13 @@
     <string name="common_error">Ojdå, någonting gick visst fel…</string>
     <string name="online">Uppkopplad</string>
     <string name="updating">Uppdaterar</string>
-    <string name="common_status_error">Kan inte ansluta till nod</string>
+    <string name="common_status_error">Kunde inte ansluta till nod</string>
     <string name="open">Öppna</string>
     <string name="close">Stäng</string>
     <string name="cancel">Avbryt</string>
     <string name="delete">Ta bort</string>
     <string name="confirm">Bekräfta</string>
-    <string name="change">Växel</string>
+    <string name="change">Ändra</string>
     <string name="ok">OK</string>
     <string name="undo">Ångra</string>
     <string name="next">Nästa</string>
@@ -88,7 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Du är på väg att avbryta en återställningsprocess. All data kommer att gå förlorade. Vill du fortsätta?</string>
     <string name="welcome_progress_update_utxo_description">Scannar UTXO</string>
     <string name="welcome_progress_restore_description">Återställd</string>
-    <string name="welcome_progress_restore_description_full_top">Vänligen vänta på synkroniseringen och stäng eller minimera ej applikationen. Återställning av plånboken kan ta en stund. Anslut din enhet till en strömkälla för att undvika att återställningen stoppas.</string>
+    <string name="welcome_progress_restore_description_full_top">Vänligen vänta på att synkroniseringen ska bli klar och stäng inte eller minimera applikationen.</string>
     <string name="welcome_progress_restore_description_full_bottom">Endast plånbokens balans (UTXO) kan återställas, transaktionsinformation är alltid privata och lagras aldrig i block-kedjan.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Skapa lösenord för åtkomst av din plånbok</string>
@@ -100,7 +100,7 @@
     <string name="pass_description_uppercase">måste innehålla åtminstone en stor bokstav</string>
     <string name="pass_description_number">måste innehålla åtminstone en siffra</string>
     <string name="password_can_not_be_empty">Lösenordsfältet kan inte vara tomt</string>
-    <string name="pass_old_pass_error">Nytt lösenord kan inte vara samma som det gamla</string>
+    <string name="pass_old_pass_error">Ditt nya lösenord kan inte vara samma som ditt gamla</string>
     <string name="pass_wrong">Fel lösenord</string>
     <string name="confirm_password">Verifiera lösenord</string>
     <string name="pass_return_seed_message">Om du återvänder till seed phrase kommer detta att ändras och ditt lokala lösenord kommer inte att bli sparat.</string>
@@ -113,11 +113,11 @@
     <string name="in_progress">Pågående</string>
     <string name="receiving">Mottager</string>
     <string name="sending">Skickar</string>
-    <string name="sending_to_own_address">Skickar till egen adress</string>
+    <string name="sending_to_own_address">Skickat till egen adress</string>
     <string name="maturing">Mognar</string>
     <string name="receive">Ta emot</string>
     <string name="send">Skicka</string>
-    <string name="completed">Avslutade</string>
+    <string name="completed">Avslutad</string>
     <string name="received">Mottaget</string>
     <string name="sent">Skickat</string>
     <string name="sent_to_own_address">Skickat till egen adress</string>
@@ -181,7 +181,7 @@
     <string name="transaction_utxo_list">Transaktioner UTXO-lista</string>
     <string name="details">Detaljer</string>
     <string name="transaction_details_open_in_explorer">Öppna i block-kedjans utforskare</string>
-    <string name="my_receiving_address">Min mottagande adress</string>
+    <string name="my_receiving_address">Mina mottagande adresser</string>
     <string name="my_sending_address">Mina skickande adresser</string>
     <string name="my_address">Min adress</string>
     <string name="transaction_deleted">Transaktion borttagen</string>
@@ -189,7 +189,7 @@
     <string name="swap">Swappa</string>
     <string name="auto_generated">automatiskt genererad</string>
     <string name="annotation">Anteckning</string>
-    <string name="expires">Utgår</string>
+    <string name="expires">Utgånget</string>
     <string name="receive_send_annotation_description">Anteckningar är lokala och delas inte med någon.</string>
     <string name="share_address">Dela adress</string>
     <string name="show_qr">visa QR</string>
@@ -200,7 +200,7 @@
     <string name="request_an_amount">Begär belopp</string>
     <string name="optional">Valfritt</string>
     <string name="name">Namn</string>
-    <string name="edit_address">Ändra adress</string>
+    <string name="edit_address">Editera adress</string>
     <string name="advanced">Avancerat</string>
     <string-array name="receive_expires_periods">
         <item>Inom 24 timmar</item>
@@ -212,13 +212,13 @@
     <string name="send_amount_zero_error">Belopp kan ej vara 0 BEAM</string>
     <string name="send_amount_overflow_error">Otillräckliga medel; du behöver %1$s beam för att slutföra transaktionen.</string>
     <string name="insufficient_funds">Otillräckliga medel</string>
-    <string name="invalid_address">Ogiltig adress</string>
+    <string name="invalid_address">Felaktig adress</string>
     <string name="send_error_expired_address">Kan inte skicka till den utgångna adressen</string>
     <string name="send_permission_required_title">Tillstånd erfordras</string>
     <string name="send_permission_required_message">Vänligen, ge kameran tillåtelse att användas för att använda QR scanning</string>
     <string name="send_error_not_beam_address">Den scannade koden är inte en Beam-adress</string>
     <string name="send_error_paste">Går ej att klistra in en ogiltig adress</string>
-    <string name="send_confirm_transaction_details">Bekräfta transaktions-detaljer</string>
+    <string name="send_confirm_transaction_details">Verifiera transaktionsdetaljer</string>
     <string name="recipient">Mottagare</string>
     <string name="amount">Belopp</string>
     <string name="send_dialog_description">För att skicka transaktion, vänligen ange lösenord</string>
@@ -226,26 +226,24 @@
     <string name="total_available">Totalt tillgängligt</string>
     <string name="transaction_comment">Transaktions-kommentar</string>
     <string name="wont_be_shared">kommer inte att delas med någon</string>
-    <string name="outgoing_address">Utgående adress</string>
+    <string name="outgoing_address">Utgående adresser</string>
     <string name="my_addresses">Mina adresser</string>
     <string name="no_matching_address_found">Inga matchande adresser hittades</string>
     <!--SettingsFragment-->
     <string name="settings_report">Rapportera ett problem</string>
-    <string name="settings_change_pass">Byta plånbokens lösenord</string>
+    <string name="settings_change_pass">Byt plånbokens lösenord</string>
     <string name="settings_version">App version</string>
     <string name="settings_send_logs_description">Skicka loggar…</string>
     <string name="node">Nod</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Generella inställningar</string>
-    <string name="tags">Tags</string>
-    <string name="add_new_tag">Lägg till ny tag</string>
     <string name="lock_screen">Lås skärm</string>
     <string name="never">Aldrig</string>
     <string name="after">Efter</string>
     <string name="seconds">sekunder</string>
     <string name="minute">minut</string>
     <string name="settings_ask_password_on_send">Fråga efter lösenord vid varje skickad transaktion</string>
-    <string name="settings_run_random_node">Kör slumpmässig nod</string>
+    <string name="settings_run_random_node">Anslut till slumpmässig nod</string>
     <string name="settings_enable_fingerprint">Aktivera fingeravtrycksupplåsning</string>
     <string name="settings_allow_open_link">Tillåt att öppna externa länkar</string>
     <string name="settings_dialog_node_error">Felaktig nod-adress</string>
@@ -260,7 +258,7 @@
     <!--ProgressFragment-->
     <string name="loading_wallet">Laddar plånbok</string>
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">Mina aktiva</string>
+    <string name="addresses_tab_active">Min aktiva</string>
     <string name="addresses_tab_expired">Mina utgångna</string>
     <string name="no_name">Inget namn</string>
     <string name="address_deleted">Adress borttagen</string>
@@ -299,18 +297,22 @@
     <string name="delete_tag">Ta bort tag</string>
     <string name="tag_delete_dialog_message">Vill du verkligen ta bort %1$s tag?</string>
     <!--EditCategory-->
-    <string name="edit_tag">Redigera tag</string>
+    <string name="edit_tag">Editera tag</string>
     <string name="create_tag">Skapa Tag</string>
     <string name="color">Färg</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Visa ägar-nyckel</string>
-    <string name="owner_key_verification_description">För att se ägarnyckeln måste du klara denna 2-stegs verifiering(ange lösenord samt fingeravtrycks-ID)</string>
+    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingeravtrycks-auktorisering misslyckades. Vänligen försök igen inom några minuter.</string>
     <string name="owner_key_verification_title_with_finger">Ange ditt lösenord och använd fingeravtrycks-ID för att få tillgång till plånboken</string>
     <string name="owner_key_verification_fingerprint_description">Vänligen använd fingeravtrycks-ID för att avsluta verifieringen</string>
     <string name="key_code">Nyckel-kod</string>
     <string name="owner_key_copied_message">Ägarens nyckel-kod kopierat till urklipp</string>
-    <string name="owner_key_code_description">Vänligen notera, om du kan ägar-nyckeln så har du vetskap om alla tillgångar (UTXO). Var helt säker på att du litar fullt ut på noden där nyckeln används.</string>
+    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Mottar ny transaktion</string>
     <string name="notification_receive_content_text">Vänligen klicka för att se detaljer</string>
@@ -325,14 +327,15 @@
     <string name="language">Språk</string>
     <string name="language_dialog_message">För att språkändringarna skall gälla måste appen startas om</string>
     <string name="restart_now">Starta om nu</string>
+    <string name="rate_app">Betygsätt appen</string>
     <string name="existing_addresses">Existerande adresser</string>
-    <string name="requested_amount">Begärd summa</string>
+    <string name="requested_amount">Begärt belopp</string>
     <string name="paste_address_or_choose_contact">Klistra in adress eller välj kontakt</string>
     <string name="send_to">Skicka till</string>
-    <string name="amount_to_send">Belopp att skicka</string>
+    <string name="amount_to_send">Mängd att skicka</string>
     <string name="total_utxo_value">Totalt UTXO-värde</string>
     <string name="confirmation_send_description">För att transaktionen skall gå igenom måste mottagaren komma online inom 12 timmar och du bör vara online inom 2 timmar efteråt.</string>
-    <string name="confirmation">Bekräftar</string>
+    <string name="confirmation">Bekräftelse</string>
     <string name="change_description">kommer att vara låst tills transaktionen lyckas eller utgår</string>
     <string name="save_recipient_address">Vill du spara mottagar-adressen för framtida transaktioner?</string>
     <string name="save_address">Spara adress</string>
@@ -353,7 +356,7 @@
     <string name="address_copied_to_clipboard">Adress kopierat till urklipp</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-plånboken kommer att ladda ner block-kedjans ögonblicksbild från molnet.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam-plånboken kommer att ansluta till en specifik nod och du kommer att hitta dina tillgångar i block-kedjan.</string>
-    <string name="restore_with_trusted_node">Återställ med pålitlig nod</string>
+    <string name="restore_with_trusted_node">Återställ med trovärdig nod</string>
     <string name="automatic_restore_recommended">AUTOMATISK ÅTERSTÄLLNING (rekommenderat)</string>
     <string name="enter_trusted_node_address">Mata in pålitlig nod-adress</string>
     <string name="ip_port">ip:port</string>
@@ -374,12 +377,12 @@
     <string name="my_active_addresses">Mina aktiva adresser</string>
     <string name="tag_list_is_empty">Tag-listan är tom</string>
     <string name="dialog_empty_tags_message">Du har inga tags ännu. Vill du skapa en tag nu?</string>
-    <string name="you_can_create_more_tags_in_settings">Du kan skapa fler tags under Inställningar.</string>
+    <string name="you_can_create_more_tags_in_settings">Du kan skapa fler tagar under Inställningar.</string>
     <string name="choose_tag">Välj tag</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="use_finger">Use your Fingerprint </string>
-
+    <string name="tags">Tagar</string>
+    <string name="add_new_tag">Lägg till ny tag</string>
+    <string name="initiated">Initiated</string>
+    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="share_transaction">Share transaction</string>
 </resources>
