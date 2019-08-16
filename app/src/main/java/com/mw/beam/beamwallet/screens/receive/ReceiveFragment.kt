@@ -19,41 +19,39 @@ package com.mw.beam.beamwallet.screens.receive
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.transition.TransitionManager
 import android.view.GestureDetector
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.createSpannableString
+import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
-import android.view.MotionEvent
-import android.widget.ImageView
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
-import com.mw.beam.beamwallet.core.views.TagAdapter
-
+import kotlinx.android.synthetic.main.receive_expire_spinner_item.view.*
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -102,18 +100,26 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        ArrayAdapter.createFromResource(
-                context!!,
-                R.array.receive_expires_periods,
-                R.layout.receive_expire_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            expiresOnSpinner.adapter = adapter
-            expiresOnSpinner.setSelection(0)
+
+        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context, R.layout.receive_expire_spinner_item,strings) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
+
+                val view = View.inflate(context,R.layout.receive_expire_spinner_item,null)
+                val textView = view.findViewById(R.id.expireLabelPickerID) as TextView
+                textView.text = strings[position]
+                if(position == expiresOnSpinner.selectedItemPosition) {
+                    textView.setTextColor(resources.getColor(R.color.colorAccent))
+                }
+                return view
+
+            }
         }
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        expiresOnSpinner.setSelection(0)
+        expiresOnSpinner.adapter = adapter
 
         amount.filters = arrayOf(AmountFilter())
-
         amountTitle.text = "${getString(R.string.request_an_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
     }
 

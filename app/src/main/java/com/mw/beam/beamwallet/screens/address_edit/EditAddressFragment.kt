@@ -43,6 +43,7 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
+import kotlinx.android.synthetic.main.common_button.*
 import kotlinx.android.synthetic.main.fragment_edit_address.*
 
 
@@ -101,15 +102,34 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
             expiredTime.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
         }
 
-        ArrayAdapter.createFromResource(
-                context!!,
-                R.array.receive_expires_periods,
-                android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            expiresSpinner.adapter = adapter
-            expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
+        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context, android.R.layout.simple_spinner_item,strings) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
+
+                val view = View.inflate(context,android.R.layout.simple_spinner_item,null)
+                val textView = view.findViewById(android.R.id.text1) as TextView
+                textView.text = strings[position]
+                if(position == expiresSpinner.selectedItemPosition) {
+                    textView.setTextColor(resources.getColor(R.color.colorAccent))
+                }
+                textView.setPadding(15,15,15,15)
+                return view
+
+            }
         }
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
+        expiresSpinner.adapter = adapter
+
+//        ArrayAdapter.createFromResource(
+//                context!!,
+//                R.array.receive_expires_periods,
+//                android.R.layout.simple_spinner_item
+//        ).also { adapter ->
+//            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+//            expiresSpinner.adapter = adapter
+//            expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
+//        }
 
         idTitle.addDoubleDots()
         expiredTitle.addDoubleDots()

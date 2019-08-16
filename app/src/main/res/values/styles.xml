@@ -242,4 +242,19 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textSize">@dimen/common_toolbar_text_size</item>
     </style>
+
+
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color -->
+        <item name="colorControlActivated">#46bdbf</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#8da1ad
+        </item>
+
+        <!-- inactive track color -->
+        <item name="android:colorForeground">#99000000
+        </item>
+    </style>
+
 </resources>

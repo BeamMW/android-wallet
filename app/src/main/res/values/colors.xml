@@ -69,6 +69,11 @@
     <color name="category_blue">#4fa5ff</color>
     <color name="category_pink">#d785ff</color>
 
+
+    <!--Switch-->
+    <color name="switch_black">#8da1ad</color>
+    <color name="switch_white">#80000000</color>
+
     <!--Share transaction details-->
     <color name="share_transaction_details_divider_color">#22FFFFFF</color>
 </resources>
