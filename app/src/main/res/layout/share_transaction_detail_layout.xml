@@ -42,7 +42,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/logo" />
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/txDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="21dp"
@@ -65,7 +65,7 @@
                 android:paddingBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/date">
+                app:layout_constraintTop_toBottomOf="@+id/txDate">
                 <ImageView
                     android:id="@+id/imageView"
                     style="@style/share_transaction_details_sent_icon"
