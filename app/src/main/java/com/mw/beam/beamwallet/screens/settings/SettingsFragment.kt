@@ -52,8 +52,9 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import retrofit2.adapter.rxjava2.Result.response
 import android.R.string
-
-
+import kotlinx.android.synthetic.main.fragment_restore_trusted_node.*
+import android.graphics.*
+import androidx.core.content.res.*
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -69,6 +70,41 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         appVersion.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
+
+        if(!runOnRandomNode)
+        {
+            ip.setTextColor(resources.getColor(R.color.btn_drop_down_color))
+            ipTitle.setTextColor(resources.getColor(R.color.btn_drop_down_color))
+            ipTitle.setPadding(0,0,0,0)
+
+            if(this.context != null)
+            {
+                var typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_bold)
+                ipTitle.typeface = typeFace
+            }
+
+            ip.setPadding(5,0,5,0)
+            ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
+        }
+        else{
+            ip.setTextColor(resources.getColor(R.color.btn_drop_down_color))
+            ipTitle.setTextColor(resources.getColor(R.color.common_text_color))
+            ipTitle.setPadding(0,20,0,0)
+
+            if(this.context != null)
+            {
+                var typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_regular)
+                ipTitle.typeface = typeFace
+            }
+
+
+            ip.setPadding(0,0,0,0)
+            ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
@@ -156,6 +192,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         reportProblem.setOnClickListener {
             presenter?.onReportProblem()
+        }
+
+        rateApp.setOnClickListener {
+            try {
+                var playstoreuri1: Uri = Uri.parse("market://details?id=" + this.activity?.packageName)
+                var playstoreIntent1: Intent = Intent(Intent.ACTION_VIEW, playstoreuri1)
+                startActivity(playstoreIntent1)
+            }catch (exp:Exception){
+                var playstoreuri2: Uri = Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)
+                var playstoreIntent2: Intent = Intent(Intent.ACTION_VIEW, playstoreuri2)
+                startActivity(playstoreIntent2)
+            }
         }
 
         lockScreenLayout.setOnClickListener {

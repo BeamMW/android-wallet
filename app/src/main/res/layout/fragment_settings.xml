@@ -60,6 +60,7 @@
                         android:id="@+id/runRandomNodeSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:theme="@style/SCBSwitch"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/nodeLayout" />
 
@@ -99,7 +100,7 @@
                                 style="@style/common_menu_item"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:alpha="0.5"
+                                android:alpha="1"
                                 android:fontFamily="@font/roboto_bold"
                                 android:text="@string/ip_port"
                                 android:textSize="12sp"
@@ -168,6 +169,7 @@
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/confirmTransactionSwitch"
+                        android:theme="@style/SCBSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -192,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:theme="@style/SCBSwitch"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/enableFingerprintTitle" />
 
@@ -212,6 +215,7 @@
                         android:id="@+id/allowOpenLinkSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:theme="@style/SCBSwitch"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/allowOpenLinkTitle" />
 

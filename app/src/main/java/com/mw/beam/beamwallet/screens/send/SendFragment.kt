@@ -70,6 +70,20 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 import android.content.ClipboardManager
+import kotlinx.android.synthetic.main.fragment_receive.*
+import kotlinx.android.synthetic.main.fragment_send.advancedContainer
+import kotlinx.android.synthetic.main.fragment_send.advancedGroup
+import kotlinx.android.synthetic.main.fragment_send.amount
+import kotlinx.android.synthetic.main.fragment_send.btnChangeAddress
+import kotlinx.android.synthetic.main.fragment_send.btnExpandAdvanced
+import kotlinx.android.synthetic.main.fragment_send.btnExpandEditAddress
+import kotlinx.android.synthetic.main.fragment_send.comment
+import kotlinx.android.synthetic.main.fragment_send.editAddressContainer
+import kotlinx.android.synthetic.main.fragment_send.editAddressGroup
+import kotlinx.android.synthetic.main.fragment_send.expiresOnSpinner
+import kotlinx.android.synthetic.main.fragment_send.tagAction
+import kotlinx.android.synthetic.main.fragment_send.tags
+import kotlinx.android.synthetic.main.fragment_send.token
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -181,15 +195,23 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeSeekBar.progress = defaultFee
         updateFeeValue(defaultFee)
 
-        ArrayAdapter.createFromResource(
-                context!!,
-                R.array.receive_expires_periods,
-                R.layout.receive_expire_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            expiresOnSpinner.adapter = adapter
-            expiresOnSpinner.setSelection(0)
+        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context, R.layout.receive_expire_spinner_item,strings) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
+
+                val view = View.inflate(context,R.layout.receive_expire_spinner_item,null)
+                val textView = view.findViewById(R.id.expireLabelPickerID) as TextView
+                textView.text = strings[position]
+                if(position == expiresOnSpinner.selectedItemPosition) {
+                    textView.setTextColor(resources.getColor(R.color.colorAccent))
+                }
+                return view
+
+            }
         }
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        expiresOnSpinner.setSelection(0)
+        expiresOnSpinner.adapter = adapter
 
         ViewCompat.requestApplyInsets(contentScrollView)
         contentScrollView.smoothScrollTo(0, 0)

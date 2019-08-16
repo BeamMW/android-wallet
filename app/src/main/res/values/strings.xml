@@ -258,7 +258,7 @@
     <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Ask for password on every Send</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Enable fingerprint unlock</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Allow open external link</string>
     <string name="settings_dialog_node_error">Invalid node address</string>
     <string name="settings_dialog_node_title">Node address</string>
