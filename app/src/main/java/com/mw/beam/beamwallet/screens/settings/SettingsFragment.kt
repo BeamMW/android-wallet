@@ -158,6 +158,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter?.onReportProblem()
         }
 
+        rateApp.setOnClickListener {
+            try {
+                var playstoreuri1: Uri = Uri.parse("market://details?id=" + this.activity?.packageName)
+                var playstoreIntent1: Intent = Intent(Intent.ACTION_VIEW, playstoreuri1)
+                startActivity(playstoreIntent1)
+            }catch (exp:Exception){
+                var playstoreuri2: Uri = Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)
+                var playstoreIntent2: Intent = Intent(Intent.ACTION_VIEW, playstoreuri2)
+                startActivity(playstoreIntent2)
+            }
+        }
+
         lockScreenLayout.setOnClickListener {
             presenter?.onShowLockScreenSettings()
         }
