@@ -237,7 +237,6 @@
     <string name="send_dialog_description">To broadcast your transaction please enter your password</string>
     <string name="send_dialog_description_with_fingerprint">To broadcast your transaction please use your fingerprint or enter your password</string>
     <string name="total_available">Total available</string>
-    <string name="send_all">Send all</string>
     <string name="transaction_comment">Transaction comment</string>
     <string name="wont_be_shared">won’t be shared</string>
     <string name="outgoing_address">Outgoing address</string>
@@ -252,8 +251,6 @@
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General settings</string>
-    <string name="categories">Categories</string>
-    <string name="add_new_category">Add new category</string>
     <string name="lock_screen">Lock screen</string>
     <string name="never">Never</string>
     <string name="after">After</string>
@@ -413,6 +410,9 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
     <string name="choose_tag">Choose tag</string>
+    <string name="use_finger">Use your Fingerprint </string>
+    <string name="tags">Tags</string>
+    <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
     <string name="latest_confirmation">Latest Confirmation</string>
     <string name="share_transaction">Share transaction</string>
