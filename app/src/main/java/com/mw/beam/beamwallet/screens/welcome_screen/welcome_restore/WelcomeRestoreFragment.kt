@@ -93,13 +93,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
             val phrases1 = data.split(";").toTypedArray()
             val phrases2 = data.split("\n").toTypedArray()
 
-            if (phrases1.count() == seedLayout.childCount)
+            if (phrases1.count() == seedLayout.childCount + 1)
             {
                 for (i in 0 until seedLayout.childCount) {
                     val phraseInput = seedLayout.getChildAt(i) as BeamPhraseInput
                     phraseInput.editText.apply {
                         setText(phrases1[i])
-                        append(text)
                         onEditorAction(imeOptions)
                     }
                 }
