@@ -21,7 +21,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
-import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -35,6 +34,10 @@ import com.mw.beam.beamwallet.core.views.OnSuggestionClick
 import com.mw.beam.beamwallet.core.views.Suggestions
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_restore.*
+import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.PasteManager
+
 
 /**
  * Created by vain onnellinen on 11/5/18.
@@ -47,6 +50,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun init() {
         btnRestore.isEnabled = false
+
+        when(BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MASTERNET -> {btnShare.visibility = View.VISIBLE}
+            AppConfig.FLAVOR_TESTNET -> {btnShare.visibility = View.VISIBLE}
+            AppConfig.FLAVOR_MAINNET -> {btnShare.visibility = View.GONE}
+        }
     }
 
     override fun initSuggestions(suggestions: List<String>) {
@@ -79,6 +88,37 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun addListeners() {
+        btnShare.setOnClickListener {
+            val data = PasteManager.getPasteData(context)
+            val phrases1 = data.split(";").toTypedArray()
+            val phrases2 = data.split("\n").toTypedArray()
+
+            if (phrases1.count() == seedLayout.childCount + 1)
+            {
+                for (i in 0 until seedLayout.childCount) {
+                    val phraseInput = seedLayout.getChildAt(i) as BeamPhraseInput
+                    phraseInput.editText.apply {
+                        setText(phrases1[i])
+                        onEditorAction(imeOptions)
+                    }
+                }
+            }
+
+            if (phrases2.count() == seedLayout.childCount)
+            {
+                for (i in 0 until seedLayout.childCount) {
+                    val phrase = phrases2[i].split(" ").toTypedArray().last()
+                    val phraseInput = seedLayout.getChildAt(i) as BeamPhraseInput
+                    phraseInput.editText.apply {
+                        setText(phrase)
+                        onEditorAction(imeOptions)
+                    }
+                }
+            }
+
+            btnRestore.isEnabled = arePhrasesFilled()
+        }
+
         btnRestore.setOnClickListener {
             if (it.isEnabled) {
                 presenter?.onRestorePressed()
@@ -211,6 +251,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun clearListeners() {
         btnRestore.setOnClickListener(null)
+        btnShare.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
     }
 
