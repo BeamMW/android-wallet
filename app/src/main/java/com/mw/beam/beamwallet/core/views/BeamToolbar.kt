@@ -83,5 +83,7 @@ class BeamToolbar : LinearLayout {
         }
 
         status.text = status.text.toString().toLowerCase()
+
+        toolbar.setNavigationIcon(R.drawable.ic_back)
     }
 }

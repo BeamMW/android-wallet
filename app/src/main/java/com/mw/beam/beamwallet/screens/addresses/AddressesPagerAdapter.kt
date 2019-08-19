@@ -25,20 +25,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.screens.address_details.AddressFragment
+import com.mw.beam.beamwallet.screens.addresses.AddressesFragment.Mode.*
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
-class AddressesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener, tagProvider: (address: String) -> List<Tag>, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
+class AddressesPagerAdapter(val context: Context,
+                            onAddressClickListener: AddressesAdapter.OnItemClickListener,
+                            onAddressLongListener: AddressesAdapter.OnLongClickListener? = null,
+                            tagProvider: (address: String) -> List<Tag>, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, tagProvider)
+    private val activeAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
+    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
 
     private var activeLayoutManager: LinearLayoutManager? = null
     private var expiredLayoutManager: LinearLayoutManager? = null
     private var contactsLayoutManager: LinearLayoutManager? = null
+
+    private var selectedAddresses = mutableListOf<String>()
+
+    private var mode = AddressesFragment.Mode.NONE
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
@@ -63,6 +72,7 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
             if (type == AddressPagerType.SMALL) {
                 overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             }
+
 
             setOnTouchListener { v, event -> touchListener?.onTouch(v, event) ?: false }
         }
@@ -160,6 +170,50 @@ class AddressesPagerAdapter(val context: Context, onAddressClickListener: Addres
 
     fun setOnTouchListener(touchListener: View.OnTouchListener?) {
         this.touchListener = touchListener
+    }
+
+    fun reloadData(mode: AddressesFragment.Mode) {
+        this.mode = mode
+
+        activeAdapter.mode = mode
+        expiredAdapter.mode = mode
+        contactsAdapter.mode = mode
+
+        activeAdapter.notifyDataSetChanged()
+        expiredAdapter.notifyDataSetChanged()
+        contactsAdapter.notifyDataSetChanged()
+    }
+
+    fun changeSelectedItmes(data: List<String>, isAdded:Boolean, item:String?) {
+        selectedAddresses = data.toMutableList()
+
+        activeAdapter.selectedAddresses = selectedAddresses
+        expiredAdapter.selectedAddresses = selectedAddresses
+        contactsAdapter.selectedAddresses = selectedAddresses
+
+        if (item!=null)
+        {
+            for (i in 0 until activeAdapter.itemCount) {
+                if (activeAdapter.item(i).walletID == item) {
+                    activeAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+
+            for (i in 0 until expiredAdapter.itemCount) {
+                if (expiredAdapter.item(i).walletID == item) {
+                    expiredAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+
+            for (i in 0 until contactsAdapter.itemCount) {
+                if (contactsAdapter.item(i).walletID == item) {
+                    contactsAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+        }
     }
 }
 

@@ -220,7 +220,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onSelectAddress(item)
             }
-        }, { presenter?.repository?.getAddressTags(it) ?: listOf() }, AddressPagerType.SMALL)
+        },null, { presenter?.repository?.getAddressTags(it) ?: listOf() }, AddressPagerType.SMALL)
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)

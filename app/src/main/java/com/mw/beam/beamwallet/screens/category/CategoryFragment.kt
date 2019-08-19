@@ -51,7 +51,7 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onAddressPressed(item)
             }
-        })
+        }, null)
 
         addressesRecyclerView.adapter = addressesAdapter
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)

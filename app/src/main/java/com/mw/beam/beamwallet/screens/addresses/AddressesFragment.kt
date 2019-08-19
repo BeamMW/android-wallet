@@ -16,28 +16,56 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.views.BeamToolbar
 import kotlinx.android.synthetic.main.fragment_addresses.*
 
 /**
  * Created by vain onnellinen on 2/28/19.
  */
 class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.View {
+    enum class Mode {
+        NONE, EDIT
+    }
+
+    private val copyTag = "ADDRESS"
+
     private lateinit var pagerAdapter: AddressesPagerAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_addresses
     override fun getToolbarTitle(): String? = getString(R.string.addresses)
+
+    private var selectedAddresses = mutableListOf<String>()
+
+    private var mode = Mode.NONE
+    private var menuPosition = 0
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (mode == Mode.NONE) {
+                findNavController().popBackStack()
+            }
+            else{
+                cancelSelectedAddresses()
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
 
     override fun init() {
         val context = context ?: return
@@ -45,13 +73,45 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         setHasOptionsMenu(true)
         setMenuVisibility(false)
 
-        pagerAdapter = AddressesPagerAdapter(context, object : AddressesAdapter.OnItemClickListener {
-            override fun onItemClick(item: WalletAddress) {
-                presenter?.onAddressPressed(item)
-            }
-        }, {
-            return@AddressesPagerAdapter presenter?.onSearchTagsForAddress(it) ?: listOf()
-        })
+        pagerAdapter = AddressesPagerAdapter(context,
+                object : AddressesAdapter.OnItemClickListener {
+                    override fun onItemClick(item: WalletAddress) {
+                        if (mode == Mode.NONE) {
+                            presenter?.onAddressPressed(item)
+                        }
+                        else{
+                            if (selectedAddresses.contains(item.walletID))
+                            {
+                                selectedAddresses.remove(item.walletID)
+                            }
+                            else{
+                                selectedAddresses.add(item.walletID)
+                            }
+
+                            onSelectedAddressesChanged()
+                        }
+                    }
+                },
+                object : AddressesAdapter.OnLongClickListener {
+                    override fun onLongClick(item: WalletAddress) {
+                        if (mode == Mode.NONE) {
+
+                            mode = Mode.EDIT
+
+                            selectedAddresses.add(item.walletID)
+
+                            pagerAdapter.changeSelectedItmes(selectedAddresses, true, item.walletID)
+
+                            pagerAdapter.reloadData(mode)
+
+                            onSelectedAddressesChanged()
+                        }
+                    }
+                },
+
+                {
+                    return@AddressesPagerAdapter presenter?.onSearchTagsForAddress(it) ?: listOf()
+                })
 
         pager.adapter = pagerAdapter
         pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
@@ -61,26 +121,137 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                setMenuVisibility(position==Tab.CONTACTS.value)
+                menuPosition = position
+                if (mode == Mode.NONE) {
+                    setMenuVisibility(position==Tab.CONTACTS.value)
+                }
             }
         })
 
         tabLayout.setupWithViewPager(pager)
     }
 
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
+    }
+
+    private fun cancelSelectedAddresses() {
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = true
+        toolbarLayout.toolbar.title = null
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_back)
+
+        mode = Mode.NONE
+
+        selectedAddresses.clear()
+
+        pagerAdapter.changeSelectedItmes(selectedAddresses, false, null)
+
+        pagerAdapter.reloadData(mode)
+
+        activity?.invalidateOptionsMenu()
+
+        setMenuVisibility(menuPosition==Tab.CONTACTS.value)
+    }
+
+    private fun onSelectedAddressesChanged() {
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = false
+        toolbarLayout.toolbar.title = selectedAddresses.count().toString() + " " + getString(R.string.selected).toLowerCase()
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
+        if (selectedAddresses.count() == 0)
+        {
+            setMenuVisibility(false)
+        }
+        else{
+            setMenuVisibility(true)
+            activity?.invalidateOptionsMenu()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.addresses_menu, menu)
+
+        if (mode == Mode.NONE) {
+            menu.findItem(R.id.copy).isVisible = false
+            menu.findItem(R.id.delete).isVisible = false
+            menu.findItem(R.id.edit).isVisible = false
+            menu.findItem(R.id.add).isVisible = true
+        }
+        else{
+            if (selectedAddresses.count() == 1)
+            {
+                menu.findItem(R.id.copy).isVisible = true
+                menu.findItem(R.id.delete).isVisible = true
+                menu.findItem(R.id.edit).isVisible = true
+                menu.findItem(R.id.add).isVisible = false
+            }
+            else{
+                menu.findItem(R.id.copy).isVisible = false
+                menu.findItem(R.id.edit).isVisible = false
+                menu.findItem(R.id.add).isVisible = false
+                menu.findItem(R.id.delete).isVisible = true
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add) {
             presenter?.onAddContactPressed()
         }
+        else if (item.itemId == R.id.edit) {
+            presenter?.onEditAddressPressed()
+        }
+        else if (item.itemId == R.id.copy) {
+            presenter?.onCopyAddressPressed()
+        }
+        else if (item.itemId == R.id.delete) {
+            presenter?.onDeleteAddressesPressed()
+        }
         return super.onOptionsItemSelected(item)
     }
 
     override fun navigateToAddContactScreen() {
         findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddContactFragment())
+    }
+
+    override fun navigateToEditAddressScreen() {
+        val id = selectedAddresses.first()
+        val address = presenter?.state?.getAddresses()?.find { it.walletID == id }
+        if (address!=null) {
+            mode = Mode.NONE
+            selectedAddresses.clear()
+
+            findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToEditAddressFragment(address))
+        }
+    }
+
+    override fun copyAddress() {
+        val id = selectedAddresses.first()
+
+        copyToClipboard(id, copyTag)
+
+        showSnackBar(getString(R.string.address_copied_to_clipboard))
+
+        cancelSelectedAddresses()
+    }
+
+    override fun deleteAddresses() {
+        val id = selectedAddresses.first()
+
+        cancelSelectedAddresses()
     }
 
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
