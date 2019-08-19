@@ -416,4 +416,5 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="initiated">Initiated</string>
     <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">Paste</string>
 </resources>

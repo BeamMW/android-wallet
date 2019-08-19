@@ -26,6 +26,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnShare"
+                    android:layout_width="254dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/primary_button"
+                    app:button_icon="@drawable/ic_btn_copy"
+                    app:button_text="@string/paste"
+                    app:button_text_color="@color/common_text_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnRestore"
+                    app:lower_case="true" />
+
                 <TextView
                     android:id="@+id/description"
                     style="@style/welcome_description_text_style"

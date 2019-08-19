@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.qr_dialog
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.content.ContextCompat
