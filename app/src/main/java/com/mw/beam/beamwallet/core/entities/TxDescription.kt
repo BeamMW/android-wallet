@@ -15,6 +15,7 @@
  */
 package com.mw.beam.beamwallet.core.entities
 
+import android.content.Context
 import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
@@ -51,37 +52,37 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
     }
 
-    val statusString : String = when (status) {
-        TxStatus.Pending -> App.self.getString(R.string.pending)
+    fun getStatusString(context: Context) : String = when (status) {
+        TxStatus.Pending -> context.getString(R.string.pending)
         TxStatus.InProgress -> {
             when (sender) {
-                TxSender.RECEIVED -> App.self.getString(R.string.wallet_status_in_progress_sender)
-                TxSender.SENT -> App.self.getString(R.string.wallet_status_in_progress_receiver)
+                TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
+                TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
             }
         }
         TxStatus.Registered -> {
             when {
-                TxSender.RECEIVED == sender -> App.self.getString(R.string.receiving)
-                TxSender.SENT == sender && selfTx -> App.self.getString(R.string.sending_to_own_address)
-                TxSender.SENT == sender -> App.self.getString(R.string.sending)
+                TxSender.RECEIVED == sender -> context.getString(R.string.receiving)
+                TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
+                TxSender.SENT == sender -> context.getString(R.string.sending)
                 else -> ""
             }
         }
         TxStatus.Completed -> {
             if (selfTx) {
-                App.self.getString(R.string.sent_to_own_address)
+                context.getString(R.string.sent_to_own_address)
             } else {
                 when (sender) {
-                    TxSender.RECEIVED -> App.self.getString(R.string.received)
-                    TxSender.SENT -> App.self.getString(R.string.sent)
+                    TxSender.RECEIVED -> context.getString(R.string.received)
+                    TxSender.SENT -> context.getString(R.string.sent)
                 }
             }
         }
-        TxStatus.Cancelled -> App.self.getString(R.string.cancelled)
+        TxStatus.Cancelled -> context.getString(R.string.cancelled)
         TxStatus.Failed -> {
             when (failureReason) {
-                TxFailureReason.TRANSACTION_EXPIRED -> App.self.getString(R.string.expired)
-                else -> App.self.getString(R.string.failed)
+                TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
+                else -> context.getString(R.string.failed)
             }
         }
     }.toLowerCase() + " "

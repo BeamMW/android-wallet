@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.utils
 
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 
@@ -49,7 +50,7 @@ object TransactionFields {
         return "${if (txDescription.sender.value) SEND_BEAM_TYPE else RECEIVE_BEAM_TYPE} ," +
                 "${CalendarUtils.fromTimestampUS(txDescription.modifyTime)} ," +
                 "${txDescription.amount.convertToBeamString()} ," +
-                "${txDescription.statusString} ," +
+                "${txDescription.getStatusString(App.self)} ," +
                 "$sender ," +
                 "$receiver ," +
                 "${txDescription.fee.convertToBeamString()} ," +

@@ -62,7 +62,7 @@ class ShareTransactionDetailsView : FrameLayout {
         val createTime = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         txDate.text = createTime
-        confirming_state_text.text = txDescription.statusString.capitalize()
+        confirming_state_text.text = txDescription.getStatusString(context).capitalize()
         amount.text = txDescription.amount.convertToBeamString()
         transaction_id_value.text = txDescription.kernelId
         transaction_fee_value.text = txDescription.fee.convertToBeamString()

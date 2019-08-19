@@ -77,7 +77,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             sum.setTextColor(transaction.amountColor)
 
             status.setTextColor(transaction.statusColor)
-            status.text = transaction.statusString
+            status.text = transaction.getStatusString(context)
 
             val amountVisibility = if (privacyMode) View.GONE else View.VISIBLE
             sum.visibility = amountVisibility

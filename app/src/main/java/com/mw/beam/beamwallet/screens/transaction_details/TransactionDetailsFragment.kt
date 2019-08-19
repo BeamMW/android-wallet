@@ -146,7 +146,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         sum.setTextColor(txDescription.amountColor)
 
         status.setTextColor(txDescription.statusColor)
-        status.text = txDescription.statusString
+        status.text = txDescription.getStatusString(context!!)
 
         sum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
     }
