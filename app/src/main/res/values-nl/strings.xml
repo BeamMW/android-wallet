@@ -383,4 +383,5 @@
     <string name="initiated">Geïnitieerd</string>
     <string name="latest_confirmation">Laatste Bevestiging</string>
     <string name="share_transaction">Deel transactie</string>
+    <string name="version">Version %1$s</string>
 </resources>

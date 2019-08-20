@@ -65,9 +65,9 @@
     <string name="pass_save_new">Save new password</string>
 
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">Open my wallet</string>
+    <string name="welcome_open">Open your wallet</string>
     <string name="enter_your_password_to_access_the_wallet">Enter your password to access the wallet.</string>
-    <string name="welcome_open_description_with_fingerprint">Use Touch ID or enter your password\nto access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
@@ -418,4 +418,5 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="share_transaction">Share transaction</string>
     <string name="paste">Paste</string>
     <string name="selected">Selected</string>
+    <string name="version">Version %1$s</string>
 </resources>
