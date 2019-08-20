@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.owner_key_verification
 
+import android.os.Handler
 import android.text.Editable
 import android.view.View
 import android.view.animation.Animation
@@ -42,6 +43,7 @@ import kotlinx.android.synthetic.main.fragment_owner_key_verification.passError
 import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.core.views.visible
+import kotlinx.android.synthetic.main.dialog_confirm_transaction.*
 
 class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(), OwnerKeyVerificationContract.View {
     private var cancellationSignal: CancellationSignal? = null
@@ -75,7 +77,16 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
 
     override fun onStart() {
         super.onStart()
+
         displayFingerPrint((presenter?.isEnableFingerprint() == true))
+
+        if ((presenter?.isEnableFingerprint() == false))
+        {
+            Handler().postDelayed({
+                pass.requestFocus()
+                showKeyboard()
+            }, 100)
+        }
     }
 
     override fun displayFingerPrint(display: Boolean) {
@@ -150,6 +161,11 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
 
         DelayedTask.startNew(1, {
             presenter?.onFingerprintSuccess()
+
+            Handler().postDelayed({
+                pass.requestFocus()
+                showKeyboard()
+            }, 100)
         })
     }
 
