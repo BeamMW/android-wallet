@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
@@ -33,10 +34,11 @@ import io.reactivex.subjects.Subject
 class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
     override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
+        return getResult(WalletListener.subOnAddresses, "getAddresses")
+ //       return getResult(WalletListener.subOnAddresses, "getAddresses") {
+//            wallet?.getAddresses(true)
+//            wallet?.getAddresses(false)
+//        }
     }
 
     override fun getTxStatus(): Observable<OnTxStatusData> {
@@ -56,4 +58,15 @@ class AddressesRepository : BaseRepository(), AddressesContract.Repository {
     override fun getAllAddressesInTrash(): List<WalletAddress> {
         return TrashManager.getAllData().addresses
     }
+
+    override fun getAllTransactionInTrash(): List<TxDescription> {
+        return TrashManager.getAllData().transactions
+    }
+
+    override fun deleteAddress(walletAddress: WalletAddress, withTransactions: List<TxDescription>) {
+        getResult("deleteAddress") {
+            TrashManager.add(walletAddress.walletID, TrashManager.ActionData(withTransactions, listOf(walletAddress)))
+        }
+    }
+
 }

@@ -233,7 +233,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun finishScreen() {
-        findNavController().popBackStack(R.id.addressFragment, true)
+        findNavController().popBackStack()
     }
 
     override fun clearListeners() {

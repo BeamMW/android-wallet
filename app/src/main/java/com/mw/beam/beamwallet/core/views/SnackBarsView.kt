@@ -26,15 +26,18 @@ import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import java.util.*
 import kotlin.concurrent.schedule
+import android.animation.ObjectAnimator
+import android.view.animation.AccelerateInterpolator
 
 class SnackBarsView: FrameLayout {
     private val snackbarLifeTime: Long = 5000
-    private val period: Long = 100
+    private val period: Long = 10
 
     private var info: SnackBarInfo? = null
     private var currentView: View? = null
     private var timer: Timer? = null
     private var currentMillis: Long = 0
+    private var smoothAnimation:ObjectAnimator? = null
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -62,6 +65,10 @@ class SnackBarsView: FrameLayout {
             val progressBar = view.findViewById<ProgressBar>(R.id.progressTimer)
             progressBar.max = snackbarLifeTime.toInt()
             progressBar.progress = snackbarLifeTime.toInt()
+
+            smoothAnimation = ObjectAnimator.ofInt(progressBar, "progress", progressBar!!.progress, progressBar.max)
+            smoothAnimation?.duration = 100
+            smoothAnimation?.interpolator = AccelerateInterpolator()
         }
 
         startNewTimer()
@@ -80,6 +87,9 @@ class SnackBarsView: FrameLayout {
     }
 
     private fun clear() {
+        smoothAnimation?.cancel()
+        smoothAnimation = null
+
         timer?.cancel()
         timer = null
 
@@ -107,6 +117,8 @@ class SnackBarsView: FrameLayout {
                 }
             }
         }
+
+        smoothAnimation?.start()
     }
 
     private data class SnackBarInfo(val message: String, val onDismiss: (() -> Unit)? = null, val onUndo: (() -> Unit)? = null)

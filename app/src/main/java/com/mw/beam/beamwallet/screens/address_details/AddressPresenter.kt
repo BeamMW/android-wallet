@@ -29,6 +29,7 @@ import io.reactivex.disposables.Disposable
 class AddressPresenter(currentView: AddressContract.View, currentRepository: AddressContract.Repository, private val state: AddressState)
     : BasePresenter<AddressContract.View, AddressContract.Repository>(currentView, currentRepository),
         AddressContract.Presenter {
+
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
     private lateinit var trashSubscription: Disposable

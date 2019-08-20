@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.addresses
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
@@ -28,8 +29,12 @@ import io.reactivex.disposables.Disposable
 class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository, val state: AddressesState)
     : BasePresenter<AddressesContract.View, AddressesContract.Repository>(currentView, currentRepository),
         AddressesContract.Presenter {
+
     private lateinit var addressesSubscription: Disposable
     private lateinit var trashSubscription: Disposable
+    private lateinit var txStatusSubscription: Disposable
+
+    var removedAddresses = mutableListOf<String>()
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -47,6 +52,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
             state.updateAddresses(it.addresses)
 
             state.deleteAddresses(repository.getAllAddressesInTrash())
+            state.deleteRemovedAddresses(removedAddresses.toList())
 
             updateView()
         }
@@ -62,6 +68,27 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
                     updateView()
                 }
                 TrashManager.ActionType.Removed -> {}
+            }
+        }
+
+        txStatusSubscription = repository?.getTxStatus()?.subscribe { data ->
+            if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED)
+            {
+                if (data.action == ChangeAction.RESET)
+                {
+                    state.transactions.clear()
+                }
+
+                if (data.tx != null){
+                    state.transactions.addAll(data.tx!!)
+                }
+
+                state.deleteTransaction(repository.getAllTransactionInTrash())
+            }
+            else if (data.action == ChangeAction.REMOVED)
+            {
+                state.deleteTransaction(data.tx)
+                state.deleteTransaction(repository.getAllTransactionInTrash())
             }
         }
     }
@@ -80,6 +107,39 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
     override fun onDeleteAddressesPressed() {
         view?.deleteAddresses()
+    }
+
+    override fun onDeleteAddress(selected: List<String>) {
+        var showTransactionsAlert = false
+
+        selected?.forEach { walletID ->
+            if (state.getTransactions(walletID).count() > 0) {
+                showTransactionsAlert = true
+                return@forEach
+            }
+        }
+
+        if (showTransactionsAlert)
+        {
+            view?.showDeleteAddressesDialog()
+        }
+        else{
+            view?.showDeleteAddressesSnackBar(false)
+        }
+    }
+
+    override fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>) {
+        removedAddresses.clear()
+        removedAddresses.addAll(addresses)
+
+        for (i in 0 until addresses.count()) {
+            val id = addresses[i]
+            val address = state?.getAddresses()?.find { it.walletID == id }
+            if (address !=null)
+            {
+                repository.deleteAddress(address, if (withTransactions) state?.getTransactions(id) else listOf())
+            }
+        }
     }
 
     private fun updateView() {
