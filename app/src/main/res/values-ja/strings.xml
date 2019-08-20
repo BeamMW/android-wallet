@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">通知チャネル</string>
     <string name="notification_channel_description">既定の通知チャネル</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">指紋ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">アドレスを変更</string>

@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Канал уведомлений</string>
     <string name="notification_channel_description">Канал уведомлений по умолчанию</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">Отпечатки пальцев</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Изменить адрес</string>

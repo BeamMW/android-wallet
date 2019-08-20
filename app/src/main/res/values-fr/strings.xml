@@ -322,7 +322,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Canal de notification</string>
     <string name="notification_channel_description">Canal de notification par défaut</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">ID empreinte digitale</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Modifier adresse</string>

@@ -317,7 +317,7 @@
     <string name="notification_channel_name">Notifierings-kanal</string>
     <string name="notification_channel_description">Standard notifierings-kanal</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">Fingeravtrycks-ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Byt adress</string>

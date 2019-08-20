@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">ช่องทางการแจ้งเตือน</string>
     <string name="notification_channel_description">ช่องทางการแจ้งเตือนเริ่มต้น</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">ลายนิ้วมือ</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">เปลี่ยนที่อยู่</string>

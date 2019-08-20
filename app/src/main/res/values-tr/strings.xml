@@ -320,7 +320,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Bildirim kanalı</string>
     <string name="notification_channel_description">Varsayılan bildirim kanalı</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">Parmak İzi Kimliği</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Adresi değiştir</string>

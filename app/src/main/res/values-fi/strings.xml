@@ -319,7 +319,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="notification_channel_name">Ilmoituskanava</string>
     <string name="notification_channel_description">Oletusilmoituskanava</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">Sormenjälkitunnistus</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Vaihda osoite</string>
