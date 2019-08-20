@@ -184,7 +184,7 @@ class AddressesPagerAdapter(val context: Context,
         contactsAdapter.notifyDataSetChanged()
     }
 
-    fun changeSelectedItmes(data: List<String>, isAdded:Boolean, item:String?) {
+    fun changeSelectedItems(data: List<String>, isAdded:Boolean, item:String?) {
         selectedAddresses = data.toMutableList()
 
         activeAdapter.selectedAddresses = selectedAddresses

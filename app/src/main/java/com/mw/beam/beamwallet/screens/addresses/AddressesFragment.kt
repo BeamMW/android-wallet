@@ -16,20 +16,25 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
+import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
+import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_wallet.*
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -100,7 +105,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             selectedAddresses.add(item.walletID)
 
-                            pagerAdapter.changeSelectedItmes(selectedAddresses, true, item.walletID)
+                            pagerAdapter.changeSelectedItems(selectedAddresses, true, item.walletID)
 
                             pagerAdapter.reloadData(mode)
 
@@ -122,6 +127,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
             override fun onPageSelected(position: Int) {
                 menuPosition = position
+                pagerAdapter.changeSelectedItems(selectedAddresses,false,null)
                 if (mode == Mode.NONE) {
                     setMenuVisibility(position==Tab.CONTACTS.value)
                 }
@@ -157,7 +163,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         selectedAddresses.clear()
 
-        pagerAdapter.changeSelectedItmes(selectedAddresses, false, null)
+        pagerAdapter.changeSelectedItems(selectedAddresses, false, null)
 
         pagerAdapter.reloadData(mode)
 
@@ -233,7 +239,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         if (address!=null) {
             mode = Mode.NONE
             selectedAddresses.clear()
-
             findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToEditAddressFragment(address))
         }
     }
@@ -249,7 +254,41 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun deleteAddresses() {
-        val id = selectedAddresses.first()
+        presenter?.onDeleteAddress(selectedAddresses)
+    }
+
+    override fun showDeleteAddressesDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+            val dialog = AlertDialog.Builder(it).setView(view).show()
+
+            view.btnConfirm.setOnClickListener {
+                showDeleteAddressesSnackBar(view.deleteAllTransactionsCheckbox.isChecked)
+                dialog.dismiss()
+            }
+
+            view.btnCancel.setOnClickListener { dialog.dismiss() }
+
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
+    override fun showDeleteAddressesSnackBar(removeTransactions:Boolean) {
+        presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
+
+        showSnackBar(getString(R.string.address_deleted),
+                onDismiss = {
+                    presenter?.removedAddresses?.forEach { walletID ->
+                        TrashManager.remove(walletID)
+                    }
+                },
+                onUndo = {
+                    presenter?.removedAddresses?.forEach { walletID ->
+                        TrashManager.restore(walletID)
+                    }
+                    presenter?.removedAddresses?.clear()
+                }
+        )
 
         cancelSelectedAddresses()
     }

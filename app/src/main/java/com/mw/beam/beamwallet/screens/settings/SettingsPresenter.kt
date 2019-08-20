@@ -59,7 +59,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        addressesSubscription = repository.getAddresses().subscribe {
+        addressesSubscription = repository.getAddresses().subscribe() {
             if (it.own) {
                 state.addresses = it.addresses ?: listOf()
             } else {
@@ -77,7 +77,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, txStatusSubscription)
-
 
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())

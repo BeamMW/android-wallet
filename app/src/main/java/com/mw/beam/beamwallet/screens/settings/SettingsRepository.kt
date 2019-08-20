@@ -94,8 +94,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun getAddresses(): Subject<OnAddressesData> {
         return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
+ //           wallet?.getAddresses(true)
+//            wallet?.getAddresses(false)
         }
     }
 

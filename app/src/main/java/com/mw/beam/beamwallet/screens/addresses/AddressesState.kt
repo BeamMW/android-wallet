@@ -16,10 +16,13 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 class AddressesState {
-    private val addresses = HashMap<String, WalletAddress>()
+
+    var addresses = HashMap<String, WalletAddress>()
+    var transactions = mutableListOf<TxDescription>()
 
     fun updateAddresses(addresses: List<WalletAddress>?){
         addresses?.forEach {
@@ -29,9 +32,30 @@ class AddressesState {
 
     fun getAddresses() = addresses.values.toList()
 
+    fun getTransactions(walletID:String) : List<TxDescription> {
+        var addressTransactions = mutableListOf<TxDescription>()
+        transactions?.forEach { transaction ->
+            if (transaction.myId == walletID || transaction.peerId == walletID) {
+                addressTransactions.add(transaction)
+            }
+        }
+
+        return addressTransactions
+    }
+
     fun deleteAddresses(addresses: List<WalletAddress>?) {
         addresses?.forEach {
             this.addresses.remove(it.walletID)
         }
+    }
+
+    fun deleteRemovedAddresses(addresses: List<String>?) {
+        addresses?.forEach {
+            this.addresses.remove(it)
+        }
+    }
+
+    fun deleteTransaction(tx: List<TxDescription>?) {
+        tx?.forEach { transactions.removeAll { x -> it.id == x.id  } }
     }
 }

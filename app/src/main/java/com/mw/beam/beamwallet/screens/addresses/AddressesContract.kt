@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -39,6 +40,8 @@ interface AddressesContract {
         fun navigateToEditAddressScreen()
         fun copyAddress()
         fun deleteAddresses()
+        fun showDeleteAddressesDialog()
+        fun showDeleteAddressesSnackBar(removeTransactions:Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -48,6 +51,8 @@ interface AddressesContract {
         fun onEditAddressPressed()
         fun onCopyAddressPressed()
         fun onDeleteAddressesPressed()
+        fun onDeleteAddress(selected: List<String>)
+        fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>)
     }
 
     interface Repository : MvpRepository {
@@ -56,5 +61,7 @@ interface AddressesContract {
         fun getAddressTags(address: String): List<Tag>
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
+        fun getAllTransactionInTrash(): List<TxDescription>
+        fun deleteAddress(walletAddress: WalletAddress, withTransactions: List<TxDescription>)
     }
 }
