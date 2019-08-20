@@ -20,6 +20,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -65,6 +66,7 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 
     override fun onStart() {

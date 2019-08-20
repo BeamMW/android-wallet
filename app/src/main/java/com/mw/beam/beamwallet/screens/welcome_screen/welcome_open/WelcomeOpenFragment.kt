@@ -32,6 +32,8 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.views.visible
+import com.mw.beam.beamwallet.core.views.visibleOrGone
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
 
@@ -71,6 +73,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         } else {
             description.setText(R.string.enter_your_password_to_access_the_wallet)
         }
+
+        btnTouch.visibleOrGone(shouldInitFingerprint, false)
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
     }

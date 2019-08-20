@@ -101,8 +101,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/flavorText"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintVertical_bias="1"/>
+                app:layout_constraintVertical_chainStyle="packed"/>
 
             <TextView
                 android:id="@+id/btnRestore"
@@ -115,10 +114,22 @@
                 android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
                 android:text="@string/restore_wallet"
                 android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/appVersion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnCreate"/>
+
+            <TextView
+                android:id="@+id/appVersion"
+                style="@style/common_text_big_dark"
+                tools:text="Version 1.1.2"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -95,14 +95,14 @@
                 style="@style/common_button_style"
                 android:layout_marginTop="@dimen/welcome_testnet_text_margin"
                 app:button_icon="@drawable/ic_btn_create"
+                app:lower_case="true"
                 app:button_text="@string/create_new_wallet"
                 app:layout_constraintBottom_toTopOf="@id/btnRestore"
                 android:layout_marginBottom="@dimen/welcome_button_margin_offset"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/flavorText"
-                app:layout_constraintVertical_chainStyle="packed"
-                app:layout_constraintVertical_bias="1"/>
+                app:layout_constraintVertical_chainStyle="packed"/>
 
             <TextView
                 android:id="@+id/btnRestore"
@@ -115,10 +115,22 @@
                 android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
                 android:text="@string/restore_wallet"
                 android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/appVersion"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnCreate"/>
+
+            <TextView
+                android:id="@+id/appVersion"
+                style="@style/common_text_big_dark"
+                tools:text="Version 1.1.2"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

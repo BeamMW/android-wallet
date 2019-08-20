@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
 
@@ -38,17 +39,17 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
         }
     }
 
-//    override fun updateAddress(address: WalletAddress, own: Boolean) {
-//        getResult("updateAddress") {
-//            val addressExpiration = when {
-//                address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
-//                address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
-//                else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
-//            }
-//
-//            wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)
-//        }
-//    }
+    override fun updateAddress(address: WalletAddress) {
+        getResult("updateAddress") {
+            val addressExpiration = when {
+                address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
+                address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
+                else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
+            }
+
+            wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)
+        }
+    }
 
     override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
