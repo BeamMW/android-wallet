@@ -414,7 +414,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         })
         navMenu.layoutManager = LinearLayoutManager(context)
         navMenu.adapter = navItemsAdapter
-
         navItemsAdapter.selectItem(NavItem.ID.WALLET)
     }
 

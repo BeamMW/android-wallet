@@ -8,19 +8,30 @@
     android:filterTouchesWhenObscured="true"
     android:padding="@dimen/common_offset">
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/label"
         style="@style/common_subheader_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/addresses_label_offset"
+        android:ellipsize="middle"
+        android:singleLine="true"
         android:textSize="@dimen/addresses_label_text_size"
         android:textStyle="normal"
-        android:singleLine="true"
-        android:ellipsize="middle"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="label" />
 
@@ -29,21 +40,21 @@
         style="@style/common_text_big_dark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ellipsize="middle"
-        android:singleLine="true"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="@dimen/common_offset"
-        tools:text="lwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12kln"
+        android:ellipsize="middle"
+        android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@id/addressLimit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/label" />
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@id/label"
+        tools:text="lwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12kln" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/addressLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="120dp" />
+        app:layout_constraintGuide_begin="128dp" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -77,16 +88,16 @@
     </LinearLayout>
 
     <TextView
-        android:layout_marginTop="6dp"
         android:id="@+id/tag"
-        android:visibility="gone"
-        tools:visibility="visible"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/addressId"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Category Category Category Category Category" />
+        app:layout_constraintStart_toStartOf="@+id/addressId"
+        app:layout_constraintTop_toBottomOf="@id/addressId"
+        tools:text="Category Category Category Category Category"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

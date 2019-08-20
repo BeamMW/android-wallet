@@ -36,12 +36,18 @@ interface AddressesContract {
         fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
         fun showAddressDetails(address: WalletAddress)
         fun navigateToAddContactScreen()
+        fun navigateToEditAddressScreen()
+        fun copyAddress()
+        fun deleteAddresses()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
         fun onSearchTagsForAddress(address: String): List<Tag>
         fun onAddContactPressed()
+        fun onEditAddressPressed()
+        fun onCopyAddressPressed()
+        fun onDeleteAddressesPressed()
     }
 
     interface Repository : MvpRepository {
