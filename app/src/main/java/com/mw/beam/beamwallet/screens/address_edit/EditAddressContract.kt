@@ -53,7 +53,7 @@ interface EditAddressContract {
 
     interface Repository : MvpRepository {
         fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
-//        fun updateAddress(address: WalletAddress, own: Boolean)
+        fun updateAddress(address: WalletAddress)
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
         fun saveTagsForAddress(address: String, tags: List<Tag>)
