@@ -15,7 +15,7 @@
     <string name="cancel">ยกเลิก</string>
     <string name="delete">ลบ</string>
     <string name="confirm">ยืนยัน</string>
-    <string name="change">เงินทอน</string>
+    <string name="change">เปลี่ยน</string>
     <string name="ok">ตกลง</string>
     <string name="undo">เลิกทำ</string>
     <string name="next">ถัดไป</string>
@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">เปิดกระเป๋าของฉัน</string>
     <string name="enter_your_password_to_access_the_wallet">กรอกรหัสผ่านเพื่อเปิดกระเป๋า.</string>
-    <string name="welcome_open_description_with_fingerprint">ใช้การสแกนนิ้วมือหรือกรอกรหัสผ่าน\nเพื่อเปิดกระเป๋า</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">กลุ่มคำลับเหล่านี้ของคุณเป็นกุญแจเพื่อที่จะเข้าถึงทรัพย์สินในกระเป๋าของคุณ กรุณาเขียนกลุ่มคำลับนี้ลงกระดาษเก็บไว้ในที่ปลอดภัยอย่างตู้เซฟหรือห้องนิรภัย หากไม่มีกลุ่มคำลับเหล่านี้คุณจะไม่สามารถกู้คืนทรัพย์สินของคุณได้</string>
     <string name="welcome_seed_title">กลุ่มคำลับ</string>
@@ -244,7 +244,7 @@
     <string name="minute">นาที</string>
     <string name="settings_ask_password_on_send">ถามรหัสผ่านทุกครั้งก่อนจะโอน</string>
     <string name="settings_run_random_node">เชื่อมต่อไปยัง Node อื่นแบบสุ่ม</string>
-    <string name="settings_enable_fingerprint">เปิดใช้การปลดล็อกด้วยลายนิ้วมือ</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">อนุญาตให้เปิดลิงค์ภายนอก</string>
     <string name="settings_dialog_node_error">ที่อยู่ของ Node ไม่ถูกต้อง</string>
     <string name="settings_dialog_node_title">ที่อยู่ของ Node</string>
@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">ช่องทางการแจ้งเตือน</string>
     <string name="notification_channel_description">ช่องทางการแจ้งเตือนเริ่มต้น</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">ที่สแกนลายนิ้วมือ</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">ลายนิ้วมือ</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">เปลี่ยนที่อยู่</string>
@@ -383,7 +383,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">แท็ก</string>
     <string name="add_new_tag">เพิ่มแท็กใหม่</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="latest_confirmation">Latest confirmation</string>
+    <string name="share_transaction">แชร์ธุรกรรม</string>
+    <string name="paste">วาง</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">ไม่พบรายการที่อยู่</string>
+    <string name="empty_contacts_list">ไม่พบรายชื่อผู้ติดต่อ</string>
     <string name="version">Version %1$s</string>
 </resources>

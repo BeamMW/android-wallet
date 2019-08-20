@@ -66,9 +66,9 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="pass_proceed_to_wallet">Commencer à utiliser votre portefeuille</string>
     <string name="pass_save_new">Sauvegarder votre nouveau mot de passe</string>
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">Afficher mon portefeuille</string>
+    <string name="welcome_open">Ouvrir votre portefeuille</string>
     <string name="enter_your_password_to_access_the_wallet">Merci de saisir votre mot de passe pour accéder à votre portefeuille.</string>
-    <string name="welcome_open_description_with_fingerprint">Utiliser Touch ID ou saisir votre mot de passe pour accéder au portefeuille.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Votre phrase clé est le moyen d\'accéder à toutes les monnaies cryptées de votre portefeuille. Ecrivez la phrase pour la garder dans un coffre-fort ou dans un coffre-fort verrouillé. Sans cette phrase, vous ne pourrez pas récupérer votre argent.</string>
     <string name="welcome_seed_title">Phrase clé</string>
@@ -247,7 +247,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Demander le mot de passe pour chaque Envoi</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Activer le déverrouillage par empreinte digitale</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Autoriser l\'ouverture d\'un lien externe</string>
     <string name="settings_dialog_node_error">Adresse du noeud invalide</string>
     <string name="settings_dialog_node_title">Adresse du nœud</string>
@@ -322,7 +322,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Canal de notification</string>
     <string name="notification_channel_description">Canal de notification par défaut</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Capteur tactile</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">ID empreinte digitale</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Modifier adresse</string>
@@ -386,7 +386,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">Tags</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">Coller</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Votre carnet d\'adresses est vide</string>
+    <string name="empty_contacts_list">Votre liste de contacts est vide</string>
     <string name="version">Version %1$s</string>
 </resources>

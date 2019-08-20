@@ -28,7 +28,7 @@
     <string name="common_fingerprint_error">Te veel pogingen. Voer wachtwoord in.</string>
     <string name="common_share_title">Deel…</string>
     <string name="common_external_link_dialog_title">Externe link</string>
-    <string name="common_external_link_dialog_message">Beam portemonnee app vereist toestemming om externe links in de browser te openen. Deze actie zal uw IP adres aan de webserver blootstellen. Kies -Annuleren- om dit te voorkomen. U kunt uw keuze op elk gewenst moment wijzigen in de app instelling.</string>
+    <string name="common_external_link_dialog_message">Beam Portemonnee vereist toestemming om externe links in de browser te openen. Deze actie zal uw IP adres aan de webserver blootstellen. Kies -Annuleren- om dit te voorkomen. U kunt uw keuze op elk gewenst moment wijzigen in Instellingen.</string>
     <string name="currency_beam">BEAM</string>
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">Geen internetverbinding</string>
@@ -48,7 +48,7 @@
     <string name="welcome_restore_or_create">Herstel portemonnee of maak een nieuwe aan</string>
     <string name="welcome_generate_seed_phrase">Genereer herstelzin</string>
     <string name="i_agree">Ik ga akkoord</string>
-    <string name="welcome_restore_notification">U probeert een bestaande Beam portemonnee te herstellen. Let op dat wanneer u uw portemonnee op een ander apparaat gebruikt, uw saldo up to date zal zijn, maar de transactiegeschiedenis en adressen op ieder apparaat apart worden gehouden.</string>
+    <string name="welcome_restore_notification">U probeert een bestaande Beam Portemonnee te herstellen. Let op dat wanneer u uw portemonnee op een ander apparaat gebruikt uw saldo up-to-date zal zijn, maar de transactiegeschiedenis en adressen op elk apparaat apart worden gehouden.</string>
     <string name="copy">Kopiëren</string>
     <string name="welcome_description">Maak een nieuwe portemonnee door een herstelzin te genereren. Als u uw apparaat verliest, heeft u de herstelzin nodig om uw tegoeden te herstellen. Voer uw herstelzin nooit op wachtwoordbeheerders of dergelijke applicaties in. Sla het nooit op in uw lokale bestandssysteem of externe mappen van welke aard dan ook.</string>
     <string name="welcome_no_see">Laat niemand uw herstelzin zien.</string>
@@ -63,14 +63,14 @@
     <string name="pass_proceed_to_wallet">Begin met het gebruik van uw portemonnee</string>
     <string name="pass_save_new">Nieuw wachtwoord opslaan</string>
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">Mijn portemonnee openen</string>
+    <string name="welcome_open">Open uw portemonnee</string>
     <string name="enter_your_password_to_access_the_wallet">Voer uw wachtwoord in om toegang te krijgen tot de portemonnee.</string>
-    <string name="welcome_open_description_with_fingerprint">Gebruik Touch ID of voer uw wachtwoord in om toegang te krijgen tot de portemonnee.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Uw herstelzin is de toegangssleutel tot alle tegoeden in uw portemonnee. Print de zin uit of schrijf deze op en bewaar de zin op een veilige plaats zoals in een kluis. Zonder de zin kunt u uw portemonnee, en dus uw tegoeden, niet herstellen.</string>
     <string name="welcome_seed_title">Herstelzin</string>
     <string name="welcome_seed_save_title">Herstelzin opslaan</string>
-    <string name="welcome_seed_save_description">Schrijf de herstelzin op. Maak geen screenshot en sla het niet op in uw fotogalerij. Het maakt de herstelzin vatbaar voor cyberaanvallen en dus minder veilig.</string>
+    <string name="welcome_seed_save_description">Schrijf de herstelzin op. Maak geen screenshot en sla het niet op in uw fotogalerij. Het maakt de herstelzin vatbaar voor cyberaanvallen en is dus minder veilig.</string>
     <!--WelcomeConfirmFragment-->
     <string name="welcome_validation_title">Bevestig herstelzin</string>
     <string name="welcome_validation_description">Om er zeker van te zijn dat de herstelzin correct is opgeschreven vult u de specifieke woorden hieronder in.</string>
@@ -89,13 +89,13 @@
     <string name="welcome_progress_update_utxo_description">Scannen UTXO</string>
     <string name="welcome_progress_restore_description">Hersteld</string>
     <string name="welcome_progress_restore_description_full_top">Wacht op synchronisatie en sluit of minimaliseer de applicatie niet.</string>
-    <string name="welcome_progress_restore_description_full_bottom">Alleen het portemonnee saldo (UTXO) kan worden hersteld, transactieinformatie is altijd privé en wordt nooit in de blockchain opgeslagen.</string>
+    <string name="welcome_progress_restore_description_full_bottom">Alleen het portemonnee saldo (UTXO) kan worden hersteld. Transactieinformatie is altijd privé en wordt nooit in de blockchain opgeslagen.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Maak een wachtwoord aan om toegang te krijgen tot uw portemonnee</string>
     <string name="pass_screen_change_description">Nieuw wachtwoord aanmaken om toegang te krijgen tot uw portemonnee</string>
     <string name="password_not_match">Wachtwoorden komen niet overeen</string>
-    <string name="pass_description_title">Een sterk wachtwoord moet aan de volgende vereisten voldoen:</string>
-    <string name="pass_description_chars">Wachtwoord moet minstens 6 karakters lang zijn</string>
+    <string name="pass_description_title">Een sterk wachtwoord moet voldoen aan de volgende vereisten:</string>
+    <string name="pass_description_chars">Wachtwoord moet uit ten minste 10 tekens bestaan</string>
     <string name="pass_description_lowercase">Moet ten minste één kleine letter bevatten</string>
     <string name="pass_description_uppercase">Moet ten minste één hoofdletter bevatten</string>
     <string name="pass_description_number">Moet ten minste één cijfer bevatten</string>
@@ -116,7 +116,7 @@
     <string name="sending_to_own_address">Verzenden naar eigen adres</string>
     <string name="maturing">Ontwikkeling</string>
     <string name="receive">Ontvang</string>
-    <string name="send">Verzenden</string>
+    <string name="send">Verzend</string>
     <string name="completed">Voltooid</string>
     <string name="received">Ontvangen</string>
     <string name="sent">Verzonden</string>
@@ -128,7 +128,7 @@
     <string name="cancelled">Geannuleerd</string>
     <string name="pending">In afwachting</string>
     <string name="transactions">Transacties</string>
-    <string name="wallet_empty_transactions_list_message">Uw transacties geschiedenis zal hier verschijnen</string>
+    <string name="wallet_empty_transactions_list_message">Uw transactiegeschiedenis zal hier verschijnen</string>
     <string name="search">Zoeken</string>
     <string name="filter">Filter</string>
     <string name="export">Exporteren</string>
@@ -143,7 +143,7 @@
     <string name="unavailable">Niet beschikbaar</string>
     <string name="utxo_status_result_rollback">Mining resultaat terugdraaien</string>
     <string name="blockchain_height">Blockchain hoogte</string>
-    <string name="last_block_hash">Laatste blok hash</string>
+    <string name="last_block_hash">Laatste block hash</string>
     <string name="utxo_security_message">U bent momenteel in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Schakel het uit om uw UTXO lijst te zien.</string>
     <!--UtxoDetailsFragment-->
@@ -167,10 +167,10 @@
     <string name="id">ID</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transactiegegevens</string>
-    <string name="general_transaction_info">Algemene transactie informatie</string>
+    <string name="general_transaction_info">Algemene transactieinformatie</string>
     <string name="currency_amount">Valutabedrag</string>
     <string name="transaction_fee">Transactiekosten</string>
-    <string name="comment">Notitie</string>
+    <string name="comment">Mededeling</string>
     <string name="transaction_id">Transactie ID</string>
     <string name="transaction_history">Transactie geschiedenis</string>
     <string name="repeat_transaction">Transactie herhalen</string>
@@ -192,7 +192,7 @@
     <string name="expires">Verloopt</string>
     <string name="receive_send_annotation_description">Aantekening is lokaal en zal niet worden gedeeld.</string>
     <string name="share_address">Adres delen</string>
-    <string name="show_qr">qR weergeven</string>
+    <string name="show_qr">QR weergeven</string>
     <string name="addresses">Adressen</string>
     <string name="receive_token_description">Verstuur dit adres via een extern beveiligd kanaal.</string>
     <string name="receive_save_address_message">Wilt u het aangemaakte adres opslaan en later gebruiken?</string>
@@ -224,7 +224,7 @@
     <string name="send_dialog_description">Voer uw wachtwoord in om uw transactie te verzenden</string>
     <string name="send_dialog_description_with_fingerprint">Gebruik uw vingerafdruk of voer uw wachtwoord in om uw transactie te verzenden</string>
     <string name="total_available">Totaal beschikbaar</string>
-    <string name="transaction_comment">Transactie opmerking</string>
+    <string name="transaction_comment">Mededeling</string>
     <string name="wont_be_shared">wordt niet gedeeld</string>
     <string name="outgoing_address">Uitgaande adres</string>
     <string name="my_addresses">Mijn adressen</string>
@@ -244,7 +244,7 @@
     <string name="minute">minuut</string>
     <string name="settings_ask_password_on_send">Vraag om wachtwoord bij elke verzending</string>
     <string name="settings_run_random_node">Verbinden met willekeurige node</string>
-    <string name="settings_enable_fingerprint">Vingerafdrukontgrendeling inschakelen</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Externe link openen toestaan</string>
     <string name="settings_dialog_node_error">Ongeldig node adres</string>
     <string name="settings_dialog_node_title">Node adres</string>
@@ -291,7 +291,7 @@
     <string name="code">Code</string>
     <string name="sender">Verzender</string>
     <string name="receiver">Ontvanger</string>
-    <string name="current_password_is_incorrect">Huidige wachtwoord is onjuist</string>
+    <string name="current_password_is_incorrect">Wachtwoord is onjuist</string>
     <!--CategoryFragment-->
     <string name="edit">Bewerken</string>
     <string name="delete_tag">Label verwijderen</string>
@@ -308,16 +308,16 @@
     <string name="owner_key_verification_fingerprint_description">Gebruik Vingerafdruk ID om de verificatie af te ronden</string>
     <string name="key_code">Sleutelcode</string>
     <string name="owner_key_copied_message">Eigenaarssleutel naar klembord gekopieerd</string>
-    <string name="owner_key_code_description">Het invoeren van de eigenaarssleutel op een vertrouwd node zal de node toestaan om alle UTXO, gegenereerd vanuit dezelfde herstelzin en verzonden naar elke portemonnee, te monitoren.\n\n Deel uw eigenaarssleutel niet met anderen - het staat inzage in en controle van uw saldo toe.</string>
-    <string name="owner_key_verification_pass">Het invoeren van de eigenaarssleutel op een vertrouwd node zal de node toestaan om alle UTXO verzonden naar deze portemonnee en elke wallet gegenereerd vanuit uw herstelzin, te monitoren.\n\n Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
-    <string name="owner_key_verification_pass_finger">Het invoeren van de eigenaarssleutel op een vertrouwd node zal de node toestaan om alle UTXO verzonden naar deze portemonnee en elke wallet gegenereerd vanuit uw herstelzin, te monitoren.\n\n U moet 2-staps verificatie (voer een wachtwoord in en gebruik Vingerafdruk ID) doorlopen om uw eigenaarssleutel te kunnen zien.</string>
+    <string name="owner_key_code_description">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO gegenereerd vanuit dezelfde herstelzin, en verzonden naar welke portemonnee dan ook, te monitoren.\n\n Deel uw eigenaarssleutel niet met anderen. Het staat inzage in en controle van uw saldo toe.</string>
+    <string name="owner_key_verification_pass">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO verzonden naar deze portemonnee, en elke portemonnee gegenereerd vanuit uw herstelzin, te monitoren.\n\n Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
+    <string name="owner_key_verification_pass_finger">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO verzonden naar deze portemonnee, en elke portemonnee gegenereerd vanuit uw herstelzin, te monitoren.\n\n U moet 2-staps verificatie (voer uw wachtwoord in en gebruik Vingerafdruk ID) doorlopen om uw eigenaarssleutel te kunnen zien.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Nieuwe transactie ontvangen</string>
     <string name="notification_receive_content_text">Klik om details te bekijken</string>
     <string name="notification_channel_name">Notificatie Kanaal</string>
     <string name="notification_channel_description">Standaard notificatie kanaal</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Raak de sensor aan</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">Vingerafdruk ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Adres wijzigen</string>
@@ -359,7 +359,7 @@
     <string name="enter_trusted_node_address">Voer vertrouwd node adres in</string>
     <string name="ip_port">ip:poort</string>
     <string name="owner_key">Eigenaarssleutel</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Plak deze code in Beam Portemonnee op uw bureaublad om verder te gaan met herstellen vanaf de node.</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Plak deze code in uw desktopversie van de Beam Portemonnee om verder te gaan met herstellen vanaf de node.</string>
     <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Zodra u de code plakt zal het herstellen automatisch beginnen.</string>
     <string name="privacy_mode">Privacy modus</string>
     <string name="gallery">Galerij</string>
@@ -367,11 +367,11 @@
     <string name="storage_permission_required_message">Geef toestemming tot opslaan voor het gebruik van uw galerij</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code kan niet worden herkend. Probeer een andere afbeelding.</string>
     <string name="welcome_progress_restore_networ_error_description">Netwerkverbinding mislukt. Probeer het opnieuw na het opnieuw verbinden met het netwerk.</string>
-    <string name="automatic_restore_warning">Wees er zeker van dat u geen transacties (vanaf elk apparaat) heeft gedaan in het afgelopen uur. Als u dat wel heeft gedaan, wacht dan minstens één uur na de laatste transactie voordat u verder gaat met herstellen. Anders kan uw herstelde saldo onjuist zijn en zal de extra herstelprocedure vereist zijn.</string>
-    <string name="node_restore_warning">Controleer of uw node volledig is gesynchroniseerd met de blockchain voordat u de herstelprocedure begint. Anders kan uw herstelde saldo onjuist zijn en zal de extra herstelprocedure vereist zijn.</string>
+    <string name="automatic_restore_warning">Wees er zeker van dat u geen transacties (vanaf elk apparaat) heeft gedaan in het afgelopen uur. Indien u dit wel heeft gedaan, wacht dan ten minste één uur na de laatste transactie voordat u verder gaat met herstellen. Doet u dit niet, dan kan uw herstelde saldo onjuist zijn en zal de extra herstelprocedure vereist zijn.</string>
+    <string name="node_restore_warning">Controleer of uw node volledig is gesynchroniseerd met de blockchain voordat u de herstelprocedure begint. Doet u dit niet, dan kan uw herstelde saldo onjuist zijn en zal de extra herstelprocedure vereist zijn.</string>
     <string name="understand">Ik begrijp het</string>
     <string name="downloading_blockchain_info">Blockhain informatie aan het downloaden</string>
-    <string name="add_all">Alles toevoegen</string>
+    <string name="add_all">Alles</string>
     <string name="my_active_addresses">Mijn actieve adressen</string>
     <string name="tag_list_is_empty">Labellijst is leeg</string>
     <string name="dialog_empty_tags_message">U heeft nog geen labels. Wilt u nu een label aanmaken?</string>
@@ -381,7 +381,11 @@
     <string name="tags">Labels</string>
     <string name="add_new_tag">Nieuw label toevoegen</string>
     <string name="initiated">Geïnitieerd</string>
-    <string name="latest_confirmation">Laatste Bevestiging</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Deel transactie</string>
+    <string name="paste">Plakken</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Uw adressenlijst is leeg</string>
+    <string name="empty_contacts_list">Uw contactlijst is leeg</string>
     <string name="version">Version %1$s</string>
 </resources>

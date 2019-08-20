@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Открыть кошелек</string>
     <string name="enter_your_password_to_access_the_wallet">Чтобы получить доступ к кошельку введите пароль.</string>
-    <string name="welcome_open_description_with_fingerprint">Используйте Touch ID или введите пароль\nдля доступа к кошельку.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Ваша контрольная фраза является ключом для доступа ко всем вашим средствам. Храните фразу в защищенном месте. В случае потери контрольной фразы, вы не сможете восстановить доступ к вашим средствам.</string>
     <string name="welcome_seed_title">Контрольная фраза</string>
@@ -244,7 +244,7 @@
     <string name="minute">минут</string>
     <string name="settings_ask_password_on_send">Запрашивать пароль при каждом отправлении</string>
     <string name="settings_run_random_node">Подключиться к случайному узлу</string>
-    <string name="settings_enable_fingerprint">Включить вход по отпечатку пальца</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Разрешить доступ на сторонние сайты</string>
     <string name="settings_dialog_node_error">Неправильный адрес узла</string>
     <string name="settings_dialog_node_title">Адрес узла</string>
@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Канал уведомлений</string>
     <string name="notification_channel_description">Канал уведомлений по умолчанию</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Приложите палец к сенсору</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">Отпечатки пальцев</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Изменить адрес</string>
@@ -383,7 +383,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">Метки</string>
     <string name="add_new_tag">Добавить метку</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">Вставить</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Ваш список адресов пуст</string>
+    <string name="empty_contacts_list">Ваш список контактов пуст</string>
     <string name="version">Version %1$s</string>
 </resources>

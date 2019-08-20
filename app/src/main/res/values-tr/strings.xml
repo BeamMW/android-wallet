@@ -63,9 +63,9 @@
     <string name="pass_proceed_to_wallet">Cüzdanınızı kullanmaya başlayın</string>
     <string name="pass_save_new">Yeni şifreyi kaydet</string>
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">Cüzdanımı aç</string>
+    <string name="welcome_open">Cüzdanınızı açın</string>
     <string name="enter_your_password_to_access_the_wallet">Cüzdana erişmek için şifrenizi girin.</string>
-    <string name="welcome_open_description_with_fingerprint">Cüzdana erişmek için dokunmatik kimliği kullanın veya şifrenizi girin.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Anahtar kelimeleriniz, cüzdanınızdaki tüm bakiyenin erişim anahtarıdır. Güvenli veya kilitli bir kasada saklamak için ifadeyi yazdırın veya yazın. İfade olmadan bakiyenize ulaşamazsınız.</string>
     <string name="welcome_seed_title">Anahtar kelimeler</string>
@@ -244,7 +244,7 @@
     <string name="minute">dakika</string>
     <string name="settings_ask_password_on_send">Her yollama işleminde şifre iste</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Parmak izi ile açmayı etkinleştir</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Harici linkleri açmaya izin ver</string>
     <string name="settings_dialog_node_error">Yanlış düğüm adresi</string>
     <string name="settings_dialog_node_title">Düğüm adresleri</string>
@@ -320,7 +320,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Bildirim kanalı</string>
     <string name="notification_channel_description">Varsayılan bildirim kanalı</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Dokunma sensörü</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">Parmak İzi Kimliği</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Adresi değiştir</string>
@@ -384,7 +384,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">Etiketler</string>
     <string name="add_new_tag">Yeni etiket ekle</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">Yapıştır</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Adres listeniz boş</string>
+    <string name="empty_contacts_list">İşlem listeniz boş</string>
     <string name="version">Version %1$s</string>
 </resources>

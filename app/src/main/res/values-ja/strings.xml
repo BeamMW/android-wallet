@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">ウォレットを開く</string>
     <string name="enter_your_password_to_access_the_wallet">ウォレットにアクセスするにはパスワードを入力してください。</string>
-    <string name="welcome_open_description_with_fingerprint">Touch IDを使用するかパスワードを入力し\nアドレスにアクセスしてください</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">シードフレーズは、あなたのウォレット内のすべての資金へのアクセスキーになります。フレーズを印刷するか書き留め、安全な、あるいは鍵のかかった金庫に保管しておいてください。このフレーズがなければ、お金を取り戻すことはできません。</string>
     <string name="welcome_seed_title">シードフレーズ</string>
@@ -244,7 +244,7 @@
     <string name="minute">分</string>
     <string name="settings_ask_password_on_send">送信の都度パスワードを要求</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">指紋によるロック解除を有効化</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">外部リンクへのアクセスを許可</string>
     <string name="settings_dialog_node_error">無効なノードアドレス</string>
     <string name="settings_dialog_node_title">ノードアドレス</string>
@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">通知チャネル</string>
     <string name="notification_channel_description">既定の通知チャネル</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">センサーをタッチしてください</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">指紋ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">アドレスを変更</string>
@@ -383,7 +383,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">タグ</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">貼付け</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">アドレスリストがありません</string>
+    <string name="empty_contacts_list">コンタクトリストがありません</string>
     <string name="version">Version %1$s</string>
 </resources>

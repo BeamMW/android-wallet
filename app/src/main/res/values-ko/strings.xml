@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">내 지갑 열기</string>
     <string name="enter_your_password_to_access_the_wallet">지갑에 접근하려면 비밀번호를 입력하세요.</string>
-    <string name="welcome_open_description_with_fingerprint">Touch ID 나 비밀번호를 입력하여 지갑에 접근하십시오</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">당신의 시드 구문은 당신의 지갑에 있는 모든 자금에 접근할 수 있는 키입니다. 안전하게 구문을 프린트하거나 적어놓으십시오. 혹은 금고에 보관하세요. 구문 없이는 당신의 자금을 복구할 수 없을 것입니다.</string>
     <string name="welcome_seed_title">시드 구문</string>
@@ -204,7 +204,7 @@
     <string name="advanced">추가기능</string>
     <string-array name="receive_expires_periods">
         <item>24시간 이내</item>
-        <item>Never</item>
+        <item>안함</item>
     </string-array>
     <!--SendFragment-->
     <string name="send_token_description">수신자의 주소를 입력하거나 스캔하세요</string>
@@ -238,13 +238,13 @@
     <string name="settings_ip_title">아이피 : 포트:</string>
     <string name="settings_general_settings">일반 설정</string>
     <string name="lock_screen">잠금 화면</string>
-    <string name="never">Never</string>
+    <string name="never">안함</string>
     <string name="after">다음</string>
     <string name="seconds">초</string>
     <string name="minute">분</string>
     <string name="settings_ask_password_on_send">매 전송마다 비밀번호 물어보기</string>
     <string name="settings_run_random_node">임의의 노드에 연결하기</string>
-    <string name="settings_enable_fingerprint">지문으로 풀기 허용하기</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">외부 링크 열기 허용</string>
     <string name="settings_dialog_node_error">유효하지 않은 노드 주소</string>
     <string name="settings_dialog_node_title">노드 주소</string>
@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">알림 채널</string>
     <string name="notification_channel_description">고정 알림 채널</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">터치 센서</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">지문 ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">주소 바꾸기</string>
@@ -383,7 +383,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">태그 목록</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">붙여넣기</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">주소록이 비어있습니다.</string>
+    <string name="empty_contacts_list">연락처 목록이 비어있습니다</string>
     <string name="version">Version %1$s</string>
 </resources>
