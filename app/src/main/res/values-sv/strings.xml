@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Öppna min plånbok</string>
     <string name="enter_your_password_to_access_the_wallet">Ange ditt lösenord för att få tillgång till plånboken.</string>
-    <string name="welcome_open_description_with_fingerprint">Använd touch-I eller ange lösenord för att få tillgång till plånboken.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Ditt seed phrase tillåter åtkomsten till alla kryptovalutor i din plånbok. Skriv ner seed phrase och spar detta i ett kassaskåp eller i ett låst valv. Om ditt seed phrase försvinner kommer du inte kunna återställa dina pengar.</string>
     <string name="welcome_seed_title">Seed phrase</string>
@@ -244,7 +244,7 @@
     <string name="minute">minut</string>
     <string name="settings_ask_password_on_send">Fråga efter lösenord vid varje skickad transaktion</string>
     <string name="settings_run_random_node">Anslut till slumpmässig nod</string>
-    <string name="settings_enable_fingerprint">Aktivera fingeravtrycksupplåsning</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Tillåt att öppna externa länkar</string>
     <string name="settings_dialog_node_error">Felaktig nod-adress</string>
     <string name="settings_dialog_node_title">Nod-adress</string>
@@ -302,24 +302,22 @@
     <string name="color">Färg</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Visa ägar-nyckel</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">För att se ägarnyckeln måste du klara denna 2-stegs verifiering(ange lösenord samt använda fingeravtrycks-ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingeravtrycks-auktorisering misslyckades. Vänligen försök igen inom några minuter.</string>
     <string name="owner_key_verification_title_with_finger">Ange ditt lösenord och använd fingeravtrycks-ID för att få tillgång till plånboken</string>
     <string name="owner_key_verification_fingerprint_description">Vänligen använd fingeravtrycks-ID för att avsluta verifieringen</string>
     <string name="key_code">Nyckel-kod</string>
     <string name="owner_key_copied_message">Ägarens nyckel-kod kopierat till urklipp</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_code_description">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till en plånbok som genereras från samma seed phrase. \n\n Dela inte din ägarnyckel med andra - det tillåter inspektion och övervakning av dina tillgångar.</string>
+    <string name="owner_key_verification_pass">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste ange ditt lösenord för att se Ägarnyckeln.</string>
+    <string name="owner_key_verification_pass_finger">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste klara 2-stegsverifieringen (ange lösenord samt använda Fingeravtryck) för att se Ägarnyckeln.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Mottar ny transaktion</string>
     <string name="notification_receive_content_text">Vänligen klicka för att se detaljer</string>
     <string name="notification_channel_name">Notifierings-kanal</string>
     <string name="notification_channel_description">Standard notifierings-kanal</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch-sensor</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">Fingeravtrycks-ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Byt adress</string>
@@ -379,11 +377,15 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="dialog_empty_tags_message">Du har inga tags ännu. Vill du skapa en tag nu?</string>
     <string name="you_can_create_more_tags_in_settings">Du kan skapa fler tagar under Inställningar.</string>
     <string name="choose_tag">Välj tag</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="use_finger">Använd ditt fingeravtryck </string>
     <string name="tags">Tagar</string>
     <string name="add_new_tag">Lägg till ny tag</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="initiated">Initierad</string>
+    <string name="latest_confirmation">Latest confirmation</string>
+    <string name="share_transaction">Dela transaktion</string>
+    <string name="paste">Klistra in</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Din adress-lista är tom</string>
+    <string name="empty_contacts_list">Din kontakt-lista är tom</string>
     <string name="version">Version %1$s</string>
 </resources>

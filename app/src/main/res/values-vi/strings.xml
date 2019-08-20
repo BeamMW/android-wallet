@@ -63,9 +63,9 @@
     <string name="pass_proceed_to_wallet">Bắt đầu sử dụng ví của bạn</string>
     <string name="pass_save_new">Lưu mật khẩu mới</string>
     <!--WelcomeOpenFragment-->
-    <string name="welcome_open">Mở ví của tôi</string>
+    <string name="welcome_open">Mở ví của bạn</string>
     <string name="enter_your_password_to_access_the_wallet">Nhập mật khẩu của bạn để truy cập ví.</string>
-    <string name="welcome_open_description_with_fingerprint">Sử dụng Touch ID hoặc nhập mật khẩu của bạn để truy cập vào ví.</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Cụm từ hạt giống của bạn là khóa truy cập vào tất cả các khoản tiền trong ví của bạn. In hoặc viết cụm từ để giữ nó an toàn hoặc trong một hầm có khóa. Nếu không có cụm từ, bạn sẽ không thể lấy lại tiền của mình.</string>
     <string name="welcome_seed_title">Cụm từ hạt giống</string>
@@ -244,7 +244,7 @@
     <string name="minute">phút</string>
     <string name="settings_ask_password_on_send">Yêu cầu mật khẩu với mỗi lần gửi</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Cho phép mở khóa bằng vân tay</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">Cho phép mở liên kết bên ngoài</string>
     <string name="settings_dialog_node_error">Địa chỉ nút không hợp lệ</string>
     <string name="settings_dialog_node_title">Địa chỉ nút</string>
@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Kênh thông báo</string>
     <string name="notification_channel_description">Kênh thông báo mặc định</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Cảm biến chạm</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">ID vân tay</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Thay đổi địa chỉ</string>
@@ -383,7 +383,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">Nhãn</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">Dán</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">Danh sách địa chỉ của bạn trống</string>
+    <string name="empty_contacts_list">Danh sách liên hệ của bạn trống</string>
     <string name="version">Version %1$s</string>
 </resources>

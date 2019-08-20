@@ -71,7 +71,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">打开钱包</string>
     <string name="enter_your_password_to_access_the_wallet">请输入密码以访问钱包</string>
-    <string name="welcome_open_description_with_fingerprint">使用触控ID或输入密码\n以访问钱包</string>
+    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">助记词是访问您账户资金的密钥
 必须打印或誊写助记词，并将其妥善保存在保险箱中
@@ -257,7 +257,7 @@
     <string name="minute">分钟</string>
     <string name="settings_ask_password_on_send">每次付款时均要求输入密码</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">启用指纹解锁</string>
+    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
     <string name="settings_allow_open_link">允许打开外部链接</string>
     <string name="settings_dialog_node_error">无效的节点地址</string>
     <string name="settings_dialog_node_title">节点地址</string>
@@ -334,7 +334,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">通知频道</string>
     <string name="notification_channel_description">默认通知频道</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">触控传感器</string>
+    <string name="touch_sensor">Touch sensor</string>
     <string name="fingerprint_id">指纹ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">找零地址</string>
@@ -401,7 +401,11 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="tags">标签</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest Confirmation</string>
+    <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
+    <string name="paste">粘贴</string>
+    <string name="selected">Selected</string>
+    <string name="empty_address_list">地址列表是空的</string>
+    <string name="empty_contacts_list">联系人列表是空的</string>
     <string name="version">Version %1$s</string>
 </resources>
