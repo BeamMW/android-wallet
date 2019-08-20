@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
+
+    <com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:filterTouchesWhenObscured="true">
+
+    </com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="80dp">
+
+        <TextView
+            android:id="@+id/emptyLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:drawableTop="@drawable/ic_addressbook_empty"
+            android:drawablePadding="15dp"
+            android:fontFamily="@font/proxima_regular"
+            android:text="@string/empty_address_list"
+            android:textAlignment="center"
+            android:textColor="@color/common_text_dark_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</FrameLayout>

@@ -20,13 +20,14 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.screens.address_details.AddressFragment
-import com.mw.beam.beamwallet.screens.addresses.AddressesFragment.Mode.*
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -50,8 +51,24 @@ class AddressesPagerAdapter(val context: Context,
     private var mode = AddressesFragment.Mode.NONE
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val layout = LayoutInflater.from(context).inflate(R.layout.item_list, container, false) as ViewGroup
-        val recyclerView = layout.findViewById<RecyclerView>(R.id.list)
+        val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup
+
+        val recyclerView = layout.findViewById<com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport>(R.id.list)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
+
+        val emptyLabel = emptyView.findViewById<TextView>(R.id.emptyLabel)
+        if (position == Tab.CONTACTS.value)
+        {
+            emptyLabel.text = context.getString(R.string.empty_contacts_list)
+        }
+        else{
+            emptyLabel.text = context.getString(R.string.empty_address_list)
+        }
+
+        recyclerView.setEmptyView(emptyView)
+
         val layoutManager = LinearLayoutManager(context)
         recyclerView.apply {
             this.layoutManager = layoutManager
@@ -90,7 +107,9 @@ class AddressesPagerAdapter(val context: Context,
             }
         }
 
+
         container.addView(layout)
+
         return layout
     }
 

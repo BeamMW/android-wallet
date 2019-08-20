@@ -148,6 +148,8 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         view?.updateAddresses(Tab.ACTIVE, addresses.filter { !it.isExpired && !it.isContact })
         view?.updateAddresses(Tab.EXPIRED, addresses.filter { it.isExpired && !it.isContact })
         view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
+
+        view?.updatePlaceholder(addresses.count() == 0)
     }
 
     override fun onSearchTagsForAddress(address: String): List<Tag> {

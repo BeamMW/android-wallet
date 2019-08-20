@@ -303,6 +303,17 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         pagerAdapter.setData(tab, addresses)
     }
 
+    override fun updatePlaceholder(showPlaceholder:Boolean) = if (showPlaceholder) {
+        emptyLayout.visibility = View.VISIBLE
+        pager.visibility = View.GONE
+        tabLayout.visibility = View.INVISIBLE
+    }
+    else{
+        emptyLayout.visibility = View.GONE
+        pager.visibility = View.VISIBLE
+        tabLayout.visibility = View.VISIBLE
+    }
+
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AddressesPresenter(this, AddressesRepository(), AddressesState())
     }

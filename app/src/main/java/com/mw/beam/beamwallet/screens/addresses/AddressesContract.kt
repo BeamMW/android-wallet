@@ -35,6 +35,7 @@ interface AddressesContract {
     interface View : MvpView {
         fun init()
         fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
+        fun updatePlaceholder(showPlaceholder:Boolean)
         fun showAddressDetails(address: WalletAddress)
         fun navigateToAddContactScreen()
         fun navigateToEditAddressScreen()
