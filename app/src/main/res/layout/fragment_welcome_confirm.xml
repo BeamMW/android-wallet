@@ -66,6 +66,7 @@
 
     <com.mw.beam.beamwallet.core.views.Suggestions
         android:id="@+id/suggestionsView"
+        android:visibility="gone"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

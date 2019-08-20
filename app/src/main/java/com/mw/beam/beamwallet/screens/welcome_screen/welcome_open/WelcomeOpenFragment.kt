@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import android.text.Editable
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
@@ -30,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.visible
@@ -42,8 +45,9 @@ import kotlinx.android.synthetic.main.fragment_welcome_open.*
  * Created by vain onnellinen on 10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
+    private var delayedTask: DelayedTask? = null
     private var cancellationSignal: CancellationSignal? = null
-    private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
+    private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(p0: Editable?) {
             presenter?.onPassChanged()
@@ -64,7 +68,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         if (shouldInitFingerprint) {
             cancellationSignal = CancellationSignal()
 
-            authCallback = FingerprintCallback(presenter, cancellationSignal)
+            authCallback = FingerprintCallback(this, presenter, cancellationSignal)
+
+            fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch))
 
             FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
                     authCallback!!, null)
@@ -106,12 +112,49 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         return !hasErrors
     }
 
+    fun showFailed() {
+        animatedChangeDrawable(R.drawable.ic_touch_error)
+        delayedTask?.cancel(true)
+        delayedTask = DelayedTask.startNew(1, { animatedChangeDrawable(R.drawable.ic_touch) })
+    }
+
+    fun fingerprintError() {
+        delayedTask?.cancel(true)
+
+        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_error))
+    }
+
+    fun success() {
+        delayedTask?.cancel(true)
+
+        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_success))
+    }
+
+    private fun animatedChangeDrawable(resId: Int) {
+        val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
+        val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
+
+        fadeOut.setAnimationListener(object: Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                fingerprintImage.setImageDrawable(context?.getDrawable(resId))
+                fingerprintImage.startAnimation(fadeIn)
+            }
+        })
+        fingerprintImage.startAnimation(fadeOut)
+    }
+
     override fun clearError() {
         passError.visibility = View.INVISIBLE
         pass.isStateAccent = true
     }
 
     override fun clearListeners() {
+        delayedTask?.cancel(true)
+
         btnOpen.setOnClickListener(null)
         btnChange.setOnClickListener(null)
 
@@ -119,6 +162,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun clearFingerprintCallback() {
+        authCallback?.clear()
         authCallback = null
         cancellationSignal?.cancel()
         cancellationSignal = null
@@ -154,22 +198,31 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         return WelcomeOpenPresenter(this, WelcomeOpenRepository())
     }
 
-    private class FingerprintCallback(val presenter: WelcomeOpenContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+    private class FingerprintCallback(var view: WelcomeOpenFragment?, var presenter: WelcomeOpenContract.Presenter?, var cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
+            view?.fingerprintError()
             presenter?.onFingerprintError()
             cancellationSignal?.cancel()
         }
 
         override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
+            view?.success()
             presenter?.onFingerprintSucceeded()
             cancellationSignal?.cancel()
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
+            view?.showFailed()
             presenter?.onFingerprintFailed()
+        }
+
+        fun clear() {
+            view = null
+            presenter = null
+            cancellationSignal = null
         }
     }
 }
