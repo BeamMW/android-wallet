@@ -81,7 +81,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     private fun initTransactionsList() {
-        adapter = TransactionsAdapter(context!!, mutableListOf()) {
+        adapter = TransactionsAdapter(context!!, mutableListOf(), true) {
             presenter?.onTransactionPressed(it)
         }
 

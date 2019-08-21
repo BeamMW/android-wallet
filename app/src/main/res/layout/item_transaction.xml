@@ -17,10 +17,10 @@
         android:layout_height="wrap_content"
         android:contentDescription="@null"
         android:paddingEnd="@dimen/transaction_icon_padding_end"
-        tools:src="@drawable/ic_beam"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/message"
-        tools:ignore="RtlSymmetry" />
+        tools:ignore="RtlSymmetry"
+        tools:src="@drawable/ic_icon_sent" />
 
     <TextView
         android:id="@+id/message"
@@ -28,13 +28,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        tools:text="Receive"
-        app:layout_constraintBottom_toTopOf="@id/date"
         app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/icon"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        tools:text="Receive" />
 
     <TextView
         android:id="@+id/date"
@@ -43,29 +41,39 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:paddingTop="@dimen/transaction_date_padding"
-        tools:text="date"
         app:layout_constraintBottom_toTopOf="@id/searchTextView"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintEnd_toEndOf="@id/currency"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toBottomOf="@id/message" />
+        app:layout_constraintTop_toBottomOf="@id/status"
+        tools:text="date" />
+
+    <ImageView
+        android:id="@+id/commentIcon"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/message"
+        app:layout_constraintTop_toTopOf="@id/searchTextView"
+        app:layout_constraintBottom_toBottomOf="@id/searchTextView"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_icon_comment"
+        android:layout_width="16dp"
+        android:layout_height="16dp" />
 
     <TextView
-        android:paddingTop="@dimen/transaction_date_padding"
-        android:layout_marginEnd="10dp"
-        style="@style/common_text_small_dark"
-        tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
-        android:maxLines="1"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:ellipsize="end"
-        app:layout_constraintStart_toStartOf="@id/date"
-        app:layout_constraintEnd_toStartOf="@id/status"
-        app:layout_constraintTop_toBottomOf="@id/date"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/searchTextView"
+        style="@style/common_text_big_dark"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:layout_marginStart="10dp"
+        app:layout_constraintEnd_toEndOf="@id/currency"
+        app:layout_constraintStart_toEndOf="@id/commentIcon"
+        app:layout_constraintTop_toBottomOf="@id/date"
+        tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
+        tools:visibility="visible" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -73,7 +81,7 @@
         android:layout_height="wrap_content"
         android:paddingStart="5dp"
         app:barrierDirection="start"
-        app:constraint_referenced_ids="sum, status"
+        app:constraint_referenced_ids="sum"
         tools:ignore="RtlSymmetry" />
 
     <TextView
@@ -103,16 +111,15 @@
 
     <TextView
         android:id="@+id/status"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
-        tools:text="@string/sending_to_own_address"
-        android:paddingStart="@dimen/wallet_currency_padding"
         android:paddingTop="@dimen/transaction_status_padding_top"
+        app:layout_constraintEnd_toEndOf="parent"
         android:paddingEnd="@dimen/wallet_currency_padding"
         android:textSize="@dimen/transaction_status_text_size"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sum" />
+        app:layout_constraintTop_toBottomOf="@id/message"
+        app:layout_constraintStart_toStartOf="@id/message"
+        tools:text="@string/sending_to_own_address" />
 </androidx.constraintlayout.widget.ConstraintLayout>
