@@ -38,7 +38,7 @@ import java.util.regex.Pattern
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val clickListener: OnItemClickListener) :
+class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val clickListener: (TxDescription) -> Unit) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val beamResId = R.drawable.ic_beam
     private val colorSpan by lazy { ForegroundColorSpan(context.resources.getColor(R.color.common_text_color, context.theme)) }
@@ -52,7 +52,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
-            clickListener.onItemClick(data[adapterPosition])
+            clickListener.invoke(data[adapterPosition])
         }
     }
 
@@ -142,10 +142,6 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             privacyMode = isEnable
             notifyDataSetChanged()
         }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(item: TxDescription)
     }
 
     class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer

@@ -20,34 +20,25 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.view.ContextThemeWrapper
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.appcompat.view.menu.MenuPopupHelper
-import androidx.appcompat.widget.PopupMenu
-import androidx.core.content.FileProvider
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import androidx.viewpager.widget.ViewPager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
-import java.io.File
 
 
 /**
@@ -57,6 +48,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var drawerToggle: ActionBarDrawerToggle
     private lateinit var navItemsAdapter: NavItemsAdapter
+    private lateinit var balancePagerAdapter: BalancePagerAdapter
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -70,35 +62,44 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
-    override fun getToolbarTitle(): String? = getString(R.string.wallet)
+    private val onPageSelectedListener = object : ViewPager.SimpleOnPageChangeListener() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            val selectedColor = ContextCompat.getColor(context!!, R.color.common_text_dark_color)
+            val unselectedColor = ContextCompat.getColor(context!!, R.color.unselect_balance_tab_text_color)
 
-    override fun configWalletStatus(walletStatus: WalletStatus, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, walletStatus.maturing, isEnablePrivacyMode)
-        configInProgress(walletStatus.receiving, walletStatus.sending, isEnablePrivacyMode)
-    }
-
-    override fun configAvailable(availableAmount: Long, maturingAmount: Long, isEnablePrivacyMode: Boolean) {
-        available.text = availableAmount.convertToBeamString()
-        setTextColorWithPrivacyMode(availableTitle, isEnablePrivacyMode)
-
-        maturingGroup.visibility = if (maturingAmount == 0L || isEnablePrivacyMode) View.GONE else View.VISIBLE
-
-        when (maturingAmount) {
-            0L -> maturingGroup.visibility = View.GONE
-            else -> {
-                maturing.text = maturingAmount.convertToBeamString()
-                maturingGroup.visibility = View.VISIBLE
+            when (BalanceTab.values()[position]) {
+                BalanceTab.Available -> {
+                    availableTitle.setTextColor(selectedColor)
+                    maturingTitle.setTextColor(unselectedColor)
+                }
+                BalanceTab.Maturing -> {
+                    availableTitle.setTextColor(unselectedColor)
+                    maturingTitle.setTextColor(selectedColor)
+                }
             }
         }
     }
 
-    private fun setTextColorWithPrivacyMode(view: TextView, isEnablePrivacyMode: Boolean) {
-        val colorId = if (isEnablePrivacyMode) R.color.common_text_dark_color else R.color.common_text_color
-        view.setTextColor(resources.getColor(colorId, context?.theme))
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
+    override fun getToolbarTitle(): String? = getString(R.string.wallet)
+
+    override fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean) {
+        configAvailable(walletStatus.available, walletStatus.maturing, expandBalanceCard, isEnablePrivacyMode)
+        configInProgress(walletStatus.receiving, walletStatus.sending, expandInProgressCard, isEnablePrivacyMode)
     }
 
-    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, isEnablePrivacyMode: Boolean) {
+    override fun configAvailable(availableAmount: Long, maturingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+        balancePagerAdapter.available = availableAmount
+        balancePagerAdapter.maturing = maturingAmount
+
+        val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
+        balanceViewPager.visibility = contentVisibility
+        indicator.visibility = contentVisibility
+    }
+
+    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
         //nothing in progress
         if (receivingAmount == 0L && sendingAmount == 0L) {
             inProgressLayout.visibility = View.GONE
@@ -106,8 +107,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         } else {
             inProgressLayout.visibility = View.VISIBLE
         }
-
-        setTextColorWithPrivacyMode(inProgressTitle, isEnablePrivacyMode)
 
         if (isEnablePrivacyMode) {
             return
@@ -119,7 +118,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             }
             else -> {
                 receiving.text = receivingAmount.convertToBeamWithSign(false)
-                receivingGroup.visibility = View.VISIBLE
+                receivingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
             }
         }
 
@@ -127,7 +126,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             0L -> sendingGroup.visibility = View.GONE
             else -> {
                 sending.text = sendingAmount.convertToBeamWithSign(true)
-                sendingGroup.visibility = View.VISIBLE
+                sendingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
             }
         }
     }
@@ -143,6 +142,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
+    override fun showAllTransactions() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionsFragment())
+    }
+
     override fun init() {
         App.isAuthenticated = true
 
@@ -155,6 +158,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         drawerToggle = ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.open, R.string.close)
         drawerLayout.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
+
+        balancePagerAdapter = BalancePagerAdapter(context!!)
+        balanceViewPager.adapter = balancePagerAdapter
+
+        indicator.setViewPager(balanceViewPager)
 
         configNavView()
     }
@@ -179,53 +187,53 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             presenter?.onExpandAvailablePressed()
         }
 
-        clickableAvailableArea.setOnClickListener {
-            presenter?.onExpandAvailablePressed()
+        availableTitle.setOnClickListener {
+            balanceViewPager.setCurrentItem(BalanceTab.Available.ordinal, true)
         }
 
+        maturingTitle.setOnClickListener {
+            balanceViewPager.setCurrentItem(BalanceTab.Maturing.ordinal, true)
+        }
+
+        balanceViewPager.addOnPageChangeListener(onPageSelectedListener)
+        onPageSelectedListener.onPageSelected(balanceViewPager.currentItem)
 
         btnExpandInProgress.setOnClickListener {
             presenter?.onExpandInProgressPressed()
         }
 
-        clickableInProgressArea.setOnClickListener {
-            presenter?.onExpandInProgressPressed()
-        }
-
-        btnTransactionsMenu.setOnClickListener { view ->
-            presenter?.onTransactionsMenuButtonPressed(view)
-        }
-
         whereBuyBeamLink.setOnClickListener {
             presenter?.onWhereBuyBeamPressed()
+        }
+
+        btnShowAll.setOnClickListener {
+            presenter?.onShowAllPressed()
         }
     }
 
     override fun addTitleListeners(isEnablePrivacyMode: Boolean) {
         if (!isEnablePrivacyMode) {
-            availableTitle.setOnClickListener {
+            availableTitleContainer.setOnClickListener {
                 presenter?.onExpandAvailablePressed()
             }
 
-            inProgressTitle.setOnClickListener {
+            inProgressTitleContainer.setOnClickListener {
                 presenter?.onExpandInProgressPressed()
             }
         }
     }
 
     private fun clearTitleListeners() {
-        inProgressTitle.setOnClickListener(null)
-        availableTitle.setOnClickListener(null)
+        inProgressTitleContainer.setOnClickListener(null)
+        availableTitleContainer.setOnClickListener(null)
     }
 
     private fun initTransactionsList() {
         val context = context ?: return
 
-        adapter = TransactionsAdapter(context, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
-            override fun onItemClick(item: TxDescription) {
-                presenter?.onTransactionPressed(item)
-            }
-        })
+        adapter = TransactionsAdapter(context, mutableListOf()) {
+            presenter?.onTransactionPressed(it)
+        }
 
         transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter
@@ -234,8 +242,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
         beginTransition()
-        availableGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
-        maturingGroup.visibility = if (shouldExpandAvailable) View.GONE else View.VISIBLE
+
+
+        val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
+        balanceViewPager.visibility = contentVisibility
+        indicator.visibility = contentVisibility
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
@@ -251,54 +262,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             excludeChildren(receivingCurrency, true)
             excludeChildren(sendingCurrency, true)
         })
-    }
-
-    @SuppressLint("RestrictedApi")
-    override fun showTransactionsMenu(menu: View, emptyTransactionList: Boolean) {
-        val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
-        val transactionsMenu = PopupMenu(wrapper, menu)
-        transactionsMenu.inflate(R.menu.wallet_transactions_menu)
-
-        transactionsMenu.setOnMenuItemClickListener {
-            presenter?.onTransactionsMenuPressed(it) ?: false
-        }
-
-        transactionsMenu.menu.findItem(R.id.menu_export)?.isVisible = !emptyTransactionList
-
-        val menuHelper = MenuPopupHelper(wrapper, transactionsMenu.menu as MenuBuilder, menu)
-        menuHelper.setForceShowIcon(true)
-        menuHelper.gravity = Gravity.START
-        menuHelper.show()
-    }
-
-    override fun showSearchTransaction() {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSearchTransactionFragment())
-    }
-
-    override fun handleTransactionsMenu(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_search -> {
-                presenter?.onSearchPressed()
-                true
-            }
-            R.id.menu_filter -> {
-                presenter?.onFilterPressed()
-                true
-            }
-            R.id.menu_export -> {
-                presenter?.onExportPressed()
-                true
-            }
-            R.id.menu_delete -> {
-                presenter?.onDeletePressed()
-                true
-            }
-            R.id.menu_proof -> {
-                presenter?.onProofVerificationPressed()
-                true
-            }
-            else -> true
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -324,11 +287,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         activity?.invalidateOptionsMenu()
         adapter.setPrivacyMode(isEnable)
 
-        privacyGroupAvailable.visibility = if (isEnable) View.GONE else View.VISIBLE
-        privacyGroupInProgress.visibility = if (isEnable) View.GONE else View.VISIBLE
+        val visibility = if (isEnable) View.GONE else View.VISIBLE
 
-        setTextColorWithPrivacyMode(availableTitle, isEnable)
-        setTextColorWithPrivacyMode(inProgressTitle, isEnable)
+        btnExpandAvailable.visibility = visibility
+        btnExpandInProgress.visibility = visibility
 
         clearTitleListeners()
         addTitleListeners(isEnable)
@@ -349,9 +311,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnNext.setOnClickListener(null)
         btnExpandAvailable.setOnClickListener(null)
         btnExpandInProgress.setOnClickListener(null)
-        btnTransactionsMenu.setOnClickListener(null)
-        clickableAvailableArea.setOnClickListener(null)
-        clickableInProgressArea.setOnClickListener(null)
+        availableTitleContainer.setOnClickListener(null)
+        inProgressTitleContainer.setOnClickListener(null)
+        availableTitle.setOnClickListener(null)
+        maturingTitle.setOnClickListener(null)
+        btnShowAll.setOnClickListener(null)
+        balanceViewPager.removeOnPageChangeListener(onPageSelectedListener)
         clearTitleListeners()
         whereBuyBeamLink.setOnClickListener(null)
     }
@@ -362,24 +327,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()
-    }
-
-    override fun showShareFileChooser(file: File) {
-        val context = context ?: return
-
-        val uri = FileProvider.getUriForFile(context, AppConfig.AUTHORITY, file)
-
-        val intent = Intent().apply {
-            action = Intent.ACTION_SEND
-            type = "text/csv"
-            putExtra(Intent.EXTRA_STREAM, uri)
-        }
-
-        startActivity(Intent.createChooser(intent, getString(R.string.common_share_title)))
-    }
-
-    override fun showProofVerification() {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())
     }
 
     private fun configNavView() {

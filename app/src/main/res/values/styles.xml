@@ -138,7 +138,6 @@
     <style name="wallet_card_title_style" parent="common_header_big">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:background">@color/colorPrimary</item>
         <item name="android:paddingEnd">@dimen/wallet_expandable_icon_padding</item>
     </style>
 

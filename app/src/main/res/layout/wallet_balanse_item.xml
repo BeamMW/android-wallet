@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/currencyIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_beam"
+        app:layout_constraintBottom_toBottomOf="@id/balance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/balance" />
+
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
+        android:fontFamily="sans-serif"
+        android:paddingStart="@dimen/wallet_card_text_padding_start"
+        android:paddingEnd="@dimen/wallet_card_text_padding_end"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/wallet_sum_text_size"
+        app:layout_constraintStart_toEndOf="@id/currencyIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="125.9898776890000" />
+
+    <ImageView
+        android:id="@+id/balanceCurrency"
+        style="@style/common_currency_style"
+        android:contentDescription="@null"
+        app:layout_constraintBottom_toBottomOf="@id/balance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/balance"
+        app:layout_constraintTop_toTopOf="@id/balance"
+        app:layout_constraintVertical_bias="0"
+        app:srcCompat="@drawable/currency_beam" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

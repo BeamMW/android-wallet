@@ -18,14 +18,11 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
 
 
@@ -63,15 +60,16 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
-        state.shouldExpandAvailable = state.privacyMode
-        state.shouldExpandInProgress = state.privacyMode
 
-        view?.handleExpandAvailable(state.privacyMode)
-        view?.handleExpandInProgress(state.privacyMode)
-
-        if (!privacyModeEnabled) {
-           state.walletStatus?.let { view?.configWalletStatus(it, privacyModeEnabled) }
+        if (state.privacyMode) {
+            state.shouldExpandAvailable = state.privacyMode
+            state.shouldExpandInProgress = state.privacyMode
         }
+
+        view?.handleExpandAvailable(state.shouldExpandAvailable)
+        view?.handleExpandInProgress(state.shouldExpandInProgress)
+
+        state.walletStatus?.let { view?.configWalletStatus(it, !state.shouldExpandAvailable, !state.shouldExpandInProgress, privacyModeEnabled) }
     }
 
     override fun onChangePrivacyModePressed() {
@@ -123,6 +121,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showTransactionDetails(txDescription.id)
     }
 
+    override fun onShowAllPressed() {
+        view?.showAllTransactions()
+    }
+
     override fun onExpandAvailablePressed() {
         if (state.privacyMode) {
             return
@@ -131,9 +133,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.shouldExpandAvailable = !state.shouldExpandAvailable
         view?.handleExpandAvailable(state.shouldExpandAvailable)
 
-        if (!state.shouldExpandAvailable) {
-            view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing ?: 0, state.privacyMode)
-        }
+//        if (!state.shouldExpandAvailable) {
+        view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing
+                ?: 0, !state.shouldExpandAvailable, state.privacyMode)
+//        }
     }
 
     override fun onExpandInProgressPressed() {
@@ -144,50 +147,17 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.shouldExpandInProgress = !state.shouldExpandInProgress
         view?.handleExpandInProgress(state.shouldExpandInProgress)
 
-        if (!state.shouldExpandInProgress) {
-            view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending
-                    ?: 0, state.privacyMode)
-        }
+        view?.configInProgress(state.walletStatus?.receiving ?: 0, state.walletStatus?.sending
+                ?: 0, !state.shouldExpandInProgress, state.privacyMode)
     }
 
-    override fun onTransactionsMenuButtonPressed(menu: View) {
-        view?.showTransactionsMenu(menu, state.getTransactions().isNullOrEmpty())
-    }
-
-    override fun onTransactionsMenuPressed(item: MenuItem): Boolean {
-        return view?.handleTransactionsMenu(item) ?: false
-    }
-
-    override fun onSearchPressed() {
-        view?.showSearchTransaction()
-    }
-
-    override fun onFilterPressed() = toDo()
-    override fun onDeletePressed() = toDo()
-
-    override fun onExportPressed() {
-        val file = repository.getTransactionsFile()
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(TransactionFields.HEAD_LINE)
-
-        state.getTransactions().forEach {
-            stringBuilder.append(TransactionFields.formatTransaction(it))
-        }
-        file.writeBytes(stringBuilder.toString().toByteArray())
-
-        view?.showShareFileChooser(file)
-    }
-
-    override fun onProofVerificationPressed() {
-        view?.showProofVerification()
-    }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
         walletStatusSubscription = repository.getWalletStatus().subscribe {
             state.walletStatus = it
-            view?.configWalletStatus(it, state.privacyMode)
+            view?.configWalletStatus(it, !state.shouldExpandAvailable, !state.shouldExpandInProgress, state.privacyMode)
         }
 
         txStatusSubscription = repository.getTxStatus().subscribe { data ->
@@ -211,7 +181,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
                     view?.configTransactions(state.updateTransactions(it.data.transactions), state.privacyMode)
                 }
 
-                TrashManager.ActionType.Removed -> {}
+                TrashManager.ActionType.Removed -> {
+                }
             }
         }
     }
@@ -222,10 +193,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, trashSubscription)
-
-    private fun toDo() {
-        view?.showSnackBar("Coming soon...")
-    }
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

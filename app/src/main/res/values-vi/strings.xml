@@ -390,4 +390,5 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="empty_address_list">Danh sách địa chỉ của bạn trống</string>
     <string name="empty_contacts_list">Danh sách liên hệ của bạn trống</string>
     <string name="version">Version %1$s</string>
+    <string name="show_all">Show all</string>
 </resources>

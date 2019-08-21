@@ -393,4 +393,5 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="empty_address_list">Tu lista de direcciones está vacía</string>
     <string name="empty_contacts_list">Tu lista de contactos está vacia</string>
     <string name="version">Version %1$s</string>
+    <string name="show_all">Show all</string>
 </resources>

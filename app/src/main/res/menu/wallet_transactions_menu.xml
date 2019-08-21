@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-        <item
-            android:id="@+id/menu_search"
-            android:icon="@drawable/menu_search"
-            android:title="@string/search" />
-        <item
-            android:id="@+id/menu_filter"
-            android:icon="@drawable/menu_filter"
-            android:visible="false"
-            android:title="@string/filter" />
-        <item
-            android:id="@+id/menu_export"
-            android:icon="@drawable/menu_export"
-            android:title="@string/export" />
-        <item
-            android:id="@+id/menu_proof"
-            android:icon="@drawable/ic_proof"
-            android:title="@string/payment_proof"/>
-        <item
-            android:id="@+id/menu_delete"
-            android:visible="false"
-            android:icon="@drawable/menu_delete"
-            android:title="@string/delete_transaction" />
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more"
+        android:title="@string/more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/menu_search"
+                android:icon="@drawable/menu_search"
+                android:title="@string/search" />
+            <item
+                android:id="@+id/menu_filter"
+                android:icon="@drawable/menu_filter"
+                android:title="@string/filter"
+                android:visible="false" />
+            <item
+                android:id="@+id/menu_export"
+                android:icon="@drawable/menu_export"
+                android:title="@string/export" />
+            <item
+                android:id="@+id/menu_proof"
+                android:icon="@drawable/ic_proof"
+                android:title="@string/payment_proof" />
+            <item
+                android:id="@+id/menu_delete"
+                android:icon="@drawable/menu_delete"
+                android:title="@string/delete_transaction"
+                android:visible="false" />
+        </menu>
+    </item>
 </menu>

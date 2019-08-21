@@ -248,19 +248,12 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
         <action
-            android:id="@+id/action_walletFragment_to_proofVerificationFragment"
-            app:destination="@id/proofVerificationFragment"
+            android:id="@+id/action_walletFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
-        <action
-            android:id="@+id/action_walletFragment_to_searchTransactionFragment"
-            app:destination="@id/searchTransactionFragment"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -789,6 +782,33 @@
         <action
             android:id="@+id/action_restoreOwnerKeyFragment_to_restoreTustedNodeFragment"
             app:destination="@id/restoreTustedNodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionsFragment"
+        tools:layout="@layout/fragment_transactions"
+        android:name="com.mw.beam.beamwallet.screens.transactions.TransactionsFragment"
+        android:label="TransactionsFragment" >
+        <action
+            android:id="@+id/action_transactionsFragment_to_searchTransactionFragment"
+            app:destination="@id/searchTransactionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_transactionsFragment_to_proofVerificationFragment"
+            app:destination="@id/proofVerificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_transactionsFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
