@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/wallet_available_margin_top"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/wallet_state_card_backgroud"
                     android:paddingTop="@dimen/common_card_padding"
                     android:paddingStart="@dimen/common_card_padding"
                     android:paddingEnd="@dimen/common_card_padding"
@@ -150,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
-                    android:background="@color/colorPrimaryDark"
+                    android:background="@drawable/wallet_state_card_backgroud"
                     android:padding="@dimen/common_card_padding"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/availableLayout">
