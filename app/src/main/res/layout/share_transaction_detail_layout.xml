@@ -171,10 +171,10 @@
                 android:id="@+id/transaction_fee"
                 style="@style/share_transaction_details_parameter"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/transaction_fee"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/transaction_id" />
+                app:layout_constraintTop_toBottomOf="@+id/transaction_id_value" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/txInfoBarrier"
