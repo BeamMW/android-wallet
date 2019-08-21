@@ -128,7 +128,7 @@
     <string name="cancelled">İptal edildi</string>
     <string name="pending">Beklemede</string>
     <string name="transactions">İşlemler</string>
-    <string name="wallet_empty_transactions_list_message">İşlem geçmişiniz burada gözükecek</string>
+    <string name="wallet_empty_transactions_list_message">İşlem listeniz boş</string>
     <string name="search">Ara</string>
     <string name="filter">Filtrele</string>
     <string name="export">Dışa aktar</string>
@@ -390,6 +390,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="selected">Selected</string>
     <string name="empty_address_list">Adres listeniz boş</string>
     <string name="empty_contacts_list">İşlem listeniz boş</string>
+    <string name="empty_utxo_list">UTXO listeniz boş</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
 </resources>

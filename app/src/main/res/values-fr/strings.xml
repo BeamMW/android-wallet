@@ -131,7 +131,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="cancelled">Annulé</string>
     <string name="pending">En cours</string>
     <string name="transactions">Transactions</string>
-    <string name="wallet_empty_transactions_list_message">Votre historique de transaction apparaitra ici</string>
+    <string name="wallet_empty_transactions_list_message">Votre historique de transaction est vide</string>
     <string name="search">Rechercher</string>
     <string name="filter">Filtre</string>
     <string name="export">Exporter</string>
@@ -392,6 +392,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="selected">Selected</string>
     <string name="empty_address_list">Votre carnet d\'adresses est vide</string>
     <string name="empty_contacts_list">Votre liste de contacts est vide</string>
+    <string name="empty_utxo_list">Votre liste d\'UTXO est vide</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
 </resources>

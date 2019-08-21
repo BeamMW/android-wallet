@@ -67,7 +67,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Abre tu wallet</string>
     <string name="enter_your_password_to_access_the_wallet">Introduce tu contraseña para acceder al wallet.</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Utiliza huella digital o introduce tu contraseña para acceder al wallet.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Su frase semilla es la clave de acceso a todas las criptomonedas en su wallet. Imprime o escribe la frase para guardarla en un lugar seguro o caja de seguridad. Sin la frase no podrás recuperar tu dinero.</string>
     <string name="welcome_seed_title">Frase semilla</string>
@@ -130,7 +130,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="cancelled">Cancelado</string>
     <string name="pending">Pendiente</string>
     <string name="transactions">Transacciones</string>
-    <string name="wallet_empty_transactions_list_message">Su historial de transacciones aparecerá aquí</string>
+    <string name="wallet_empty_transactions_list_message">Tu lista de transacciones está vacía</string>
     <string name="search">Buscar</string>
     <string name="filter">Filtrar</string>
     <string name="export">Exportar</string>
@@ -246,7 +246,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="minute">minuto</string>
     <string name="settings_ask_password_on_send">Pedir contraseña en cada envío</string>
     <string name="settings_run_random_node">Conectar al nodo aleatorio</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_enable_fingerprint">Activar el sensor de huellas dactilares</string>
     <string name="settings_allow_open_link">Permitir abrir enlace externo</string>
     <string name="settings_dialog_node_error">Dirección de nodo inválida</string>
     <string name="settings_dialog_node_title">Dirección del nodo</string>
@@ -322,7 +322,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="notification_channel_name">Canal de notificación</string>
     <string name="notification_channel_description">Canal de notificación predeterminado</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Toca el sensor de huella digital</string>
     <string name="fingerprint_id">ID Huella dactilar</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Cambiar dirección</string>
@@ -386,12 +386,13 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="tags">Etiquetas</string>
     <string name="add_new_tag">Añadir nueva etiqueta</string>
     <string name="initiated">Iniciado</string>
-    <string name="latest_confirmation">Latest confirmation</string>
+    <string name="latest_confirmation">Última confirmación</string>
     <string name="share_transaction">Compartir transacción</string>
     <string name="paste">Pegar</string>
-    <string name="selected">Selected</string>
+    <string name="selected">Seleccionado</string>
     <string name="empty_address_list">Tu lista de direcciones está vacía</string>
     <string name="empty_contacts_list">Tu lista de contactos está vacia</string>
-    <string name="version">Version %1$s</string>
+    <string name="empty_utxo_list">Tu lista de UTXO está vacía</string>
+    <string name="version">Versión %1$s</string>
     <string name="show_all">Show all</string>
 </resources>

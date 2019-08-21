@@ -128,7 +128,7 @@
     <string name="cancelled">Avbruten</string>
     <string name="pending">Väntande</string>
     <string name="transactions">Transaktioner</string>
-    <string name="wallet_empty_transactions_list_message">Dina transaktioner kommer att visas här</string>
+    <string name="wallet_empty_transactions_list_message">Din transaktions-lista är tom</string>
     <string name="search">Sök</string>
     <string name="filter">Filtrera</string>
     <string name="export">Exportera</string>
@@ -387,6 +387,7 @@
     <string name="selected">Selected</string>
     <string name="empty_address_list">Din adress-lista är tom</string>
     <string name="empty_contacts_list">Din kontakt-lista är tom</string>
+    <string name="empty_utxo_list">Din UTXO-lista är tom</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
 </resources>
