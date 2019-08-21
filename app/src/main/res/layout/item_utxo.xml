@@ -13,81 +13,43 @@
 
     <TextView
         android:id="@+id/amount"
-        style="@style/common_text_big_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:fontFamily="@font/roboto_medium"
         android:gravity="start"
-        android:textSize="@dimen/utxo_item_amount_text_size"
-        app:layout_constraintBottom_toTopOf="@id/addressId"
+        android:textColor="#FFFFFF"
+        android:textSize="19sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="10" />
 
     <ImageView
         android:id="@+id/currency"
         style="@style/common_currency_style"
+        android:layout_width="11dp"
+        android:layout_height="16dp"
+        android:layout_marginStart="5dp"
         android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="@id/amount"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toEndOf="@id/amount"
-        app:layout_constraintTop_toTopOf="@id/amount"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
         app:srcCompat="@drawable/currency_beam" />
-
-    <TextView
-        android:id="@+id/addressId"
-        style="@style/common_text_big_dark"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:paddingTop="@dimen/utxo_item_offset_top"
-        android:paddingEnd="@dimen/utxo_item_padding"
-        app:layout_constraintBottom_toTopOf="@id/label"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amount"
-        tools:ignore="RtlSymmetry" />
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:paddingTop="@dimen/utxo_item_offset_top"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addressId" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="status, detailedStatus" />
 
     <TextView
         android:id="@+id/status"
         style="@style/common_text_small_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/roboto_italic"
+        android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@id/detailedStatus"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="@+id/amount"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="@string/unavailable" />
 
-    <TextView
-        android:id="@+id/detailedStatus"
-        style="@style/common_text_small_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status" />
 </androidx.constraintlayout.widget.ConstraintLayout>

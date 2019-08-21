@@ -64,36 +64,24 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
 
         holder.apply {
             status.setTextColor(when (utxo.status) {
-                UtxoStatus.Maturing, UtxoStatus.Incoming -> receivedColor
-                UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> sentColor
-                UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
+                UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
             })
 
             status.text = when (utxo.status) {
-                UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> inProgressStatus
+                UtxoStatus.Incoming -> incomingStatus
+                UtxoStatus.Change -> changeStatus
+                UtxoStatus.Outgoing -> outgoingStatus
                 UtxoStatus.Maturing -> maturingStatus
                 UtxoStatus.Spent -> spentStatus
                 UtxoStatus.Available -> availableStatus
                 UtxoStatus.Unavailable -> unavailableStatus
             }.toLowerCase() + " "
 
-            detailedStatus.visibility = View.VISIBLE
-            detailedStatus.text = "(" + when (utxo.status) {
-                UtxoStatus.Incoming -> incomingStatus
-                UtxoStatus.Change -> changeStatus
-                UtxoStatus.Outgoing -> outgoingStatus
-                UtxoStatus.Unavailable -> resultRollbackStatus
-                UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
-                    detailedStatus.visibility = View.GONE
-                    "" //TODO add correct description for maturing
-                }
-            }.toLowerCase() + ") "
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()
-            //TODO hidden till correct id
-            // id.text = utxo.stringId
-            addressId.visibility = View.GONE
         }
     }
 

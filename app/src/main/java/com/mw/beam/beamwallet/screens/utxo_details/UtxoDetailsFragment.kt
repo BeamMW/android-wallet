@@ -73,17 +73,17 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }.toLowerCase() + " "
 
-        detailedStatus.visibility = View.VISIBLE
-        detailedStatus.text = "(" + when (utxo.status) {
-            UtxoStatus.Incoming -> getString(R.string.incoming)
-            UtxoStatus.Change -> getString(R.string.change)
-            UtxoStatus.Outgoing -> getString(R.string.outgoing)
-            UtxoStatus.Unavailable -> getString(R.string.utxo_status_result_rollback)
-            UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
-                detailedStatus.visibility = View.GONE
-                "" //TODO add correct description for maturing
-            }
-        }.toLowerCase() + ") "
+//        detailedStatus.visibility = View.VISIBLE
+//        detailedStatus.text = "(" + when (utxo.status) {
+//            UtxoStatus.Incoming -> getString(R.string.incoming)
+//            UtxoStatus.Change -> getString(R.string.change)
+//            UtxoStatus.Outgoing -> getString(R.string.outgoing)
+//            UtxoStatus.Unavailable -> getString(R.string.utxo_status_result_rollback)
+//            UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
+//                detailedStatus.visibility = View.GONE
+//                "" //TODO add correct description for maturing
+//            }
+//        }.toLowerCase() + ") "
 
         amount.text = utxo.amount.convertToBeamString()
         utxoLayout.findViewById<TextView>(R.id.addressId).text = utxo.stringId

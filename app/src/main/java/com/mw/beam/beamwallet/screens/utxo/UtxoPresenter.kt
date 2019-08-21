@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.utxo
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
 
@@ -30,6 +31,9 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         UtxoContract.Presenter {
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var blockchainInfoSubscription: Disposable
+    private lateinit var txStatusSubscription: Disposable
+
+    private var allUtxos = mutableListOf<Utxo>()
 
     var utxosCount = 0
 
@@ -82,13 +86,45 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
             utxosCount = utxos.count()
-            view?.updateUtxos(utxos.reversed())
+            allUtxos.clear()
+            allUtxos.addAll(utxos)
+            filter()
         }
 
         blockchainInfoSubscription = repository.getWalletStatus().subscribe { walletStatus ->
             view?.updateBlockchainInfo(walletStatus.system)
         }
 
+        txStatusSubscription = repository.getTxStatus().subscribe { data ->
+            state.updateTransactions(data.tx)
+            state.deleteTransactions(repository.getAllTransactionInTrash())
+            if (utxosCount > 0) {
+                filter()
+            }
+        }
+    }
+
+    private fun filter() {
+        val transactions = state.getTransactions()
+
+        var sortByDate = false
+
+        allUtxos.forEach {
+            var transaction = transactions.filter { s -> s.id == it.createTxId || s.id == it.spentTxId }.firstOrNull()
+            if (transaction != null) {
+                sortByDate = true
+                it.transactionDate = transaction.createTime
+                it.transactionComment = transaction.message
+            }
+        }
+
+        allUtxos.sortByDescending { it.id  }
+
+        if (sortByDate) {
+            allUtxos.sortByDescending { it.transactionDate  }
+        }
+
+        view?.updateUtxos(allUtxos)
     }
 
     override fun onDestroy() {
@@ -96,7 +132,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription, txStatusSubscription)
 
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true

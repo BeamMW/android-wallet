@@ -21,9 +21,9 @@ import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.SystemState
-import com.mw.beam.beamwallet.core.entities.Utxo
-import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.helpers.TrashManager
+import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
@@ -52,5 +52,8 @@ interface UtxoContract {
         fun getUtxoUpdated(): Subject<List<Utxo>>
         fun getWalletStatus(): Subject<WalletStatus>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
+        fun getTxStatus(): Observable<OnTxStatusData>
+        fun getTrashSubject(): Subject<TrashManager.Action>
+        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }
