@@ -89,50 +89,52 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
+            android:layout_gravity="center_horizontal"
+            app:tabMode="scrollable"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/blockchainInfoCard"
-            app:tabSelectedTextColor="@color/colorAccent" />
+            app:tabSelectedTextColor="@color/address_tab_text_color"
+            app:tabTextAppearance="@style/common_subheader_dark"
+            app:tabTextColor="@color/address_tab_text_color" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/utxoPrivacyMessage"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/privacyIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:src="@drawable/ic_eye_crossed_big"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/privacyMessage"
-            style="@style/common_text_big_dark"
+        <LinearLayout
+            android:id="@+id/utxoPrivacyMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/utxo_item_padding"
-            android:text="@string/utxo_security_message"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="40dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/pager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/privacyIcon"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/pager">
+
+            <TextView
+                android:id="@+id/privacyLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:drawableTop="@drawable/ic_eye_crossed_big"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/proxima_regular"
+                android:text="@string/utxo_security_message"
+                android:textAlignment="center"
+                android:textColor="@color/common_text_dark_color"
+                android:textSize="14sp" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

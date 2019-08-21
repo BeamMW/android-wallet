@@ -31,6 +31,8 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var blockchainInfoSubscription: Disposable
 
+    var utxosCount = 0
+
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
@@ -79,6 +81,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         super.initSubscriptions()
 
         utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
+            utxosCount = utxos.count()
             view?.updateUtxos(utxos.reversed())
         }
 

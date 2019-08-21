@@ -63,9 +63,19 @@ class AddressesAdapter(private val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_address, parent, false)).apply {
         this.containerView.setOnClickListener {
-            if (mode == AddressesFragment.Mode.NONE)
+            clickListener.onItemClick(data[adapterPosition])
+
+            if (mode == AddressesFragment.Mode.EDIT)
             {
-                clickListener.onItemClick(data[adapterPosition])
+                if (selectedAddresses.contains(data[adapterPosition].walletID))
+                {
+                    selectedAddresses.remove(data[adapterPosition].walletID)
+                }
+                else{
+                    selectedAddresses.add(data[adapterPosition].walletID)
+                }
+
+                notifyItemChanged(adapterPosition)
             }
         }
 

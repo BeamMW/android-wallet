@@ -78,9 +78,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
-
-        utxoScreen.visibility = if (isEnable) View.GONE else View.VISIBLE
-        utxoPrivacyMessage.visibility = if (isEnable) View.VISIBLE else View.GONE
+        setVisibility()
     }
 
     override fun showUtxoDetails(utxo: Utxo) {
@@ -88,8 +86,11 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun updateUtxos(utxos: List<Utxo>) {
-        pagerAdapter.setData(Tab.ACTIVE, utxos.filter { it.status == UtxoStatus.Available || it.status == UtxoStatus.Maturing })
-        pagerAdapter.setData(Tab.ALL, utxos)
+        pagerAdapter.setData(Tab.SPENT, utxos.filter { it.status == UtxoStatus.Spent})
+        pagerAdapter.setData(Tab.AVAILABLE, utxos.filter { it.status == UtxoStatus.Available})
+        pagerAdapter.setData(Tab.PROGRESS, utxos.filter { it.status == UtxoStatus.Maturing || it.status == UtxoStatus.Incoming || it.status == UtxoStatus.Outgoing})
+        pagerAdapter.setData(Tab.UNAVAILABLE, utxos.filter { it.status == UtxoStatus.Unavailable})
+        setVisibility()
     }
 
     override fun updateBlockchainInfo(systemState: SystemState) {
@@ -99,5 +100,35 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
+    }
+
+    private fun setVisibility() {
+        if (presenter?.repository?.isPrivacyModeEnabled() == false) {
+
+            utxoPrivacyMessage.setPadding(0,0,0,170)
+
+            privacyLabel.text = context?.getString(R.string.empty_utxo_list)
+            privacyLabel.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_utxo_empty_state, 0, 0);
+
+            if (presenter?.utxosCount == 0) {
+                utxoPrivacyMessage.visibility = View.VISIBLE
+                pager.visibility = View.GONE
+                tabLayout.visibility = View.INVISIBLE
+            } else {
+                utxoPrivacyMessage.visibility = View.GONE
+                pager.visibility = View.VISIBLE
+                tabLayout.visibility = View.VISIBLE
+            }
+        }
+        else{
+            utxoPrivacyMessage.setPadding(0,0,0,50)
+
+            privacyLabel.text = context?.getString(R.string.utxo_security_message)
+            privacyLabel.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_eye_crossed_big, 0, 0);
+
+            utxoPrivacyMessage.visibility = View.VISIBLE
+            pager.visibility = View.GONE
+            tabLayout.visibility = View.GONE
+        }
     }
 }

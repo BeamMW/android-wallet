@@ -179,7 +179,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
         if (selectedAddresses.count() == 0)
         {
-            setMenuVisibility(false)
+            cancelSelectedAddresses()
         }
         else{
             setMenuVisibility(true)
