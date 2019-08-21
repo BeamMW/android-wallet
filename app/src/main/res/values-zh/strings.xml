@@ -141,7 +141,7 @@
     <string name="cancelled">已取消</string>
     <string name="pending">待确认</string>
     <string name="transactions">交易</string>
-    <string name="wallet_empty_transactions_list_message">您的交易历史记录将在此处显示</string>
+    <string name="wallet_empty_transactions_list_message">交易列表是空的</string>
     <string name="search">搜索</string>
     <string name="filter">筛选</string>
     <string name="export">导出</string>
@@ -407,6 +407,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="selected">Selected</string>
     <string name="empty_address_list">地址列表是空的</string>
     <string name="empty_contacts_list">联系人列表是空的</string>
+    <string name="empty_utxo_list">UTXO列表是空的</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
 </resources>

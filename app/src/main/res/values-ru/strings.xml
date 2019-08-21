@@ -128,7 +128,7 @@
     <string name="cancelled">Отменено</string>
     <string name="pending">Ожидание</string>
     <string name="transactions">Транзакции</string>
-    <string name="wallet_empty_transactions_list_message">Здесь будет показана история ваших транзакций</string>
+    <string name="wallet_empty_transactions_list_message">Ваш список транзакций пуст</string>
     <string name="search">Поиск</string>
     <string name="filter">Фильтр</string>
     <string name="export">Экспорт</string>
@@ -389,6 +389,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="selected">Selected</string>
     <string name="empty_address_list">Ваш список адресов пуст</string>
     <string name="empty_contacts_list">Ваш список контактов пуст</string>
+    <string name="empty_utxo_list">Ваш список UTXO пуст</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
 </resources>

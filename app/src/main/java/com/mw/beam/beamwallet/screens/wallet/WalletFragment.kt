@@ -231,7 +231,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private fun initTransactionsList() {
         val context = context ?: return
 
-        adapter = TransactionsAdapter(context, mutableListOf()) {
+        adapter = TransactionsAdapter(context, mutableListOf(), true) {
             presenter?.onTransactionPressed(it)
         }
 

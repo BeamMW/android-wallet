@@ -101,8 +101,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     @SuppressLint("SetTextI18n")
     override fun init() {
 
-        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context, R.layout.receive_expire_spinner_item,strings) {
+        val strings = context!!.resources.getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context!!, R.layout.receive_expire_spinner_item,strings) {
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
 
                 val view = View.inflate(context,R.layout.receive_expire_spinner_item,null)

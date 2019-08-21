@@ -38,9 +38,10 @@ import java.util.regex.Pattern
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val clickListener: (TxDescription) -> Unit) :
+class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
-    private val beamResId = R.drawable.ic_beam
+    private val sendIconId = R.drawable.ic_icon_sent
+    private val receivedIconId = R.drawable.ic_icon_received
     private val colorSpan by lazy { ForegroundColorSpan(context.resources.getColor(R.color.common_text_color, context.theme)) }
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
@@ -69,7 +70,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             message.text = "$messageStatus ${currencyBeam.toUpperCase()}" //TODO replace when multiply currency will be available
 
             itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
-            icon.setImageResource(beamResId)
+            icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)
 
@@ -110,7 +111,31 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 }
             }
 
-            searchTextView.visibility = if (isContainsSearchString) View.VISIBLE else View.GONE
+            if (compactMode) {
+                commentIcon.visibility = View.GONE
+                searchTextView.visibility = View.GONE
+                date.visibility = View.GONE
+            } else {
+                date.visibility = View.VISIBLE
+
+                when {
+                    isContainsSearchString -> {
+                        commentIcon.visibility = View.VISIBLE
+                        searchTextView.visibility = if (isContainsSearchString) View.VISIBLE else View.GONE
+                    }
+                    transaction.message.isNotBlank() -> {
+                        commentIcon.visibility = View.VISIBLE
+                        searchTextView.text = transaction.message
+                        searchTextView.setTextColor(ContextCompat.getColor(context, R.color.common_text_dark_color))
+                        searchTextView.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        commentIcon.visibility = View.GONE
+                        searchTextView.visibility = View.GONE
+                    }
+                }
+            }
+
         }
     }
 

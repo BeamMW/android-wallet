@@ -47,16 +47,16 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
     }
 
     override fun onSearchTextChanged(text: String) {
-        state.searchText = text.trim()
+        state.searchText = text.trim().toLowerCase()
 
         view?.setClearButtonVisible(state.searchText.isNotBlank())
 
         val transactions = if (state.searchText.isNotBlank()) {
             state.getAllTransactions().filter {
-                it.id.contains(state.searchText) ||
-                        it.peerId.contains(state.searchText) ||
-                        it.myId.contains(state.searchText) ||
-                        it.message.contains(state.searchText)
+                it.id.toLowerCase().contains(state.searchText) ||
+                        it.peerId.toLowerCase().contains(state.searchText) ||
+                        it.myId.toLowerCase().contains(state.searchText) ||
+                        it.message.toLowerCase().contains(state.searchText)
             }
         } else {
             listOf()

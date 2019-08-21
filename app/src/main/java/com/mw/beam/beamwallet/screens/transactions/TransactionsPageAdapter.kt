@@ -32,10 +32,10 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 class TransactionsPageAdapter(private val context: Context, onTxClickListener: (TxDescription) -> Unit): androidx.viewpager.widget.PagerAdapter()  {
 
     private var transactions: List<TxDescription> = listOf()
-    private val allTxAdapter = TransactionsAdapter(context, listOf(), onTxClickListener)
-    private val inProgressTxAdapter = TransactionsAdapter(context, listOf(), onTxClickListener)
-    private val sentTxAdapter = TransactionsAdapter(context, listOf(), onTxClickListener)
-    private val receivedTxAdapter = TransactionsAdapter(context, listOf(), onTxClickListener)
+    private val allTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
+    private val inProgressTxAdapter = TransactionsAdapter(context, listOf(),false, onTxClickListener)
+    private val sentTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
+    private val receivedTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup

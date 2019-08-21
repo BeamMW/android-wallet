@@ -65,7 +65,7 @@
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Open uw portemonnee</string>
     <string name="enter_your_password_to_access_the_wallet">Voer uw wachtwoord in om toegang te krijgen tot de portemonnee.</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Gebruik Vingerafdruk of voer uw wachtwoord in om toegang te krijgen tot de portemonnee.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Uw herstelzin is de toegangssleutel tot alle tegoeden in uw portemonnee. Print de zin uit of schrijf deze op en bewaar de zin op een veilige plaats zoals in een kluis. Zonder de zin kunt u uw portemonnee, en dus uw tegoeden, niet herstellen.</string>
     <string name="welcome_seed_title">Herstelzin</string>
@@ -128,7 +128,7 @@
     <string name="cancelled">Geannuleerd</string>
     <string name="pending">In afwachting</string>
     <string name="transactions">Transacties</string>
-    <string name="wallet_empty_transactions_list_message">Uw transactiegeschiedenis zal hier verschijnen</string>
+    <string name="wallet_empty_transactions_list_message">Uw transactielijst is leeg</string>
     <string name="search">Zoeken</string>
     <string name="filter">Filter</string>
     <string name="export">Exporteren</string>
@@ -244,7 +244,7 @@
     <string name="minute">minuut</string>
     <string name="settings_ask_password_on_send">Vraag om wachtwoord bij elke verzending</string>
     <string name="settings_run_random_node">Verbinden met willekeurige node</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_enable_fingerprint">Vingerafdrukontgrendeling inschakelen</string>
     <string name="settings_allow_open_link">Externe link openen toestaan</string>
     <string name="settings_dialog_node_error">Ongeldig node adres</string>
     <string name="settings_dialog_node_title">Node adres</string>
@@ -317,7 +317,7 @@
     <string name="notification_channel_name">Notificatie Kanaal</string>
     <string name="notification_channel_description">Standaard notificatie kanaal</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Raak de vingerafdruksensor aan</string>
     <string name="fingerprint_id">Vingerafdruk ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Adres wijzigen</string>
@@ -381,12 +381,13 @@
     <string name="tags">Labels</string>
     <string name="add_new_tag">Nieuw label toevoegen</string>
     <string name="initiated">Geïnitieerd</string>
-    <string name="latest_confirmation">Latest confirmation</string>
+    <string name="latest_confirmation">Laatste bevestiging</string>
     <string name="share_transaction">Deel transactie</string>
     <string name="paste">Plakken</string>
-    <string name="selected">Selected</string>
+    <string name="selected">Geselecteerd</string>
     <string name="empty_address_list">Uw adressenlijst is leeg</string>
     <string name="empty_contacts_list">Uw contactlijst is leeg</string>
-    <string name="version">Version %1$s</string>
+    <string name="empty_utxo_list">Uw UTXO lijst is leeg</string>
+    <string name="version">Versie %1$s</string>
     <string name="show_all">Show all</string>
 </resources>
