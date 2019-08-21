@@ -322,7 +322,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="notification_channel_name">Canal de notificación</string>
     <string name="notification_channel_description">Canal de notificación predeterminado</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">ID Huella dactilar</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Cambiar dirección</string>

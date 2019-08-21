@@ -334,7 +334,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">通知频道</string>
     <string name="notification_channel_description">默认通知频道</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">指纹ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">找零地址</string>

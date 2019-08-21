@@ -319,7 +319,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">알림 채널</string>
     <string name="notification_channel_description">고정 알림 채널</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch sensor</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">지문 ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">주소 바꾸기</string>

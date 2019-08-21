@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,9 +14,9 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_marginTop="@dimen/welcome_logo_small_margin_top"
             android:layout_width="@dimen/welcome_small_logo_width"
             android:layout_height="@dimen/welcome_small_logo_height"
+            android:layout_marginTop="@dimen/welcome_logo_small_margin_top"
             android:contentDescription="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,41 +82,43 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/btnTouch"
+            android:layout_width="@dimen/fingerprint_card_size"
+            android:layout_height="@dimen/fingerprint_card_size"
             android:layout_marginTop="@dimen/common_alert_dialog_margin"
-            app:layout_constraintTop_toBottomOf="@id/btnOpen"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:cardBackgroundColor="@color/fingerprint_card_background_color"
             app:cardCornerRadius="@dimen/fingerprint_card_corner_radius"
-            android:layout_width="@dimen/fingerprint_card_size"
-            android:layout_height="@dimen/fingerprint_card_size">
+            app:layout_constraintBottom_toTopOf="@id/btnChange"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnOpen"
+            app:layout_constraintVertical_chainStyle="spread">
 
             <ImageView
                 android:id="@+id/fingerprintImage"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_touch"
                 android:layout_width="@dimen/fingerprint_icon_size"
                 android:layout_height="@dimen/fingerprint_icon_size"
-                android:contentDescription="@null" />
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_touch" />
         </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/btnChange"
             style="@style/common_subheader_light"
             android:layout_width="0dp"
-            android:textAlignment="center"
-            app:layout_constraintWidth_max="wrap"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/welcome_button_margin_offset"
-            app:layout_goneMarginTop="@dimen/welcome_button_margin_offset"
             android:layout_marginBottom="@dimen/welcome_restore_button_margin_offset"
             android:text="@string/welcome_restore_or_create"
+            android:textAlignment="center"
             android:textColor="@color/colorAccent"
-            app:layout_constraintVertical_bias="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnTouch" />
+            app:layout_constraintTop_toBottomOf="@id/btnTouch"
+            app:layout_constraintVertical_bias="1"
+            app:layout_constraintWidth_max="wrap"
+            app:layout_goneMarginTop="@dimen/welcome_button_margin_offset" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
