@@ -81,11 +81,9 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     private fun initTransactionsList() {
-        adapter = TransactionsAdapter(context!!, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
-            override fun onItemClick(item: TxDescription) {
-                presenter?.onTransactionPressed(item)
-            }
-        })
+        adapter = TransactionsAdapter(context!!, mutableListOf()) {
+            presenter?.onTransactionPressed(it)
+        }
 
         transactionsList.layoutManager = LinearLayoutManager(context)
         transactionsList.adapter = adapter

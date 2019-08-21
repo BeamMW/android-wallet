@@ -38,6 +38,8 @@
     <color name="undo_card_progress_color">#032e49</color>
     <color name="undo_card_progress_color_support">#BAC0D3</color>
 
+    <color name="unselect_balance_tab_text_color">#668798A9</color>
+
     <!--PasswordFragment-->
     <color name="password_underline_color">@color/colorPrimary</color>
 

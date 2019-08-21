@@ -14,28 +14,20 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.wallet
+package com.mw.beam.beamwallet.screens.transactions
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.File
 
+class TransactionsRepository: BaseRepository(), TransactionsContract.Repository {
 
-/**
- * Created by vain onnellinen on 10/1/18.
- */
-class WalletRepository : BaseRepository(), WalletContract.Repository {
-
-    override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, "getWalletStatus")
-    }
 
     override fun getTxStatus(): Observable<OnTxStatusData> {
         return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
@@ -43,16 +35,17 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         }
     }
 
-    override fun isAllowOpenExternalLink(): Boolean {
-        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-    }
+    override fun getTransactionsFile(): File {
+        val file = File(AppConfig.TRANSACTIONS_PATH, "transactions_" + System.currentTimeMillis() + ".csv")
 
-    override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        } else {
+            file.parentFile.listFiles().forEach { it.delete() }
+        }
+        file.createNewFile()
 
-    override fun getIntentTransactionId(): String? {
-        val transactionID = App.intentTransactionID
-        App.intentTransactionID = null
-        return transactionID
+        return file
     }
 
     override fun getTrashSubject(): Subject<TrashManager.Action> {
@@ -61,9 +54,5 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
 
     override fun getAllTransactionInTrash(): List<TxDescription> {
         return TrashManager.getAllData().transactions
-    }
-
-    override fun saveFinishRestoreFlag() {
-        PreferencesManager.putBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE, false)
     }
 }

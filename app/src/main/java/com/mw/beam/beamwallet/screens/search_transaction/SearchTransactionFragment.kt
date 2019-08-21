@@ -31,7 +31,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_search_transaction.*
 
-class SearchTransactionFragment: BaseFragment<SearchTransactionPresenter>(), SearchTransactionContract.View {
+class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), SearchTransactionContract.View {
     private lateinit var adapter: TransactionsAdapter
     private val searchTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -49,11 +49,9 @@ class SearchTransactionFragment: BaseFragment<SearchTransactionPresenter>(), Sea
     override fun getToolbarTitle(): String? = ""
 
     override fun init() {
-        adapter = TransactionsAdapter(context!!, mutableListOf(), object : TransactionsAdapter.OnItemClickListener {
-            override fun onItemClick(item: TxDescription) {
-                presenter?.onTransactionPressed(item)
-            }
-        })
+        adapter = TransactionsAdapter(context!!, mutableListOf()) {
+            presenter?.onTransactionPressed(it)
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
