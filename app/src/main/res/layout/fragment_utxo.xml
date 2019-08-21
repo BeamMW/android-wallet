@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/utxoContentLayout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/address_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
-        app:centerTitle="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:centerTitle="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="visible"
         android:id="@+id/utxoScreen"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:filterTouchesWhenObscured="true">
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:filterTouchesWhenObscured="true"
+        android:fitsSystemWindows="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/blockchainInfoCard"
             style="@style/common_card_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             app:cardCornerRadius="@dimen/common_card_corner_radius"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -36,42 +52,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:padding="@dimen/common_card_padding">
+                android:paddingStart="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="20dp">
 
                 <TextView
                     android:id="@+id/blockchainHeightTitle"
                     style="@style/common_text_big_dark"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.1"
+                    android:maxLines="2"
                     android:text="@string/blockchain_height"
+                    android:textAllCaps="true"
+                    app:layout_constraintEnd_toStartOf="@+id/blockchainHeightValue"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_max="200dp"
+                    tools:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/blockchainHeightValue"
                     style="@style/common_text_big_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/utxo_item_padding"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toEndOf="@id/utxoBarrier"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="84406" />
 
                 <TextView
                     android:id="@+id/blockchainHashTitle"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/utxo_item_padding"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.1"
+                    android:maxLines="2"
                     android:text="@string/last_block_hash"
+                    android:textAllCaps="true"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle"
+                    app:layout_constraintWidth_max="200dp"
+                    tools:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/blockchainHashValue"
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_regular"
+                    android:maxLines="3"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@id/blockchainHeightValue"
@@ -80,10 +120,10 @@
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/utxoBarrier"
-                    app:barrierDirection="end"
-                    app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -91,11 +131,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
             android:layout_gravity="center_horizontal"
-            app:tabMode="scrollable"
+            android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/blockchainInfoCard"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/address_tab_text_color"
             app:tabTextAppearance="@style/common_subheader_dark"
             app:tabTextColor="@color/address_tab_text_color" />
@@ -138,4 +178,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

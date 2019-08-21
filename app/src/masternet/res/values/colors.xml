@@ -7,4 +7,7 @@
 
     <color name="wallet_adapter_not_multiply_color">#1d1d1d</color>
     <color name="wallet_adapter_multiply_color">#242424</color>
+
+    <color name="addresses_status_bar_color">#2e2e2e</color>
+
 </resources>

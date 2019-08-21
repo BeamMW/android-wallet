@@ -28,6 +28,7 @@ fun TextView.addDoubleDots() {
     }
 }
 
+
 /** Set the View visibility to VISIBLE and eventually animate the View alpha till 100% */
 fun View.visible(animate: Boolean = true) {
     if (animate) {

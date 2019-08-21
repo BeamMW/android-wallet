@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.utxo
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -101,6 +102,9 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
     }
+
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+
 
     private fun setVisibility() {
         if (presenter?.repository?.isPrivacyModeEnabled() == false) {
