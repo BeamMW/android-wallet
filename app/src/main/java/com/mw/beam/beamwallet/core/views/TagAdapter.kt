@@ -13,7 +13,7 @@ import com.mw.beam.beamwallet.core.helpers.TagHelper
 import kotlinx.android.synthetic.main.item_selectable_tag.view.*
 
 class TagAdapter(private val onSelectedChangeListener: (List<Tag>) -> Unit) : RecyclerView.Adapter<TagAdapter.ViewHolder>() {
-    private val noneTag = Tag("none", name = App.self.getString(R.string.none))
+    private val noneTag = Tag("none")
 
     private val allTags: List<Tag> = ArrayList(TagHelper.getAllTags()).apply {
         add(0, noneTag)
@@ -49,7 +49,7 @@ class TagAdapter(private val onSelectedChangeListener: (List<Tag>) -> Unit) : Re
                 }
             } else {
                 circleColorId = null
-                name = tag.name
+                name = itemView.context.getString(R.string.none)
                 isSelected = selectedTags.isEmpty()
 
                 setOnChangeSelectedListener {

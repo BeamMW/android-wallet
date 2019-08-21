@@ -792,8 +792,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>) {
-        contactCategory.visibility = if (tag == null) View.GONE else View.VISIBLE
-        contactIcon.visibility = if (walletAddress != null || tag != null) View.VISIBLE else View.GONE
+        contactCategory.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
+        contactIcon.visibility = if (walletAddress != null || tags.isNotEmpty()) View.VISIBLE else View.GONE
         contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
 
         walletAddress?.label?.let {
