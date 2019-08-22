@@ -59,7 +59,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
     }
 
     override fun getCount(): Int {
-        return BalanceTab.values().size
+        return if (maturing > 0) BalanceTab.values().size else 1
     }
 
 }
