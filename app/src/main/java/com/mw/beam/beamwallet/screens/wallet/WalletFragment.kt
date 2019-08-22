@@ -96,7 +96,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
-        indicator.visibility = contentVisibility
+        indicator.visibility = if (maturingAmount > 0 ) contentVisibility else View.GONE
+        maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {

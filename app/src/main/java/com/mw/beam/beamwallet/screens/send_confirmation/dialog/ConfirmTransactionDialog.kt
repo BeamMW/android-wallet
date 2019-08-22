@@ -63,6 +63,8 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
         description.setText(if (withFingerprint) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
 
         btnTouch.visibility = if (withFingerprint) View.VISIBLE else View.GONE
+
+        clearPasswordError()
     }
 
     override fun onStart() {

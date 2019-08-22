@@ -73,7 +73,7 @@
         android:layout_marginTop="@dimen/send_btn_margin"
         android:layout_marginBottom="@dimen/send_btn_margin"
         android:background="@drawable/send_button"
-        app:button_icon="@drawable/ic_btn_send"
+        app:button_icon="@drawable/ic_btn_save"
         app:button_text="@string/ok"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
