@@ -36,6 +36,7 @@ interface WelcomeRestoreContract {
         fun clearSuggestions()
         fun showSuggestions()
         fun hideSuggestions()
+        fun showRestoreNotification()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -45,6 +46,7 @@ interface WelcomeRestoreContract {
         fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
         fun onKeyboardStateChange(isVisible: Boolean)
         fun onValidateSeed(seed: String?): Boolean
+        fun onUnderstandPressed()
     }
 
     interface Repository : MvpRepository {

@@ -24,6 +24,9 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentRepository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
     : BasePresenter<WelcomeRestoreContract.View, WelcomeRestoreContract.Repository>(currentView, currentRepository),
         WelcomeRestoreContract.Presenter {
+    override fun onUnderstandPressed() {
+        view?.showPasswordsFragment(view?.getSeed() ?: return)
+    }
 
 
     override fun onViewCreated() {
@@ -35,7 +38,8 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     }
 
     override fun onRestorePressed() {
-        view?.showPasswordsFragment(view?.getSeed() ?: return)
+        view?.showRestoreNotification()
+//        view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
 
     override fun onSeedChanged(seed: String) {

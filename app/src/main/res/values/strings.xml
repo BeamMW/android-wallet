@@ -59,6 +59,8 @@
     <string name="welcome_change_alert">If you’ll restore a wallet all transaction history and addresses will be lost.</string>
     <string name="welcome_btn_change_alert">Proceed</string>
     <string name="welcome_where_to_buy_beam">Where to buy BEAM?</string>
+    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+
 
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Start using your wallet</string>
