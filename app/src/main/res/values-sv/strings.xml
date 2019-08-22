@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Du är på väg att avbryta en återställningsprocess. All data kommer att gå förlorade. Vill du fortsätta?</string>
     <string name="welcome_progress_update_utxo_description">Scannar UTXO</string>
     <string name="welcome_progress_restore_description">Återställd</string>
+    <string name="welcome_progress_download_description">Nerladdad</string>
     <string name="welcome_progress_restore_description_full_top">Vänligen vänta på att synkroniseringen ska bli klar och stäng inte eller minimera applikationen.</string>
     <string name="welcome_progress_restore_description_full_bottom">Endast plånbokens balans (UTXO) kan återställas, transaktionsinformation är alltid privata och lagras aldrig i block-kedjan.</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">UTXO-detaljer</string>
     <string name="kernel_id">Kärn ID</string>
     <string name="utxo_type">UTXO-typ</string>
+    <string name="type">Typ</string>
     <string name="completion_time">Slutförandetid</string>
     <string name="contact">Kontakt</string>
     <string name="utxo_history">UTXO-historik</string>
@@ -309,7 +311,8 @@
     <string name="key_code">Nyckel-kod</string>
     <string name="owner_key_copied_message">Ägarens nyckel-kod kopierat till urklipp</string>
     <string name="owner_key_code_description">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till en plånbok som genereras från samma seed phrase. \n\n Dela inte din ägarnyckel med andra - det tillåter inspektion och övervakning av dina tillgångar.</string>
-    <string name="owner_key_verification_pass">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste ange ditt lösenord för att se Ägarnyckeln.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste klara 2-stegsverifieringen (ange lösenord samt använda Fingeravtryck) för att se Ägarnyckeln.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Mottar ny transaktion</string>
@@ -360,7 +363,6 @@
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Ägar-nyckel</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Klistra in denna kod i Beam-plånboken på din dator för att fortsätta återställningen från noden.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">När du väl klistrat in koden kommer återställningen att starta automatiskt.</string>
     <string name="privacy_mode">Integritetsläge</string>
     <string name="gallery">Galleri</string>
     <string name="selectPickture">Välj bild</string>

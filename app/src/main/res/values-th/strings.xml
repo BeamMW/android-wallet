@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">คุณกำลังจะยกเลิกการกู้กระเป๋าซึ่งจะทำให้ข้อมูลสูญหายได้ คุณต้องการดำเนินการต่อหรือไม่?</string>
     <string name="welcome_progress_update_utxo_description">กำลังสแกน UTXO</string>
     <string name="welcome_progress_restore_description">กู้แล้ว</string>
+    <string name="welcome_progress_download_description">ดาวน์โหลดแล้ว</string>
     <string name="welcome_progress_restore_description_full_top">กรุณารอการรวบรวมข้อมูลและกรุณาอย่าปิดหรือลดหน้าต่างของแอป</string>
     <string name="welcome_progress_restore_description_full_bottom">มีแค่ยอดคงเหลือของกระเป๋า (UTXO) เท่านั้นที่จะสามารถกู้คืนได้ รายการธุรกรรมและรายการที่อยู่จะเก็บอยู่บนอุปกรณ์ และจะไม่ถูกนำไปบนบล็อกเชน</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">รายละเอียด UTXO</string>
     <string name="kernel_id">Kernel ID</string>
     <string name="utxo_type">ประเภทของ UTXO</string>
+    <string name="type">ประเภท</string>
     <string name="completion_time">เวลาที่สำเร็จ</string>
     <string name="contact">รายชื่อผู้ติดต่อ</string>
     <string name="utxo_history">ประวัติ UTXO</string>
@@ -308,11 +310,11 @@
     <string name="owner_key_verification_fingerprint_description">กรุณาใช้งานการสแกนนิ้วมือตรวจสอบ</string>
     <string name="key_code">Key code</string>
     <string name="owner_key_copied_message">ได้ทำการคัดลอก Owner Key ไปยังคลิปบอร์ดแล้ว</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_code_description">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ\n\nเพื่อเป็นการป้องกันการเข้าถึงข้อมูลทรัพย์สินของคุณ กรุณาอย่าได้แชร์ Owner Key กับผู้อื่น</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
+คุณจะต้องผ่านการยืนยัน 2 ขั้นตอน (กรอกรหัสผ่านหรือใช้สแกนลายนิ้วมือ) เพื่อที่จะดู Owner Key ของคุณ</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">กำลังรับธุรกรรมใหม่</string>
     <string name="notification_receive_content_text">กรุณากดเพื่อแสดงรายละเอียด</string>
@@ -362,7 +364,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Owner key</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">วางโค้ดนี้ลงในกระเป๋า Beam ที่คอมพิวเตอร์ของคุณเพื่อทำการดึงข้อมูลจาก Node</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">เมื่อคืนทำการวางโค้ดแล้วการดึงข้อมูลจะเป็นไปแบบอัตโนมัติ</string>
     <string name="privacy_mode">โหมดส่วนตัว</string>
     <string name="gallery">แกลเลอรี</string>
     <string name="selectPickture">เลือกภาพ</string>
@@ -382,16 +383,16 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_finger">ใช้ลายนิ้วมือของคุณ </string>
     <string name="tags">แท็ก</string>
     <string name="add_new_tag">เพิ่มแท็กใหม่</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
+    <string name="initiated">ถูกสร้างแล้ว</string>
+    <string name="latest_confirmation">การยืนยันล่าสุด</string>
     <string name="share_transaction">แชร์ธุรกรรม</string>
     <string name="paste">วาง</string>
-    <string name="selected">Selected</string>
+    <string name="selected">ถูกเลือกแล้ว</string>
     <string name="empty_address_list">ไม่พบรายการที่อยู่</string>
     <string name="empty_contacts_list">ไม่พบรายชื่อผู้ติดต่อ</string>
     <string name="empty_utxo_list">ไม่พบรายการ UTXO</string>
     <string name="version">เวอร์ชั่น: %1$s</string>
-    <string name="show_all">Show all</string>
+    <string name="show_all">แสดงทั้งหมด</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>

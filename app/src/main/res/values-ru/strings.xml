@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Вы уверены, что хотите прекратить процесс восстановления?</string>
     <string name="welcome_progress_update_utxo_description">Сканирование UTXO</string>
     <string name="welcome_progress_restore_description">Кошелек восстановлен</string>
+    <string name="welcome_progress_download_description">Загружено</string>
     <string name="welcome_progress_restore_description_full_top">Пожалуйста, дождитесь завершения синхронизации, не закрывайте и не сворачивайте окно.</string>
     <string name="welcome_progress_restore_description_full_bottom">Будет восстановлен только баланс кошелька (UTXO). Информация о транзакциях не хранится в блокчейне.</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">Информация о UTXO</string>
     <string name="kernel_id">Идентификатор ядра</string>
     <string name="utxo_type">Тип UTXO</string>
+    <string name="type">Тип</string>
     <string name="completion_time">Время завершения</string>
     <string name="contact">Контакт</string>
     <string name="utxo_history">История UTXO</string>
@@ -309,7 +311,7 @@
     <string name="key_code">Код ключа</string>
     <string name="owner_key_copied_message">Owner key скопирован в буфер обмена</string>
     <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
@@ -362,7 +364,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="ip_port">ip адрес:порт</string>
     <string name="owner_key">Ключ владельца</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Вставьте этот код в Beam Wallet на рабочем столе, чтобы продолжить восстановление с узла.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">После вставки кода восстановление начнется автоматически.</string>
     <string name="privacy_mode">Режим конфиденциальности</string>
     <string name="gallery">Галерея</string>
     <string name="selectPickture">Выберите изображение</string>

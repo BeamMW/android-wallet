@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Geri yükleme işlemini iptal edeceksiniz. Tüm veriler kaybolacak. Devam etmek istiyor musun?</string>
     <string name="welcome_progress_update_utxo_description">UTXO aranıyor</string>
     <string name="welcome_progress_restore_description">Geri yüklendi</string>
+    <string name="welcome_progress_download_description">İndirildi</string>
     <string name="welcome_progress_restore_description_full_top">Lütfen senkronizasyonu bekleyin ve uygulamayı kapatmayın veya simge durumuna almayın.</string>
     <string name="welcome_progress_restore_description_full_bottom">Yalnızca cüzdan bakiyesi (UTXO) geri yüklenebilir, işlem bilgileri her zaman gizlidir ve hiçbir zaman blokzincirinde tutulmaz.</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">UTXO detayları</string>
     <string name="kernel_id">Kernel Kimliği</string>
     <string name="utxo_type">UTXO tipi</string>
+    <string name="type">Tip</string>
     <string name="completion_time">Tamamlanma zamanı</string>
     <string name="contact">Bağlantılar</string>
     <string name="utxo_history">UTXO geçmişi</string>
@@ -310,7 +312,7 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="key_code">Anahtar kodu</string>
     <string name="owner_key_copied_message">Sahiplik kodu kopyalandı</string>
     <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
@@ -363,7 +365,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Sahiplik anahtarı</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Nod ile geri yükleme işlemine devam etmek için bu kodu masaüstünüzdeki Beam cüzdanınıza yapıştırın.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Kodu yapıştırdığınızda, ger, yükleme otomatik olarak başlayacak.</string>
     <string name="privacy_mode">Gizlilik Modu</string>
     <string name="gallery">Galeri</string>
     <string name="selectPickture">Resim Seçin</string>

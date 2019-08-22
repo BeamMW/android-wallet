@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">U gaat het herstelproces annuleren. Alle gegevens zullen verloren gaan. Wilt u doorgaan?</string>
     <string name="welcome_progress_update_utxo_description">Scannen UTXO</string>
     <string name="welcome_progress_restore_description">Hersteld</string>
+    <string name="welcome_progress_download_description">Gedownload</string>
     <string name="welcome_progress_restore_description_full_top">Wacht op synchronisatie en sluit of minimaliseer de applicatie niet.</string>
     <string name="welcome_progress_restore_description_full_bottom">Alleen het portemonnee saldo (UTXO) kan worden hersteld. Transactieinformatie is altijd privé en wordt nooit in de blockchain opgeslagen.</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">UTXO Details</string>
     <string name="kernel_id">Kernel-ID</string>
     <string name="utxo_type">UTXO type</string>
+    <string name="type">Type</string>
     <string name="completion_time">Voltooiingstijd</string>
     <string name="contact">Contact</string>
     <string name="utxo_history">UTXO geschiedenis</string>
@@ -309,7 +311,8 @@
     <string name="key_code">Sleutelcode</string>
     <string name="owner_key_copied_message">Eigenaarssleutel naar klembord gekopieerd</string>
     <string name="owner_key_code_description">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO gegenereerd vanuit dezelfde herstelzin, en verzonden naar welke portemonnee dan ook, te monitoren.\n\n Deel uw eigenaarssleutel niet met anderen. Het staat inzage in en controle van uw saldo toe.</string>
-    <string name="owner_key_verification_pass">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO verzonden naar deze portemonnee, en elke portemonnee gegenereerd vanuit uw herstelzin, te monitoren.\n\n Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO verzonden naar deze portemonnee, en elke portemonnee gegenereerd vanuit uw herstelzin, te monitoren.\n\n U moet 2-staps verificatie (voer uw wachtwoord in en gebruik Vingerafdruk ID) doorlopen om uw eigenaarssleutel te kunnen zien.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Nieuwe transactie ontvangen</string>
@@ -360,7 +363,6 @@
     <string name="ip_port">ip:poort</string>
     <string name="owner_key">Eigenaarssleutel</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Plak deze code in uw desktopversie van de Beam Portemonnee om verder te gaan met herstellen vanaf de node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Zodra u de code plakt zal het herstellen automatisch beginnen.</string>
     <string name="privacy_mode">Privacy modus</string>
     <string name="gallery">Galerij</string>
     <string name="selectPickture">Afbeelding selecteren</string>
@@ -389,7 +391,7 @@
     <string name="empty_contacts_list">Uw contactlijst is leeg</string>
     <string name="empty_utxo_list">Uw UTXO lijst is leeg</string>
     <string name="version">Versie %1$s</string>
-    <string name="show_all">Show all</string>
+    <string name="show_all">Toon alles</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>

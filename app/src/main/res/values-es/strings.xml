@@ -90,6 +90,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_cancel_restore_description">Vas a cancelar el proceso de restauración. Todos los datos se perderán. ¿Quieres continuar?</string>
     <string name="welcome_progress_update_utxo_description">Escaneando UTXO</string>
     <string name="welcome_progress_restore_description">Restaurado</string>
+    <string name="welcome_progress_download_description">Descargado</string>
     <string name="welcome_progress_restore_description_full_top">Por favor espere a la sincronización y no cierre ni minimice la aplicación.</string>
     <string name="welcome_progress_restore_description_full_bottom">Solo se puede restaurar el saldo del wallet (UTXO), la información de la transacción siempre es privada y nunca se mantiene en la cadena de bloques.</string>
     <!--PasswordFragment-->
@@ -152,6 +153,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="utxo_details">Detalles de la UTXO</string>
     <string name="kernel_id">ID del Kernel</string>
     <string name="utxo_type">UTXO tipo</string>
+    <string name="type">Escriba</string>
     <string name="completion_time">Tiempo de finalización</string>
     <string name="contact">Contacto</string>
     <string name="utxo_history">Historial de UTXO</string>
@@ -312,8 +314,8 @@ para acceder al wallet</string>
     <string name="key_code">Código clave</string>
     <string name="owner_key_copied_message">El código de la clave de propietario ha sido copiada al portapapeles</string>
     <string name="owner_key_code_description">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todo UTXO enviado a cualquier wallet generado con la misma frase de semilla.\n\n No comparta su Clave Propietaria con otros - permite la inspección y el control de sus fondos.</string>
-    <string name="owner_key_verification_pass">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
-Debe introducir su contraseña para ver la clave del propietario.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
 Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huella digital) para ver su Clave del propietario.</string>
     <!--BackgroundService-->
@@ -365,7 +367,6 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="ip_port">ip: puerto</string>
     <string name="owner_key">Clave de propietario</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Pegue este código en el Wallet de Beam en su escritorio para proceder a la restauración desde el nodo.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Una vez que ha pegado el código, la restauración se iniciará automáticamente.</string>
     <string name="privacy_mode">Modo privado</string>
     <string name="gallery">Galería</string>
     <string name="selectPickture">Seleccionar Imagen</string>

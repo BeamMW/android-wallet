@@ -88,6 +88,7 @@
     <string name="welcome_progress_cancel_restore_description">Olet peruuttamassa palautusprosessia. Kaikki tiedot menetetään. Haluatko jatkaa?</string>
     <string name="welcome_progress_update_utxo_description">Skannataan UTXO</string>
     <string name="welcome_progress_restore_description">Palautettu</string>
+    <string name="welcome_progress_download_description">Ladattu</string>
     <string name="welcome_progress_restore_description_full_top">Ole hyvä ja odota kunnes synkronointi on valmis. Älä myöskään sulje sovellusta tai pienennä ikkunaa.</string>
     <string name="welcome_progress_restore_description_full_bottom">Ainoastaan lompakon saldo (UTXO) voidaan palauttaa. Tapahtumatiedot pysyvät aina salassa, eivätkä ne tallennu lohkoketjuun.</string>
     <!--PasswordFragment-->
@@ -150,6 +151,7 @@
     <string name="utxo_details">UTXO-tiedot</string>
     <string name="kernel_id">Kernel id</string>
     <string name="utxo_type">UTXO-tyyppi</string>
+    <string name="type">Tyyppi</string>
     <string name="completion_time">Suoritusaika</string>
     <string name="contact">Yhteystieto</string>
     <string name="utxo_history">UTXO-historia</string>
@@ -186,7 +188,7 @@
     <string name="my_address">Oma osoitteeni</string>
     <string name="transaction_deleted">Maksutapahtuma poistettu</string>
     <!--ReceiveFragment-->
-    <string name="swap">Vaihto (Swap)</string>
+    <string name="swap">Swap</string>
     <string name="auto_generated">generoitu automaattisesti</string>
     <string name="annotation">Kommentti</string>
     <string name="expires">Vanhentuu</string>
@@ -197,7 +199,7 @@
     <string name="receive_token_description">Lähetä tämä osoite turvallista viestintävälinettä käyttäen.</string>
     <string name="receive_save_address_message">Haluatko tallentaa luodun osoitteen ja käyttää sitä myöhemmin?</string>
     <string name="receive_save_changes_message">Haluatko tallentaa osoitteen muutokset?</string>
-    <string name="request_an_amount">Pyydetty summa</string>
+    <string name="request_an_amount">Pyydä summa</string>
     <string name="optional">Valinnainen</string>
     <string name="name">Nimi</string>
     <string name="edit_address">Muokkaa osoitetta</string>
@@ -237,11 +239,11 @@
     <string name="node">Palvelin (node)</string>
     <string name="settings_ip_title">IP:portti:</string>
     <string name="settings_general_settings">Yleiset asetukset</string>
-    <string name="lock_screen">Lukitse näyttö</string>
+    <string name="lock_screen">Lukitusnäyttö</string>
     <string name="never">Ei koskaan</string>
-    <string name="after">After</string>
-    <string name="seconds">sekuntia</string>
-    <string name="minute">minuutti</string>
+    <string name="after">jälkeen</string>
+    <string name="seconds">sekunnin</string>
+    <string name="minute">minuutin</string>
     <string name="settings_ask_password_on_send">Kysy salasanaa aina ennen lähettämistä</string>
     <string name="settings_run_random_node">Yhdistä satunnaiseen ulkoiseen palvelimeen (random node)</string>
     <string name="settings_enable_fingerprint">Ota käyttöön sormenjälkitunnistus</string>
@@ -268,7 +270,7 @@
     <string name="show_qr_code">Näytä QR-koodi</string>
     <string name="delete_address">Poista osoite</string>
     <string name="transactions_list">Tilitapahtumat</string>
-    <string name="address_id">Osoitteen tunnus</string>
+    <string name="address_id">Osoitteen id</string>
     <string name="expiration_date">Vanhentumispäivä</string>
     <string name="tag">Luokka</string>
     <!--EditAddressFragment-->
@@ -304,17 +306,17 @@
     <string name="show_owner_key">Näytä omistusavain</string>
     <string name="owner_key_verification_description">Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta)</string>
     <string name="owner_key_verification_fingerprint_error">Sormenjälkitunnistus epäonnistui. Yritä uudelleen hetken kuluttua.</string>
-    <string name="owner_key_verification_title_with_finger">Kirjoita salasanasi ja käytä sormenjälkitunnistusta kirjautuaksesi sisään lompakkoon</string>
+    <string name="owner_key_verification_title_with_finger">Kirjoita salasanasi ja käytä sormenjälkitunnistusta kirjautuaksesi sisään</string>
     <string name="owner_key_verification_fingerprint_description">Käytä sormenjälkitunnistusta suorittaaksesi varmennuksen</string>
     <string name="key_code">Avaimen koodi</string>
     <string name="owner_key_copied_message">Omistusavain kopioitu leikepöydälle</string>
     <string name="owner_key_code_description">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja lompakkoon, joka on generoitu samasta seed phrasesta. Älä jaa omistusavaintasi muille henkilöille, se antaa oikeuden tarkastella kaikkea varallisuuttasi.</string>
-    <string name="owner_key_verification_pass">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
-Kirjoita salasanasi nähdäksesi omistusavaimen.</string>
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
 Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta).</string>
     <!--BackgroundService-->
-    <string name="notification_receive_content_title">Vastaanotetaan uutta maksua</string>
+    <string name="notification_receive_content_title">Vastaanottaa uutta maksua</string>
     <string name="notification_receive_content_text">Paina nähdäksesi lisätietoja</string>
     <string name="notification_channel_name">Ilmoituskanava</string>
     <string name="notification_channel_description">Oletusilmoituskanava</string>
@@ -362,7 +364,6 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="ip_port">IP:portti</string>
     <string name="owner_key">Omistusavain</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Liitä tämä koodi tietokoneesi Beam-lompakkoon jatkaaksesi palautusta palvelimeltasi (node).</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Kun liität koodin, palautus alkaa automaattisesti.</string>
     <string name="privacy_mode">Yksityisyysnäkymä</string>
     <string name="gallery">Galleria</string>
     <string name="selectPickture">Valitse kuva</string>
@@ -391,7 +392,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="empty_contacts_list">Yhteystietoluettelosi on tyhjä</string>
     <string name="empty_utxo_list">UTXO-luettelosi on tyhjä</string>
     <string name="version">Versio %1$s</string>
-    <string name="show_all">Show all</string>
+    <string name="show_all">Näytä kaikki</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>
