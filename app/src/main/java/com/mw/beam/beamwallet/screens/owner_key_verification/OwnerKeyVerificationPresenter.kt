@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.owner_key_verification
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, repository: OwnerKeyVerificationContract.Repository)
     : BasePresenter<OwnerKeyVerificationContract.View, OwnerKeyVerificationContract.Repository>(view, repository), OwnerKeyVerificationContract.Presenter {
@@ -56,7 +57,8 @@ class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, re
     }
 
     fun isEnableFingerprint(): Boolean {
-        return FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+                && FingerprintManager.isManagerAvailable()
     }
 
     override fun onChangePassword() {
