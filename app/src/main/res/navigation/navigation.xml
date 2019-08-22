@@ -8,7 +8,8 @@
         android:id="@+id/welcomeCreateFragment"
         tools:layout="@layout/fragment_welcome_create"
         android:name="com.mw.beam.beamwallet.screens.welcome_screen.welcome_create.WelcomeCreateFragment"
-        android:label="WelcomeCreateFragment" >
+        android:label="WelcomeCreateFragment"
+        app:startDestination="@id/action_welcomeCreateFragment_to_welcomeDescriptionFragment">
         <action
             android:id="@+id/action_welcomeCreateFragment_to_welcomeRestoreFragment"
             app:destination="@id/welcomeRestoreFragment"
