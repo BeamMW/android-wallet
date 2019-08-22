@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -39,8 +38,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var openTitleString: String
     private lateinit var restoreTitleString: String
     private lateinit var restoreDescriptionString: String
-    private lateinit var updateUtxoDescriptionString: String
     private lateinit var downloadDescriptionString: String
+    private lateinit var updateUtxoDescriptionString: String
+    private lateinit var downloadTitleString: String
     private lateinit var createTitleString: String
 
     companion object {
@@ -61,22 +61,21 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         openTitleString = getString(R.string.welcome_progress_open)
         restoreTitleString = getString(R.string.welcome_progress_restore)
         restoreDescriptionString = getString(R.string.welcome_progress_restore_description)
+        downloadDescriptionString = getString(R.string.welcome_progress_download_description)
         updateUtxoDescriptionString = getString(R.string.welcome_progress_update_utxo_description)
-        downloadDescriptionString = getString(R.string.downloading_blockchain_info)
-        createTitleString = getString(R.string.welcome_progress_create);
+        downloadTitleString = getString(R.string.downloading_blockchain_info)
+        createTitleString = getString(R.string.welcome_progress_create)
     }
 
     override fun init(mode: WelcomeMode) {
         when (mode) {
             WelcomeMode.OPEN -> title.text = openTitleString
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
-                title.text = restoreTitleString
-                restoreFullDescription.visibility = View.VISIBLE
+                title.text = downloadTitleString
                 btnCancel.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
                 title.text = createTitleString
-                restoreFullDescription.visibility = View.INVISIBLE
                 btnCancel.visibility = View.VISIBLE
             }
         }
@@ -100,8 +99,11 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE -> { }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
+                    title.text = downloadTitleString
                     configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
                 } else {
+                    title.text = restoreTitleString
+                    restoreFullDescription.visibility = View.VISIBLE
                     configProgress(countProgress(progressData), "$restoreDescriptionString ${countProgress(progressData)}%")
                 }
             }

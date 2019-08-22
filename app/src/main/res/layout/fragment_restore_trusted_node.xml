@@ -13,6 +13,8 @@
         app:hasStatus="false" />
 
     <ScrollView
+        android:id="@+id/content"
+        tools:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -64,17 +66,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/stateText"
+                android:id="@+id/errorText"
                 style="@style/common_text_big_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
+                android:textColor="@color/common_error_color"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nodeAddressLayout"
-                tools:text="Node connection is ok and it supports restore."
+                android:text="@string/node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore"
                 tools:visibility="visible" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
@@ -87,11 +90,40 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stateText"
+                app:layout_constraintTop_toBottomOf="@id/errorText"
                 app:layout_constraintVertical_bias="1"
                 app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loading"
+        android:visibility="gone"
+        android:padding="30dp"
+        tools:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/nodeConnectProgressBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            style="@style/common_text_big_light"
+            android:layout_marginTop="@dimen/common_offset"
+            app:layout_constraintTop_toBottomOf="@id/nodeConnectProgressBar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="center"
+            android:text="@string/connecting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

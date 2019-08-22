@@ -60,11 +60,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun init(shouldInitFingerprint: Boolean) {
         App.isAuthenticated = false
 
-        //TODO remove it when complete restore should be available everywhere
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET || BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
-            btnChange.visibility = View.GONE
-        }
-
         if (shouldInitFingerprint) {
             cancellationSignal = CancellationSignal()
 

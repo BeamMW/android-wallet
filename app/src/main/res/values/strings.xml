@@ -94,6 +94,7 @@
     <string name="welcome_progress_cancel_restore_description">You are going to cancel restore process. All data will be lost. Do you want to continue?</string>
     <string name="welcome_progress_update_utxo_description">Scanning UTXO</string>
     <string name="welcome_progress_restore_description">Restored</string>
+    <string name="welcome_progress_download_description">Downloaded</string>
     <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application.</string>
     <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
 
@@ -394,7 +395,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Owner key</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
-    <string name="once_you_ll_paste_the_code_restore_will_start_automatically">Once you’ll paste the code, restore will start automatically.</string>
     <string name="privacy_mode">Privacy mode</string>
     <string name="gallery">Gallery</string>
     <string name="selectPickture">Select Picture</string>
@@ -424,4 +424,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="empty_utxo_list">Your UTXO list is empty</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
+    <string name="connecting">Connecting...</string>
 </resources>

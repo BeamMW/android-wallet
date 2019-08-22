@@ -9,6 +9,9 @@ interface RestoreTrustedNodeContract {
     interface View: MvpView {
         fun init()
         fun getNodeAddress(): String
+        fun showLoading()
+        fun dismissLoading()
+        fun showError()
         fun navigateToProgress()
     }
 
