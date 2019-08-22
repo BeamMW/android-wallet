@@ -160,6 +160,7 @@
     <string name="utxo_details">UTXO details</string>
     <string name="kernel_id">Kernel ID</string>
     <string name="utxo_type">UTXO type</string>
+    <string name="type">Type</string>
     <string name="completion_time">Completion time</string>
     <string name="contact">Contact</string>
     <string name="utxo_history">UTXO history</string>
@@ -335,7 +336,7 @@
     <string name="key_code">Key code</string>
     <string name="owner_key_copied_message">Owner key code copied to clipboard</string>
     <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>

@@ -43,7 +43,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private val sendIconId = R.drawable.ic_icon_sent
     private val receivedIconId = R.drawable.ic_icon_received
     private val colorSpan by lazy { ForegroundColorSpan(context.resources.getColor(R.color.common_text_color, context.theme)) }
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
+    private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.receive)
     private val sendText = context.getString(R.string.send)
@@ -69,7 +69,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             message.text = "$messageStatus ${currencyBeam.toUpperCase()}" //TODO replace when multiply currency will be available
 
-            itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor) //logically reversed because count starts from zero
+            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor) //logically reversed because count starts from zero
             icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)

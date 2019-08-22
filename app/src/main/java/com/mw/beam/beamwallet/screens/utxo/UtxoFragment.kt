@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.utxo
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
@@ -31,6 +32,9 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
+import com.mw.beam.beamwallet.core.helpers.ScreenHelper
+import androidx.constraintlayout.widget.ConstraintSet
+
 
 /**
  * Created by vain onnellinen on 10/2/18.

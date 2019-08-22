@@ -502,6 +502,13 @@
         <argument
             android:name="utxo"
             app:argType="com.mw.beam.beamwallet.core.entities.Utxo" />
+        <action
+            android:id="@+id/action_utxoDetailsFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_edit_address"

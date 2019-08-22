@@ -2,20 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_offset"
-    android:paddingTop="@dimen/utxo_item_padding"
+    android:paddingTop="10dp"
     android:paddingEnd="@dimen/common_offset"
-    android:paddingBottom="@dimen/utxo_item_padding">
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:drawableEnd="@drawable/currency_beam_small"
+        android:drawablePadding="5dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="start"
         android:textColor="#FFFFFF"
@@ -25,31 +27,71 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="10" />
 
-    <ImageView
-        android:id="@+id/currency"
-        style="@style/common_currency_style"
-        android:layout_width="11dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="5dp"
-        android:contentDescription="@null"
-        app:layout_constraintBottom_toBottomOf="@id/amount"
-        app:layout_constraintStart_toEndOf="@id/amount"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0"
-        app:srcCompat="@drawable/currency_beam" />
-
     <TextView
         android:id="@+id/status"
         style="@style/common_text_small_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:fontFamily="@font/roboto_italic"
+        android:textAlignment="textEnd"
         android:textSize="14sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/amount"
-        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/unavailable" />
+
+    <TextView
+        android:id="@+id/dateLabel"
+        style="@style/common_text_small_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/roboto_italic"
+        android:maxLines="1"
+        android:textAlignment="textEnd"
+        android:textColor="#8DA1AD"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status"
+        tools:text="@string/unavailable" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/commentLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toStartOf="@+id/dateLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount">
+
+        <ImageView
+            android:id="@+id/commentIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@string/transaction_comment"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_icn_comment" />
+
+        <TextView
+            android:id="@+id/commentLabel"
+            style="@style/common_text_small_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto_italic"
+            android:maxLines="1"
+            android:textColor="#8DA1AD"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@+id/commentIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/unavailable" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

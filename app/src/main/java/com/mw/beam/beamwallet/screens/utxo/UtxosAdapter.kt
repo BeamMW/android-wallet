@@ -26,8 +26,15 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.fragment_utxo.*
 import kotlinx.android.synthetic.main.item_utxo.*
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.mw.beam.beamwallet.core.helpers.ScreenHelper
+
+
 
 /**
  * Created by vain onnellinen on 12/18/18.
@@ -48,7 +55,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
     private val commonStatusColor = ContextCompat.getColor(context, R.color.common_text_color)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
+    private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
 
     private var data: List<Utxo> = listOf()
 
@@ -82,6 +89,38 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             amount.text = utxo.amount.convertToBeamString()
+
+            if (utxo.transactionComment != null && utxo.transactionDate != null)
+            {
+                commentLayout.visibility = View.VISIBLE
+                dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
+
+                status.setPadding(0,0,0,0)
+
+                if (with(utxo.transactionComment!!) { isEmpty() })
+                {
+                    amount.setPadding(0,25,0,25)
+
+                    commentLabel.visibility = View.GONE
+                    commentIcon.visibility = View.GONE
+                }
+                else{
+                    amount.setPadding(0,0,0,0)
+
+                    commentLabel.text = "“" + utxo.transactionComment + "“"
+                    commentLabel.visibility = View.VISIBLE
+                    commentIcon.visibility = View.VISIBLE
+                }
+            }
+            else{
+                amount.setPadding(0,20,0,20)
+                status.setPadding(0,25,0,25)
+
+                commentLayout.visibility = View.GONE
+                dateLabel.visibility = View.GONE
+                commentLabel.visibility = View.GONE
+                commentIcon.visibility = View.GONE
+            }
         }
     }
 

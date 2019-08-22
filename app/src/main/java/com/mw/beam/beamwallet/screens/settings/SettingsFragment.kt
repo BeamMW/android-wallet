@@ -130,7 +130,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     private fun isEnableFingerprint(): Boolean {
-        return FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext() ?: return false)
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED) &&
+                FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
+                ?: return false)
     }
 
     override fun navigateToOwnerKeyVerification() {

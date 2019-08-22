@@ -25,9 +25,10 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 12/20/18.
  */
-class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, private val state: UtxoDetailsState)
+class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, val state: UtxoDetailsState)
     : BasePresenter<UtxoDetailsContract.View, UtxoDetailsContract.Repository>(currentView, currentRepository),
         UtxoDetailsContract.Presenter {
+
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
     private lateinit var trashSubscription: Disposable
@@ -55,14 +56,6 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
                 updateUtxoHistory()
             }
-
-            var kernelID = state.transactions.values.find { it.id == state.utxo?.spentTxId }?.kernelId
-
-            if (kernelID.isNullOrEmpty()) {
-                kernelID = state.transactions.values.find { it.id == state.utxo?.createTxId }?.kernelId
-            }
-
-            view?.configUtxoKernel(kernelID)
         }
 
         trashSubscription = repository.getTrashSubject().subscribe {
@@ -78,6 +71,16 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
                 TrashManager.ActionType.Removed -> {}
             }
         }
+    }
+
+    override fun onExpandTransactionsPressed() {
+        state.shouldExpandTransactions = !state.shouldExpandTransactions
+        view?.handleExpandTransactions(state.shouldExpandTransactions)
+    }
+
+    override fun onExpandDetailedPressed() {
+        state.shouldExpandDetail = !state.shouldExpandDetail
+        view?.handleExpandDetails(state.shouldExpandDetail)
     }
 
     private fun transactionFilter(txDescription: TxDescription): Boolean {

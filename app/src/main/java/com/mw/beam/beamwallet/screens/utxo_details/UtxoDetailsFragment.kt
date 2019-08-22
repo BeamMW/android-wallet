@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.utxo_details
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -33,15 +34,21 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo_details.*
-import kotlinx.android.synthetic.main.item_utxo.*
+import kotlinx.android.synthetic.main.fragment_utxo_details.toolbarLayout
+import android.transition.TransitionManager
+import android.transition.AutoTransition
+import android.util.Log
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
  * Created by vain onnellinen on 12/20/18.
  */
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
+
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
@@ -49,48 +56,29 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
-        configUtxoDetails(utxo)
-
-        kernelIdTitle.addDoubleDots()
-        utxoTypeTitle.addDoubleDots()
-        completionTimeTitle.addDoubleDots()
-        contactTitle.addDoubleDots()
     }
 
     @SuppressLint("SetTextI18n")
     private fun configUtxoInfo(utxo: Utxo) {
-        status.setTextColor(when (utxo.status) {
-            UtxoStatus.Maturing, UtxoStatus.Incoming -> ContextCompat.getColor(context!!, R.color.received_color)
-            UtxoStatus.Outgoing, UtxoStatus.Change, UtxoStatus.Spent -> ContextCompat.getColor(context!!, R.color.sent_color)
-            UtxoStatus.Available, UtxoStatus.Unavailable -> ContextCompat.getColor(context!!, R.color.common_text_color)
-        })
 
-        status.text = when (utxo.status) {
-            UtxoStatus.Incoming, UtxoStatus.Change, UtxoStatus.Outgoing -> getString(R.string.in_progress)
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.hasStatus = true
+
+        idLabel.text = utxo.stringId
+
+        amountLabel.text = utxo.amount.convertToBeamString()
+
+        statusLabel.text = when (utxo.status) {
+            UtxoStatus.Incoming -> getString(R.string.incoming)
+            UtxoStatus.Change -> getString(R.string.change)
+            UtxoStatus.Outgoing -> getString(R.string.outgoing)
             UtxoStatus.Maturing -> getString(R.string.maturing)
             UtxoStatus.Spent -> getString(R.string.spent)
             UtxoStatus.Available -> getString(R.string.available)
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
-        }.toLowerCase() + " "
+        }
 
-//        detailedStatus.visibility = View.VISIBLE
-//        detailedStatus.text = "(" + when (utxo.status) {
-//            UtxoStatus.Incoming -> getString(R.string.incoming)
-//            UtxoStatus.Change -> getString(R.string.change)
-//            UtxoStatus.Outgoing -> getString(R.string.outgoing)
-//            UtxoStatus.Unavailable -> getString(R.string.utxo_status_result_rollback)
-//            UtxoStatus.Maturing, UtxoStatus.Spent, UtxoStatus.Available -> {
-//                detailedStatus.visibility = View.GONE
-//                "" //TODO add correct description for maturing
-//            }
-//        }.toLowerCase() + ") "
-
-        amount.text = utxo.amount.convertToBeamString()
-        utxoLayout.findViewById<TextView>(R.id.addressId).text = utxo.stringId
-    }
-
-    private fun configUtxoDetails(utxo: Utxo) {
-        utxoType.text = when (utxo.keyType) {
+        typeLabel.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
@@ -104,10 +92,23 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         }
     }
 
+
+    @SuppressLint("RestrictedApi")
+    override fun addListeners() {
+        detailsExpandLayout.setOnClickListener {
+            presenter?.onExpandDetailedPressed()
+        }
+
+        transactionsExpandLayout.setOnClickListener {
+            presenter?.onExpandTransactionsPressed()
+        }
+    }
+
     override fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?) {
         val offset: Int = resources.getDimensionPixelSize(R.dimen.utxo_history_offset)
+        var index = 0
 
-        utxoHistoryGroup.visibility = if (relatedTransactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+        transactionsLayout.visibility = if (relatedTransactions.isNullOrEmpty()) View.GONE else View.VISIBLE
 
         transactionHistoryList.removeAllViews()
         relatedTransactions?.forEach {
@@ -116,41 +117,70 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
                     time = CalendarUtils.fromTimestamp(it.modifyTime),
                     id = it.id,
                     comment = it.message,
-                    offset = offset))
+                    offset = offset,
+                    index = index))
+            index++
         }
     }
 
-    override fun configUtxoKernel(kernelIdString: String?) {
-        if (kernelIdString.isNullOrEmpty()) {
-            kernelId.visibility = View.GONE
-            kernelIdTitle.visibility = View.GONE
-        } else {
-            kernelId.visibility = View.VISIBLE
-            kernelIdTitle.visibility = View.VISIBLE
-            kernelId.text = kernelIdString
-        }
+    override fun handleExpandDetails(shouldExpandDetails: Boolean) {
+        animateDropDownIcon(detailsArrowView, !shouldExpandDetails)
+        beginTransition()
+
+        val contentVisibility = if (shouldExpandDetails) View.VISIBLE else View.GONE
+        idLayout.visibility = contentVisibility
+        typeLayout.visibility = contentVisibility
+    }
+
+    override fun handleExpandTransactions(shouldExpandTransactions: Boolean) {
+
     }
 
     @SuppressLint("InflateParams")
-    private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int): View? {
+    private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int, index:Int): View? {
+        val notMultiplyColor = ContextCompat.getColor(context!!, R.color.colorClear)
+        val multiplyColor = ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
+
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
-        view.findViewById<TextView>(R.id.time).text = time
-        view.findViewById<TextView>(R.id.addressId).text = id
+        view.findViewById<TextView>(R.id.date).text = time
         view.findViewById<ImageView>(R.id.icon).setImageResource(if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent)
-        view.findViewById<TextView>(R.id.comment).apply {
-            if (comment.isNotEmpty()) {
-                text = comment
-                visibility = View.VISIBLE
+        view.findViewById<TextView>(R.id.status).text = if (isReceived) getString(R.string.received) else getString(R.string.send)
+
+        if (comment.isNullOrEmpty())
+        {
+            view.findViewById<ConstraintLayout>(R.id.commentLayout).visibility = View.GONE
+        }
+        else{
+            view.findViewById<ConstraintLayout>(R.id.commentLayout).visibility = View.VISIBLE
+
+            view.findViewById<TextView>(R.id.commentLabel).text = "“" + comment + "“"
+        }
+
+        view.setBackgroundColor(if (index % 2 == 0) notMultiplyColor else multiplyColor)
+
+        view.tag = index
+        view.setOnClickListener {
+            val index = it.tag as Int
+            val transactionID = presenter?.state?.getTransactions()?.get(index)?.id
+            if (transactionID != null) {
+                findNavController().navigate(UtxoDetailsFragmentDirections.actionUtxoDetailsFragmentToTransactionDetailsFragment(transactionID))
             }
         }
 
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.topMargin = offset
-        params.bottomMargin = offset
-
-        view.layoutParams = params
-
         return view
+    }
+
+    private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
+        val angleFrom = if (shouldExpand) 180f else 360f
+        val angleTo = if (shouldExpand) 360f else 180f
+        val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
+        anim.duration = 500
+        anim.start()
+    }
+
+    private fun beginTransition() {
+        TransitionManager.beginDelayedTransition(mainConstraintLayout, AutoTransition().apply {
+        })
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

@@ -36,10 +36,14 @@ interface UtxoDetailsContract {
         fun getUtxo(): Utxo
         fun init(utxo: Utxo)
         fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?)
-        fun configUtxoKernel(kernelIdString: String?)
+        fun handleExpandDetails(shouldExpandDetails: Boolean)
+        fun handleExpandTransactions(shouldExpandTransactions: Boolean)
     }
 
-    interface Presenter : MvpPresenter<View>
+    interface Presenter : MvpPresenter<View> {
+        fun onExpandDetailedPressed()
+        fun onExpandTransactionsPressed()
+    }
 
     interface Repository : MvpRepository {
         fun getUtxoUpdated(): Subject<List<Utxo>>

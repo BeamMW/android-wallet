@@ -23,6 +23,9 @@ import com.mw.beam.beamwallet.core.entities.Utxo
  * Created by vain onnellinen on 12/28/18.
  */
 class UtxoDetailsState {
+    var shouldExpandDetail = true
+    var shouldExpandTransactions = true
+
     var utxo: Utxo? = null
     val transactions = HashMap<String, TxDescription>()
 

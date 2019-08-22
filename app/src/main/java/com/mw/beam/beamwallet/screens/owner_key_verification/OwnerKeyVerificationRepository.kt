@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.owner_key_verification
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 
 class OwnerKeyVerificationRepository: BaseRepository(), OwnerKeyVerificationContract.Repository {
 
@@ -30,6 +31,8 @@ class OwnerKeyVerificationRepository: BaseRepository(), OwnerKeyVerificationCont
 
     override fun isEnableFingerprint(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+                && FingerprintManager.isManagerAvailable()
+
     }
 
 }
