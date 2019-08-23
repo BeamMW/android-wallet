@@ -289,6 +289,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             view?.requestFocusToAmount()
         } else {
+            view?.vibrate(100)
             view?.showNotBeamAddressError()
         }
     }
