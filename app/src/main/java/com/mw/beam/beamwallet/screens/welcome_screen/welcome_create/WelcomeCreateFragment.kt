@@ -110,10 +110,6 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
         btnChangeLanguage.setOnClickListener(null)
     }
 
-    override fun showRestoreNotification() {
-        showAlert(getString(R.string.welcome_restore_notification), getString(R.string.i_agree), { presenter?.onConfirmRestore() }, getString(R.string.restore_wallet))
-    }
-
     override fun createWallet() {
         findNavController().navigate(WelcomeCreateFragmentDirections.actionWelcomeCreateFragmentToWelcomeDescriptionFragment())
     }

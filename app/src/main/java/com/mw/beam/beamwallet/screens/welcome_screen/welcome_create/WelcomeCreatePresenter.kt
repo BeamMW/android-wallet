@@ -51,10 +51,6 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
     }
 
     override fun onRestoreWallet() {
-        view?.showRestoreNotification()
-    }
-
-    override fun onConfirmRestore() {
         view?.restoreWallet()
     }
 

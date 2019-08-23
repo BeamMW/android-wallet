@@ -28,7 +28,6 @@ interface WelcomeCreateContract {
     interface View : MvpView {
         fun createWallet()
         fun restoreWallet()
-        fun showRestoreNotification()
         fun hasBackArrow(): Boolean
         fun back()
         fun finish()
@@ -39,7 +38,6 @@ interface WelcomeCreateContract {
     interface Presenter : MvpPresenter<View> {
         fun onCreateWallet()
         fun onRestoreWallet()
-        fun onConfirmRestore()
         fun onBackPressed()
         fun onChangeLanguagePressed()
     }
