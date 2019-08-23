@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_details
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -36,6 +37,10 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
         getResult("deleteAddress") {
             TrashManager.add(walletAddress.walletID, TrashManager.ActionData(txDescriptions, listOf(walletAddress)))
         }
+    }
+
+    override fun getAddresses(): Subject<OnAddressesData> {
+        return getResult(WalletListener.subOnAddresses, "getAddresses")
     }
 
     override fun getTxStatus(): Observable<OnTxStatusData> {

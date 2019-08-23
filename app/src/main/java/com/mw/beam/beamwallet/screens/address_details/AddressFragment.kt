@@ -46,7 +46,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private lateinit var adapter: TransactionsAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
-    override fun getToolbarTitle(): String? = getString(R.string.address)
+    override fun getToolbarTitle(): String? = getString(R.string.address_details)
     override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
 
     override fun init(address: WalletAddress) {

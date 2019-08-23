@@ -33,6 +33,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
     private lateinit var trashSubscription: Disposable
+    private lateinit var addressSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -104,6 +105,13 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
             view?.configTransactions(state.getTransactions())
         }
 
+        addressSubscription = repository.getAddresses().subscribe {
+            it.addresses?.find { address -> address.walletID == state.address?.walletID }?.let { address ->
+                state.address = address
+                view?.init(address)
+            }
+        }
+
         trashSubscription = repository.getTrashSubject().subscribe {
             when (it.type) {
                 TrashManager.ActionType.Added -> {
@@ -121,5 +129,5 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressSubscription, trashSubscription)
 }

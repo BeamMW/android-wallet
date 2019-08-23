@@ -22,8 +22,6 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -61,7 +59,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
 
         trashSubscription = repository.getTrashSubject().subscribe {
-            when(it.type) {
+            when (it.type) {
                 TrashManager.ActionType.Added -> {
                     state.deleteAddresses(it.data.addresses)
                     updateView()
@@ -70,31 +68,27 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
                     state.updateAddresses(it.data.addresses)
                     updateView()
                 }
-                TrashManager.ActionType.Removed -> {}
+                TrashManager.ActionType.Removed -> {
+                }
             }
         }
 
         txStatusSubscription = repository?.getTxStatus()?.subscribe { data ->
-            doAsync {
-                if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED)
-                {
-                    if (data.action == ChangeAction.RESET)
-                    {
-                        state.transactions.clear()
-                    }
-
-                    if (data.tx != null){
-                        state.transactions.addAll(data.tx!!)
-                    }
-
-                    state.deleteTransaction(repository.getAllTransactionInTrash())
+            if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED) {
+                if (data.action == ChangeAction.RESET) {
+                    state.transactions.clear()
                 }
-                else if (data.action == ChangeAction.REMOVED)
-                {
-                    state.deleteTransaction(data.tx)
-                    state.deleteTransaction(repository.getAllTransactionInTrash())
+
+                if (data.tx != null) {
+                    state.transactions.addAll(data.tx!!)
                 }
+
+                state.deleteTransaction(repository.getAllTransactionInTrash())
+            } else if (data.action == ChangeAction.REMOVED) {
+                state.deleteTransaction(data.tx)
+                state.deleteTransaction(repository.getAllTransactionInTrash())
             }
+
         }
     }
 
@@ -124,11 +118,9 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
             }
         }
 
-        if (showTransactionsAlert)
-        {
+        if (showTransactionsAlert) {
             view?.showDeleteAddressesDialog()
-        }
-        else{
+        } else {
             view?.showDeleteAddressesSnackBar(false)
         }
     }
@@ -140,8 +132,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         for (i in 0 until addresses.count()) {
             val id = addresses[i]
             val address = state?.getAddresses()?.find { it.walletID == id }
-            if (address !=null)
-            {
+            if (address != null) {
                 repository.deleteAddress(address, if (withTransactions) state?.getTransactions(id) else listOf())
             }
         }
