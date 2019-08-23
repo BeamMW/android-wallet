@@ -19,6 +19,7 @@ interface AddContactContract {
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
+        fun showErrorNotBeamAddress()
     }
 
     interface Presenter : MvpPresenter<View> {

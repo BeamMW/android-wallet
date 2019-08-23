@@ -35,7 +35,7 @@ object QrHelper {
     const val BEAM_URI_PREFIX = "beam://"
     private const val BEAM_QR_PREFIX = "beam:"
     private const val AMOUNT_PARAMETER = "amount"
-    private const val MAX_TOKEN_LENGTH = 80
+    const val MAX_TOKEN_LENGTH = 80
 
     val tokenRegex = Regex("[^A-Fa-f0-9]")
     private val amountDecimalFormat = DecimalFormat().apply {

@@ -41,7 +41,8 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         if (QrHelper.isValidAddress(scannedAddress)) {
             view?.setAddress(scannedAddress)
         } else {
-            view?.showTokenError()
+            view?.vibrate(100)
+            view?.showErrorNotBeamAddress()
         }
     }
 

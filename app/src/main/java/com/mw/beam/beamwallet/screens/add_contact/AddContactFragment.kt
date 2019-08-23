@@ -3,6 +3,7 @@ package com.mw.beam.beamwallet.screens.add_contact
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.text.*
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -17,6 +18,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.views.TagAdapter
@@ -67,6 +69,20 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         }
 
         address.addTextChangedListener(tokenWatcher)
+        address.filters = arrayOf(InputFilter { source, _, _, dest, dstart, dend ->
+            if (source.isNotEmpty()) {
+                val enteredText = dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length)
+
+                if (!QrHelper.isValidAddress(enteredText)) {
+                    ""
+                } else {
+                    null
+                }
+            } else {
+                null
+            }
+
+        })
     }
 
     override fun setAddress(address: String) {
@@ -135,6 +151,10 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
 
     override fun showTokenError() {
         tokenError.visibility = View.VISIBLE
+    }
+
+    override fun showErrorNotBeamAddress() {
+        showSnackBar(getString(R.string.send_error_not_beam_address))
     }
 
     override fun hideTokenError() {
