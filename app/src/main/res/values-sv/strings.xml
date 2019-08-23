@@ -59,6 +59,7 @@
     <string name="welcome_change_alert">Om du återställer en plånbok så kommer all transaktionshistorik och adresser att försvinna.</string>
     <string name="welcome_btn_change_alert">Fortsätt</string>
     <string name="welcome_where_to_buy_beam">Vart köper man BEAM?</string>
+    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Börja använda din plånbok</string>
     <string name="pass_save_new">Spara nytt lösenord</string>
@@ -392,6 +393,9 @@ You must enter your password to see Owner Key.</string>
     <string name="empty_utxo_list">Din UTXO-lista är tom</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
+    <string name="empty_address_list_active">You have no active addresses</string>
+    <string name="empty_address_list_expired">You have no expired addresses</string>
+    <string name="empty_utxo_list_progress">You have no active UTXO</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>

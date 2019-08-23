@@ -59,6 +59,7 @@
     <string name="welcome_change_alert">Bir cüzdanı geri yükleyecekseniz, tüm işlem geçmişi ve adresleri kaybolur.</string>
     <string name="welcome_btn_change_alert">Devam et</string>
     <string name="welcome_where_to_buy_beam">Beam nereden alınır?</string>
+    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Cüzdanınızı kullanmaya başlayın</string>
     <string name="pass_save_new">Yeni şifreyi kaydet</string>
@@ -246,7 +247,7 @@
     <string name="minute">dakika</string>
     <string name="settings_ask_password_on_send">Her yollama işleminde şifre iste</string>
     <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_enable_fingerprint">Parmak izi ile açmayı etkinleştir</string>
     <string name="settings_allow_open_link">Harici linkleri açmaya izin ver</string>
     <string name="settings_dialog_node_error">Yanlış düğüm adresi</string>
     <string name="settings_dialog_node_title">Düğüm adresleri</string>
@@ -304,7 +305,7 @@
     <string name="color">Renk</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">Sahiplik anahtarını görmek için 2 adımlı doğrulamayı geçmelisiniz (şifrenizi girip ve Parmak izi kimliğinizi kullanın)</string>
     <string name="owner_key_verification_fingerprint_error">Parmak izi doğrulaması başarısız oldu. Lütfen birkaç dakika içinde tekrar deneyin.</string>
     <string name="owner_key_verification_title_with_finger">Cüzdana erişmek için şifrenizi girin ve Parmak İzi Kimliğinizi kullanın</string>
     <string name="owner_key_verification_fingerprint_description">48/5000
@@ -322,7 +323,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">Bildirim kanalı</string>
     <string name="notification_channel_description">Varsayılan bildirim kanalı</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Parmak izi sensörüne dokunun</string>
     <string name="fingerprint_id">Parmak İzi Kimliği</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Adresi değiştir</string>
@@ -381,12 +382,12 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="dialog_empty_tags_message">Henüz bir etiketiniz yok. Şimdi bir etiket oluşturmak ister misiniz?</string>
     <string name="you_can_create_more_tags_in_settings">Ayarlarda daha fazla etiket oluşturabilirsiniz.</string>
     <string name="choose_tag">Etiket seçin</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="use_finger">Parmak izi kullan </string>
     <string name="tags">Etiketler</string>
     <string name="add_new_tag">Yeni etiket ekle</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="initiated">Başlatıldı</string>
+    <string name="latest_confirmation">Son onay</string>
+    <string name="share_transaction">İşlemi paylaş</string>
     <string name="paste">Yapıştır</string>
     <string name="selected">Selected</string>
     <string name="empty_address_list">Adres listeniz boş</string>
@@ -394,9 +395,12 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="empty_utxo_list">UTXO listeniz boş</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
+    <string name="empty_address_list_active">You have no active addresses</string>
+    <string name="empty_address_list_expired">You have no expired addresses</string>
+    <string name="empty_utxo_list_progress">You have no active UTXO</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Bağlanıyor...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
     <string name="address_details">Address details</string>
 </resources>
