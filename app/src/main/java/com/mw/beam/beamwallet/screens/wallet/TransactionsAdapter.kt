@@ -47,7 +47,6 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.receive)
     private val sendText = context.getString(R.string.send)
-    private val currencyBeam = context.getString(R.string.currency_beam)
     private var privacyMode: Boolean = false
     private var searchString: String? = null
 
@@ -67,7 +66,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 TxSender.SENT -> sendText
             }
 
-            message.text = "$messageStatus ${currencyBeam.toUpperCase()}" //TODO replace when multiply currency will be available
+            message.text = messageStatus
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor) //logically reversed because count starts from zero
             icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)

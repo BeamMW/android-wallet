@@ -31,19 +31,27 @@ class RestoreTrustedNodePresenter(view: RestoreTrustedNodeContract.View?, reposi
     override fun onNextPressed() {
         view?.showLoading()
 
-        nodeConnectionSubscription = repository.getSyncProgressUpdated().subscribe {
-            view?.navigateToProgress()
+        nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
+            if (it) {
+                view?.navigateToProgress()
+            } else {
+                showError()
+            }
         }
 
         repository.connectToNode(view?.getNodeAddress() ?: "")
         repository.wallet?.syncWithNode()
 
         delayedTask = DelayedTask.startNew(15, {
-            nodeConnectionSubscription.dispose()
-
-            view?.dismissLoading()
-            view?.showError()
+            showError()
         })
+    }
+
+    private fun showError() {
+        nodeConnectionSubscription.dispose()
+
+        view?.dismissLoading()
+        view?.showError()
     }
 
     override fun onStop() {

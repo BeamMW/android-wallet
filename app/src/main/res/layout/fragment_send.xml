@@ -116,16 +116,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="@dimen/common_margin"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/common_offset"
                     android:visibility="gone"
                     tools:visibility="visible"
                     android:singleLine="true"
                     android:ellipsize="middle"
-                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/contactIcon"
-                    app:layout_constraintEnd_toStartOf="@id/nameLimit"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/token"
-                    app:layout_constraintWidth_max="wrap"
                     tools:text="Sara Scholz" />
 
                 <TextView
@@ -137,21 +135,13 @@
                     tools:visibility="visible"
                     android:singleLine="true"
                     android:ellipsize="middle"
-                    android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="@dimen/common_margin"
-                    android:textAlignment="viewEnd"
-                    app:layout_constraintEnd_toEndOf="@id/token"
-                    app:layout_constraintStart_toEndOf="@id/contactName"
-                    app:layout_constraintTop_toBottomOf="@id/token"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintStart_toEndOf="@id/contactIcon"
+                    app:layout_constraintTop_toBottomOf="@id/contactName"
+                    app:layout_constraintEnd_toEndOf="@id/contactName"
                     tools:text="Salary"
                     tools:textColor="@color/category_yellow" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/nameLimit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.6" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
