@@ -22,6 +22,8 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -57,6 +59,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
             updateView()
         }
 
+
         trashSubscription = repository.getTrashSubject().subscribe {
             when(it.type) {
                 TrashManager.ActionType.Added -> {
@@ -72,23 +75,25 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         }
 
         txStatusSubscription = repository?.getTxStatus()?.subscribe { data ->
-            if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED)
-            {
-                if (data.action == ChangeAction.RESET)
+            doAsync {
+                if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED)
                 {
-                    state.transactions.clear()
-                }
+                    if (data.action == ChangeAction.RESET)
+                    {
+                        state.transactions.clear()
+                    }
 
-                if (data.tx != null){
-                    state.transactions.addAll(data.tx!!)
-                }
+                    if (data.tx != null){
+                        state.transactions.addAll(data.tx!!)
+                    }
 
-                state.deleteTransaction(repository.getAllTransactionInTrash())
-            }
-            else if (data.action == ChangeAction.REMOVED)
-            {
-                state.deleteTransaction(data.tx)
-                state.deleteTransaction(repository.getAllTransactionInTrash())
+                    state.deleteTransaction(repository.getAllTransactionInTrash())
+                }
+                else if (data.action == ChangeAction.REMOVED)
+                {
+                    state.deleteTransaction(data.tx)
+                    state.deleteTransaction(repository.getAllTransactionInTrash())
+                }
             }
         }
     }

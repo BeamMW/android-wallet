@@ -24,6 +24,7 @@ import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -31,10 +32,10 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
+import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
-import kotlinx.android.synthetic.main.fragment_wallet.*
 
 /**
  * Created by vain onnellinen on 2/28/19.
@@ -58,8 +59,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (mode == Mode.NONE) {
-                findNavController().popBackStack()
+            if (mode == Mode.NONE)
+            {
+                showLeftMenu()
             }
             else{
                 cancelSelectedAddresses()
@@ -135,6 +137,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         })
 
         tabLayout.setupWithViewPager(pager)
+
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.ADDRESS_BOOK)
     }
 
     override fun onStart() {
@@ -157,7 +161,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         val toolbarLayout = toolbarLayout
         toolbarLayout.centerTitle = true
         toolbarLayout.toolbar.title = null
-        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_back)
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_menu)
 
         mode = Mode.NONE
 
@@ -177,6 +181,16 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.centerTitle = false
         toolbarLayout.toolbar.title = selectedAddresses.count().toString() + " " + getString(R.string.selected).toLowerCase()
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
+        toolbarLayout.toolbar.setNavigationOnClickListener {
+            if (mode == Mode.NONE)
+            {
+                showLeftMenu()
+            }
+            else{
+                cancelSelectedAddresses()
+            }
+        }
+
         if (selectedAddresses.count() == 0)
         {
             cancelSelectedAddresses()

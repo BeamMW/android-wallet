@@ -48,7 +48,6 @@ interface WalletContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
         fun closeDrawer()
-        fun showOpenLinkAlert()
         fun clearAllNotification()
         fun showAllTransactions()
     }
@@ -63,8 +62,6 @@ interface WalletContract {
         fun onPrivacyModeActivated()
         fun onCancelDialog()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
-        fun onWhereBuyBeamPressed()
-        fun onOpenLinkPressed()
         fun onShowAllPressed()
     }
 
@@ -72,7 +69,6 @@ interface WalletContract {
         fun getWalletStatus(): Subject<WalletStatus>
         fun getTxStatus(): Observable<OnTxStatusData>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
-        fun isAllowOpenExternalLink(): Boolean
         fun getIntentTransactionId(): String?
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllTransactionInTrash(): List<TxDescription>

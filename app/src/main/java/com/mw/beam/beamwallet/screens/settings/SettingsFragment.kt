@@ -46,15 +46,18 @@ import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDi
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.dialog_node_address.view.*
-import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
 import java.util.concurrent.TimeUnit
-import retrofit2.adapter.rxjava2.Result.response
-import android.R.string
-import kotlinx.android.synthetic.main.fragment_restore_trusted_node.*
 import android.graphics.*
+import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.*
+import com.google.android.material.navigation.NavigationView
+import com.mw.beam.beamwallet.screens.wallet.NavItem
+import kotlinx.android.synthetic.main.fragment_settings.drawerLayout
+import kotlinx.android.synthetic.main.fragment_settings.navView
+import androidx.activity.OnBackPressedCallback
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -64,6 +67,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings)
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            showLeftMenu()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
 
     override fun init(runOnRandomNode: Boolean) {
         appVersionTitle.addDoubleDots()
@@ -85,6 +99,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             ip.setPadding(5,0,5,0)
             ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
+            nodeLayout.setPadding(0,20,0,20)
+            runRandomNodeSwitch.setPadding(0,30,0,0)
         }
         else{
             ip.setTextColor(resources.getColor(R.color.btn_drop_down_color))
@@ -97,15 +113,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 ipTitle.typeface = typeFace
             }
 
+            nodeLayout.setPadding(0,0,0,0)
+            runRandomNodeSwitch.setPadding(0,0,0,0)
 
             ip.setPadding(0,0,0,0)
             ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
         }
+
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
         allowOpenLinkSwitch.isChecked = allowOpen

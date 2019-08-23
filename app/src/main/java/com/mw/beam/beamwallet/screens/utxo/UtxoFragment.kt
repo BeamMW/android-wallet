@@ -16,9 +16,11 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
+import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -34,6 +36,12 @@ import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 import androidx.constraintlayout.widget.ConstraintSet
+import com.google.android.material.navigation.NavigationView
+import com.mw.beam.beamwallet.screens.wallet.NavItem
+import kotlinx.android.synthetic.main.fragment_utxo.drawerLayout
+import kotlinx.android.synthetic.main.fragment_utxo.navView
+import kotlinx.android.synthetic.main.fragment_utxo.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_wallet.*
 
 
 /**
@@ -44,6 +52,17 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo
     override fun getToolbarTitle(): String? = getString(R.string.utxo)
+
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            showLeftMenu()
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+    }
 
     override fun init() {
         val context = context ?: return
@@ -60,6 +79,8 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
         blockchainHeightTitle.addDoubleDots()
         blockchainHashTitle.addDoubleDots()
+
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.UTXO);
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

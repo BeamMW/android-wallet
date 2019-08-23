@@ -49,7 +49,15 @@ class UtxosPagerAdapter (val context: Context, onUtxoClickListener: UtxosAdapter
         val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
 
         val emptyLabel = emptyView.findViewById<TextView>(R.id.emptyLabel)
-        emptyLabel.text = context.getString(R.string.empty_utxo_list)
+
+        if (position == 1)
+        {
+            emptyLabel.text = context.getString(R.string.empty_utxo_list_progress)
+        }
+        else{
+            emptyLabel.text = context.getString(R.string.empty_utxo_list)
+        }
+
         emptyLabel.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_utxo_empty_state, 0, 0)
 
         recyclerView.setEmptyView(emptyView)
@@ -107,8 +115,10 @@ class UtxosPagerAdapter (val context: Context, onUtxoClickListener: UtxosAdapter
 }
 
 enum class Tab(val value: Int) {
-    AVAILABLE(R.string.available), PROGRESS(R.string.in_progress),
-    SPENT(R.string.spent), UNAVAILABLE(R.string.unavailable);
+    AVAILABLE(R.string.available),
+    PROGRESS(R.string.in_progress),
+    SPENT(R.string.spent),
+    UNAVAILABLE(R.string.unavailable);
 
     companion object {
         private val map: HashMap<Int, Tab> = HashMap()

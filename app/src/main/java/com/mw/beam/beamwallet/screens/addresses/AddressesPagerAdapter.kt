@@ -59,12 +59,11 @@ class AddressesPagerAdapter(val context: Context,
         val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
 
         val emptyLabel = emptyView.findViewById<TextView>(R.id.emptyLabel)
-        if (position == Tab.CONTACTS.value)
-        {
-            emptyLabel.text = context.getString(R.string.empty_contacts_list)
-        }
-        else{
-            emptyLabel.text = context.getString(R.string.empty_address_list)
+
+        when (position) {
+            Tab.CONTACTS.value -> emptyLabel.text = context.getString(R.string.empty_contacts_list)
+            Tab.EXPIRED.value -> emptyLabel.text = context.getString(R.string.empty_address_list_expired)
+            else -> emptyLabel.text = context.getString(R.string.empty_address_list_active)
         }
 
         recyclerView.setEmptyView(emptyView)

@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.item_navigation.*
  * Created by vain onnellinen on 2/22/19.
  */
 class NavItemsAdapter(private val context: Context, private var data: Array<NavItem>, private var clickListener: OnItemClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
+    lateinit var selectedItem:NavItem.ID
+
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val selectedColor = ContextCompat.getColor(context, R.color.colorAccent)
     private val unselectedColor = ContextCompat.getColor(context, R.color.ic_menu_color)
@@ -46,6 +48,9 @@ class NavItemsAdapter(private val context: Context, private var data: Array<NavI
             icon.setColorFilter(if (item.isSelected) selectedColor else unselectedColor)
             title.setTextColor(if (item.isSelected) selectedColor else unselectedColor)
 
+            icon.alpha = if (item.isSelected) 1F else 0.8F
+            title.alpha = if (item.isSelected) 1F else 0.8F
+
             itemView.setOnClickListener {
                 clickListener.onItemClick(item)
 //                selectItem(item.id)
@@ -54,6 +59,8 @@ class NavItemsAdapter(private val context: Context, private var data: Array<NavI
     }
 
     fun selectItem(id: NavItem.ID) {
+        selectedItem = id
+
         data.forEach {
             it.isSelected = id == it.id
         }

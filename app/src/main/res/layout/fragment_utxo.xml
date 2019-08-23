@@ -1,182 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:filterTouchesWhenObscured="true">
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mw.beam.beamwallet.core.views.BeamToolbar
-        android:id="@+id/toolbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:centerTitle="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/utxoScreen"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:filterTouchesWhenObscured="true"
-        android:fitsSystemWindows="true"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/infoCard"
-            style="@style/common_card_style"
-            app:cardCornerRadius="@dimen/common_card_corner_radius"
-            app:cardElevation="0dp"
+        <View
+            android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="@dimen/toolbar_gradient_size"
+            android:background="@drawable/address_toolbar_gradient"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:paddingStart="20dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:paddingEnd="20dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="20dp">
-
-                <TextView
-                    android:id="@+id/blockchainHeightTitle"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:letterSpacing="0.1"
-                    android:maxLines="2"
-                    android:text="@string/blockchain_height"
-                    android:textAllCaps="true"
-                    app:layout_constraintEnd_toStartOf="@+id/blockchainHeightValue"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_max="200dp"
-                    tools:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/blockchainHeightValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toEndOf="@id/utxoBarrier"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="84406" />
-
-                <TextView
-                    android:id="@+id/blockchainHashTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/utxo_item_padding"
-                    android:fontFamily="@font/roboto_bold"
-                    android:letterSpacing="0.1"
-                    android:maxLines="2"
-                    android:text="@string/last_block_hash"
-                    android:textAllCaps="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle"
-                    app:layout_constraintWidth_max="200dp"
-                    tools:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/blockchainHashValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/proxima_regular"
-                    android:maxLines="3"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@id/blockchainHeightValue"
-                    app:layout_constraintTop_toTopOf="@id/blockchainHashTitle"
-                    tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N69t" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/utxoBarrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="end"
-                    app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
+            app:centerTitle="true"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/infoCard"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="@color/address_tab_text_color"
-            app:tabTextAppearance="@style/common_subheader_dark"
-            app:tabTextColor="@color/address_tab_text_color" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/pager"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/utxoScreen"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            android:filterTouchesWhenObscured="true"
+            android:fitsSystemWindows="true"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
-
-        <LinearLayout
-            android:id="@+id/utxoPrivacyMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:paddingBottom="40dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/pager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pager">
+            app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
-            <TextView
-                android:id="@+id/privacyLabel"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/infoCard"
+                style="@style/common_card_style"
+                app:cardCornerRadius="@dimen/common_card_corner_radius"
+                app:cardElevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:drawableTop="@drawable/ic_eye_crossed_big"
-                android:drawablePadding="15dp"
-                android:fontFamily="@font/proxima_regular"
-                android:text="@string/utxo_security_message"
-                android:textAlignment="center"
-                android:textColor="@color/common_text_dark_color"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:paddingStart="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/blockchainHeightTitle"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.1"
+                        android:maxLines="2"
+                        android:text="@string/blockchain_height"
+                        android:textAllCaps="true"
+                        app:layout_constraintEnd_toStartOf="@+id/blockchainHeightValue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintWidth_max="200dp"
+                        tools:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/blockchainHeightValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toEndOf="@id/utxoBarrier"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="84406" />
+
+                    <TextView
+                        android:id="@+id/blockchainHashTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/utxo_item_padding"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.1"
+                        android:maxLines="2"
+                        android:text="@string/last_block_hash"
+                        android:textAllCaps="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle"
+                        app:layout_constraintWidth_max="200dp"
+                        tools:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/blockchainHashValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/proxima_regular"
+                        android:maxLines="3"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@id/blockchainHeightValue"
+                        app:layout_constraintTop_toTopOf="@id/blockchainHashTitle"
+                        tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N69t" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/utxoBarrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="end"
+                        app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/utxo_info_card_vertical_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/infoCard"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/address_tab_text_color"
+                app:tabTextAppearance="@style/common_subheader_dark"
+                app:tabTextColor="@color/address_tab_text_color" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+            <LinearLayout
+                android:id="@+id/utxoPrivacyMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="40dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/pager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/pager">
+
+                <TextView
+                    android:id="@+id/privacyLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:drawableTop="@drawable/ic_eye_crossed_big"
+                    android:drawablePadding="15dp"
+                    android:fontFamily="@font/proxima_regular"
+                    android:text="@string/utxo_security_message"
+                    android:textAlignment="center"
+                    android:textColor="@color/common_text_dark_color"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/navView"
+        layout="@layout/left_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

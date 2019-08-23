@@ -40,6 +40,7 @@ import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import java.util.concurrent.TimeUnit
+import android.view.WindowManager
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -59,6 +60,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
 
 //        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
             Fabric.with(this, Crashlytics(), CrashlyticsNdk())

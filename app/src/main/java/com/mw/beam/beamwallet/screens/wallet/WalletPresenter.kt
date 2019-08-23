@@ -85,20 +85,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
-    override fun onWhereBuyBeamPressed() {
-        if (repository.isAllowOpenExternalLink()) {
-            view?.closeDrawer()
-            view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
-        } else {
-            view?.showOpenLinkAlert()
-        }
-    }
-
-    override fun onOpenLinkPressed() {
-        view?.closeDrawer()
-        view?.openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
-    }
-
     override fun onCancelDialog() {
         view?.dismissAlert()
     }

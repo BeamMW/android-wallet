@@ -17,13 +17,35 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.os.Bundle
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.eightsines.holycycle.app.ViewControllerFragment
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.screens.wallet.NavItemsAdapter
+import com.mw.beam.beamwallet.screens.wallet.NavItem
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.GravityCompat
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
+import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
+import com.mw.beam.beamwallet.screens.wallet.WalletFragment
+import kotlinx.android.synthetic.main.fragment_wallet.view.*
+import com.mw.beam.beamwallet.screens.wallet.WalletFragmentDirections
+import android.os.Handler
+import android.view.Gravity
+import android.view.View
+import androidx.navigation.NavOptions
+import com.google.android.material.navigation.NavigationView
+import android.widget.TextView
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import kotlinx.coroutines.withTimeoutOrNull
+import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -32,6 +54,116 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()
+
+    private lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var navItemsAdapter: NavItemsAdapter
+    private var drawerLayout: DrawerLayout? = null
+    private var navigationOptions:NavOptions? = null
+    private var destinationFragment:Int? = null
+
+    fun showLeftMenu() {
+        if (drawerLayout?.isDrawerVisible(GravityCompat.START) == true) {
+            drawerLayout?.closeDrawer(GravityCompat.START)
+        }
+        else{
+            drawerLayout?.openDrawer(GravityCompat.START)
+        }
+    }
+
+    fun configNavView(toolbarLayout:BeamToolbar, navigationView:NavigationView, layout: DrawerLayout, selected: NavItem.ID) {
+        val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
+
+        drawerLayout = layout
+
+        val toolbar = toolbarLayout.toolbar
+        (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
+
+        drawerToggle = object : ActionBarDrawerToggle(
+                activity,
+                drawerLayout,
+                toolbar,
+                R.string.open,
+                R.string.close
+        ) {
+            override fun onDrawerClosed(drawerView: View) {
+                super.onDrawerClosed(drawerView)
+
+                if (destinationFragment!=null && navigationOptions!=null) {
+                    findNavController().navigate(destinationFragment!!, null, navigationOptions);
+                }
+            }
+        }
+        drawerLayout?.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        val menuItems = arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+
+        navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
+            override fun onItemClick(navItem: NavItem) {
+
+                val direction = when (navItem.id) {
+                    NavItem.ID.WALLET -> R.id.walletFragment
+                    NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+                    NavItem.ID.UTXO -> R.id.utxoFragment
+                    NavItem.ID.SETTINGS -> R.id.settingsFragment
+                    else -> null
+                }
+
+                val current = when (navItemsAdapter.selectedItem) {
+                    NavItem.ID.WALLET -> R.id.walletFragment
+                    NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+                    NavItem.ID.UTXO -> R.id.utxoFragment
+                    NavItem.ID.SETTINGS -> R.id.settingsFragment
+                    else -> null
+                }
+
+                if (direction!=null && current!=null)
+                {
+                    val navBuilder = NavOptions.Builder()
+                    navBuilder.setEnterAnim(android.R.anim.fade_in)
+                    navBuilder.setPopEnterAnim(android.R.anim.fade_in)
+                    navBuilder.setExitAnim(android.R.anim.fade_out)
+                    navBuilder.setPopExitAnim(android.R.anim.fade_out)
+
+                    destinationFragment = direction
+
+                    navigationOptions = navBuilder.setPopUpTo(current, true).build()
+
+                    drawerLayout?.closeDrawer(GravityCompat.START)
+                }
+            }
+        })
+        navMenu.layoutManager = LinearLayoutManager(context)
+        navMenu.adapter = navItemsAdapter
+
+        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
+        whereBuyBeamLink.setOnClickListener {
+
+            val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+            if (allow) {
+                openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+            }
+            else{
+                showAlert(
+                        getString(R.string.common_external_link_dialog_message),
+                        getString(R.string.open),
+                        { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
+                        getString(R.string.common_external_link_dialog_title),
+                        getString(R.string.cancel)
+                )
+            }
+
+        }
+
+        navItemsAdapter.selectItem(selected)
+
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+    }
 
     override fun onHideKeyboard() {
     }

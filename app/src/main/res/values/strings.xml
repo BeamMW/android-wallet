@@ -424,4 +424,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="empty_utxo_list">Your UTXO list is empty</string>
     <string name="version">Version %1$s</string>
     <string name="show_all">Show all</string>
+    <string name="empty_address_list_active">You have no active addresses</string>
+    <string name="empty_address_list_expired">You have no expired addresses</string>
+    <string name="empty_utxo_list_progress">You have no active UTXO</string>
 </resources>

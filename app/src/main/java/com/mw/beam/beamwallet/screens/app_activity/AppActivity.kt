@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.app_activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.WindowManager
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions

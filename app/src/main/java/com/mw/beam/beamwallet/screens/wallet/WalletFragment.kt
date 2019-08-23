@@ -23,15 +23,18 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
@@ -39,6 +42,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
+import org.w3c.dom.Text
 
 
 /**
@@ -46,9 +50,13 @@ import kotlinx.android.synthetic.main.fragment_wallet.*
  */
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
-    private lateinit var drawerToggle: ActionBarDrawerToggle
-    private lateinit var navItemsAdapter: NavItemsAdapter
     private lateinit var balancePagerAdapter: BalancePagerAdapter
+
+//    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+//        override fun handleOnBackPressed() {
+//            showLeftMenu()
+//        }
+//    }
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -153,19 +161,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         initTransactionsList()
         setHasOptionsMenu(true)
 
-        val toolbar = toolbarLayout.toolbar
-        (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
-
-        drawerToggle = ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.open, R.string.close)
-        drawerLayout.addDrawerListener(drawerToggle)
-        drawerToggle.syncState()
-
         balancePagerAdapter = BalancePagerAdapter(context!!)
         balanceViewPager.adapter = balancePagerAdapter
 
         indicator.setViewPager(balanceViewPager)
 
-        configNavView()
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.WALLET);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -201,10 +202,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         btnExpandInProgress.setOnClickListener {
             presenter?.onExpandInProgressPressed()
-        }
-
-        whereBuyBeamLink.setOnClickListener {
-            presenter?.onWhereBuyBeamPressed()
         }
 
         btnShowAll.setOnClickListener {
@@ -319,7 +316,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnShowAll.setOnClickListener(null)
         balanceViewPager.removeOnPageChangeListener(onPageSelectedListener)
         clearTitleListeners()
-        whereBuyBeamLink.setOnClickListener(null)
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
@@ -328,51 +324,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()
-    }
-
-    private fun configNavView() {
-        val menuItems = arrayOf(
-//                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.nav_wallet), isSelected = true),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
-
-        navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
-            override fun onItemClick(navItem: NavItem) {
-
-                drawerLayout.closeDrawer(GravityCompat.START)
-
-                val direction = when (navItem.id) {
-//                    NavItem.ID.WALLET -> showFragment(WalletFragment.newInstance(), WalletFragment.getFragmentTag(), WalletFragment.getFragmentTag(), true)
-                    NavItem.ID.ADDRESS_BOOK -> WalletFragmentDirections.actionWalletFragmentToAddressesFragment()
-                    NavItem.ID.UTXO -> WalletFragmentDirections.actionWalletFragmentToUtxoFragment()
-//                    NavItem.ID.DASHBOARD -> LogUtils.log("dashboard")
-//                    NavItem.ID.NOTIFICATIONS -> LogUtils.log("notifications")
-//                    NavItem.ID.HELP -> LogUtils.log("help")
-                    NavItem.ID.SETTINGS -> WalletFragmentDirections.actionWalletFragmentToSettingsFragment()
-                    else -> null
-                }
-
-                Handler().postDelayed({
-                    if (direction != null) {
-                        findNavController().navigate(direction)
-                    }
-                }, 220)
-            }
-        })
-        navMenu.layoutManager = LinearLayoutManager(context)
-        navMenu.adapter = navItemsAdapter
-        navItemsAdapter.selectItem(NavItem.ID.WALLET)
-    }
-
-    override fun showOpenLinkAlert() {
-        showAlert(
-                getString(R.string.common_external_link_dialog_message),
-                getString(R.string.open),
-                { presenter?.onOpenLinkPressed() },
-                getString(R.string.common_external_link_dialog_title),
-                getString(R.string.cancel)
-        )
     }
 
     override fun closeDrawer() {
@@ -390,6 +341,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         onBackPressedCallback.isEnabled = false
         super.onStop()
     }
+
 
     override fun clearAllNotification() {
         (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancelAll()

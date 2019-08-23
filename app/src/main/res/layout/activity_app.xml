@@ -2,9 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mw.beam.beamwallet.screens.app_activity.AppActivity">
+
+    <com.mw.beam.beamwallet.core.views.SnackBarsView
+        android:id="@+id/snackbars_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
     <fragment
         android:id="@+id/nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -15,11 +23,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/navigation"/>
-
-    <com.mw.beam.beamwallet.core.views.SnackBarsView
-        android:id="@+id/snackbars_view"
-        android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:navGraph="@navigation/navigation" />
 </FrameLayout>

@@ -43,10 +43,6 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         }
     }
 
-    override fun isAllowOpenExternalLink(): Boolean {
-        return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-    }
-
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
 
     override fun getIntentTransactionId(): String? {
