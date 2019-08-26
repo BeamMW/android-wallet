@@ -61,12 +61,23 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     private var navigationOptions:NavOptions? = null
     private var destinationFragment:Int? = null
 
-    fun showLeftMenu() {
+    private val menuItems by lazy {
+        arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+    }
+
+    fun showWalletFragment() {
         if (drawerLayout?.isDrawerVisible(GravityCompat.START) == true) {
             drawerLayout?.closeDrawer(GravityCompat.START)
         }
         else{
-            drawerLayout?.openDrawer(GravityCompat.START)
+            val navItem = menuItems[0]
+            navItemClick(navItem)
+            navItemsAdapter.selectItem(navItem.id)
+            navigateIfNeed()
         }
     }
 
@@ -87,54 +98,15 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         ) {
             override fun onDrawerClosed(drawerView: View) {
                 super.onDrawerClosed(drawerView)
-
-                if (destinationFragment!=null && navigationOptions!=null) {
-                    findNavController().navigate(destinationFragment!!, null, navigationOptions);
-                }
+                navigateIfNeed()
             }
         }
         drawerLayout?.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
-        val menuItems = arrayOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
-
         navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
-
-                val direction = when (navItem.id) {
-                    NavItem.ID.WALLET -> R.id.walletFragment
-                    NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-                    NavItem.ID.UTXO -> R.id.utxoFragment
-                    NavItem.ID.SETTINGS -> R.id.settingsFragment
-                    else -> null
-                }
-
-                val current = when (navItemsAdapter.selectedItem) {
-                    NavItem.ID.WALLET -> R.id.walletFragment
-                    NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-                    NavItem.ID.UTXO -> R.id.utxoFragment
-                    NavItem.ID.SETTINGS -> R.id.settingsFragment
-                    else -> null
-                }
-
-                if (direction!=null && current!=null)
-                {
-                    val navBuilder = NavOptions.Builder()
-                    navBuilder.setEnterAnim(android.R.anim.fade_in)
-                    navBuilder.setPopEnterAnim(android.R.anim.fade_in)
-                    navBuilder.setExitAnim(android.R.anim.fade_out)
-                    navBuilder.setPopExitAnim(android.R.anim.fade_out)
-
-                    destinationFragment = direction
-
-                    navigationOptions = navBuilder.setPopUpTo(current, true).build()
-
-                    drawerLayout?.closeDrawer(GravityCompat.START)
-                }
+                navItemClick(navItem)
             }
         })
         navMenu.layoutManager = LinearLayoutManager(context)
@@ -163,6 +135,45 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         navItemsAdapter.selectItem(selected)
 
         toolbar.setNavigationIcon(R.drawable.ic_menu)
+    }
+
+    private fun navigateIfNeed() {
+        if (destinationFragment!=null && navigationOptions!=null) {
+            findNavController().navigate(destinationFragment!!, null, navigationOptions);
+        }
+    }
+
+    private fun navItemClick(navItem: NavItem) {
+        val direction = when (navItem.id) {
+            NavItem.ID.WALLET -> R.id.walletFragment
+            NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+            NavItem.ID.UTXO -> R.id.utxoFragment
+            NavItem.ID.SETTINGS -> R.id.settingsFragment
+            else -> null
+        }
+
+        val current = when (navItemsAdapter.selectedItem) {
+            NavItem.ID.WALLET -> R.id.walletFragment
+            NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+            NavItem.ID.UTXO -> R.id.utxoFragment
+            NavItem.ID.SETTINGS -> R.id.settingsFragment
+            else -> null
+        }
+
+        if (direction!=null && current!=null)
+        {
+            val navBuilder = NavOptions.Builder()
+            navBuilder.setEnterAnim(android.R.anim.fade_in)
+            navBuilder.setPopEnterAnim(android.R.anim.fade_in)
+            navBuilder.setExitAnim(android.R.anim.fade_out)
+            navBuilder.setPopExitAnim(android.R.anim.fade_out)
+
+            destinationFragment = direction
+
+            navigationOptions = navBuilder.setPopUpTo(current, true).build()
+
+            drawerLayout?.closeDrawer(GravityCompat.START)
+        }
     }
 
     override fun onHideKeyboard() {
