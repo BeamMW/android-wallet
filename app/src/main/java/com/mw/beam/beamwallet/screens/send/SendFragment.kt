@@ -854,9 +854,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment))
     }
 
+    @SuppressLint("SetTextI18n")
     override fun updateAvailable(available: Long) {
         btnSendAll.isEnabled = available > 0
-        availableSum.text = available.convertToBeamString()
+        availableSum.text = "${available.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
     }
 
     override fun isAmountErrorShown(): Boolean {
