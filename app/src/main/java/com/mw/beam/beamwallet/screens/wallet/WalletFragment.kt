@@ -55,7 +55,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
 //    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
 //        override fun handleOnBackPressed() {
-//            showLeftMenu()
+//            showWalletFragment()
 //        }
 //    }
 

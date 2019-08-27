@@ -21,7 +21,6 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
@@ -34,14 +33,11 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
-import com.mw.beam.beamwallet.core.helpers.ScreenHelper
-import androidx.constraintlayout.widget.ConstraintSet
 import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.fragment_utxo.drawerLayout
 import kotlinx.android.synthetic.main.fragment_utxo.navView
 import kotlinx.android.synthetic.main.fragment_utxo.toolbarLayout
-import kotlinx.android.synthetic.main.fragment_wallet.*
 
 
 /**
@@ -55,7 +51,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            showLeftMenu()
+            showWalletFragment()
         }
     }
 
@@ -85,6 +81,22 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         presenter?.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {

@@ -70,7 +70,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            showLeftMenu()
+            showWalletFragment()
         }
     }
 
@@ -109,7 +109,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             if(this.context != null)
             {
-                var typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_regular)
+                val typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_regular)
                 ipTitle.typeface = typeFace
             }
 
@@ -121,6 +121,22 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
 
         configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
     }
 
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
