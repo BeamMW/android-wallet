@@ -16,10 +16,13 @@
 
 package com.mw.beam.beamwallet.screens.proof_verification
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.text.Editable
+import android.transition.AutoTransition
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.transition.TransitionManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -28,9 +31,23 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_proof_verification.*
+import kotlinx.android.synthetic.main.fragment_proof_verification.btnDetailsCopy
+import kotlinx.android.synthetic.main.fragment_proof_verification.receiverValue
+import kotlinx.android.synthetic.main.fragment_proof_verification.senderValue
+import kotlinx.android.synthetic.main.fragment_proof_verification.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.kernelValue
+import kotlinx.android.synthetic.main.fragment_proof_verification.amountValue
+import com.mw.beam.beamwallet.core.AppModel
+import kotlinx.android.synthetic.main.fragment_proof_verification.detailsArrowView
+import kotlinx.android.synthetic.main.fragment_proof_verification.detailsExpandLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.detailsLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.kernelLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.amountLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.senderLayout
+import kotlinx.android.synthetic.main.fragment_proof_verification.receiverLayout
+
 
 class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), ProofVerificationContract.View {
     private lateinit var textWatcher: TextWatcher
@@ -38,6 +55,8 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_proof_verification
 
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification)
+
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun addListeners() {
         textWatcher = object : TextWatcher {
@@ -50,18 +69,20 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         btnDetailsCopy.setOnClickListener {
             presenter?.onCopyDetailsPressed()
         }
+
+        detailsExpandLayout.setOnClickListener {
+            presenter?.onExpandDetailsPressed()
+        }
     }
 
     override fun init() {
-        senderTitle.addDoubleDots()
-        receiverTitle.addDoubleDots()
-        amountTitle.addDoubleDots()
-        kernelIdTitle.addDoubleDots()
+        toolbarLayout.hasStatus = true
     }
 
     override fun clear() {
         TransitionManager.beginDelayedTransition(proofContainer)
-        proofGroup.visibility = View.GONE
+        detailsLayout.visibility = View.GONE
+        btnDetailsCopy.visibility = View.GONE
     }
 
     override fun showErrorProof() {
@@ -74,19 +95,52 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
-        proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.colorAccent))
+
+        proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.white_01))
         proofValue.setTextColor(context!!.getColor(R.color.common_text_color))
     }
 
     @SuppressLint("SetTextI18n")
     override fun showProof(proof: PaymentProof) {
+        proofValue.clearFocus()
+        hideKeyboard()
+        btnDetailsCopy.requestFocus()
+
         senderValue.text = proof.senderId
         receiverValue.text = proof.receiverId
+
+        val sender = AppModel.instance.getAddress(proof.senderId)
+        if(sender !=null && !sender.label.isNullOrEmpty())
+        {
+            senderContactLayout.visibility = View.VISIBLE
+            senderContactValue.text = sender.label
+        }
+        else{
+            senderContactLayout.visibility = View.GONE
+        }
+
+        val receiver = AppModel.instance.getAddress(proof.receiverId)
+        if(receiver !=null && !receiver.label.isNullOrEmpty())
+        {
+            receiverContactLayout.visibility = View.VISIBLE
+            receiverContactValue.text = receiver.label
+        }
+        else{
+            receiverContactLayout.visibility = View.GONE
+        }
+
+
         amountValue.text = "${proof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
-        kernelIdValue.text = proof.kernelId
+        kernelValue.text = proof.kernelId
 
         TransitionManager.beginDelayedTransition(proofContainer)
-        proofGroup.visibility = View.VISIBLE
+        detailsLayout.visibility = View.VISIBLE
+        btnDetailsCopy.visibility = View.VISIBLE
+
+        if (senderLayout.visibility == View.GONE)
+        {
+            presenter?.onExpandDetailsPressed()
+        }
     }
 
     override fun showCopiedMessage() {
@@ -104,11 +158,33 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
                 proof.kernelId
     }
 
+    override fun handleExpandDetails(shouldExpandDetails: Boolean) {
+        animateDropDownIcon(detailsArrowView, !shouldExpandDetails)
+
+        android.transition.TransitionManager.beginDelayedTransition(proofContainer, AutoTransition().apply {
+        })
+
+        val contentVisibility = if (shouldExpandDetails) View.VISIBLE else View.GONE
+        receiverLayout.visibility = contentVisibility
+        senderLayout.visibility = contentVisibility
+        kernelLayout.visibility = contentVisibility
+        amountLayout.visibility = contentVisibility
+    }
+
     override fun clearListeners() {
         btnDetailsCopy.setOnClickListener(null)
+        detailsExpandLayout.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return ProofVerificationPresenter(this, ProofVerificationRepository(), ProofVerificationState())
+    }
+
+    private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
+        val angleFrom = if (shouldExpand) 180f else 360f
+        val angleTo = if (shouldExpand) 360f else 180f
+        val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
+        anim.duration = 500
+        anim.start()
     }
 }

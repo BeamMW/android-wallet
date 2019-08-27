@@ -75,6 +75,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun init() {
+
         val context = context ?: return
 
         setHasOptionsMenu(true)

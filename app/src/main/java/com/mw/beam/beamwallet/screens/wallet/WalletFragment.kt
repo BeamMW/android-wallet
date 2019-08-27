@@ -43,6 +43,7 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import org.w3c.dom.Text
+import com.mw.beam.beamwallet.core.AppModel
 
 
 /**
@@ -156,6 +157,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun init() {
+        AppModel.instance.subscribeToUpdates()
         App.isAuthenticated = true
 
         initTransactionsList()

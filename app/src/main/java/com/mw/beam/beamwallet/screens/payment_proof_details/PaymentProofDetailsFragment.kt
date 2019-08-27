@@ -24,26 +24,45 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_payment_proof_details.*
+import com.mw.beam.beamwallet.core.AppModel
+import android.view.View
+import androidx.core.content.ContextCompat
 
 class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
 
     override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(arguments!!).paymentProof
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     @SuppressLint("SetTextI18n")
     override fun init(paymentProof: PaymentProof) {
+        toolbarLayout.hasStatus = true
+
         senderValue.text = paymentProof.senderId
         receiverValue.text = paymentProof.receiverId
         amountValue.text = "${paymentProof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
-        kernelIdValue.text = paymentProof.kernelId
+        kernelValue.text = paymentProof.kernelId
         codeValue.text = paymentProof.rawProof
 
-        codeTitle.addDoubleDots()
-        senderTitle.addDoubleDots()
-        receiverTitle.addDoubleDots()
-        amountTitle.addDoubleDots()
-        kernelIdTitle.addDoubleDots()
+        val sender = AppModel.instance.getAddress(paymentProof.senderId)
+        if(sender !=null && !sender.label.isNullOrEmpty())
+        {
+            senderContactLayout.visibility = View.VISIBLE
+            senderContactValue.text = sender.label
+        }
+        else{
+            senderContactLayout.visibility = View.GONE
+        }
+
+        val receiver = AppModel.instance.getAddress(paymentProof.receiverId)
+        if(receiver !=null && !receiver.label.isNullOrEmpty())
+        {
+            receiverContactLayout.visibility = View.VISIBLE
+            receiverContactValue.text = receiver.label
+        }
+        else{
+            receiverContactLayout.visibility = View.GONE
+        }
     }
 
     override fun getDetailsContent(paymentProof: PaymentProof): String {
