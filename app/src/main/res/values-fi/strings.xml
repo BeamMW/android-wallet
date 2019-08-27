@@ -34,7 +34,7 @@
     <string name="error_no_internet_connection">Ei internetyhteyttä</string>
     <string name="error_incorrect_node">Palvelimen osoite virheellinen tai ei internetyhteyttä</string>
     <string name="common_stay_active_title">Pysy aktiivisena</string>
-    <string name="common_stay_active_message">Älä sulje lompakkoa ennen kuin siirtotapahtuma on valmis</string>
+    <string name="common_stay_active_message">Älä sulje lompakkoa ennen kuin maksutapahtuma on valmis</string>
     <!--NavigationDrawer-->
     <string name="nav_dashboard">Hallintasivu</string>
     <string name="wallet">Lompakko</string>
@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Jos haluat palauttaa vanhan lompakon, tapahtumahistoria ja tallennetut osoitteet katoavat pysyvästi.</string>
     <string name="welcome_btn_change_alert">Jatka</string>
     <string name="welcome_where_to_buy_beam">Mistä voin ostaa BEAMiä?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Älä käytä samaa seed phrasea usealla laitteella, sillä saldosi ja tapahtumasi eivät synkronoidu.</string>
+    <string name="welcome_using_two_wallets_notification_title">Älä käytä samaan aikaan kahta lompakkoa, jotka molemmat ovat luotu samasta seed phrasesta</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Aloita lompakon käyttö</string>
     <string name="pass_save_new">Tallenna uusi salasana</string>
@@ -144,7 +145,7 @@
     <string name="spent">Käytetty</string>
     <string name="unavailable">Ei käytettävissä</string>
     <string name="utxo_status_result_rollback">Louhintatulos peruttu</string>
-    <string name="blockchain_height">Lohkoketjun taso</string>
+    <string name="blockchain_height">Lohkoketjun pituus</string>
     <string name="last_block_hash">Lohkon tiiviste (hash)</string>
     <string name="utxo_security_message">Yksityisyysnäkymä on päällä.</string>
     <string name="utxo_turn_off_see_utxo">Laita se pois päältä saadaksesi UTXO-luettelon näkyviin.</string>
@@ -210,22 +211,22 @@
         <item>Ei koskaan</item>
     </string-array>
     <!--SendFragment-->
-    <string name="send_token_description">Lisää tai skannaa vastaanottajan osoite</string>
+    <string name="send_token_description">Lisää tai skannaa saajan osoite</string>
     <string name="send_amount_empty_error">Summaa ei voi jättää tyhjäksi</string>
     <string name="send_amount_zero_error">Summa ei voi olla 0 BEAMiä</string>
-    <string name="send_amount_overflow_error">Saldo ei riitä: tarvitset vähintään %1$s Beamiä suorittaaksesi siirtotapahtuman.</string>
+    <string name="send_amount_overflow_error">Saldo ei riitä: tarvitset vähintään %1$s Beamiä suorittaaksesi maksutapahtuman.</string>
     <string name="insufficient_funds">Saldo ei riitä</string>
     <string name="invalid_address">Virheellinen osoite</string>
-    <string name="send_error_expired_address">Vanhentuneeseen osoitteen ei voida lähettää</string>
+    <string name="send_error_expired_address">Vanhentuneeseen osoitteeseen ei voida lähettää</string>
     <string name="send_permission_required_title">Käyttöoikeus tarvitaan</string>
     <string name="send_permission_required_message">Anna kameran käyttöoikeus käyttääksesi QR-skanneria</string>
     <string name="send_error_not_beam_address">Skannattu koodi ei ole Beam-lompakon osoite</string>
     <string name="send_error_paste">Virheellistä osoitetta ei voida liittää</string>
-    <string name="send_confirm_transaction_details">Vahvista siirtotiedot</string>
-    <string name="recipient">Vastaanottaja</string>
+    <string name="send_confirm_transaction_details">Vahvista maksun tiedot</string>
+    <string name="recipient">Saaja</string>
     <string name="amount">Summa</string>
-    <string name="send_dialog_description">Suorittaaksesi siirtotapahtuman kirjoita salasanasi</string>
-    <string name="send_dialog_description_with_fingerprint">Suorittaaksesi siirtotapahtuman käytä sormenjälkitunnistusta tai kirjoita salasanasi</string>
+    <string name="send_dialog_description">Suorittaaksesi maksutapahtuman kirjoita salasanasi</string>
+    <string name="send_dialog_description_with_fingerprint">Suorittaaksesi maksutapahtuman käytä sormenjälkitunnistusta tai kirjoita salasanasi</string>
     <string name="total_available">Käytettävissä yhteensä</string>
     <string name="transaction_comment">Tapahtuman kommentti</string>
     <string name="wont_be_shared">ei näy muille</string>
@@ -317,7 +318,7 @@ Nähdäksesi omistusavaimesi sinun tulee kirjoittaa salasanasi.</string>
     <string name="owner_key_verification_pass_finger">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
 Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta).</string>
     <!--BackgroundService-->
-    <string name="notification_receive_content_title">Vastaanottaa uutta siirtoa</string>
+    <string name="notification_receive_content_title">Vastaanottaa uutta maksua</string>
     <string name="notification_receive_content_text">Paina nähdäksesi lisätietoja</string>
     <string name="notification_channel_name">Ilmoituskanava</string>
     <string name="notification_channel_description">Oletusilmoituskanava</string>
@@ -337,10 +338,10 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="send_to">Vastaanottaja</string>
     <string name="amount_to_send">Summa</string>
     <string name="total_utxo_value">UTXO-kokonaisarvo</string>
-    <string name="confirmation_send_description">Jotta siirtotapahtuma onnistuu, tulee vastaanottajan avata lompakkonsa 12 tunnin sisällä lähetyksestä, minkä jälkeen sinun tulee vielä avata lompakko 2 tunnin sisällä.</string>
+    <string name="confirmation_send_description">Jotta maksutapahtuma onnistuu, tulee saajan avata lompakkonsa 12 tunnin sisällä lähetyksestä, minkä jälkeen sinun tulee vielä avata lompakko 2 tunnin sisällä.</string>
     <string name="confirmation">Vahvistus</string>
     <string name="change_description">lukitaan siihen asti kunnes tapahtuma on valmis tai vanhentuu</string>
-    <string name="save_recipient_address">Haluatko tallentaa vastaanottajan osoitteen yhteystietoihisi?</string>
+    <string name="save_recipient_address">Haluatko tallentaa saajan osoitteen yhteystietoihisi?</string>
     <string name="save_address">Tallenna osoite</string>
     <string name="dont_save">Älä tallenna</string>
     <string name="enter_your_current_password_to_proceed_changes_in_settings">Kirjoita salasanasi muuttaaksesi asetuksia</string>
@@ -354,7 +355,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="expires_in">Vanhentuu %1$s t %2$s min</string>
     <string name="add_contact">Lisää yhteystieto</string>
     <string name="enter_your_password_to_confirm_transaction">Kirjoita salasanasi hyväksyäksesi maksutapahtuman</string>
-    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Käytä sormenjälkitunnistusta tai kirjoita salasanasi hyväksyäksesi siirtotapahtuman</string>
+    <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Käytä sormenjälkitunnistusta tai kirjoita salasanasi hyväksyäksesi maksutapahtuman</string>
     <string name="fingerprint_not_recognized">Sormenjälkeä ei tunnistettu</string>
     <string name="address_copied_to_clipboard">Osoite kopioitu leikepöydälle</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-lompakko lataa lohkoketjusta tilannekuvan pilvipalvelimelta.</string>
@@ -394,12 +395,12 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="empty_utxo_list">UTXO-luettelosi on tyhjä</string>
     <string name="version">Versio %1$s</string>
     <string name="show_all">Näytä kaikki</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
+    <string name="empty_address_list_active">Sinulla ei ole aktiivisia osoitteita</string>
+    <string name="empty_address_list_expired">Sinulla ei ole vanhentuneita osoitteita</string>
+    <string name="empty_utxo_list_progress">Sinulla ei ole aktiivista UTXO:ta</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Kun olet liittänyt koodin, käynnistä palvelin (node) tietokoneellasi ja paina seuraava mobiililaitteen sovelluksessa.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Palvelimeen (node) ei saada yhteyttä. Kokeile yhdistää eri palvelimeen tai käytä automaattista palautusta.</string>
     <string name="connecting">Yhdistetään...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">Etsi tapahtuman id:llä, kommentilla, osoitteella tai yhteystiedolla</string>
+    <string name="address_details">Osoitetiedot</string>
 </resources>

@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Wanneer u een portemonnee herstelt zullen alle transactiegeschiedenis en adressen verloren gaan.</string>
     <string name="welcome_btn_change_alert">Doorgaan</string>
     <string name="welcome_where_to_buy_beam">Waar BEAM te kopen?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Gebruik dezelfde herstelzin niet op verschillende apparaten. Uw saldo- en transactielijst zal niet worden gesynchroniseerd.</string>
+    <string name="welcome_using_two_wallets_notification_title">Draai niet twee portemonnees die met dezelfde herstelzin geïnitieerd zijn tegelijkertijd</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Begin met het gebruik van uw portemonnee</string>
     <string name="pass_save_new">Nieuw wachtwoord opslaan</string>
@@ -393,12 +394,12 @@ Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
     <string name="empty_utxo_list">Uw UTXO lijst is leeg</string>
     <string name="version">Versie %1$s</string>
     <string name="show_all">Toon alles</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
+    <string name="empty_address_list_active">U heeft geen actieve adressen</string>
+    <string name="empty_address_list_expired">U heeft geen verlopen adressen</string>
+    <string name="empty_utxo_list_progress">U heeft geen actieve UTXO</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Zodra u de code heeft geplakt start u uw desktopnode en klikt u op volgende op de mobiele applicatie.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Kan geen verbinding maken met node. Probeer de portemonnee met een andere node te verbinden of gebruik automatische herstel.</string>
     <string name="connecting">Verbinden...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">Zoek op transactie ID, omschrijving, adres of contact</string>
+    <string name="address_details">Adresgegevens</string>
 </resources>

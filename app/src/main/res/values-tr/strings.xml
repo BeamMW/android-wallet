@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Bir cüzdanı geri yükleyecekseniz, tüm işlem geçmişi ve adresleri kaybolur.</string>
     <string name="welcome_btn_change_alert">Devam et</string>
     <string name="welcome_where_to_buy_beam">Beam nereden alınır?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Cüzdanınızı kullanmaya başlayın</string>
     <string name="pass_save_new">Yeni şifreyi kaydet</string>

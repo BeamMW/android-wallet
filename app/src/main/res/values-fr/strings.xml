@@ -62,7 +62,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_change_alert">Si vous restaurez un portefeuille, l\'historique et les adresses des transactions seront perdues.</string>
     <string name="welcome_btn_change_alert">Procéder</string>
     <string name="welcome_where_to_buy_beam">Où acheter Beam?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Commencer à utiliser votre portefeuille</string>
     <string name="pass_save_new">Sauvegarder votre nouveau mot de passe</string>

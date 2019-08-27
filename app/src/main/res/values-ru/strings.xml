@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Если вы восстановите кошелек, история транзакций и адреса будут потеряны на этом устройстве.</string>
     <string name="welcome_btn_change_alert">Продолжить</string>
     <string name="welcome_where_to_buy_beam">Где купить BEAM?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Не используйте одну и ту же сид фразу на разных устройствах, ваш баланс и список транзакций не будут синхронизированы.</string>
+    <string name="welcome_using_two_wallets_notification_title">Не запускайте одновременно два кошелька, инициированные из одной фразы seed</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Начните использовать кошелек</string>
     <string name="pass_save_new">Сохранить новый пароль</string>

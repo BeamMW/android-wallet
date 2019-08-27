@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Nếu bạn không khôi phục ví, tất cả lịch sử giao dịch và địa chỉ sẽ bị mất.</string>
     <string name="welcome_btn_change_alert">Tiến hành</string>
     <string name="welcome_where_to_buy_beam">Mua BEAM ở đâu?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Bắt đầu sử dụng ví của bạn</string>
     <string name="pass_save_new">Lưu mật khẩu mới</string>

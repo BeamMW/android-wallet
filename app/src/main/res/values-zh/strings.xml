@@ -65,7 +65,8 @@
     <string name="welcome_change_alert">如果恢复钱包，本钱包所有的交易记录和地址都将丢失</string>
     <string name="welcome_btn_change_alert">开始</string>
     <string name="welcome_where_to_buy_beam">在哪里获取BEAM？</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">开始使用钱包</string>
     <string name="pass_save_new">保存新密码</string>

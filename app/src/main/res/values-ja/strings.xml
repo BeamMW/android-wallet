@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">ウォレットをリストアすると、すべてのトランザクションの履歴とアドレスが失われます。</string>
     <string name="welcome_btn_change_alert">続ける</string>
     <string name="welcome_where_to_buy_beam">Beamを入手する</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">ウォレットを使用開始</string>
     <string name="pass_save_new">新しいパスワードの保存</string>
