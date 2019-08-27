@@ -31,7 +31,9 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         super.onViewCreated()
         state.address = view?.getAddress()
         state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
-        state.tempComment = state.address?.label ?: ""
+        if (state.tempComment.isBlank()) {
+            state.tempComment = state.address?.label ?: ""
+        }
 
         view?.init(state.address ?: return)
 
