@@ -39,6 +39,7 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
     private fun showWarning(isAutomaticRestore: Boolean) {
         val message = getString(if (isAutomaticRestore) R.string.automatic_restore_warning else R.string.node_restore_warning)
         showAlert(
+                title = getString(R.string.restore_wallet),
                 message = message,
                 btnConfirmText = getString(R.string.understand),
                 onConfirm = { presenter?.onConfirmRestorePressed(isAutomaticRestore) },

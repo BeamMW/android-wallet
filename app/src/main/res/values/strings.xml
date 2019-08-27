@@ -98,7 +98,7 @@
     <string name="welcome_progress_update_utxo_description">Scanning UTXO</string>
     <string name="welcome_progress_restore_description">Restored</string>
     <string name="welcome_progress_download_description">Downloaded</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
 
     <!--PasswordFragment-->
