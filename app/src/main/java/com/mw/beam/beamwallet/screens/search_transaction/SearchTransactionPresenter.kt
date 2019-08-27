@@ -53,9 +53,9 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
 
         val transactions = if (state.searchText.isNotBlank()) {
             state.getAllTransactions().filter {
-                it.id.toLowerCase().contains(state.searchText) ||
-                        it.peerId.toLowerCase().contains(state.searchText) ||
-                        it.myId.toLowerCase().contains(state.searchText) ||
+                it.id.toLowerCase().startsWith(state.searchText) ||
+                        it.peerId.toLowerCase().startsWith(state.searchText) ||
+                        it.myId.toLowerCase().startsWith(state.searchText) ||
                         it.message.toLowerCase().contains(state.searchText)
             }
         } else {

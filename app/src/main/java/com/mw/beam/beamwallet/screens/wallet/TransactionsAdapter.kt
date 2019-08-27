@@ -88,15 +88,15 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 if (search.isNotBlank()) {
 
                     isContainsSearchString = when {
-                        transaction.id.contains(search) -> {
+                        transaction.id.startsWith(search) -> {
                             setSpannableText(searchTextView, transaction.id, search)
                             true
                         }
-                        transaction.peerId.contains(search) -> {
+                        transaction.peerId.startsWith(search) -> {
                             setSpannableText(searchTextView, transaction.peerId, search)
                             true
                         }
-                        transaction.myId.contains(search) -> {
+                        transaction.myId.startsWith(search) -> {
                             setSpannableText(searchTextView, transaction.myId, search)
                             true
                         }
