@@ -50,6 +50,10 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
         return view
     }
 
+    override fun getItemPosition(`object`: Any): Int {
+        return  POSITION_NONE
+    }
+
     override fun destroyItem(container: ViewGroup, position: Int, view: Any) {
         container.removeView(view as View)
     }
