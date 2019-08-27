@@ -70,7 +70,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor) //logically reversed because count starts from zero
             icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
-            date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
+            date.text = CalendarUtils.fromTimestamp(transaction.createTime)
             currency.setImageDrawable(transaction.currencyImage)
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)

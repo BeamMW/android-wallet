@@ -43,7 +43,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         return getTransactions()
     }
 
-    private fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
+    private fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
 
     private fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
         tx?.forEach { transactions.remove(it.id) }

@@ -39,5 +39,5 @@ class UtxoDetailsState {
         tx?.forEach { transactions.remove(it.id) }
     }
 
-    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
+    fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
 }

@@ -35,7 +35,7 @@ class AddressState {
         }
     }
 
-    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
+    fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
 
     fun deleteTransaction(tx: List<TxDescription>?) {
         tx?.forEach { transactions.remove(it.id) }

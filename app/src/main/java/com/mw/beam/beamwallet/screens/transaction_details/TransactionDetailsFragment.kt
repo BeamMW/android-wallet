@@ -133,7 +133,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         message.text = "$messageTitle ${getString(R.string.currency_beam)}"
 
         icon.setImageResource(R.drawable.ic_beam)
-        date.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
+        date.text = CalendarUtils.fromTimestamp(txDescription.createTime)
         currency.setImageDrawable(txDescription.currencyImage)
 
         sum.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)

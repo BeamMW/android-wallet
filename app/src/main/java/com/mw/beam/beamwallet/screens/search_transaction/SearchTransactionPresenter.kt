@@ -60,7 +60,7 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
             }
         } else {
             listOf()
-        }.sortedByDescending { it.modifyTime }
+        }.sortedByDescending { it.createTime }
 
         view?.configTransactions(transactions, repository.isPrivacyModeEnabled(), state.searchText)
     }

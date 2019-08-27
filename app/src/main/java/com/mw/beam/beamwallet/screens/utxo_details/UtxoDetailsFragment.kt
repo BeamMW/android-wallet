@@ -114,7 +114,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         relatedTransactions?.forEach {
             transactionHistoryList.addView(configTransaction(
                     isReceived = it.id == utxo.createTxId,
-                    time = CalendarUtils.fromTimestamp(it.modifyTime),
+                    time = CalendarUtils.fromTimestamp(it.createTime),
                     id = it.id,
                     comment = it.message,
                     offset = offset,
