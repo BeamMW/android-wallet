@@ -38,18 +38,9 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     override fun deleteTransaction(txDescription: TxDescription?) {
         if (txDescription != null) {
             TrashManager.add(txDescription.id, txDescription)
-//            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
-//                wallet?.deleteTx(txDescription.id)
-//            }
         }
     }
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
-    }
 
     override fun getUtxoByTx(txId: String): Subject<List<Utxo>?> {
         return getResult(WalletListener.subOnCoinsByTx, "getUtxoByTx") { wallet?.getCoinsByTx(txId) }

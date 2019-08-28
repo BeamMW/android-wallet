@@ -7,6 +7,15 @@ import com.mw.beam.beamwallet.core.helpers.QrHelper
 class AddContactPresenter(view: AddContactContract.View?, repository: AddContactContract.Repository, private val state: AddContactState):
         BasePresenter<AddContactContract.View, AddContactContract.Repository>(view, repository), AddContactContract.Presenter {
 
+    override fun onViewCreated() {
+        super.onViewCreated()
+
+        val address: String? = view?.getAddressFromArguments()
+        if (!address.isNullOrBlank()) {
+            view?.setAddress(address)
+        }
+    }
+
     override fun onCancelPressed() {
         view?.close()
     }

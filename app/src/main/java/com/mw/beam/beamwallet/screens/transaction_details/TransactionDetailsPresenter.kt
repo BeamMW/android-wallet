@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
@@ -30,7 +31,7 @@ import io.reactivex.disposables.Disposable
 /**
  * Created by vain onnellinen on 10/18/18.
  */
-class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, private val state: TransactionDetailsState)
+class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
     private val COPY_TAG = "PROOF"
@@ -38,18 +39,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     private lateinit var utxosByTxSubscription: Disposable
     private lateinit var txUpdateSubscription: Disposable
     private lateinit var paymentProofSubscription: Disposable
-    private lateinit var addressesSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
         state.txID = view?.getTransactionId()
-    }
-
-    private fun configAddresses(txDescription: TxDescription) {
-        val senderAddress = if (txDescription.sender.value) txDescription.myId else txDescription.peerId
-        val receiverAddress = if (txDescription.sender.value) txDescription.peerId else txDescription.myId
-
-        view?.configCategoryAddresses(repository.getAddressTags(senderAddress), repository.getAddressTags(receiverAddress))
     }
 
     override fun initSubscriptions() {
@@ -68,7 +61,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
                 repository.getUtxoByTx(state.txID!!)
 
                 view?.init(it, repository.isPrivacyModeEnabled())
-                configAddresses(it)
 
                 if (canRequestProof()) {
                     repository.requestProof(it.id)
@@ -80,21 +72,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             if (it.txId == state.txID) {
                 state.paymentProof = it
                 view?.updatePaymentProof(it)
-            }
-        }
-
-        addressesSubscription = repository.getAddresses().subscribe {
-            state.updateAddresses(it.addresses)
-
-            val myAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.myId }
-            val peerAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.peerId }
-
-            if (state.txDescription?.sender?.value == true) {
-                view?.configSenderAddressInfo(myAddress)
-                view?.configReceiverAddressInfo(peerAddress)
-            } else {
-                view?.configSenderAddressInfo(peerAddress)
-                view?.configReceiverAddressInfo(myAddress)
             }
         }
     }
@@ -159,10 +136,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription, addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
-        view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return, state.txDescription?.sender == TxSender.SENT)
+        view?.configMenuItems(menu, inflater,state.txDescription)
     }
 
     override fun onRepeatTransaction() {
@@ -170,7 +147,20 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             if (txDescription.sender.value) {
                 view?.showSendFragment(txDescription.peerId, txDescription.amount)
             } else {
-                view?.showReceiveFragment(txDescription.amount, state.addresses.values.firstOrNull { it.walletID == txDescription.myId })
+                val address = AppModel.instance.getAddress(txDescription.myId)
+                view?.showReceiveFragment(txDescription.amount, address)
+            }
+        }
+    }
+
+    override fun onSaveContact() {
+        state.txDescription?.let { txDescription ->
+            if (txDescription.sender.value) {
+                view?.showSaveContact(txDescription.peerId)
+            }
+            else {
+                val address = AppModel.instance.getAddress(txDescription.myId)
+                view?.showSaveContact(address?.walletID)
             }
         }
     }
@@ -193,6 +183,20 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSharePressed() {
         view?.shareTransactionDetails(repository.saveImage(view?.convertViewIntoBitmap()))
+    }
 
+    override fun onExpandDetailedPressed() {
+        state.shouldExpandDetail = !state.shouldExpandDetail
+        view?.handleExpandDetails(state.shouldExpandDetail)
+    }
+
+    override fun onExpandUtxosPressed() {
+        state.shouldExpandUtxos = !state.shouldExpandUtxos
+        view?.handleExpandUtxos(state.shouldExpandUtxos)
+    }
+
+    override fun onExpandProofPressed() {
+        state.shouldExpandProof = !state.shouldExpandProof
+        view?.handleExpandProof(state.shouldExpandProof)
     }
 }

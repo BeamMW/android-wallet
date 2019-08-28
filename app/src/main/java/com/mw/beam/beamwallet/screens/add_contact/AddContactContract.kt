@@ -20,6 +20,7 @@ interface AddContactContract {
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
         fun showErrorNotBeamAddress()
+        fun getAddressFromArguments(): String?
     }
 
     interface Presenter : MvpPresenter<View> {

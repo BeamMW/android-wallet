@@ -21,8 +21,11 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 class TransactionDetailsState {
+    var shouldExpandDetail = true
+    var shouldExpandUtxos = true
+    var shouldExpandProof = true
+
     val transactions = HashMap<String, TxDescription>()
-    val addresses = HashMap<String, WalletAddress>()
     var txDescription: TxDescription? = null
     var txID: String? = null
     var paymentProof: PaymentProof? = null
@@ -33,11 +36,5 @@ class TransactionDetailsState {
         }
 
         return transactions.values.toList()
-    }
-
-    fun updateAddresses(list: List<WalletAddress>?) {
-        list?.forEach {
-            addresses[it.walletID] = it
-        }
     }
 }

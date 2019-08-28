@@ -200,6 +200,8 @@
     <string name="my_sending_address">My sending address</string>
     <string name="my_address">My address</string>
     <string name="transaction_deleted">Transaction deleted</string>
+    <string name="save_contact">Save contact</string>
+
 
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
