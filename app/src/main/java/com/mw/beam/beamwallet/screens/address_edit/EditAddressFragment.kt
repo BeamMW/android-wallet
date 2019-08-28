@@ -120,6 +120,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
         expiresSpinner.adapter = adapter
+        expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
 
 //        ArrayAdapter.createFromResource(
 //                context!!,
