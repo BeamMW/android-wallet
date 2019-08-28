@@ -62,6 +62,8 @@
                     android:backgroundTint="@color/white_01"
                     android:paddingStart="@dimen/payment_proof_content_horizontal_margin"
                     android:paddingEnd="@dimen/payment_proof_content_horizontal_margin"
+                    android:hint="@string/paste_payment_proof"
+                    android:textColorHint="@color/white_02"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/proofTitle"

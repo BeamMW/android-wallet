@@ -28,6 +28,7 @@
     <color name="testnet_text_color">#80ffffff</color>
     <color name="ic_menu_color">#ffffff</color>
     <color name="white_01">#19ffffff</color>
+    <color name="white_02">#33ffffff</color>
 
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>

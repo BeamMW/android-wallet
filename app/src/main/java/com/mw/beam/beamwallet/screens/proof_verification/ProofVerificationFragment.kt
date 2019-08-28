@@ -19,10 +19,12 @@ package com.mw.beam.beamwallet.screens.proof_verification
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Typeface
 import android.text.Editable
 import android.transition.AutoTransition
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.transition.TransitionManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -62,6 +64,16 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         textWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 presenter?.onProofCodeChanged(s.toString())
+
+                if (s.toString().isNullOrEmpty())
+                {
+                    var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
+                    proofValue.typeface = typeFace
+                }
+                else{
+                    var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+                    proofValue.typeface = typeFace
+                }
             }
         }
 
@@ -77,6 +89,9 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun init() {
         toolbarLayout.hasStatus = true
+
+        var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
+        proofValue.typeface = typeFace
     }
 
     override fun clear() {

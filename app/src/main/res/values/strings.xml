@@ -318,7 +318,7 @@
     <string name="sender">Sender</string>
     <string name="receiver">Receiver</string>
     <string name="current_password_is_incorrect">Current password is incorrect</string>
-
+    <string name="paste_payment_proof">Paste your payment proof here</string>
 
     <!--CategoryFragment-->
     <string name="edit">Edit</string>
