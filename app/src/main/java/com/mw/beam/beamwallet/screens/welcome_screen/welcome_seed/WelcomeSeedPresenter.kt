@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -30,7 +31,9 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
 
     override fun onStart() {
         super.onStart()
-        view?.forbidScreenshot()
+        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MASTERNET) {
+            view?.forbidScreenshot()
+        }
     }
 
     override fun onViewCreated() {

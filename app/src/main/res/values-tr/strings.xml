@@ -9,7 +9,7 @@
     <string name="common_error">Oops, bişeyler yanlış oldu…</string>
     <string name="online">Çevrimiçi</string>
     <string name="updating">Güncelleniyor</string>
-    <string name="common_status_error">Nod\'a bağlanamıyor</string>
+    <string name="common_status_error">Nod&apos;a bağlanamıyor</string>
     <string name="open">Açık</string>
     <string name="close">Kapalı</string>
     <string name="cancel">İptal</string>
