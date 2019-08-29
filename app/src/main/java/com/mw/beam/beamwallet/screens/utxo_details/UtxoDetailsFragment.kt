@@ -144,7 +144,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
         view.findViewById<TextView>(R.id.date).text = time
         view.findViewById<ImageView>(R.id.icon).setImageResource(if (isReceived) R.drawable.ic_history_received else R.drawable.ic_history_sent)
-        view.findViewById<TextView>(R.id.status).text = if (isReceived) getString(R.string.received) else getString(R.string.send)
+        view.findViewById<TextView>(R.id.status).text = if (isReceived) getString(R.string.receive) else getString(R.string.send)
 
         if (comment.isNullOrEmpty())
         {

@@ -93,6 +93,8 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             if (utxo.transactionComment != null && utxo.transactionDate != null)
             {
                 commentLayout.visibility = View.VISIBLE
+                dateLabel.visibility = View. VISIBLE
+
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
 
                 status.setPadding(0,0,0,0)
@@ -111,6 +113,20 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
                     commentLabel.visibility = View.VISIBLE
                     commentIcon.visibility = View.VISIBLE
                 }
+            }
+            else if (utxo.transactionDate != null)
+            {
+                commentLayout.visibility = View.VISIBLE
+                dateLabel.visibility = View. VISIBLE
+
+                dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
+
+                status.setPadding(0,0,0,0)
+
+                amount.setPadding(0,25,0,25)
+
+                commentLabel.visibility = View.GONE
+                commentIcon.visibility = View.GONE
             }
             else{
                 amount.setPadding(0,20,0,20)
