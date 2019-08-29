@@ -55,6 +55,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private val boldFontSpan by lazy { StyleSpan(Typeface.BOLD) }
     private val regularTypeface by lazy { ResourcesCompat.getFont(context, R.font.roboto_regular) }
     private val commonDarkTextColor by lazy { ContextCompat.getColor(context, R.color.common_text_dark_color) }
+    private val itemOffset by lazy { context.resources.getDimensionPixelSize(R.dimen.search_text_offset) }
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.receive)
@@ -109,31 +110,30 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             searchString?.let { search ->
                 val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
 
-                when {
-                    transaction.id.startsWith(search.toLowerCase()) -> {
-                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
-                    }
-                    transaction.peerId.startsWith(search.toLowerCase()) -> {
-                        val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
-                        addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
-                    }
-                    transaction.myId.startsWith(search.toLowerCase()) -> {
-                        val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
-                        addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
-                    }
-                    transaction.kernelId.startsWith(search.toLowerCase()) -> {
-                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
-                    }
-                    findAddresses.isNotEmpty() -> {
-                        findAddresses.forEach {
-                            addSearchIconItem(searchResultContainer, it, search)
-                        }
-                    }
-                    else -> {
+                if (transaction.id.startsWith(search.toLowerCase())) {
+                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
+                }
+
+                if (transaction.peerId.startsWith(search.toLowerCase())) {
+                    val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
+                    addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
+                }
+
+                if (transaction.myId.startsWith(search.toLowerCase())) {
+                    val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
+                    addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
+                }
+
+                if (transaction.kernelId.startsWith(search.toLowerCase())) {
+                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
+                }
+
+                if (findAddresses.isNotEmpty()) {
+                    findAddresses.forEach {
+                        addSearchIconItem(searchResultContainer, it, search)
                     }
                 }
             }
-
 
             if (compactMode) {
                 commentIcon.visibility = View.GONE
@@ -179,11 +179,13 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
                     text = getSpannableFromText(address.label, search)
 
-                    setPadding(context.resources.getDimensionPixelSize(R.dimen.search_text_offset), 0, 0, 0)
+                    setPadding(itemOffset, 0, 0, 0)
                 }
 
                 addView(image)
                 addView(textView)
+
+                setPadding(0, itemOffset, 0, 0)
             })
         }
     }
@@ -195,10 +197,12 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             setTextColor(commonDarkTextColor)
 
             text = SpannableStringBuilder().apply {
-                append(title, boldFontSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                append(" ")
-                append(getSpannableFromText(content, search))
+                append(title.replace(" ", "\u00A0"), boldFontSpan, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                append("\u00A0")
+                append(getSpannableFromText(content.replace(" ", "\u00A0"), search))
             }
+
+            setPadding(0, itemOffset, 0, 0)
         }
         searchResultContainer.addView(textView)
     }
