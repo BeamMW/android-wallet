@@ -48,6 +48,8 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
 
     override fun init() {
         pageAdapter = TransactionsPageAdapter(context!!) { presenter?.onTransactionPressed(it) }
+        pageAdapter.setPrivacyMode(presenter?.repository?.isPrivacyModeEnabled() == true)
+
         pager.adapter = pageAdapter
         tabLayout.setupWithViewPager(pager)
     }

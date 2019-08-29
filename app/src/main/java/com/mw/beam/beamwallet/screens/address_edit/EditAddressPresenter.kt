@@ -131,7 +131,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
                 }
             } else {
                 if (state.shouldExpireNow) {
-                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = address.duration == 0L)
+                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = false)
                 } else {
                     when {
                         state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = false, isNever = true)
