@@ -313,8 +313,8 @@
     <string name="key_code">Key code</string>
     <string name="owner_key_copied_message">ได้ทำการคัดลอก Owner Key ไปยังคลิปบอร์ดแล้ว</string>
     <string name="owner_key_code_description">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ\n\nเพื่อเป็นการป้องกันการเข้าถึงข้อมูลทรัพย์สินของคุณ กรุณาอย่าได้แชร์ Owner Key กับผู้อื่น</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
+คุณจะต้องกรอกรหัสผ่านเพื่อที่จะดู Owner Key ของคุณ</string>
     <string name="owner_key_verification_pass_finger">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
 คุณจะต้องผ่านการยืนยัน 2 ขั้นตอน (กรอกรหัสผ่านหรือใช้สแกนลายนิ้วมือ) เพื่อที่จะดู Owner Key ของคุณ</string>
     <!--BackgroundService-->
@@ -398,8 +398,8 @@ You must enter your password to see Owner Key.</string>
     <string name="empty_address_list_active">คุณไม่มีที่อยู่ที่ใช้งานได้</string>
     <string name="empty_address_list_expired">คุณไม่มีที่อยู่ที่หมดอายุ</string>
     <string name="empty_utxo_list_progress">คุณไม่มี UTXO ที่ใช้งานได้</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">หลังจากที่คุณวาง Owner Key แล้ว ให้รัน Node ของคุณบนเดสท็อปและกดถัดไปที่แอปในมือถือ</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node ยังไม่ทำการเชื่อมต่อได้ ลองเชื่อมต่อประเป๋าโดยใช้ Node อื่นหรือใช้การกู้กระเป๋าแบบอัตโนมัติ</string>
     <string name="connecting">กำลังเชื่อมต่อ...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">ค้นหาโดยหมายเลขธุรกรรม, คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
     <string name="address_details">รายละเอียดที่อยู่</string>
