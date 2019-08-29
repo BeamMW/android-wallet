@@ -31,6 +31,7 @@ import java.io.File
  */
 interface WelcomeProgressContract {
     interface View : MvpView {
+        var enableOnBackPress: Boolean
         fun init(mode: WelcomeMode)
         fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean = false)
         fun getMode(): WelcomeMode?
@@ -45,6 +46,7 @@ interface WelcomeProgressContract {
         fun showFailedDownloadRestoreFileAlert()
         fun getLifecycleOwner(): LifecycleOwner
         fun navigateToCreateFragment()
+        fun changeCancelButtonVisibility(visible: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {

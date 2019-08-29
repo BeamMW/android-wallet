@@ -114,6 +114,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun startImport(file: File) {
+        view?.dismissAlert()
+        view?.changeCancelButtonVisibility(false)
+        view?.enableOnBackPress = false
         importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
                 .subscribe { data ->
                     onRecoveryLiveData.postValue {

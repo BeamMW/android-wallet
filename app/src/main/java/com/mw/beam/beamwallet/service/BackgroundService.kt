@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -106,6 +107,11 @@ class BackgroundService : JobService() {
 
     override fun onStartJob(params: JobParameters?): Boolean {
         LogUtils.log("$LOG_TAG::onStartJob")
+
+        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)){
+            return false
+        }
+
         val password = repository.getPassword()
 
         if (repository.isWalletRunning() || password.isNullOrBlank()) {

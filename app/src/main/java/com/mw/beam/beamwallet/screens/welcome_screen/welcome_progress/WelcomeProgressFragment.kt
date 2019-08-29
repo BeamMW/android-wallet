@@ -42,6 +42,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var updateUtxoDescriptionString: String
     private lateinit var downloadTitleString: String
     private lateinit var createTitleString: String
+    override var enableOnBackPress: Boolean = true
 
     companion object {
         private const val FULL_PROGRESS = 100
@@ -49,7 +50,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            presenter?.onBackPressed()
+            if (enableOnBackPress) {
+                presenter?.onBackPressed()
+            }
         }
     }
 
@@ -109,6 +112,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             }
             WelcomeMode.CREATE -> { }
         }
+    }
+
+    override fun changeCancelButtonVisibility(visible: Boolean) {
+        btnCancel.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
