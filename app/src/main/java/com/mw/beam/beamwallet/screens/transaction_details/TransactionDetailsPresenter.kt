@@ -48,6 +48,14 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
+//        thread {
+//            // bg work
+//
+//            runOnUiThread {
+//                // in ui
+//            }
+//        }.start()
+
         utxosByTxSubscription = repository.getUtxoByTx(state.txID!!).subscribe { utxos ->
             if (!utxos.isNullOrEmpty()) {
                 updateUtxos(utxos)
@@ -55,15 +63,27 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         }
 
         txUpdateSubscription = repository.getTxStatus().subscribe { data ->
-            state.configTransactions(data.tx)
             data.tx?.firstOrNull { it.id == state.txID }?.let {
-                state.txDescription = it
-                repository.getUtxoByTx(state.txID!!)
+
+                var shouldRequestOtherInfo = false
+
+                if (state.txDescription?.status != it.status)
+                {
+                    shouldRequestOtherInfo = true
+
+                    state.txDescription = it
+                }
 
                 view?.init(it, repository.isPrivacyModeEnabled())
+                view?.updateAddresses(it)
 
-                if (canRequestProof()) {
-                    repository.requestProof(it.id)
+                if (shouldRequestOtherInfo)
+                {
+                    repository.getUtxoByTx(state.txID!!)
+
+                    if (canRequestProof()) {
+                        repository.requestProof(it.id)
+                    }
                 }
             }
         }
@@ -100,7 +120,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.updateUtxos(utxos.map { utxo ->
             var type = UtxoType.Exchange
 
-            if (state.txDescription?.selfTx == false && !isExchangeUtxo(utxo)) {
+            if (state.txDescription?.selfTx == false) {
                 type = if (state.txID == utxo.createTxId) {
                     UtxoType.Receive
                 } else {
@@ -110,10 +130,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
             UtxoInfoItem(type, utxo.amount)
         }, repository.isPrivacyModeEnabled())
-    }
-
-    private fun isExchangeUtxo(utxo: Utxo): Boolean {
-        return state.transactions.values.any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
     }
 
     private fun canRequestProof(): Boolean {
@@ -136,7 +152,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txUpdateSubscription,paymentProofSubscription,utxosByTxSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
         view?.configMenuItems(menu, inflater,state.txDescription)
@@ -155,13 +171,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSaveContact() {
         state.txDescription?.let { txDescription ->
-            if (txDescription.sender.value) {
-                view?.showSaveContact(txDescription.peerId)
-            }
-            else {
-                val address = AppModel.instance.getAddress(txDescription.myId)
-                view?.showSaveContact(address?.walletID)
-            }
+            view?.showSaveContact(txDescription.peerId)
         }
     }
 

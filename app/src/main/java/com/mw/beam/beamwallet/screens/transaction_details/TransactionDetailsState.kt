@@ -25,16 +25,7 @@ class TransactionDetailsState {
     var shouldExpandUtxos = true
     var shouldExpandProof = true
 
-    val transactions = HashMap<String, TxDescription>()
     var txDescription: TxDescription? = null
     var txID: String? = null
     var paymentProof: PaymentProof? = null
-
-    fun configTransactions(tx: List<TxDescription>? = null): List<TxDescription> {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
-
-        return transactions.values.toList()
-    }
 }

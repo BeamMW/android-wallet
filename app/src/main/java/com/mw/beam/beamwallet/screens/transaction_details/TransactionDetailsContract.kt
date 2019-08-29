@@ -36,6 +36,7 @@ interface TransactionDetailsContract {
     interface View : MvpView {
         fun getTransactionId(): String
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
+        fun updateAddresses(txDescription: TxDescription)
         fun updatePaymentProof(paymentProof: PaymentProof)
         fun configMenuItems(menu: Menu?, inflater: MenuInflater, transaction: TxDescription?)
         fun finishScreen()

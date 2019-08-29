@@ -47,8 +47,7 @@ import android.animation.ObjectAnimator
 import android.util.TypedValue
 import android.graphics.Canvas
 import android.os.Handler
-
-
+import android.graphics.drawable.GradientDrawable
 
 /**
  * Created by vain onnellinen on 10/18/18.
@@ -57,23 +56,29 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     private var moreMenu: Menu? = null
     private var share_transaction_details:ShareTransactionDetailsView? = null
 
+    private var oldTransaction: TxDescription? = null
+
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
-        configGeneralTransactionInfo(txDescription)
+        if (oldTransaction?.status != txDescription.status || dateLabel.text.isNullOrEmpty()) {
+            oldTransaction = txDescription
 
-        setHasOptionsMenu(true)
+            configGeneralTransactionInfo(txDescription)
 
-        activity?.invalidateOptionsMenu()
+            setHasOptionsMenu(true)
 
-        moreMenu?.close()
+            activity?.invalidateOptionsMenu()
 
-        toolbarLayout.hasStatus = true
+            moreMenu?.close()
 
-        amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+            toolbarLayout.hasStatus = true
+
+            amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -134,67 +139,38 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     @SuppressLint("InflateParams")
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
         utxosLayout.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
-        utxosList.removeAllViews()
 
-        utxoInfoList.forEach { utxo ->
-            val utxoView = LayoutInflater.from(context).inflate(R.layout.item_transaction_utxo, null)
+        if (utxosList.childCount != utxoInfoList.count())
+        {
+            utxosList.removeAllViews()
 
-            val drawableId = when (utxo.type) {
-                UtxoType.Send -> R.drawable.ic_history_sent
-                UtxoType.Receive -> R.drawable.ic_history_received
-                UtxoType.Exchange -> R.drawable.menu_utxo
+            utxoInfoList.forEach { utxo ->
+                val utxoView = LayoutInflater.from(context).inflate(R.layout.item_transaction_utxo, null)
+
+                val drawableId = when (utxo.type) {
+                    UtxoType.Send -> R.drawable.ic_history_sent
+                    UtxoType.Receive -> R.drawable.ic_history_received
+                    UtxoType.Exchange -> R.drawable.menu_utxo
+                }
+
+                utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
+
+                utxosList.addView(utxoView)
             }
-
-            utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
-            utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
-
-            utxosList.addView(utxoView)
         }
     }
 
     override fun updatePaymentProof(paymentProof: PaymentProof) {
-        if (proofLayout.visibility == View.VISIBLE) return
+        if (proofLayout.visibility == View.VISIBLE)
+            return
 
         proofLabel.text = paymentProof.rawProof
         proofLayout.visibility = View.VISIBLE
     }
 
     @SuppressLint("SetTextI18n")
-    private fun configGeneralTransactionInfo(txDescription: TxDescription) {
-        when (txDescription.sender) {
-            TxSender.RECEIVED -> currencyIcon.setImageResource(R.drawable.currency_beam_receive)
-            TxSender.SENT -> currencyIcon.setImageResource(R.drawable.currency_beam_send)
-        }
-
-        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
-
-        amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
-        amountLabel.setTextColor(txDescription.amountColor)
-
-        statusLabel.setTextColor(txDescription.statusColor)
-        val status = txDescription.getStatusString(context!!)
-        val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
-        statusLabel.text = upperString
-
-        if (txDescription.sender.value) {
-            startAddress.text = txDescription.myId
-            endAddress.text = txDescription.peerId
-
-            if (txDescription.selfTx) {
-                startAddressTitle.text = "${getString(R.string.my_sending_address)}"
-                endAddressTitle.text = "${getString(R.string.my_receiving_address)}"
-            } else {
-                startAddressTitle.text = "${getString(R.string.my_address)}"
-                endAddressTitle.text = "${getString(R.string.contact)}"
-            }
-        }
-        else {
-            startAddressTitle.text = "${getString(R.string.contact)}"
-            endAddressTitle.text = "${getString(R.string.my_address)}"
-            startAddress.text = txDescription.peerId
-            endAddress.text = txDescription.myId
-        }
-
+    override fun updateAddresses(txDescription: TxDescription) {
         val start = AppModel.instance.getAddress(startAddress.text.toString())
         if(start !=null && !start.label.isNullOrEmpty())
         {
@@ -223,6 +199,48 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         endAddressCategory.visibility = if (endTags.isEmpty()) View.GONE else View.VISIBLE
         endAddressCategory.text = endTags.createSpannableString(context!!)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun configGeneralTransactionInfo(txDescription: TxDescription) {
+        when (txDescription.sender) {
+            TxSender.RECEIVED -> currencyIcon.setImageResource(R.drawable.currency_beam_receive)
+            TxSender.SENT -> currencyIcon.setImageResource(R.drawable.currency_beam_send)
+        }
+
+        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
+
+        amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
+        amountLabel.setTextColor(txDescription.amountColor)
+
+        statusLabel.setTextColor(txDescription.statusColor)
+        val status = txDescription.getStatusString(context!!)
+        val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
+        statusLabel.text = upperString
+
+        transactionStatusIcon.setImageDrawable(txDescription.statusImage())
+
+        val drawable = shape.background as GradientDrawable
+        drawable.setStroke(ScreenHelper.dpToPx(context,1),txDescription.statusColor)
+
+        if (txDescription.sender.value) {
+            startAddress.text = txDescription.myId
+            endAddress.text = txDescription.peerId
+
+            if (txDescription.selfTx) {
+                startAddressTitle.text = "${getString(R.string.my_sending_address)}"
+                endAddressTitle.text = "${getString(R.string.my_receiving_address)}"
+            } else {
+                startAddressTitle.text = "${getString(R.string.my_address)}"
+                endAddressTitle.text = "${getString(R.string.contact)}"
+            }
+        }
+        else {
+            startAddressTitle.text = "${getString(R.string.contact)}"
+            endAddressTitle.text = "${getString(R.string.my_address)}"
+            startAddress.text = txDescription.peerId
+            endAddress.text = txDescription.myId
+        }
 
         feeLabel.text = txDescription.fee.toString() + " GROTH"
         idLabel.text = txDescription.id

@@ -16,6 +16,7 @@
 package com.mw.beam.beamwallet.core.entities
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
@@ -106,6 +107,35 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val currencyImage = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_receive)
         TxSender.SENT -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_send)
+    }
+
+    fun statusImage():Drawable?  {
+        if (selfTx) return when {
+            this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+            this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+            this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
+            else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
+        }
+        else if (sender == TxSender.RECEIVED)
+        {
+            return when {
+                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
+                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
+            }
+        }
+        else if (sender == TxSender.SENT)
+        {
+            return when {
+                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
+                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+            }
+        }
+
+        return null
     }
 }
 
