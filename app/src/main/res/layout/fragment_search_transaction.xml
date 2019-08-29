@@ -33,6 +33,8 @@
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/search"
             android:layout_width="0dp"
+            android:singleLine="true"
+            android:maxLines="1"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <ImageView
