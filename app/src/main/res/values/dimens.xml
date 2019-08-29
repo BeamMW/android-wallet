@@ -280,4 +280,6 @@
     <dimen name="fingerprint_description_margin">10dp</dimen>
     <dimen name="change_addresses_list_margin_top">21dp</dimen>
     <dimen name="change_existing_addresses_title_margin_top">50dp</dimen>
+
+    <dimen name="search_text_offset">10dp</dimen>
 </resources>

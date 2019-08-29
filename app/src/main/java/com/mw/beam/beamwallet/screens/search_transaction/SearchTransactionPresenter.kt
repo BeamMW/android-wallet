@@ -23,6 +23,7 @@ import io.reactivex.disposables.Disposable
 class SearchTransactionPresenter(view: SearchTransactionContract.View?, repository: SearchTransactionContract.Repository, private val state: SearchTransactionState)
     : BasePresenter<SearchTransactionContract.View, SearchTransactionContract.Repository>(view, repository), SearchTransactionContract.Presenter {
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var addressesSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -38,9 +39,14 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
         txStatusSubscription = repository.getTxStatus().subscribe {
             state.updateTransactions(it.tx)
         }
+
+        addressesSubscription = repository.getAddresses().subscribe {
+            state.updateAddresses(it.addresses)
+            view?.updateAddresses(state.addresses.values.toList())
+        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressesSubscription)
 
     override fun onClearPressed() {
         view?.clearSearchText()
@@ -54,8 +60,10 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
         val transactions = if (state.searchText.isNotBlank()) {
             state.getAllTransactions().filter {
                 it.id.toLowerCase().startsWith(state.searchText) ||
+                it.kernelId.toLowerCase().startsWith(state.searchText) ||
                         it.peerId.toLowerCase().startsWith(state.searchText) ||
                         it.myId.toLowerCase().startsWith(state.searchText) ||
+                        findWalletAddress(it, state.searchText) ||
                         it.message.toLowerCase().contains(state.searchText)
             }
         } else {
@@ -63,6 +71,11 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
         }.sortedByDescending { it.createTime }
 
         view?.configTransactions(transactions, repository.isPrivacyModeEnabled(), state.searchText)
+    }
+
+    private fun findWalletAddress(txDescription: TxDescription, searchText: String): Boolean {
+        return state.addresses.values.filter { it.walletID == txDescription.myId || it.walletID == txDescription.peerId }
+                .any { it.label.toLowerCase().contains(searchText) }
     }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
