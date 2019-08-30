@@ -93,7 +93,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             if (utxo.transactionComment != null && utxo.transactionDate != null)
             {
                 commentLayout.visibility = View.VISIBLE
-                dateLabel.visibility = View. VISIBLE
+                dateLabel.visibility = View.VISIBLE
 
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
 
@@ -117,7 +117,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             else if (utxo.transactionDate != null)
             {
                 commentLayout.visibility = View.VISIBLE
-                dateLabel.visibility = View. VISIBLE
+                dateLabel.visibility = View.VISIBLE
 
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
 
