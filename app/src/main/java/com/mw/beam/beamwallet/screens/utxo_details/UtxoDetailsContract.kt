@@ -46,9 +46,6 @@ interface UtxoDetailsContract {
     }
 
     interface Repository : MvpRepository {
-        fun getUtxoUpdated(): Subject<List<Utxo>>
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
+
     }
 }

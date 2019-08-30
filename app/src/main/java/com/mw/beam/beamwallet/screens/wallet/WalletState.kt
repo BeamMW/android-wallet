@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.AppModel
 
 /**
  * Created by vain onnellinen on 12/4/18.
@@ -29,20 +30,5 @@ class WalletState {
     var shouldExpandInProgress = false
     var privacyMode = false
 
-    private val transactions = HashMap<String, TxDescription>()
-
-    fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
-
-        return getTransactions()
-    }
-
-    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }.take(5)
-
-    fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transactions.remove(it.id) }
-        return getTransactions()
-    }
+    fun getTransactions() = AppModel.instance.getTransactions().sortedByDescending { it.modifyTime }.take(5)
 }

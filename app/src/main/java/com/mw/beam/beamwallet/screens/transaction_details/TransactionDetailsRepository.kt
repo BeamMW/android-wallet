@@ -49,7 +49,9 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     }
 
     override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
+        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
+            wallet?.getWalletStatus()
+        }
     }
 
     override fun cancelTransaction(txDescription: TxDescription?) {

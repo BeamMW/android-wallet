@@ -20,6 +20,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -34,7 +35,6 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -141,35 +141,22 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        walletStatusSubscription = repository.getWalletStatus().subscribe {
-            state.walletStatus = it
-            view?.configWalletStatus(it, !state.shouldExpandAvailable, !state.shouldExpandInProgress, state.privacyMode)
+        state.walletStatus = AppModel.instance.getStatus()
+
+        view?.configTransactions(state.getTransactions(), state.privacyMode)
+        view?.configWalletStatus(AppModel.instance.getStatus(),
+                !state.shouldExpandAvailable,
+                !state.shouldExpandInProgress, state.privacyMode)
+
+        walletStatusSubscription = AppModel.instance.subOnStatusChanged.subscribe(){
+            state.walletStatus = AppModel.instance.getStatus()
+            view?.configWalletStatus(AppModel.instance.getStatus(),
+                    !state.shouldExpandAvailable,
+                    !state.shouldExpandInProgress, state.privacyMode)
         }
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            when (data.action) {
-                ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
-                else -> state.updateTransactions(data.tx)
-            }
-
-            val transactions = state.deleteTransaction(repository.getAllTransactionInTrash())
-
-            view?.configTransactions(transactions, state.privacyMode)
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    view?.configTransactions(state.deleteTransaction(it.data.transactions), state.privacyMode)
-                }
-
-                TrashManager.ActionType.Restored -> {
-                    view?.configTransactions(state.updateTransactions(it.data.transactions), state.privacyMode)
-                }
-
-                TrashManager.ActionType.Removed -> {
-                }
-            }
+        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+            view?.configTransactions(state.getTransactions(), state.privacyMode)
         }
     }
 
@@ -178,7 +165,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

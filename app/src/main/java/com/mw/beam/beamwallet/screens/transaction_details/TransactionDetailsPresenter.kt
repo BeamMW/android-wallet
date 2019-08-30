@@ -34,11 +34,11 @@ import io.reactivex.disposables.Disposable
 class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
+
     private val COPY_TAG = "PROOF"
 
-    private lateinit var utxosByTxSubscription: Disposable
-    private lateinit var txUpdateSubscription: Disposable
     private lateinit var paymentProofSubscription: Disposable
+    private lateinit var txSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
@@ -48,50 +48,33 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-//        thread {
-//            // bg work
-//
-//            runOnUiThread {
-//                // in ui
-//            }
-//        }.start()
+        state.txDescription = AppModel.instance.getTransaction(state.txID!!)
 
-        utxosByTxSubscription = repository.getUtxoByTx(state.txID!!).subscribe { utxos ->
-            if (!utxos.isNullOrEmpty()) {
-                updateUtxos(utxos)
+        if (state.txDescription != null) {
+            view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
+            view?.updateAddresses(state.txDescription!!)
+
+            if (canRequestProof()) {
+                repository.requestProof(state.txID!!)
             }
-        }
 
-        txUpdateSubscription = repository.getTxStatus().subscribe { data ->
-            data.tx?.firstOrNull { it.id == state.txID }?.let {
+            repository.getUtxoByTx(state.txID!!)
 
-                var shouldRequestOtherInfo = false
-
-                if (state.txDescription?.status != it.status)
-                {
-                    shouldRequestOtherInfo = true
-
-                    state.txDescription = it
-                }
-
-                view?.init(it, repository.isPrivacyModeEnabled())
-                view?.updateAddresses(it)
-
-                if (shouldRequestOtherInfo)
-                {
-                    repository.getUtxoByTx(state.txID!!)
-
-                    if (canRequestProof()) {
-                        repository.requestProof(it.id)
-                    }
-                }
-            }
+            updateUtxos(AppModel.instance.getUTXOByTransaction(state.txDescription!!))
         }
 
         paymentProofSubscription = repository.getPaymentProof(state.txID!!, canRequestProof()).subscribe {
             if (it.txId == state.txID) {
                 state.paymentProof = it
                 view?.updatePaymentProof(it)
+            }
+        }
+
+        txSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+            state.txDescription = AppModel.instance.getTransaction(state.txID!!)
+            if (state.txDescription != null)
+            {
+                view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
             }
         }
     }
@@ -152,7 +135,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txUpdateSubscription,paymentProofSubscription,utxosByTxSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(paymentProofSubscription, txSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
         view?.configMenuItems(menu, inflater,state.txDescription)

@@ -44,6 +44,9 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import org.w3c.dom.Text
 import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.screens.receive.ReceiveContract
+import com.mw.beam.beamwallet.screens.receive.ReceiveFragment
+import com.mw.beam.beamwallet.screens.receive.ReceivePresenter
 
 
 /**
@@ -158,6 +161,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun init() {
         AppModel.instance.subscribeToUpdates()
+
         App.isAuthenticated = true
 
         initTransactionsList()
@@ -300,7 +304,13 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txId))
     }
     override fun showReceiveScreen() {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
+
+      //  startBrotherFragment(ReceiveFragment<ReceivePresenter(ReceiveContract.View,ReceiveContract.Repository,null>)
+      //  (parentFragment as BaseFragment)
+
+      //  (parentFragment as MainFragment).startBrotherFragment(MsgFragment.newInstance(mAdapter.getMsg(position)))
+
+        //   findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
     }
     override fun showSendScreen() {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSendFragment())

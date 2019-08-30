@@ -31,26 +31,5 @@ import io.reactivex.subjects.Subject
  * Created by vain onnellinen on 10/2/18.
  */
 class UtxoRepository : BaseRepository(), UtxoContract.Repository {
-
-    override fun getUtxoUpdated(): Subject<List<Utxo>> {
-        return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
-    }
-
-    override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, "getWalletStatus") { wallet?.getWalletStatus() }
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
-    }
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
-    }
-
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
 }

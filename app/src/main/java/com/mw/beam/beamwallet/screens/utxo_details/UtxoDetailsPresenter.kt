@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
@@ -31,46 +32,39 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
+
         state.utxo = view?.getUtxo()
+
         view?.init(state.utxo ?: return)
     }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            utxos.firstOrNull { it.id == state.utxo?.id }?.let {
-                state.utxo = it
-                view?.init(it)
+        filter()
+
+        utxoUpdatedSubscription = AppModel.instance.subOnUtxosChanged.subscribe(){
+            state.utxo = AppModel.instance.getUtxoByID(state?.utxo?.stringId)
+            if (state.utxo!=null) {
+                view?.init(state.utxo!!)
             }
         }
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            data.tx?.filter(::transactionFilter)?.let {
-                state.updateTransactions(it)
-                state.deleteTransactions(repository.getAllTransactionInTrash().filter(::transactionFilter))
-
-                updateUtxoHistory()
-            }
+        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe(){
+            filter()
         }
+    }
 
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    state.deleteTransactions(it.data.transactions)
-                    updateUtxoHistory()
-                }
-                TrashManager.ActionType.Restored -> {
-                    state.updateTransactions(it.data.transactions.filter(::transactionFilter))
-                    updateUtxoHistory()
-                }
-                TrashManager.ActionType.Removed -> {}
-            }
-        }
+    private fun filter() {
+        val tx = AppModel.instance.getTransactionsByUTXO(state.utxo)
+
+        state.transactions.clear()
+        state.transactions.addAll(tx)
+
+        view?.configUtxoHistory(state.utxo!!, state.sortedTransactions())
     }
 
     override fun onExpandTransactionsPressed() {
@@ -83,16 +77,5 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
         view?.handleExpandDetails(state.shouldExpandDetail)
     }
 
-    private fun transactionFilter(txDescription: TxDescription): Boolean {
-        return txDescription.id == state.utxo?.createTxId || txDescription.id == state.utxo?.spentTxId
-    }
-
-    private fun updateUtxoHistory() {
-        if (state.utxo != null) {
-            view?.configUtxoHistory(state.utxo!!, state.getTransactions())
-        }
-    }
-
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription, trashSubscription)
-
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
 }

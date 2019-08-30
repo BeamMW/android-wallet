@@ -27,17 +27,10 @@ class UtxoDetailsState {
     var shouldExpandTransactions = true
 
     var utxo: Utxo? = null
-    val transactions = HashMap<String, TxDescription>()
 
-    fun updateTransactions(tx: List<TxDescription>? = null) {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
+    var transactions = mutableListOf<TxDescription>()
+
+    fun sortedTransactions():List<TxDescription> {
+        return transactions.sortedByDescending { it.modifyTime }
     }
-
-    fun deleteTransactions(tx: List<TxDescription>?) {
-        tx?.forEach { transactions.remove(it.id) }
-    }
-
-    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
 }

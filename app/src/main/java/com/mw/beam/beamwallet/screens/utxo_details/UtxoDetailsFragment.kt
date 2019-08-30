@@ -161,7 +161,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         view.tag = index
         view.setOnClickListener {
             val index = it.tag as Int
-            val transactionID = presenter?.state?.getTransactions()?.get(index)?.id
+            val transactionID = presenter?.state?.sortedTransactions()?.get(index)?.id
             if (transactionID != null) {
                 findNavController().navigate(UtxoDetailsFragmentDirections.actionUtxoDetailsFragmentToTransactionDetailsFragment(transactionID))
             }

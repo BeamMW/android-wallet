@@ -19,9 +19,14 @@ package com.mw.beam.beamwallet.screens.utxo
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.doAsync
+import kotlin.concurrent.thread
+import org.jetbrains.anko.uiThread
+
 
 /**
  * Created by vain onnellinen on 10/2/18.
@@ -29,6 +34,7 @@ import io.reactivex.disposables.Disposable
 class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository, private val state: UtxoState)
     : BasePresenter<UtxoContract.View, UtxoContract.Repository>(currentView, currentRepository),
         UtxoContract.Presenter {
+
     private lateinit var utxoUpdatedSubscription: Disposable
     private lateinit var blockchainInfoSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
@@ -40,6 +46,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
+
         state.privacyMode = repository.isPrivacyModeEnabled()
     }
 
@@ -84,20 +91,19 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        utxoUpdatedSubscription = repository.getUtxoUpdated().subscribe { utxos ->
-            utxosCount = utxos.count()
-            allUtxos.clear()
-            allUtxos.addAll(utxos)
+        view?.updateBlockchainInfo(AppModel.instance.getStatus().system)
+
+        filter()
+
+        utxoUpdatedSubscription = AppModel.instance.subOnUtxosChanged.subscribe() {
             filter()
         }
 
-        blockchainInfoSubscription = repository.getWalletStatus().subscribe { walletStatus ->
-            view?.updateBlockchainInfo(walletStatus.system)
+        blockchainInfoSubscription = AppModel.instance.subOnStatusChanged.subscribe(){
+            view?.updateBlockchainInfo(AppModel.instance.getStatus().system)
         }
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            state.updateTransactions(data.tx)
-            state.deleteTransactions(repository.getAllTransactionInTrash())
+        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe() {
             if (utxosCount > 0) {
                 filter()
             }
@@ -105,26 +111,34 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     }
 
     private fun filter() {
-        val transactions = state.getTransactions()
+        doAsync {
+            utxosCount = AppModel.instance.getUtxos().count()
+            allUtxos.clear()
+            allUtxos.addAll(AppModel.instance.getUtxos())
 
-        var sortByDate = false
+            val transactions = AppModel.instance.getTransactions()
 
-        allUtxos.forEach {
-            var transaction = transactions.filter { s -> s.id == it.createTxId || s.id == it.spentTxId }.firstOrNull()
-            if (transaction != null) {
-                sortByDate = true
-                it.transactionDate = transaction.createTime
-                it.transactionComment = transaction.message
+            var sortByDate = false
+
+            allUtxos.forEach {
+                var transaction = transactions.filter { s -> s.id == it.createTxId || s.id == it.spentTxId }.firstOrNull()
+                if (transaction != null) {
+                    sortByDate = true
+                    it.transactionDate = transaction.createTime
+                    it.transactionComment = transaction.message
+                }
+            }
+
+            allUtxos.sortByDescending { it.id  }
+
+            if (sortByDate) {
+                allUtxos.sortByDescending { it.transactionDate  }
+            }
+
+            uiThread {
+                view?.updateUtxos(allUtxos)
             }
         }
-
-        allUtxos.sortByDescending { it.id  }
-
-        if (sortByDate) {
-            allUtxos.sortByDescending { it.transactionDate  }
-        }
-
-        view?.updateUtxos(allUtxos)
     }
 
     override fun onDestroy() {
