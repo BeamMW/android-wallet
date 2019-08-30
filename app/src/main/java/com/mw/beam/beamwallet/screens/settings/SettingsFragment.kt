@@ -93,7 +93,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             if(this.context != null)
             {
-                var typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_bold)
+                val typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_bold)
                 ipTitle.typeface = typeFace
             }
 

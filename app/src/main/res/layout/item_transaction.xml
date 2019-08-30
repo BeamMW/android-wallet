@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:paddingTop="@dimen/transaction_date_padding"
-        app:layout_constraintBottom_toTopOf="@id/searchTextView"
+        app:layout_constraintBottom_toTopOf="@id/commentTextView"
         app:layout_constraintEnd_toEndOf="@id/currency"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@id/icon"
@@ -51,16 +51,17 @@
     <ImageView
         android:id="@+id/commentIcon"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintStart_toStartOf="@id/message"
-        app:layout_constraintTop_toTopOf="@id/searchTextView"
-        app:layout_constraintBottom_toBottomOf="@id/searchTextView"
+        app:layout_constraintTop_toTopOf="@id/commentTextView"
+        app:layout_constraintBottom_toBottomOf="@id/commentTextView"
         android:contentDescription="@null"
         android:src="@drawable/ic_icon_comment"
         android:layout_width="16dp"
         android:layout_height="16dp" />
 
     <TextView
-        android:id="@+id/searchTextView"
+        android:id="@+id/commentTextView"
         style="@style/common_text_big_dark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -74,6 +75,17 @@
         app:layout_constraintTop_toBottomOf="@id/date"
         tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
         tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/searchResultContainer"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@id/commentTextView"
+        app:layout_constraintStart_toStartOf="@id/message"
+        app:layout_constraintEnd_toEndOf="@id/currency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"

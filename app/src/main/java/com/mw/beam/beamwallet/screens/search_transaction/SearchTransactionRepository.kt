@@ -17,15 +17,23 @@
 package com.mw.beam.beamwallet.screens.search_transaction
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
-class SearchTransactionRepository: BaseRepository(), SearchTransactionContract.Repository {
+class SearchTransactionRepository : BaseRepository(), SearchTransactionContract.Repository {
     override fun getTxStatus(): Observable<OnTxStatusData> {
         return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
             wallet?.getWalletStatus()
+        }
+    }
+
+    override fun getAddresses(): Subject<OnAddressesData> {
+        return getResult(WalletListener.subOnAddresses, "getAddresses") {
+            wallet?.getAddresses(true)
+            wallet?.getAddresses(false)
         }
     }
 }

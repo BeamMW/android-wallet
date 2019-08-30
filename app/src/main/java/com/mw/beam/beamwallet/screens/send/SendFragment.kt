@@ -349,17 +349,19 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             contentScrollView.smoothScrollTo(0, 0)
             presenter?.onTokenChanged(token.text.toString())
         }
-        token.setOnEditorActionListener { _, _, event ->
-            when(event.keyCode){
-                KeyEvent.KEYCODE_ENTER -> {
-                    Handler().postDelayed({
-                        requestFocusToAmount();
-                    },100)
-                    true
-                }
-                else -> false
-            }
-        }
+
+
+//        token.setOnEditorActionListener { _, _, event ->
+//            when(event.keyCode){
+//                KeyEvent.KEYCODE_ENTER -> {
+//                    Handler().postDelayed({
+//                        requestFocusToAmount();
+//                    },100)
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
 
 //        feeContainer.setOnLongClickListener {
 //            presenter?.onLongPressFee()
