@@ -171,8 +171,8 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
-        val angleFrom = if (shouldExpand) 180f else 360f
-        val angleTo = if (shouldExpand) 360f else 180f
+        val angleFrom = if (!shouldExpand) 180f else 360f
+        val angleTo = if (!shouldExpand) 360f else 180f
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()
