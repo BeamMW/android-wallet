@@ -62,6 +62,12 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private val sendText = context.getString(R.string.send)
     private var privacyMode: Boolean = false
     private var searchString: String? = null
+    var invertItemColors = false
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     var addresses: List<WalletAddress>? = null
         set(value) {
             field = value
@@ -86,7 +92,16 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             message.text = messageStatus
 
-            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor) //logically reversed because count starts from zero
+            val isMultiply = position % 2 == 0
+//            val color = if (position % 2 == 0) multiplyColor else notMultiplyColor
+            val color = when {
+                isMultiply && invertItemColors -> notMultiplyColor
+                !isMultiply && invertItemColors -> multiplyColor
+                isMultiply -> multiplyColor
+                !isMultiply -> notMultiplyColor
+                else -> notMultiplyColor
+            }
+            itemView.setBackgroundColor(color) //logically reversed because count starts from zero
             icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
             date.text = CalendarUtils.fromTimestamp(transaction.createTime)
             currency.setImageDrawable(transaction.currencyImage)
