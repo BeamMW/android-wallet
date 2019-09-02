@@ -20,6 +20,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.*
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +44,7 @@ import kotlinx.android.synthetic.main.fragment_address.*
  * Created by vain onnellinen on 3/4/19.
  */
 class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
-    private lateinit var adapter: TransactionsAdapter
+    private var adapter: TransactionsAdapter? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
     override fun getToolbarTitle(): String? = getString(R.string.address_details)
@@ -81,16 +82,20 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     private fun initTransactionsList() {
-        adapter = TransactionsAdapter(context!!, mutableListOf(), true) {
-            presenter?.onTransactionPressed(it)
+        if (adapter == null) {
+            adapter = TransactionsAdapter(context!!, listOf(), true) {
+                presenter?.onTransactionPressed(it)
+            }
         }
 
-        transactionsList.layoutManager = LinearLayoutManager(context)
-        transactionsList.adapter = adapter
+        if (transactionsList.adapter == null) {
+            transactionsList.layoutManager = LinearLayoutManager(context)
+            transactionsList.adapter = adapter
+        }
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
-        adapter.setPrivacyMode(isEnable)
+        adapter?.setPrivacyMode(isEnable)
     }
 
     private fun configAddressDetails(address: WalletAddress) {
@@ -143,12 +148,11 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
+        Log.d("Miolin", "configTransactions::$transactions")
         transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
-        if (transactions.isNotEmpty()) {
-            adapter.data = transactions
-            adapter.notifyDataSetChanged()
-        }
+        adapter?.data = transactions
+        adapter?.notifyDataSetChanged()
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) {

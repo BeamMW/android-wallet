@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
+import android.util.Log
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
@@ -28,6 +29,7 @@ class AddressState {
     private val transactions = HashMap<String, TxDescription>()
 
     fun updateTransactions(tx: List<TxDescription>?) {
+        Log.d("Miolin", "updateTransactions:: address=${address?.walletID}\ntx.size=${tx?.size}\ntx=$tx")
         tx?.forEach { transaction ->
             if (transaction.myId == address?.walletID || transaction.peerId == address?.walletID) {
                 transactions[transaction.id] = transaction

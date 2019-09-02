@@ -30,19 +30,14 @@
                 android:padding="16dp"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.Barrier
-                    android:id="@+id/titlesBarrier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:barrierDirection="end"
-                    app:constraint_referenced_ids="addressIdTitle, expireDateTitle, categoryTitle, annotationTitle" />
+
 
                 <TextView
                     android:id="@+id/addressIdTitle"
                     style="@style/common_text_big_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/address_id"
+                    android:text="@string/address"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -125,6 +120,13 @@
                     app:layout_constraintTop_toTopOf="@id/annotationTitle"
                     tools:text="For business purposes" />
 
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/titlesBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="addressIdTitle,expireDateTitle,categoryTitle,annotationTitle" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!--Transactions-->
@@ -143,6 +145,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/transactionsList"
                 android:layout_width="match_parent"
+                tools:listitem="@layout/item_transaction"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/transactionsTitle"/>
 
