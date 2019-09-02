@@ -762,8 +762,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             beginTransaction(true)
 
-            val colorId = if (addresses == null) R.color.colorPrimary else android.R.color.transparent
-            addressContainer?.setBackgroundColor(ContextCompat.getColor(context!!, colorId))
+//            val colorId = if (addresses == null) R.color.colorPrimary else android.R.color.transparent
+//            addressContainer?.setBackgroundColor(ContextCompat.getColor(context!!, colorId))
 
             val params = searchContainer?.layoutParams as? ConstraintLayout.LayoutParams
             params?.topMargin = calculateDefaultMargin()
