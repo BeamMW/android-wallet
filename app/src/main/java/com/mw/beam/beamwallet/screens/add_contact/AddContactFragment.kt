@@ -6,6 +6,7 @@ import android.text.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -29,6 +30,14 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     private val tokenWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             presenter?.onTokenChanged()
+            if (!s.isNullOrBlank()) {
+                val validAddress = s.replace(QrHelper.tokenRegex, "")
+
+                if (validAddress != s.toString()) {
+                    address.setText("")
+                    address.append(validAddress)
+                }
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -69,20 +78,8 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         }
 
         address.addTextChangedListener(tokenWatcher)
-        address.filters = arrayOf(InputFilter { source, _, _, dest, dstart, dend ->
-            if (source.isNotEmpty()) {
-                val enteredText = dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length)
-
-                if (!QrHelper.isValidAddress(enteredText)) {
-                    ""
-                } else {
-                    null
-                }
-            } else {
-                null
-            }
-
-        })
+        address.imeOptions = EditorInfo.IME_ACTION_DONE
+        address.setRawInputType(InputType.TYPE_CLASS_TEXT)
     }
 
     override fun setAddress(address: String) {

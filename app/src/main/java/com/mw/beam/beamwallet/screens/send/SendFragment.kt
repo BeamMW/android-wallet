@@ -70,6 +70,8 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 import android.content.ClipboardManager
+import android.text.InputType
+import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.fragment_send.advancedContainer
 import kotlinx.android.synthetic.main.fragment_send.advancedGroup
@@ -332,6 +334,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
         }
 
+        token.imeOptions = EditorInfo.IME_ACTION_NEXT
+        token.setRawInputType(InputType.TYPE_CLASS_TEXT)
         token.addListener(tokenWatcher)
         token.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
