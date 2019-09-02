@@ -30,7 +30,7 @@
         tools:text="Salary" />
 
     <CheckBox
-        tools:checked="false"
+        android:checked="false"
         android:id="@+id/tagCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

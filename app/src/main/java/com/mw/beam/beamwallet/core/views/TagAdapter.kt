@@ -4,6 +4,8 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
@@ -34,7 +36,7 @@ class TagAdapter(private val onSelectedChangeListener: (List<Tag>) -> Unit) : Re
             if (tag.id != noneTag.id) {
                 circleColorId = tag.color.getAndroidColorId()
                 name = tag.name
-                isSelected = selectedTags.any { it.key == tag.id }
+                isSelected = selectedTags.containsKey(tag.id)
 
                 setOnChangeSelectedListener {
                     if (it) {
@@ -82,29 +84,30 @@ class TagAdapter(private val onSelectedChangeListener: (List<Tag>) -> Unit) : Re
             set(value) {
                 field = value
 
+                val view = itemView.findViewById<View>(R.id.colorCircle)
                 if (value != null) {
-                    itemView.colorCircle.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(App.self, value))
+                    view.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(App.self, value))
                 } else {
-                    itemView.colorCircle.backgroundTintList = null
+                    view.backgroundTintList = null
                 }
             }
 
         var name: String = ""
             set(value) {
                 field = value
-                itemView.categoryName.text = field
+                itemView.findViewById<TextView>(R.id.categoryName).text = field
             }
 
         var isSelected: Boolean = false
             set(value) {
                 field = value
-                itemView.tagCheckbox.isChecked = field
+                itemView.findViewById<CheckBox>(R.id.tagCheckbox).isChecked = field
             }
 
         fun setOnChangeSelectedListener(function: (Boolean) -> Unit) {
-            val checkbox = itemView.tagCheckbox
-            itemView.setOnClickListener { checkbox.isChecked = !checkbox.isChecked }
-            checkbox.setOnCheckedChangeListener { _, isChecked -> function.invoke(isChecked) }
+            val checkbox = itemView.findViewById<CheckBox>(R.id.tagCheckbox)
+            itemView.setOnClickListener { checkbox.isChecked = !checkbox.isChecked; function.invoke(checkbox.isChecked) }
+            checkbox.setOnClickListener { function.invoke(checkbox.isChecked) }
         }
 
     }
