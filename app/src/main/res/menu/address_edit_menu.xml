@@ -8,19 +8,14 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/copy"
-                android:icon="@drawable/address_copy"
-                android:title="@string/copy"
+                android:id="@+id/expire"
+                android:icon="@drawable/ic_expired_menu"
+                android:title="@string/expire_address_now"
                 app:showAsAction="never" />
             <item
-                android:id="@+id/edit"
-                android:icon="@drawable/address_edit"
-                android:title="@string/edit"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/showQR"
-                android:icon="@drawable/address_qr"
-                android:title="@string/show_qr_code_short"
+                android:id="@+id/active"
+                android:icon="@drawable/ic_exp_menu"
+                android:title="@string/active_address"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/delete"

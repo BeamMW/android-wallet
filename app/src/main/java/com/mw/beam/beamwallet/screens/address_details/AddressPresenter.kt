@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -32,18 +33,20 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
     private lateinit var addressSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
+
         state.address = view?.getAddress()
+
         view?.init(state.address ?: return)
     }
 
     override fun onStart() {
         super.onStart()
         notifyPrivacyStateChange()
+
         view?.configureTags(repository.getAddressTags(state.address?.walletID ?: return))
     }
 
@@ -94,40 +97,22 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            when (data.action) {
-                ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
-                else -> state.updateTransactions(data.tx)
-            }
+        state.updateTransactions(AppModel.instance.getTransactionsByAddress(state.address?.walletID))
+        view?.configTransactions(state.getTransactions())
 
-            state.deleteTransaction(repository.getAllTransactionInTrash())
-
+        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+            state.updateTransactions(AppModel.instance.getTransactionsByAddress(state.address?.walletID))
             view?.configTransactions(state.getTransactions())
         }
 
-        addressSubscription = repository.getAddresses().subscribe {
-            it.addresses?.find { address -> address.walletID == state.address?.walletID }?.let { address ->
+        addressSubscription =  AppModel.instance.subOnAddressesChanged.subscribe(){
+            val address = AppModel.instance.getAddress(state.address?.walletID)
+            if (address!=null) {
                 state.address = address
                 view?.init(address)
             }
         }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    state.deleteTransaction(it.data.transactions)
-                    view?.configTransactions(state.getTransactions())
-                }
-
-                TrashManager.ActionType.Restored -> {
-                    state.updateTransactions(it.data.transactions)
-                    view?.configTransactions(state.getTransactions())
-                }
-
-                TrashManager.ActionType.Removed -> {}
-            }
-        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressSubscription)
 }

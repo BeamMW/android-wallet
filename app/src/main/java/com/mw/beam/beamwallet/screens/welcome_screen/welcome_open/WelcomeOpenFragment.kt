@@ -78,6 +78,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         btnTouch.visibleOrGone(shouldInitFingerprint, false)
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+
+        pass.setText("123",android.widget.TextView.BufferType.EDITABLE);
+        presenter?.onOpenWallet()
     }
 
     override fun addListeners() {

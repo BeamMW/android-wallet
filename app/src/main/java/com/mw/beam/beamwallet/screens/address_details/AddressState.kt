@@ -25,19 +25,14 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 class AddressState {
     var address: WalletAddress? = null
 
-    private val transactions = HashMap<String, TxDescription>()
+    private val transactions = mutableListOf<TxDescription>()
 
     fun updateTransactions(tx: List<TxDescription>?) {
-        tx?.forEach { transaction ->
-            if (transaction.myId == address?.walletID || transaction.peerId == address?.walletID) {
-                transactions[transaction.id] = transaction
-            }
+        transactions.clear()
+        if (tx!=null) {
+            transactions.addAll(tx)
         }
     }
 
-    fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
-
-    fun deleteTransaction(tx: List<TxDescription>?) {
-        tx?.forEach { transactions.remove(it.id) }
-    }
+    fun getTransactions() = transactions.sortedByDescending { it.modifyTime }
 }

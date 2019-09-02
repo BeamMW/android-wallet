@@ -16,9 +16,11 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
@@ -30,15 +32,18 @@ interface EditAddressContract {
     interface View : MvpView {
         fun getAddress(): WalletAddress
         fun init(address: WalletAddress)
-        fun configExpireSpinnerVisibility(shouldShow: Boolean)
         fun configExpireSpinnerTime(shouldExpireNow: Boolean)
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
+        fun onAddressDeleted()
         fun showAddNewCategory()
         fun setupTagAction(isEmptyTags: Boolean)
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
+        fun configMenuItems(menu: Menu?, address: WalletAddress)
+        fun showDeleteAddressDialog()
+        fun showDeleteSnackBar(walletAddress: WalletAddress)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -49,6 +54,9 @@ interface EditAddressContract {
         fun onTagActionPressed()
         fun onSelectTags(tags: List<Tag>)
         fun onCreateNewTagPressed()
+        fun onMenuCreate(menu: Menu?)
+        fun onDeleteAddress()
+        fun onConfirmDeleteAddress(withTransactions: Boolean)
     }
 
     interface Repository : MvpRepository {
@@ -58,5 +66,6 @@ interface EditAddressContract {
         fun getAllTags(): List<Tag>
         fun saveTagsForAddress(address: String, tags: List<Tag>)
         fun saveAddress(address: WalletAddress, own: Boolean)
+        fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
     }
 }

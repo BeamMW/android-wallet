@@ -50,6 +50,8 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private var privacyMode: Boolean = false
     private var searchString: String? = null
 
+    var reverseColors = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
             clickListener.invoke(data[adapterPosition])
@@ -68,7 +70,13 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             message.text = messageStatus
 
-            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor) //logically reversed because count starts from zero
+            if (reverseColors) {
+                itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor)
+            }
+            else{
+                itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
+            }
+
             icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)

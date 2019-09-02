@@ -303,15 +303,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun showTransactionDetails(txId: String) {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txId))
     }
+
     override fun showReceiveScreen() {
-
-      //  startBrotherFragment(ReceiveFragment<ReceivePresenter(ReceiveContract.View,ReceiveContract.Repository,null>)
-      //  (parentFragment as BaseFragment)
-
-      //  (parentFragment as MainFragment).startBrotherFragment(MsgFragment.newInstance(mAdapter.getMsg(position)))
-
-        //   findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToReceiveFragment())
     }
+
     override fun showSendScreen() {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSendFragment())
     }

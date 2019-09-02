@@ -295,9 +295,10 @@
     <string name="address_id">Address ID</string>
     <string name="expiration_date">Expiration date</string>
     <string name="tag">Tag</string>
+    <string name="show_qr_code_short">Show QR</string>
 
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire address now</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Activate address</string>
     <string name="save">Save</string>
     <string name="now">Now</string>

@@ -5,6 +5,7 @@
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="1"
     android:filterTouchesWhenObscured="true"
     android:orientation="vertical">
 
@@ -215,6 +216,18 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/startAddressTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/sender"
+                        android:textAllCaps="true"
+                        android:textColor="#8798A9"
+                        android:textSize="12sp" />
+
                     <LinearLayout
                         android:id="@+id/startContactLayout"
                         android:layout_width="match_parent"
@@ -243,18 +256,6 @@
                             android:textSize="14sp"
                             tools:text="User" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/startAddressTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.2"
-                        android:padding="3dp"
-                        android:text="@string/sender"
-                        android:textAllCaps="true"
-                        android:textColor="#8798A9"
-                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/startAddress"
@@ -289,6 +290,18 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/endAddressTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/sender"
+                        android:textAllCaps="true"
+                        android:textColor="#8798A9"
+                        android:textSize="12sp" />
+
                     <LinearLayout
                         android:id="@+id/endContactLayout"
                         android:layout_width="match_parent"
@@ -317,18 +330,6 @@
                             android:textSize="14sp"
                             tools:text="User" />
                     </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/endAddressTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.2"
-                        android:padding="3dp"
-                        android:text="@string/sender"
-                        android:textAllCaps="true"
-                        android:textColor="#8798A9"
-                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/endAddress"

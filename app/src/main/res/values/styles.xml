@@ -1,5 +1,15 @@
 <resources>
 
+    <style name="Autocomplete">
+        <item name="colorControlNormal">@color/white_01</item>
+        <item name="colorControlActivated">@color/white_01</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
     <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -21,8 +31,8 @@
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/toolbar_title_color</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <item name="android:background">@drawable/menu_background</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:popupBackground">@drawable/menu_background</item>
     </style>
 
     <style name="common_button_text_style">

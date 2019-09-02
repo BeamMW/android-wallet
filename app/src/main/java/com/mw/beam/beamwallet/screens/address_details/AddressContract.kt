@@ -61,10 +61,6 @@ interface AddressContract {
 
     interface Repository : MvpRepository {
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
-        fun getAddresses(): Subject<OnAddressesData>
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddressTags(address: String): List<Tag>
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }

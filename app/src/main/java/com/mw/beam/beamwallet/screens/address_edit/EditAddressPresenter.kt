@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
+import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
@@ -23,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 /**
  * Created by vain onnellinen on 3/5/19.
  */
-class EditAddressPresenter(currentView: EditAddressContract.View, currentRepository: EditAddressContract.Repository, private val state: EditAddressState)
+class EditAddressPresenter(currentView: EditAddressContract.View, currentRepository: EditAddressContract.Repository, val state: EditAddressState)
     : BasePresenter<EditAddressContract.View, EditAddressContract.Repository>(currentView, currentRepository),
         EditAddressContract.Presenter {
 
@@ -48,6 +49,26 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         view?.setupTagAction(repository.getAllTags().isEmpty())
     }
 
+    override fun onMenuCreate(menu: Menu?) {
+        view?.configMenuItems(menu, state.address ?: return)
+    }
+
+    override fun onDeleteAddress() {
+        if (state.getTransactions().isNotEmpty()) {
+            view?.showDeleteAddressDialog()
+        } else {
+            onConfirmDeleteAddress(false)
+        }
+    }
+
+    override fun onConfirmDeleteAddress(withTransactions: Boolean) {
+        state.address?.let {
+            view?.showDeleteSnackBar(it)
+            repository.deleteAddress(it, if (withTransactions) state.getTransactions() else listOf())
+            view?.onAddressDeleted()
+        }
+    }
+
     override fun onSelectTags(tags: List<Tag>) {
         state.tempTags = tags
         view?.setTags(tags)
@@ -69,12 +90,26 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
     override fun onSwitchCheckedChange(isChecked: Boolean) {
         val isExpired = state.address?.isExpired ?: return
 
-        if (isExpired) {
-            state.shouldActivateNow = isChecked
-            view?.configExpireSpinnerVisibility(isChecked)
+        if (state.shouldExpireNow)
+        {
+            state.shouldActivateNow = true
+            state.shouldExpireNow = false
+            view?.configExpireSpinnerTime(false)
+            view?.configSaveButton(shouldEnableButton())
+        }
+        else if (state.shouldActivateNow)
+        {
+            state.shouldActivateNow = false
+            state.shouldExpireNow = true
+            view?.configExpireSpinnerTime(true)
+            view?.configSaveButton(shouldEnableButton())
+        }
+        else if (isExpired) {
+            state.shouldActivateNow = true
+            view?.configExpireSpinnerTime(isChecked)
             view?.configSaveButton(shouldEnableButton())
         } else {
-            state.shouldExpireNow = isChecked
+            state.shouldExpireNow = true
             view?.configExpireSpinnerTime(isChecked)
             view?.configSaveButton(shouldEnableButton())
         }

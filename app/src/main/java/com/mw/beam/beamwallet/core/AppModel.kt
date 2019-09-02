@@ -23,6 +23,7 @@ class AppModel {
     var subOnTransactionsChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnUtxosChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnAddressesChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
         private var INSTANCE: AppModel? = null
@@ -79,7 +80,7 @@ class AppModel {
 
     //MARK: - Addresses
 
-    fun getAddress(id:String) : WalletAddress? {
+    fun getAddress(id:String?) : WalletAddress? {
         contacts.forEach {
             if (it.walletID == id)
             {
@@ -130,6 +131,18 @@ class AppModel {
     }
 
     //MARK: - Transactions
+
+    fun getTransactionsByAddress(id: String?) : List<TxDescription> {
+        var result = mutableListOf<TxDescription>()
+
+        transactions.forEach {
+            if (it.myId == id || it.peerId == id) {
+                result.add(it)
+            }
+        }
+
+        return result
+    }
 
     fun getTransactions() : List<TxDescription> {
         return transactions
@@ -211,6 +224,7 @@ class AppModel {
                 }
 
                 subOnTransactionsChanged.onNext(0)
+                subOnAddressesChanged.onNext(0)
             }
 
             WalletListener.subOnAddresses.subscribe(){
@@ -226,6 +240,8 @@ class AppModel {
 
                     deleteAddresses(TrashManager.getAllData().addresses)
                 }
+
+                subOnAddressesChanged.onNext(0)
             }
 
             WalletListener.obsOnTxStatus.subscribe(){
