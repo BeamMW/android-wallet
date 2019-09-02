@@ -53,7 +53,6 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
         adapter = TransactionsAdapter(context!!, mutableListOf(), false) {
             presenter?.onTransactionPressed(it)
         }
-        adapter.invertItemColors = true
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter

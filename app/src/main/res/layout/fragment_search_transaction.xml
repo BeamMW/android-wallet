@@ -11,7 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/search_toolbar_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

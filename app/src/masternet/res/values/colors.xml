@@ -10,4 +10,6 @@
 
     <color name="addresses_status_bar_color">#2e2e2e</color>
 
+    <color name="search_toolbar_color">#0f0f0f</color>
+
 </resources>
