@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.subjects.Subject
@@ -57,6 +58,8 @@ interface WelcomeProgressContract {
 
     interface Repository : MvpRepository {
         fun getNodeProgressUpdated(): Subject<OnSyncProgressData>
+        fun getNodeConnectionFailed(): Subject<NodeConnectionError>
+        fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
         fun getNodeStopped(): Subject<Any>
         fun getNodeThreadFinished(): Subject<Any>
         fun getFailedNodeStart(): Subject<Any>

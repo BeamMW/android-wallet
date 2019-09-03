@@ -27,11 +27,7 @@ import io.reactivex.subjects.Subject
  */
 interface MvpRepository {
     val wallet: Wallet?
-
-    fun getNodeConnectionStatusChanged(): Subject<Boolean>
-    fun getNodeConnectionFailed(): Subject<NodeConnectionError>
-    fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
-
+    
     fun isPrivacyModeEnabled(): Boolean
     fun setPrivacyModeEnabled(isEnabled: Boolean)
 

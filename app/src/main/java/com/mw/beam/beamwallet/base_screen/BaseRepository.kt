@@ -87,18 +87,6 @@ open class BaseRepository : MvpRepository {
         }
     }
 
-    override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
-        return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
-    }
-
-    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
-        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
-    }
-
-    override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
-        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
-    }
-
     override fun isWalletInitialized(): Boolean {
         val result = Api.isWalletInitialized(AppConfig.DB_PATH)
         LogUtils.logResponse(result, "isWalletInitialized")

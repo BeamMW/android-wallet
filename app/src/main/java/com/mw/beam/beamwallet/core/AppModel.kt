@@ -10,6 +10,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 
 class AppModel {
     private var contacts = mutableListOf<WalletAddress>()
@@ -18,12 +19,15 @@ class AppModel {
     private var utxos = mutableListOf<Utxo>()
     private lateinit var walletStatus:WalletStatus
 
+    private var networkStatus = NetworkStatus.ONLINE
+
     private var isSubscribe = false
 
     var subOnTransactionsChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnUtxosChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnAddressesChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
         private var INSTANCE: AppModel? = null
@@ -39,6 +43,10 @@ class AppModel {
     }
 
     //MARK: -Status
+
+    fun getNetworkStatus():NetworkStatus {
+        return networkStatus
+    }
 
     fun getStatus():WalletStatus {
         return walletStatus
@@ -276,6 +284,22 @@ class AppModel {
                 walletStatus = it
 
                 subOnStatusChanged.onNext(0)
+            }
+
+
+            WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
+                networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
+                subOnNetworkStatusChanged.onNext(0)
+            }
+
+            WalletListener.subOnNodeConnectionFailed.subscribe(){
+                networkStatus = NetworkStatus.OFFLINE
+                subOnNetworkStatusChanged.onNext(0)
+            }
+
+            WalletListener.subOnSyncProgressUpdated.subscribe(){
+                networkStatus = if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING
+                subOnNetworkStatusChanged.onNext(0)
             }
 
             App.wallet?.getUtxosStatus()

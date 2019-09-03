@@ -39,6 +39,7 @@ import com.mw.beam.beamwallet.screens.wallet.WalletFragmentDirections
 import android.os.Handler
 import android.view.Gravity
 import android.view.View
+import android.view.animation.Animation
 import androidx.navigation.NavOptions
 import com.google.android.material.navigation.NavigationView
 import android.widget.TextView
@@ -46,6 +47,8 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import kotlinx.coroutines.withTimeoutOrNull
 import androidx.core.app.ActivityCompat.invalidateOptionsMenu
+import android.view.animation.AnimationUtils
+import androidx.core.view.ViewCompat
 
 /**
  * Created by vain onnellinen on 10/4/18.
@@ -263,6 +266,12 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerStart() {
         super.onControllerStart()
+
+        if (context!=null) {
+            val view = view
+            view?.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+        }
+
         presenter?.onStart()
     }
 
@@ -301,5 +310,31 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
+    }
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+        if (nextAnim == R.anim.slide_in_right) {
+            val nextAnimation = AnimationUtils.loadAnimation(context, nextAnim)
+            nextAnimation.setAnimationListener(object : Animation.AnimationListener {
+                private var startZ = 0f
+                override fun onAnimationStart(animation: Animation) {
+                    view?.apply {
+                        startZ = ViewCompat.getTranslationZ(this)
+                        ViewCompat.setTranslationZ(this, 1f)
+                    }
+                }
+
+                override fun onAnimationEnd(animation: Animation) {
+                    view?.apply {
+                        this.postDelayed({ ViewCompat.setTranslationZ(this, startZ) }, 100)
+                    }
+                }
+
+                override fun onAnimationRepeat(animation: Animation) {}
+            })
+            return nextAnimation
+        } else {
+            return null
+        }
     }
 }

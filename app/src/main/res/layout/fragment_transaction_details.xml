@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:alpha="1"
     android:filterTouchesWhenObscured="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark">
 
     <View
         android:id="@+id/view2"

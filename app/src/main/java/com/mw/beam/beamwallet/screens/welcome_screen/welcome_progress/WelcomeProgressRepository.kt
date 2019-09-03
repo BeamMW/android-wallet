@@ -50,6 +50,14 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
     }
 
+    override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
+        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
+    }
+
+    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
+        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
+    }
+
     override fun getNodeProgressUpdated(): Subject<OnSyncProgressData> {
         return getResult(WalletListener.subOnNodeSyncProgressUpdated, "getNodeProgressUpdated")
     }

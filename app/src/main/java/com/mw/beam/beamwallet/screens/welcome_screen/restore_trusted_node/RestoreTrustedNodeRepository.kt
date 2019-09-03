@@ -4,6 +4,8 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import io.reactivex.subjects.Subject
+import com.mw.beam.beamwallet.core.listeners.WalletListener
 
 class RestoreTrustedNodeRepository: BaseRepository(), RestoreTrustedNodeContract.Repository {
     override fun connectToNode(address: String) {
@@ -13,5 +15,9 @@ class RestoreTrustedNodeRepository: BaseRepository(), RestoreTrustedNodeContract
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
         }
+    }
+
+    override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
+        return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
     }
 }

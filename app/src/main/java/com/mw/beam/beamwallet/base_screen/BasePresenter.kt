@@ -21,15 +21,16 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import com.mw.beam.beamwallet.core.AppModel
 
 /**
  * Created by vain onnellinen on 10/1/18.
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
     protected lateinit var disposable: CompositeDisposable
+
     private var nodeConnectionSubscription: Disposable? = null
-    private var nodeConnectionFailedSubscription: Disposable? = null
-    private var syncProgressUpdatedSubscription: Disposable? = null
+
     private var isActivityStopped = false
     private var isExpireLockScreenTime = false
 
@@ -42,6 +43,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     override fun onStart() {
         disposable = CompositeDisposable()
+
         initSubscriptions()
 
         val subscriptions = getSubscriptions()
@@ -53,14 +55,6 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         disposable.apply {
             if (nodeConnectionSubscription != null) {
                 add(nodeConnectionSubscription!!)
-            }
-
-            if (nodeConnectionFailedSubscription != null) {
-                add(nodeConnectionFailedSubscription!!)
-            }
-
-            if (syncProgressUpdatedSubscription != null) {
-                add(syncProgressUpdatedSubscription!!)
             }
         }
 
@@ -102,16 +96,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     override fun getSubscriptions(): Array<Disposable>? = null
 
     override fun initSubscriptions() {
-        nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
-            view?.configStatus(if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE)
-        }
+        view?.configStatus(AppModel.instance.getNetworkStatus())
 
-        nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            view?.configStatus(NetworkStatus.OFFLINE)
-        }
-
-        syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            view?.configStatus(if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING)
+        nodeConnectionSubscription = AppModel.instance.subOnNetworkStatusChanged.subscribe(){
+            view?.configStatus(AppModel.instance.getNetworkStatus())
         }
     }
 
