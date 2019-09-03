@@ -290,6 +290,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:singleLine="true"
                 android:imeOptions="actionDone"
+                android:hint="@string/local_comment_not_shared"
                 android:inputType="text|textCapSentences"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/commentTitle"

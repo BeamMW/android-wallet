@@ -23,7 +23,7 @@
     <string name="copied">コピーされました!</string>
     <string name="more">もっと</string>
     <string name="share_qr">QRを共有</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">プライバシーモードを有効化</string>
     <string name="common_security_mode_message">すべての残高が目のアイコンを再タップするまで非表示になります。</string>
     <string name="common_fingerprint_error">試行数が多すぎます。パスワードを入力してください。</string>
     <string name="common_share_title">共有...</string>
@@ -59,15 +59,15 @@
     <string name="welcome_change_alert">ウォレットをリストアすると、すべてのトランザクションの履歴とアドレスが失われます。</string>
     <string name="welcome_btn_change_alert">続ける</string>
     <string name="welcome_where_to_buy_beam">Beamを入手する</string>
-    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
-    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
+    <string name="welcome_using_two_wallets_notification_message">複数のデバイスで同一のシードフレーズを利用しないでください。残高とトランザクションリストが同期されません。</string>
+    <string name="welcome_using_two_wallets_notification_title">同一のシードで、２つのウォレットを同時に使用しないでください</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">ウォレットを使用開始</string>
     <string name="pass_save_new">新しいパスワードの保存</string>
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">ウォレットを開く</string>
     <string name="enter_your_password_to_access_the_wallet">ウォレットにアクセスするにはパスワードを入力してください。</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">指紋認証またはパスワードを用いてウォレットにアクセスする。</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">シードフレーズは、あなたのウォレット内のすべての資金へのアクセスキーになります。フレーズを印刷するか書き留め、安全な、あるいは鍵のかかった金庫に保管しておいてください。このフレーズがなければ、お金を取り戻すことはできません。</string>
     <string name="welcome_seed_title">シードフレーズ</string>
@@ -91,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">UTXOをスキャン中</string>
     <string name="welcome_progress_restore_description">リストアされました</string>
     <string name="welcome_progress_download_description">ダウンロード済み</string>
-    <string name="welcome_progress_restore_description_full_top">同期を待ってください。アプリケーションを閉じたり最小化したりしないでください。</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">ウォレット残高（UTXO）のみ復元可能で、トランザクション情報は常にプライベートであり、ブロックチェーンに残ることはありません。</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">ウォレットアクセスにするにはパスワードを入力して下さい</string>
@@ -147,7 +147,7 @@
     <string name="utxo_status_result_rollback">マイニング結果のロールバック</string>
     <string name="blockchain_height">ブロック高</string>
     <string name="last_block_hash">最後のブロックハッシュ</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">プライバシーモードが有効になっています。</string>
     <string name="utxo_turn_off_see_utxo">無効にしてUTXOリストを表示</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO詳細</string>
@@ -233,6 +233,7 @@
     <string name="outgoing_address">送信アドレス</string>
     <string name="my_addresses">自分のアドレス</string>
     <string name="no_matching_address_found">一致するアドレスが見つかりませんでした</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <!--SettingsFragment-->
     <string name="settings_report">問題を報告</string>
     <string name="settings_change_pass">ウォレットパスワードを変更</string>
@@ -247,8 +248,8 @@
     <string name="seconds">秒</string>
     <string name="minute">分</string>
     <string name="settings_ask_password_on_send">送信の都度パスワードを要求</string>
-    <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_run_random_node">任意のノードに接続</string>
+    <string name="settings_enable_fingerprint">指紋認証によるロック解除を有効化</string>
     <string name="settings_allow_open_link">外部リンクへのアクセスを許可</string>
     <string name="settings_dialog_node_error">無効なノードアドレス</string>
     <string name="settings_dialog_node_title">ノードアドレス</string>
@@ -267,10 +268,12 @@
     <string name="no_name">名前なし</string>
     <string name="address_deleted">アドレスが削除されました</string>
     <string name="contact_deleted">コンタクトが削除されました</string>
+    <string name="addresses_deleted">Addresses deleted</string>
     <!--AddressFragment-->
     <string name="address">アドレス</string>
     <string name="show_qr_code">QRコードを表示</string>
     <string name="delete_address">アドレスの削除</string>
+    <string name="delete_addresses">Delete addresses</string>
     <string name="transactions_list">トランザクションリスト</string>
     <string name="address_id">アドレスID</string>
     <string name="expiration_date">有効期限</string>
@@ -299,31 +302,29 @@
     <!--CategoryFragment-->
     <string name="edit">編集</string>
     <string name="delete_tag">タグを削除</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="tag_delete_dialog_message">本当に %1$s を削除しますか？</string>
     <!--EditCategory-->
     <string name="edit_tag">タグを編集</string>
     <string name="create_tag">タグを作成</string>
     <string name="color">カラー</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">オーナーキーを表示</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">オーナーキーを表示するためには二段階認証を経る必要があります。（パスワードを入力し、指紋認証を使用してください）</string>
     <string name="owner_key_verification_fingerprint_error">指紋認証に失敗しました。数分後に再試行してください。</string>
     <string name="owner_key_verification_title_with_finger">ウォレットにアクセスするには、パスワードを入力または指紋認証を行ってください</string>
     <string name="owner_key_verification_fingerprint_description">指紋認証を用いて認証を完了してください</string>
     <string name="key_code">キーコード</string>
     <string name="owner_key_copied_message">オーナーキーコードがクリップボードにコピーされました</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_code_description">オーナーキーを展開されたノードは、同じシードフレーズから生成されたウォレットに送信されるすべてのUTXOを監視できます。\n\n オーナーキーを他のユーザと共有しないでください。オーナーキーを使用すると、あなたの資金を監視することができます。</string>
+    <string name="owner_key_verification_pass">オーナーキーを展開されたノードは、同じシードフレーズから生成されたウォレットに送信されるすべてのUTXOを監視できます。オーナーキーを確認するためにはパスワードを入力する必要があります。</string>
+    <string name="owner_key_verification_pass_finger">オーナーキーを展開されたノードは、同じシードフレーズから生成されたウォレットに送信されるすべてのUTXOを監視できます。オーナーキーを確認するためには、二段階認証を経る必要があります。（パスワードと指紋認証を入力してください）</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">新しいトランザクションを受信中</string>
     <string name="notification_receive_content_text">クリックして詳細を表示してください</string>
     <string name="notification_channel_name">通知チャネル</string>
     <string name="notification_channel_description">既定の通知チャネル</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">指紋認証センサーをタッチしてください</string>
     <string name="fingerprint_id">指紋ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">アドレスを変更</string>
@@ -350,6 +351,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">アドレス、タグ、名前で検索</string>
     <string name="min_fee_error">最小手数料は %1$s GROTHです</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">トランザクションを検索</string>
     <string name="never_expires">無期限</string>
     <string name="expires_in">%1$s 時間 %2$s 分で期限切れ</string>
@@ -378,29 +380,29 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="downloading_blockchain_info">ブロックチェーン情報をダウンロード中</string>
     <string name="add_all">すべて追加</string>
     <string name="my_active_addresses">自分の有効なアドレス</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="tag_list_is_empty">タグリストは空です</string>
+    <string name="dialog_empty_tags_message">まだタグがありません。タグを作成しますか？</string>
     <string name="you_can_create_more_tags_in_settings">設定でさらに多くのタグを作成できます。</string>
-    <string name="choose_tag">Choose tag</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="choose_tag">タグを選択</string>
+    <string name="use_finger">指紋認証を使用 </string>
     <string name="tags">タグ</string>
-    <string name="add_new_tag">Add new tag</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="add_new_tag">タグを追加</string>
+    <string name="initiated">開始されました</string>
+    <string name="latest_confirmation">最新の確認</string>
+    <string name="share_transaction">トランザクションを共有</string>
     <string name="paste">貼付け</string>
-    <string name="selected">Selected</string>
+    <string name="selected">選択済</string>
     <string name="empty_address_list">アドレスリストがありません</string>
     <string name="empty_contacts_list">コンタクトリストがありません</string>
     <string name="empty_utxo_list">UTXOリストがありません</string>
-    <string name="version">Version %1$s</string>
-    <string name="show_all">Show all</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="version">バージョン %1$s</string>
+    <string name="show_all">全てを表示</string>
+    <string name="empty_address_list_active">有効なアドレスがありません</string>
+    <string name="empty_address_list_expired">無効なアドレスがありません</string>
+    <string name="empty_utxo_list_progress">有効なUTXOがありません</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">コードを貼り付けた後、デスクトップであなたのノードを起動し、モバイルウォレットで \"次へ\" をクリックしてください。</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">ノードに接続できません。異なるノードへの接続を試すか、自動復元（Automatic Restore）を使用してください。</string>
+    <string name="connecting">接続中...</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">ID、コメント、アドレス、連絡先で検索</string>
+    <string name="address_details">アドレスの詳細</string>
 </resources>

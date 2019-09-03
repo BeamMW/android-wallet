@@ -91,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">กำลังสแกน UTXO</string>
     <string name="welcome_progress_restore_description">กู้แล้ว</string>
     <string name="welcome_progress_download_description">ดาวน์โหลดแล้ว</string>
-    <string name="welcome_progress_restore_description_full_top">กรุณารอการรวบรวมข้อมูลและกรุณาอย่าปิดหรือลดหน้าต่างของแอป</string>
+    <string name="welcome_progress_restore_description_full_top">กรุณารอการดึงข้อมูลและอย่าปิดหรือลดหน้าหน้าจอแอป\nการกู้กระเป๋าอาจจะใช้เวลาซักระยะ</string>
     <string name="welcome_progress_restore_description_full_bottom">มีแค่ยอดคงเหลือของกระเป๋า (UTXO) เท่านั้นที่จะสามารถกู้คืนได้ รายการธุรกรรมและรายการที่อยู่จะเก็บอยู่บนอุปกรณ์ และจะไม่ถูกนำไปบนบล็อกเชน</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">สร้างรหัสผ่านสำหรับเปิดกระเป๋า</string>
@@ -233,6 +233,7 @@
     <string name="outgoing_address">ที่อยู่ที่ใช้โอน</string>
     <string name="my_addresses">ที่อยู่ของฉัน</string>
     <string name="no_matching_address_found">ไม่พบที่อยู่ที่ตรงกัน</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <!--SettingsFragment-->
     <string name="settings_report">รายงานปัญหา</string>
     <string name="settings_change_pass">เปลี่ยนรหัสผ่านของกระเป๋า</string>
@@ -267,10 +268,12 @@
     <string name="no_name">ไม่มีชื่อ</string>
     <string name="address_deleted">ที่อยู่ถูกลบแล้ว</string>
     <string name="contact_deleted">ชื่อผู้ติดต่อถูกลบแล้ว</string>
+    <string name="addresses_deleted">ที่อยู่ได้ถูกลบแล้ว</string>
     <!--AddressFragment-->
     <string name="address">ที่อยู่</string>
     <string name="show_qr_code">แสดง QR Code</string>
     <string name="delete_address">ลบที่อยู่</string>
+    <string name="delete_addresses">ลบที่อยู่</string>
     <string name="transactions_list">รายการธุรกรรม</string>
     <string name="address_id">ที่อยู่</string>
     <string name="expiration_date">วันหมดอายุ</string>
@@ -350,6 +353,7 @@
     <string name="search_by_address_tag_or_name">ค้นหาโดยใช้ที่อยู่, แท็ก หรือ ชื่อ</string>
     <string name="min_fee_error">ค่าธรรมเนียมที่ต่ำที่สุดคือ %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับที่อยู่นี้</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">ค้นหาธุรกรรม</string>
     <string name="never_expires">ไม่มีวันหมดอายุ</string>
     <string name="expires_in">หมดอายุใน %1$s ชั่วโมง %2$s นาที</string>

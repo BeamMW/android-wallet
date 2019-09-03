@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_change_address.*
+import android.graphics.Typeface
 
 class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddressContract.View {
 
@@ -40,6 +41,15 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
+
+            if (searchAddress.text.toString().isEmpty())
+            {
+                searchAddress.setTypeface(null,Typeface.ITALIC)
+            }
+            else{
+                searchAddress.setTypeface(null,Typeface.NORMAL)
+            }
+
             presenter?.onChangeSearchText(s?.toString() ?: "")
         }
 
@@ -61,6 +71,12 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
 
     override fun init(state: ChangeAddressContract.ViewState, generatedAddress: WalletAddress?) {
         gradientView.setBackgroundResource(if (state == ChangeAddressContract.ViewState.Receive) R.drawable.receive_toolbar_gradient else R.drawable.send_toolbar_gradient)
+
+        searchAddress.setTypeface(null,Typeface.ITALIC)
+
+        if (state == ChangeAddressContract.ViewState.Send) {
+            tokenTitle.text = getString(R.string.outgoing_address)
+        }
 
         adapter = AddressesAdapter(context!!, object: AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {

@@ -43,7 +43,6 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
     }
 
     override fun getAddress(): String {
@@ -80,6 +79,28 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         address.addTextChangedListener(tokenWatcher)
         address.imeOptions = EditorInfo.IME_ACTION_DONE
         address.setRawInputType(InputType.TYPE_CLASS_TEXT)
+
+        address.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (!QrHelper.isValidAddress(address.text.toString())) {
+                    showTokenError()
+                }
+                else{
+                    hideTokenError()
+                }
+            }
+        }
+    }
+
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+
+        if (!QrHelper.isValidAddress(address.text.toString())) {
+            showTokenError()
+        }
+        else{
+            hideTokenError()
+        }
     }
 
     override fun setAddress(address: String) {

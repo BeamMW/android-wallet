@@ -94,7 +94,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_update_utxo_description">Analyse UTXO</string>
     <string name="welcome_progress_restore_description">Restauré</string>
     <string name="welcome_progress_download_description">Téléchargées</string>
-    <string name="welcome_progress_restore_description_full_top">Veuillez attendre la synchronisation et ne pas fermer ni réduire l\'application.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">Seul le solde du portefeuille (UTXO) peut être restauré. Les informations et adresses de transaction sont toujours privées et ne sont jamais conservées sur la blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Créer un mot de passe pour accéder à votre portefeuille</string>
@@ -236,6 +236,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="outgoing_address">Adresse sortante</string>
     <string name="my_addresses">Mes adresses</string>
     <string name="no_matching_address_found">Aucune adresse correspondante trouvée</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <!--SettingsFragment-->
     <string name="settings_report">Signaler un problème</string>
     <string name="settings_change_pass">Modifier le mot de passe du portefeuille</string>
@@ -270,10 +271,12 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="no_name">Sans nom</string>
     <string name="address_deleted">Adresse effacée</string>
     <string name="contact_deleted">Contact supprimé</string>
+    <string name="addresses_deleted">Addresses deleted</string>
     <!--AddressFragment-->
     <string name="address">Adresse</string>
     <string name="show_qr_code">Montrer le code QR</string>
     <string name="delete_address">Supprimer mon adresse</string>
+    <string name="delete_addresses">Delete addresses</string>
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
     <string name="expiration_date">Date d\'expiration</string>
@@ -353,6 +356,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">Rechercher par adresse, tag ou nom</string>
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">Rechercher des transactions</string>
     <string name="never_expires">N\'expire jamais</string>
     <string name="expires_in">Expire dans %1$s h %2$s m</string>

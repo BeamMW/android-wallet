@@ -91,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">Сканирование UTXO</string>
     <string name="welcome_progress_restore_description">Кошелек восстановлен</string>
     <string name="welcome_progress_download_description">Загружено</string>
-    <string name="welcome_progress_restore_description_full_top">Пожалуйста, дождитесь завершения синхронизации, не закрывайте и не сворачивайте окно.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">Будет восстановлен только баланс кошелька (UTXO). Информация о транзакциях не хранится в блокчейне.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Создайте пароль доступа к кошельку</string>
@@ -233,6 +233,7 @@
     <string name="outgoing_address">Адрес отправителя</string>
     <string name="my_addresses">Мои адреса</string>
     <string name="no_matching_address_found">По запросу ничего не найдено</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <!--SettingsFragment-->
     <string name="settings_report">Сообщить о проблеме</string>
     <string name="settings_change_pass">Сменить пароль кошелька</string>
@@ -267,10 +268,12 @@
     <string name="no_name">Имя не указано</string>
     <string name="address_deleted">Адрес удален</string>
     <string name="contact_deleted">Контакт удален</string>
+    <string name="addresses_deleted">Addresses deleted</string>
     <!--AddressFragment-->
     <string name="address">Адрес</string>
     <string name="show_qr_code">Показать QR код</string>
     <string name="delete_address">Удалить адрес</string>
+    <string name="delete_addresses">Delete addresses</string>
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
@@ -350,6 +353,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">Поиск по адресу, категории или метке</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">Поиск транзакций</string>
     <string name="never_expires">Никогда</string>
     <string name="expires_in">Истекает через %1$s ч %2$s м</string>

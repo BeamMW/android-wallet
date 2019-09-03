@@ -91,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">Skannataan UTXO</string>
     <string name="welcome_progress_restore_description">Palautettu</string>
     <string name="welcome_progress_download_description">Ladattu</string>
-    <string name="welcome_progress_restore_description_full_top">Ole hyvä ja odota kunnes synkronointi on valmis. Älä myöskään sulje sovellusta tai pienennä ikkunaa.</string>
+    <string name="welcome_progress_restore_description_full_top">Ole hyvä ja odota kunnes synkronointi on valmis. Älä sulje sovellusta tai pienennä ikkunaa. \n Lompakon palautuksessa saatta kestää jonkin aikaa.</string>
     <string name="welcome_progress_restore_description_full_bottom">Ainoastaan lompakon saldo (UTXO) voidaan palauttaa. Tapahtumatiedot pysyvät aina salassa, eivätkä ne tallennu lohkoketjuun.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Luo lompakkoosi uusi salasana</string>
@@ -233,6 +233,7 @@
     <string name="outgoing_address">Lähettävä osoite</string>
     <string name="my_addresses">Omat osoitteeni</string>
     <string name="no_matching_address_found">Yhteensopivaa osoitetta ei löytynyt</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <!--SettingsFragment-->
     <string name="settings_report">Ilmoita ongelmasta (englanniksi)</string>
     <string name="settings_change_pass">Vaihda lompakon salasana</string>
@@ -267,10 +268,12 @@
     <string name="no_name">Ei nimeä</string>
     <string name="address_deleted">Osoite poistettu</string>
     <string name="contact_deleted">Yhteystieto poistettu</string>
+    <string name="addresses_deleted">Osoitteet poistettu</string>
     <!--AddressFragment-->
     <string name="address">Osoite</string>
     <string name="show_qr_code">Näytä QR-koodi</string>
     <string name="delete_address">Poista osoite</string>
+    <string name="delete_addresses">Poista osoitteet</string>
     <string name="transactions_list">Tilitapahtumat</string>
     <string name="address_id">Osoitteen id</string>
     <string name="expiration_date">Vanhentumispäivä</string>
@@ -350,6 +353,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="search_by_address_tag_or_name">Etsi osoitteella, luokalla tai nimellä</string>
     <string name="min_fee_error">Minimisiirtomaksu on %1$s GROTHia</string>
     <string name="delete_all_transactions_related_to_this_address">Poista kaikki tapahtumat, jotka liittyvät tähän osoitteeseen</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">Etsi tapahtuma</string>
     <string name="never_expires">Pysyvä osoite</string>
     <string name="expires_in">Vanhentuu %1$s t %2$s min</string>

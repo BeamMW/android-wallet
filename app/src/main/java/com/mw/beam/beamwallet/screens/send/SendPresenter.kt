@@ -38,6 +38,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var walletIdSubscription: Disposable
     private lateinit var trashSubscription: Disposable
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
+    private var isRepeat = false
+    private var isAlreadySetContact = false
 
     companion object {
         const val FORK_MIN_FEE = 100
@@ -54,8 +56,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         val address: String? = view?.getAddressFromArguments()
         if (!address.isNullOrBlank()) {
+
+            isRepeat = true
+
             view?.setAddress(address)
-            onTokenChanged(address)
+
             view?.setAmount(view?.getAmountFromArguments()?.convertToBeam() ?: 0.0)
         }
 
@@ -323,7 +328,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         if (searchAddress && !isPastedToken) {
             updateSuggestions(rawToken, true)
-        } else if (isPastedToken) {
+        }
+        else if (isPastedToken) {
             view?.handleAddressSuggestions(null)
             view?.requestFocusToAmount()
         }
@@ -417,6 +423,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             repository.getAllAddressesInTrash().forEach { address ->
                 state.addresses.remove(address.walletID)
+            }
+
+            if (isRepeat && !isAlreadySetContact) {
+                val address: String? = view?.getAddressFromArguments()
+                if (address == view?.getToken()) {
+                    val contact = state.addresses.values.firstOrNull { it.walletID == address }
+                    val category = contact?.let { repository.getAddressTags(it.walletID) } ?: listOf()
+                    view?.setSendContact(contact, category)
+                }
             }
         }
 
