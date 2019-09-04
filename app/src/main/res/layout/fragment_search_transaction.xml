@@ -29,7 +29,6 @@
             android:id="@+id/searchEditText"
             style="@style/common_text_big_light"
             android:textSize="20sp"
-            android:layout_marginEnd="@dimen/common_offset"
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/search"
             android:layout_width="0dp"
@@ -38,12 +37,13 @@
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <ImageView
+            tools:visibility="visible"
             android:id="@+id/btnClear"
             android:visibility="gone"
             android:contentDescription="@null"
             android:layout_gravity="center"
             android:src="@drawable/ic_btn_cancel"
-            android:layout_marginEnd="@dimen/common_offset"
+            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

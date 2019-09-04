@@ -9,7 +9,11 @@ import com.mw.beam.beamwallet.core.helpers.removeNodeDatabase
 class RestoreModeChoiceRepository: BaseRepository(), RestoreModeChoiceContract.Repository {
     override fun removeWallet() {
         App.wallet = null
+
+        PreferencesManager.putString("",PreferencesManager.KEY_NODE_ADDRESS)
+
         removeDatabase()
+
         removeNodeDatabase()
     }
 

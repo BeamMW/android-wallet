@@ -219,6 +219,7 @@
                     style="@style/transaction_details_value"
                     android:paddingBottom="0dp"
                     android:textIsSelectable="true"
+                    tools:text="303030303"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/transactionId" />
@@ -230,27 +231,19 @@
                     android:layout_marginEnd="@dimen/transaction_details_link_text_margin_end"
                     android:text="@string/transaction_details_open_in_explorer"
                     android:textColor="@color/colorAccent"
-                    android:textIsSelectable="true"
+                    android:textIsSelectable="false"
+                    android:clickable="true"
                     android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    tools:visibility="visible"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@id/titlesBarrier"
                     app:layout_constraintTop_toBottomOf="@id/kernel"
-                    app:layout_constraintWidth_max="wrap" />
+                    app:layout_constraintWidth_max="wrap"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/ic_external_link"/>
 
-                <ImageView
-                    android:id="@+id/externalLinkIcon"
-                    android:layout_width="@dimen/transaction_details_link_icon_size"
-                    android:layout_height="@dimen/transaction_details_link_icon_size"
-                    android:layout_marginStart="@dimen/transaction_details_link_icon_margin_start"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_external_link"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="@id/btnOpenInBlockExplorer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toEndOf="@id/btnOpenInBlockExplorer"
-                    app:layout_constraintTop_toTopOf="@id/btnOpenInBlockExplorer" />
 
                 <androidx.constraintlayout.widget.Barrier
                     android:id="@+id/titlesBarrier"

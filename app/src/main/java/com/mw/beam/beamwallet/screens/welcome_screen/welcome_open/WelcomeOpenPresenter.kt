@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
+import com.mw.beam.beamwallet.core.helpers.removeDatabase
 
 /**
  * Created by vain onnellinen on 10/19/18.
@@ -32,8 +33,19 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
 
     override fun onStart() {
         super.onStart()
+
         view?.init(repository.isFingerPrintEnabled())
+
         isRestore = false
+
+        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
+
+            PreferencesManager.putString("",PreferencesManager.KEY_NODE_ADDRESS)
+
+            removeDatabase()
+
+            view?.back()
+        }
     }
 
     override fun onOpenWallet() {

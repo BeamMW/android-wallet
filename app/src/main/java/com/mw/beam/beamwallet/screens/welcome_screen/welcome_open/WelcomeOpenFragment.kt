@@ -164,10 +164,15 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun getPass(): String = pass.text?.toString() ?: ""
+
     override fun openWallet(pass: String) {
         findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
     }
     override fun changeWallet() {
+        findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeCreateFragment())
+    }
+
+    override fun back() {
         findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeCreateFragment())
     }
 

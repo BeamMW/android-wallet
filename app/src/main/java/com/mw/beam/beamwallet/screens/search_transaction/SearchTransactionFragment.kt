@@ -57,6 +57,9 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.setEmptyView(emptyLabel)
+
+        searchEditText.requestFocus()
+        showKeyboard()
     }
 
     override fun addListeners() {

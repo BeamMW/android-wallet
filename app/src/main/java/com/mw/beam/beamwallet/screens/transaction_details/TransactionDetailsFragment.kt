@@ -187,7 +187,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
         btnOpenInBlockExplorer.visibility = externalLinkVisibility
-        externalLinkIcon.visibility = externalLinkVisibility
 
         if (txDescription.message.isNotEmpty()) {
             comment.text = txDescription.message

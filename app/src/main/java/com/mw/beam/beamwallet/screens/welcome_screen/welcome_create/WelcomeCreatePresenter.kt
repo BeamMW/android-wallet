@@ -27,6 +27,7 @@ class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRep
 
     override fun onStart() {
         super.onStart()
+
         if (repository.isUnfinishedRestore()) {
             repository.clearAllData()
         }

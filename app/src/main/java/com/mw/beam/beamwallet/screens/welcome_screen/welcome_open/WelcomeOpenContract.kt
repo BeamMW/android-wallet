@@ -35,6 +35,7 @@ interface WelcomeOpenContract {
         fun showFingerprintAuthError()
         fun clearError()
         fun clearFingerprintCallback()
+        fun back()
     }
 
     interface Presenter : MvpPresenter<View> {

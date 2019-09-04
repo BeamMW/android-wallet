@@ -19,6 +19,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
@@ -82,12 +83,7 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
 
         address.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                if (!QrHelper.isValidAddress(address.text.toString())) {
-                    showTokenError()
-                }
-                else{
-                    hideTokenError()
-                }
+                presenter?.checkAddress()
             }
         }
     }
@@ -95,12 +91,7 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     override fun onHideKeyboard() {
         super.onHideKeyboard()
 
-        if (!QrHelper.isValidAddress(address.text.toString())) {
-            showTokenError()
-        }
-        else{
-            hideTokenError()
-        }
+        presenter?.checkAddress()
     }
 
     override fun setAddress(address: String) {
@@ -167,7 +158,18 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         this.tags.text = tags.createSpannableString(context!!)
     }
 
-    override fun showTokenError() {
+    override fun showTokenError(address: WalletAddress?) {
+        if (address != null) {
+            if (address?.isContact) {
+                tokenError.text = getString(R.string.address_already_exist_1)
+            } else{
+                tokenError.text = getString(R.string.address_already_exist_2)
+            }
+        }
+        else{
+            tokenError.text = getString(R.string.invalid_address)
+        }
+
         tokenError.visibility = View.VISIBLE
     }
 
