@@ -37,7 +37,7 @@ interface ScanQrContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onQrFromGalleryPressed()
-        fun onRequestPermissionsResult(status: PermissionStatus)
+        fun onRequestPermissionsResult(status: PermissionStatus, code:Int)
         fun onImageSelected(uri: Uri?)
     }
 
