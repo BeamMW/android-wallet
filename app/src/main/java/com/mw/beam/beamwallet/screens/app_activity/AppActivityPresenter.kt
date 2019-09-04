@@ -20,17 +20,18 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
+import android.util.Log
 
 class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActivityContract.Repository) : BasePresenter<AppActivityContract.View, AppActivityContract.Repository>(view, repository), AppActivityContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()
 
-        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
+        Log.d("TEST!!!!!!!!!","onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated")
 
+        if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
-
             removeDatabase()
         }
         else{
@@ -44,14 +45,14 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     }
 
     override fun onNewIntent(txId: String?) {
-        if (App.isAuthenticated) {
-            if (txId == null) {
-                view?.showWalletFragment()
-            } else {
-                view?.showTransactionDetailsFragment(txId)
+        Log.d("TEST!!!!!!!!!","onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent")
+        if (!PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)
+                && repository.isWalletInitialized()) {
+            if (App.isAuthenticated) {
+                if (txId != null) {
+                    view?.showTransactionDetailsFragment(txId)
+                }
             }
-        } else {
-            view?.showOpenFragment()
         }
     }
 

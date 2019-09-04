@@ -41,6 +41,10 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun getToolbarTitle(): String? = null
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
         navController.navigate(R.id.welcomeOpenFragment, null, navOptions {
