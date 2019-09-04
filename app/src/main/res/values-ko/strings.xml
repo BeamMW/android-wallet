@@ -234,6 +234,8 @@
     <string name="my_addresses">내 주소들</string>
     <string name="no_matching_address_found">일치한 주소가 없습니다</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">해당 주소는 이미 있습니다.</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">문제 신고하기</string>
     <string name="settings_change_pass">지갑 비밀번호 바꾸기</string>

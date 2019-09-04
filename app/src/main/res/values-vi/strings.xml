@@ -234,6 +234,8 @@
     <string name="my_addresses">Địa chỉ của tôi</string>
     <string name="no_matching_address_found">Không tìm thấy địa chỉ phù hợp</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">Địa chỉ này đã tồn tại</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Báo cáo một vấn đề</string>
     <string name="settings_change_pass">Thay đổi mật khẩu ví</string>

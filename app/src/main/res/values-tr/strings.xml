@@ -234,6 +234,8 @@
     <string name="my_addresses">Adreslerim</string>
     <string name="no_matching_address_found">Eşleşen adres bulunamadı</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">Bu adres zaten var</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Sorunu rapor edin</string>
     <string name="settings_change_pass">Cüzdan şifresini değiştirin</string>

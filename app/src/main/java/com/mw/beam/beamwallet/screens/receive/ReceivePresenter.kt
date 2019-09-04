@@ -96,11 +96,13 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     private fun requestSaveAddress(nextStep: () -> Unit) {
-        if (!state.wasAddressSaved) {
-            view?.showSaveAddressDialog(nextStep)
-        } else if (isAddressInfoChanged()) {
+        if (isAddressInfoChanged() && !state.wasAddressSaved) {
             view?.showSaveChangesDialog(nextStep)
-        } else {
+        }
+        else if (!state.wasAddressSaved) {
+            view?.showSaveAddressDialog(nextStep)
+        }
+        else {
             nextStep()
         }
     }

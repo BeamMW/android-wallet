@@ -233,7 +233,9 @@
     <string name="outgoing_address">Lähettävä osoite</string>
     <string name="my_addresses">Omat osoitteeni</string>
     <string name="no_matching_address_found">Yhteensopivaa osoitetta ei löytynyt</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">Kommentti, ei näy muille</string>
+    <string name="address_already_exist_1">Tämä osoite on jo käytössä</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Ilmoita ongelmasta (englanniksi)</string>
     <string name="settings_change_pass">Vaihda lompakon salasana</string>
@@ -353,7 +355,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="search_by_address_tag_or_name">Etsi osoitteella, luokalla tai nimellä</string>
     <string name="min_fee_error">Minimisiirtomaksu on %1$s GROTHia</string>
     <string name="delete_all_transactions_related_to_this_address">Poista kaikki tapahtumat, jotka liittyvät tähän osoitteeseen</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Poista kaikki tapahtumat, jotka liittyvät näihin osoitteisiin</string>
     <string name="search_transaction">Etsi tapahtuma</string>
     <string name="never_expires">Pysyvä osoite</string>
     <string name="expires_in">Vanhentuu %1$s t %2$s min</string>

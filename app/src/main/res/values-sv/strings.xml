@@ -233,7 +233,9 @@
     <string name="outgoing_address">Utgående adresser</string>
     <string name="my_addresses">Mina adresser</string>
     <string name="no_matching_address_found">Inga matchande adresser hittades</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">Lokal kommentar, kommer ej att delas med något annat</string>
+    <string name="address_already_exist_1">Denna adress finns redan</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Rapportera ett problem</string>
     <string name="settings_change_pass">Byt plånbokens lösenord</string>
@@ -351,7 +353,7 @@
     <string name="search_by_address_tag_or_name">Sök med adress, tag eller namn</string>
     <string name="min_fee_error">Minsta avgift är %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Ta bort alla transaktioner som är kopplade till dessa adresser</string>
     <string name="search_transaction">Sök transaktion</string>
     <string name="never_expires">Utgår aldrig</string>
     <string name="expires_in">Utgår om %1$s t %2$s m</string>

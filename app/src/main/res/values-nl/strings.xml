@@ -91,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">Scannen UTXO</string>
     <string name="welcome_progress_restore_description">Hersteld</string>
     <string name="welcome_progress_download_description">Gedownload</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
+    <string name="welcome_progress_restore_description_full_top">Wacht op synchronisatie en sluit of minimaliseer de applicatie niet. \n Herstellen van de wallet kan enige tijd duren.</string>
     <string name="welcome_progress_restore_description_full_bottom">Alleen het wallet saldo (UTXO) kan worden hersteld. Transactieinformatie is altijd privé en wordt nooit in de blockchain opgeslagen.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Maak een wachtwoord aan om toegang te krijgen tot uw wallet</string>
@@ -233,7 +233,9 @@
     <string name="outgoing_address">Uitgaande adres</string>
     <string name="my_addresses">Mijn adressen</string>
     <string name="no_matching_address_found">Geen overeenkomend adres gevonden</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">Lokale omschrijving, wordt niet gedeeld</string>
+    <string name="address_already_exist_1">Dit adres bestaat al</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Rapporteer een probleem</string>
     <string name="settings_change_pass">Wijzig portemonnee wachtwoord</string>
@@ -268,12 +270,12 @@
     <string name="no_name">Geen naam</string>
     <string name="address_deleted">Adres verwijderd</string>
     <string name="contact_deleted">Contactpersoon verwijderd</string>
-    <string name="addresses_deleted">Addresses deleted</string>
+    <string name="addresses_deleted">Adressen verwijderd</string>
     <!--AddressFragment-->
     <string name="address">Adres</string>
     <string name="show_qr_code">Toon QR code</string>
     <string name="delete_address">Adres verwijderen</string>
-    <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_addresses">Adressen verwijderen</string>
     <string name="transactions_list">Transactielijst </string>
     <string name="address_id">Adres ID</string>
     <string name="expiration_date">Vervaldatum</string>
@@ -352,7 +354,7 @@ Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
     <string name="search_by_address_tag_or_name">Zoek op adres, label of naam</string>
     <string name="min_fee_error">De minimale vergoeding is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Verwijder alle transacties die gerelateerd zijn aan dit adres</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Verwijder alle transacties die gerelateerd zijn aan deze adressen</string>
     <string name="search_transaction">Zoek transactie</string>
     <string name="never_expires">Verloopt nooit</string>
     <string name="expires_in">Verloopt over %1$s uur %2$s minuten</string>

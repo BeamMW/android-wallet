@@ -93,7 +93,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_update_utxo_description">Escaneando UTXO</string>
     <string name="welcome_progress_restore_description">Restaurado</string>
     <string name="welcome_progress_download_description">Descargado</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
+    <string name="welcome_progress_restore_description_full_top">Por favor, espere a la sincronización y no cierre o minimice la aplicación. \n La restauración del wallet puede tardar un tiempo.</string>
     <string name="welcome_progress_restore_description_full_bottom">Solo se puede restaurar el saldo del wallet (UTXO), la información de la transacción siempre es privada y nunca se mantiene en la cadena de bloques.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Crea la contraseña para acceder a tu wallet</string>
@@ -235,7 +235,9 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="outgoing_address">Dirección saliente</string>
     <string name="my_addresses">Mis direcciones</string>
     <string name="no_matching_address_found">No se encontró una dirección coincidente</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">Comentario local, no será compartido</string>
+    <string name="address_already_exist_1">Esta dirección ya existe</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Informar de un problema</string>
     <string name="settings_change_pass">Cambia la contraseña del wallet</string>
@@ -270,12 +272,12 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="no_name">Sin nombre</string>
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
-    <string name="addresses_deleted">Addresses deleted</string>
+    <string name="addresses_deleted">Direcciones eliminadas</string>
     <!--AddressFragment-->
     <string name="address">Dirección</string>
     <string name="show_qr_code">Mostrar código QR</string>
     <string name="delete_address">Borrar dirección</string>
-    <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_addresses">Eliminar direcciones</string>
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
@@ -356,7 +358,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="search_by_address_tag_or_name">Buscar por dirección, etiqueta o nombre</string>
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Eliminar todas las transacciones relacionadas con estas direcciones</string>
     <string name="search_transaction">Biscar transacción</string>
     <string name="never_expires">Nunca caduca</string>
     <string name="expires_in">Caduca en %1$s h %2$s m</string>

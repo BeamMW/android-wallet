@@ -234,6 +234,8 @@
     <string name="my_addresses">My addresses</string>
     <string name="no_matching_address_found">No matching address found</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">This address already exists</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Report a problem</string>
     <string name="settings_change_pass">Cambia la password del wallet</string>

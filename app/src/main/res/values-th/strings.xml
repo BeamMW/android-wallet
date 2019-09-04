@@ -234,6 +234,8 @@
     <string name="my_addresses">ที่อยู่ของฉัน</string>
     <string name="no_matching_address_found">ไม่พบที่อยู่ที่ตรงกัน</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">ที่อยู่นี้มีแล้ว</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">รายงานปัญหา</string>
     <string name="settings_change_pass">เปลี่ยนรหัสผ่านของกระเป๋า</string>
