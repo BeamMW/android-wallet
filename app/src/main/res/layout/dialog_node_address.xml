@@ -41,6 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="text"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:."
         app:layout_constraintTop_toTopOf="@id/dialogIpTitle"
         app:layout_constraintBottom_toBottomOf="@id/dialogIpTitle"
         app:layout_constraintEnd_toEndOf="parent"

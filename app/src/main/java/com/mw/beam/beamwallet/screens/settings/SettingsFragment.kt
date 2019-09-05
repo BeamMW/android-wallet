@@ -58,6 +58,7 @@ import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.fragment_settings.drawerLayout
 import kotlinx.android.synthetic.main.fragment_settings.navView
 import androidx.activity.OnBackPressedCallback
+import java.util.regex.Pattern
 
 /**
  * Created by vain onnellinen on 1/21/19.
@@ -333,22 +334,27 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
 
-            view.dialogNodeValue.filters = Array<InputFilter>(1) {
-                object : InputFilter {
-                    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-                        if (source.isNotEmpty()) {
-                            val regExp = "^([^:]*):?([1-9]|[1-8][0-9]|9[0-9]|[1-8][0-9]{2}|9[0-8][0-9]|99[0-9]|[1-8][0-9]{3}|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9]|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])?$".toRegex()
-                            return if (!regExp.containsMatchIn(dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length))) {
-                                ""
-                            } else {
-                                null
-                            }
-                        }
-
-                        return null
-                    }
-                }
-            }
+//            view.dialogNodeValue.filters = Array<InputFilter>(1) {
+//                object : InputFilter {
+//                    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+////
+//                        if (end>start)
+//                        {
+//                            val destTxt = dest.toString()
+//                            val resultingTxt = destTxt.substring(0, dstart) +
+//                            source.subSequence(start, end) +  destTxt.substring(dend)
+//
+//                            val regex = Pattern.compile("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:");
+//
+//                            if (regex.matcher(resultingTxt).find()) {
+//                                return "";
+//                            }
+//                        }
+//
+//                        return null
+//                    }
+//                }
+//            }
 
             if (!nodeAddress.isNullOrBlank()) {
                 view.dialogNodeValue.setText(nodeAddress)

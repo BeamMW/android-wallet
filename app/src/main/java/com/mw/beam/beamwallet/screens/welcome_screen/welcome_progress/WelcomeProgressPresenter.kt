@@ -34,6 +34,12 @@ import java.io.File
 class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository, private val state: WelcomeProgressState)
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
+
+    var isAlertShow = false
+    var isAlreadyDownloaded = false
+
+    lateinit var file:File
+
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeProgressUpdatedSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
@@ -93,8 +99,12 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun startAutomaticRestore() {
+        isAlreadyDownloaded = false
+
         state.isFailedNetworkConnect = false
-        val file = repository.createRestoreFile()
+
+        file = repository.createRestoreFile()
+
         downloadSubscription = repository.downloadRestoreFile(file)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -105,7 +115,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     }
 
                     if (it.done == it.total) {
-                        startImport(file)
+                        isAlreadyDownloaded = true
+                        startImport()
                     }
                 }, {
                     state.isFailedNetworkConnect = true
@@ -113,20 +124,24 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 })
     }
 
-    private fun startImport(file: File) {
-        view?.dismissAlert()
-        view?.changeCancelButtonVisibility(false)
-        view?.enableOnBackPress = false
-        importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
-                .subscribe { data ->
-                    onRecoveryLiveData.postValue {
-                        view?.updateProgress(data, state.mode)
+    private fun startImport() {
+        if (!isAlertShow)
+        {
+            view?.dismissAlert()
+            view?.changeCancelButtonVisibility(false)
+            view?.enableOnBackPress = false
+            importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
+                    .subscribe { data ->
+                        onRecoveryLiveData.postValue {
+                            view?.updateProgress(data, state.mode)
 
-                        if (data.done == data.total) {
-                            showWallet()
+                            if (data.done == data.total) {
+                                showWallet()
+                            }
                         }
                     }
-                }
+        }
+
     }
 
     override fun onTryAgain() {
@@ -147,8 +162,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun onCancelToCancelRestore() {
-        // do nothing
-        // alert will be dismissed automatically
+        if (isAlreadyDownloaded && !isAlertShow) {
+            startImport()
+        }
     }
 
     override fun onBackPressed() {

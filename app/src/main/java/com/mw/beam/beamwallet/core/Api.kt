@@ -31,12 +31,19 @@ import retrofit2.Retrofit
 import java.io.File
 import okio.Okio
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import android.content.Context.DOWNLOAD_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.app.DownloadManager
+import android.net.Uri
+import android.content.Context
 
 
 /**
  * Created by vain onnellinen on 10/1/18.
  */
 object Api {
+    private val downloadID: Long = 0
+
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
     private val restoreService by lazy {
