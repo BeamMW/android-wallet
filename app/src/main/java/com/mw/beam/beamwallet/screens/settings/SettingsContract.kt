@@ -94,8 +94,6 @@ interface SettingsContract {
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
-        fun getAddresses(): Subject<OnAddressesData>
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAllCategory(): List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
     }

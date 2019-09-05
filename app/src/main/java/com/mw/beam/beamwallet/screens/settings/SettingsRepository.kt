@@ -75,12 +75,6 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         }
     }
 
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
-
     override fun deleteAddress(addressId: String) {
         TagHelper.changeTagsForAddress(addressId, null)
         getResult("deleteAddress") {
@@ -92,12 +86,6 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return TagHelper.getAllTags()
     }
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
- //           wallet?.getAddresses(true)
-//            wallet?.getAddresses(false)
-        }
-    }
 
     override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
         return LocaleHelper.getCurrentLanguage()

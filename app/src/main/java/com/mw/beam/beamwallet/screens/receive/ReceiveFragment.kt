@@ -52,6 +52,10 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.receive_expire_spinner_item.view.*
+import android.text.Editable
+import android.text.TextWatcher
+
+
 
 /**
  * Created by vain onnellinen on 11/13/18.
@@ -204,6 +208,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+
+        comment.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                presenter?.setAddressName(comment.text.toString())
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -286,7 +298,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun setTags(tags: List<Tag>) {
-        this.tags.text = tags.createSpannableString(context!!)
+        if (tags.count() == 0) {
+            this.tags.text = getString(R.string.none)
+        }
+        else{
+            this.tags.text = tags.createSpannableString(context!!)
+        }
     }
 
     override fun showSaveAddressDialog(nextStep: () -> Unit) {

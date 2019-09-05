@@ -3,9 +3,32 @@ package com.mw.beam.beamwallet.screens.add_contact
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.TagHelper
+import io.reactivex.disposables.Disposable
 
 class AddContactPresenter(view: AddContactContract.View?, repository: AddContactContract.Repository, private val state: AddContactState):
         BasePresenter<AddContactContract.View, AddContactContract.Repository>(view, repository), AddContactContract.Presenter {
+
+    private var categorySubscription: Disposable? = null
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        if (categorySubscription==null)
+        {
+            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
+                if (it!=null) {
+                    state.tags = listOf<Tag>(it)
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        categorySubscription?.dispose()
+
+        super.onDestroy()
+    }
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -22,8 +45,12 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
 
     override fun onStart() {
         super.onStart()
+
         val allTags = repository.getAllTags()
+
         view?.setupTagAction(allTags.isEmpty())
+
+        view?.setTags(state.tags)
     }
 
     override fun onSavePressed() {

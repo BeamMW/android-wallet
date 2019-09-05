@@ -88,6 +88,14 @@ class AppModel {
 
     //MARK: - Addresses
 
+    fun getContacts() : List<WalletAddress> {
+        return contacts.map { it }.toList()
+    }
+
+    fun getMyAddresses() : List<WalletAddress> {
+        return addresses.map { it }.toList()
+    }
+
     fun getAddress(id:String?) : WalletAddress? {
         contacts.forEach {
             if (it.walletID == id)
@@ -153,7 +161,7 @@ class AppModel {
     }
 
     fun getTransactions() : List<TxDescription> {
-        return transactions
+        return transactions.map { it }.toList()
     }
 
     fun getUTXOByTransaction(tx:TxDescription) : List<Utxo> {

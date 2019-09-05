@@ -25,9 +25,13 @@ import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.mw.beam.beamwallet.R
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import java.util.*
 
 object TagHelper {
+    var subOnCategoryCreated: Subject<Tag?> = PublishSubject.create<Tag?>().toSerialized()
+
     private val gson = Gson()
     private val tagData: TagData by lazy {
         val json = PreferencesManager.getString(PreferencesManager.KEY_TAG_DATA)
@@ -49,7 +53,10 @@ object TagHelper {
 
     fun saveTag(tag: Tag) {
         tagData.saveTag(tag)
+
         saveTagData()
+
+        subOnCategoryCreated.onNext(tag)
     }
 
     fun getTagsForAddress(address: String): List<Tag> {

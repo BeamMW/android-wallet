@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -30,8 +31,6 @@ import java.net.URI
 class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository, private val state: SettingsState)
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
-    private lateinit var addressesSubscription: Disposable
-    private lateinit var txStatusSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -56,27 +55,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToCategory(categoryId)
     }
 
-    override fun initSubscriptions() {
-        super.initSubscriptions()
-
-        addressesSubscription = repository.getAddresses().subscribe() {
-            if (it.own) {
-                state.addresses = it.addresses ?: listOf()
-            } else {
-                state.contacts = it.addresses ?: listOf()
-            }
-        }
-
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            val transactions = data.tx?.filter {
-                TxStatus.Failed == it.status || TxStatus.Completed == it.status || TxStatus.Cancelled == it.status
-            }?.toList()
-
-            state.updateTransactions(transactions)
-        }
-    }
-
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, txStatusSubscription)
 
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
@@ -179,8 +157,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         if (clearTransactions) {
             val trashId = "clear_data"
-            TrashManager.add(trashId, TrashManager.ActionData(state.transactions.values.toList(), listOf()))
-            state.transactions.values.forEach { repository.deleteTransaction(it) }
+            TrashManager.add(trashId, TrashManager.ActionData(state.transactions.toList(), listOf()))
+            state.transactions.forEach { repository.deleteTransaction(it) }
         }
     }
 

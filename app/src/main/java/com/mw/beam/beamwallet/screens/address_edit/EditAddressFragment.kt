@@ -250,7 +250,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun setTags(tags: List<Tag>) {
         tagsLabel.text = tags.createSpannableString(context!!)
 
-        if (tagsLabel.text.isNullOrEmpty()) {
+        if (tagsLabel.text.isNullOrEmpty() || tags.count() == 0) {
             tagsLabel.text = getString(R.string.none)
         }
     }

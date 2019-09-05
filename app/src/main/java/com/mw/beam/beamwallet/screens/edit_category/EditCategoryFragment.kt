@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagColor
 import kotlinx.android.synthetic.main.fragment_edit_category.*
+import java.util.*
 
 class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
     private var colorListAdapter: ColorListAdapter? = null
@@ -81,7 +82,9 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
     }
 
     override fun setSaveEnabled(enable: Boolean) {
-        btnSave.isEnabled = enable
+        if (btnSave!=null) {
+            btnSave.isEnabled = enable
+        }
     }
 
     override fun finish() {

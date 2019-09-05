@@ -146,7 +146,12 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     }
 
     override fun setTags(tags: List<Tag>) {
-        this.tags.text = tags.createSpannableString(context!!)
+        if (tags.count() > 0) {
+            this.tags.text = tags.createSpannableString(context!!)
+        }
+        else{
+            this.tags.text = getString(R.string.none)
+        }
     }
 
     override fun showTokenError() {

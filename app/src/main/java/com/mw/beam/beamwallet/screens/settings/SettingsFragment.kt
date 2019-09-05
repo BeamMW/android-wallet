@@ -76,7 +76,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
     }
 
     override fun init(runOnRandomNode: Boolean) {
@@ -119,8 +122,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             ip.setPadding(0,0,0,0)
             ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
         }
-
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
     }
 
     override fun onStart() {

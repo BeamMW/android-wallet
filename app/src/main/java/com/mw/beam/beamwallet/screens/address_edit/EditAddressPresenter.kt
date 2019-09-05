@@ -20,6 +20,8 @@ import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import com.mw.beam.beamwallet.core.helpers.TagHelper
+import io.reactivex.disposables.Disposable
 
 /**
  * Created by vain onnellinen on 3/5/19.
@@ -28,24 +30,57 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
     : BasePresenter<EditAddressContract.View, EditAddressContract.Repository>(currentView, currentRepository),
         EditAddressContract.Presenter {
 
+    private var categorySubscription: Disposable? = null
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        if (categorySubscription==null)
+        {
+            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
+                if (it!=null)
+                {
+                    state.tempTags = listOf<Tag>(it)
+                }
+            }
+        }
+    }
+
     override fun onViewCreated() {
         super.onViewCreated()
-        state.address = view?.getAddress()
-        state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
-        state.tempComment = state.address?.label ?: ""
+
+        if (state.address == null)
+        {
+            state.address = view?.getAddress()
+            state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
+            state.tempComment = state.address?.label ?: ""
+        }
 
         view?.init(state.address ?: return)
 
-        val currentTags = repository.getAddressTags(state.address!!.walletID)
+        if (state.tempTags.count() == 0 && state.currentTags.count() == 0)
+        {
+            val currentTags = repository.getAddressTags(state.address!!.walletID)
 
-        state.tempTags = currentTags
-        state.currentTags = currentTags
+            state.tempTags = currentTags
+            state.currentTags = currentTags
+        }
+        else{
+            view?.configSaveButton(shouldEnableButton())
+        }
 
-        view?.setTags(currentTags)
+        view?.setTags(state.tempTags)
+    }
+
+    override fun onDestroy() {
+        categorySubscription?.dispose()
+
+        super.onDestroy()
     }
 
     override fun onStart() {
         super.onStart()
+
         view?.setupTagAction(repository.getAllTags().isEmpty())
     }
 
