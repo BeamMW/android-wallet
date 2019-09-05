@@ -103,6 +103,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.showSaveAddressDialog(nextStep)
         }
         else {
+            saveAddress()
             nextStep()
         }
     }
