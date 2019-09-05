@@ -33,7 +33,7 @@ import javax.crypto.SecretKey
 
 
 /**
- * Created by vain onnellinen on 4/25/19.
+ *  4/25/19.
  */
 object FingerprintManager {
     private const val KEYSTORE_TYPE = "AndroidKeyStore"

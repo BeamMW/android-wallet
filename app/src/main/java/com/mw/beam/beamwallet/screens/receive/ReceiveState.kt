@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
- * Created by vain onnellinen on 1/4/19.
+ *  1/4/19.
  */
 class ReceiveState {
     var address: WalletAddress? = null

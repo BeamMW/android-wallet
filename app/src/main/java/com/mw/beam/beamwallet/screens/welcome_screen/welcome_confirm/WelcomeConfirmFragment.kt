@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
     private var currentEditText: EditText? = null

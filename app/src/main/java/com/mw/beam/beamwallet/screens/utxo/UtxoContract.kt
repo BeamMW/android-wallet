@@ -27,7 +27,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 interface UtxoContract {
     interface View : MvpView {

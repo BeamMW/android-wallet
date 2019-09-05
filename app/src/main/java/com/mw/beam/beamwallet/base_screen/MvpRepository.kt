@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.core.helpers.Status
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/8/18.
+ *  10/8/18.
  */
 interface MvpRepository {
     val wallet: Wallet?

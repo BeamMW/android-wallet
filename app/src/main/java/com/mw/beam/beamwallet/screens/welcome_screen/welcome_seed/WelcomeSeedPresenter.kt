@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentRepository: WelcomeSeedContract.Repository)
     : BasePresenter<WelcomeSeedContract.View, WelcomeSeedContract.Repository>(currentView, currentRepository),

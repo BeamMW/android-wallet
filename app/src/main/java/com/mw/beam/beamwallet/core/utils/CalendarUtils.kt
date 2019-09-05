@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 /**
- * Created by vain onnellinen on 10/4/18.
+ *  10/4/18.
  */
 object CalendarUtils {
     private const val TIME_FORMAT = "d MMM yyyy  |  hh:mm a"

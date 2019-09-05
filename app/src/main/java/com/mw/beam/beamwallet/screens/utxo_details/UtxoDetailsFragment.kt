@@ -44,7 +44,7 @@ import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 

@@ -34,7 +34,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 object Api {
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()

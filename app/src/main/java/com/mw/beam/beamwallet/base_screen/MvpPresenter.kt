@@ -20,7 +20,7 @@ import android.content.Context
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 interface MvpPresenter<V : MvpView> {
     fun onCreate()

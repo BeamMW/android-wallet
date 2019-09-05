@@ -29,7 +29,7 @@ import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),

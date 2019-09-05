@@ -545,7 +545,7 @@
                     <ImageView
                         android:id="@+id/tagAction"
                         android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_height="44dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_add"

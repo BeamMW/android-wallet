@@ -58,7 +58,7 @@ import android.text.TextWatcher
 
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private val copyTag = "ADDRESS"

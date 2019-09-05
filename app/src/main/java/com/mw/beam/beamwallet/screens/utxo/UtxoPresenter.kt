@@ -29,7 +29,7 @@ import org.jetbrains.anko.uiThread
 
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContract.Repository, private val state: UtxoState)
     : BasePresenter<UtxoContract.View, UtxoContract.Repository>(currentView, currentRepository),

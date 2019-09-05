@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.fragment_utxo.toolbarLayout
 
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     private lateinit var pagerAdapter: UtxosPagerAdapter

@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import kotlinx.android.synthetic.main.fragment_welcome_description.*
 
 /**
- * Created by vain onnellinen on 10/22/18.
+ *  10/22/18.
  */
 class WelcomeDescriptionFragment : BaseFragment<WelcomeDescriptionPresenter>(), WelcomeDescriptionContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_description

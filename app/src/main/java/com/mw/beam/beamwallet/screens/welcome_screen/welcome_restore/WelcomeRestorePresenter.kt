@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentRepository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
     : BasePresenter<WelcomeRestoreContract.View, WelcomeRestoreContract.Repository>(currentView, currentRepository),

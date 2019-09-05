@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.common_phrase.view.*
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class BeamPhrase : ConstraintLayout {
     var phrase: String = ""

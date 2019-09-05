@@ -31,7 +31,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository {
 

@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.core.helpers
 
 /**
- * Created by vain onnellinen on 10/3/18.
+ *  10/3/18.
  */
 
 fun Int.convertToString(): String {

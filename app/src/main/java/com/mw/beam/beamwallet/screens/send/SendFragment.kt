@@ -86,7 +86,7 @@ import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var searchAddressViewDY = 0f
@@ -660,7 +660,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setTags(currentTags: List<Tag>) {
-        tags.text = currentTags.createSpannableString(context!!)
+        if (currentTags.count()==0) {
+            tags.text = getString(R.string.none)
+        }
+        else{
+            tags.text = currentTags.createSpannableString(context!!)
+        }
     }
 
     override fun setupTagAction(isEmptyTags: Boolean) {

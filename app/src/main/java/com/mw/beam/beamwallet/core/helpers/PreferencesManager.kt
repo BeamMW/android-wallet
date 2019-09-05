@@ -22,7 +22,7 @@ import devliving.online.securedpreferencestore.DefaultRecoveryHandler
 import devliving.online.securedpreferencestore.SecuredPreferenceStore
 
 /**
- * Created by vain onnellinen on 4/2/19.
+ *  4/2/19.
  */
 object PreferencesManager {
     private val preferenceStore: SecuredPreferenceStore by lazy {

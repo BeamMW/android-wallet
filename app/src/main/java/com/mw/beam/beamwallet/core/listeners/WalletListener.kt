@@ -32,7 +32,7 @@ import io.reactivex.subjects.Subject
 import kotlin.math.absoluteValue
 
 /**
- * Created by vain onnellinen on 10/4/18.
+ *  10/4/18.
  */
 object WalletListener {
     private var uiHandler = Handler(Looper.getMainLooper())

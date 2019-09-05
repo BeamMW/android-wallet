@@ -37,7 +37,7 @@ import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 
 
 /**
- * Created by vain onnellinen on 12/18/18.
+ *  12/18/18.
  */
 class UtxosAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
         androidx.recyclerview.widget.RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {

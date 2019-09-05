@@ -41,7 +41,7 @@ import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private var adapter: TransactionsAdapter? = null

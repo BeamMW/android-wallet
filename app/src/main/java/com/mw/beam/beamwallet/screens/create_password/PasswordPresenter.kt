@@ -22,7 +22,7 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ *  10/23/18.
  */
 class PasswordPresenter(currentView: PasswordContract.View, currentRepository: PasswordContract.Repository, private val state: PasswordState)
     : BasePresenter<PasswordContract.View, PasswordContract.Repository>(currentView, currentRepository),

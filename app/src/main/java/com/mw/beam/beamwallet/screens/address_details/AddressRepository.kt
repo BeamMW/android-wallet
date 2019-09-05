@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 

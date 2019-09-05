@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.helpers.removeNodeDatabase
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class WelcomeCreateRepository : BaseRepository(), WelcomeCreateContract.Repository {
     override fun isUnfinishedRestore(): Boolean {

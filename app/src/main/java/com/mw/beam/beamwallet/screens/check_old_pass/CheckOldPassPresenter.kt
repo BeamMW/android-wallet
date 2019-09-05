@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.check_old_pass
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 class CheckOldPassPresenter(currentView: CheckOldPassContract.View, currentRepository: CheckOldPassContract.Repository)
     : BasePresenter<CheckOldPassContract.View, CheckOldPassContract.Repository>(currentView, currentRepository),

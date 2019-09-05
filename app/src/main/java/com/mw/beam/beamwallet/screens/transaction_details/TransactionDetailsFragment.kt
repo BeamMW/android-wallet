@@ -50,7 +50,7 @@ import android.os.Handler
 import android.graphics.drawable.GradientDrawable
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private var moreMenu: Menu? = null

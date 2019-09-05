@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
- * Created by vain onnellinen on 2/5/19.
+ *  2/5/19.
  */
 class WelcomeProgressState {
     //TODO decide what should be by default (arguments == null), when all modes will be available and when all modes will have progress screen

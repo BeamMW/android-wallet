@@ -28,7 +28,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 interface WelcomeProgressContract {
     interface View : MvpView {

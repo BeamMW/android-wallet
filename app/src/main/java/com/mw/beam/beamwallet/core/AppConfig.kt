@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.BuildConfig
 import java.util.*
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 object AppConfig {
     const val APP_TAG = "BeamWallet"

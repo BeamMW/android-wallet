@@ -32,7 +32,7 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View {
     private lateinit var openTitleString: String

@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_addresses.*
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.View {
     enum class Mode {
@@ -247,7 +247,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun navigateToEditAddressScreen() {
         val id = selectedAddresses.first()
-        val address = presenter?.state?.getAddresses()?.find { it.walletID == id }
+        val address = presenter?.state?.addresses?.find { it.walletID == id }
         if (address!=null) {
             mode = Mode.NONE
             selectedAddresses.clear()

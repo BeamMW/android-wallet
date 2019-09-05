@@ -19,7 +19,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class WelcomeSeedRepository : BaseRepository(), WelcomeSeedContract.Repository {
     override val seed: Array<String> = Api.createMnemonic()

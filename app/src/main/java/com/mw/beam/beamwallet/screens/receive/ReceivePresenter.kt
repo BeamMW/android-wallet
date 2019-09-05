@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.core.utils.subscribeIf
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),

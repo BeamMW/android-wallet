@@ -29,7 +29,7 @@ import io.reactivex.disposables.Disposable
 import java.io.File
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository, private val state: WelcomeProgressState)
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),

@@ -28,7 +28,7 @@ import io.reactivex.disposables.Disposable
 
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 class WalletPresenter(currentView: WalletContract.View, currentRepository: WalletContract.Repository, private val state: WalletState)
     : BasePresenter<WalletContract.View, WalletContract.Repository>(currentView, currentRepository),

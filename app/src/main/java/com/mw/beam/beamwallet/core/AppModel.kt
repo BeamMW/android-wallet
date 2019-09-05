@@ -88,6 +88,13 @@ class AppModel {
 
     //MARK: - Addresses
 
+    fun getAllAddresses() : List<WalletAddress> {
+        var result = mutableListOf<WalletAddress>()
+        result.addAll(contacts)
+        result.addAll(addresses)
+        return result
+    }
+
     fun getContacts() : List<WalletAddress> {
         return contacts.map { it }.toList()
     }
@@ -311,6 +318,8 @@ class AppModel {
             }
 
             App.wallet?.getUtxosStatus()
+            App.wallet?.getAddresses(true)
+            App.wallet?.getAddresses(false)
         }
     }
 }

@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
     private lateinit var copiedAlert: String

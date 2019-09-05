@@ -43,7 +43,7 @@ import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
 
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class ScreenDelegate {
     private var alert: AlertDialog? = null

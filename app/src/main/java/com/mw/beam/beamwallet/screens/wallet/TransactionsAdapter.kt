@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {

@@ -28,7 +28,7 @@ import com.mw.beam.beamwallet.core.helpers.TxStatus
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 @Parcelize
 class TxDescription(val source: TxDescriptionDTO) : Parcelable {

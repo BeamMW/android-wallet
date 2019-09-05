@@ -30,7 +30,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 interface TransactionDetailsContract {
     interface View : MvpView {

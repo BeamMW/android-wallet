@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToString
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 @Parcelize
 data class Utxo(private val source: UtxoDTO) : Parcelable {

@@ -55,7 +55,7 @@ import java.util.Date
 import java.util.Calendar
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressContract.View {
     private lateinit var expireNowString: String

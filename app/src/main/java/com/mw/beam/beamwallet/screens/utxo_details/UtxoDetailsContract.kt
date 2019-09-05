@@ -29,7 +29,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 interface UtxoDetailsContract {
     interface View : MvpView {

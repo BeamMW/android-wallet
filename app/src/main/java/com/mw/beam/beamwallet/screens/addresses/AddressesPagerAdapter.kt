@@ -30,7 +30,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesPagerAdapter(val context: Context,
                             onAddressClickListener: AddressesAdapter.OnItemClickListener,

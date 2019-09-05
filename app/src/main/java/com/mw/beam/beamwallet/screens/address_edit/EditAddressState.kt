@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressState {
     var address: WalletAddress? = null

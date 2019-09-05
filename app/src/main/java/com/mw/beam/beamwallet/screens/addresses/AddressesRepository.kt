@@ -29,38 +29,12 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses")
- //       return getResult(WalletListener.subOnAddresses, "getAddresses") {
-//            wallet?.getAddresses(true)
-//            wallet?.getAddresses(false)
-//        }
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
-
     override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
-    }
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllAddressesInTrash(): List<WalletAddress> {
-        return TrashManager.getAllData().addresses
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
     }
 
     override fun deleteAddress(walletAddress: WalletAddress, withTransactions: List<TxDescription>) {

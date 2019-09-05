@@ -19,6 +19,6 @@ package com.mw.beam.beamwallet.screens.qr
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 
 /**
- * Created by vain onnellinen on 3/15/19.
+ *  3/15/19.
  */
 class ScanQrRepository : BaseRepository(), ScanQrContract.Repository

@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 interface WalletContract {
     interface View : MvpView {

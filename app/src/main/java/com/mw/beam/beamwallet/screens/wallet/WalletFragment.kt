@@ -51,7 +51,7 @@ import com.mw.beam.beamwallet.screens.receive.ReceivePresenter
 
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter

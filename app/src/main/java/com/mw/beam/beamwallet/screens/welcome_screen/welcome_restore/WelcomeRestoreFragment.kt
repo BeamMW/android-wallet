@@ -40,7 +40,7 @@ import com.mw.beam.beamwallet.core.helpers.PasteManager
 
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     override fun showRestoreNotification() {

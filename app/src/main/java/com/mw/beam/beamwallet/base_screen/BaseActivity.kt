@@ -36,7 +36,7 @@ import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
     protected var presenter: T? = null

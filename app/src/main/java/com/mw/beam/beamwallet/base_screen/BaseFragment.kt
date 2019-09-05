@@ -51,7 +51,7 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
 
 /**
- * Created by vain onnellinen on 10/4/18.
+ *  10/4/18.
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
     protected var presenter: T? = null

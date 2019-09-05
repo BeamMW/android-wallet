@@ -22,10 +22,10 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.Tag
 
 /**
- * Created by vain onnellinen on 1/2/19.
+ *  1/2/19.
  */
 class SendState {
-    var tags: List<Tag> = listOf()
+    var tags = mutableListOf<Tag>()
     var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false

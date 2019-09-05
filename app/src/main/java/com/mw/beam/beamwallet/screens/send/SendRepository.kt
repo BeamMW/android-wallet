@@ -29,13 +29,9 @@ import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class SendRepository : BaseRepository(), SendContract.Repository {
-
-    override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, "getWalletStatus")
-    }
 
     override fun checkAddress(address: String?): Boolean {
         return Api.checkReceiverAddress(address)
@@ -47,13 +43,6 @@ class SendRepository : BaseRepository(), SendContract.Repository {
 
     override fun onCantSendToExpired(): Subject<Any> {
         return getResult(WalletListener.subOnCantSendToExpired, "onCantSendToExpired")
-    }
-
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
     }
 
     override fun generateNewAddress(): Subject<WalletAddress> {
@@ -88,12 +77,4 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllAddressesInTrash(): List<WalletAddress> {
-        return TrashManager.getAllData().addresses
-    }
 }

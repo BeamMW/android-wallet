@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.AppModel
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class WalletState {
     var walletStatus: WalletStatus? = null

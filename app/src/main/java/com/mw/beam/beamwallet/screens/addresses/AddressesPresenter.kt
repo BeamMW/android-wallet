@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
@@ -24,15 +25,13 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesPresenter(currentView: AddressesContract.View, currentRepository: AddressesContract.Repository, val state: AddressesState)
     : BasePresenter<AddressesContract.View, AddressesContract.Repository>(currentView, currentRepository),
         AddressesContract.Presenter {
 
     private lateinit var addressesSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
-    private lateinit var txStatusSubscription: Disposable
 
     var removedAddresses = mutableListOf<String>()
 
@@ -48,48 +47,16 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        addressesSubscription = repository.getAddresses().subscribe {
-            state.updateAddresses(it.addresses)
+        state.addresses.clear()
+        state.addresses.addAll(AppModel.instance.getAllAddresses())
 
-            state.deleteAddresses(repository.getAllAddressesInTrash())
-            state.deleteRemovedAddresses(removedAddresses.toList())
-
+        addressesSubscription = AppModel.instance.subOnAddressesChanged.subscribe(){
+            state.addresses.clear()
+            state.addresses.addAll(AppModel.instance.getAllAddresses())
             updateView()
         }
 
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    state.deleteAddresses(it.data.addresses)
-                    updateView()
-                }
-                TrashManager.ActionType.Restored -> {
-                    state.updateAddresses(it.data.addresses)
-                    updateView()
-                }
-                TrashManager.ActionType.Removed -> {
-                }
-            }
-        }
-
-        txStatusSubscription = repository?.getTxStatus()?.subscribe { data ->
-            if (data.action == ChangeAction.RESET || data.action == ChangeAction.ADDED) {
-                if (data.action == ChangeAction.RESET) {
-                    state.transactions.clear()
-                }
-
-                if (data.tx != null) {
-                    state.transactions.addAll(data.tx!!)
-                }
-
-                state.deleteTransaction(repository.getAllTransactionInTrash())
-            } else if (data.action == ChangeAction.REMOVED) {
-                state.deleteTransaction(data.tx)
-                state.deleteTransaction(repository.getAllTransactionInTrash())
-            }
-
-        }
+        updateView()
     }
 
     override fun onAddContactPressed() {
@@ -131,7 +98,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
         for (i in 0 until addresses.count()) {
             val id = addresses[i]
-            val address = state?.getAddresses()?.find { it.walletID == id }
+            val address = state?.addresses?.find { it.walletID == id }
             if (address != null) {
                 repository.deleteAddress(address, if (withTransactions) state?.getTransactions(id) else listOf())
             }
@@ -139,12 +106,11 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     private fun updateView() {
-        val addresses = state.getAddresses()
+        val addresses = state.addresses
 
         view?.updateAddresses(Tab.ACTIVE, addresses.filter { !it.isExpired && !it.isContact })
         view?.updateAddresses(Tab.EXPIRED, addresses.filter { it.isExpired && !it.isContact })
         view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
-
         view?.updatePlaceholder(addresses.count() == 0)
     }
 
@@ -152,7 +118,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         return repository.getAddressTags(address)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
 
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true

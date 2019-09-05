@@ -30,7 +30,7 @@ import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import kotlinx.android.synthetic.main.fragment_welcome_create.*
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create

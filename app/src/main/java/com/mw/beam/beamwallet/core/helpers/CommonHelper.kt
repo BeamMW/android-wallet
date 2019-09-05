@@ -22,7 +22,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 

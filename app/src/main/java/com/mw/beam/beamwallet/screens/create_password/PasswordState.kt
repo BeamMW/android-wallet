@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.create_password
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 class PasswordState {
     var isModeChangePass = false

@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_open.*
 
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
     private var delayedTask: DelayedTask? = null

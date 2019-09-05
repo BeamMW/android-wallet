@@ -22,7 +22,7 @@ import java.util.*
 import kotlin.collections.HashSet
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 class WelcomeConfirmRepository : BaseRepository(), WelcomeConfirmContract.Repository {
     override var seed: Array<String>? = null

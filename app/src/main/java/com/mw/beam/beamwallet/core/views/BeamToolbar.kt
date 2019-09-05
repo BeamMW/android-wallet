@@ -28,7 +28,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 
 /**
- * Created by vain onnellinen on 12/10/18.
+ *  12/10/18.
  */
 class BeamToolbar : LinearLayout {
     var hasStatus: Boolean = false

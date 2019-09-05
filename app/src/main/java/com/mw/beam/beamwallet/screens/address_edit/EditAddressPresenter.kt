@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.TagHelper
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressPresenter(currentView: EditAddressContract.View, currentRepository: EditAddressContract.Repository, val state: EditAddressState)
     : BasePresenter<EditAddressContract.View, EditAddressContract.Repository>(currentView, currentRepository),

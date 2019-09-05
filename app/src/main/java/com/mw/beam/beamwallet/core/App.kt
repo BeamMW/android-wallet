@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 import android.view.WindowManager
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 class App : Application() {
 

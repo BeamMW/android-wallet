@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 interface WelcomeConfirmContract {
     interface View : MvpView {

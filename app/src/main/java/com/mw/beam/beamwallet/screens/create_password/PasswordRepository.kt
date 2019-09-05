@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ *  10/23/18.
  */
 class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 

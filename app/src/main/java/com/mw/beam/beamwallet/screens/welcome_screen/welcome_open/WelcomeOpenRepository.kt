@@ -22,7 +22,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ *  10/19/18.
  */
 class WelcomeOpenRepository : BaseRepository(), WelcomeOpenContract.Repository {
 

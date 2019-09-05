@@ -26,7 +26,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_navigation.*
 
 /**
- * Created by vain onnellinen on 2/22/19.
+ *  2/22/19.
  */
 class NavItemsAdapter(private val context: Context, private var data: Array<NavItem>, private var clickListener: OnItemClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     lateinit var selectedItem:NavItem.ID

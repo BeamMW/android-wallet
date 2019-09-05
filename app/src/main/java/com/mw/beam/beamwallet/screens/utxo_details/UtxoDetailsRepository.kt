@@ -28,7 +28,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 class UtxoDetailsRepository : BaseRepository(), UtxoDetailsContract.Repository {
 

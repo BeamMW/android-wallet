@@ -60,7 +60,7 @@ import kotlinx.android.synthetic.main.fragment_settings.navView
 import androidx.activity.OnBackPressedCallback
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
     private var dialog: AlertDialog? = null

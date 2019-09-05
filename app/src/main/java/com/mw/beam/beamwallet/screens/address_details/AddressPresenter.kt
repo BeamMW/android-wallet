@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressPresenter(currentView: AddressContract.View, currentRepository: AddressContract.Repository, private val state: AddressState)
     : BasePresenter<AddressContract.View, AddressContract.Repository>(currentView, currentRepository),

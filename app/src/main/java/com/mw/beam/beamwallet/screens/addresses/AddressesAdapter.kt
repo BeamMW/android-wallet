@@ -44,7 +44,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesAdapter(private val context: Context,
                        private val clickListener: OnItemClickListener,

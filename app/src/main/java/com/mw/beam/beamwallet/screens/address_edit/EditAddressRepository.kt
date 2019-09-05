@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 

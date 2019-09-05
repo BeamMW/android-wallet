@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     override fun getLockScreenValue(): Long = LockScreenManager.getCurrentValue()

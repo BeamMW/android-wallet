@@ -30,7 +30,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repository {
     private var downloadProgressSubject: Subject<OnSyncProgressData>? = null

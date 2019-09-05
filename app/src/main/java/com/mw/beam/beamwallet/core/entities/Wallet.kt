@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 data class Wallet(val _this: Long) {
     external fun getWalletStatus()

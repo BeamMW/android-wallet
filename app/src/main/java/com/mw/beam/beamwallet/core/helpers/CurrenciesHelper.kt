@@ -21,7 +21,7 @@ import java.text.DecimalFormatSymbols
 import java.util.*
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 fun Long.convertToBeamString(): String = (this.toDouble() / 100000000).convertToBeamString()
 fun Double.convertToBeamString(): String = DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(this)

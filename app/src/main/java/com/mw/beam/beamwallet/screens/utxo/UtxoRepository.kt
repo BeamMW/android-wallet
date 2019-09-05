@@ -28,7 +28,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 class UtxoRepository : BaseRepository(), UtxoContract.Repository {
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)

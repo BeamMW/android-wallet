@@ -24,7 +24,7 @@ import io.reactivex.disposables.Disposable
 import com.mw.beam.beamwallet.core.AppModel
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
     protected lateinit var disposable: CompositeDisposable

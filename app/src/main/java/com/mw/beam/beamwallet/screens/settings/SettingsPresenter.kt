@@ -26,7 +26,7 @@ import io.reactivex.disposables.Disposable
 import java.net.URI
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository, private val state: SettingsState)
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),

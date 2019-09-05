@@ -31,7 +31,7 @@ import androidx.core.content.ContextCompat
 import kotlin.math.exp
 
 /**
- * Created by vain onnellinen on 4/5/19.
+ *  4/5/19.
  */
 class UtxosPagerAdapter (val context: Context, onUtxoClickListener: UtxosAdapter.OnItemClickListener) : androidx.viewpager.widget.PagerAdapter() {
 

@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentRepository: UtxoDetailsContract.Repository, val state: UtxoDetailsState)
     : BasePresenter<UtxoDetailsContract.View, UtxoDetailsContract.Repository>(currentView, currentRepository),

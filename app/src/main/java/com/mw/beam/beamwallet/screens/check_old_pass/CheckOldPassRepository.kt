@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.check_old_pass
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 class CheckOldPassRepository : BaseRepository(), CheckOldPassContract.Repository {
 

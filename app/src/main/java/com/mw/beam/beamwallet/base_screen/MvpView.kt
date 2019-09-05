@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 interface MvpView {
     fun showKeyboard()

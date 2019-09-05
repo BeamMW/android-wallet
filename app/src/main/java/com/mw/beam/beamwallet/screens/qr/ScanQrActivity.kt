@@ -48,7 +48,7 @@ import com.journeyapps.barcodescanner.SourceData
 
 
 /**
- * Created by vain onnellinen on 3/15/19.
+ *  3/15/19.
  */
 class ScanQrActivity : BaseActivity<ScanQrPresenter>(), ScanQrContract.View, DecoratedBarcodeView.TorchListener {
     private val permissionRequestCode = 5421

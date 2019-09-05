@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ *  10/19/18.
  */
 class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentRepository: WelcomeOpenContract.Repository)
     : BasePresenter<WelcomeOpenContract.View, WelcomeOpenContract.Repository>(currentView, currentRepository),
