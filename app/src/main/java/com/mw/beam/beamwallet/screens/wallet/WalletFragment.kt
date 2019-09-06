@@ -48,7 +48,7 @@ import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.screens.receive.ReceiveContract
 import com.mw.beam.beamwallet.screens.receive.ReceiveFragment
 import com.mw.beam.beamwallet.screens.receive.ReceivePresenter
-
+import android.widget.PopupMenu
 
 /**
  *  10/1/18.
@@ -153,6 +153,13 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             adapter.setPrivacyMode(isEnablePrivacyMode)
             adapter.data = transactions
             adapter.notifyDataSetChanged()
+
+            btnShowAll.text = getString(R.string.show_all)
+            btnShowAll.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,null,null)
+        }
+        else{
+            btnShowAll.text = null
+            btnShowAll.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,resources.getDrawable(R.drawable.ic_more),null)
         }
     }
 
@@ -212,7 +219,19 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
 
         btnShowAll.setOnClickListener {
-            presenter?.onShowAllPressed()
+            if (AppModel.instance.getTransactions().count() > 0) {
+                presenter?.onShowAllPressed()
+            }
+            else PopupMenu(context, btnShowAll).apply {
+                setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+                    override fun onMenuItemClick(item: MenuItem?): Boolean {
+                        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())
+                        return true
+                    }
+                })
+                inflate(R.menu.proof_menu)
+                show()
+            }
         }
     }
 

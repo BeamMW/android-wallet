@@ -35,16 +35,15 @@ interface TransactionsContract {
         fun showProofVerification()
         fun showSearchTransaction()
     }
+
     interface Presenter: MvpPresenter<View> {
         fun onTransactionPressed(txDescription: TxDescription)
         fun onSearchPressed()
         fun onExportPressed()
         fun onProofVerificationPressed()
     }
+
     interface Repository: MvpRepository {
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getTrashSubject(): Subject<TrashManager.Action>
         fun getTransactionsFile(): File
-        fun getAllTransactionInTrash(): List<TxDescription>?
     }
 }

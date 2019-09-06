@@ -28,6 +28,9 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
+import org.jetbrains.anko.custom.async
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class TransactionsPageAdapter(private val context: Context, onTxClickListener: (TxDescription) -> Unit): androidx.viewpager.widget.PagerAdapter()  {
 
@@ -46,7 +49,14 @@ class TransactionsPageAdapter(private val context: Context, onTxClickListener: (
         val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
 
         val emptyLabel = emptyView.findViewById<TextView>(R.id.emptyLabel)
-        emptyLabel.text = context.getString(R.string.wallet_empty_transactions_list_message)
+
+        if (position == TransactionTab.InProgress.ordinal) {
+            emptyLabel.text = context.getString(R.string.wallet_empty_transactions_list_message_proggress)
+        }
+        else{
+            emptyLabel.text = context.getString(R.string.wallet_empty_transactions_list_message)
+        }
+
         emptyLabel.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(context, R.drawable.ic_wallet_empty), null, null)
 
         recyclerView.setEmptyView(emptyView)
@@ -72,17 +82,23 @@ class TransactionsPageAdapter(private val context: Context, onTxClickListener: (
     }
 
     private fun updateData() {
-        allTxAdapter.data = transactions
-        allTxAdapter.notifyDataSetChanged()
 
-        sentTxAdapter.data = transactions.filter { it.sender.value && isCompletedTx(it)}
-        sentTxAdapter.notifyDataSetChanged()
+        doAsync {
+            allTxAdapter.data = transactions
 
-        receivedTxAdapter.data = transactions.filter { !it.sender.value && isCompletedTx(it) }
-        receivedTxAdapter.notifyDataSetChanged()
+            sentTxAdapter.data = transactions.filter { it.sender.value && isCompletedTx(it)}
 
-        inProgressTxAdapter.data = transactions.filter { !isCompletedTx(it) }
-        inProgressTxAdapter.notifyDataSetChanged()
+            receivedTxAdapter.data = transactions.filter { !it.sender.value && isCompletedTx(it) }
+
+            inProgressTxAdapter.data = transactions.filter { !isCompletedTx(it) }
+
+            uiThread {
+                allTxAdapter.notifyDataSetChanged()
+                sentTxAdapter.notifyDataSetChanged()
+                receivedTxAdapter.notifyDataSetChanged()
+                inProgressTxAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
 

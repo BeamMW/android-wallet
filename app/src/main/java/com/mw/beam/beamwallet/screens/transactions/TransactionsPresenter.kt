@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.transactions
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -25,30 +26,15 @@ import io.reactivex.disposables.Disposable
 
 class TransactionsPresenter(view: TransactionsContract.View?, repository: TransactionsContract.Repository)
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
-    private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
 
-    private val transactions = HashMap<String, TxDescription>()
+    private lateinit var txStatusSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init()
     }
 
-    private fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
-
-        return getTransactions()
-    }
-
-    private fun getTransactions() = transactions.values.sortedByDescending { it.modifyTime }
-
-    private fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transactions.remove(it.id) }
-        return getTransactions()
-    }
+    private fun getTransactions() = AppModel.instance.getTransactions().sortedByDescending { it.modifyTime }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)
@@ -78,32 +64,13 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            when (data.action) {
-                ChangeAction.REMOVED -> deleteTransaction(data.tx)
-                else -> updateTransactions(data.tx)
-            }
+        view?.configTransactions(getTransactions())
 
-            val transactions = deleteTransaction(repository.getAllTransactionInTrash())
-
-            view?.configTransactions(transactions)
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    view?.configTransactions(deleteTransaction(it.data.transactions))
-                }
-
-                TrashManager.ActionType.Restored -> {
-                    view?.configTransactions(updateTransactions(it.data.transactions))
-                }
-
-                TrashManager.ActionType.Removed -> {}
-            }
+        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+            view?.configTransactions(getTransactions())
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
 
 }

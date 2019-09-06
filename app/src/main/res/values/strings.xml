@@ -140,6 +140,7 @@
     <string name="pending">Pending</string>
     <string name="transactions">Transactions</string>
     <string name="wallet_empty_transactions_list_message">Your transaction list is empty</string>
+    <string name="wallet_empty_transactions_list_message_proggress">You have no active transactions</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="export">Export</string>
@@ -437,4 +438,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="connecting">Connecting...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
     <string name="address_details">Address details</string>
+
+
+
 </resources>

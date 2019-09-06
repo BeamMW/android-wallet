@@ -34,14 +34,13 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 
 /**
  *  10/2/18.
  */
 class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
-    private val sendIconId = R.drawable.ic_icon_sent
-    private val receivedIconId = R.drawable.ic_icon_received
     private val colorSpan by lazy { ForegroundColorSpan(context.resources.getColor(R.color.common_text_color, context.theme)) }
     private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
     private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
@@ -52,10 +51,15 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
     var reverseColors = false
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
-        this.containerView.setOnClickListener {
-            clickListener.invoke(data[adapterPosition])
+    val asyncInflater = AsyncLayoutInflater(context)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
+            this.containerView.setOnClickListener {
+                clickListener.invoke(data[adapterPosition])
+            }
         }
+        return view
     }
 
     @SuppressLint("SetTextI18n")
@@ -77,7 +81,8 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
             }
 
-            icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
+            icon.setImageDrawable(transaction.statusImage())
+
             date.text = CalendarUtils.fromTimestamp(transaction.modifyTime)
             currency.setImageDrawable(transaction.currencyImage)
 
@@ -142,7 +147,6 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                     }
                 }
             }
-
         }
     }
 
