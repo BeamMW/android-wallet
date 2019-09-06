@@ -33,7 +33,6 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var addressSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -104,15 +103,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
             state.updateTransactions(AppModel.instance.getTransactionsByAddress(state.address?.walletID))
             view?.configTransactions(state.getTransactions())
         }
-
-        addressSubscription =  AppModel.instance.subOnAddressesChanged.subscribe(){
-            val address = AppModel.instance.getAddress(state.address?.walletID)
-            if (address!=null) {
-                state.address = address
-                view?.init(address)
-            }
-        }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
 }

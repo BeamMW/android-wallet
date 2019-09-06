@@ -38,8 +38,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         if (categorySubscription==null)
         {
             categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
-                if (it!=null)
-                {
+                if (it!=null) {
                     state.tempTags = listOf<Tag>(it)
                 }
             }
