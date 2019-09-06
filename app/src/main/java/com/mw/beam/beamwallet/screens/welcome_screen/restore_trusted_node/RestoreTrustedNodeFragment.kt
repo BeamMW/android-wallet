@@ -13,6 +13,8 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_restore_trusted_node.*
+import android.webkit.URLUtil
+import android.util.Patterns
 
 class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), RestoreTrustedNodeContract.View {
 
@@ -74,6 +76,8 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun showLoading() {
+        nodeAddress.clearFocus()
+        hideKeyboard()
         content.visibility = View.GONE
         loading.visibility = View.VISIBLE
     }
@@ -84,7 +88,7 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun showError() {
-        if (getNodeAddress().isNullOrEmpty()) {
+        if (getNodeAddress().isNullOrEmpty() || !validateUrl()) {
             errorText.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             errorText.text = getString(R.string.settings_dialog_node_error)
         }
@@ -97,9 +101,20 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
         errorText.visibility = View.VISIBLE
     }
 
+    fun String.isValidUrl(): Boolean = Patterns.WEB_URL.matcher(this).matches()
+
+    private fun validateUrl() : Boolean {
+        val url = "http://" + getNodeAddress()
+        val valid =  url.isValidUrl()
+        return valid
+    }
+
     override fun addListeners() {
         btnNext.setOnClickListener {
             if (getNodeAddress().isNullOrEmpty()) {
+                showError()
+            }
+            else if (!validateUrl()) {
                 showError()
             }
             else{
