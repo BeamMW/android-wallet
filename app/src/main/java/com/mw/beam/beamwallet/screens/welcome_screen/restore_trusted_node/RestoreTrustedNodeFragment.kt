@@ -84,13 +84,27 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun showError() {
+        if (getNodeAddress().isNullOrEmpty()) {
+            errorText.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+            errorText.text = getString(R.string.settings_dialog_node_error)
+        }
+        else{
+            errorText.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            errorText.text = getString(R.string.node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore)
+        }
+
         nodeAddress.isStateError = true
         errorText.visibility = View.VISIBLE
     }
 
     override fun addListeners() {
         btnNext.setOnClickListener {
-            presenter?.onNextPressed()
+            if (getNodeAddress().isNullOrEmpty()) {
+                showError()
+            }
+            else{
+                presenter?.onNextPressed()
+            }
         }
 
         nodeAddress.addTextChangedListener(textWatcher)

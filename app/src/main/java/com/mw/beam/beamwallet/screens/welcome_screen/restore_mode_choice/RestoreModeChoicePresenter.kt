@@ -9,7 +9,6 @@ class RestoreModeChoicePresenter(view: RestoreModeChoiceContract.View?, reposito
     override fun onStart() {
         super.onStart()
 
-
         repository.removeWallet()
     }
 
