@@ -53,7 +53,7 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
 
             if (!allOK) {
                 nodeAddress.setText(okString);
-                nodeAddress.setSelection(okString.length-1);
+                nodeAddress.setSelection(okString.length);
             }
             else{
                 okString = originalText

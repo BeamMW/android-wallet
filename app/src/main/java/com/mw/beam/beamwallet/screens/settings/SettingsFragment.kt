@@ -358,7 +358,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                     if (!allOK) {
                         view.dialogNodeValue.setText(okString);
-                        view.dialogNodeValue.setSelection(okString.length-1);
+                        view.dialogNodeValue.setSelection(okString.length);
                     }
                     else{
                         okString = originalText
