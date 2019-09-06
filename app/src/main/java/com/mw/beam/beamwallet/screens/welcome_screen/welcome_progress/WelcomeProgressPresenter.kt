@@ -145,7 +145,12 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun onTryAgain() {
-        view?.updateProgress(OnSyncProgressData(0, 100), state.mode)
+        var isDownloadProgress = false
+        if (state.mode == WelcomeMode.RESTORE_AUTOMATIC && !isAlreadyDownloaded) {
+            isDownloadProgress = true
+        }
+
+        view?.updateProgress(OnSyncProgressData(0, 100), state.mode, isDownloadProgress)
         if (state.mode != WelcomeMode.RESTORE_AUTOMATIC) {
             repository.closeWallet()
         } else {

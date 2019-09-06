@@ -16,10 +16,48 @@ import kotlinx.android.synthetic.main.fragment_restore_trusted_node.*
 
 class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), RestoreTrustedNodeContract.View {
 
+    private var okString = ""
+
     private val textWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
+        override fun afterTextChanged(editable: Editable?) {
             nodeAddress.isStateAccent = true
             errorText.visibility = View.GONE
+
+            val originalText = editable.toString()
+
+            var allOK = true;
+
+            val array = originalText.toCharArray().filter {
+                it.equals(':',true)
+            }
+
+            if (array.count() > 1) {
+                allOK = false
+            }
+            else if (array.count()==1) {
+                val port = originalText.split(":").lastOrNull()
+                if (!port.isNullOrEmpty())
+                {
+                    val num = port?.toIntOrNull()
+                    if (num==null) {
+                        allOK = false
+                    }
+                    else if (num in 1..65535){
+                        allOK = true
+                    }
+                    else{
+                        allOK = false
+                    }
+                }
+            }
+
+            if (!allOK) {
+                nodeAddress.setText(okString);
+                nodeAddress.setSelection(okString.length-1);
+            }
+            else{
+                okString = originalText
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

@@ -317,6 +317,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun showNodeAddressDialog(nodeAddress: String?) {
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
+            var okString = ""
 
             view.nodeBtnConfirm.setOnClickListener {
                 presenter?.onSaveNodeAddress(view.dialogNodeValue.text.toString())
@@ -325,7 +326,44 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             view.nodeBtnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
 
             view.dialogNodeValue.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(s: Editable?) {
+                override fun afterTextChanged(editable: Editable?) {
+
+                    val originalText = editable.toString()
+
+                    var allOK = true;
+
+                    val array = originalText.toCharArray().filter {
+                        it.equals(':',true)
+                    }
+
+                    if (array.count() > 1) {
+                        allOK = false
+                    }
+                    else if (array.count()==1) {
+                        val port = originalText.split(":").lastOrNull()
+                        if (!port.isNullOrEmpty())
+                        {
+                            val num = port?.toIntOrNull()
+                            if (num==null) {
+                                allOK = false
+                            }
+                            else if (num in 1..65535){
+                                allOK = true
+                            }
+                            else{
+                                allOK = false
+                            }
+                        }
+                    }
+
+                    if (!allOK) {
+                        view.dialogNodeValue.setText(okString);
+                        view.dialogNodeValue.setSelection(okString.length-1);
+                    }
+                    else{
+                        okString = originalText
+                    }
+
                     presenter?.onChangeNodeAddress()
                 }
 
@@ -334,27 +372,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             })
 
-//            view.dialogNodeValue.filters = Array<InputFilter>(1) {
-//                object : InputFilter {
-//                    override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
-////
-//                        if (end>start)
-//                        {
-//                            val destTxt = dest.toString()
-//                            val resultingTxt = destTxt.substring(0, dstart) +
-//                            source.subSequence(start, end) +  destTxt.substring(dend)
-//
-//                            val regex = Pattern.compile("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.:");
-//
-//                            if (regex.matcher(resultingTxt).find()) {
-//                                return "";
-//                            }
-//                        }
-//
-//                        return null
-//                    }
-//                }
-//            }
 
             if (!nodeAddress.isNullOrBlank()) {
                 view.dialogNodeValue.setText(nodeAddress)

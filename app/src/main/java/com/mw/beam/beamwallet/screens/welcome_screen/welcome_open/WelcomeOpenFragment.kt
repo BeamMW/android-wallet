@@ -71,7 +71,11 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                     authCallback!!, null)
 
             description.setText(R.string.welcome_open_description_with_fingerprint)
-        } else {
+        }
+        else {
+            pass.requestFocus()
+            showKeyboard()
+
             description.setText(R.string.enter_your_password_to_access_the_wallet)
         }
 
@@ -117,6 +121,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         delayedTask?.cancel(true)
 
         fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_error))
+
+        pass.requestFocus()
+        showKeyboard()
     }
 
     fun success() {
@@ -191,7 +198,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun showFingerprintAuthError() {
-        showSnackBar(getString(R.string.common_fingerprint_error))
+        showToast(getString(R.string.common_fingerprint_error), 3000)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

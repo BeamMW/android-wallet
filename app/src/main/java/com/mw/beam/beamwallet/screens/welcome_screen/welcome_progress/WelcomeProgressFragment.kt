@@ -103,6 +103,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
                     title.text = downloadTitleString
+                    restoreFullDescription.visibility = View.GONE
                     configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
                 } else {
                     title.text = restoreTitleString
