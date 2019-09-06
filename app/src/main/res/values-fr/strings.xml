@@ -23,7 +23,7 @@
     <string name="copied">Copié !</string>
     <string name="more">Continuer</string>
     <string name="share_qr">partager le code QR</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">Activer le mode privé</string>
     <string name="common_security_mode_message">Toutes les balances seront seront masquées jusqu\'à ce que l\'icône de l\'œil soit à nouveau activée.</string>
     <string name="common_fingerprint_error">Trop d\'essais. Veuillez réessayer plus tard.</string>
     <string name="common_share_title">Partager…</string>
@@ -62,14 +62,15 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_change_alert">Si vous restaurez un portefeuille, l\'historique et les adresses des transactions seront perdues.</string>
     <string name="welcome_btn_change_alert">Procéder</string>
     <string name="welcome_where_to_buy_beam">Où acheter Beam?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Ne pas utiliser la même phrase de graines sur plusieurs appareils, votre solde et votre liste de transactions ne seront pas synchronisés.</string>
+    <string name="welcome_using_two_wallets_notification_title">Ne pas exécuter simultanément deux portefeuilles initiés à partir de la même phrase Seed</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Commencer à utiliser votre portefeuille</string>
     <string name="pass_save_new">Sauvegarder votre nouveau mot de passe</string>
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Ouvrir votre portefeuille</string>
     <string name="enter_your_password_to_access_the_wallet">Merci de saisir votre mot de passe pour accéder à votre portefeuille.</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Utiliser Touch Id ou saisir votre mot de passe pour accéder au portefeuille.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Votre phrase clé est le moyen d\'accéder à toutes les monnaies cryptées de votre portefeuille. Ecrivez la phrase pour la garder dans un coffre-fort ou dans un coffre-fort verrouillé. Sans cette phrase, vous ne pourrez pas récupérer votre argent.</string>
     <string name="welcome_seed_title">Phrase clé</string>
@@ -93,7 +94,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_update_utxo_description">Analyse UTXO</string>
     <string name="welcome_progress_restore_description">Restauré</string>
     <string name="welcome_progress_download_description">Téléchargées</string>
-    <string name="welcome_progress_restore_description_full_top">Veuillez attendre la synchronisation et ne pas fermer ni réduire l\'application.</string>
+    <string name="welcome_progress_restore_description_full_top">Veuillez patienter pendant la synchronisation et ne fermez pas ou ne minimisez pas l\'application. Restaurer le portefeuille peut prendre un certain temps.</string>
     <string name="welcome_progress_restore_description_full_bottom">Seul le solde du portefeuille (UTXO) peut être restauré. Les informations et adresses de transaction sont toujours privées et ne sont jamais conservées sur la blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Créer un mot de passe pour accéder à votre portefeuille</string>
@@ -149,7 +150,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="utxo_status_result_rollback">Rétrométrage du résultat de minage</string>
     <string name="blockchain_height">Hauteur de la blockchain</string>
     <string name="last_block_hash">Dernier hash du bloc</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">Vous êtes en mode privé.</string>
     <string name="utxo_turn_off_see_utxo">Désactivez-le pour voir votre liste UTXO.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">Détails UTXO</string>
@@ -200,7 +201,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="share_address">Partager l\'adresse</string>
     <string name="show_qr">afficher le code QR</string>
     <string name="addresses">Adresses</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">Envoyer cette adresse à l\'expéditeur via un canal sécurisé externe.</string>
     <string name="receive_save_address_message">Voulez-vous enregistrer l\'adresse créée et l\'utiliser plus tard ?</string>
     <string name="receive_save_changes_message">Voulez-vous enregistrer les modifications de cette adresse ?</string>
     <string name="request_an_amount">Demander un montant</string>
@@ -235,6 +236,9 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="outgoing_address">Adresse sortante</string>
     <string name="my_addresses">Mes adresses</string>
     <string name="no_matching_address_found">Aucune adresse correspondante trouvée</string>
+    <string name="local_comment_not_shared">Commentaire local, ne sera pas partagé</string>
+    <string name="address_already_exist_1">Cette adresse existe déjà</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Signaler un problème</string>
     <string name="settings_change_pass">Modifier le mot de passe du portefeuille</string>
@@ -249,8 +253,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="seconds">secondes</string>
     <string name="minute">minute</string>
     <string name="settings_ask_password_on_send">Demander le mot de passe pour chaque Envoi</string>
-    <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_run_random_node">Se connecter à un nœud aléatoire</string>
+    <string name="settings_enable_fingerprint">Activer le déverrouillage par empreinte digitale</string>
     <string name="settings_allow_open_link">Autoriser l\'ouverture d\'un lien externe</string>
     <string name="settings_dialog_node_error">Adresse du noeud invalide</string>
     <string name="settings_dialog_node_title">Adresse du nœud</string>
@@ -269,10 +273,12 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="no_name">Sans nom</string>
     <string name="address_deleted">Adresse effacée</string>
     <string name="contact_deleted">Contact supprimé</string>
+    <string name="addresses_deleted">Adresse effacée</string>
     <!--AddressFragment-->
     <string name="address">Adresse</string>
     <string name="show_qr_code">Montrer le code QR</string>
     <string name="delete_address">Supprimer mon adresse</string>
+    <string name="delete_addresses">Supprimer les adresses</string>
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
     <string name="expiration_date">Date d\'expiration</string>
@@ -301,31 +307,31 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <!--CategoryFragment-->
     <string name="edit">Modifier</string>
     <string name="delete_tag">Supprimer le tag</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="tag_delete_dialog_message">Etes-vous sûr de vouloir supprimer?</string>
     <!--EditCategory-->
     <string name="edit_tag">Éditer le tag</string>
     <string name="create_tag">Créer un tag</string>
     <string name="color">Couleur </string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Montrer la clé propriétaire</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">Pour voir la clé propriétaire, vous devez valider cette vérification à deux étapes (soumettre un mot de passe et utiliser Touch ID)</string>
     <string name="owner_key_verification_fingerprint_error">L\'autorisation d\'empreinte digitale a échoué. Veuillez essayer dans quelques minutes.</string>
     <string name="owner_key_verification_title_with_finger">Merci de saisir votre mot de passe et d\'utiliser Face ID pour accéder à votre portefeuille</string>
     <string name="owner_key_verification_fingerprint_description">Merci d\'utiliser Face ID pour finaliser la vérification</string>
     <string name="key_code">Codes clé</string>
     <string name="owner_key_copied_message">La clé propriétaire a été copiée</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_code_description">Déployer la clé propriétaire d\'un noeud vérifié permettra au noeud de surveiller tous les UTXO envoyés à n\'importe quel portefeuille généré à partir de la même phrase Seed. \n\nNe partagez pas votre clé de propriétaire avec d\'autres - il permet l\'inspection et le contrôle de vos fonds.</string>
+    <string name="owner_key_verification_pass">Déployer la clé propriétaire sur un noeud de confiance permettra au noeud de surveiller tous les UTXOs envoyés à ce portefeuille et tout portefeuille généré à partir de votre phrase Seed.
+Vous devez entrer votre mot de passe pour voir la clé propriétaire.</string>
+    <string name="owner_key_verification_pass_finger">Déployer la clé propriétaire à un nœud vérifié permettra au nœud de surveiller tous les UTXOs envoyés à ce portefeuille et tout portefeuille généré à partir de votre phrase de Seed.
+Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et utiliser Fingerprint) pour accéder à votre clé de propriétaire.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Réception d\'une nouvelle transaction</string>
     <string name="notification_receive_content_text">Veuillez cliquer pour voir les détails</string>
     <string name="notification_channel_name">Canal de notification</string>
     <string name="notification_channel_description">Canal de notification par défaut</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Touchez le capteur d\'empreintes digitales</string>
     <string name="fingerprint_id">ID empreinte digitale</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Modifier adresse</string>
@@ -352,6 +358,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">Rechercher par adresse, tag ou nom</string>
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Supprimer toutes les transactions liées à cette adresse</string>
     <string name="search_transaction">Rechercher des transactions</string>
     <string name="never_expires">N\'expire jamais</string>
     <string name="expires_in">Expire dans %1$s h %2$s m</string>
@@ -361,48 +368,48 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
     <string name="address_copied_to_clipboard">Adresse copiée</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Le portefeuille Beam va télécharger une image de la blockchain à partir du Cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Le portefeuille Beam se connectera à un noeud spécifique et le noeud trouvera tous vos fonds sur la blockchain.</string>
     <string name="restore_with_trusted_node">Restaurer avec un noeud vérifié</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
+    <string name="automatic_restore_recommended">RESTAURATION AUTOMATIQUE (recommandé)</string>
     <string name="enter_trusted_node_address">Entrez l\'adresse du noeud vérifié</string>
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Clé propriétaire</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Collez ce code dans le portefeuille Beam sur votre bureau pour continuer à restaurer à partir du nœud.</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
+    <string name="privacy_mode">Mode privé</string>
+    <string name="gallery">Galerie</string>
+    <string name="selectPickture">Sélectionnez une image</string>
+    <string name="storage_permission_required_message">Veuillez accorder la permission de stockage pour utiliser votre galerie</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">Le code QR ne peut pas être reconnu. Veuillez réessayer.</string>
+    <string name="welcome_progress_restore_networ_error_description">Échec de la connexion réseau. Veuillez réessayer après reconnexion au réseau.</string>
+    <string name="automatic_restore_warning">Veuillez vous assurer que vous n\'avez pas effectué de transactions (depuis n\'importe quel appareil) dans l\'heure écoulée. Si vous l\'avez fait, veuillez patienter au moins une heure après la dernière transaction avant de procéder à la restauration. Sinon, votre solde restauré peut être incorrect et une procédure de restauration supplémentaire sera nécessaire.</string>
+    <string name="node_restore_warning">Vérifiez que votre noeud est entièrement synchronisé avec la chaîne de blocs avant de démarrer la procédure de restauration. Sinon, votre solde restauré peut être incorrect et une procédure de restauration supplémentaire sera nécessaire.</string>
     <string name="understand">Je comprends</string>
     <string name="downloading_blockchain_info">Téléchargement de la blockchain en cours</string>
     <string name="add_all">Tout ajouter</string>
     <string name="my_active_addresses">Adresses actives</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="tag_list_is_empty">Cette liste est vide</string>
+    <string name="dialog_empty_tags_message">Vous n’avez pas encore de tags. Voulez-vous créer un tag maintenant ?</string>
     <string name="you_can_create_more_tags_in_settings">Vous pouvez créer plus de tags dans Paramètres.</string>
-    <string name="choose_tag">Choose tag</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="choose_tag">Choisir un tag</string>
+    <string name="use_finger">Utiliser votre empreinte digitale </string>
     <string name="tags">Tags</string>
-    <string name="add_new_tag">Add new tag</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="add_new_tag">Ajouter un tag</string>
+    <string name="initiated">Initié</string>
+    <string name="latest_confirmation">Dernière confirmation</string>
+    <string name="share_transaction">Partager une transaction</string>
     <string name="paste">Coller</string>
-    <string name="selected">Selected</string>
+    <string name="selected">Sélectionné</string>
     <string name="empty_address_list">Votre carnet d\'adresses est vide</string>
     <string name="empty_contacts_list">Votre liste de contacts est vide</string>
     <string name="empty_utxo_list">Votre liste d\'UTXO est vide</string>
-    <string name="version">Version %1$s</string>
-    <string name="show_all">Show all</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="version">Version: %1$s</string>
+    <string name="show_all">Tout afficher</string>
+    <string name="empty_address_list_active">Vous n\'avez pas d\'adresses actives</string>
+    <string name="empty_address_list_expired">Vous n\'avez pas d\'adresse expirée</string>
+    <string name="empty_utxo_list_progress">Vous n\'avez pas d\'UTXO actif</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Une fois que vous collez le code, exécutez votre nœud sur le bureau et cliquez sur l\'application mobile.</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Impossible de connecter le noeud. Essayez de connecter le portefeuille à un noeud différent ou utilisez la restauration automatique.</string>
+    <string name="connecting">Connexion...</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">Rechercher par ID, commentaire, adresse ou contact</string>
+    <string name="address_details">Détails de l\'adresse</string>
 </resources>

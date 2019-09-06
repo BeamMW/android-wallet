@@ -96,6 +96,10 @@ class App : Application() {
         }
 
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
+
+            PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
+            PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true);
+
             removeDatabase()
         }
 

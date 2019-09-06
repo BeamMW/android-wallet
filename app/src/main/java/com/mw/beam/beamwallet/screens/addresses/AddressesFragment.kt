@@ -21,6 +21,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -274,6 +276,14 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
             val dialog = AlertDialog.Builder(it).setView(view).show()
 
+            if (selectedAddresses.count() > 1) {
+                val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
+                titleLabel.text = getString(R.string.delete_addresses)
+
+                val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
+                msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_addresses)
+            }
+
             view.btnConfirm.setOnClickListener {
                 showDeleteAddressesSnackBar(view.deleteAllTransactionsCheckbox.isChecked)
                 dialog.dismiss()
@@ -288,7 +298,13 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun showDeleteAddressesSnackBar(removeTransactions:Boolean) {
         presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
 
-        showSnackBar(getString(R.string.address_deleted),
+        val text = if (selectedAddresses.count() > 1) {
+            getString(R.string.addresses_deleted)
+        } else{
+            getString(R.string.address_deleted)
+        }
+
+        showSnackBar(text,
                 onDismiss = {
                     presenter?.removedAddresses?.forEach { walletID ->
                         TrashManager.remove(walletID)

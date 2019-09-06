@@ -44,7 +44,7 @@ import com.mw.beam.beamwallet.core.helpers.PasteManager
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     override fun showRestoreNotification() {
-        showAlert(getString(R.string.welcome_using_two_wallets_notification), getString(R.string.understand), { presenter?.onUnderstandPressed() }, getString(R.string.restore_wallet))
+        showAlert(getString(R.string.welcome_using_two_wallets_notification_message), getString(R.string.understand), { presenter?.onUnderstandPressed() }, getString(R.string.welcome_using_two_wallets_notification_title))
         hideKeyboard()
     }
 

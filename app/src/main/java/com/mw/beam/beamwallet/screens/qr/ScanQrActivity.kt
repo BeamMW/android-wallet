@@ -152,15 +152,16 @@ class ScanQrActivity : BaseActivity<ScanQrPresenter>(), ScanQrContract.View, Dec
             if (grantResults[index] == PackageManager.PERMISSION_DENIED) {
                 isGranted = false
                 if (!shouldShowRequestPermissionRationale(permission)) {
-                    presenter?.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN)
-                } else if (Manifest.permission.READ_EXTERNAL_STORAGE == permission || Manifest.permission.WRITE_EXTERNAL_STORAGE == permission) {
-                    presenter?.onRequestPermissionsResult(PermissionStatus.DECLINED)
+                    presenter?.onRequestPermissionsResult(PermissionStatus.NEVER_ASK_AGAIN,requestCode)
+                }
+                else if (Manifest.permission.READ_EXTERNAL_STORAGE == permission || Manifest.permission.WRITE_EXTERNAL_STORAGE == permission) {
+                    presenter?.onRequestPermissionsResult(PermissionStatus.DECLINED, requestCode)
                 }
             }
         }
 
         if (isGranted) {
-            presenter?.onRequestPermissionsResult(PermissionStatus.GRANTED)
+            presenter?.onRequestPermissionsResult(PermissionStatus.GRANTED, requestCode)
         }
     }
 

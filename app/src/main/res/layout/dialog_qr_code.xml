@@ -36,7 +36,7 @@
                 android:layout_marginTop="@dimen/receive_common_qr_offset"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
                 android:text="@string/address"
-                android:textAllCaps="false"
+                android:textAllCaps="true"
                 app:layout_constraintBottom_toTopOf="@id/tokenView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

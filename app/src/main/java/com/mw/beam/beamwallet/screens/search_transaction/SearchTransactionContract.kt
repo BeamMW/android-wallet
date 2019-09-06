@@ -19,8 +19,10 @@ package com.mw.beam.beamwallet.screens.search_transaction
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
@@ -31,6 +33,7 @@ interface SearchTransactionContract {
         fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?)
         fun setClearButtonVisible(isVisible: Boolean)
         fun showTransactionDetails(txId: String)
+        fun updateAddresses(addresses: List<WalletAddress>)
     }
     interface Presenter: MvpPresenter<View> {
         fun onSearchTextChanged(text: String)
@@ -39,5 +42,6 @@ interface SearchTransactionContract {
     }
     interface Repository: MvpRepository {
         fun getTxStatus(): Observable<OnTxStatusData>
+        fun getAddresses(): Subject<OnAddressesData>
     }
 }

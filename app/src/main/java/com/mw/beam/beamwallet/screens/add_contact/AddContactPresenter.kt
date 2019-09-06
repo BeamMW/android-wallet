@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TagHelper
@@ -43,6 +44,7 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         view?.close()
     }
 
+
     override fun onStart() {
         super.onStart()
 
@@ -58,15 +60,37 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         val name = view?.getName() ?: ""
 
         if (QrHelper.isValidAddress(address)) {
-            repository.saveContact(address, name.trim(), state.tags)
-            view?.close()
+            val oldAddress = AppModel.instance.getAddress(address)
+            if (oldAddress!=null) {
+                view?.showTokenError(oldAddress)
+            }
+            else{
+                repository.saveContact(address, name.trim(), state.tags)
+                view?.close()
+            }
         } else {
-            view?.showTokenError()
+            view?.showTokenError(null)
         }
     }
 
     override fun onCreateNewTagPressed() {
         view?.navigateToAddNewCategory()
+    }
+
+    override fun checkAddress() {
+        val address = view?.getAddress() ?: ""
+        val name = view?.getName() ?: ""
+
+        if (QrHelper.isValidAddress(address)) {
+            if (state.addresses.containsKey(address)) {
+                view?.showTokenError(state.addresses[address])
+            }
+            else{
+                view?.hideTokenError()
+            }
+        } else {
+            view?.showTokenError(null)
+        }
     }
 
     override fun onScannedQR(text: String?) {

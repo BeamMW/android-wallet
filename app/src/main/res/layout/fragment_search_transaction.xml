@@ -11,7 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/search_toolbar_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,19 +29,21 @@
             android:id="@+id/searchEditText"
             style="@style/common_text_big_light"
             android:textSize="20sp"
-            android:layout_marginEnd="@dimen/common_offset"
             android:backgroundTint="@android:color/transparent"
             android:hint="@string/search"
             android:layout_width="0dp"
+            android:singleLine="true"
+            android:maxLines="1"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <ImageView
+            tools:visibility="visible"
             android:id="@+id/btnClear"
             android:visibility="gone"
             android:contentDescription="@null"
             android:layout_gravity="center"
             android:src="@drawable/ic_btn_cancel"
-            android:layout_marginEnd="@dimen/common_offset"
+            android:padding="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

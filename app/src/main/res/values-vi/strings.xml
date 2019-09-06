@@ -59,7 +59,8 @@
     <string name="welcome_change_alert">Nếu bạn không khôi phục ví, tất cả lịch sử giao dịch và địa chỉ sẽ bị mất.</string>
     <string name="welcome_btn_change_alert">Tiến hành</string>
     <string name="welcome_where_to_buy_beam">Mua BEAM ở đâu?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Bắt đầu sử dụng ví của bạn</string>
     <string name="pass_save_new">Lưu mật khẩu mới</string>
@@ -90,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">Đang quét UTXO</string>
     <string name="welcome_progress_restore_description">Đã khôi phục</string>
     <string name="welcome_progress_download_description">Downloaded</string>
-    <string name="welcome_progress_restore_description_full_top">Vui lòng đợi đồng bộ hóa và không đóng hoặc thu nhỏ ứng dụng.</string>
+    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">Chỉ có thể khôi phục số dư ví (UTXO), thông tin giao dịch luôn ở chế độ riêng tư và không bao giờ được giữ trong blockchain.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Tạo mật khẩu mới để truy cập vào ví của bạn</string>
@@ -232,6 +233,9 @@
     <string name="outgoing_address">Outgoing address</string>
     <string name="my_addresses">Địa chỉ của tôi</string>
     <string name="no_matching_address_found">Không tìm thấy địa chỉ phù hợp</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">Địa chỉ này đã tồn tại</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Báo cáo một vấn đề</string>
     <string name="settings_change_pass">Thay đổi mật khẩu ví</string>
@@ -266,10 +270,12 @@
     <string name="no_name">Không tên</string>
     <string name="address_deleted">Địa chỉ đã xoá</string>
     <string name="contact_deleted">Liên hệ đã xóa</string>
+    <string name="addresses_deleted">Addresses deleted</string>
     <!--AddressFragment-->
     <string name="address">Địa chỉ</string>
     <string name="show_qr_code">Hiển thị mã QR</string>
     <string name="delete_address">Xoá địa chỉ</string>
+    <string name="delete_addresses">Delete addresses</string>
     <string name="transactions_list">Danh sách giao dịch</string>
     <string name="address_id">Địa chỉ ID</string>
     <string name="expiration_date">Ngày hết hạn</string>
@@ -349,6 +355,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">Tìm kiếm theo địa chỉ, nhãn hoặc tên</string>
     <string name="min_fee_error">Phí tối thiểu là %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="search_transaction">Search transaction</string>
     <string name="never_expires">Không bao giờ hết hạn</string>
     <string name="expires_in">Expires in %1$s h %2$s m</string>

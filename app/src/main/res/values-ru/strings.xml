@@ -59,14 +59,15 @@
     <string name="welcome_change_alert">Если вы восстановите кошелек, история транзакций и адреса будут потеряны на этом устройстве.</string>
     <string name="welcome_btn_change_alert">Продолжить</string>
     <string name="welcome_where_to_buy_beam">Где купить BEAM?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">Не используйте одну и ту же сид фразу на разных устройствах, ваш баланс и список транзакций не будут синхронизированы.</string>
+    <string name="welcome_using_two_wallets_notification_title">Не запускайте одновременно два кошелька, инициированные из одной фразы seed</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Начните использовать кошелек</string>
     <string name="pass_save_new">Сохранить новый пароль</string>
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Открыть кошелек</string>
     <string name="enter_your_password_to_access_the_wallet">Чтобы получить доступ к кошельку введите пароль.</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">Используйте Fingerprint ID или введите пароль для получения доступа к кошельку.</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">Ваша контрольная фраза является ключом для доступа ко всем вашим средствам. Храните фразу в защищенном месте. В случае потери контрольной фразы, вы не сможете восстановить доступ к вашим средствам.</string>
     <string name="welcome_seed_title">Контрольная фраза</string>
@@ -90,7 +91,7 @@
     <string name="welcome_progress_update_utxo_description">Сканирование UTXO</string>
     <string name="welcome_progress_restore_description">Кошелек восстановлен</string>
     <string name="welcome_progress_download_description">Загружено</string>
-    <string name="welcome_progress_restore_description_full_top">Пожалуйста, дождитесь завершения синхронизации, не закрывайте и не сворачивайте окно.</string>
+    <string name="welcome_progress_restore_description_full_top">Пожалуйста, подождите завершения синхронизации и не закрывайте или сворачивайте приложение. \n Восстановление кошелька может занять некоторое время.</string>
     <string name="welcome_progress_restore_description_full_bottom">Будет восстановлен только баланс кошелька (UTXO). Информация о транзакциях не хранится в блокчейне.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Создайте пароль доступа к кошельку</string>
@@ -232,6 +233,9 @@
     <string name="outgoing_address">Адрес отправителя</string>
     <string name="my_addresses">Мои адреса</string>
     <string name="no_matching_address_found">По запросу ничего не найдено</string>
+    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="address_already_exist_1">Такой адрес уже существует</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Сообщить о проблеме</string>
     <string name="settings_change_pass">Сменить пароль кошелька</string>
@@ -247,7 +251,7 @@
     <string name="minute">минут</string>
     <string name="settings_ask_password_on_send">Запрашивать пароль при каждом отправлении</string>
     <string name="settings_run_random_node">Подключиться к случайному узлу</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_enable_fingerprint">Включить вход по отпечатку пальца</string>
     <string name="settings_allow_open_link">Разрешить доступ на сторонние сайты</string>
     <string name="settings_dialog_node_error">Неправильный адрес узла</string>
     <string name="settings_dialog_node_title">Адрес узла</string>
@@ -266,10 +270,12 @@
     <string name="no_name">Имя не указано</string>
     <string name="address_deleted">Адрес удален</string>
     <string name="contact_deleted">Контакт удален</string>
+    <string name="addresses_deleted">Адрес удален</string>
     <!--AddressFragment-->
     <string name="address">Адрес</string>
     <string name="show_qr_code">Показать QR код</string>
     <string name="delete_address">Удалить адрес</string>
+    <string name="delete_addresses">Удалить адрес</string>
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
@@ -305,24 +311,24 @@
     <string name="color">Цвет</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">Показать owner key</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">Для доступа к owner keу необходимо пройти двойную аутентикацию (пароль и Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Ошибка авторизации отпечатка пальца. Пожалуйста, попробуйте через несколько минут.</string>
     <string name="owner_key_verification_title_with_finger">Введите пароль и используйте Fingerprint ID для доступа к кошельку</string>
     <string name="owner_key_verification_fingerprint_description">Используйте Fingerprint ID для завершения аутентикации</string>
     <string name="key_code">Код ключа</string>
     <string name="owner_key_copied_message">Owner key скопирован в буфер обмена</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_code_description">Размещение ключа владельца на доверенном узле позволит узлу отслеживать все UTXO отправленные на любой кошелек, созданный из одной контрольной фразы.\n\nНе показывайте никому свой Owner Key - это позволит им проверять и контролировать баланс вашего кошелька.</string>
+    <string name="owner_key_verification_pass">Установка ключа владельца на доверенном узле позволит узлу отслеживать все UTXOs, отправленные на этот кошелек, а также любой другой кошелек, созданный из той же контрольной фразы.
+Вы должны ввести пароль, чтобы увидеть Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Установка ключа владельца на доверенном узле позволит узлу отслеживать все UTXOs, отправленные на этот кошелек, а также любой другой кошелек, созданный из той же контрольной фразы.
+Для доступа к Оwner Кeу необходимо пройти двойную аутентикацию (пароль и Fingerprint ID).</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Новая входящая транзакция</string>
     <string name="notification_receive_content_text">Нажмите для просмотра детальной информации</string>
     <string name="notification_channel_name">Канал уведомлений</string>
     <string name="notification_channel_description">Канал уведомлений по умолчанию</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Прикоснитесь к сканеру отпечатков пальцев</string>
     <string name="fingerprint_id">Отпечатки пальцев</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">Изменить адрес</string>
@@ -349,6 +355,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">Поиск по адресу, категории или метке</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Удалить все транзакции, связанные с этими адресами</string>
     <string name="search_transaction">Поиск транзакций</string>
     <string name="never_expires">Никогда</string>
     <string name="expires_in">Истекает через %1$s ч %2$s м</string>
@@ -370,7 +377,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="selectPickture">Выберите изображение</string>
     <string name="storage_permission_required_message">Для сканирования QR кода необходимо разрешение пользоваться камерой</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR код не распознается. Выберите другую картинку.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
+    <string name="welcome_progress_restore_networ_error_description">Ошибка подключения к сети. Пожалуйста, попробуйте снова после успешного подключения.</string>
     <string name="automatic_restore_warning">Пожалуйста, убедитесь, что вы не сделали никаких транзакций (с любого устройства) в течение последнего часа. Если вы сделали, пожалуйста, подождите, как минимум, час с момента последней транзакции, прежде чем продолжить восстановление. В противном случае, ваш восстановленный баланс может быть неправильным и потребуется дополнительная процедура восстановления.</string>
     <string name="node_restore_warning">Убедитесь, что ваш узел полностью синхронизирован с блокчейном перед началом процедуры восстановления. В противном случае, ваш восстановленный баланс может быть неправильным и потребуется дополнительная процедура восстановления.</string>
     <string name="understand">Ясно</string>
@@ -381,25 +388,25 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="dialog_empty_tags_message">У вас пока нет созданных меток. Хотите ли вы создать первую метку сейчас?</string>
     <string name="you_can_create_more_tags_in_settings">Вы можете создать больше меток в настройках.</string>
     <string name="choose_tag">Выберите метку</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="use_finger">Используйте Ваш отпечаток пальца </string>
     <string name="tags">Метки</string>
     <string name="add_new_tag">Добавить метку</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="initiated">Инициировано</string>
+    <string name="latest_confirmation">Последнее подтверждение</string>
+    <string name="share_transaction">Поделиться транзакцией</string>
     <string name="paste">Вставить</string>
-    <string name="selected">Selected</string>
+    <string name="selected">Выбрано</string>
     <string name="empty_address_list">Ваш список адресов пуст</string>
     <string name="empty_contacts_list">Ваш список контактов пуст</string>
     <string name="empty_utxo_list">Ваш список UTXO пуст</string>
-    <string name="version">Version %1$s</string>
-    <string name="show_all">Show all</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="version">Версия %1$s</string>
+    <string name="show_all">Показать все</string>
+    <string name="empty_address_list_active">У вас нет активных адресов</string>
+    <string name="empty_address_list_expired">У вас нет неактивных адресов</string>
+    <string name="empty_utxo_list_progress">У вас нет активных UTXO</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Как только вы добавите ваш код в конфигурацию узла, запустите свой узел на рабочем столе и нажмите «далее» в мобильном приложении.</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Невозможно подключиться к узлу. Попробуйте подключить кошелек к другому узлу или используйте другой тип восстановления кошелька.</string>
+    <string name="connecting">Соединение...</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">Поиск по ID транзакции, комментарию, адресу или контакту</string>
+    <string name="address_details">Подробности адреса</string>
 </resources>

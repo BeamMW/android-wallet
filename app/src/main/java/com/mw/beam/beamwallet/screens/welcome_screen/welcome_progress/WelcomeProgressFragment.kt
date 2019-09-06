@@ -42,6 +42,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var updateUtxoDescriptionString: String
     private lateinit var downloadTitleString: String
     private lateinit var createTitleString: String
+    override var enableOnBackPress: Boolean = true
 
     companion object {
         private const val FULL_PROGRESS = 100
@@ -49,7 +50,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            presenter?.onBackPressed()
+            if (enableOnBackPress) {
+                presenter?.onBackPressed()
+            }
         }
     }
 
@@ -100,6 +103,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
                     title.text = downloadTitleString
+                    restoreFullDescription.visibility = View.GONE
                     configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
                 } else {
                     title.text = restoreTitleString
@@ -109,6 +113,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             }
             WelcomeMode.CREATE -> { }
         }
+    }
+
+    override fun changeCancelButtonVisibility(visible: Boolean) {
+        btnCancel.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -162,12 +170,21 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun showCancelRestoreAlert() {
+       presenter?.isAlertShow = true
+
         showAlert(message = getString(R.string.welcome_progress_cancel_restore_description),
                 btnConfirmText = getString(R.string.ok),
-                onConfirm = { presenter?.onOkToCancelRestore() },
+                onConfirm = {
+                    presenter?.isAlertShow = false
+                    presenter?.onOkToCancelRestore()
+                },
                 title = getString(R.string.welcome_progress_cancel_restore_title),
                 btnCancelText = getString(R.string.cancel),
-                onCancel = { presenter?.onCancelToCancelRestore() })
+                onCancel = {
+                    presenter?.isAlertShow = false
+                    presenter?.onCancelToCancelRestore()
+                }
+        )
     }
 
     override fun showCancelCreateAlert() {

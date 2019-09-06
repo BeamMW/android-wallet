@@ -6,6 +6,7 @@ import android.text.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
@@ -29,12 +31,19 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     private val tokenWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             presenter?.onTokenChanged()
+            if (!s.isNullOrBlank()) {
+                val validAddress = s.replace(QrHelper.tokenRegex, "")
+
+                if (validAddress != s.toString()) {
+                    address.setText("")
+                    address.append(validAddress)
+                }
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
     }
 
     override fun getAddress(): String {
@@ -69,20 +78,20 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         }
 
         address.addTextChangedListener(tokenWatcher)
-        address.filters = arrayOf(InputFilter { source, _, _, dest, dstart, dend ->
-            if (source.isNotEmpty()) {
-                val enteredText = dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length)
+        address.imeOptions = EditorInfo.IME_ACTION_DONE
+        address.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
-                if (!QrHelper.isValidAddress(enteredText)) {
-                    ""
-                } else {
-                    null
-                }
-            } else {
-                null
+        address.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                presenter?.checkAddress()
             }
+        }
+    }
 
-        })
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+
+        presenter?.checkAddress()
     }
 
     override fun setAddress(address: String) {
@@ -154,7 +163,18 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         }
     }
 
-    override fun showTokenError() {
+    override fun showTokenError(address: WalletAddress?) {
+        if (address != null) {
+            if (address?.isContact) {
+                tokenError.text = getString(R.string.address_already_exist_1)
+            } else{
+                tokenError.text = getString(R.string.address_already_exist_2)
+            }
+        }
+        else{
+            tokenError.text = getString(R.string.invalid_address)
+        }
+
         tokenError.visibility = View.VISIBLE
     }
 

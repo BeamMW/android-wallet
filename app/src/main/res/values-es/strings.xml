@@ -61,7 +61,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_change_alert">Si restaura un wallet, se perderán todas las direcciones y el historial de transacciones.</string>
     <string name="welcome_btn_change_alert">Proceder</string>
     <string name="welcome_where_to_buy_beam">¿Donde comprar BEAM?</string>
-    <string name="welcome_using_two_wallets_notification">Do not simultaneously run two wallets initiated from the same seed phrase. Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
+    <string name="welcome_using_two_wallets_notification_message">No utilice la misma frase de semilla en varios dispositivos, su saldo y la lista de transacciones no se sincronizarán.</string>
+    <string name="welcome_using_two_wallets_notification_title">No ejecutar simultáneamente dos wallets iniciados desde la misma frase de semilla</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Empieza a usar tu wallet</string>
     <string name="pass_save_new">Guardar nueva contraseña</string>
@@ -92,7 +93,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_update_utxo_description">Escaneando UTXO</string>
     <string name="welcome_progress_restore_description">Restaurado</string>
     <string name="welcome_progress_download_description">Descargado</string>
-    <string name="welcome_progress_restore_description_full_top">Por favor espere a la sincronización y no cierre ni minimice la aplicación.</string>
+    <string name="welcome_progress_restore_description_full_top">Por favor, espere a la sincronización y no cierre o minimice la aplicación. \n La restauración del wallet puede tardar un tiempo.</string>
     <string name="welcome_progress_restore_description_full_bottom">Solo se puede restaurar el saldo del wallet (UTXO), la información de la transacción siempre es privada y nunca se mantiene en la cadena de bloques.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">Crea la contraseña para acceder a tu wallet</string>
@@ -234,6 +235,9 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="outgoing_address">Dirección saliente</string>
     <string name="my_addresses">Mis direcciones</string>
     <string name="no_matching_address_found">No se encontró una dirección coincidente</string>
+    <string name="local_comment_not_shared">Comentario local, no será compartido</string>
+    <string name="address_already_exist_1">Esta dirección ya existe</string>
+    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <!--SettingsFragment-->
     <string name="settings_report">Informar de un problema</string>
     <string name="settings_change_pass">Cambia la contraseña del wallet</string>
@@ -268,10 +272,12 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="no_name">Sin nombre</string>
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
+    <string name="addresses_deleted">Direcciones eliminadas</string>
     <!--AddressFragment-->
     <string name="address">Dirección</string>
     <string name="show_qr_code">Mostrar código QR</string>
     <string name="delete_address">Borrar dirección</string>
+    <string name="delete_addresses">Eliminar direcciones</string>
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
@@ -315,8 +321,8 @@ para acceder al wallet</string>
     <string name="key_code">Código clave</string>
     <string name="owner_key_copied_message">El código de la clave de propietario ha sido copiada al portapapeles</string>
     <string name="owner_key_code_description">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todo UTXO enviado a cualquier wallet generado con la misma frase de semilla.\n\n No comparta su Clave Propietaria con otros - permite la inspección y el control de sus fondos.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
+    <string name="owner_key_verification_pass">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
+Debe introducir su contraseña para ver la clave del propietario.</string>
     <string name="owner_key_verification_pass_finger">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
 Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huella digital) para ver su Clave del propietario.</string>
     <!--BackgroundService-->
@@ -352,6 +358,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="search_by_address_tag_or_name">Buscar por dirección, etiqueta o nombre</string>
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
+    <string name="delete_all_transactions_related_to_this_addresses">Eliminar todas las transacciones relacionadas con estas direcciones</string>
     <string name="search_transaction">Biscar transacción</string>
     <string name="never_expires">Nunca caduca</string>
     <string name="expires_in">Caduca en %1$s h %2$s m</string>
@@ -396,13 +403,13 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="empty_contacts_list">Tu lista de contactos está vacia</string>
     <string name="empty_utxo_list">Tu lista de UTXO está vacía</string>
     <string name="version">Versión %1$s</string>
-    <string name="show_all">Show all</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="show_all">Mostrar todo</string>
+    <string name="empty_address_list_active">No tienes direcciones activas</string>
+    <string name="empty_address_list_expired">No tienes direcciones caducadas</string>
+    <string name="empty_utxo_list_progress">No tienes UTXO activo</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Una vez que pegue el código, ejecute su nodo en el escritorio y haga clic en siguiente en la aplicación móvil.</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">El nodo no se puede conectar. Intente conectar el wallet a un nodo diferente o use la restauración recomendada.</string>
+    <string name="connecting">Conectando...</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">Buscar por ID de transacción, comentario, dirección o contacto</string>
+    <string name="address_details">Detalles de la dirección</string>
 </resources>

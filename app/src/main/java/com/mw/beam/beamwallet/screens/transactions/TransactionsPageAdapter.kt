@@ -101,6 +101,11 @@ class TransactionsPageAdapter(private val context: Context, onTxClickListener: (
         }
     }
 
+    fun setPrivacyMode(isPrivacyModeEnabled: Boolean) {
+        listOf(allTxAdapter, sentTxAdapter, receivedTxAdapter, inProgressTxAdapter).forEach {
+            it.setPrivacyMode(isPrivacyModeEnabled)
+        }
+    }
 
     override fun getPageTitle(position: Int): CharSequence? {
         val stringId = when (TransactionTab.values()[position]) {

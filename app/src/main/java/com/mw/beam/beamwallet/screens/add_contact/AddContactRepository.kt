@@ -1,9 +1,17 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.OnAddressesData
+import com.mw.beam.beamwallet.core.entities.OnTxStatusData
+import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
+import com.mw.beam.beamwallet.core.listeners.WalletListener
+import io.reactivex.Observable
+import io.reactivex.subjects.Subject
 
 class AddContactRepository: BaseRepository(), AddContactContract.Repository {
 

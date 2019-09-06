@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_search_transaction.*
 
@@ -56,6 +57,9 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
         recyclerView.setEmptyView(emptyLabel)
+
+        searchEditText.requestFocus()
+        showKeyboard()
     }
 
     override fun addListeners() {
@@ -79,6 +83,10 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
         btnClear.setOnClickListener(null)
 
         searchEditText.removeTextChangedListener(searchTextWatcher)
+    }
+
+    override fun updateAddresses(addresses: List<WalletAddress>) {
+        adapter.addresses = addresses
     }
 
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?) {

@@ -31,9 +31,9 @@ class ScanQrPresenter (currentView: ScanQrContract.View, currentRepository: Scan
         view?.pickImageFromGallery()
     }
 
-    override fun onRequestPermissionsResult(status: PermissionStatus) {
+    override fun onRequestPermissionsResult(status: PermissionStatus, code:Int) {
         when (status) {
-            PermissionStatus.GRANTED -> view?.pickImageFromGallery()
+            PermissionStatus.GRANTED -> if(code==5421) view?.pickImageFromGallery()
             PermissionStatus.NEVER_ASK_AGAIN -> {
                 view?.showPermissionRequiredAlert()
             }

@@ -70,6 +70,8 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 import android.content.ClipboardManager
+import android.text.InputType
+import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.fragment_send.advancedContainer
 import kotlinx.android.synthetic.main.fragment_send.advancedGroup
@@ -84,6 +86,7 @@ import kotlinx.android.synthetic.main.fragment_send.expiresOnSpinner
 import kotlinx.android.synthetic.main.fragment_send.tagAction
 import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
+import android.graphics.Typeface
 
 /**
  *  11/13/18.
@@ -100,6 +103,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         override fun afterTextChanged(rawToken: Editable?) {
             presenter?.onTokenChanged(rawToken.toString())
+
+            if(token.text.toString().isEmpty()) {
+                token.setTypeface(null,Typeface.ITALIC)
+            }
+            else {
+                token.setTypeface(null,Typeface.NORMAL)
+            }
+
             Handler().postDelayed({ contentScrollView?.smoothScrollTo(0, 0) }, 50)
         }
     }
@@ -113,6 +124,17 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private val amountWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(token: Editable?) {
             presenter?.onAmountChanged()
+        }
+    }
+
+    private val commentWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            if(comment.text.toString().isEmpty()) {
+                comment.setTypeface(null,Typeface.ITALIC)
+            }
+            else {
+                comment.setTypeface(null,Typeface.NORMAL)
+            }
         }
     }
 
@@ -187,6 +209,21 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init(defaultFee: Int, maxFee: Int) {
+
+        if(token.text.toString().isEmpty()) {
+            token.setTypeface(null,Typeface.ITALIC)
+        }
+        else {
+            token.setTypeface(null,Typeface.NORMAL)
+        }
+
+        if(comment.text.toString().isEmpty()) {
+            comment.setTypeface(null,Typeface.ITALIC)
+        }
+        else {
+            comment.setTypeface(null,Typeface.NORMAL)
+        }
+
         setHasOptionsMenu(true)
         feeSeekBar.max = maxFee
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
@@ -242,6 +279,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             false
         })
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -332,6 +370,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
         }
 
+        token.imeOptions = EditorInfo.IME_ACTION_NEXT
+        token.setRawInputType(InputType.TYPE_CLASS_TEXT)
         token.addListener(tokenWatcher)
         token.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -349,27 +389,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             contentScrollView.smoothScrollTo(0, 0)
             presenter?.onTokenChanged(token.text.toString())
         }
-        token.setOnEditorActionListener { _, _, event ->
-            when(event.keyCode){
-                KeyEvent.KEYCODE_ENTER -> {
-                    Handler().postDelayed({
-                        requestFocusToAmount();
-                    },100)
-                    true
-                }
-                else -> false
-            }
-        }
 
-//        feeContainer.setOnLongClickListener {
-//            presenter?.onLongPressFee()
-//            true
-//        }
-//
-//        feeSeekBar.setOnLongClickListener {
-//            presenter?.onLongPressFee()
-//            true
-//        }
+        comment.addTextChangedListener(commentWatcher)
 
         feeSeekBar.setOnSeekBarChangeListener(onFeeChangeListener)
 
@@ -734,16 +755,29 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setAddress(address: String) {
         token.setText(address)
         token.setSelection(token.text?.length ?: 0)
+        if(token.text.toString().isEmpty()) {
+            token.setTypeface(null,Typeface.ITALIC)
+        }
+        else {
+            token.setTypeface(null,Typeface.NORMAL)
+        }
     }
 
     override fun setAmount(amount: Double) {
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
+
     }
 
     override fun setComment(comment: String) {
         this.comment.setText(comment)
         this.comment.setSelection(this.comment.text?.length ?: 0)
+        if(this.comment.text.toString().isEmpty()) {
+            this.comment.setTypeface(null,Typeface.ITALIC)
+        }
+        else {
+            this.comment.setTypeface(null,Typeface.NORMAL)
+        }
     }
 
     override fun showCantSendToExpiredError() {
@@ -761,8 +795,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             beginTransaction(true)
 
-            val colorId = if (addresses == null) R.color.colorPrimary else android.R.color.transparent
-            addressContainer?.setBackgroundColor(ContextCompat.getColor(context!!, colorId))
+//            val colorId = if (addresses == null) R.color.colorPrimary else android.R.color.transparent
+//            addressContainer?.setBackgroundColor(ContextCompat.getColor(context!!, colorId))
 
             val params = searchContainer?.layoutParams as? ConstraintLayout.LayoutParams
             params?.topMargin = calculateDefaultMargin()
@@ -874,6 +908,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
+        comment.removeTextChangedListener(commentWatcher)
         addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
