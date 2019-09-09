@@ -324,7 +324,10 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun onAddressDeleted() {
-        findNavController().popBackStack(R.id.addressesFragment, false)
+       val isBack = findNavController().popBackStack(R.id.addressesFragment, false)
+        if (!isBack) {
+            findNavController().popBackStack(R.id.categoryFragment, false)
+        }
     }
 
     override fun clearListeners() {

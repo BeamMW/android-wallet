@@ -26,26 +26,12 @@ import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
 class CategoryRepository: BaseRepository(), CategoryContract.Repository {
+
     override fun deleteCategory(tag: Tag) {
         TagHelper.deleteTag(tag)
     }
 
     override fun getCategoryFromId(categoryId: String): Tag? {
         return TagHelper.getTag(categoryId)
-    }
-
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
-    }
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllAddressesInTrash(): List<WalletAddress> {
-        return TrashManager.getAllData().addresses
     }
 }

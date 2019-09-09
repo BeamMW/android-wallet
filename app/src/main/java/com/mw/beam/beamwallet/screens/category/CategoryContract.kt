@@ -44,10 +44,7 @@ interface CategoryContract {
     }
 
     interface Repository: MvpRepository {
-        fun getAddresses(): Subject<OnAddressesData>
         fun deleteCategory(tag: Tag)
         fun getCategoryFromId(categoryId: String): Tag?
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllAddressesInTrash(): List<WalletAddress>
     }
 }

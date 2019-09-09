@@ -17,60 +17,36 @@
 package com.mw.beam.beamwallet.screens.category
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContract.Repository, private val state: CategoryState)
     : BasePresenter<CategoryContract.View, CategoryContract.Repository>(view, repository), CategoryContract.Presenter {
+
     private lateinit var addressesSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
 
     override fun onStart() {
         super.onStart()
+
         state.tag = repository.getCategoryFromId(view?.getCategoryId() ?: "")
 
         state.tag?.let {
             view?.init(it)
 
-            val addresses = state.getAddresses().filter { address -> it.addresses.contains(address.walletID) }
-
-            state.setAddresses(addresses)
-            view?.updateAddresses(addresses)
+            updateView()
         }
     }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        addressesSubscription = repository.getAddresses().subscribe {
-            val list = it.addresses?.filter(::filterAddresses)
-
-            if (list != null) {
-                state.addAddresses(list)
-            }
-
-            state.deleteAddresses(repository.getAllAddressesInTrash())
-
+        addressesSubscription = AppModel.instance.subOnAddressesChanged.subscribe{
             updateView()
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when(it.type) {
-                TrashManager.ActionType.Added -> {
-                    state.deleteAddresses(it.data.addresses)
-                    updateView()
-                }
-                TrashManager.ActionType.Restored -> {
-                    state.addAddresses(it.data.addresses.filter(::filterAddresses))
-                    updateView()
-                }
-                TrashManager.ActionType.Removed -> {}
-            }
         }
     }
 
-    private fun filterAddresses(walletAddress: WalletAddress) = state.tag?.addresses?.contains(walletAddress.walletID) ?: false
 
     private fun updateView() {
         view?.updateAddresses(state.getAddresses())
@@ -80,7 +56,7 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
         view?.showAddressDetails(address)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
 
     override fun onEditCategoryPressed() {
         state.tag?.let { view?.navigateToEditCategory(it.id) }

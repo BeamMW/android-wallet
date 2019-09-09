@@ -16,31 +16,24 @@
 
 package com.mw.beam.beamwallet.screens.category
 
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 
 class CategoryState {
     var tag: Tag? = null
-    private val hashMapAddresses: HashMap<String, WalletAddress> = HashMap()
 
-    fun addAddresses(addresses: List<WalletAddress>) {
-        addresses.forEach {
-            hashMapAddresses[it.walletID] = it
+    fun getAddresses():List<WalletAddress> {
+        if (tag==null) {
+            return listOf<WalletAddress>()
+        }
+        else{
+            val addresses=AppModel.instance.getAllAddresses()
+            val list= addresses.filter(::filterAddresses)
+            return list
         }
     }
 
-    fun deleteAddresses(addresses: List<WalletAddress>) {
-        addresses.forEach {
-            hashMapAddresses.remove(it.walletID)
-        }
-    }
+    private fun filterAddresses(walletAddress: WalletAddress) = tag?.addresses?.contains(walletAddress.walletID) ?: false
 
-    fun setAddresses(addresses: List<WalletAddress>) {
-        hashMapAddresses.clear()
-        addresses.forEach {
-            hashMapAddresses[it.walletID] = it
-        }
-    }
-
-    fun getAddresses() = hashMapAddresses.values.toList()
 }
