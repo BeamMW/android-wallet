@@ -28,7 +28,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import kotlinx.android.synthetic.main.fragment_welcome_create.*
-
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager;
 /**
  * Created by vain onnellinen on 12/4/18.
  */

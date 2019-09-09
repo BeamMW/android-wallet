@@ -6,6 +6,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
 
@@ -24,6 +25,9 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
 
     override fun addListeners() {
         btnNext.setOnClickListener {
+
+            PreferencesManager.putBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED, !automaticRestore.isChecked)
+
             presenter?.onNextPressed(automaticRestore.isChecked)
         }
     }

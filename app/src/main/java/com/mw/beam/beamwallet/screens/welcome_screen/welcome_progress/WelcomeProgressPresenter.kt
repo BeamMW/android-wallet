@@ -20,10 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
-import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
-import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
-import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
@@ -35,6 +32,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
 
+    var isTrustedNodeRestor = false
     var isAlertShow = false
     var isAlreadyDownloaded = false
 
@@ -69,6 +67,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun onCreate() {
         super.onCreate()
+        isTrustedNodeRestor = view?.getIsTrustedRestore() ?: false
         state.mode = view?.getMode() ?: return
         state.password = view?.getPassword() ?: return
         state.seed = view?.getSeed()
@@ -76,6 +75,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun onStart() {
         super.onStart()
+
         if (state.isFailedNetworkConnect && state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
             view?.showFailedDownloadRestoreFileAlert()
         }
@@ -187,12 +187,17 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun initSubscriptions() {
+
+
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
-                if (it.total == 0) {
+                if (it.total == 0 || isTrustedNodeRestor ||
+                        (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false)
+                                && PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
                     showWallet()
-                } else {
+                }
+                else {
                     view?.updateProgress(it, state.mode)
 
                     if (it.done == it.total) {
