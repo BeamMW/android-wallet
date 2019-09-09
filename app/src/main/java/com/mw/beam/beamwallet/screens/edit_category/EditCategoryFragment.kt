@@ -51,6 +51,7 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
     override fun init(tag: Tag) {
         nameValue.setText(tag.name)
+
         colorListAdapter = ColorListAdapter {
             presenter?.onChangeColor(it)
         }
@@ -62,7 +63,10 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
         colorListAdapter?.setData(TagColor.values().asList())
         colorListAdapter?.setSelectedColor(tag.color)
+
         btnSave.isEnabled = false
+
+        toolbarLayout.hasStatus = true
     }
 
     override fun addListeners() {
