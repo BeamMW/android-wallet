@@ -36,6 +36,7 @@ interface WelcomeProgressContract {
         fun init(mode: WelcomeMode)
         fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean = false)
         fun getMode(): WelcomeMode?
+        fun getIsTrustedRestore(): Boolean?
         fun getPassword(): String?
         fun getSeed(): Array<String>?
         fun showWallet()

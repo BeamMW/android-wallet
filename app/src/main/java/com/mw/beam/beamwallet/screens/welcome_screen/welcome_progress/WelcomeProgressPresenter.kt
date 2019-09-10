@@ -20,10 +20,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
-import com.mw.beam.beamwallet.core.helpers.EmptyDisposable
-import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
-import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
@@ -35,6 +32,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
         WelcomeProgressContract.Presenter {
 
+    var isTrustedNodeRestor = false
     var isAlertShow = false
     var isAlreadyDownloaded = false
 
@@ -66,9 +64,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private var isNodeSyncFinished = false
     private var isFailedToStartNode = false
     private var shouldCloseWallet = false
+    private var isShow = false
 
     override fun onCreate() {
         super.onCreate()
+        isTrustedNodeRestor = view?.getIsTrustedRestore() ?: false
         state.mode = view?.getMode() ?: return
         state.password = view?.getPassword() ?: return
         state.seed = view?.getSeed()
@@ -76,6 +76,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun onStart() {
         super.onStart()
+
         if (state.isFailedNetworkConnect && state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
             view?.showFailedDownloadRestoreFileAlert()
         }
@@ -187,19 +188,31 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun initSubscriptions() {
+
+        val randomNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false))
+        val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
+
+        if(isTrustedNodeRestor || (randomNode && trustedNode)) {
+            view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+            showWallet()
+        }
+
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
+
                 if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
                     showWallet()
-                } else {
+                }
+                else {
                     view?.updateProgress(it, state.mode)
 
                     if (it.done == it.total) {
                         showWallet()
                     }
                 }
-            } else if (isNodeSyncFinished && it.total > 0) {
+            }
+            else if (isNodeSyncFinished && it.total > 0) {
                 view?.updateProgress(it, state.mode, true)
 
                 if (it.done == it.total) {
@@ -303,8 +316,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private fun showWallet() {
         //sometimes lib notifies us few times about end of progress
         //so we need to unsubscribe from events to prevent unexpected behaviour
-        disposable.dispose()
-        view?.showWallet()
+       if(!isShow) {
+           isShow = true
+           disposable.dispose()
+           view?.showWallet()
+       }
     }
 
     private fun finishNodeProgressSubscription() {

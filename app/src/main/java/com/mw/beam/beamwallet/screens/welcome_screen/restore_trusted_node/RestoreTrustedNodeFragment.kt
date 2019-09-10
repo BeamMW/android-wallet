@@ -131,7 +131,7 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun navigateToProgress() {
-        findNavController().navigate(RestoreTrustedNodeFragmentDirections.actionRestoreTustedNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.OPEN.name, null))
+        findNavController().navigate(RestoreTrustedNodeFragmentDirections.actionRestoreTustedNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.OPEN.name, null, true))
     }
 
     override fun getNodeAddress(): String {

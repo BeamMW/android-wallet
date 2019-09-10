@@ -106,6 +106,10 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/navigation" />
+        <argument
+            android:name="isTrustedRestore"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeSeedFragment"

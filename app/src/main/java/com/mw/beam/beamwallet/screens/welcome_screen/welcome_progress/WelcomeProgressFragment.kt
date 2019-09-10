@@ -207,6 +207,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun getPassword(): String? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).pass }
     override fun getSeed(): Array<String>? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).seed }
+    override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
         findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
