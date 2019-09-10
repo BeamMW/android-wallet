@@ -26,8 +26,8 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 102
-        versionName "3.0.31"
+        versionCode 103
+        versionName "3.0.32"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
