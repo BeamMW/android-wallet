@@ -17,14 +17,17 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
 import com.mw.beam.beamwallet.core.AppConfig
 import java.util.*
+import kotlin.collections.ArrayList
 
 object LocaleHelper {
     private const val enLanguageCode = "en"
     private val englishLanguage = SupportedLanguage(enLanguageCode, "English", "English")
+    private val systemLocale: Locale = getSystemLocale()
 
     val supportedLanguages = listOf(
             englishLanguage,
@@ -45,7 +48,10 @@ object LocaleHelper {
     private var languageCode = enLanguageCode
 
     fun getCurrentLanguage(): SupportedLanguage {
-        return supportedLanguages.firstOrNull { it.languageCode == languageCode} ?: englishLanguage
+        val l = supportedLanguages.firstOrNull { it.languageCode == languageCode }
+                ?: englishLanguage
+        var m = l.nativeName
+        return l
     }
 
     fun loadLocale() {
@@ -90,6 +96,33 @@ object LocaleHelper {
     fun selectLanguage(language: SupportedLanguage) {
         languageCode = language.languageCode
         updateApplicationConfig()
+    }
+
+    fun getSortedLanguages(languages: List<SupportedLanguage>): List<SupportedLanguage> {
+        val sorted = languages.sortedWith(compareBy { it.englishName })
+        val sortedLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
+        val otherLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
+
+        for (language in sorted) {
+            var currentLanguageCode = language.languageCode
+            if (currentLanguageCode == enLanguageCode) {
+                sortedLanguages.add(0, language)
+            } else if (currentLanguageCode == systemLocale.language) {
+                sortedLanguages.add(1, language)
+            } else if (currentLanguageCode != enLanguageCode && currentLanguageCode != systemLocale.language) {
+                otherLanguages.add(language)
+            }
+        }
+        sortedLanguages.addAll(otherLanguages)
+        return sortedLanguages
+    }
+
+    private fun getSystemLocale(): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Resources.getSystem().configuration.locales.get(0)
+        } else {
+            Resources.getSystem().configuration.locale
+        }
     }
 
     data class SupportedLanguage(val languageCode: String, val englishName: String, val nativeName: String)
