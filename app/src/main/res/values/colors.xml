@@ -61,6 +61,8 @@
     <color name="edit_address_timestamp_color">#d8d8d8</color>
 
     <color name="fingerprint_card_background_color">#49687b</color>
+    <color name="fingerprint_card_background_color_error">#33ff625c</color>
+    <color name="fingerprint_card_background_color_success">#3300f6d2</color>
 
     <color name="failed_status_color">#a4a4a4</color>
     <color name="address_tab_text_color">#8798a9</color>

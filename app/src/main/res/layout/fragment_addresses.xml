@@ -33,13 +33,15 @@
         app:tabSelectedTextColor="@color/address_tab_text_color"
         app:tabTextColor="@color/address_tab_text_color"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
     <LinearLayout
         android:id="@+id/emptyLayout"

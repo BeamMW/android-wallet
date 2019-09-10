@@ -59,6 +59,11 @@ class ShareTransactionDetailsView : FrameLayout {
             contact_value.text = txDescription.myId
         }
 
+        when (txDescription.sender) {
+            TxSender.RECEIVED -> txCurrency.setImageResource(R.drawable.currency_beam_receive)
+            TxSender.SENT -> txCurrency.setImageResource(R.drawable.currency_beam_send)
+        }
+
         val createTime = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         txDate.text = createTime
@@ -69,84 +74,14 @@ class ShareTransactionDetailsView : FrameLayout {
         initiated_date_value.text = createTime
         latest_confirmation_value.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
 
-        when (txDescription.status) {
-            TxStatus.InProgress, TxStatus.Pending -> {
-                when (txDescription.sender) {
-                    TxSender.RECEIVED -> {
-                        setColors(R.color.received_color)
-                        setDrawables(R.drawable.ic_icon_receive, R.drawable.currency_beam_receive)
-                    }
-                    TxSender.SENT -> {
-                        setColors(R.color.sent_color)
-                        setDrawables(R.drawable.ic_sending_share_transaction_details, R.drawable.currency_beam_send)
-                    }
-                }
-            }
-            TxStatus.Registered -> {
-                when {
-                    TxSender.RECEIVED == txDescription.sender -> {
-                        setColors(R.color.received_color)
-                        setDrawables(R.drawable.ic_icon_receive, R.drawable.currency_beam_receive)
-                    }
-                    TxSender.SENT == txDescription.sender && txDescription.selfTx -> {
-                        setColors(R.color.common_text_color)
-                        setDrawables(R.drawable.ic_icon_sending_own, R.drawable.currency_beam)
-                    }
-                    TxSender.SENT == txDescription.sender -> {
-                        setColors(R.color.sent_color)
-                        setDrawables(R.drawable.ic_sending_share_transaction_details, R.drawable.currency_beam_send)
-                    }
-                    else -> {}
-                }
-            }
-            TxStatus.Completed -> {
-                if (txDescription.selfTx) {
-                    setColors(R.color.common_text_color)
-                    setDrawables(R.drawable.ic_icon_sent_own, R.drawable.currency_beam)
-                } else {
-                    when (txDescription.sender) {
-                        TxSender.RECEIVED -> {
-                            setColors(R.color.received_color)
-                            setDrawables(R.drawable.ic_icon_received, R.drawable.currency_beam_receive)
-                        }
-                        TxSender.SENT -> {
-                            setColors(R.color.sent_color)
-                            setDrawables(R.drawable.ic_icon_sent, R.drawable.currency_beam_send)
-                        }
-                    }
-                }
-            }
-            TxStatus.Cancelled -> {
-                setColors(R.color.common_text_dark_color)
-                setDrawables(R.drawable.ic_icon_canceled, R.drawable.currency_beam)
-            }
-            TxStatus.Failed -> {
-                when (txDescription.failureReason) {
-                    TxFailureReason.TRANSACTION_EXPIRED -> {
-                        setColors(R.color.common_text_dark_color)
-                        setDrawables(R.drawable.ic_expired, R.drawable.currency_beam)
-                    }
-                    else -> {
-                        setColors(R.color.common_text_dark_color)
-                        setDrawables(R.drawable.ic_icon_canceled, R.drawable.currency_beam)
-                    }
-                }
-            }
-        }
+
+        imageView.setImageDrawable(txDescription.statusImage())
+        confirming_state_text.setTextColor(txDescription.statusColor)
+        amount.setTextColor(txDescription.amountColor)
 
         refreshDrawableState()
         requestLayout()
     }
 
-    private fun setDrawables(iconId: Int, currencyId: Int) {
-        imageView.setImageDrawable(ContextCompat.getDrawable(context, iconId))
-        txCurrency.setImageDrawable(ContextCompat.getDrawable(context, currencyId))
-    }
-
-    private fun setColors(colorId: Int) {
-        val color = ContextCompat.getColor(context, colorId)
-        amount.setTextColor(color)
-        confirming_state_text.setTextColor(color)
-    }
 
 }

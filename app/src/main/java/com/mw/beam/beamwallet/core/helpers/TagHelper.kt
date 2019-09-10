@@ -145,6 +145,15 @@ fun List<Tag>?.createSpannableString(context: Context): Spannable {
 enum class TagColor {
     Red, Orange, Yellow, Green, Blue, Pink;
 
+    fun getAndroidColorName() = when(this) {
+        Red -> "Red"
+        Orange -> "Orange"
+        Yellow -> "Yellow"
+        Green -> "Green"
+        Blue -> "Blue"
+        Pink -> "Pink"
+    }
+
     fun getAndroidColorId() = when(this) {
         Red -> R.color.category_red
         Orange -> R.color.category_orange

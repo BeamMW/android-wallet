@@ -23,14 +23,30 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 class CategoryState {
     var tag: Tag? = null
 
-    fun getAddresses():List<WalletAddress> {
+    fun allCount():Int{
+        if (tag==null) {
+            return 0
+        }
+        else{
+            val addresses= AppModel.instance.getAllAddresses()
+            val list= addresses.filter(::filterAddresses)
+            return list.count()
+        }
+    }
+
+    fun getAddresses(tab: Tab):List<WalletAddress> {
         if (tag==null) {
             return listOf<WalletAddress>()
         }
         else{
-            val addresses=AppModel.instance.getAllAddresses()
+            val addresses= AppModel.instance.getAllAddresses()
             val list= addresses.filter(::filterAddresses)
-            return list
+            return list.filter {
+                when(tab) {
+                    Tab.ADDRESSES -> it.isContact == false
+                    Tab.CONTACTS -> it.isContact == true
+                }
+            }
         }
     }
 

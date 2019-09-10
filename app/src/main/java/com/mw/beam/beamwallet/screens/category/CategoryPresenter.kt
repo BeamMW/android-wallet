@@ -34,7 +34,6 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
 
         state.tag?.let {
             view?.init(it)
-
             updateView()
         }
     }
@@ -49,7 +48,9 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
 
 
     private fun updateView() {
-        view?.updateAddresses(state.getAddresses())
+        view?.displayTabs(state.allCount() > 0)
+        view?.updateAddresses(Tab.ADDRESSES,state.getAddresses(Tab.ADDRESSES))
+        view?.updateAddresses(Tab.CONTACTS,state.getAddresses(Tab.CONTACTS))
     }
 
     override fun onAddressPressed(address: WalletAddress) {

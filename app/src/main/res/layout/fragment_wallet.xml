@@ -185,23 +185,6 @@
 
                     <!--Sending-->
                     <TextView
-                        android:id="@+id/receiving"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                        android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                        android:fontFamily="sans-serif"
-                        android:textColor="@color/received_color"
-                        android:textSize="@dimen/wallet_sum_text_size"
-                        app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toEndOf="@id/receivingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
-                        app:layout_constraintWidth_max="wrap"
-                        tools:text="+125.989883830000" />
-
-                    <TextView
                         android:id="@+id/sending"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -214,9 +197,26 @@
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/sendingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/receiving"
+                        app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="-125.989883830000" />
+
+                    <TextView
+                        android:id="@+id/receiving"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/wallet_card_text_padding_start"
+                        android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/received_color"
+                        android:textSize="@dimen/wallet_sum_text_size"
+                        app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toEndOf="@id/receivingIcon"
+                        app:layout_constraintTop_toBottomOf="@id/sending"
+                        app:layout_constraintWidth_max="wrap"
+                        tools:text="+125.989883830000" />
 
                     <androidx.constraintlayout.widget.Group
                         android:id="@+id/receivingGroup"
@@ -338,8 +338,8 @@
                     android:background="@drawable/receive_button"
                     app:button_icon="@drawable/ic_btn_receive"
                     app:button_text="@string/receive"
-                    app:layout_constraintEnd_toStartOf="@id/btnNext"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnNext"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lower_case="true" />
 
@@ -351,9 +351,9 @@
                     android:background="@drawable/send_button"
                     app:button_icon="@drawable/ic_btn_send"
                     app:button_text="@string/send"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnReceive"
                     app:layout_constraintHorizontal_weight="0.5"
-                    app:layout_constraintStart_toEndOf="@id/btnReceive"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:lower_case="true" />
             </androidx.constraintlayout.widget.ConstraintLayout>

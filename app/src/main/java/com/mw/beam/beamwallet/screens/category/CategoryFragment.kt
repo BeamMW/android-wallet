@@ -19,8 +19,9 @@ package com.mw.beam.beamwallet.screens.category
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -28,12 +29,14 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_category.*
 
 class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.View {
-    private var addressesAdapter: AddressesAdapter? = null
+
+    private lateinit var pagerAdapter: CategoriesPagerAdapter
+
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun getToolbarTitle(): String? = getString(R.string.tag)
 
@@ -44,21 +47,24 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
     }
 
     override fun init(tag: Tag) {
+        toolbarLayout.hasStatus = true
+
         nameValue.text = tag.name
         nameValue.setTextColor(resources.getColor(tag.color.getAndroidColorId(), context?.theme))
 
-        addressesAdapter = AddressesAdapter(context!!, object : AddressesAdapter.OnItemClickListener {
-            override fun onItemClick(item: WalletAddress) {
-                presenter?.onAddressPressed(item)
-            }
-        }, null)
-
-        addressesRecyclerView.adapter = addressesAdapter
-        addressesRecyclerView.layoutManager = LinearLayoutManager(context)
-
         setHasOptionsMenu(true)
 
-        name.addDoubleDots()
+        val context = context ?: return
+        pagerAdapter = CategoriesPagerAdapter(context,
+                object : AddressesAdapter.OnItemClickListener {
+                    override fun onItemClick(item: WalletAddress) {
+                        presenter?.onAddressPressed(item)
+                    }
+                })
+
+        pager.adapter = pagerAdapter
+        tabLayout.setupWithViewPager(pager)
+        tabLayout.setSelectedTabIndicatorColor(resources.getColor(tag.color.getAndroidColorId(), context?.theme))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,8 +94,16 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         findNavController().navigate(CategoryFragmentDirections.actionCategoryFragmentToAddressFragment(address))
     }
 
-    override fun updateAddresses(addresses: List<WalletAddress>) {
-        addressesAdapter?.setData(addresses)
+    override fun updateAddresses(tab: Tab, addresses: List<WalletAddress>) {
+        pagerAdapter?.setData(tab,addresses)
+    }
+
+    override fun displayTabs(display: Boolean) {
+        if (!display) {
+            tabLayout.visibility = View.GONE
+            pager.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
     }
 
     override fun navigateToEditCategory(categoryId: String) {

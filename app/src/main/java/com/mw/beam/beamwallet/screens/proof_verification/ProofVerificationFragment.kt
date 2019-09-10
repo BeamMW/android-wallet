@@ -92,6 +92,9 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
         var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
         proofValue.typeface = typeFace
+
+        proofValue.requestFocus()
+        showKeyboard()
     }
 
     override fun clear() {

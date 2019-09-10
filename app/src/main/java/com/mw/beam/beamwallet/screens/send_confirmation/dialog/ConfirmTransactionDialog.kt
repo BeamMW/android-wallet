@@ -33,6 +33,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.dialog_confirm_transaction.*
 import kotlinx.android.synthetic.main.dialog_confirm_transaction.description
@@ -41,7 +42,6 @@ import kotlinx.android.synthetic.main.dialog_confirm_transaction.passError
 
 class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>(), ConfirmTransactionContract.View {
     private var withFingerprint = false
-    private var delayedTask: DelayedTask? = null
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -62,7 +62,7 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
 
         description.setText(if (withFingerprint) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
 
-        btnTouch.visibility = if (withFingerprint) View.VISIBLE else View.GONE
+        touchIDView.visibility = if (withFingerprint) View.VISIBLE else View.GONE
 
         clearPasswordError()
     }
@@ -89,10 +89,6 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
 
         pass.addTextChangedListener(passWatcher)
 
-        fingerprintError.visibility = View.INVISIBLE
-        btnTouch.setCardBackgroundColor(ContextCompat.getColor(context!!, R.color.fingerprint_card_background_color))
-        fingerprintImage.setImageDrawable(ContextCompat.getDrawable(context!!, R.drawable.ic_touch))
-
         if (withFingerprint)
         {
             cancellationSignal = CancellationSignal()
@@ -116,53 +112,17 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
     }
 
     override fun showErrorFingerprint() {
-        delayedTask?.cancel(true)
-
-        animatedChangeDrawable(R.drawable.ic_touch_error, ContextCompat.getColor(context!!, R.color.common_error_color_opacity_20))
-        fingerprintError.visibility = View.VISIBLE
+        touchIDView.setType(Type.ERROR)
 
         showSnackBar(getString(R.string.owner_key_verification_fingerprint_error))
     }
 
     override fun showFailedFingerprint() {
-        delayedTask?.cancel(true)
-
-        animatedChangeDrawable(R.drawable.ic_touch_error, ContextCompat.getColor(context!!, R.color.common_error_color_opacity_20))
-        fingerprintError.visibility = View.VISIBLE
-
-        delayedTask = DelayedTask.startNew(1, {
-            fingerprintError.visibility = View.INVISIBLE
-            animatedChangeDrawable(R.drawable.ic_touch, ContextCompat.getColor(context!!, R.color.fingerprint_card_background_color))
-        })
+        touchIDView.setType(Type.FAILED)
     }
 
     override fun showSuccessFingerprint() {
-        fingerprintError.visibility = View.INVISIBLE
-        delayedTask?.cancel(true)
-
-        animatedChangeDrawable(R.drawable.ic_touch_success, ContextCompat.getColor(context!!, R.color.fingerprint_card_background_color))
-    }
-
-    private fun animatedChangeDrawable(resId: Int, cardColor: Int) {
-        val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
-        val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-
-        fadeOut.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-
-            override fun onAnimationStart(animation: Animation?) {}
-
-            override fun onAnimationEnd(animation: Animation?) {
-                btnTouch.setCardBackgroundColor(cardColor)
-                btnTouch.startAnimation(fadeIn)
-
-                fingerprintImage.setImageDrawable(ContextCompat.getDrawable(context!!, resId))
-                fingerprintImage.startAnimation(fadeIn)
-            }
-        })
-
-        btnTouch.startAnimation(fadeOut)
-        fingerprintImage.startAnimation(fadeOut)
+        touchIDView.setType(Type.SUCCESS)
     }
 
     override fun clearPasswordError() {

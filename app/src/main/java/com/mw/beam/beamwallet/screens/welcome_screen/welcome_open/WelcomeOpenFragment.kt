@@ -18,34 +18,26 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import android.text.Editable
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import androidx.navigation.fragment.findNavController
-import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.core.views.visible
-import com.mw.beam.beamwallet.core.views.visibleOrGone
+import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
-
 
 /**
  *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
-    private var delayedTask: DelayedTask? = null
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -65,7 +57,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
             authCallback = FingerprintCallback(this, presenter, cancellationSignal)
 
-            fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch))
+            touchIDView.visibility = View.VISIBLE
 
             FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
                     authCallback!!, null)
@@ -73,18 +65,18 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             description.setText(R.string.welcome_open_description_with_fingerprint)
         }
         else {
+            touchIDView.visibility = View.GONE
+
             pass.requestFocus()
             showKeyboard()
 
             description.setText(R.string.enter_your_password_to_access_the_wallet)
         }
 
-        btnTouch.visibleOrGone(shouldInitFingerprint, false)
-
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
 
-        pass.setText("123",android.widget.TextView.BufferType.EDITABLE);
-        presenter?.onOpenWallet()
+//        pass.setText("123",android.widget.TextView.BufferType.EDITABLE);
+//        presenter?.onOpenWallet()
     }
 
     override fun addListeners() {
@@ -115,42 +107,21 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     fun showFailed() {
-        animatedChangeDrawable(R.drawable.ic_touch_error)
-        delayedTask?.cancel(true)
-        delayedTask = DelayedTask.startNew(1, { animatedChangeDrawable(R.drawable.ic_touch) })
+        touchIDView.setType(Type.FAILED)
     }
 
     fun fingerprintError() {
-        delayedTask?.cancel(true)
-
-        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_error))
+        touchIDView.setType(Type.ERROR)
 
         pass.requestFocus()
+
         showKeyboard()
     }
 
     fun success() {
-        delayedTask?.cancel(true)
-
-        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_success))
+        touchIDView.setType(Type.SUCCESS)
     }
 
-    private fun animatedChangeDrawable(resId: Int) {
-        val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
-        val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-
-        fadeOut.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-
-            override fun onAnimationStart(animation: Animation?) {}
-
-            override fun onAnimationEnd(animation: Animation?) {
-                fingerprintImage.setImageDrawable(context?.getDrawable(resId))
-                fingerprintImage.startAnimation(fadeIn)
-            }
-        })
-        fingerprintImage.startAnimation(fadeOut)
-    }
 
     override fun clearError() {
         passError.visibility = View.INVISIBLE
@@ -158,8 +129,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun clearListeners() {
-        delayedTask?.cancel(true)
-
         btnOpen.setOnClickListener(null)
         btnChange.setOnClickListener(null)
 

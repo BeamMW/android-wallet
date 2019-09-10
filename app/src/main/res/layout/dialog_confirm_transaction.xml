@@ -81,40 +81,15 @@
         app:layout_constraintVertical_bias="1"
         app:lower_case="true" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnTouch"
-        android:visibility="gone"
-        tools:visibility="visible"
-        android:layout_marginStart="@dimen/common_card_padding"
-        android:layout_marginEnd="@dimen/common_card_padding"
-        android:layout_marginTop="@dimen/common_alert_dialog_margin"
-        app:layout_constraintTop_toBottomOf="@id/btnOk"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:cardBackgroundColor="@color/fingerprint_card_background_color"
-        app:cardCornerRadius="@dimen/fingerprint_card_corner_radius"
-        android:layout_width="@dimen/fingerprint_card_size"
-        android:layout_height="@dimen/fingerprint_card_size">
-
-        <ImageView
-            android:id="@+id/fingerprintImage"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_touch"
-            android:layout_width="@dimen/fingerprint_icon_size"
-            android:layout_height="@dimen/fingerprint_icon_size"
-            android:contentDescription="@null" />
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/fingerprintError"
+    <com.mw.beam.beamwallet.core.views.TouchIDView
+        android:id="@+id/touchIDView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/common_text_big_light"
-        android:visibility="invisible"
-        android:textColor="@color/common_error_color"
-        android:layout_marginTop="10dp"
-        android:text="@string/fingerprint_not_recognized"
-        app:layout_constraintTop_toBottomOf="@id/btnTouch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btnOk"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </com.mw.beam.beamwallet.core.views.TouchIDView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

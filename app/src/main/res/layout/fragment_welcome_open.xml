@@ -87,27 +87,16 @@
             app:layout_constraintTop_toBottomOf="@id/passError"
             app:lower_case="true" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnTouch"
-            android:layout_width="@dimen/fingerprint_card_size"
-            android:layout_height="@dimen/fingerprint_card_size"
-            android:layout_marginTop="@dimen/common_alert_dialog_margin"
-            app:cardBackgroundColor="@color/fingerprint_card_background_color"
-            app:cardCornerRadius="@dimen/fingerprint_card_corner_radius"
-            app:layout_constraintBottom_toTopOf="@id/btnChange"
+        <com.mw.beam.beamwallet.core.views.TouchIDView
+            android:id="@+id/touchIDView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnOpen"
-            app:layout_constraintVertical_chainStyle="spread">
+            app:layout_constraintVertical_chainStyle="spread"></com.mw.beam.beamwallet.core.views.TouchIDView>
 
-            <ImageView
-                android:id="@+id/fingerprintImage"
-                android:layout_width="@dimen/fingerprint_icon_size"
-                android:layout_height="@dimen/fingerprint_icon_size"
-                android:layout_gravity="center"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_touch" />
-        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/btnChange"
@@ -122,7 +111,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnTouch"
+            app:layout_constraintTop_toBottomOf="@id/touchIDView"
             app:layout_constraintVertical_bias="1"
             app:layout_constraintWidth_max="wrap"
             app:layout_goneMarginTop="@dimen/welcome_button_margin_offset" />

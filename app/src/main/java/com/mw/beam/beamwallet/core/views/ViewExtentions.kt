@@ -32,7 +32,7 @@ fun TextView.addDoubleDots() {
 /** Set the View visibility to VISIBLE and eventually animate the View alpha till 100% */
 fun View.visible(animate: Boolean = true) {
     if (animate) {
-        animate().alpha(1f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
+        animate().alpha(1f).setDuration(400).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 super.onAnimationStart(animation)
                 visibility = View.VISIBLE
@@ -65,7 +65,7 @@ fun View.visibleOrGone(show: Boolean, animate: Boolean = true) {
 
 private fun View.hide(hidingStrategy: Int, animate: Boolean = true) {
     if (animate) {
-        animate().alpha(0f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
+        animate().alpha(0f).setDuration(400).setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
                 visibility = hidingStrategy

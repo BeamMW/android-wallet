@@ -57,6 +57,7 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
         colorListAdapter = ColorListAdapter {
             presenter?.onChangeColor(it)
+            nameValue.hint = it.getAndroidColorName()
         }
 
         colorList.adapter = colorListAdapter
@@ -67,6 +68,7 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
         colorListAdapter?.setData(TagColor.values().asList())
         colorListAdapter?.setSelectedColor(tag.color)
 
+        nameValue.hint = tag.color.getAndroidColorName()
 
         btnSave.isEnabled = false
 

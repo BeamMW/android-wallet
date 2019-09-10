@@ -500,6 +500,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+
+        feeEditText.requestFocus()
+
+        Handler().postDelayed({
+            showKeyboard()
+        }, 100)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

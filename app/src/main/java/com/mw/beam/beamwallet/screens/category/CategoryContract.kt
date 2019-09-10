@@ -29,7 +29,8 @@ interface CategoryContract {
     interface View: MvpView {
         fun getCategoryId(): String
         fun init(tag: Tag)
-        fun updateAddresses(addresses: List<WalletAddress>)
+        fun displayTabs(display:Boolean)
+        fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
         fun navigateToEditCategory(categoryId: String)
         fun finish()
         fun showAddressDetails(address: WalletAddress)
