@@ -64,6 +64,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private var isNodeSyncFinished = false
     private var isFailedToStartNode = false
     private var shouldCloseWallet = false
+    private var isShow = false
 
     override fun onCreate() {
         super.onCreate()
@@ -188,12 +189,18 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun initSubscriptions() {
 
+        val randomNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false))
+        val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
+
+        if(isTrustedNodeRestor || (randomNode && trustedNode)) {
+            view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+            showWallet()
+        }
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
-                if (it.total == 0 || isTrustedNodeRestor ||
-                        (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false)
-                                && PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))) {
+
+                if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
                     showWallet()
                 }
@@ -204,7 +211,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         showWallet()
                     }
                 }
-            } else if (isNodeSyncFinished && it.total > 0) {
+            }
+            else if (isNodeSyncFinished && it.total > 0) {
                 view?.updateProgress(it, state.mode, true)
 
                 if (it.done == it.total) {
@@ -308,8 +316,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private fun showWallet() {
         //sometimes lib notifies us few times about end of progress
         //so we need to unsubscribe from events to prevent unexpected behaviour
-        disposable.dispose()
-        view?.showWallet()
+       if(!isShow) {
+           isShow = true
+           disposable.dispose()
+           view?.showWallet()
+       }
     }
 
     private fun finishNodeProgressSubscription() {
