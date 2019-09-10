@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.edit_category
 
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
@@ -41,6 +42,8 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
         }
     }
 
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
     override fun getToolbarTitle(): String? = if (categoryIdFromArgument == null) getString(R.string.create_tag) else getString(R.string.edit_tag)
@@ -63,6 +66,7 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
         colorListAdapter?.setData(TagColor.values().asList())
         colorListAdapter?.setSelectedColor(tag.color)
+
 
         btnSave.isEnabled = false
 
