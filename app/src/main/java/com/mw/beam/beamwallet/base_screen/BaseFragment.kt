@@ -56,6 +56,8 @@ import com.mw.beam.beamwallet.core.App
  *  10/4/18.
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
+    var dialog: AlertDialog? = null
+
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()

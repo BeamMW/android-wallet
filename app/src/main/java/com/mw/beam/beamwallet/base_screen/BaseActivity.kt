@@ -23,6 +23,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
@@ -207,7 +208,29 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun showLockScreen() {
         if (App.isAuthenticated && !App.isShowedLockScreen) {
             App.isShowedLockScreen = true
-            findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment)
+
+            delegate.dismissAlert()
+
+            val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+            navHost?.let { navFragment ->
+                navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                    val base = fragment as BaseFragment<*>
+                    if (base.dialog!=null)
+                    {
+                        base.dialog?.dismiss()
+                    }
+                }
+            }
+
+            val navBuilder = NavOptions.Builder()
+            navBuilder.setEnterAnim(android.R.anim.fade_in)
+            navBuilder.setPopEnterAnim(android.R.anim.fade_in)
+            navBuilder.setExitAnim(android.R.anim.fade_out)
+            navBuilder.setPopExitAnim(android.R.anim.fade_out)
+
+            val navigationOptions = navBuilder.build()
+
+            findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
         }
     }
 

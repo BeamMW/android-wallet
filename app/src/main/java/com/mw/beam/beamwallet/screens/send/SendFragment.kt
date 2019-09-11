@@ -464,7 +464,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("InflateParams")
     override fun showFeeDialog() {
-        var dialog: AlertDialog? = null
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_send_fee, null)
 
         view.findViewById<ImageView>(R.id.btnClose).setOnClickListener {

@@ -64,8 +64,6 @@ import java.util.regex.Pattern
  *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
-    private var dialog: AlertDialog? = null
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings)
 
