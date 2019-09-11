@@ -63,6 +63,8 @@ interface WalletContract {
         fun onCancelDialog()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
         fun onShowAllPressed()
+        fun onCheckShouldExpandAvailable()
+        fun onCheckShouldExpandInProgress()
     }
 
     interface Repository : MvpRepository {

@@ -292,6 +292,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         clearTitleListeners()
         addTitleListeners(isEnable)
+
+        if (!isEnable) {
+            presenter?.onCheckShouldExpandAvailable()
+            presenter?.onCheckShouldExpandInProgress()
+        }
     }
 
     override fun showTransactionDetails(txId: String) {
