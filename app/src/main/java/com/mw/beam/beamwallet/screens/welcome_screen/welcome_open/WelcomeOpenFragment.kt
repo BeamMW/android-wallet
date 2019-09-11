@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
+import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
@@ -33,6 +34,10 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
+import android.os.Handler
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 
 /**
  *  10/19/18.
@@ -49,8 +54,43 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
     override fun getToolbarTitle(): String? = ""
 
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (App.isShowedLockScreen) {
+            requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
+    }
+
     override fun init(shouldInitFingerprint: Boolean) {
-        App.isAuthenticated = false
+        if (!App.isShowedLockScreen) {
+            App.isAuthenticated = false
+        }
+        else{
+            btnChange.visibility = View.GONE
+        }
 
         if (shouldInitFingerprint) {
             cancellationSignal = CancellationSignal()
@@ -65,18 +105,20 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             description.setText(R.string.welcome_open_description_with_fingerprint)
         }
         else {
+            description.setText(R.string.enter_your_password_to_access_the_wallet)
+
             touchIDView.visibility = View.GONE
 
             pass.requestFocus()
-            showKeyboard()
 
-            description.setText(R.string.enter_your_password_to_access_the_wallet)
+            Handler().postDelayed({
+                pass.requestFocus()
+                showKeyboard()
+            }, 100)
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
 
-//        pass.setText("123",android.widget.TextView.BufferType.EDITABLE);
-//        presenter?.onOpenWallet()
     }
 
     override fun addListeners() {
@@ -145,7 +187,14 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun getPass(): String = pass.text?.toString() ?: ""
 
     override fun openWallet(pass: String) {
-        findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+        if (App.isShowedLockScreen) {
+//            presenter?.onHideLockScreen()
+            App.isShowedLockScreen = false
+            findNavController().popBackStack()
+        }
+        else{
+            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+        }
     }
     override fun changeWallet() {
         findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeCreateFragment())

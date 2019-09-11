@@ -21,9 +21,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -34,6 +35,8 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.*
+
 
 /**
  *  10/1/18.
@@ -200,6 +203,14 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.ContextWrapper.wrap(newBase))
     }
+
+    override fun showLockScreen() {
+        if (App.isAuthenticated && !App.isShowedLockScreen) {
+            App.isShowedLockScreen = true
+            findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment)
+        }
+    }
+
 
     override fun logOut() {
         if (App.isAuthenticated) {

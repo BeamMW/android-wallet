@@ -31,4 +31,8 @@ class WelcomeOpenRepository : BaseRepository(), WelcomeOpenContract.Repository {
             PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED) && FingerprintManager.isManagerAvailable()
         }
     }
+
+    override fun checkPass(pass: String?): Boolean {
+        return wallet?.checkWalletPassword(pass ?: return false) ?: false
+    }
 }

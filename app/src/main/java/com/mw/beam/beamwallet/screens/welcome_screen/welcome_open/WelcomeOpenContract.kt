@@ -50,5 +50,6 @@ interface WelcomeOpenContract {
 
     interface Repository : MvpRepository {
         fun isFingerPrintEnabled(): Boolean
+        fun checkPass(pass: String?): Boolean
     }
 }

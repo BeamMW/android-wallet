@@ -47,4 +47,5 @@ interface MvpView {
     fun vibrate(length: Long)
     fun logOut()
     fun dismissSnackBar()
+    fun showLockScreen()
 }

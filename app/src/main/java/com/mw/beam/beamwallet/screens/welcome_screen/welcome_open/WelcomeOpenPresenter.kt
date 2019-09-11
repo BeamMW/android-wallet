@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
@@ -52,7 +53,17 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.hideKeyboard()
 
         if (view?.hasValidPass() == true) {
-            openWallet(view?.getPass())
+            if (App.isShowedLockScreen) {
+                if (repository.checkPass(view?.getPass())) {
+                    view?.openWallet(view?.getPass() ?: return)
+                }
+                else{
+                    view?.showOpenWalletError()
+                }
+            }
+            else{
+                openWallet(view?.getPass())
+            }
         }
     }
 
@@ -77,7 +88,17 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     }
 
     override fun onFingerprintSucceeded() {
-        openWallet(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))
+        if (App.isShowedLockScreen) {
+            if (repository.checkPass(PreferencesManager.KEY_PASSWORD)) {
+                view?.openWallet(view?.getPass() ?: return)
+            }
+            else{
+                view?.showOpenWalletError()
+            }
+        }
+        else{
+            openWallet(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))
+        }
     }
 
     override fun onFingerprintFailed() {

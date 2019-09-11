@@ -54,6 +54,7 @@ class App : Application() {
         private const val BACKGROUND_JOB_ID = 71614
         var showNotification = true
         var isAuthenticated = false
+        var isShowedLockScreen = false
         var intentTransactionID: String? = null
         var isAppRunning = false
     }
@@ -62,9 +63,9 @@ class App : Application() {
         super.onCreate()
 
 
-//        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
+        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
             Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-//        }
+        }
 
         when(BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX

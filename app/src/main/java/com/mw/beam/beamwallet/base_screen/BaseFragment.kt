@@ -49,6 +49,8 @@ import kotlinx.coroutines.withTimeoutOrNull
 import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
+import androidx.navigation.findNavController
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  10/4/18.
@@ -311,6 +313,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
     }
+
+    override fun showLockScreen() {}
 
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
         if (nextAnim == R.anim.slide_in_right) {
