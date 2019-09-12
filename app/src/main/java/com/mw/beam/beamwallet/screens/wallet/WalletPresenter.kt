@@ -111,6 +111,18 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showAllTransactions()
     }
 
+    override fun onCheckShouldExpandAvailable() {
+        if (state.shouldExpandAvailable && !state.privacyMode) {
+            onExpandAvailablePressed()
+        }
+    }
+
+    override fun onCheckShouldExpandInProgress() {
+        if (state.shouldExpandInProgress && !state.privacyMode) {
+            onExpandInProgressPressed()
+        }
+    }
+
     override fun onExpandAvailablePressed() {
         if (state.privacyMode) {
             return
@@ -119,10 +131,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.shouldExpandAvailable = !state.shouldExpandAvailable
         view?.handleExpandAvailable(state.shouldExpandAvailable)
 
-//        if (!state.shouldExpandAvailable) {
         view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing
                 ?: 0, !state.shouldExpandAvailable, state.privacyMode)
-//        }
     }
 
     override fun onExpandInProgressPressed() {

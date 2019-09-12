@@ -283,8 +283,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private fun beginTransition() {
         TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply {
             excludeChildren(transactionsList, true)
-            excludeChildren(receivingCurrency, true)
-            excludeChildren(sendingCurrency, true)
+           // excludeChildren(receivingCurrency, true)
+           // excludeChildren(sendingCurrency, true)
         })
     }
 
@@ -318,6 +318,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         clearTitleListeners()
         addTitleListeners(isEnable)
+
+        if (!isEnable) {
+            presenter?.onCheckShouldExpandAvailable()
+            presenter?.onCheckShouldExpandInProgress()
+        }
     }
 
     override fun showTransactionDetails(txId: String) {
