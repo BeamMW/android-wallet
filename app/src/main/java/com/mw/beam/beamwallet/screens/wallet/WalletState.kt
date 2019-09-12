@@ -26,6 +26,9 @@ import com.mw.beam.beamwallet.core.AppModel
 class WalletState {
     var walletStatus: WalletStatus? = null
 
+    var prevProgressExpandState = false
+    var prevAvailableExpandState = false
+
     var shouldExpandAvailable = false
     var shouldExpandInProgress = false
     var privacyMode = false

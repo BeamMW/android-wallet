@@ -62,12 +62,23 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.configPrivacyStatus(privacyModeEnabled)
 
         if (state.privacyMode) {
+            state.prevAvailableExpandState = state.shouldExpandAvailable
+            state.prevProgressExpandState = state.shouldExpandInProgress
+
             state.shouldExpandAvailable = state.privacyMode
             state.shouldExpandInProgress = state.privacyMode
+
+            view?.handleExpandAvailable(state.shouldExpandAvailable)
+            view?.handleExpandInProgress(state.shouldExpandInProgress)
+        }
+        else{
+            state.shouldExpandAvailable = state.prevAvailableExpandState
+            state.shouldExpandInProgress = state.prevProgressExpandState
+
+            view?.handleExpandAvailable(state.prevAvailableExpandState)
+            view?.handleExpandInProgress(state.prevProgressExpandState)
         }
 
-        view?.handleExpandAvailable(state.shouldExpandAvailable)
-        view?.handleExpandInProgress(state.shouldExpandInProgress)
 
         state.walletStatus?.let { view?.configWalletStatus(it, !state.shouldExpandAvailable, !state.shouldExpandInProgress, privacyModeEnabled) }
     }

@@ -177,6 +177,7 @@
                     android:drawableTop="@drawable/ic_eye_crossed_big"
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/proxima_regular"
+                    android:maxLines="3"
                     android:text="@string/utxo_security_message"
                     android:textAlignment="center"
                     android:textColor="@color/common_text_dark_color"

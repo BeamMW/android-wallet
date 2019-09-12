@@ -45,31 +45,35 @@
                 android:textSize="@dimen/common_text_big_size"
                 tools:text="5" />
         </FrameLayout>
+
         <TextView
             android:id="@+id/contentText"
-            android:layout_marginStart="16dp"
-            tools:text="@string/wallet_sent_message"
-            android:textSize="@dimen/common_text_big_size"
-            android:textColor="@color/undo_card_text_color"
-            android:layout_gravity="center"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:visibility="gone"
-            android:id="@+id/btnUndo"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            tools:visibility="visible"
-            android:text="@string/undo"
-            android:textColor="@color/undo_card_action_color"
-            android:textStyle="bold"
-            android:textSize="@dimen/common_text_big_size"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/undo_card_text_color"
+            android:textSize="@dimen/common_text_big_size"
+            tools:text="@string/wallet_sent_message" />
+
+        <TextView
+            android:id="@+id/btnUndo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingStart="16dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="4dp"
+            android:text="@string/undo"
+            android:textAllCaps="true"
+            android:textColor="@color/undo_card_action_color"
+            android:textSize="@dimen/common_text_big_size"
+            android:visibility="gone"
+            tools:visibility="visible" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -39,32 +39,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnReceive"
-                    android:layout_width="@dimen/wallet_button_width"
+                <LinearLayout
+                    android:id="@+id/buttonsLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_button_margin_top"
-                    android:background="@drawable/receive_button"
-                    app:button_icon="@drawable/ic_btn_receive"
-                    app:button_text="@string/receive"
-                    app:layout_constraintEnd_toStartOf="@id/btnNext"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:lower_case="true" />
-
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnNext"
-                    android:layout_width="@dimen/wallet_button_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_button_margin_top"
-                    android:background="@drawable/send_button"
-                    app:button_icon="@drawable/ic_btn_send"
-                    app:button_text="@string/send"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_weight="0.5"
-                    app:layout_constraintStart_toEndOf="@id/btnReceive"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:lower_case="true" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.mw.beam.beamwallet.core.views.BeamButton
+                        android:id="@+id/btnNext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/wallet_button_margin_top"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/send_button"
+                        app:button_icon="@drawable/ic_btn_send"
+                        app:button_text="@string/send"
+                        app:lower_case="true" />
+
+                    <com.mw.beam.beamwallet.core.views.BeamButton
+                        android:id="@+id/btnReceive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="@dimen/wallet_button_margin_top"
+                        android:layout_weight="1"
+                        android:background="@drawable/receive_button"
+                        app:button_icon="@drawable/ic_btn_receive"
+                        app:button_text="@string/receive"
+                        app:lower_case="true" />
+
+                </LinearLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,7 +90,7 @@
                     android:paddingEnd="@dimen/common_card_padding"
                     android:paddingBottom="10dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/btnReceive">
+                    app:layout_constraintTop_toBottomOf="@id/buttonsLayout">
 
                     <LinearLayout
                         android:id="@+id/availableTitleContainer"
@@ -130,9 +141,11 @@
 
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/balanceViewPager"
-                        app:layout_constraintTop_toBottomOf="@id/availableTitleContainer"
                         android:layout_width="match_parent"
-                        android:layout_height="58dp"/>
+                        android:layout_height="58dp"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toBottomOf="@id/availableTitleContainer"
+                        tools:layout_editor_absoluteX="20dp" />
 
                     <me.relex.circleindicator.CircleIndicator
                         android:id="@+id/indicator"
@@ -198,7 +211,7 @@
                         android:textSize="@dimen/wallet_sum_text_size"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/receivingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
+                        app:layout_constraintTop_toBottomOf="@id/sending"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="+125.989883830000" />
 
@@ -236,7 +249,7 @@
                         android:textSize="@dimen/wallet_sum_text_size"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/sendingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/receiving"
+                        app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="-125.989883830000" />
 
@@ -268,15 +281,16 @@
                 <TextView
                     android:id="@+id/transactionsTitle"
                     style="@style/common_subheader_dark"
-                    android:textColor="@color/common_text_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="24dp"
                     android:paddingStart="@dimen/common_offset"
                     android:paddingTop="@dimen/transactions_title_padding"
                     android:paddingEnd="@dimen/common_offset"
                     android:paddingBottom="@dimen/transactions_title_padding"
                     android:text="@string/transactions"
+                    android:textColor="@color/common_text_color"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/inProgressLayout" />
 
                 
@@ -287,6 +301,7 @@
                     android:text="@string/show_all"
                     android:layout_marginEnd="6dp"
                     android:textAllCaps="false"
+                    android:letterSpacing="0"
                     app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/transactionsTitle"

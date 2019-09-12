@@ -76,7 +76,8 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         blockchainHeightTitle.addDoubleDots()
         blockchainHashTitle.addDoubleDots()
 
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.UTXO);
+        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.UTXO)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -164,7 +165,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         else{
             utxoPrivacyMessage.setPadding(0,0,0,50)
 
-            privacyLabel.text = context?.getString(R.string.utxo_security_message)
+            privacyLabel.text = getString(R.string.utxo_security_message) + "\n" + getString(R.string.utxo_turn_off_see_utxo)
             privacyLabel.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_eye_crossed_big, 0, 0);
 
             utxoPrivacyMessage.visibility = View.VISIBLE
