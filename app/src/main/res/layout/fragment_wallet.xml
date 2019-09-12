@@ -191,28 +191,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/wallet_card_text_padding_start"
                         android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                        android:fontFamily="sans-serif"
+                        android:drawableRight="@drawable/currency_receive_main_screen"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/received_color"
                         android:textSize="@dimen/wallet_sum_text_size"
-                        app:layout_constraintEnd_toStartOf="@id/receivingCurrency"
-                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/receivingIcon"
                         app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="+125.989883830000" />
-
-                    <ImageView
-                        android:id="@+id/receivingCurrency"
-                        style="@style/common_currency_style"
-                        android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
-                        android:contentDescription="@null"
-                        app:layout_constraintBottom_toBottomOf="@id/receiving"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/receiving"
-                        app:layout_constraintTop_toTopOf="@id/receiving"
-                        app:srcCompat="@drawable/currency_beam_receive" />
 
                     <ImageView
                         android:id="@+id/receivingIcon"
@@ -229,7 +217,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="receiving, receivingCurrency,receivingIcon"
+                        app:constraint_referenced_ids="receiving,receivingIcon"
+                        tools:layout_editor_absoluteX="20dp"
+                        tools:layout_editor_absoluteY="20dp"
                         tools:visibility="visible" />
 
                     <!--Sending-->
@@ -239,28 +229,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/wallet_card_text_padding_start"
                         android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                        android:fontFamily="sans-serif"
+                        android:drawableRight="@drawable/currency_send_main_screen"
+                        android:drawablePadding="5dp"
+                        android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/send_selector"
                         android:textSize="@dimen/wallet_sum_text_size"
-                        app:layout_constraintEnd_toStartOf="@id/sendingCurrency"
-                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/sendingIcon"
                         app:layout_constraintTop_toBottomOf="@id/receiving"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="-125.989883830000" />
-
-                    <ImageView
-                        android:id="@+id/sendingCurrency"
-                        style="@style/common_currency_style"
-                        android:layout_height="@dimen/wallet_in_progress_currency_icon_size"
-                        android:contentDescription="@null"
-                        app:layout_constraintBottom_toBottomOf="@id/sending"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0"
-                        app:layout_constraintStart_toEndOf="@id/sending"
-                        app:layout_constraintTop_toTopOf="@id/sending"
-                        app:srcCompat="@drawable/currency_beam_send" />
 
                     <ImageView
                         android:id="@+id/sendingIcon"
@@ -278,7 +256,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="sending,sendingCurrency,sendingIcon"
+                        app:constraint_referenced_ids="sending,sendingIcon"
+                        tools:layout_editor_absoluteX="20dp"
+                        tools:layout_editor_absoluteY="20dp"
                         tools:visibility="visible" />
 
 
