@@ -13,7 +13,7 @@
     <color name="common_text_dark_color">#8da1ad</color>
     <color name="common_header_small_color">#60ffffff</color>
     <color name="snack_bar_color">@color/colorPrimary</color>
-    <color name="alert_dialog_color">@color/colorPrimary</color>
+    <color name="alert_dialog_color">#00446c</color>
     <color name="alert_dialog_cancel_color">#8da1ad</color>
     <color name="status_bar_color">#33000000</color>
     <color name="toolbar_title_color">@color/common_text_color</color>

@@ -4,12 +4,9 @@
     <color name="colorPrimaryPicked">#0F0F0F</color>
     <color name="colorPrimaryDark">#171717</color>
     <color name="navigation_drawer_color">#101010</color>
-
+    <color name="alert_dialog_color">@color/colorPrimary</color>
     <color name="wallet_adapter_not_multiply_color">#1d1d1d</color>
     <color name="wallet_adapter_multiply_color">#242424</color>
-
     <color name="addresses_status_bar_color">#2e2e2e</color>
-
     <color name="search_toolbar_color">#0f0f0f</color>
-
 </resources>

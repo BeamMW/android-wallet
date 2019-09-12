@@ -94,7 +94,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun addListeners() {
         btnShare.setOnClickListener {
-            val data =  "suggest;upgrade;online;snow;record;salad;organ;december;chalk;update;maze;spell;" //PasteManager.getPasteData(context)
+            val data = PasteManager.getPasteData(context)
             val phrases1 = data.split(";").toTypedArray()
             val phrases2 = data.split("\n").toTypedArray()
 
