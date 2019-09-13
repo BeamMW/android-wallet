@@ -31,6 +31,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_proof_verification.*
+import android.os.Handler
 
 class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), ProofVerificationContract.View {
     private lateinit var textWatcher: TextWatcher
@@ -57,6 +58,11 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         receiverTitle.addDoubleDots()
         amountTitle.addDoubleDots()
         kernelIdTitle.addDoubleDots()
+
+        Handler().postDelayed({
+            proofValue.requestFocus()
+            showKeyboard()
+        }, 100)
     }
 
     override fun clear() {

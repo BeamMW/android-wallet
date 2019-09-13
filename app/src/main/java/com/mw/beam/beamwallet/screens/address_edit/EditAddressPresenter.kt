@@ -48,6 +48,15 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
     override fun onStart() {
         super.onStart()
         view?.setupTagAction(repository.getAllTags().isEmpty())
+
+        if (state.shouldExpireNow) {
+            view?.configExpireSpinnerTime(state.shouldExpireNow)
+            view?.configSaveButton(shouldEnableButton())
+        }
+        else if (state.shouldActivateNow) {
+            view?.configExpireSpinnerVisibility(state.shouldActivateNow)
+            view?.configSaveButton(shouldEnableButton())
+        }
     }
 
     override fun onSelectTags(tags: List<Tag>) {
