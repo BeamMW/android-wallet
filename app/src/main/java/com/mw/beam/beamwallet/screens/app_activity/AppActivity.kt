@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.app_activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.WindowManager
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
@@ -56,11 +55,13 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.isAppRunning = true
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         App.isAppRunning = true
+
         super.onCreate(savedInstanceState, persistentState)
     }
 

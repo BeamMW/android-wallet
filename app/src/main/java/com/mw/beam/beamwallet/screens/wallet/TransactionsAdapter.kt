@@ -75,6 +75,7 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             notifyDataSetChanged()
         }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
             clickListener.invoke(data[adapterPosition])
