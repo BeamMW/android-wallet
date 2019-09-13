@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/wallet_adapter_not_multiply_color"
     android:filterTouchesWhenObscured="true"
     android:paddingStart="@dimen/common_offset"
     android:paddingTop="@dimen/transaction_item_padding"

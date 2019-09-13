@@ -39,6 +39,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.core.helpers.selector
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
@@ -54,8 +55,6 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private val regularTypeface by lazy { ResourcesCompat.getFont(context, R.font.roboto_regular) }
     private val commonDarkTextColor by lazy { ContextCompat.getColor(context, R.color.common_text_dark_color) }
     private val itemOffset by lazy { context.resources.getDimensionPixelSize(R.dimen.search_text_offset) }
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
-    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.receive)
     private val sendText = context.getString(R.string.send)
     private var privacyMode: Boolean = false
@@ -94,20 +93,11 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             message.text = messageStatus
 
-            val isMultiply = position % 2 == 0
-            val color = when {
-                isMultiply && invertItemColors -> notMultiplyColor
-                !isMultiply && invertItemColors -> multiplyColor
-                isMultiply -> multiplyColor
-                !isMultiply -> notMultiplyColor
-                else -> notMultiplyColor
-            }
-
             if (reverseColors) {
-                itemView.setBackgroundColor(if (position % 2 == 0) notMultiplyColor else multiplyColor)
+                itemView.selector(if (position % 2 == 0) R.color.colorClear else R.color.wallet_adapter_multiply_color)
             }
             else{
-                itemView.setBackgroundColor(color)
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
             }
 
             icon.setImageDrawable(transaction.statusImage())
