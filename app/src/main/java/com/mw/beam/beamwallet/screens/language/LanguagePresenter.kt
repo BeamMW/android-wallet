@@ -35,12 +35,11 @@ class LanguagePresenter(view: LanguageContract.View?, repository: LanguageContra
 
     override fun onRestartPressed(language: LocaleHelper.SupportedLanguage) {
         repository.setLanguage(language)
-        view?.logOut()
     }
 
     override fun onSelectLanguage(language: LocaleHelper.SupportedLanguage) {
         if (language.languageCode != repository.getCurrentLanguage().languageCode) {
-            view?.showConfirmDialog(language)
+            view?.changeLanguage(language)
         }
     }
 }

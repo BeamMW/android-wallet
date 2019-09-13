@@ -96,6 +96,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         val toolbar = toolbarLayout.toolbar
         (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
 
+        if (getString(R.string.wallet) != menuItems[0].text) {
+            menuItems[0].text = getString(R.string.wallet)
+            menuItems[1].text = getString(R.string.address_book)
+            menuItems[2].text = getString(R.string.utxo)
+            menuItems[3].text = getString(R.string.settings)
+        }
+
         drawerToggle = object : ActionBarDrawerToggle(
                 activity,
                 drawerLayout,

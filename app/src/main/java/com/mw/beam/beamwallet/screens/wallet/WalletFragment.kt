@@ -365,8 +365,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun onStart() {
         super.onStart()
+
         App.showNotification = false
         onBackPressedCallback.isEnabled = true
+
+       // contentScrollView.visibility = View.VISIBLE
     }
 
     override fun onStop() {

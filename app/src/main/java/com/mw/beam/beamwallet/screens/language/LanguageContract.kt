@@ -25,7 +25,7 @@ interface LanguageContract {
 
     interface View: MvpView {
         fun init(languages: List<LocaleHelper.SupportedLanguage>, language: LocaleHelper.SupportedLanguage)
-        fun showConfirmDialog(language: LocaleHelper.SupportedLanguage)
+        fun changeLanguage(language: LocaleHelper.SupportedLanguage)
     }
 
     interface Presenter: MvpPresenter<View> {
