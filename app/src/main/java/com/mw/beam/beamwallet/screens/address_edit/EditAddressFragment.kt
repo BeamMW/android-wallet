@@ -113,6 +113,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
                 textView.setPadding(15,15,15,15)
+                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                 return view
 
             }

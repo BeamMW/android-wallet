@@ -242,6 +242,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 if(position == expiresOnSpinner.selectedItemPosition) {
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
+                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                 return view
 
             }
