@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.screens.app_activity
 
+import android.app.AlertDialog
+import android.app.Application
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -23,13 +26,17 @@ import android.os.PersistableBundle
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
+import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
+import io.fabric.sdk.android.Fabric
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
@@ -58,6 +65,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         App.isAppRunning = true
 
         super.onCreate(savedInstanceState)
+
+        setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -116,5 +125,28 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AppActivityPresenter(this, AppActivityRepository())
+    }
+
+    private fun setupCrashHandler() {
+        if (PreferencesManager.getBoolean(PreferencesManager.KEY_IS_CRASHED)) {
+            showAlert(getString(R.string.crash_message), getString(R.string.i_agree), {
+                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, false)
+                PreferencesManager.putBoolean(PreferencesManager.KEY_ENABLE_CRASH, true)
+                setupCrashHandler()
+            },
+                    getString(R.string.crash_title),
+                    getString(R.string.crash_negative), {
+                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, false)
+                setupCrashHandler()
+            })
+        }
+        else if (PreferencesManager.getBoolean(PreferencesManager.KEY_ENABLE_CRASH)) {
+            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+        }
+        else{
+            Thread.setDefaultUncaughtExceptionHandler { t, e ->
+                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, true)
+            }
+        }
     }
 }

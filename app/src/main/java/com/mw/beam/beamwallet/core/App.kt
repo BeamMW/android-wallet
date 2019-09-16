@@ -21,6 +21,7 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
+import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.elvishew.xlog.LogConfiguration
@@ -38,9 +39,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
 import com.squareup.leakcanary.LeakCanary
-import io.fabric.sdk.android.Fabric
 import java.util.concurrent.TimeUnit
-import android.view.WindowManager
 
 /**
  *  10/1/18.
@@ -63,10 +62,6 @@ class App : Application() {
         super.onCreate()
 
 
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
-            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-        }
-
         when(BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX
             AppConfig.FLAVOR_TESTNET -> AppConfig.EXPLORER_PREFIX = AppConfig.TESTNET_EXPLORER_PREFIX
@@ -86,6 +81,7 @@ class App : Application() {
         }
 
         self = this
+
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
