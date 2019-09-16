@@ -37,15 +37,11 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
-import kotlinx.android.synthetic.main.item_transaction.*
-import kotlinx.android.synthetic.main.item_transaction.icon
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 import java.io.File
 import com.mw.beam.beamwallet.core.AppModel
 import android.transition.AutoTransition
 import android.animation.ObjectAnimator
-import android.util.TypedValue
-import android.graphics.Canvas
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
 

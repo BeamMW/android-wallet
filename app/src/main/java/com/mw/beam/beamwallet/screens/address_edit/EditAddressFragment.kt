@@ -42,9 +42,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.TagAdapter
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
-import kotlinx.android.synthetic.main.common_button.*
 import kotlinx.android.synthetic.main.fragment_edit_address.*
 import androidx.appcompat.widget.AppCompatTextView
 import android.util.TypedValue

@@ -21,7 +21,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
@@ -38,7 +37,6 @@ import kotlinx.android.synthetic.main.fragment_utxo_details.*
 import kotlinx.android.synthetic.main.fragment_utxo_details.toolbarLayout
 import android.transition.TransitionManager
 import android.transition.AutoTransition
-import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.utils.CalendarUtils

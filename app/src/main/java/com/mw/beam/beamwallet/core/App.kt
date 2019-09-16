@@ -57,17 +57,19 @@ class App : Application() {
         var isShowedLockScreen = false
         var intentTransactionID: String? = null
         var isAppRunning = false
+        var is24HoursTimeFormat: Boolean? = null
     }
 
     override fun onCreate() {
         super.onCreate()
 
+        is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
 
         if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
             Fabric.with(this, Crashlytics(), CrashlyticsNdk())
         }
 
-        when(BuildConfig.FLAVOR) {
+        when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX
             AppConfig.FLAVOR_TESTNET -> AppConfig.EXPLORER_PREFIX = AppConfig.TESTNET_EXPLORER_PREFIX
         }
@@ -98,8 +100,8 @@ class App : Application() {
 
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
 
-            PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
-            PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true);
+            PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, "")
+            PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
 
             removeDatabase()
         }
@@ -124,4 +126,6 @@ class App : Application() {
                         .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
                         .build())
     }
+
+
 }

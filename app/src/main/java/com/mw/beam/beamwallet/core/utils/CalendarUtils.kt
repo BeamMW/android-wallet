@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.utils
 
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,12 +25,25 @@ import java.util.*
  *  10/4/18.
  */
 object CalendarUtils {
-    private const val TIME_FORMAT = "d MMM yyyy  |  hh:mm a"
+    private const val TIME_FORMAT_12 = "d MMM yyyy  |  hh:mm a"
+    private const val TIME_FORMAT_24 = "d MMM yyyy  |  HH:mm"
     private const val SHORT_TIME_FORMAT = "d MMM"
-    private val US_TIME_FORMAT = SimpleDateFormat(TIME_FORMAT, Locale.US)
+    private val US_TIME_FORMAT = SimpleDateFormat(TIME_FORMAT_12, Locale.US)
 
-    fun fromTimestamp(timestamp: Long, dataFormat: SimpleDateFormat = SimpleDateFormat(TIME_FORMAT, AppConfig.LOCALE)): String {
+    fun fromTimestamp(timestamp: Long, dataFormat: SimpleDateFormat = SimpleDateFormat(TIME_FORMAT_12, AppConfig.LOCALE)): String {
         val calendar = calendarFromTimestamp(timestamp)
+        return dataFormat.format(calendar.time)
+    }
+
+    fun fromTimestamp(timestamp: Long): String {
+        val calendar = calendarFromTimestamp(timestamp)
+
+        var dataFormat = if (App.is24HoursTimeFormat!!) {
+            SimpleDateFormat(TIME_FORMAT_24, AppConfig.LOCALE)
+        } else {
+            SimpleDateFormat(TIME_FORMAT_12, AppConfig.LOCALE)
+        }
+
         return dataFormat.format(calendar.time)
     }
 
