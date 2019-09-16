@@ -50,7 +50,7 @@ object TransactionFields {
         return "${if (txDescription.sender.value) SEND_BEAM_TYPE else RECEIVE_BEAM_TYPE} ," +
                 "${CalendarUtils.fromTimestampUS(txDescription.modifyTime)} ," +
                 "${txDescription.amount.convertToBeamString()} ," +
-                "${txDescription.getStatusString(App.self)} ," +
+                "${txDescription.getStatusStringWithoutLocalizable()} ," +
                 "$sender ," +
                 "$receiver ," +
                 "${txDescription.fee.convertToBeamString()} ," +

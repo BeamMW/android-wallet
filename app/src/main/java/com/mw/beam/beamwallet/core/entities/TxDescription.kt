@@ -53,6 +53,41 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
     }
 
+    fun getStatusStringWithoutLocalizable() : String = when (status) {
+        TxStatus.Pending -> "Pending"
+        TxStatus.InProgress -> {
+            when (sender) {
+                TxSender.RECEIVED -> "Waiting for sender"
+                TxSender.SENT -> "Waiting for receiver"
+            }
+        }
+        TxStatus.Registered -> {
+            when {
+                TxSender.RECEIVED == sender -> "Receiving"
+                TxSender.SENT == sender && selfTx -> "Sending to own address"
+                TxSender.SENT == sender -> "Sending"
+                else -> ""
+            }
+        }
+        TxStatus.Completed -> {
+            if (selfTx) {
+                "Sent to own address"
+            } else {
+                when (sender) {
+                    TxSender.RECEIVED -> "Received"
+                    TxSender.SENT -> "Sent"
+                }
+            }
+        }
+        TxStatus.Cancelled -> "Cancelled"
+        TxStatus.Failed -> {
+            when (failureReason) {
+                TxFailureReason.TRANSACTION_EXPIRED -> "Expired"
+                else -> "Failed"
+            }
+        }
+    }.toLowerCase() + " "
+
     fun getStatusString(context: Context) : String = when (status) {
         TxStatus.Pending -> context.getString(R.string.pending)
         TxStatus.InProgress -> {
