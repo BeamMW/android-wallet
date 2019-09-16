@@ -121,6 +121,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         else if (!state.wasAddressSaved) {
             view?.showSaveAddressDialog(nextStep)
         }
+        else if (isAddressInfoChanged()) {
+            view?.showSaveChangesDialog(nextStep)
+        }
         else {
             saveAddress()
             nextStep()
@@ -173,13 +176,21 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     private fun isAddressInfoChanged(): Boolean {
-        return state.address?.let { address ->
-            val savedTags = repository.getAddressTags(address.walletID)
+        val savedTags = state.address?.walletID?.let { repository.getAddressTags(it) }
 
-            address.label != view?.getComment() ?: "" ||
-                    address.duration != state.expirePeriod.value ||
-                    state.tags.containsAll(savedTags) || state.tags.size != savedTags.size
-        } ?: false
+        if (state.address?.label != view?.getComment()) {
+            return true
+        }
+        else if (state.address?.duration != state.expirePeriod.value) {
+            return true
+        }
+        else if (state.tags.size != savedTags?.size) {
+            return true
+        }
+        else if (!state.tags.containsAll(savedTags) && state.tags.count() > 0) {
+            return true
+        }
+        return false
     }
 
     override fun initSubscriptions() {

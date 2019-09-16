@@ -127,6 +127,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
                 textView.setPadding(15,30,15,30)
+                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                 return view
             }
 
@@ -322,7 +323,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun onAddressDeleted() {
-       val isBack = findNavController().popBackStack(R.id.addressesFragment, false)
+        val isBack = findNavController().popBackStack(R.id.addressesFragment, false)
         if (!isBack) {
             findNavController().popBackStack(R.id.categoryFragment, false)
         }

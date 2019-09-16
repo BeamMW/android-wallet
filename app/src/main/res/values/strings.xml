@@ -446,6 +446,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
     <string name="address_details">Address details</string>
 
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+
 
 
 </resources>

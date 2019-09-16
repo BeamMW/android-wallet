@@ -115,6 +115,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 if(position == expiresOnSpinner.selectedItemPosition) {
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
+                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                 return view
 
             }
@@ -125,6 +126,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.filters = arrayOf(AmountFilter())
         amountTitle.text = "${getString(R.string.request_an_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
+
+        //crash test
+//        val array = mutableListOf<String>()
+//        val string = array[100]
     }
 
     override fun getStatusBarColor(): Int {

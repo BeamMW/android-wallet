@@ -81,6 +81,15 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         super.onStart()
 
         view?.setupTagAction(repository.getAllTags().isEmpty())
+
+        if (state.shouldExpireNow) {
+            view?.configExpireSpinnerTime(state.shouldExpireNow)
+            view?.configSaveButton(shouldEnableButton())
+        }
+        else if (state.shouldActivateNow) {
+            view?.configExpireSpinnerVisibility(state.shouldActivateNow)
+            view?.configSaveButton(shouldEnableButton())
+        }
     }
 
     override fun onMenuCreate(menu: Menu?) {
