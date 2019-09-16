@@ -87,7 +87,6 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
             view?.configSaveButton(shouldEnableButton())
         }
         else if (state.shouldActivateNow) {
-            view?.configExpireSpinnerVisibility(state.shouldActivateNow)
             view?.configSaveButton(shouldEnableButton())
         }
     }
