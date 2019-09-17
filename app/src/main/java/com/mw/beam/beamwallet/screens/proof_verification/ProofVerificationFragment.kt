@@ -21,6 +21,7 @@ import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.Editable
+import android.text.InputType
 import android.transition.AutoTransition
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -49,6 +50,8 @@ import kotlinx.android.synthetic.main.fragment_proof_verification.kernelLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.amountLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.senderLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.receiverLayout
+import android.view.inputmethod.EditorInfo
+import android.view.KeyEvent
 
 
 class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), ProofVerificationContract.View {
@@ -78,6 +81,17 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         }
 
         proofValue.addListener(textWatcher)
+
+        proofValue.setOnEditorActionListener { _, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                hideKeyboard()
+                true
+            } else {
+                false
+            }
+        }
+
+
         btnDetailsCopy.setOnClickListener {
             presenter?.onCopyDetailsPressed()
         }
@@ -89,6 +103,9 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun init() {
         toolbarLayout.hasStatus = true
+
+        proofValue.imeOptions = EditorInfo.IME_ACTION_DONE
+        proofValue.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
         var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
         proofValue.typeface = typeFace
