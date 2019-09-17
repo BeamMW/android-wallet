@@ -9,6 +9,16 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.single.PermissionListener
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.listener.PermissionRequest
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+
 
 class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), RestoreModeChoiceContract.View {
     private val args by lazy {
@@ -56,7 +66,34 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
     }
 
     override fun showAutomaticProgressRestore(pass: String, seed: Array<String>) {
-        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToWelcomeProgressFragment(pass, WelcomeMode.RESTORE_AUTOMATIC.name, seed))
+        Dexter.withActivity(activity)
+                .withPermission(
+                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).withListener(object : PermissionListener {
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToWelcomeProgressFragment(pass, WelcomeMode.RESTORE_AUTOMATIC.name, seed))
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        if (response?.isPermanentlyDenied == true){
+                            showAlert(message = getString(R.string.storage_permission_required_message_small),
+                                    btnConfirmText = getString(R.string.settings),
+                                    onConfirm = {
+                                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                        intent.data = Uri.fromParts("package", context?.getPackageName(), null)
+                                        startActivity(intent)
+
+                                    },
+                                    title = getString(R.string.send_permission_required_title),
+                                    btnCancelText = getString(R.string.cancel))
+                        }
+                    }
+                }).check()
+
     }
 
     override fun showRestoreOwnerKey(pass: String, seed: Array<String>) {

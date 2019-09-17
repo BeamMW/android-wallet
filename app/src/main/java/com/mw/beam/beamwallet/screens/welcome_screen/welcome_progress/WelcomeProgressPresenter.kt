@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
+import com.mw.beam.beamwallet.core.Api
 
 /**
  * Created by vain onnellinen on 1/24/19.
@@ -111,14 +112,24 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    onRecoveryLiveData.postValue {
-                        view?.updateProgress(it, state.mode, true)
+                    if(it.done == -1) {
+                        view?.close()
+                    }
+                    else{
+                        onRecoveryLiveData.postValue {
+                            view?.updateProgress(it, state.mode, true)
+                        }
+
+                        if (it.done == it.total) {
+                            isAlreadyDownloaded = true
+
+                            Api.stopProgressChecker()
+
+                            startImport()
+                        }
                     }
 
-                    if (it.done == it.total) {
-                        isAlreadyDownloaded = true
-                        startImport()
-                    }
+
                 }, {
                     state.isFailedNetworkConnect = true
                     view?.showFailedDownloadRestoreFileAlert()
@@ -310,6 +321,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     override fun onDestroy() {
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
+
+        Api.stopProgressChecker()
+
         super.onDestroy()
     }
 
@@ -336,10 +350,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun cancelRestore() {
+        Api.stopDownload()
+
         shouldCloseWallet = true
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
         repository.closeWallet()
+
         view?.navigateToCreateFragment()
     }
 

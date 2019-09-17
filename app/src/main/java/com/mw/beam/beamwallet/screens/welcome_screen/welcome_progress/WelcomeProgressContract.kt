@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
@@ -48,6 +49,7 @@ interface WelcomeProgressContract {
         fun getLifecycleOwner(): LifecycleOwner
         fun navigateToCreateFragment()
         fun changeCancelButtonVisibility(visible: Boolean)
+        fun close()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -69,5 +71,6 @@ interface WelcomeProgressContract {
         fun createWallet(pass: String?, seed: String?): Status
         fun downloadRestoreFile(file: File): Subject<OnSyncProgressData>
         fun createRestoreFile(): File
+        fun setContext(c: Context)
     }
 }

@@ -30,8 +30,26 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
+import android.app.DownloadManager
+import android.content.IntentFilter
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.widget.Toast
+import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
+
+    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            if (Api.downloadID === id) {
+               Api.checkDownloadStatus()
+               // Api.subDownloadProgress.onNext(OnSyncProgressData(100, 100))
+            }
+        }
+    }
 
     companion object {
         const val TRANSACTION_ID = "TRANSACTION_ID"
@@ -41,9 +59,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun getToolbarTitle(): String? = null
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
 
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
@@ -56,12 +71,18 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         App.isAppRunning = true
+
         super.onCreate(savedInstanceState)
+
+        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         App.isAppRunning = true
+
         super.onCreate(savedInstanceState, persistentState)
+
+        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     override fun onDestroy() {
