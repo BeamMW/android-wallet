@@ -51,6 +51,7 @@ object PreferencesManager {
     const val KEY_RESTORED_FROM_TRUSTED = "KEY_RESTORED_FROM_TRUSTED"
     const val KEY_ENABLE_CRASH = "KEY_ENABLE_CRASH"
     const val KEY_IS_CRASHED = "KEY_IS_CRASHED"
+    const val KEY_CRASH = "KEY_CRASH"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)

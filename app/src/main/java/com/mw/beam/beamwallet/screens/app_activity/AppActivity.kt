@@ -16,13 +16,14 @@
 
 package com.mw.beam.beamwallet.screens.app_activity
 
-import android.app.AlertDialog
-import android.app.Application
-import android.content.DialogInterface
+
+import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
@@ -37,11 +38,17 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
 import io.fabric.sdk.android.Fabric
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
+import kotlin.system.exitProcess
+
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
     companion object {
         const val TRANSACTION_ID = "TRANSACTION_ID"
+        private const val RESTARTED = "appExceptionHandler_restarted"
+        private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_app
@@ -87,6 +94,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
         presenter?.onNewIntent(intent?.extras?.getString(TRANSACTION_ID))
     }
 
@@ -128,25 +136,46 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     private fun setupCrashHandler() {
-        if (PreferencesManager.getBoolean(PreferencesManager.KEY_IS_CRASHED)) {
+        val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
+
+        if (lastException!=null && lastException.message!=null) {
             showAlert(getString(R.string.crash_message), getString(R.string.i_agree), {
-                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, false)
-                PreferencesManager.putBoolean(PreferencesManager.KEY_ENABLE_CRASH, true)
-                setupCrashHandler()
-            },
+
+                Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
+                Crashlytics.logException(lastException)
+
+                Answers.getInstance().logCustom(CustomEvent("CRASH")
+                        .putCustomAttribute("message", lastException.message))
+
+                setupCrashHandler() },
                     getString(R.string.crash_title),
                     getString(R.string.crash_negative), {
-                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, false)
-                setupCrashHandler()
             })
         }
-        else if (PreferencesManager.getBoolean(PreferencesManager.KEY_ENABLE_CRASH)) {
-            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-        }
-        else{
-            Thread.setDefaultUncaughtExceptionHandler { t, e ->
-                PreferencesManager.putBoolean(PreferencesManager.KEY_IS_CRASHED, true)
+
+        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+            if (e.message != null) {
+                killThisProcess {
+                    val intent = this.intent
+                            .putExtra(RESTARTED, true)
+                            .putExtra(LAST_EXCEPTION, e)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
+                    with(this) {
+                        finish()
+                        startActivity(intent)
+                    }
+                }
             }
         }
+    }
+
+    private fun killThisProcess(action: () -> Unit = {}) {
+        action()
+
+        android.os.Process.killProcess(android.os.Process.myPid())
+        exitProcess(10)
     }
 }
