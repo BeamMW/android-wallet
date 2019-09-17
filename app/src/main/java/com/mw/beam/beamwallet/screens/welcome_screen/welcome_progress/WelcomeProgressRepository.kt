@@ -88,13 +88,15 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         removeWallet()
         createWallet(pass, seed)
 
+        WalletListener.oldCurrent = -1
+
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
             wallet?.importRecovery(file.absolutePath)
         }
     }
 
     override fun createRestoreFile(): File {
-        val file = File(getDestFolder(), "recovery.bin")
+        val file = File(context?.getExternalFilesDir(null), "recovery.bin")
 
         if (file.exists()) {
             file.delete()
@@ -103,13 +105,6 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return file
     }
 
-    private fun getDestFolder(): File =
-            if(isExternalStorageWritable()) Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS) else context!!.filesDir
-
-    private fun isExternalStorageWritable(): Boolean {
-        return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
-    }
 
     @SuppressLint("CheckResult")
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {

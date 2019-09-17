@@ -63,7 +63,7 @@ class App : Application() {
 
 
 //        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET) {
-            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+//            Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 //        }
 
         when(BuildConfig.FLAVOR) {

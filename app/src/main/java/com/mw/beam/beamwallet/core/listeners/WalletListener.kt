@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.core.listeners
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
@@ -37,6 +38,8 @@ import kotlin.math.absoluteValue
 object WalletListener {
     private var uiHandler = Handler(Looper.getMainLooper())
     private val DUMMY_OBJECT = Any()
+
+    var oldCurrent = -1
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
     private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
@@ -71,7 +74,16 @@ object WalletListener {
     val subOnImportRecoveryProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
     @JvmStatic
-    fun onStatus(status: WalletStatusDTO) = returnResult(subOnStatus, WalletStatus(status), "onStatus")
+    fun onStatus(status: WalletStatusDTO) : Unit {
+        if (App.isAuthenticated) {
+            return returnResult(subOnStatus, WalletStatus(status), "onStatus")
+        }
+        else{
+            uiHandler.post {
+                subOnStatus.onNext(WalletStatus(status))
+            }
+        }
+    }
 
     @JvmStatic
     fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), "onTxStatus")
@@ -86,8 +98,17 @@ object WalletListener {
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
 
     @JvmStatic
-    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) = returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
-            ?: emptyList(), "onAllUtxoChanged")
+    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) : Unit {
+        if (App.isAuthenticated) {
+            return returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
+                    ?: emptyList(), "onAllUtxoChanged")
+        }
+        else{
+            uiHandler.post {
+                subOnAllUtxoChanged.onNext(utxos?.map { Utxo(it) } ?: emptyList())
+            }
+        }
+    }
 
     @JvmStatic
     fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), "onAddresses")
@@ -127,8 +148,17 @@ object WalletListener {
 
     @JvmStatic
     fun onImportRecoveryProgress(done: Long, total: Long) {
-        LogUtils.log("onImportRecoveryProgress:: done:$done total:$total")
-        returnResult(subOnImportRecoveryProgress, OnSyncProgressData(((done.toFloat() / total) * 100).toInt(), 100), "onImportRecoveryProgress")
+        val current = ((done.toFloat() / total) * 100).toInt()
+
+        if (current!=oldCurrent) {
+            oldCurrent = current
+
+            LogUtils.logResponse(current.toString(), "onImportRecoveryProgress")
+
+            uiHandler.post {
+                subOnImportRecoveryProgress.onNext(OnSyncProgressData(current, 100))
+            }
+        }
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

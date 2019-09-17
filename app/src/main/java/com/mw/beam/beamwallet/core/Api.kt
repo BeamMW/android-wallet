@@ -16,36 +16,22 @@
 
 package com.mw.beam.beamwallet.core
 
-import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.network.MobileRestoreService
 import com.mw.beam.beamwallet.core.network.getOkHttpDownloadClientBuilder
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import retrofit2.Retrofit
 import java.io.File
-import okio.Okio
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import android.content.Context.DOWNLOAD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
 import android.app.DownloadManager
 import android.net.Uri
 import android.content.Context
-import android.content.Context.DOWNLOAD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
-import android.widget.Toast
-import android.content.Intent
-import android.content.BroadcastReceiver
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import android.os.Handler
-import androidx.core.os.HandlerCompat.postDelayed
-import android.os.Environment
-
-
+import android.database.ContentObserver
 
 /**
  * Created by vain onnellinen on 10/1/18.
@@ -53,7 +39,6 @@ import android.os.Environment
 
 
 object Api {
-    private const val PROGRESS_DELAY = 1000L
     private var handler = Handler()
     private var isProgressCheckerRunning = false
     private var progressChecker:Runnable? = null
@@ -120,33 +105,44 @@ object Api {
                     try {
                         checkProgress()
                     } finally {
-                        handler.postDelayed(progressChecker, PROGRESS_DELAY)
+                        handler.postDelayed(progressChecker, 300)
                     }
                 }
             }
             progressChecker?.run()
 
             isProgressCheckerRunning = true
+
         }
     }
 
 
     fun stopProgressChecker() {
         if (isProgressCheckerRunning) {
+            downloadID = 0
+
             handler.removeCallbacks(progressChecker)
+
+            progressChecker = null
 
             isProgressCheckerRunning = false
         }
     }
 
     fun checkDownloadStatus() {
+        LogUtils.log("DOWNLOAD checkDownloadStatus")
+
         val query = DownloadManager.Query()
         query.setFilterById(downloadID)
 
         val cursor = downloadManager?.query(query)
         if (cursor!=null) {
             if (!cursor.moveToFirst()) {
+                LogUtils.log("DOWNLOAD !moveToFirst")
+
                 cursor.close()
+
+                stopProgressChecker()
 
                 subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
 
@@ -157,43 +153,62 @@ object Api {
 
                 val status = cursor.getInt(columnIndex)
 
+                LogUtils.log("DOWNLOAD STATUS:" + status.toString())
+
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                    stopProgressChecker()
+
                     subDownloadProgress.onNext(OnSyncProgressData(100, 100))
                 }
 
             } while (cursor.moveToNext())
             cursor.close()
         }
+        else{
+            LogUtils.log("DOWNLOAD CURSOR NULL")
+        }
     }
 
     private fun checkProgress() {
         val query = DownloadManager.Query()
-        query.setFilterByStatus((DownloadManager.STATUS_FAILED or DownloadManager.STATUS_SUCCESSFUL).inv())
+        query.setFilterById(downloadID)
+
         val cursor = downloadManager?.query(query)
+
         if (cursor!=null) {
+
             if (!cursor.moveToFirst()) {
+                LogUtils.log("DOWNLOAD !moveToFirst")
+
                 cursor.close()
+
                 return
             }
             do {
                 val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
 
-                val downloaded = cursor.getInt(cursor
-                        .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                val downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
                 val total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
 
                 val status = cursor.getInt(columnIndex)
 
-                var progress = ((downloaded * 100L) / total)
+                if (status == DownloadManager.STATUS_RUNNING) {
+                    var progress = ((downloaded * 100L) / total)
 
-                if (progress>=100) {
-                    progress = 99
+                    if (progress>=100) {
+                        progress = 99
+                    }
+
+                    LogUtils.log("DOWNLOAD PROGRESS:" + progress.toString())
+
+                    subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
                 }
-
-                subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
 
             } while (cursor.moveToNext())
             cursor.close()
+        }
+        else{
+            LogUtils.log("DOWNLOAD CURSOR NULL")
         }
     }
 }

@@ -107,6 +107,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
+
         downloadSubscription = repository.downloadRestoreFile(file)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -332,7 +333,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         //so we need to unsubscribe from events to prevent unexpected behaviour
        if(!isShow) {
            isShow = true
+
            disposable.dispose()
+
+           repository.createRestoreFile() //remove file
+
            view?.showWallet()
        }
     }
