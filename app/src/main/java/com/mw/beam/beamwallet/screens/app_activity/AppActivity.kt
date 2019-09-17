@@ -17,13 +17,9 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.AttributeSet
-import android.view.View
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
@@ -35,12 +31,10 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
-import kotlin.system.exitProcess
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
@@ -54,10 +48,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_app
 
     override fun getToolbarTitle(): String? = null
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
 
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
@@ -138,15 +128,17 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     private fun setupCrashHandler() {
         val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
 
-        if (lastException!=null && lastException.message!=null) {
-            showAlert(getString(R.string.crash_message), getString(R.string.i_agree), {
+        if (lastException?.message != null) {
+            showAlert(getString(R.string.crash_message), getString(R.string.crash_positive), {
+
+                val stackTrace = android.util.Log.getStackTraceString(lastException)
 
                 Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
                 Crashlytics.logException(lastException)
 
                 Answers.getInstance().logCustom(CustomEvent("CRASH")
-                        .putCustomAttribute("message", lastException.message))
+                        .putCustomAttribute("stackTrace", stackTrace))
 
                 setupCrashHandler() },
                     getString(R.string.crash_title),
@@ -154,7 +146,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             })
         }
 
-        Thread.setDefaultUncaughtExceptionHandler { t, e ->
+        Thread.setDefaultUncaughtExceptionHandler { _, e ->
             if (e.message != null) {
                 killThisProcess {
                     val intent = this.intent
@@ -176,6 +168,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         action()
 
         android.os.Process.killProcess(android.os.Process.myPid())
-        exitProcess(10)
+        kotlin.system.exitProcess(10)
     }
 }
