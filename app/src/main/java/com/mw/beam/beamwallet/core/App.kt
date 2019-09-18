@@ -51,9 +51,11 @@ class App : Application() {
 
     companion object {
         lateinit var self: App
-        //TODO move into correct place
+
         var wallet: Wallet? = null
+
         private const val BACKGROUND_JOB_ID = 71614
+
         var showNotification = true
         var isAuthenticated = false
         var isShowedLockScreen = false

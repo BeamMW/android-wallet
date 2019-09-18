@@ -19,19 +19,15 @@ package com.mw.beam.beamwallet.core
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
-import com.mw.beam.beamwallet.core.network.MobileRestoreService
-import com.mw.beam.beamwallet.core.network.getOkHttpDownloadClientBuilder
 import io.reactivex.subjects.PublishSubject
-import retrofit2.Retrofit
 import java.io.File
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import android.content.Context.DOWNLOAD_SERVICE
 import android.app.DownloadManager
 import android.net.Uri
 import android.content.Context
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import android.os.Handler
-import android.database.ContentObserver
+import com.mw.beam.beamwallet.R
 
 /**
  *  10/1/18.
@@ -48,14 +44,6 @@ object Api {
 
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
-    private val restoreService by lazy {
-        Retrofit.Builder()
-                .baseUrl("https://mobile-restore.beam.mw")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(getOkHttpDownloadClientBuilder(subDownloadProgress).build())
-                .build().create(MobileRestoreService::class.java)
-    }
-
     init {
         System.loadLibrary("wallet-jni")
     }
@@ -70,7 +58,7 @@ object Api {
     external fun isWalletRunning(): Boolean
     external fun getDefaultPeers(): Array<String>
 
-    fun download(context:Context, file:File) {
+    fun download(file:File) {
         val link =  when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MAINNET -> "https://mobile-restore.beam.mw/mainnet/mainnet_recovery.bin"
             AppConfig.FLAVOR_TESTNET -> "https://mobile-restore.beam.mw/testnet/testnet_recovery.bin"
@@ -78,20 +66,20 @@ object Api {
         }
 
         val request = DownloadManager.Request(Uri.parse(link))
-                .setTitle("Beam Wallet")
-                .setDescription("Downloading blockchain info")
+                .setTitle(App.self.getString(R.string.app_name))
+                .setDescription(App.self.getString(R.string.downloading_blockchain_info))
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setDestinationUri(Uri.fromFile(file))
                 .setAllowedOverMetered(true)
                 .setAllowedOverRoaming(true)
 
-        downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager?
+        downloadManager = App.self.getSystemService(DOWNLOAD_SERVICE) as DownloadManager?
         downloadID = downloadManager!!.enqueue(request)
 
         startProgressChecker()
     }
 
-    fun stopDownload() {
+    private  fun stopDownload() {
         downloadManager?.remove(downloadID)
 
         stopProgressChecker()
@@ -112,12 +100,11 @@ object Api {
             progressChecker?.run()
 
             isProgressCheckerRunning = true
-
         }
     }
 
 
-    fun stopProgressChecker() {
+    private  fun stopProgressChecker() {
         if (isProgressCheckerRunning) {
             downloadID = 0
 
@@ -130,16 +117,12 @@ object Api {
     }
 
     fun checkDownloadStatus() {
-        LogUtils.log("DOWNLOAD checkDownloadStatus")
-
         val query = DownloadManager.Query()
         query.setFilterById(downloadID)
 
         val cursor = downloadManager?.query(query)
         if (cursor!=null) {
             if (!cursor.moveToFirst()) {
-                LogUtils.log("DOWNLOAD !moveToFirst")
-
                 cursor.close()
 
                 stopProgressChecker()
@@ -153,8 +136,6 @@ object Api {
 
                 val status = cursor.getInt(columnIndex)
 
-                LogUtils.log("DOWNLOAD STATUS:" + status.toString())
-
                 if (status == DownloadManager.STATUS_SUCCESSFUL) {
                     stopProgressChecker()
 
@@ -163,9 +144,6 @@ object Api {
 
             } while (cursor.moveToNext())
             cursor.close()
-        }
-        else{
-            LogUtils.log("DOWNLOAD CURSOR NULL")
         }
     }
 
@@ -178,7 +156,6 @@ object Api {
         if (cursor!=null) {
 
             if (!cursor.moveToFirst()) {
-                LogUtils.log("DOWNLOAD !moveToFirst")
 
                 cursor.close()
 
@@ -199,16 +176,11 @@ object Api {
                         progress = 99
                     }
 
-                    LogUtils.log("DOWNLOAD PROGRESS:" + progress.toString())
-
                     subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
                 }
 
             } while (cursor.moveToNext())
             cursor.close()
-        }
-        else{
-            LogUtils.log("DOWNLOAD CURSOR NULL")
         }
     }
 }
