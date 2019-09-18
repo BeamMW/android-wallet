@@ -44,6 +44,10 @@ class AppModel {
 
     //MARK: -Status
 
+    fun isWalletInitalized():Boolean {
+        return walletStatus!=null
+    }
+
     fun getNetworkStatus():NetworkStatus {
         return networkStatus
     }
@@ -317,6 +321,7 @@ class AppModel {
                 subOnNetworkStatusChanged.onNext(0)
             }
 
+            App.wallet?.getWalletStatus()
             App.wallet?.getUtxosStatus()
             App.wallet?.getAddresses(true)
             App.wallet?.getAddresses(false)

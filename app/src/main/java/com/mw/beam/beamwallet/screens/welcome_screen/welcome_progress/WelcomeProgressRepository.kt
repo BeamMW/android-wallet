@@ -118,7 +118,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
 
-        Api.download(file)
+        Api.startDownload(file)
 
         return downloadProgressSubject!!
     }

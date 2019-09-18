@@ -107,7 +107,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
-
         downloadSubscription = repository.downloadRestoreFile(file)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,8 +122,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
                         if (it.done == it.total) {
                             isAlreadyDownloaded = true
-
-                            Api.stopProgressChecker()
 
                             startImport()
                         }
@@ -323,7 +320,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
 
-        Api.stopProgressChecker()
+        Api.stopDownload()
 
         super.onDestroy()
     }

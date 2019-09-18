@@ -19,6 +19,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
@@ -77,6 +78,9 @@ object WalletListener {
     fun onStatus(status: WalletStatusDTO) : Unit {
         if (App.isAuthenticated) {
             return returnResult(subOnStatus, WalletStatus(status), "onStatus")
+        }
+        else{
+            subOnStatus.onNext(WalletStatus(status))
         }
     }
 
