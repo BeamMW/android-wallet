@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import android.annotation.SuppressLint
+import android.app.Application
+import android.content.Context
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
@@ -28,11 +30,18 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
+import android.os.Environment
 
 /**
  *  1/24/19.
  */
 class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repository {
+    private var context:Context? = null
+
+    override fun setContext(c:Context) {
+        this.context = c
+    }
+
     private var downloadProgressSubject: Subject<OnSyncProgressData>? = null
 
     init {
@@ -87,28 +96,30 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         removeWallet()
         createWallet(pass, seed)
 
+        WalletListener.oldCurrent = -1
+
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
             wallet?.importRecovery(file.absolutePath)
         }
     }
 
     override fun createRestoreFile(): File {
-        val file = File(AppConfig.CACHE_PATH, "recovery.bin")
+        val file = File(context?.getExternalFilesDir(null), "recovery.bin")
 
-        if (!file.parentFile.exists()) {
-            file.parentFile.mkdir()
-        } else {
-            file.parentFile.listFiles().forEach { it.delete() }
+        if (file.exists()) {
+            file.delete()
         }
-        file.createNewFile()
 
         return file
     }
 
+
     @SuppressLint("CheckResult")
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
-        Api.downloadRestoreFile(file).subscribe({ }, { downloadProgressSubject?.onError(it) })
+
+        Api.download(this.context!!, file)
+
         return downloadProgressSubject!!
     }
 

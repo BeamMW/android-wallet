@@ -16,15 +16,13 @@
 
 package com.mw.beam.beamwallet.screens.app_activity
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.WindowManager
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -32,22 +30,35 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
-import io.fabric.sdk.android.Fabric
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
+import android.app.DownloadManager
+import android.content.IntentFilter
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.widget.Toast
+import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
+    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            if (Api.downloadID === id) {
+               Api.checkDownloadStatus()
+               // Api.subDownloadProgress.onNext(OnSyncProgressData(100, 100))
+            }
+        }
+    }
+
     companion object {
         const val TRANSACTION_ID = "TRANSACTION_ID"
-        private const val RESTARTED = "appExceptionHandler_restarted"
-        private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_app
 
     override fun getToolbarTitle(): String? = null
+
 
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
@@ -63,13 +74,15 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState)
 
-        setupCrashHandler()
+        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         App.isAppRunning = true
 
         super.onCreate(savedInstanceState, persistentState)
+
+        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     override fun onDestroy() {
@@ -84,7 +97,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
         presenter?.onNewIntent(intent?.extras?.getString(TRANSACTION_ID))
     }
 
@@ -123,51 +135,5 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AppActivityPresenter(this, AppActivityRepository())
-    }
-
-    private fun setupCrashHandler() {
-        val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
-
-        if (lastException?.message != null) {
-            showAlert(getString(R.string.crash_message), getString(R.string.crash_positive), {
-
-                val stackTrace = android.util.Log.getStackTraceString(lastException)
-
-                Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-
-                Crashlytics.logException(lastException)
-
-                Answers.getInstance().logCustom(CustomEvent("CRASH")
-                        .putCustomAttribute("stackTrace", stackTrace))
-
-                setupCrashHandler() },
-                    getString(R.string.crash_title),
-                    getString(R.string.crash_negative), {
-            })
-        }
-
-        Thread.setDefaultUncaughtExceptionHandler { _, e ->
-            if (e.message != null) {
-                killThisProcess {
-                    val intent = this.intent
-                            .putExtra(RESTARTED, true)
-                            .putExtra(LAST_EXCEPTION, e)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK)
-
-                    with(this) {
-                        finish()
-                        startActivity(intent)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun killThisProcess(action: () -> Unit = {}) {
-        action()
-
-        android.os.Process.killProcess(android.os.Process.myPid())
-        kotlin.system.exitProcess(10)
     }
 }

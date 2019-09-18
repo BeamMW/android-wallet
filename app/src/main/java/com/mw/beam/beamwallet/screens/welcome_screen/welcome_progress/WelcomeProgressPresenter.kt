@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
+import com.mw.beam.beamwallet.core.Api
 
 /**
  *  1/24/19.
@@ -106,19 +107,30 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
+
         downloadSubscription = repository.downloadRestoreFile(file)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
 
-                    onRecoveryLiveData.postValue {
-                        view?.updateProgress(it, state.mode, true)
+                    if(it.done == -1) {
+                        view?.close()
+                    }
+                    else{
+                        onRecoveryLiveData.postValue {
+                            view?.updateProgress(it, state.mode, true)
+                        }
+
+                        if (it.done == it.total) {
+                            isAlreadyDownloaded = true
+
+                            Api.stopProgressChecker()
+
+                            startImport()
+                        }
                     }
 
-                    if (it.done == it.total) {
-                        isAlreadyDownloaded = true
-                        startImport()
-                    }
+
                 }, {
                     state.isFailedNetworkConnect = true
                     view?.showFailedDownloadRestoreFileAlert()
@@ -310,6 +322,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     override fun onDestroy() {
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
+
+        Api.stopProgressChecker()
+
         super.onDestroy()
     }
 
@@ -318,7 +333,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         //so we need to unsubscribe from events to prevent unexpected behaviour
        if(!isShow) {
            isShow = true
+
            disposable.dispose()
+
+           repository.createRestoreFile() //remove file
+
            view?.showWallet()
        }
     }
@@ -336,10 +355,13 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun cancelRestore() {
+        Api.stopDownload()
+
         shouldCloseWallet = true
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
         repository.closeWallet()
+
         view?.navigateToCreateFragment()
     }
 

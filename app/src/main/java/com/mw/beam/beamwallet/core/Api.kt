@@ -16,33 +16,35 @@
 
 package com.mw.beam.beamwallet.core
 
-import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.network.MobileRestoreService
 import com.mw.beam.beamwallet.core.network.getOkHttpDownloadClientBuilder
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import retrofit2.Retrofit
 import java.io.File
-import okio.Okio
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import android.content.Context.DOWNLOAD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
 import android.app.DownloadManager
 import android.net.Uri
 import android.content.Context
-
+import com.mw.beam.beamwallet.core.utils.LogUtils
+import android.os.Handler
+import android.database.ContentObserver
 
 /**
  *  10/1/18.
  */
+
+
 object Api {
-    private val downloadID: Long = 0
+    private var handler = Handler()
+    private var isProgressCheckerRunning = false
+    private var progressChecker:Runnable? = null
+    private var downloadManager:DownloadManager? = null
+
+    var downloadID: Long = 0
 
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
@@ -68,26 +70,145 @@ object Api {
     external fun isWalletRunning(): Boolean
     external fun getDefaultPeers(): Array<String>
 
-    fun downloadRestoreFile(file: File): Observable<File> {
-        Log.d("Api", "start downloadRestoreFile")
-        return when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MAINNET -> restoreService.downloadMainnetRecoveryFile()
-            AppConfig.FLAVOR_TESTNET -> restoreService.downloadTestnetRecoveryFile()
-            else -> restoreService.downloadMasternetRecoveryFile()
-        }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .map { response ->
-                    Log.d("Api", "end downloadRestoreFile")
+    fun download(context:Context, file:File) {
+        val link =  when (BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MAINNET -> "https://mobile-restore.beam.mw/mainnet/mainnet_recovery.bin"
+            AppConfig.FLAVOR_TESTNET -> "https://mobile-restore.beam.mw/testnet/testnet_recovery.bin"
+            else -> "https://mobile-restore.beam.mw/masternet/masternet_recovery.bin"
+        }
 
-                    val body = response.body()
-                    if (body != null) {
-                        val sink = Okio.buffer(Okio.sink(file))
-                        // you can access body of response
-                        sink.writeAll(body.source())
-                        sink.close()
+        val request = DownloadManager.Request(Uri.parse(link))
+                .setTitle("Beam Wallet")
+                .setDescription("Downloading blockchain info")
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setDestinationUri(Uri.fromFile(file))
+                .setAllowedOverMetered(true)
+                .setAllowedOverRoaming(true)
+
+        downloadManager = context.getSystemService(DOWNLOAD_SERVICE) as DownloadManager?
+        downloadID = downloadManager!!.enqueue(request)
+
+        startProgressChecker()
+    }
+
+    fun stopDownload() {
+        downloadManager?.remove(downloadID)
+
+        stopProgressChecker()
+    }
+
+    private fun startProgressChecker() {
+        if (!isProgressCheckerRunning) {
+
+            progressChecker = object:Runnable {
+                override fun run() {
+                    try {
+                        checkProgress()
+                    } finally {
+                        handler.postDelayed(progressChecker, 300)
                     }
+                }
+            }
+            progressChecker?.run()
+
+            isProgressCheckerRunning = true
+
+        }
+    }
+
+
+    fun stopProgressChecker() {
+        if (isProgressCheckerRunning) {
+            downloadID = 0
+
+            handler.removeCallbacks(progressChecker)
+
+            progressChecker = null
+
+            isProgressCheckerRunning = false
+        }
+    }
+
+    fun checkDownloadStatus() {
+        LogUtils.log("DOWNLOAD checkDownloadStatus")
+
+        val query = DownloadManager.Query()
+        query.setFilterById(downloadID)
+
+        val cursor = downloadManager?.query(query)
+        if (cursor!=null) {
+            if (!cursor.moveToFirst()) {
+                LogUtils.log("DOWNLOAD !moveToFirst")
+
+                cursor.close()
+
+                stopProgressChecker()
+
+                subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
+
+                return
+            }
+            do {
+                val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+
+                val status = cursor.getInt(columnIndex)
+
+                LogUtils.log("DOWNLOAD STATUS:" + status.toString())
+
+                if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                    stopProgressChecker()
 
                     subDownloadProgress.onNext(OnSyncProgressData(100, 100))
-                    file
                 }
+
+            } while (cursor.moveToNext())
+            cursor.close()
+        }
+        else{
+            LogUtils.log("DOWNLOAD CURSOR NULL")
+        }
+    }
+
+    private fun checkProgress() {
+        val query = DownloadManager.Query()
+        query.setFilterById(downloadID)
+
+        val cursor = downloadManager?.query(query)
+
+        if (cursor!=null) {
+
+            if (!cursor.moveToFirst()) {
+                LogUtils.log("DOWNLOAD !moveToFirst")
+
+                cursor.close()
+
+                return
+            }
+            do {
+                val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+
+                val downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
+                val total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+
+                val status = cursor.getInt(columnIndex)
+
+                if (status == DownloadManager.STATUS_RUNNING) {
+                    var progress = ((downloaded * 100L) / total)
+
+                    if (progress>=100) {
+                        progress = 99
+                    }
+
+                    LogUtils.log("DOWNLOAD PROGRESS:" + progress.toString())
+
+                    subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
+                }
+
+            } while (cursor.moveToNext())
+            cursor.close()
+        }
+        else{
+            LogUtils.log("DOWNLOAD CURSOR NULL")
+        }
     }
 }

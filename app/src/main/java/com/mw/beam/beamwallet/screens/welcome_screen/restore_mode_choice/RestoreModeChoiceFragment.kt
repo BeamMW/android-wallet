@@ -10,6 +10,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
 
+
 class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), RestoreModeChoiceContract.View {
     private val args by lazy {
         RestoreModeChoiceFragmentArgs.fromBundle(arguments!!)

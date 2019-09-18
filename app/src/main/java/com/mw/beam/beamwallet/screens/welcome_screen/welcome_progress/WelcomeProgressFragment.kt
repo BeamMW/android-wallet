@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
@@ -71,6 +72,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
+
+        presenter?.repository?.setContext(context!!)
+
         when (mode) {
             WelcomeMode.OPEN -> title.text = openTitleString
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
@@ -82,6 +86,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 btnCancel.visibility = View.VISIBLE
             }
         }
+
     }
 
     override fun addListeners() {
@@ -137,6 +142,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun onDestroy() {
         onBackPressedCallback.isEnabled = false
         onBackPressedCallback.remove()
+
         super.onDestroy()
     }
 
@@ -193,6 +199,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun navigateToCreateFragment() {
         findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+    }
+
+    override fun close() {
+        presenter?.onOkToCancelRestore()
     }
 
     private fun countProgress(progressData: OnSyncProgressData): Int {
