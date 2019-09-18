@@ -28,6 +28,8 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppModel
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
@@ -220,6 +222,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        App.isAuthenticated = true
+        AppModel.instance.subscribeToUpdates()
+
         findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
     }
 

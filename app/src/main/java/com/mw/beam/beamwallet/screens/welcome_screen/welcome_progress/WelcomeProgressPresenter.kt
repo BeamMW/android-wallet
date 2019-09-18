@@ -333,7 +333,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
            disposable.dispose()
 
-           repository.createRestoreFile() //remove file
+           repository.removeRestoreFile()
 
            view?.showWallet()
        }

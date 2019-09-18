@@ -113,6 +113,13 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return file
     }
 
+    override fun removeRestoreFile() {
+        val file = File(context?.getExternalFilesDir(null), "recovery.bin")
+        if (file.exists()) {
+            file.delete()
+        }
+    }
+
 
     @SuppressLint("CheckResult")
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {

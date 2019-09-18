@@ -168,10 +168,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun init() {
-        AppModel.instance.subscribeToUpdates()
-
-        App.isAuthenticated = true
-
         initTransactionsList()
         setHasOptionsMenu(true)
 
