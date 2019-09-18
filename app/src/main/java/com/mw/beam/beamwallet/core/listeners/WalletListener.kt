@@ -78,11 +78,6 @@ object WalletListener {
         if (App.isAuthenticated) {
             return returnResult(subOnStatus, WalletStatus(status), "onStatus")
         }
-        else{
-            uiHandler.post {
-                subOnStatus.onNext(WalletStatus(status))
-            }
-        }
     }
 
     @JvmStatic
@@ -102,11 +97,6 @@ object WalletListener {
         if (App.isAuthenticated) {
             return returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
                     ?: emptyList(), "onAllUtxoChanged")
-        }
-        else{
-            uiHandler.post {
-                subOnAllUtxoChanged.onNext(utxos?.map { Utxo(it) } ?: emptyList())
-            }
         }
     }
 
