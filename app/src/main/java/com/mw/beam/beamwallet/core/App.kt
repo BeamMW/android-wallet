@@ -21,11 +21,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
-import android.util.Log
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
-import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
@@ -35,13 +30,11 @@ import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
 import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
-import com.squareup.leakcanary.LeakCanary
-import io.fabric.sdk.android.Fabric
+//import com.squareup.leakcanary.LeakCanary
 import java.util.concurrent.TimeUnit
 
 /**
@@ -79,11 +72,11 @@ class App : Application() {
             else -> 0
         }
 
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            // This process is dedicated to LeakCanary for heap analysis.
+//            // You should not init your app in this process.
+//            return
+//        }
 
         self = this
 
@@ -93,9 +86,9 @@ class App : Application() {
         AppConfig.CACHE_PATH = AppConfig.DB_PATH + "/cache"
         LocaleHelper.loadLocale()
 
-        if (BuildConfig.DEBUG) {
-            LeakCanary.install(self)
-        }
+//        if (BuildConfig.DEBUG) {
+//            LeakCanary.install(self)
+//        }
 
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
 
