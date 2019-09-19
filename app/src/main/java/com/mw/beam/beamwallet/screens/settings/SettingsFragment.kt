@@ -83,7 +83,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun init(runOnRandomNode: Boolean) {
         appVersionTitle.addDoubleDots()
-        appVersion.text = BuildConfig.VERSION_NAME
+        appVersionValue.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
 
@@ -101,7 +101,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             ip.setPadding(5,0,5,0)
             ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
-            nodeLayout.setPadding(0,20,0,20)
             runRandomNodeSwitch.setPadding(0,30,0,0)
         }
         else{
@@ -115,7 +114,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 ipTitle.typeface = typeFace
             }
 
-            nodeLayout.setPadding(0,0,0,0)
             runRandomNodeSwitch.setPadding(0,0,0,0)
 
             ip.setPadding(0,0,0,0)
@@ -147,8 +145,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showFingerprintSettings(isFingerprintEnabled: Boolean) {
-        enableFingerprintTitle.visibility = View.VISIBLE
-        enableFingerprintSwitch.visibility = View.VISIBLE
+        enableFingerprintLayout.visibility = View.VISIBLE
         enableFingerprintSwitch.isChecked = isFingerprintEnabled
     }
 
@@ -189,8 +186,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
                 setOnClickListener { presenter?.onCategoryPressed(category.id) }
-                setPadding(0,0,0,20)
             })
+        }
+
+        when {
+            allTag.count() == 0 -> categoriesList.visibility = View.GONE
+            else -> categoriesList.visibility = View.VISIBLE
         }
     }
 
@@ -280,6 +281,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
 
         nodeLayout.setOnClickListener {
+            presenter?.onNodeAddressPressed()
+        }
+
+        ipportLayout.setOnClickListener {
             presenter?.onNodeAddressPressed()
         }
     }

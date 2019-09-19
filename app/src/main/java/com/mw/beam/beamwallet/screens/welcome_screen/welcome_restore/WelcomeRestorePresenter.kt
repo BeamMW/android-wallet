@@ -39,7 +39,6 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
 
     override fun onRestorePressed() {
         view?.showRestoreNotification()
-//        view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
 
     override fun onSeedChanged(seed: String) {
@@ -63,14 +62,6 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
         view?.clearSuggestions()
         if (hasFocus) {
             view?.updateSuggestions(seed)
-        }
-    }
-
-    override fun onKeyboardStateChange(isVisible: Boolean) {
-        if (isVisible) {
-            view?.showSuggestions()
-        } else {
-            view?.hideSuggestions()
         }
     }
 }

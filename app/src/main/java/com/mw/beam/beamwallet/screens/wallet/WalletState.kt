@@ -18,7 +18,7 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 
 /**
  *  12/4/18.
@@ -33,5 +33,5 @@ class WalletState {
     var shouldExpandInProgress = false
     var privacyMode = false
 
-    fun getTransactions() = AppModel.instance.getTransactions().sortedByDescending { it.modifyTime }.take(5)
+    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.modifyTime }.take(5)
 }

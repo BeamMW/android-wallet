@@ -44,7 +44,7 @@ import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
 import org.w3c.dom.Text
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.screens.receive.ReceiveContract
 import com.mw.beam.beamwallet.screens.receive.ReceiveFragment
 import com.mw.beam.beamwallet.screens.receive.ReceivePresenter
@@ -215,7 +215,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
 
         btnShowAll.setOnClickListener {
-            if (AppModel.instance.getTransactions().count() > 0) {
+            if (AppManager.instance.getTransactions().count() > 0) {
                 presenter?.onShowAllPressed()
             }
             else PopupMenu(context, btnShowAll).apply {

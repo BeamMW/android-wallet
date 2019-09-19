@@ -18,7 +18,7 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -96,11 +96,11 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.updateTransactions(AppModel.instance.getTransactionsByAddress(state.address?.walletID))
+        state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
         view?.configTransactions(state.getTransactions())
 
-        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
-            state.updateTransactions(AppModel.instance.getTransactionsByAddress(state.address?.walletID))
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
             view?.configTransactions(state.getTransactions())
         }
     }

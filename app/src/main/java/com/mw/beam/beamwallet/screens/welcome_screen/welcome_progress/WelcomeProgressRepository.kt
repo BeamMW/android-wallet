@@ -17,20 +17,19 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.core.AppManager
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
-import android.os.Environment
+import com.mw.beam.beamwallet.core.RestoreManager
 
 /**
  *  1/24/19.
@@ -50,7 +49,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     @SuppressLint("CheckResult")
     private fun subscribeToDownloadProgress() {
-        Api.subDownloadProgress.subscribe {
+        RestoreManager.instance.subDownloadProgress.subscribe {
             downloadProgressSubject?.apply {
                 if (!hasComplete() && !hasThrowable()) {
                     onNext(it)
@@ -125,7 +124,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
 
-        Api.startDownload(file)
+        RestoreManager.instance.startDownload(file)
 
         return downloadProgressSubject!!
     }
@@ -146,7 +145,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
-            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)
+            AppManager.instance.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
@@ -155,6 +154,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
 
         LogUtils.logResponse(result, "createWallet")
+        
         return result
     }
 }

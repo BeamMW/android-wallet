@@ -19,7 +19,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction

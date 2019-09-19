@@ -188,7 +188,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun openWallet(pass: String) {
         if (App.isShowedLockScreen) {
-//            presenter?.onHideLockScreen()
             App.isShowedLockScreen = false
             findNavController().popBackStack()
         }

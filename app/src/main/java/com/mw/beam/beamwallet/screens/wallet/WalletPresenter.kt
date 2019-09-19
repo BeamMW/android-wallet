@@ -20,7 +20,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -162,21 +162,21 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.walletStatus = AppModel.instance.getStatus()
+        state.walletStatus = AppManager.instance.getStatus()
 
         view?.configTransactions(state.getTransactions(), state.privacyMode)
-        view?.configWalletStatus(AppModel.instance.getStatus(),
+        view?.configWalletStatus(AppManager.instance.getStatus(),
                 !state.shouldExpandAvailable,
                 !state.shouldExpandInProgress, state.privacyMode)
 
-        walletStatusSubscription = AppModel.instance.subOnStatusChanged.subscribe(){
-            state.walletStatus = AppModel.instance.getStatus()
-            view?.configWalletStatus(AppModel.instance.getStatus(),
+        walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
+            state.walletStatus = AppManager.instance.getStatus()
+            view?.configWalletStatus(AppManager.instance.getStatus(),
                     !state.shouldExpandAvailable,
                     !state.shouldExpandInProgress, state.privacyMode)
         }
 
-        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             view?.configTransactions(state.getTransactions(), state.privacyMode)
         }
     }

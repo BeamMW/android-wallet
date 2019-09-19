@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.category
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
@@ -41,7 +41,7 @@ class CategoryPresenter(view: CategoryContract.View?, repository: CategoryContra
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        addressesSubscription = AppModel.instance.subOnAddressesChanged.subscribe{
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe{
             updateView()
         }
     }

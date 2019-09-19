@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.addresses
 
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
@@ -25,6 +25,6 @@ class AddressesState {
     var addresses = mutableListOf<WalletAddress>()
 
     fun getTransactions(walletID:String) : List<TxDescription> {
-        return AppModel.instance.getTransactionsByAddress(walletID)
+        return AppManager.instance.getTransactionsByAddress(walletID)
     }
 }

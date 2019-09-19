@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.transactions
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -34,7 +34,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         view?.init()
     }
 
-    private fun getTransactions() = AppModel.instance.getTransactions().sortedByDescending { it.modifyTime }
+    private fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.modifyTime }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)
@@ -66,7 +66,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 
         view?.configTransactions(getTransactions())
 
-        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             view?.configTransactions(getTransactions())
         }
     }

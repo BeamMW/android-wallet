@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
-import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.RestoreManager
 
 /**
  *  1/24/19.
@@ -320,7 +320,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
 
-        Api.stopDownload()
+        RestoreManager.instance.stopDownload()
 
         super.onDestroy()
     }
@@ -352,7 +352,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun cancelRestore() {
-        Api.stopDownload()
+        RestoreManager.instance.stopDownload()
 
         shouldCloseWallet = true
         importRecoverySubscription.dispose()

@@ -60,13 +60,6 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
         }
     }
 
-    override fun onKeyboardStateChange(isVisible: Boolean) {
-        if (isVisible) {
-            view?.showSuggestions()
-        } else {
-            view?.hideSuggestions()
-        }
-    }
 
     override fun onNextPressed() {
         view?.showPasswordsFragment(repository.seed ?: return)

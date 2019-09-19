@@ -27,12 +27,14 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
+import android.animation.ObjectAnimator
+import androidx.navigation.NavOptions
+
 
 /**
  *  1/24/19.
@@ -46,10 +48,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var downloadTitleString: String
     private lateinit var createTitleString: String
     override var enableOnBackPress: Boolean = true
-
-    companion object {
-        private const val FULL_PROGRESS = 100
-    }
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -223,15 +221,33 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun showWallet() {
         App.isAuthenticated = true
-        AppModel.instance.subscribeToUpdates()
+        AppManager.instance.subscribeToUpdates()
 
-        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+        android.os.Handler().postDelayed({
+            val navBuilder = NavOptions.Builder()
+            navBuilder.setEnterAnim(R.anim.fade_in)
+            navBuilder.setPopEnterAnim(R.anim.fade_in)
+            navBuilder.setExitAnim(R.anim.fade_out)
+            navBuilder.setPopExitAnim(R.anim.fade_out)
+
+            val navigationOptions = navBuilder.build()
+            findNavController().navigate(R.id.walletFragment, null, navigationOptions)
+        }, 600)
     }
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {
         description.text = descriptionString
         description.visibility = View.VISIBLE
-        progress.progress = currentProgress
+
+        if (progress.progress == 0 && currentProgress == 100) {
+            ObjectAnimator.ofInt(progress, "progress", 100)
+                    .setDuration(500)
+                    .start()
+        }
+        else{
+            progress.progress = currentProgress
+        }
+
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

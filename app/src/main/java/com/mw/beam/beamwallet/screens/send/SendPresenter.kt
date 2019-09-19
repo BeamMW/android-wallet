@@ -22,7 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.subscribeIf
@@ -416,23 +416,23 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.walletStatus = AppModel.instance.getStatus()
+        state.walletStatus = AppManager.instance.getStatus()
         view?.updateAvailable(state.walletStatus!!.available)
         if (isFork()) {
             view?.setupMinFee(FORK_MIN_FEE)
         }
 
-        walletStatusSubscription = AppModel.instance.subOnStatusChanged.subscribe(){
-            state.walletStatus = AppModel.instance.getStatus()
+        walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
+            state.walletStatus = AppManager.instance.getStatus()
             view?.updateAvailable(state.walletStatus!!.available)
         }
 
-        AppModel.instance.getAllAddresses().forEach { address ->
+        AppManager.instance.getAllAddresses().forEach { address ->
             state.addresses[address.walletID] = address
         }
 
-        addressesSubscription = AppModel.instance.subOnAddressesChanged.subscribe(){
-           AppModel.instance.getAllAddresses().forEach { address ->
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
+           AppManager.instance.getAllAddresses().forEach { address ->
                 state.addresses[address.walletID] = address
             }
         }

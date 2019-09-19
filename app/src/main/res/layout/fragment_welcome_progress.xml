@@ -57,7 +57,7 @@
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="@dimen/welcome_progress_progress_size"
-            android:layout_height="wrap_content"
+            android:layout_height="6dp"
             android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
             android:progressDrawable="@drawable/progress_bar"
             app:layout_constraintBottom_toTopOf="@id/restoreFullDescription"

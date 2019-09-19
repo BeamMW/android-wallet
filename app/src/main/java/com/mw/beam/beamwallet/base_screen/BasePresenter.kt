@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 
 /**
  *  10/1/18.
@@ -96,10 +96,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     override fun getSubscriptions(): Array<Disposable>? = null
 
     override fun initSubscriptions() {
-        view?.configStatus(AppModel.instance.getNetworkStatus())
+        view?.configStatus(AppManager.instance.getNetworkStatus())
 
-        nodeConnectionSubscription = AppModel.instance.subOnNetworkStatusChanged.subscribe(){
-            view?.configStatus(AppModel.instance.getNetworkStatus())
+        nodeConnectionSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe(){
+            view?.configStatus(AppManager.instance.getNetworkStatus())
         }
     }
 

@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.Tag
@@ -48,11 +48,11 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         super.initSubscriptions()
 
         state.addresses.clear()
-        state.addresses.addAll(AppModel.instance.getAllAddresses())
+        state.addresses.addAll(AppManager.instance.getAllAddresses())
 
-        addressesSubscription = AppModel.instance.subOnAddressesChanged.subscribe(){
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
             state.addresses.clear()
-            state.addresses.addAll(AppModel.instance.getAllAddresses())
+            state.addresses.addAll(AppManager.instance.getAllAddresses())
             updateView()
         }
 

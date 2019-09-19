@@ -52,8 +52,6 @@ class App : Application() {
     companion object {
         lateinit var self: App
 
-        var wallet: Wallet? = null
-
         private const val BACKGROUND_JOB_ID = 71614
 
         var showNotification = true

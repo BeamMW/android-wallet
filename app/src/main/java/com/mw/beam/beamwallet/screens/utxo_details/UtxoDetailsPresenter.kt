@@ -18,7 +18,7 @@ package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
@@ -46,20 +46,20 @@ class UtxoDetailsPresenter(currentView: UtxoDetailsContract.View, currentReposit
 
         filter()
 
-        utxoUpdatedSubscription = AppModel.instance.subOnUtxosChanged.subscribe(){
-            state.utxo = AppModel.instance.getUtxoByID(state?.utxo?.stringId)
+        utxoUpdatedSubscription = AppManager.instance.subOnUtxosChanged.subscribe(){
+            state.utxo = AppManager.instance.getUtxoByID(state?.utxo?.stringId)
             if (state.utxo!=null) {
                 view?.init(state.utxo!!)
             }
         }
 
-        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe(){
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe(){
             filter()
         }
     }
 
     private fun filter() {
-        val tx = AppModel.instance.getTransactionsByUTXO(state.utxo)
+        val tx = AppManager.instance.getTransactionsByUTXO(state.utxo)
 
         state.transactions.clear()
         state.transactions.addAll(tx)

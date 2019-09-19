@@ -1,7 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TagHelper
@@ -60,7 +60,7 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         val name = view?.getName() ?: ""
 
         if (QrHelper.isValidAddress(address)) {
-            val oldAddress = AppModel.instance.getAddress(address)
+            val oldAddress = AppManager.instance.getAddress(address)
             if (oldAddress!=null) {
                 view?.showTokenError(oldAddress)
             }

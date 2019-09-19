@@ -37,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_restore.*
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.PasteManager
+import android.widget.LinearLayout
 
 
 /**
@@ -54,12 +55,18 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun getToolbarTitle(): String = getString(R.string.restore_wallet)
 
     override fun init() {
-        btnRestore.isEnabled = false
+        btnNext.isEnabled = false
 
         when(BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> {btnShare.visibility = View.VISIBLE}
-            AppConfig.FLAVOR_TESTNET -> {btnShare.visibility = View.VISIBLE}
-            AppConfig.FLAVOR_MAINNET -> {btnShare.visibility = View.GONE}
+            AppConfig.FLAVOR_MASTERNET -> {
+                btnShare.visibility = View.VISIBLE
+            }
+            AppConfig.FLAVOR_TESTNET -> {
+                btnShare.visibility = View.VISIBLE
+            }
+            AppConfig.FLAVOR_MAINNET -> {
+                btnShare.visibility = View.GONE
+            }
         }
     }
 
@@ -69,14 +76,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun clearSuggestions() {
         suggestionsView.clear()
-    }
-
-    override fun showSuggestions() {
-        suggestionsView.visibility = View.VISIBLE
-    }
-
-    override fun hideSuggestions() {
-        suggestionsView.visibility = View.GONE
     }
 
     override fun setTextToCurrentView(text: String) {
@@ -121,10 +120,10 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 }
             }
 
-            btnRestore.isEnabled = arePhrasesFilled()
+            btnNext.isEnabled = arePhrasesFilled()
         }
 
-        btnRestore.setOnClickListener {
+        btnNext.setOnClickListener {
             if (it.isEnabled) {
                 presenter?.onRestorePressed()
             }
@@ -138,12 +137,9 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun onHideKeyboard() {
-        presenter?.onKeyboardStateChange(false)
     }
 
     override fun onShowKeyboard() {
-        presenter?.onKeyboardStateChange(true)
-
         if (currentEditText != null)
         {
             val view = seedLayout.findFocus() as BeamEditText
@@ -230,7 +226,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun handleRestoreButton() {
-        btnRestore.isEnabled = arePhrasesFilled()
+        btnNext.isEnabled = arePhrasesFilled()
     }
 
     override fun getSeed(): Array<String> {
@@ -255,7 +251,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun clearListeners() {
-        btnRestore.setOnClickListener(null)
+        btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
     }

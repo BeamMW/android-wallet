@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.app_activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.WindowManager
 import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
@@ -34,22 +33,10 @@ import android.app.DownloadManager
 import android.content.IntentFilter
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.widget.Toast
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.RestoreManager
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
-
-    var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(ctxt: Context, intent: Intent) {
-            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            if (Api.downloadID === id) {
-               Api.checkDownloadStatus()
-               // Api.subDownloadProgress.onNext(OnSyncProgressData(100, 100))
-            }
-        }
-    }
 
     companion object {
         const val TRANSACTION_ID = "TRANSACTION_ID"
@@ -135,5 +122,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AppActivityPresenter(this, AppActivityRepository())
+    }
+
+    private var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(ctxt: Context, intent: Intent) {
+            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            RestoreManager.instance.checkDownloadStatus(id)
+        }
     }
 }

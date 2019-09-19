@@ -110,10 +110,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
                 R.string.open,
                 R.string.close
         ) {
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                navigateIfNeed()
-            }
+//            override fun onDrawerClosed(drawerView: View) {
+//                super.onDrawerClosed(drawerView)
+//                navigateIfNeed()
+//            }
         }
         drawerLayout?.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
@@ -121,6 +121,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
                 navItemClick(navItem)
+                navigateIfNeed()
             }
         })
         navMenu.layoutManager = LinearLayoutManager(context)
@@ -174,7 +175,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
             else -> null
         }
 
-        if (direction!=null && current!=null)
+        if (direction!=null && current!=null && direction!=current)
         {
             val navBuilder = NavOptions.Builder()
             navBuilder.setEnterAnim(android.R.anim.fade_in)
@@ -185,7 +186,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
             destinationFragment = direction
 
             navigationOptions = navBuilder.setPopUpTo(current, true).build()
-
+        }
+        else{
             drawerLayout?.closeDrawer(GravityCompat.START)
         }
     }

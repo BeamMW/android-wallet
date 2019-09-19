@@ -30,6 +30,7 @@ import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
@@ -101,7 +102,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
-    open fun ensureState(): Boolean = App.wallet != null
+    open fun ensureState(): Boolean = AppManager.instance.wallet != null
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {

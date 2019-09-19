@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_gradient_size"
@@ -18,503 +17,469 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/mainLinearLayout"
+        <com.mw.beam.beamwallet.core.views.BeamToolbar
+            android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            app:centerTitle="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.mw.beam.beamwallet.core.views.BeamToolbar
-                android:id="@+id/toolbarLayout"
+            app:layout_constraintTop_toTopOf="parent" />
+        <ScrollView
+            android:id="@+id/mainScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:fitsSystemWindows="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:centerTitle="true"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ScrollView
-                android:id="@+id/mainScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:fitsSystemWindows="true">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:filterTouchesWhenObscured="true"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/nodeCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/node"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:alpha="0.5"
+                        android:text="@string/node" />
+                    <LinearLayout
+                        android:id="@+id/nodeLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+                        <TextView
+                            android:id="@+id/runRandomNodeTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/settings_common_offset"
+                            android:text="@string/settings_run_random_node"
+                            android:textSize="16sp"
+                            android:layout_weight="1"
+                            />
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="0" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/runRandomNodeSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingEnd="5dp"
+                            android:paddingBottom="5dp"
+                            android:theme="@style/SCBSwitch"
+                            android:layout_weight="0"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ipportLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_left_right"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/ipTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="1"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/ip_port"
+                            android:textSize="12sp"
+                            tools:ignore="RtlSymmetry" />
+                        <TextView
+                            android:id="@+id/ip"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:textSize="12sp"
+                            tools:text="12.123.123.1234" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/generalSettingsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/generalSettings"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:alpha="0.5"
+                        android:text="@string/settings_general_settings"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <TextView
+                            android:id="@+id/confirmTransactionTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/settings_ask_password_on_send" />
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="0" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/confirmTransactionSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:paddingStart="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="5dp"
+                            android:theme="@style/SCBSwitch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/enableFingerprintLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:weightSum="1">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/settings_enable_fingerprint" />
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="0" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/enableFingerprintSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:paddingStart="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="5dp"
+                            android:theme="@style/SCBSwitch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+                        <TextView
+                            android:id="@+id/allowOpenLinkTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_allow_open_link"
+                            android:layout_weight="1"
+                            />
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="0" />
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/allowOpenLinkSwitch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0"
+                            android:paddingStart="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingEnd="5dp"
+                            android:theme="@style/SCBSwitch" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/lockScreenLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/lockScreenTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lock_screen"
+                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                        <TextView
+                            android:id="@+id/lockScreenValue"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/settings_small_text_margin"
+                            tools:text="Never"
+                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/languageLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/languageTitle"
+                            style="@style/common_menu_item"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/language"
+                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                        <TextView
+                            android:id="@+id/languageValue"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/settings_small_text_margin"
+                            tools:text="English"
+                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                    </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/ownerKey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/show_owner_key" />
+                    </FrameLayout>
+                    <FrameLayout
+                        android:id="@+id/changePass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/settings_change_pass" />
+                    </FrameLayout>
+                    <FrameLayout
+                        android:id="@+id/clearData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/settings_common_offset_left_right"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingBottom="5dp"
+                            android:text="@string/settings_dialog_clear_title" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/settingsCategoryCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/categorySettingsTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:alpha="0.5"
+                        android:text="@string/tags" />
+                    <LinearLayout
+                        android:id="@+id/categoriesList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        tools:visibility="gone" />
+                    <FrameLayout
+                        android:id="@+id/addNewCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="@dimen/settings_common_offset_left_right">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/add_new_tag" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/settingsReportCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/generalSettings2"
+                        style="@style/common_subheader_light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:alpha="0.5"
+                        android:text="@string/settings_general_settings" />
+                    <FrameLayout
+                        android:id="@+id/rateApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/rate_app" />
+                    </FrameLayout>
+                    <FrameLayout
+                        android:id="@+id/reportProblem"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="@dimen/settings_common_offset_left_right">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/settings_report" />
+                    </FrameLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/appVersionLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
                     android:filterTouchesWhenObscured="true"
-                    android:paddingBottom="@dimen/settings_version_offset">
-
-                    <!--General settings card-->
+                    android:gravity="center"
+                    android:orientation="horizontal">
                     <TextView
                         android:id="@+id/appVersionTitle"
                         style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="@dimen/settings_version_offset"
-                        android:text="@string/settings_version"
-                        app:layout_constraintEnd_toStartOf="@id/appVersion"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/settingsReportCard" />
-
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_version" />
                     <TextView
-                        android:id="@+id/appVersion"
+                        android:id="@+id/appVersionValue"
                         style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="@dimen/settings_version_offset"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
                         android:fontFamily="@font/roboto_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/appVersionTitle"
-                        app:layout_constraintTop_toBottomOf="@id/settingsReportCard"
-                        tools:text="1.64" />
-
-                    <!--Node card-->
-
-                    <!--Settings card-->
-
-                    <!--Settings wallet card-->
-
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/settingsCategoryCard"
-                        style="@style/common_card_style"
-                        android:layout_marginTop="16dp"
-                        app:cardCornerRadius="@dimen/common_card_corner_radius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/generalSettingsCard">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
-                            android:padding="@dimen/common_card_padding">
-
-                            <LinearLayout
-                                android:id="@+id/categoriesList"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:orientation="vertical"
-                                app:layout_constraintTop_toBottomOf="@id/categorySettingsTitle"
-                                tools:layout_editor_absoluteX="20dp" />
-
-                            <TextView
-                                android:id="@+id/categorySettingsTitle"
-                                style="@style/common_subheader_light"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/tags"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/addNewCategory"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:background="@color/colorPrimary"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="5dp"
-                                android:text="@string/add_new_tag"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/categoriesList" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/settingsReportCard"
-                        style="@style/common_card_style"
-                        android:layout_marginTop="16dp"
-                        app:cardCornerRadius="@dimen/common_card_corner_radius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/settingsCategoryCard">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
-                            android:paddingStart="@dimen/common_card_padding"
-                            android:paddingLeft="@dimen/common_card_padding"
-                            android:paddingTop="15dp"
-                            android:paddingEnd="15dp"
-                            android:paddingRight="@dimen/common_card_padding"
-                            android:paddingBottom="15dp">
-
-                            <TextView
-                                android:id="@+id/generalSettings2"
-                                style="@style/common_subheader_light"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/settings_general_settings"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:id="@+id/rateApp"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="16dp"
-                                android:background="@color/colorPrimary"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="5dp"
-                                android:text="@string/rate_app"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/generalSettings2" />
-
-                            <TextView
-                                android:id="@+id/reportProblem"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:background="@color/colorPrimary"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="5dp"
-                                android:text="@string/settings_report"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/rateApp" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/nodeCard"
-                        style="@style/common_card_style"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="@dimen/common_card_corner_radius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
-                            android:padding="@dimen/common_card_padding">
-
-                            <LinearLayout
-                                android:id="@+id/nodeLayout"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:layout_marginEnd="8dp"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                android:orientation="vertical"
-                                app:layout_constraintEnd_toStartOf="@+id/runRandomNodeSwitch"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/node">
-
-                                <TextView
-                                    android:id="@+id/runRandomNodeTitle"
-                                    style="@style/common_menu_item"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/settings_common_offset"
-                                    android:text="@string/settings_run_random_node"
-                                    android:textSize="16sp" />
-
-                                <LinearLayout
-                                    android:id="@+id/ipportLayout"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:background="@color/colorPrimary"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/ipTitle"
-                                        style="@style/common_menu_item"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:alpha="1"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:text="@string/ip_port"
-                                        android:textSize="12sp"
-                                        tools:ignore="RtlSymmetry" />
-
-                                    <TextView
-                                        android:id="@+id/ip"
-                                        style="@style/common_menu_item"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:maxLines="1"
-                                        android:paddingLeft="5dp"
-                                        android:paddingRight="5dp"
-                                        android:textSize="12sp"
-                                        tools:text="12.123.123.1234" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <TextView
-                                android:id="@+id/node"
-                                style="@style/common_subheader_light"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/node"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/runRandomNodeSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:theme="@style/SCBSwitch"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/nodeLayout" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/generalSettingsCard"
-                        style="@style/common_card_style"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="8dp"
-                        app:cardCornerRadius="@dimen/common_card_corner_radius"
-                        app:cardElevation="0dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/nodeCard">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/colorPrimary"
-                            android:padding="@dimen/common_card_padding">
-
-                            <LinearLayout
-                                android:id="@+id/linearLayout2"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="18dp"
-                                android:orientation="vertical"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/allowOpenLinkTitle">
-
-                                <LinearLayout
-                                    android:id="@+id/lockScreenLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/lockScreenTitle"
-                                        style="@style/common_menu_item"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/lock_screen" />
-
-                                    <TextView
-                                        android:id="@+id/lockScreenValue"
-                                        style="@style/common_text_big_dark"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/settings_small_text_margin"
-                                        tools:text="Never" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/languageLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:background="@color/colorPrimary"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:orientation="vertical"
-                                    android:paddingTop="5dp"
-                                    android:paddingBottom="5dp">
-
-                                    <TextView
-                                        android:id="@+id/languageTitle"
-                                        style="@style/common_menu_item"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/language" />
-
-                                    <TextView
-                                        android:id="@+id/languageValue"
-                                        style="@style/common_text_big_dark"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/settings_small_text_margin"
-                                        tools:text="English" />
-
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/ownerKey"
-                                    style="@style/common_menu_item"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@color/colorPrimary"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:paddingTop="5dp"
-                                    android:paddingBottom="5dp"
-                                    android:text="@string/show_owner_key" />
-
-                                <TextView
-                                    android:id="@+id/changePass"
-                                    style="@style/common_menu_item"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@color/colorPrimary"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:paddingTop="5dp"
-                                    android:paddingBottom="5dp"
-                                    android:text="@string/settings_change_pass" />
-
-                                <TextView
-                                    android:id="@+id/clearData"
-                                    style="@style/common_menu_item"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
-                                    android:background="@color/colorPrimary"
-                                    android:clickable="true"
-                                    android:focusable="true"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:paddingTop="5dp"
-                                    android:paddingBottom="5dp"
-                                    android:text="@string/settings_dialog_clear_title" />
-
-                            </LinearLayout>
-
-
-                            <TextView
-                                android:id="@+id/confirmTransactionTitle"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="24dp"
-                                android:layout_marginEnd="8dp"
-                                android:paddingTop="2dp"
-                                android:text="@string/settings_ask_password_on_send"
-                                app:layout_constraintEnd_toStartOf="@+id/confirmTransactionSwitch"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/generalSettings" />
-
-                            <TextView
-                                android:id="@+id/enableFingerprintTitle"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="18dp"
-                                android:layout_marginEnd="8dp"
-                                android:paddingTop="2dp"
-                                android:text="@string/settings_enable_fingerprint"
-                                android:visibility="gone"
-                                app:layout_constraintEnd_toStartOf="@+id/enableFingerprintSwitch"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/confirmTransactionTitle" />
-
-                            <TextView
-                                android:id="@+id/allowOpenLinkTitle"
-                                style="@style/common_menu_item"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="18dp"
-                                android:layout_marginEnd="8dp"
-                                android:paddingTop="2dp"
-                                android:text="@string/settings_allow_open_link"
-                                app:layout_constraintEnd_toStartOf="@+id/allowOpenLinkSwitch"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/enableFingerprintTitle" />
-
-                            <TextView
-                                android:id="@+id/generalSettings"
-                                style="@style/common_subheader_light"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:alpha="0.5"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/settings_general_settings"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/confirmTransactionSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:theme="@style/SCBSwitch"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/confirmTransactionTitle" />
-
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/allowOpenLinkSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:theme="@style/SCBSwitch"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/allowOpenLinkTitle" />
-
-                            <androidx.appcompat.widget.SwitchCompat
-                                android:id="@+id/enableFingerprintSwitch"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:theme="@style/SCBSwitch"
-                                android:visibility="gone"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintTop_toTopOf="@+id/enableFingerprintTitle" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </ScrollView>
-
-
-        </LinearLayout>
-
+                        android:text="@string/settings_version" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <include
         android:id="@+id/navView"
         layout="@layout/left_menu" />
-
 </androidx.drawerlayout.widget.DrawerLayout>

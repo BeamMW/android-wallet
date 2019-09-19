@@ -18,15 +18,10 @@ package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.listeners.WalletListener
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
 
 /**
  *  1/21/19.
@@ -63,7 +58,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
         if (random) {
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
-            App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+            AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         }
     }
 
@@ -93,7 +88,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setNodeAddress(address: String) {
         AppConfig.NODE_ADDRESS = address
-        App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+        AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
     }
 

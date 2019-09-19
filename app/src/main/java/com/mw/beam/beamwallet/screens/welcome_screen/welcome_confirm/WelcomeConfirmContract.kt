@@ -35,8 +35,6 @@ interface WelcomeConfirmContract {
         fun clearSuggestions()
         fun showSeedAlert()
         fun showSeedFragment()
-        fun showSuggestions()
-        fun hideSuggestions()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -46,7 +44,6 @@ interface WelcomeConfirmContract {
         fun onCreateNewSeed()
         fun onSuggestionClick(text: String)
         fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
-        fun onKeyboardStateChange(isVisible: Boolean)
     }
 
     interface Repository : MvpRepository {

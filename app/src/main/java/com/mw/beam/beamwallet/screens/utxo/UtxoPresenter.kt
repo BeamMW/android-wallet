@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.utxo
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
@@ -91,19 +91,19 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        view?.updateBlockchainInfo(AppModel.instance.getStatus().system)
+        view?.updateBlockchainInfo(AppManager.instance.getStatus().system)
 
         filter()
 
-        utxoUpdatedSubscription = AppModel.instance.subOnUtxosChanged.subscribe() {
+        utxoUpdatedSubscription = AppManager.instance.subOnUtxosChanged.subscribe() {
             filter()
         }
 
-        blockchainInfoSubscription = AppModel.instance.subOnStatusChanged.subscribe(){
-            view?.updateBlockchainInfo(AppModel.instance.getStatus().system)
+        blockchainInfoSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
+            view?.updateBlockchainInfo(AppManager.instance.getStatus().system)
         }
 
-        txStatusSubscription = AppModel.instance.subOnTransactionsChanged.subscribe() {
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe() {
             if (utxosCount > 0) {
                 filter()
             }
@@ -112,11 +112,11 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
 
     private fun filter() {
         doAsync {
-            utxosCount = AppModel.instance.getUtxos().count()
+            utxosCount = AppManager.instance.getUtxos().count()
             allUtxos.clear()
-            allUtxos.addAll(AppModel.instance.getUtxos())
+            allUtxos.addAll(AppManager.instance.getUtxos())
 
-            val transactions = AppModel.instance.getTransactions()
+            val transactions = AppManager.instance.getTransactions()
 
             var sortByDate = false
 

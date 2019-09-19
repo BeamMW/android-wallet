@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.category
 
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 
@@ -28,7 +28,7 @@ class CategoryState {
             return 0
         }
         else{
-            val addresses= AppModel.instance.getAllAddresses()
+            val addresses= AppManager.instance.getAllAddresses()
             val list= addresses.filter(::filterAddresses)
             return list.count()
         }
@@ -39,7 +39,7 @@ class CategoryState {
             return listOf<WalletAddress>()
         }
         else{
-            val addresses= AppModel.instance.getAllAddresses()
+            val addresses= AppManager.instance.getAllAddresses()
             val list= addresses.filter(::filterAddresses)
             return list.filter {
                 when(tab) {

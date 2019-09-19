@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.address_edit
 
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
@@ -35,6 +35,6 @@ class EditAddressState {
     lateinit var chosenPeriod: ExpirePeriod
 
     fun getTransactions():List<TxDescription> {
-        return AppModel.instance.getTransactionsByAddress(address?.walletID)
+        return AppManager.instance.getTransactionsByAddress(address?.walletID)
     }
 }

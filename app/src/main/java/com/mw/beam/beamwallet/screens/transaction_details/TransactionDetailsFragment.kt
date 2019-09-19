@@ -39,7 +39,7 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 import java.io.File
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import android.transition.AutoTransition
 import android.animation.ObjectAnimator
 import android.os.Handler
@@ -94,7 +94,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                menu?.findItem(R.id.saveContact)?.isVisible = false
            }
            else  {
-               val contact = AppModel.instance.getAddress(transaction.peerId)
+               val contact = AppManager.instance.getAddress(transaction.peerId)
                menu?.findItem(R.id.saveContact)?.isVisible = contact == null
            }
 
@@ -167,7 +167,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
-        val start = AppModel.instance.getAddress(startAddress.text.toString())
+        val start = AppManager.instance.getAddress(startAddress.text.toString())
         if(start !=null && !start.label.isNullOrEmpty())
         {
             startContactLayout.visibility = View.VISIBLE
@@ -177,7 +177,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             startContactLayout.visibility = View.GONE
         }
 
-        val end = AppModel.instance.getAddress(endAddress.text.toString())
+        val end = AppManager.instance.getAddress(endAddress.text.toString())
         if(end !=null && !end.label.isNullOrEmpty())
         {
             endContactLayout.visibility = View.VISIBLE

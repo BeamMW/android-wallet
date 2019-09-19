@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.fragment_proof_verification.senderValue
 import kotlinx.android.synthetic.main.fragment_proof_verification.toolbarLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.kernelValue
 import kotlinx.android.synthetic.main.fragment_proof_verification.amountValue
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import kotlinx.android.synthetic.main.fragment_proof_verification.detailsArrowView
 import kotlinx.android.synthetic.main.fragment_proof_verification.detailsExpandLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.detailsLayout
@@ -144,7 +144,7 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         senderValue.text = proof.senderId
         receiverValue.text = proof.receiverId
 
-        val sender = AppModel.instance.getAddress(proof.senderId)
+        val sender = AppManager.instance.getAddress(proof.senderId)
         if(sender !=null && !sender.label.isNullOrEmpty())
         {
             senderContactLayout.visibility = View.VISIBLE
@@ -154,7 +154,7 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
             senderContactLayout.visibility = View.GONE
         }
 
-        val receiver = AppModel.instance.getAddress(proof.receiverId)
+        val receiver = AppManager.instance.getAddress(proof.receiverId)
         if(receiver !=null && !receiver.label.isNullOrEmpty())
         {
             receiverContactLayout.visibility = View.VISIBLE

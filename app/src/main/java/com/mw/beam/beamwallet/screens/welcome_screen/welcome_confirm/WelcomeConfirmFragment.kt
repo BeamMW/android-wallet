@@ -228,22 +228,6 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         }
     }
 
-    override fun showSuggestions() {
-        suggestionsView.visibility = View.VISIBLE
-    }
-
-    override fun hideSuggestions() {
-        suggestionsView.visibility = View.GONE
-    }
-
-    override fun onHideKeyboard() {
-        presenter?.onKeyboardStateChange(false)
-    }
-
-    override fun onShowKeyboard() {
-        presenter?.onKeyboardStateChange(true)
-    }
-
     override fun updateSuggestions(text: String) {
         suggestionsView.find(text)
     }

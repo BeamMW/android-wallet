@@ -51,8 +51,10 @@ object AppConfig {
     var TRANSACTIONS_PATH = ""
     var CACHE_PATH = ""
     var LOCALE: Locale = Locale.ENGLISH
+
     val EXPLORER_LINK
         get() = "https://${EXPLORER_PREFIX}explorer.beam.mw/"
+
     var FORK_HEIGHT = 0
 
     fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"

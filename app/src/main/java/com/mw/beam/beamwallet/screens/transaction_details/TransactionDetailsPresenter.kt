@@ -21,7 +21,7 @@ import android.view.MenuInflater
 import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
@@ -48,7 +48,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.txDescription = AppModel.instance.getTransaction(state.txID!!)
+        state.txDescription = AppManager.instance.getTransaction(state.txID!!)
 
         if (state.txDescription != null) {
             view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
@@ -60,7 +60,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
             repository.getUtxoByTx(state.txID!!)
 
-            updateUtxos(AppModel.instance.getUTXOByTransaction(state.txDescription!!))
+            updateUtxos(AppManager.instance.getUTXOByTransaction(state.txDescription!!))
         }
 
         paymentProofSubscription = repository.getPaymentProof(state.txID!!, canRequestProof()).subscribe {
@@ -70,8 +70,8 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             }
         }
 
-        txSubscription = AppModel.instance.subOnTransactionsChanged.subscribe {
-            state.txDescription = AppModel.instance.getTransaction(state.txID!!)
+        txSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            state.txDescription = AppManager.instance.getTransaction(state.txID!!)
             if (state.txDescription != null)
             {
                 view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
@@ -146,7 +146,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             if (txDescription.sender.value) {
                 view?.showSendFragment(txDescription.peerId, txDescription.amount)
             } else {
-                val address = AppModel.instance.getAddress(txDescription.myId)
+                val address = AppManager.instance.getAddress(txDescription.myId)
                 view?.showReceiveFragment(txDescription.amount, address)
             }
         }

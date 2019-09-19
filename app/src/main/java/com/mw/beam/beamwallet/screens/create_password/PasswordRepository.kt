@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.core.AppManager
 
 /**
  *  10/23/18.
@@ -44,7 +45,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
-            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
+            AppManager.instance.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)

@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import kotlinx.android.synthetic.main.fragment_payment_proof_details.*
-import com.mw.beam.beamwallet.core.AppModel
+import com.mw.beam.beamwallet.core.AppManager
 import android.view.View
 import androidx.core.content.ContextCompat
 
@@ -44,7 +44,7 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
         kernelValue.text = paymentProof.kernelId
         codeValue.text = paymentProof.rawProof
 
-        val sender = AppModel.instance.getAddress(paymentProof.senderId)
+        val sender = AppManager.instance.getAddress(paymentProof.senderId)
         if(sender !=null && !sender.label.isNullOrEmpty())
         {
             senderContactLayout.visibility = View.VISIBLE
@@ -54,7 +54,7 @@ class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>()
             senderContactLayout.visibility = View.GONE
         }
 
-        val receiver = AppModel.instance.getAddress(paymentProof.receiverId)
+        val receiver = AppManager.instance.getAddress(paymentProof.receiverId)
         if(receiver !=null && !receiver.label.isNullOrEmpty())
         {
             receiverContactLayout.visibility = View.VISIBLE

@@ -18,13 +18,11 @@ package com.mw.beam.beamwallet.base_screen
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
@@ -35,7 +33,7 @@ import io.reactivex.subjects.Subject
 open class BaseRepository : MvpRepository {
 
     override val wallet: Wallet?
-        get() = App.wallet
+        get() = AppManager.instance.wallet
 
 
     override fun isPrivacyModeEnabled() = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
@@ -59,13 +57,13 @@ open class BaseRepository : MvpRepository {
             }
 
             if (!Api.isWalletRunning()) {
-                App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
 
                 if (wallet != null) {
                     PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                     result = Status.STATUS_OK
                 }
-            } else if (App.wallet?.checkWalletPassword(pass) == true) {
+            } else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
                 result = Status.STATUS_OK
             }
         }
@@ -81,7 +79,7 @@ open class BaseRepository : MvpRepository {
     override fun closeWallet() {
         getResult("closeWallet") {
             if (Api.isWalletRunning()) {
-                App.wallet = null
+                AppManager.instance.wallet = null
                 Api.closeWallet()
             }
         }

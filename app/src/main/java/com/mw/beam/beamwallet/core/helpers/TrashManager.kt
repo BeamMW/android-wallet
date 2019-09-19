@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
-import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import io.reactivex.subjects.PublishSubject
@@ -59,11 +59,11 @@ object TrashManager {
         actions[id]?.apply {
             addresses.forEach {
                 TagHelper.changeTagsForAddress(it.walletID, null)
-                App.wallet?.deleteAddress(it.walletID)
+                AppManager.instance.wallet?.deleteAddress(it.walletID)
             }
 
             transactions.forEach {
-                App.wallet?.deleteTx(it.id)
+                AppManager.instance.wallet?.deleteTx(it.id)
             }
 
             notifyChanged(TrashManager.ActionType.Removed, this)
