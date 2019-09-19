@@ -5,14 +5,13 @@ import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 
-class AppModel {
+class AppManager {
+    var wallet: Wallet? = null
+
     private var contacts = mutableListOf<WalletAddress>()
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
@@ -20,7 +19,6 @@ class AppModel {
     private lateinit var walletStatus:WalletStatus
 
     private var networkStatus = NetworkStatus.ONLINE
-
     private var isSubscribe = false
 
     var subOnTransactionsChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
@@ -30,12 +28,12 @@ class AppModel {
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
-        private var INSTANCE: AppModel? = null
+        private var INSTANCE: AppManager? = null
 
-        val instance: AppModel
+        val instance: AppManager
             get() {
                 if (INSTANCE == null) {
-                    INSTANCE = AppModel()
+                    INSTANCE = AppManager()
                 }
 
                 return INSTANCE!!
@@ -43,10 +41,6 @@ class AppModel {
     }
 
     //MARK: -Status
-
-    fun isWalletInitalized():Boolean {
-        return walletStatus!=null
-    }
 
     fun getNetworkStatus():NetworkStatus {
         return networkStatus
@@ -231,6 +225,8 @@ class AppModel {
         }
     }
 
+    //MARK: - Updates
+
     @SuppressLint("CheckResult")
     fun subscribeToUpdates() {
         if (!isSubscribe)
@@ -321,10 +317,10 @@ class AppModel {
                 subOnNetworkStatusChanged.onNext(0)
             }
 
-            App.wallet?.getWalletStatus()
-            App.wallet?.getUtxosStatus()
-            App.wallet?.getAddresses(true)
-            App.wallet?.getAddresses(false)
+            wallet?.getWalletStatus()
+            wallet?.getUtxosStatus()
+            wallet?.getAddresses(true)
+            wallet?.getAddresses(false)
         }
     }
 }
