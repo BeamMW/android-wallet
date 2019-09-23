@@ -56,6 +56,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     private var mode = Mode.NONE
     private var menuPosition = 0
 
+    private var lockedPagePosition: Int? = null
+
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (mode == Mode.NONE)
@@ -105,6 +107,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             mode = Mode.EDIT
 
+                            lockedPagePosition = pager.currentItem
+
                             selectedAddresses.add(item.walletID)
 
                             pagerAdapter.changeSelectedItems(selectedAddresses, true, item.walletID)
@@ -125,7 +129,11 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
             override fun onPageScrollStateChanged(state: Int) {}
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                if (mode == Mode.EDIT){
+                    pager.setCurrentItem(lockedPagePosition!!, true)
+                } else return
+            }
 
             override fun onPageSelected(position: Int) {
                 menuPosition = position
