@@ -132,6 +132,7 @@
     <string name="pending">Ожидание</string>
     <string name="transactions">Транзакции</string>
     <string name="wallet_empty_transactions_list_message">Ваш список транзакций пуст</string>
+    <string name="wallet_empty_transactions_list_message_proggress">У вас нет активных транзакций</string>
     <string name="search">Поиск</string>
     <string name="filter">Фильтр</string>
     <string name="export">Экспорт</string>
@@ -189,6 +190,7 @@
     <string name="my_sending_address">Мои адреса для отправки</string>
     <string name="my_address">Мой адрес</string>
     <string name="transaction_deleted">Транзакция успешно удалена</string>
+    <string name="save_contact">Сохранить контакт</string>
     <!--ReceiveFragment-->
     <string name="swap">Своп</string>
     <string name="auto_generated">создан автоматически</string>
@@ -233,9 +235,9 @@
     <string name="outgoing_address">Адрес отправителя</string>
     <string name="my_addresses">Мои адреса</string>
     <string name="no_matching_address_found">По запросу ничего не найдено</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">Локальный комментарий</string>
     <string name="address_already_exist_1">Такой адрес уже существует</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="address_already_exist_2">Вы не можете сохранить свой адрес. Такой адрес уже существует</string>
     <!--SettingsFragment-->
     <string name="settings_report">Сообщить о проблеме</string>
     <string name="settings_change_pass">Сменить пароль кошелька</string>
@@ -280,6 +282,7 @@
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
     <string name="tag">Метка</string>
+    <string name="show_qr_code_short">Показать QR</string>
     <!--EditAddressFragment-->
     <string name="expire_address_now">Деактивировать</string>
     <string name="active_address">Активировать адрес</string>
@@ -301,6 +304,7 @@
     <string name="sender">Отправитель</string>
     <string name="receiver">Получатель</string>
     <string name="current_password_is_incorrect">Текущий пароль неверен</string>
+    <string name="paste_payment_proof">Вставьте подтверждение платежа здесь</string>
     <!--CategoryFragment-->
     <string name="edit">Править</string>
     <string name="delete_tag">Удалить метку</string>
@@ -320,8 +324,8 @@
     <string name="owner_key_code_description">Размещение ключа владельца на доверенном узле позволит узлу отслеживать все UTXO отправленные на любой кошелек, созданный из одной контрольной фразы.\n\nНе показывайте никому свой Owner Key - это позволит им проверять и контролировать баланс вашего кошелька.</string>
     <string name="owner_key_verification_pass">Установка ключа владельца на доверенном узле позволит узлу отслеживать все UTXOs, отправленные на этот кошелек, а также любой другой кошелек, созданный из той же контрольной фразы.
 Вы должны ввести пароль, чтобы увидеть Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Установка ключа владельца на доверенном узле позволит узлу отслеживать все UTXOs, отправленные на этот кошелек, а также любой другой кошелек, созданный из той же контрольной фразы.
-Для доступа к Оwner Кeу необходимо пройти двойную аутентикацию (пароль и Fingerprint ID).</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Новая входящая транзакция</string>
     <string name="notification_receive_content_text">Нажмите для просмотра детальной информации</string>
@@ -409,4 +413,12 @@
     <string name="connecting">Соединение...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Поиск по ID транзакции, комментарию, адресу или контакту</string>
     <string name="address_details">Подробности адреса</string>
+    <string name="crash_title">Сбой приложения</string>
+    <string name="crash_message">Вы хотите сообщить нам о ограниченном количестве информации? Сбор информации о сбоях позволит нам быстрее обнаружить и исправлять ошибки. Это только один отчет, связанный с ошибкой, мы не будем собирать какие-либо из ваших данных позже.</string>
+    <string name="crash_negative">Нет, спасибо</string>
+    <string name="crash_positive">Отправить отчёт</string>
+    <string name="h">ч</string>
+    <string name="m">мин.</string>
+    <string name="s">сек.</string>
+    <string name="estimted_time">Приблизительное время</string>
 </resources>

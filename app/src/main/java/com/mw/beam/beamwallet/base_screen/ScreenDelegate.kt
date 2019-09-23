@@ -28,6 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -89,6 +90,45 @@ class ScreenDelegate {
         context?.apply {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)).apply { addFlags(Intent.FLAG_ACTIVITY_NEW_TASK) })
         }
+    }
+
+    @SuppressLint("InflateParams")
+    fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, context: Context, cancelable: Boolean = true): AlertDialog? {
+        alert?.dismiss()
+
+        val view = LayoutInflater.from(context).inflate(R.layout.common_alert_dialog, null)
+        val alertTitle = view.findViewById<TextView>(R.id.title)
+        val alertText = view.findViewById<TextView>(R.id.alertText)
+        val btnConfirm = view.findViewById<TextView>(R.id.btnConfirm)
+        val btnCancel = view.findViewById<TextView>(R.id.btnCancel)
+
+        if (title.isNullOrBlank()) {
+            alertTitle.visibility = View.GONE
+        } else {
+            alertTitle.text = title
+        }
+
+        alertText.text = message
+        btnConfirm.text = btnConfirmText
+        btnCancel.text = btnCancelText
+
+        btnConfirm.setOnClickListener {
+            onConfirm.invoke()
+            alert?.dismiss()
+        }
+        btnCancel.setOnClickListener {
+            onCancel.invoke()
+            alert?.dismiss()
+        }
+
+        val dialog = AlertDialog.Builder(context)
+                .setView(view)
+                .setCancelable(cancelable)
+                .show()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        alert = dialog
+
+        return alert
     }
 
     @SuppressLint("InflateParams")

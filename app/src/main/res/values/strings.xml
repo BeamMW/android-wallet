@@ -451,6 +451,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="crash_negative">No, thanks</string>
     <string name="crash_positive">Send report</string>
 
+    <string name="h">h</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 
 
 </resources>

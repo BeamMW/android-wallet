@@ -37,6 +37,7 @@ import com.mw.beam.beamwallet.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.fragment_wallet.view.*
 import com.mw.beam.beamwallet.screens.wallet.WalletFragmentDirections
 import android.os.Handler
+import android.text.SpannableString
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -226,6 +227,11 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
+                ?: return null, cancelable)
+    }
+
+    override fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null, cancelable)
     }

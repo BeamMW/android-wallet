@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -326,14 +327,14 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun showWallet() {
-        //sometimes lib notifies us few times about end of progress
-        //so we need to unsubscribe from events to prevent unexpected behaviour
        if(!isShow) {
            isShow = true
 
            disposable.dispose()
 
            repository.removeRestoreFile()
+
+           DownloadCalculator.onStopDownload()
 
            view?.showWallet()
        }

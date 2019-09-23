@@ -15,23 +15,18 @@
  */
 package com.mw.beam.beamwallet.core.listeners
 
+import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
-import com.mw.beam.beamwallet.core.helpers.ReceiveTxCommentHelper
-import com.mw.beam.beamwallet.core.helpers.prepareForLog
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import kotlin.math.absoluteValue
 
 /**
  *  10/4/18.
@@ -145,12 +140,14 @@ object WalletListener {
         val current = ((done.toFloat() / total) * 100).toInt()
 
         if (current!=oldCurrent) {
+            val time = DownloadCalculator.onCalculateTime(done.toInt(),total.toInt())
+
             oldCurrent = current
 
-            LogUtils.logResponse(current.toString(), "onImportRecoveryProgress")
+            LogUtils.logResponse(current.toString() + " ESTIMATE: " + time?.toTimeFormat(App.self), "onImportRecoveryProgress")
 
             uiHandler.post {
-                subOnImportRecoveryProgress.onNext(OnSyncProgressData(current, 100))
+                subOnImportRecoveryProgress.onNext(OnSyncProgressData(current, 100, time))
             }
         }
     }

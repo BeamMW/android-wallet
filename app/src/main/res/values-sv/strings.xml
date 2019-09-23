@@ -132,6 +132,7 @@
     <string name="pending">Väntande</string>
     <string name="transactions">Transaktioner</string>
     <string name="wallet_empty_transactions_list_message">Din transaktions-lista är tom</string>
+    <string name="wallet_empty_transactions_list_message_proggress">Du har inga aktiva transaktioner</string>
     <string name="search">Sök</string>
     <string name="filter">Filtrera</string>
     <string name="export">Exportera</string>
@@ -189,6 +190,7 @@
     <string name="my_sending_address">Mina skickande adresser</string>
     <string name="my_address">Min adress</string>
     <string name="transaction_deleted">Transaktion borttagen</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
     <string name="swap">Swappa</string>
     <string name="auto_generated">automatiskt genererad</string>
@@ -235,7 +237,8 @@
     <string name="no_matching_address_found">Inga matchande adresser hittades</string>
     <string name="local_comment_not_shared">Lokal kommentar, kommer ej att delas med något annat</string>
     <string name="address_already_exist_1">Denna adress finns redan</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="address_already_exist_2">Du kan inte spara din adress.
+Denna adress finns redan</string>
     <!--SettingsFragment-->
     <string name="settings_report">Rapportera ett problem</string>
     <string name="settings_change_pass">Byt plånbokens lösenord</string>
@@ -280,8 +283,9 @@
     <string name="address_id">Adress ID</string>
     <string name="expiration_date">Utgångsdatum</string>
     <string name="tag">Tag</string>
+    <string name="show_qr_code_short">Visa QR</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Sätt adress som utgånget nu</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Aktivera adress</string>
     <string name="save">Spara</string>
     <string name="now">Nu</string>
@@ -301,6 +305,7 @@
     <string name="sender">Sändare</string>
     <string name="receiver">Mottagare</string>
     <string name="current_password_is_incorrect">Nuvarande lösenord är felaktigt</string>
+    <string name="paste_payment_proof">Klistra in ditt betalningsbevis här</string>
     <!--CategoryFragment-->
     <string name="edit">Ändra</string>
     <string name="delete_tag">Ta bort tag</string>
@@ -319,7 +324,8 @@
     <string name="owner_key_copied_message">Ägarens nyckel-kod kopierat till urklipp</string>
     <string name="owner_key_code_description">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till en plånbok som genereras från samma seed phrase. \n\n Dela inte din ägarnyckel med andra - det tillåter inspektion och övervakning av dina tillgångar.</string>
     <string name="owner_key_verification_pass">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste ange ditt lösenord för att se Ägarnyckeln.</string>
-    <string name="owner_key_verification_pass_finger">Om du installerar ägarnyckeln på en betrodd nod, tillåter noden att övervaka all UTXO som skickas till denna plånbok och plånböcker som genereras från samma seed phrase. Du måste klara 2-stegsverifieringen (ange lösenord samt använda Fingeravtryck) för att se Ägarnyckeln.</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Mottar ny transaktion</string>
     <string name="notification_receive_content_text">Vänligen klicka för att se detaljer</string>
@@ -407,4 +413,12 @@
     <string name="connecting">Ansluter...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Sök med transaktionsID, kommentar, adress eller kontakt</string>
     <string name="address_details">Adressuppgifter</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">t</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>

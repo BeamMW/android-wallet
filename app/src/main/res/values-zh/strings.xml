@@ -23,7 +23,7 @@
     <string name="copied">已复制</string>
     <string name="more">更多</string>
     <string name="share_qr">分享二维码</string>
-    <string name="common_security_mode_title">Activate privacy  mode</string>
+    <string name="common_security_mode_title">激活隐私模式</string>
     <string name="common_security_mode_message">所有余额将被隐藏，直到再次点击眼睛图标。</string>
     <string name="common_fingerprint_error">操作太频繁！请使用密码登录。</string>
     <string name="common_share_title">分享…</string>
@@ -65,15 +65,15 @@
     <string name="welcome_change_alert">如果恢复钱包，本钱包所有的交易记录和地址都将丢失</string>
     <string name="welcome_btn_change_alert">开始</string>
     <string name="welcome_where_to_buy_beam">在哪里获取BEAM？</string>
-    <string name="welcome_using_two_wallets_notification_message">Don’t use same seed phrase on several devices, your balance and transaction list won’t be synchronized.</string>
-    <string name="welcome_using_two_wallets_notification_title">Do not simultaneously run two wallets initiated from the same seed phrase</string>
+    <string name="welcome_using_two_wallets_notification_message">请勿在多个设备上使用相同助记词 余额和交易历史无法在多个设备间完全同步</string>
+    <string name="welcome_using_two_wallets_notification_title">不要同时运行同一助记词下的两个钱包</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">开始使用钱包</string>
     <string name="pass_save_new">保存新密码</string>
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">打开钱包</string>
     <string name="enter_your_password_to_access_the_wallet">请输入密码以访问钱包</string>
-    <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_fingerprint">请使用指纹或输入密码以确认交易</string>
     <!--WelcomeSeedFragment-->
     <string name="welcome_seed_description">助记词是访问您账户资金的密钥
 必须打印或誊写助记词，并将其妥善保存在保险箱中
@@ -103,7 +103,8 @@
     <string name="welcome_progress_update_utxo_description">正在扫描UTXO</string>
     <string name="welcome_progress_restore_description">已恢复</string>
     <string name="welcome_progress_download_description">已下载</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
+    <string name="welcome_progress_restore_description_full_top">请等待同步，请勿关闭或最小化应用程序\n
+恢复钱包可能需要一段时间</string>
     <string name="welcome_progress_restore_description_full_bottom">仅可恢复钱包余额(UTXO)
 交易历史信息保存在本地，区块链上不保存交易历史</string>
     <!--PasswordFragment-->
@@ -145,6 +146,7 @@
     <string name="pending">待确认</string>
     <string name="transactions">交易</string>
     <string name="wallet_empty_transactions_list_message">交易列表是空的</string>
+    <string name="wallet_empty_transactions_list_message_proggress">无有效交易</string>
     <string name="search">搜索</string>
     <string name="filter">筛选</string>
     <string name="export">导出</string>
@@ -160,7 +162,7 @@
     <string name="utxo_status_result_rollback">挖矿回滚</string>
     <string name="blockchain_height">区块高度</string>
     <string name="last_block_hash">最高区块哈希值</string>
-    <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
+    <string name="utxo_security_message">当前处于隐私模式</string>
     <string name="utxo_turn_off_see_utxo">关闭以查看UTXO列表</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO详情</string>
@@ -202,6 +204,7 @@
     <string name="my_sending_address">付款地址</string>
     <string name="my_address">我的地址</string>
     <string name="transaction_deleted">交易已被删除</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
     <string name="swap">交换</string>
     <string name="auto_generated">自动生成</string>
@@ -211,7 +214,7 @@
     <string name="share_address">分享地址</string>
     <string name="show_qr">显示二维码</string>
     <string name="addresses">地址</string>
-    <string name="receive_token_description">Send this address over an external secure channel.</string>
+    <string name="receive_token_description">通过外部安全媒介发送此地址</string>
     <string name="receive_save_address_message">是否保存创建的地址以备后用？</string>
     <string name="receive_save_changes_message">是否保存对该地址的修改？</string>
     <string name="request_an_amount">请求数量</string>
@@ -246,9 +249,10 @@
     <string name="outgoing_address">出账地址</string>
     <string name="my_addresses">我的地址</string>
     <string name="no_matching_address_found">未找到匹配地址</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">本地评论 不会被共享</string>
     <string name="address_already_exist_1">该地址已存在</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="address_already_exist_2">无法保存地址
+该地址已存在</string>
     <!--SettingsFragment-->
     <string name="settings_report">报告问题</string>
     <string name="settings_change_pass">修改钱包密码</string>
@@ -263,8 +267,8 @@
     <string name="seconds">秒</string>
     <string name="minute">分钟</string>
     <string name="settings_ask_password_on_send">每次付款时均要求输入密码</string>
-    <string name="settings_run_random_node">Connect to random node</string>
-    <string name="settings_enable_fingerprint">Enable Fingerprint unlock</string>
+    <string name="settings_run_random_node">连接到随机节点</string>
+    <string name="settings_enable_fingerprint">启用指纹解锁</string>
     <string name="settings_allow_open_link">允许打开外部链接</string>
     <string name="settings_dialog_node_error">无效的节点地址</string>
     <string name="settings_dialog_node_title">节点地址</string>
@@ -283,18 +287,19 @@
     <string name="no_name">无名称</string>
     <string name="address_deleted">地址已删除</string>
     <string name="contact_deleted">联系人已删除</string>
-    <string name="addresses_deleted">Addresses deleted</string>
+    <string name="addresses_deleted">地址已删除</string>
     <!--AddressFragment-->
     <string name="address">地址</string>
     <string name="show_qr_code">显示二维码</string>
     <string name="delete_address">删除地址</string>
-    <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_addresses">删除地址</string>
     <string name="transactions_list">交易列表</string>
     <string name="address_id">地址ID</string>
     <string name="expiration_date">失效日期</string>
     <string name="tag">标签</string>
+    <string name="show_qr_code_short">显示二维码</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">立即令地址失效</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">激活地址</string>
     <string name="save">保存</string>
     <string name="now">现在</string>
@@ -315,27 +320,28 @@
     <string name="sender">付款人</string>
     <string name="receiver">收款人</string>
     <string name="current_password_is_incorrect">当前密码不正确</string>
+    <string name="paste_payment_proof">请在此处粘贴付款证明</string>
     <!--CategoryFragment-->
     <string name="edit">编辑</string>
     <string name="delete_tag">删除标签</string>
-    <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="tag_delete_dialog_message">确定要删除此%1$s标签吗？</string>
     <!--EditCategory-->
     <string name="edit_tag">修改标签</string>
     <string name="create_tag">创建标签</string>
     <string name="color">颜色</string>
     <!--OwnerKeyFragments-->
     <string name="show_owner_key">显示所有者密钥</string>
-    <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
+    <string name="owner_key_verification_description">只有设置了两步验证（提交密码并使用指纹ID）方可获取所有者密钥</string>
     <string name="owner_key_verification_fingerprint_error">指纹验证失败
 请等待几分钟后重试</string>
     <string name="owner_key_verification_title_with_finger">请输入密码并使用指纹ID访问钱包</string>
     <string name="owner_key_verification_fingerprint_description">请使用指纹ID完成认证</string>
     <string name="key_code">密钥代码</string>
     <string name="owner_key_copied_message">所有者密钥已被复制到剪贴板</string>
-    <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
-    <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_code_description">将所有者密钥部署于信任节点将会使该节点监听到发送至使用该助记词的所有钱包的所有UTXO\n\n 不要与其他人分享您的所有者密钥 - 否则您的资金将收到检查和监听</string>
+    <string name="owner_key_verification_pass">将所有者密钥部署于信任节点将会使该节点监听到发送至使用您助记词生成的所有钱包的所有UTXO
+请输入密码以查看所有者密钥</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">正在接收新交易</string>
@@ -343,7 +349,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_channel_name">通知频道</string>
     <string name="notification_channel_description">默认通知频道</string>
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">轻触指纹感应器</string>
     <string name="fingerprint_id">指纹ID</string>
     <!--ChangeAddressFragment-->
     <string name="change_address">找零地址</string>
@@ -370,7 +376,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">按地址、标签、或名称搜索</string>
     <string name="min_fee_error">最小交易费为 %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">删除与该地址有关的所有交易</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">删除与该地址有关的所有交易</string>
     <string name="search_transaction">搜索交易</string>
     <string name="never_expires">永不失效</string>
     <string name="expires_in">%1$s小时%2$s分钟后失效</string>
@@ -380,19 +386,21 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="fingerprint_not_recognized">无法识别指纹</string>
     <string name="address_copied_to_clipboard">地址已被复制到剪贴板</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam钱包将会从云端下载区块链快照</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam钱包将连接到指定节点，指定节点将会从区块链中读取您的所有资金</string>
     <string name="restore_with_trusted_node">通过信任节点恢复</string>
-    <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
+    <string name="automatic_restore_recommended">自动恢复(推荐)</string>
     <string name="enter_trusted_node_address">请输入信任的节点地址</string>
     <string name="ip_port">IP地址:端口</string>
     <string name="owner_key">所有者密钥</string>
     <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">将该代码粘贴入桌面上的Beam钱包中，继续从节点恢复</string>
-    <string name="privacy_mode">Privacy mode</string>
-    <string name="gallery">Gallery</string>
-    <string name="selectPickture">Select Picture</string>
-    <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
-    <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
-    <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
+    <string name="privacy_mode">隐私模式</string>
+    <string name="gallery">相册</string>
+    <string name="selectPickture">选择图片</string>
+    <string name="storage_permission_required_message">请授权访问相册</string>
+    <string name="qr_code_cannot_be_recognized_please_try_another_picture">无法识别二维码
+请尝试其他图片</string>
+    <string name="welcome_progress_restore_networ_error_description">网络连接失败
+请重新连接到网络后再试</string>
     <string name="automatic_restore_warning">请确保您在过去一小时内没有对本钱包进行任何交易(在任何设备上)
 如果有进行过交易，请在该交易完成后等待至少一小时再进行恢复钱包操作
 否则，您恢复的余额可能不正确，或需要执行额外的恢复操作</string>
@@ -402,29 +410,39 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="downloading_blockchain_info">正在下载区块链信息</string>
     <string name="add_all">添加总余额</string>
     <string name="my_active_addresses">有效地址</string>
-    <string name="tag_list_is_empty">Tag list is empty</string>
-    <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
+    <string name="tag_list_is_empty">标签列表为空</string>
+    <string name="dialog_empty_tags_message">您还没有任何标签
+您现在想要创建一个标签吗？</string>
     <string name="you_can_create_more_tags_in_settings">您可以在设置中创建更多标签</string>
-    <string name="choose_tag">Choose tag</string>
-    <string name="use_finger">Use your Fingerprint </string>
+    <string name="choose_tag">选择标签</string>
+    <string name="use_finger">使用指纹</string>
     <string name="tags">标签</string>
-    <string name="add_new_tag">Add new tag</string>
-    <string name="initiated">Initiated</string>
-    <string name="latest_confirmation">Latest confirmation</string>
-    <string name="share_transaction">Share transaction</string>
+    <string name="add_new_tag">添加新标签</string>
+    <string name="initiated">已启动</string>
+    <string name="latest_confirmation">最新确认</string>
+    <string name="share_transaction">分享交易</string>
     <string name="paste">粘贴</string>
-    <string name="selected">Selected</string>
+    <string name="selected">已选中</string>
     <string name="empty_address_list">地址列表是空的</string>
     <string name="empty_contacts_list">联系人列表是空的</string>
     <string name="empty_utxo_list">UTXO列表是空的</string>
-    <string name="version">Version %1$s</string>
-    <string name="show_all">Show all</string>
-    <string name="empty_address_list_active">You have no active addresses</string>
-    <string name="empty_address_list_expired">You have no expired addresses</string>
-    <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
-    <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
-    <string name="address_details">Address details</string>
+    <string name="version">版本号 %1$s</string>
+    <string name="show_all">显示全部</string>
+    <string name="empty_address_list_active">无有效地址</string>
+    <string name="empty_address_list_expired">无失效地址</string>
+    <string name="empty_utxo_list_progress">无有效UTXO</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">粘贴代码后，请运行电脑上的节点、并在移动App中点击下一步</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">无法连接到节点
+请尝试连接钱包到新节点或使用自动恢复</string>
+    <string name="connecting">正在连接...</string>
+    <string name="search_by_transaction_id_comment_address_or_contact">通过交易 ID、备注、地址或联系人搜索</string>
+    <string name="address_details">地址详情</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">小时</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>
