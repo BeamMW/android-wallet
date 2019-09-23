@@ -50,7 +50,7 @@ import android.graphics.drawable.GradientDrawable
  */
 class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private var moreMenu: Menu? = null
-    private var share_transaction_details:ShareTransactionDetailsView? = null
+    private var share_transaction_details: ShareTransactionDetailsView? = null
 
     private var oldTransaction: TxDescription? = null
 
@@ -82,26 +82,25 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
     override fun configMenuItems(menu: Menu?, inflater: MenuInflater, transaction: TxDescription?) {
-            inflater.inflate(R.menu.transaction_menu, menu)
+        inflater.inflate(R.menu.transaction_menu, menu)
 
-       if (transaction!=null) {
-           val txStatus = transaction.status
-           val isSend = transaction.sender == TxSender.SENT
+        if (transaction != null) {
+            val txStatus = transaction.status
+            val isSend = transaction.sender == TxSender.SENT
 
-           moreMenu = menu
+            moreMenu = menu
 
-           if (transaction.selfTx) {
-               menu?.findItem(R.id.saveContact)?.isVisible = false
-           }
-           else  {
-               val contact = AppManager.instance.getAddress(transaction.peerId)
-               menu?.findItem(R.id.saveContact)?.isVisible = contact == null
-           }
+            if (transaction.selfTx) {
+                menu?.findItem(R.id.saveContact)?.isVisible = false
+            } else {
+                val contact = AppManager.instance.getAddress(transaction.peerId)
+                menu?.findItem(R.id.saveContact)?.isVisible = contact == null
+            }
 
-           menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
-           menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
-           menu?.findItem(R.id.repeat)?.isVisible = isSend && TxStatus.InProgress != txStatus && txStatus != TxStatus.Registered
-       }
+            menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
+            menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
+            menu?.findItem(R.id.repeat)?.isVisible = isSend && TxStatus.InProgress != txStatus && txStatus != TxStatus.Registered
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -109,16 +108,15 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             R.id.repeat -> presenter?.onRepeatTransaction()
             R.id.cancel -> presenter?.onCancelTransaction()
             R.id.delete -> presenter?.onDeleteTransaction()
-            R.id.share ->  {
+            R.id.share -> {
                 share_transaction_details = ShareTransactionDetailsView(context!!)
 
-                if (share_transaction_details!=null)
-                {
+                if (share_transaction_details != null) {
                     share_transaction_details?.setFieldsFromTxDescription(presenter?.state?.txDescription)
-                    share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context,375),
+                    share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context, 375),
                             ViewGroup.LayoutParams.WRAP_CONTENT)
                     share_transaction_details?.alpha = 0f
-                    mainContent.addView(share_transaction_details,0)
+                    mainContent.addView(share_transaction_details, 0)
                 }
 
                 Handler().postDelayed({
@@ -136,8 +134,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
         utxosLayout.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
 
-        if (utxosList.childCount != utxoInfoList.count())
-        {
+        if (utxosList.childCount != utxoInfoList.count()) {
             utxosList.removeAllViews()
 
             utxoInfoList.forEach { utxo ->
@@ -168,27 +165,23 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
         val start = AppManager.instance.getAddress(startAddress.text.toString())
-        if(start !=null && !start.label.isNullOrEmpty())
-        {
+        if (start != null && !start.label.isNullOrEmpty()) {
             startContactLayout.visibility = View.VISIBLE
             startContactValue.text = start.label
-        }
-        else{
+        } else {
             startContactLayout.visibility = View.GONE
         }
 
         val end = AppManager.instance.getAddress(endAddress.text.toString())
-        if(end !=null && !end.label.isNullOrEmpty())
-        {
+        if (end != null && !end.label.isNullOrEmpty()) {
             endContactLayout.visibility = View.VISIBLE
             endContactValue.text = end.label
-        }
-        else{
+        } else {
             endContactLayout.visibility = View.GONE
         }
 
-        val startTags =  TagHelper.getTagsForAddress(startAddress.text.toString())
-        val endTags =  TagHelper.getTagsForAddress(endAddress.text.toString())
+        val startTags = TagHelper.getTagsForAddress(startAddress.text.toString())
+        val endTags = TagHelper.getTagsForAddress(endAddress.text.toString())
 
         startAddressCategory.visibility = if (startTags.isEmpty()) View.GONE else View.VISIBLE
         startAddressCategory.text = startTags.createSpannableString(context!!)
@@ -211,13 +204,18 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!)
+
+        if (status == TxStatus.Failed.name || status == TxStatus.Cancelled.name) {
+            btnOpenInBlockExplorer.visibility = View.INVISIBLE
+        }
+        
         val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
         statusLabel.text = upperString
 
         transactionStatusIcon.setImageDrawable(txDescription.statusImage())
 
         val drawable = shape.background as GradientDrawable
-        drawable.setStroke(ScreenHelper.dpToPx(context,1),txDescription.statusColor)
+        drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor)
 
         if (txDescription.sender.value) {
             startAddress.text = txDescription.myId
@@ -230,8 +228,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 startAddressTitle.text = "${getString(R.string.my_address)}"
                 endAddressTitle.text = "${getString(R.string.contact)}"
             }
-        }
-        else {
+        } else {
             startAddressTitle.text = "${getString(R.string.contact)}"
             endAddressTitle.text = "${getString(R.string.my_address)}"
             startAddress.text = txDescription.peerId
@@ -248,8 +245,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         if (txDescription.message.isNotEmpty()) {
             commentLabel.text = txDescription.message
             commentLayout.visibility = View.VISIBLE
-        }
-        else{
+        } else {
             commentLayout.visibility = View.GONE
         }
     }
@@ -307,8 +303,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
     override fun showSaveContact(address: String?) {
-        if (address!=null)
-        {
+        if (address != null) {
             findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToAddContactFragment(address))
         }
     }
@@ -382,8 +377,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         idLayout.visibility = contentVisibility
         kernelLayout.visibility = contentVisibility
 
-        if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty())
-        {
+        if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
         }
     }
