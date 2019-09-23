@@ -124,8 +124,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         if (it.done == it.total) {
                             isAlreadyDownloaded = true
 
-                            DownloadCalculator.onStopDownload()
-
                             startImport()
                         }
                     }
