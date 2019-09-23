@@ -118,7 +118,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         }
 
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
-
     }
 
     override fun addListeners() {
