@@ -124,6 +124,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         if (it.done == it.total) {
                             isAlreadyDownloaded = true
 
+                            DownloadCalculator.onStopDownload()
+
                             startImport()
                         }
                     }
@@ -341,8 +343,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun finishNodeProgressSubscription() {
-        //sometimes lib notifies us few times about end of progress
-        //so we need to unsubscribe from events to prevent unexpected behaviour
         nodeProgressUpdatedSubscription.dispose()
         isNodeSyncFinished = true
     }

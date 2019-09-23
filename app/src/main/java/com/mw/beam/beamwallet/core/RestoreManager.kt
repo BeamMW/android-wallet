@@ -4,11 +4,14 @@ import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
+import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import io.reactivex.subjects.PublishSubject
 import java.io.File
+import kotlin.math.log
 
 class RestoreManager {
 
@@ -113,7 +116,7 @@ class RestoreManager {
                     try {
                         checkProgress()
                     } finally {
-                        handler.postDelayed(progressChecker, 300)
+                        handler.postDelayed(progressChecker, 30)
                     }
                 }
             }
@@ -125,6 +128,8 @@ class RestoreManager {
 
 
     private fun checkProgress() {
+        Log.e("DOWNLOAD","CHECK PROGRESS")
+
         val query = DownloadManager.Query()
         query.setFilterById(downloadID)
 
@@ -148,6 +153,8 @@ class RestoreManager {
 
                 val status = cursor.getInt(columnIndex)
 
+                val time = DownloadCalculator.onCalculateTime(downloaded,total)
+
                 if (status == DownloadManager.STATUS_RUNNING) {
                     var progress = ((downloaded * 100L) / total)
 
@@ -155,7 +162,7 @@ class RestoreManager {
                         progress = 99
                     }
 
-                    subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
+                    subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100, time))
                 }
 
 

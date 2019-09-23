@@ -55,7 +55,7 @@ object DownloadCalculator {
     }
 
     fun onCalculateTime(done:Int, total:Int):Int? {
-        return if (m_isDownloadStarted) {
+        return if (m_isDownloadStarted && total > 0) {
             m_previousUpdateTimestamp = m_lastUpdateTimestamp;
             m_lastUpdateTimestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
             m_lastDone = m_done

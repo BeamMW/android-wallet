@@ -93,6 +93,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         createWallet(pass, seed)
 
         WalletListener.oldCurrent = -1
+
         DownloadCalculator.onStartDownload()
 
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
@@ -122,6 +123,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
 
+        DownloadCalculator.onStartDownload()
         RestoreManager.instance.startDownload(file)
 
         return downloadProgressSubject!!
