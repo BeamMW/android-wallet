@@ -211,6 +211,11 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!)
+
+        if(status == TxStatus.Failed.name || status == TxStatus.Cancelled.name){
+            btnOpenInBlockExplorer.visibility = View.INVISIBLE
+        }
+
         val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
         statusLabel.text = upperString
 
