@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_language.*
 import java.util.Locale
 import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 
 
@@ -38,6 +39,7 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_language
 
     override fun getToolbarTitle(): String? = getString(R.string.language)
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(languages: List<LocaleHelper.SupportedLanguage>, language: LocaleHelper.SupportedLanguage) {
         adapter = LanguageAdapter(languages) {

@@ -9,6 +9,7 @@ import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import kotlinx.android.synthetic.main.touchid_view.view.*
 import android.animation.ValueAnimator
 import android.animation.ArgbEvaluator
+import com.mw.beam.beamwallet.core.App
 
 enum class Type(val value: Int) {
     ERROR(0),
@@ -68,6 +69,8 @@ class TouchIDView : LinearLayout {
     }
 
     private fun showFailed() {
+        fingerErrorLabel.text = context.getString(R.string.fingerprint_not_recognized)
+
         animatedChangeDrawable(R.drawable.ic_touch_error, resources.getColor(R.color.fingerprint_card_background_color_error,null), true)
 
         delayedTask?.cancel(true)
@@ -77,9 +80,11 @@ class TouchIDView : LinearLayout {
     }
 
     private fun showError() {
+        fingerErrorLabel.text = context.getString(R.string.common_fingerprint_error)
+
         delayedTask?.cancel(true)
 
-        animatedChangeDrawable(R.drawable.ic_touch_error, resources.getColor(R.color.fingerprint_card_background_color_error,null), false)
+        animatedChangeDrawable(R.drawable.ic_touch_error, resources.getColor(R.color.fingerprint_card_background_color_error,null), true)
     }
 
     private fun animatedChangeDrawable(resId: Int, resColor:Int, visible:Boolean) {
