@@ -222,13 +222,9 @@
     <string name="name">Name</string>
     <string name="edit_address">Edit address</string>
     <string name="advanced">Advanced</string>
-    <string-array name="receive_expires_periods">
-        <item>In 24 hours</item>
-        <item>Never</item>
-    </string-array>
+    <string name="send_token_description">Input or scan the recipient’s address</string>
 
     <!--SendFragment-->
-    <string name="send_token_description">Input or scan the recipient’s address</string>
     <string name="send_amount_empty_error">Amount field can’t be empty</string>
     <string name="send_amount_zero_error">Amount can’t be 0 BEAM</string>
     <string name="send_amount_overflow_error">Insufficient funds: you would need %1$s beams to complete the transaction.</string>
@@ -253,9 +249,9 @@
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <string name="address_already_exist_1">This address already exists</string>
     <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="settings_report">Report a problem</string>
 
     <!--SettingsFragment-->
-    <string name="settings_report">Report a problem</string>
     <string name="settings_change_pass">Change wallet password</string>
     <string name="settings_version">App Version</string>
     <string name="settings_send_logs_description">Send logs…</string>
@@ -280,21 +276,21 @@
     <string name="settings_confirm_clear_message">Are you sure you want to delete all %1$s from your wallet?</string>
     <string name="contacts">Contacts</string>
     <string name="transaction">Transaction</string>
+    <string name="loading_wallet">Loading wallet</string>
 
 
     <!--ProgressFragment-->
-    <string name="loading_wallet">Loading wallet</string>
+    <string name="addresses_tab_active">My active</string>
 
     <!--AddressesFragment-->
-    <string name="addresses_tab_active">My active</string>
     <string name="addresses_tab_expired">My expired</string>
     <string name="no_name">No name</string>
     <string name="address_deleted">Address deleted</string>
     <string name="contact_deleted">Contact deleted</string>
     <string name="addresses_deleted">Addresses deleted</string>
+    <string name="address">Address</string>
 
     <!--AddressFragment-->
-    <string name="address">Address</string>
     <string name="show_qr_code">Show QR code</string>
     <string name="delete_address">Delete address</string>
     <string name="delete_addresses">Delete addresses</string>
@@ -303,23 +299,23 @@
     <string name="expiration_date">Expiration date</string>
     <string name="tag">Tag</string>
     <string name="show_qr_code_short">Show QR</string>
+    <string name="expire_address_now">Expire addresss</string>
 
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Activate address</string>
     <string name="save">Save</string>
     <string name="now">Now</string>
     <string name="none">None</string>
+    <string name="change_password">Change password</string>
 
     <!--CheckOldPassActivity-->
-    <string name="change_password">Change password</string>
     <string name="enter_your_current_password">Enter your current password</string>
-
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Scan QR code</string>
 
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Payment proof verification</string>
+
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Paste your payment proof here</string>
     <string name="payment_proof_verification_error">Cannot decode a proof, illegal sequence.</string>
     <string name="copy_details">Copy details</string>
@@ -329,19 +325,19 @@
     <string name="receiver">Receiver</string>
     <string name="current_password_is_incorrect">Current password is incorrect</string>
     <string name="paste_payment_proof">Paste your payment proof here</string>
+    <string name="edit">Edit</string>
 
     <!--CategoryFragment-->
-    <string name="edit">Edit</string>
     <string name="delete_tag">Delete tag</string>
     <string name="tag_delete_dialog_message">Are you sure you want to delete %1$s tag?</string>
+    <string name="edit_tag">Edit tag</string>
 
     <!--EditCategory-->
-    <string name="edit_tag">Edit tag</string>
     <string name="create_tag">Create tag</string>
     <string name="color">Color</string>
+    <string name="show_owner_key">Show owner key</string>
 
     <!--OwnerKeyFragments-->
-    <string name="show_owner_key">Show owner key</string>
     <string name="owner_key_verification_description">To see the owner key you must pass this 2-step verification (submit a password and use Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingerprint authorization failed. Please try in a few minutes.</string>
     <string name="owner_key_verification_title_with_finger">Enter your password and use Fingerprint ID to access the wallet</string>
@@ -353,26 +349,26 @@
 You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="notification_receive_content_title">Receiving new transaction</string>
 
     <!--BackgroundService-->
-    <string name="notification_receive_content_title">Receiving new transaction</string>
     <string name="notification_receive_content_text">Please, click to view details</string>
     <string name="notification_channel_name">Notification Channel</string>
     <string name="notification_channel_description">Default notification channel</string>
+    <string name="touch_sensor">Touch the Fingerprint sensor</string>
 
     <!--FingerprintDialog-->
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
     <string name="fingerprint_id">Fingerprint ID</string>
-
-    <!--ChangeAddressFragment-->
     <string name="change_address">Change address</string>
 
-    <!-- Language -->
+    <!--ChangeAddressFragment-->
     <string name="language">Language</string>
+
+    <!-- Language -->
     <string name="language_dialog_message">In order for the language settings to take effect the app needs to be restarted</string>
     <string name="restart_now">Restart now</string>
-
     <string name="rate_app">Rate the app</string>
+
     <string name="existing_addresses">Existing addresses</string>
     <string name="requested_amount">Requested amount</string>
     <string name="paste_address_or_choose_contact">Paste address or choose contact</string>
@@ -444,18 +440,23 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">Address details</string>
-
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
     <string name="crash_negative">No, thanks</string>
     <string name="crash_positive">Send report</string>
-
     <string name="h">h</string>
+
     <string name="m">mins</string>
     <string name="s">sec</string>
     <string name="estimted_time">Estimated time</string>
+    <string-array name="receive_expires_periods">
+        <item>In 24 hours</item>
+        <item>Never</item>
+    </string-array>
 
 
 </resources>
