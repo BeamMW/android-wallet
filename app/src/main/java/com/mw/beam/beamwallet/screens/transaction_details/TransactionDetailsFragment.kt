@@ -44,7 +44,6 @@ import android.transition.AutoTransition
 import android.animation.ObjectAnimator
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
-import android.util.Log
 
 /**
  *  10/18/18.
