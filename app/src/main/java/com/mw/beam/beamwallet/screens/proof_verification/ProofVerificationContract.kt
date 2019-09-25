@@ -38,6 +38,7 @@ interface ProofVerificationContract {
         fun onProofCodeChanged(proof: String)
         fun onCopyDetailsPressed()
         fun onExpandDetailsPressed()
+        fun setShouldExpandDetail(value:Boolean);
     }
 
     interface Repository: MvpRepository {

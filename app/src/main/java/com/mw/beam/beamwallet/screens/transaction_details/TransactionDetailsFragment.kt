@@ -44,6 +44,13 @@ import android.transition.AutoTransition
 import android.animation.ObjectAnimator
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
+import kotlinx.android.synthetic.main.fragment_proof_verification.*
+import kotlinx.android.synthetic.main.fragment_transaction_details.detailsArrowView
+import kotlinx.android.synthetic.main.fragment_transaction_details.detailsExpandLayout
+import kotlinx.android.synthetic.main.fragment_transaction_details.kernelLayout
+import kotlinx.android.synthetic.main.fragment_transaction_details.receiverLayout
+import kotlinx.android.synthetic.main.fragment_transaction_details.senderLayout
+import kotlinx.android.synthetic.main.fragment_transaction_details.toolbarLayout
 
 /**
  *  10/18/18.
@@ -74,6 +81,10 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             toolbarLayout.hasStatus = true
 
             amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+
+            detailsArrowView.rotation = 180f
+            proofArrowView.rotation = 180f
+            utxosArrowView.rotation = 180f
         }
     }
 
@@ -282,6 +293,16 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         proofExpandLayout.setOnClickListener {
             presenter?.onExpandProofPressed()
         }
+
+        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onLongPress(e: MotionEvent) {
+                vibrate(100)
+                copyToClipboard(proofLabel.text.toString(), "proof")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            }
+        })
+
+        proofLabel.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
     }
 
     override fun showDeleteSnackBar(txDescription: TxDescription) {
@@ -317,6 +338,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         detailsExpandLayout.setOnClickListener(null)
         utxosExpandLayout.setOnClickListener(null)
         proofExpandLayout.setOnClickListener(null)
+        proofLabel.setOnTouchListener(null)
     }
 
     override fun finishScreen() {
@@ -383,8 +405,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
-        val angleFrom = if (!shouldExpand) 180f else 360f
-        val angleTo = if (!shouldExpand) 360f else 180f
+        val angleFrom = if (shouldExpand) 180f else 360f
+        val angleTo = if (shouldExpand) 360f else 180f
         val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
         anim.duration = 500
         anim.start()

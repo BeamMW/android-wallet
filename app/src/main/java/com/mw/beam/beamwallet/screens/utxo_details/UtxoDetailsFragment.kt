@@ -54,6 +54,8 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
+
+        detailsArrowView.rotation = 180f
     }
 
     @SuppressLint("SetTextI18n")
@@ -125,7 +127,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         animateDropDownIcon(detailsArrowView, !shouldExpandDetails)
         beginTransition()
 
-        val contentVisibility = if (!shouldExpandDetails) View.VISIBLE else View.GONE
+        val contentVisibility = if (shouldExpandDetails) View.VISIBLE else View.GONE
         idLayout.visibility = contentVisibility
         typeLayout.visibility = contentVisibility
     }

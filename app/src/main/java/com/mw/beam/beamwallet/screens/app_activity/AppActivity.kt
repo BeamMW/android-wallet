@@ -62,7 +62,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState)
 
-        setupCrashHandler()
+     //   setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -70,7 +70,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState, persistentState)
 
-        setupCrashHandler()
+     //   setupCrashHandler()
     }
 
     override fun onDestroy() {

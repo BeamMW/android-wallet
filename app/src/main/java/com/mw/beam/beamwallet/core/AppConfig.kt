@@ -33,8 +33,7 @@ object AppConfig {
     const val TESTNET_FORK_HEIGHT = 270910
     const val LOG_CLEAN_TIME: Long = 259200000
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
-    const val SHARE_TYPE = "text/plain"
-    const val SHARE_VALUE = "Logs"
+    const val SHARE_TYPE = "application/zip"
     const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
     const val SUPPORT_EMAIL = "support@beam.mw"
     const val DB_FILE_NAME = "wallet.db"
@@ -48,6 +47,7 @@ object AppConfig {
     var NODE_ADDRESS = ""
     var DB_PATH = ""
     var LOG_PATH = ""
+    var ZIP_PATH = ""
     var TRANSACTIONS_PATH = ""
     var CACHE_PATH = ""
     var LOCALE: Locale = Locale.ENGLISH

@@ -82,6 +82,7 @@ class App : Application() {
 
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
+        AppConfig.ZIP_PATH = AppConfig.LOG_PATH + "/logs.zip"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
         AppConfig.CACHE_PATH = AppConfig.DB_PATH + "/cache"
         LocaleHelper.loadLocale()
