@@ -20,12 +20,13 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
@@ -34,7 +35,10 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
+import kotlinx.android.synthetic.main.fragment_addresses.drawerLayout
+import kotlinx.android.synthetic.main.fragment_addresses.navView
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
  *  2/28/19.
@@ -56,15 +60,11 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     private var mode = Mode.NONE
     private var menuPosition = 0
 
-    private var lockedPagePosition: Int? = null
-
-    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (mode == Mode.NONE)
-            {
+            if (mode == Mode.NONE) {
                 showWalletFragment()
-            }
-            else{
+            } else {
                 cancelSelectedAddresses()
             }
         }
@@ -87,13 +87,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                     override fun onItemClick(item: WalletAddress) {
                         if (mode == Mode.NONE) {
                             presenter?.onAddressPressed(item)
-                        }
-                        else{
-                            if (selectedAddresses.contains(item.walletID))
-                            {
+                        } else {
+                            if (selectedAddresses.contains(item.walletID)) {
                                 selectedAddresses.remove(item.walletID)
-                            }
-                            else{
+                            } else {
                                 selectedAddresses.add(item.walletID)
                             }
 
@@ -107,7 +104,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             mode = Mode.EDIT
 
-                            lockedPagePosition = pager.currentItem
+                            pager.lockSwipeWithMode(mode)
+                            tabLayout.swipable = false
 
                             selectedAddresses.add(item.walletID)
 
@@ -125,27 +123,22 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                 })
 
         pager.adapter = pagerAdapter
-        pager.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
+        pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {}
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                if (mode == Mode.EDIT){
-                    pager.setCurrentItem(lockedPagePosition!!, true)
-                } else return
-            }
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
                 menuPosition = position
-                pagerAdapter.changeSelectedItems(selectedAddresses,false,null)
+                pagerAdapter.changeSelectedItems(selectedAddresses, false, null)
                 if (mode == Mode.NONE) {
-                    setMenuVisibility(position==Tab.CONTACTS.value)
+                    setMenuVisibility(position == Tab.CONTACTS.value)
                 }
             }
         })
 
         tabLayout.setupWithViewPager(pager)
-
         configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.ADDRESS_BOOK)
     }
 
@@ -172,6 +165,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_menu)
 
         mode = Mode.NONE
+        pager.lockSwipeWithMode(mode)
+        tabLayout.swipable = true
 
         selectedAddresses.clear()
 
@@ -181,7 +176,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         activity?.invalidateOptionsMenu()
 
-        setMenuVisibility(menuPosition==Tab.CONTACTS.value)
+        setMenuVisibility(menuPosition == Tab.CONTACTS.value)
     }
 
     private fun onSelectedAddressesChanged() {
@@ -190,20 +185,16 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.title = selectedAddresses.count().toString() + " " + getString(R.string.selected).toLowerCase()
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
         toolbarLayout.toolbar.setNavigationOnClickListener {
-            if (mode == Mode.NONE)
-            {
+            if (mode == Mode.NONE) {
                 showWalletFragment()
-            }
-            else{
+            } else {
                 cancelSelectedAddresses()
             }
         }
 
-        if (selectedAddresses.count() == 0)
-        {
+        if (selectedAddresses.count() == 0) {
             cancelSelectedAddresses()
-        }
-        else{
+        } else {
             setMenuVisibility(true)
             activity?.invalidateOptionsMenu()
         }
@@ -217,16 +208,13 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             menu.findItem(R.id.delete).isVisible = false
             menu.findItem(R.id.edit).isVisible = false
             menu.findItem(R.id.add).isVisible = true
-        }
-        else{
-            if (selectedAddresses.count() == 1)
-            {
+        } else {
+            if (selectedAddresses.count() == 1) {
                 menu.findItem(R.id.copy).isVisible = true
                 menu.findItem(R.id.delete).isVisible = true
                 menu.findItem(R.id.edit).isVisible = true
                 menu.findItem(R.id.add).isVisible = false
-            }
-            else{
+            } else {
                 menu.findItem(R.id.copy).isVisible = false
                 menu.findItem(R.id.edit).isVisible = false
                 menu.findItem(R.id.add).isVisible = false
@@ -238,14 +226,11 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.add) {
             presenter?.onAddContactPressed()
-        }
-        else if (item.itemId == R.id.edit) {
+        } else if (item.itemId == R.id.edit) {
             presenter?.onEditAddressPressed()
-        }
-        else if (item.itemId == R.id.copy) {
+        } else if (item.itemId == R.id.copy) {
             presenter?.onCopyAddressPressed()
-        }
-        else if (item.itemId == R.id.delete) {
+        } else if (item.itemId == R.id.delete) {
             presenter?.onDeleteAddressesPressed()
         }
         return super.onOptionsItemSelected(item)
@@ -258,7 +243,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun navigateToEditAddressScreen() {
         val id = selectedAddresses.first()
         val address = presenter?.state?.addresses?.find { it.walletID == id }
-        if (address!=null) {
+        if (address != null) {
             mode = Mode.NONE
             selectedAddresses.clear()
             findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToEditAddressFragment(address))
@@ -303,12 +288,12 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         }
     }
 
-    override fun showDeleteAddressesSnackBar(removeTransactions:Boolean) {
+    override fun showDeleteAddressesSnackBar(removeTransactions: Boolean) {
         presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
 
         val text = if (selectedAddresses.count() > 1) {
             getString(R.string.addresses_deleted)
-        } else{
+        } else {
             getString(R.string.address_deleted)
         }
 
@@ -339,12 +324,11 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         pagerAdapter.setData(tab, addresses)
     }
 
-    override fun updatePlaceholder(showPlaceholder:Boolean) = if (showPlaceholder) {
+    override fun updatePlaceholder(showPlaceholder: Boolean) = if (showPlaceholder) {
         emptyLayout.visibility = View.VISIBLE
         pager.visibility = View.GONE
         tabLayout.visibility = View.INVISIBLE
-    }
-    else{
+    } else {
         emptyLayout.visibility = View.GONE
         pager.visibility = View.VISIBLE
         tabLayout.visibility = View.VISIBLE
@@ -353,4 +337,5 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AddressesPresenter(this, AddressesRepository(), AddressesState())
     }
+
 }

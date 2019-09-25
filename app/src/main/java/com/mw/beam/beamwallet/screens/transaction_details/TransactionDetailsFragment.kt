@@ -44,6 +44,7 @@ import android.transition.AutoTransition
 import android.animation.ObjectAnimator
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 
 /**
  *  10/18/18.
@@ -205,10 +206,15 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!)
 
-        if (status == TxStatus.Failed.name || status == TxStatus.Cancelled.name) {
+//        if (status == TxStatus.Failed.name || status == TxStatus.Cancelled.name) {
+//            btnOpenInBlockExplorer.visibility = View.INVISIBLE
+//        }
+        if (txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED
+                || txDescription.failureReason == TxFailureReason.CANCELLED
+                || status == TxStatus.Failed.name) {
             btnOpenInBlockExplorer.visibility = View.INVISIBLE
         }
-        
+
         val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
         statusLabel.text = upperString
 

@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.tabs.TabLayout
+    <com.mw.beam.beamwallet.screens.addresses.AddressesLockableTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:tabSelectedTextColor="@color/address_tab_text_color"
         app:tabTextColor="@color/address_tab_text_color"/>
 
-        <androidx.viewpager.widget.ViewPager
+        <com.mw.beam.beamwallet.screens.addresses.AddressesLockableViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
