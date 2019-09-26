@@ -21,21 +21,14 @@ import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.view.*
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
-import androidx.core.view.GravityCompat
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
@@ -43,12 +36,10 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
 import kotlinx.android.synthetic.main.fragment_wallet.*
-import org.w3c.dom.Text
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.screens.receive.ReceiveContract
-import com.mw.beam.beamwallet.screens.receive.ReceiveFragment
-import com.mw.beam.beamwallet.screens.receive.ReceivePresenter
 import android.widget.PopupMenu
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
 
 /**
  *  10/1/18.
@@ -57,21 +48,15 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var balancePagerAdapter: BalancePagerAdapter
 
-//    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
-//        override fun handleOnBackPressed() {
-//            showWalletFragment()
-//        }
-//    }
-
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (drawerLayout.isDrawerVisible(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START)
-                return
+            if ((activity as? AppActivity)?.isMenuOpened() == true) {
+                (activity as? AppActivity)?.closeMenu()
             }
-
-            App.isAuthenticated = false
-            activity?.finish()
+            else{
+                App.isAuthenticated = false
+                activity?.finish()
+            }
         }
     }
 
@@ -171,12 +156,16 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         initTransactionsList()
         setHasOptionsMenu(true)
 
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
+        }
+
         balancePagerAdapter = BalancePagerAdapter(context!!)
         balanceViewPager.adapter = balancePagerAdapter
 
         indicator.setViewPager(balanceViewPager)
-
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.WALLET);
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -356,7 +345,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun closeDrawer() {
-        drawerLayout.closeDrawer(GravityCompat.START)
     }
 
     override fun onStart() {

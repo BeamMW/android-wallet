@@ -47,6 +47,7 @@
             android:paddingStart="@dimen/welcome_progress_description_side_offset"
             android:paddingTop="@dimen/welcome_progress_description_top_offset"
             android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+            android:textAlignment="center"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/progress"
             app:layout_constraintEnd_toEndOf="parent"

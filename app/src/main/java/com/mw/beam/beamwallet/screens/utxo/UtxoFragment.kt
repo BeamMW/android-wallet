@@ -33,11 +33,8 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
-import com.google.android.material.navigation.NavigationView
-import com.mw.beam.beamwallet.screens.wallet.NavItem
-import kotlinx.android.synthetic.main.fragment_utxo.drawerLayout
-import kotlinx.android.synthetic.main.fragment_utxo.navView
-import kotlinx.android.synthetic.main.fragment_utxo.toolbarLayout
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 /**
@@ -76,8 +73,11 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         blockchainHeightTitle.addDoubleDots()
         blockchainHashTitle.addDoubleDots()
 
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.UTXO)
-
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

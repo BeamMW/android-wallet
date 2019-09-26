@@ -51,11 +51,9 @@ import android.graphics.*
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.*
-import com.google.android.material.navigation.NavigationView
-import com.mw.beam.beamwallet.screens.wallet.NavItem
-import kotlinx.android.synthetic.main.fragment_settings.drawerLayout
-import kotlinx.android.synthetic.main.fragment_settings.navView
 import androidx.activity.OnBackPressedCallback
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -79,8 +77,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         super.onViewCreated(view, savedInstanceState)
 
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
-
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
     }
 
     override fun init(runOnRandomNode: Boolean) {
@@ -120,6 +116,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             ip.setPadding(0,0,0,0)
             ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
+        }
+
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
         }
     }
 
