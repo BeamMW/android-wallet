@@ -59,17 +59,30 @@
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white_01"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/paste_payment_proof"
+                    android:imeOptions="actionDone"
                     android:paddingStart="@dimen/payment_proof_content_horizontal_margin"
                     android:paddingEnd="@dimen/payment_proof_content_horizontal_margin"
-                    android:imeOptions="actionDone"
-                    android:hint="@string/paste_payment_proof"
+                    android:paddingBottom="0dp"
                     android:textColorHint="@color/white_02"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/proofTitle"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     tools:ignore="Autofill,LabelFor,TextFields"
                     tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e0976800000000000000ebb27b5501213c84eb212ea276e8ced74f540fbcceb0f4c1c2da2c5108188651a1864ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e03fbbbb5942e5e63d1a7728a2954a10d3bfb9938f0c17509a6a0e870c6bb22ff2d1297f3dae7f54592b00e84c6b3c9ea3e3ad9bc43661b6dcf7dbd818ccc92707d1d75b429697e849265" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white_02"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/proofValue" />
 
                 <TextView
                     android:id="@+id/proofError"
@@ -91,7 +104,7 @@
                     android:layout_marginTop="24dp"
                     android:background="#0CFFFFFF"
                     android:orientation="vertical"
-                    android:padding="10dp"
+                    android:padding="11dp"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -194,22 +207,22 @@
                     </LinearLayout>
 
                     <LinearLayout
-                    android:id="@+id/receiverLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:orientation="vertical">
+                        android:id="@+id/receiverLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:orientation="vertical">
 
                         <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.1"
-                        android:padding="3dp"
-                        android:text="@string/receiver"
-                        android:textAllCaps="true"
-                        android:textColor="#8798A9"
-                        android:textSize="12sp" />
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_bold"
+                            android:letterSpacing="0.1"
+                            android:padding="3dp"
+                            android:text="@string/receiver"
+                            android:textAllCaps="true"
+                            android:textColor="#8798A9"
+                            android:textSize="12sp" />
 
                         <LinearLayout
                             android:id="@+id/receiverContactLayout"
@@ -241,16 +254,16 @@
                         </LinearLayout>
 
                         <TextView
-                        android:id="@+id/receiverValue"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:padding="3dp"
-                        android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
-                        android:textSize="14sp"
-                        tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
-                </LinearLayout>
+                            android:id="@+id/receiverValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:padding="3dp"
+                            android:textAllCaps="false"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/amountLayout"

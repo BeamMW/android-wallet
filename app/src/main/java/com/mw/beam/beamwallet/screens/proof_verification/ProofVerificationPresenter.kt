@@ -50,6 +50,11 @@ class ProofVerificationPresenter(view: ProofVerificationContract.View?, reposito
         view?.showCopiedMessage()
     }
 
+    override fun setShouldExpandDetail(value:Boolean) {
+        state.shouldExpandDetail = value
+        view?.handleExpandDetails(state.shouldExpandDetail)
+    }
+
     override fun onExpandDetailsPressed() {
         state.shouldExpandDetail = !state.shouldExpandDetail
         view?.handleExpandDetails(state.shouldExpandDetail)

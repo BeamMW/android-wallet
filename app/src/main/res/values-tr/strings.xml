@@ -132,6 +132,7 @@
     <string name="pending">Beklemede</string>
     <string name="transactions">İşlemler</string>
     <string name="wallet_empty_transactions_list_message">İşlem listeniz boş</string>
+    <string name="wallet_empty_transactions_list_message_proggress">Aktif işleminiz bulunmamaktadır</string>
     <string name="search">Ara</string>
     <string name="filter">Filtrele</string>
     <string name="export">Dışa aktar</string>
@@ -189,6 +190,7 @@
     <string name="my_sending_address">Gönderici adreslerim</string>
     <string name="my_address">Adresim</string>
     <string name="transaction_deleted">İşlem silindi</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
     <string name="swap">Takas</string>
     <string name="auto_generated">otomatik oluşturuldu</string>
@@ -280,8 +282,9 @@
     <string name="address_id">Adres kimliği</string>
     <string name="expiration_date">Son kullanım tarihi</string>
     <string name="tag">Etiket</string>
+    <string name="show_qr_code_short">QR kodunu göster</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Adresi şimdi sonlandır</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Adresi aktifleştir</string>
     <string name="save">Kaydet</string>
     <string name="now">Şimdi</string>
@@ -301,6 +304,7 @@
     <string name="sender">Gönderici</string>
     <string name="receiver">Alıcı</string>
     <string name="current_password_is_incorrect">Şu anki şifre yanlış</string>
+    <string name="paste_payment_proof">Ödeme kanıdınızı buraya yapıştırın</string>
     <!--CategoryFragment-->
     <string name="edit">Düzenle</string>
     <string name="delete_tag">Etiketi sil</string>
@@ -321,7 +325,8 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
     <string name="owner_key_code_description">Sahip anahtarını güvenilir bir noda yerleştirmek, nodun, aynı anahtar kelimelerinden oluşturulan cüzdanlara gönderilen tüm UTXO\'ları izlemesini sağlar.\n\n Sahip Anahtarınızı başkalarıyla paylaşmayın; bu sahip olduğunuz fonların görüntülenmesini ve izlenmesini neden olur.</string>
     <string name="owner_key_verification_pass">Sahip Anahtarını güvenilir bir noda yerleştirmek, nodun bu cüzdan için gönderilen tüm UTXO\'ları ve anahtar kelimelerinizden oluşturulan tüm cüzdanları izlemesini sağlar.
 Sahip Anahtarını görmek için şifrenizi girmeniz gerekir.</string>
-    <string name="owner_key_verification_pass_finger">Sahip Anahtarını güvenilir bir noda yerleştirmek, nodun bu cüzdan için gönderilen tüm UTXO\'ları ve anahtar kelimelerinizden oluşturulan tüm cüzdanları izlemesini sağlar. Sahip Anahtarınızı görmek için 2 adımlı doğrulamayı geçmelisiniz (bir şifre girin ve Parmak İzi doğrulamasını geçiniz).</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Yeni transfer alınıyor</string>
     <string name="notification_receive_content_text">Ayrıntıları görmek için lütfen tıklayınız</string>
@@ -409,4 +414,12 @@ Sahip Anahtarını görmek için şifrenizi girmeniz gerekir.</string>
     <string name="connecting">Bağlanıyor...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Kimlik, yorum, adres veya kişiye göre işlem ara</string>
     <string name="address_details">Adres detayları</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">s</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>

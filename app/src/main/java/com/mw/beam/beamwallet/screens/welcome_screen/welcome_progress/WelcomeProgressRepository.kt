@@ -19,17 +19,14 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import android.annotation.SuppressLint
 import android.content.Context
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
-import com.mw.beam.beamwallet.core.AppManager
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
-import com.mw.beam.beamwallet.core.RestoreManager
 
 /**
  *  1/24/19.
@@ -97,6 +94,8 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
         WalletListener.oldCurrent = -1
 
+        DownloadCalculator.onStartDownload()
+
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
             wallet?.importRecovery(file.absolutePath)
         }
@@ -124,6 +123,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
 
+        DownloadCalculator.onStartDownload()
         RestoreManager.instance.startDownload(file)
 
         return downloadProgressSubject!!

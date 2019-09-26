@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.category
 
+import android.annotation.SuppressLint
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -31,6 +32,13 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import kotlinx.android.synthetic.main.fragment_category.*
+import android.text.SpannableString
+import android.text.style.StyleSpan
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.style.AbsoluteSizeSpan
+
+
 
 class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.View {
 
@@ -80,9 +88,21 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         return true
     }
 
+    @SuppressLint("StringFormatInvalid")
     override fun showConfirmDeleteDialog(categoryName: String) {
+        val sp = 15f
+        val px = sp * resources.displayMetrics.scaledDensity
+
+        val string = getString(R.string.tag_delete_dialog_message, categoryName)
+
+        val spannable = SpannableString(string)
+        val indexStart = string.indexOf(categoryName)
+        val indexEnd = indexStart + categoryName.length
+        spannable.setSpan(StyleSpan(Typeface.BOLD), indexStart, indexEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannable.setSpan(AbsoluteSizeSpan(px.toInt()), indexStart, indexEnd, 0);
+
         showAlert(
-                getString(R.string.tag_delete_dialog_message, categoryName),
+                spannable,
                 getString(R.string.delete),
                 { presenter?.onDeleteCategoryConfirmed() },
                 getString(R.string.delete_tag),

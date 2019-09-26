@@ -132,6 +132,7 @@
     <string name="pending">Pending</string>
     <string name="transactions">Transactions</string>
     <string name="wallet_empty_transactions_list_message">Your transaction list is empty</string>
+    <string name="wallet_empty_transactions_list_message_proggress">You have no active transactions</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="export">Export</string>
@@ -189,6 +190,7 @@
     <string name="my_sending_address">My sending address</string>
     <string name="my_address">My address</string>
     <string name="transaction_deleted">Transaction deleted</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">auto-generated</string>
@@ -280,8 +282,9 @@
     <string name="address_id">Address ID</string>
     <string name="expiration_date">Expiration date</string>
     <string name="tag">Tag</string>
+    <string name="show_qr_code_short">Show QR</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire address now</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Activate address</string>
     <string name="save">Save</string>
     <string name="now">Now</string>
@@ -301,6 +304,7 @@
     <string name="sender">Sender</string>
     <string name="receiver">Receiver</string>
     <string name="current_password_is_incorrect">Current password is incorrect</string>
+    <string name="paste_payment_proof">Paste your payment proof here</string>
     <!--CategoryFragment-->
     <string name="edit">Edit</string>
     <string name="delete_tag">Delete tag</string>
@@ -320,7 +324,7 @@
     <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
     <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Receiving new transaction</string>
@@ -409,4 +413,12 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="connecting">Connecting...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Search by transaction ID, comment, address or contact</string>
     <string name="address_details">Address details</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">h</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>

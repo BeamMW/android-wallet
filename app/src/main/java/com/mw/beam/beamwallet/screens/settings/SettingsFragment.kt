@@ -22,8 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -58,7 +56,9 @@ import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.fragment_settings.drawerLayout
 import kotlinx.android.synthetic.main.fragment_settings.navView
 import androidx.activity.OnBackPressedCallback
-import java.util.regex.Pattern
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+
 
 /**
  *  1/21/19.
@@ -66,6 +66,8 @@ import java.util.regex.Pattern
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings)
+
+    private var isShareLogs = false
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -200,24 +202,44 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun sendMailWithLogs() {
-        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-        shareIntent.type = AppConfig.SHARE_TYPE
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfig.SHARE_VALUE)
-        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+        if (!isShareLogs)
+        {
+            isShareLogs = true
 
-        val uris = ArrayList<Uri>()
-        val files = File(AppConfig.LOG_PATH).listFiles()
+            doAsync {
+                ZipManager.zip(AppConfig.LOG_PATH, AppConfig.ZIP_PATH);
 
-        files.asIterable().forEach {
-            uris.add(FileProvider.getUriForFile(context
-                    ?: return, AppConfig.AUTHORITY, File(AppConfig.LOG_PATH, it.name)))
+                uiThread {
+
+                   val subject =  when(BuildConfig.FLAVOR) {
+                        AppConfig.FLAVOR_MASTERNET -> {
+                            "beam wallet masternet logs"
+                        }
+                        AppConfig.FLAVOR_TESTNET -> {
+                            "beam wallet testnet logs"
+                        }
+                        AppConfig.FLAVOR_MAINNET -> {
+                            "beam wallet logs"
+                        }
+                       else -> ""
+                   }
+
+                    val shareIntent = Intent()
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                    shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    shareIntent.type = AppConfig.SHARE_TYPE
+                    shareIntent.action = Intent.ACTION_SEND;
+                    startActivity(shareIntent)
+
+                    isShareLogs = false
+                }
+            }
         }
 
-        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.settings_send_logs_description)))
     }
+
 
     override fun changePass() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCheckOldPassFragment())

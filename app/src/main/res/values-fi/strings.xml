@@ -60,7 +60,7 @@
     <string name="welcome_btn_change_alert">Jatka</string>
     <string name="welcome_where_to_buy_beam">Mistä voin ostaa BEAMiä?</string>
     <string name="welcome_using_two_wallets_notification_message">Älä käytä samaa seed phrasea usealla laitteella, sillä saldosi ja tapahtumasi eivät synkronoidu.</string>
-    <string name="welcome_using_two_wallets_notification_title">Älä käytä samaan aikaan kahta lompakkoa, jotka molemmat ovat luotu samasta seed phrasesta</string>
+    <string name="welcome_using_two_wallets_notification_title">Älä käytä samaan aikaan kahta lompakkoa, jotka on luotu samasta seed phrasesta</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Aloita lompakon käyttö</string>
     <string name="pass_save_new">Tallenna uusi salasana</string>
@@ -132,6 +132,7 @@
     <string name="pending">Odottaa</string>
     <string name="transactions">Tapahtumat</string>
     <string name="wallet_empty_transactions_list_message">Tapahtumahistoriasi on tyhjä</string>
+    <string name="wallet_empty_transactions_list_message_proggress">Sinulla ei ole aktiivisia maksutapahtumia</string>
     <string name="search">Etsi</string>
     <string name="filter">Suodatin</string>
     <string name="export">Vie</string>
@@ -189,8 +190,9 @@
     <string name="my_sending_address">Lähettävä osoitteeni</string>
     <string name="my_address">Oma osoitteeni</string>
     <string name="transaction_deleted">Maksutapahtuma poistettu</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
-    <string name="swap">Swap</string>
+    <string name="swap">Swap (vaihto)</string>
     <string name="auto_generated">generoitu automaattisesti</string>
     <string name="annotation">Kommentti</string>
     <string name="expires">Vanhentuu</string>
@@ -235,7 +237,7 @@
     <string name="no_matching_address_found">Yhteensopivaa osoitetta ei löytynyt</string>
     <string name="local_comment_not_shared">Kommentti, ei näy muille</string>
     <string name="address_already_exist_1">Tämä osoite on jo käytössä</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="address_already_exist_2">Osoitetta ei voida tallentaa. Tämä osoite on jo olemassa</string>
     <!--SettingsFragment-->
     <string name="settings_report">Ilmoita ongelmasta (englanniksi)</string>
     <string name="settings_change_pass">Vaihda lompakon salasana</string>
@@ -280,8 +282,9 @@
     <string name="address_id">Osoitteen id</string>
     <string name="expiration_date">Vanhentumispäivä</string>
     <string name="tag">Luokka</string>
+    <string name="show_qr_code_short">Näytä QR-koodi</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Vanhenna osoite heti</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Aktivoi osoite</string>
     <string name="save">Tallenna</string>
     <string name="now">Nyt</string>
@@ -301,6 +304,7 @@
     <string name="sender">Lähettäjä</string>
     <string name="receiver">Vastaanottaja</string>
     <string name="current_password_is_incorrect">Salasana on virheellinen</string>
+    <string name="paste_payment_proof">Liitä maksutodistuksen koodi tähän</string>
     <!--CategoryFragment-->
     <string name="edit">Muokkaa</string>
     <string name="delete_tag">Poista luokka</string>
@@ -320,8 +324,8 @@
     <string name="owner_key_code_description">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja lompakkoon, joka on generoitu samasta seed phrasesta. Älä jaa omistusavaintasi muille henkilöille, se antaa oikeuden tarkastella kaikkea varallisuuttasi.</string>
     <string name="owner_key_verification_pass">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
 Nähdäksesi omistusavaimesi sinun tulee kirjoittaa salasanasi.</string>
-    <string name="owner_key_verification_pass_finger">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
-Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta).</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">Vastaanottaa uutta maksua</string>
     <string name="notification_receive_content_text">Paina nähdäksesi lisätietoja</string>
@@ -409,4 +413,12 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="connecting">Yhdistetään...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">Etsi tapahtuman id:llä, kommentilla, osoitteella tai yhteystiedolla</string>
     <string name="address_details">Osoitetiedot</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">t</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>

@@ -54,6 +54,8 @@ import android.view.inputmethod.EditorInfo
 import android.view.KeyEvent
 
 
+
+
 class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), ProofVerificationContract.View {
     private lateinit var textWatcher: TextWatcher
 
@@ -107,11 +109,14 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         proofValue.imeOptions = EditorInfo.IME_ACTION_DONE
         proofValue.setRawInputType(InputType.TYPE_CLASS_TEXT)
 
+      //  proofValue.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS and InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
+
         var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
         proofValue.typeface = typeFace
 
         proofValue.requestFocus()
         showKeyboard()
+
     }
 
     override fun clear() {
@@ -122,16 +127,18 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun showErrorProof() {
         proofError.visibility = View.VISIBLE
+        view4.setBackgroundColor(context!!.getColor(R.color.common_error_color))
 
-        val errorColorStateList = ColorStateList.valueOf(context!!.getColor(R.color.common_error_color))
-        proofValue.backgroundTintList = errorColorStateList
-        proofValue.setTextColor(errorColorStateList)
+     //   val errorColorStateList = ColorStateList.valueOf(context!!.getColor(R.color.common_error_color))
+       // proofValue.backgroundTintList = errorColorStateList
+        proofValue.setTextColor(context!!.getColor(R.color.common_error_color))
     }
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
+        view4.setBackgroundColor(context!!.getColor(R.color.white_02))
 
-        proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.white_01))
+       // proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.white_01))
         proofValue.setTextColor(context!!.getColor(R.color.common_text_color))
     }
 
@@ -172,10 +179,7 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
         detailsLayout.visibility = View.VISIBLE
         btnDetailsCopy.visibility = View.VISIBLE
 
-        if (senderLayout.visibility == View.GONE)
-        {
-            presenter?.onExpandDetailsPressed()
-        }
+        presenter?.setShouldExpandDetail(true)
     }
 
     override fun showCopiedMessage() {

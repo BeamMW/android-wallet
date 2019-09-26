@@ -37,6 +37,7 @@ import com.mw.beam.beamwallet.screens.wallet.WalletFragment
 import kotlinx.android.synthetic.main.fragment_wallet.view.*
 import com.mw.beam.beamwallet.screens.wallet.WalletFragmentDirections
 import android.os.Handler
+import android.text.SpannableString
 import android.view.Gravity
 import android.view.View
 import android.view.animation.Animation
@@ -49,6 +50,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import androidx.core.app.ActivityCompat.invalidateOptionsMenu
 import android.view.animation.AnimationUtils
 import androidx.core.view.ViewCompat
+import androidx.customview.widget.ViewDragHelper
 import androidx.navigation.findNavController
 import com.mw.beam.beamwallet.core.App
 
@@ -110,18 +112,22 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
                 R.string.open,
                 R.string.close
         ) {
-//            override fun onDrawerClosed(drawerView: View) {
-//                super.onDrawerClosed(drawerView)
-//                navigateIfNeed()
-//            }
+
+            override fun onDrawerStateChanged(newState: Int) {
+                super.onDrawerStateChanged(newState)
+
+                if(newState == ViewDragHelper.STATE_IDLE) {
+                    navigateIfNeed()
+                }
+            }
         }
+
         drawerLayout?.addDrawerListener(drawerToggle)
         drawerToggle.syncState()
 
         navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
                 navItemClick(navItem)
-                navigateIfNeed()
             }
         })
         navMenu.layoutManager = LinearLayoutManager(context)
@@ -178,18 +184,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         if (direction!=null && current!=null && direction!=current)
         {
             val navBuilder = NavOptions.Builder()
-            navBuilder.setEnterAnim(android.R.anim.fade_in)
-            navBuilder.setPopEnterAnim(android.R.anim.fade_in)
-            navBuilder.setExitAnim(android.R.anim.fade_out)
-            navBuilder.setPopExitAnim(android.R.anim.fade_out)
 
             destinationFragment = direction
 
             navigationOptions = navBuilder.setPopUpTo(current, true).build()
         }
-        else{
-            drawerLayout?.closeDrawer(GravityCompat.START)
-        }
+
+        drawerLayout?.closeDrawer(GravityCompat.START)
     }
 
     override fun onHideKeyboard() {
@@ -226,6 +227,11 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
+                ?: return null, cancelable)
+    }
+
+    override fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null, cancelable)
     }

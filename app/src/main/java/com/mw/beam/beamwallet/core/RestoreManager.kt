@@ -1,14 +1,22 @@
 package com.mw.beam.beamwallet.core
 
-import android.app.DownloadManager
-import android.content.Context
 import android.net.Uri
-import android.os.Handler
 import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.tonyodev.fetch2.Error
 import io.reactivex.subjects.PublishSubject
 import java.io.File
+import com.tonyodev.fetch2.Fetch
+import com.tonyodev.fetch2.NetworkType
+import com.tonyodev.fetch2.FetchConfiguration
+import com.tonyodev.fetch2.Request
+import com.tonyodev.fetch2.Priority
+import com.tonyodev.fetch2core.Func
+import com.tonyodev.fetch2.FetchListener
+import com.tonyodev.fetch2.Download
+import com.tonyodev.fetch2core.DownloadBlock
+import java.util.concurrent.TimeUnit
+
 
 class RestoreManager {
 
@@ -25,13 +33,9 @@ class RestoreManager {
             }
     }
 
-    private var handler = Handler()
-    private var isProgressCheckerRunning = false
-    private var progressChecker:Runnable? = null
 
-    private var downloadManager: DownloadManager? = null
-
-    private var downloadID: Long = 0
+    private var fetch: Fetch? = null
+    private var fetchListener:FetchListener? = null
 
     val subDownloadProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
 
@@ -42,125 +46,85 @@ class RestoreManager {
             else -> "https://mobile-restore.beam.mw/masternet/masternet_recovery.bin"
         }
 
-        val request = DownloadManager.Request(Uri.parse(link))
-                .setTitle(App.self.getString(R.string.app_name))
-                .setDescription(App.self.getString(R.string.downloading_blockchain_info))
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setDestinationUri(Uri.fromFile(file))
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
+        val fetchConfiguration = FetchConfiguration.Builder(App.self.baseContext)
+                .setDownloadConcurrentLimit(1)
+                .build()
 
-        downloadManager = App.self.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager?
-        downloadID = downloadManager!!.enqueue(request)
+        fetch = null
+        fetch = Fetch.getInstance(fetchConfiguration)
+        fetch?.deleteAll()
 
-        startProgressChecker()
+        val request = Request(link, Uri.fromFile(file))
+        request.priority = Priority.HIGH
+        request.networkType = NetworkType.ALL
+
+
+        fetchListener = object : FetchListener {
+
+            override fun onWaitingNetwork(download: Download) {
+            }
+
+            override fun onStarted(download: Download, downloadBlocks: List<DownloadBlock>, totalBlocks: Int) {
+            }
+
+            override fun onError(download: Download, error: Error, throwable: Throwable?) {
+                subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
+            }
+
+            override fun onDownloadBlockUpdated(download: Download, downloadBlock: DownloadBlock, totalBlocks: Int) {
+            }
+
+            override fun onAdded(download: Download) {
+            }
+
+            override fun onQueued(download: Download, waitingOnNetwork: Boolean) {
+            }
+
+            override fun onCompleted(download: Download) {
+                subDownloadProgress.onNext(OnSyncProgressData(100, 100))
+            }
+
+            override fun onProgress(download: Download, etaInMilliSeconds: Long, downloadedBytesPerSecond: Long) {
+                val progress = download.progress
+                if (progress in 1..99) {
+                    val time = TimeUnit.MILLISECONDS.toSeconds(etaInMilliSeconds)
+                    subDownloadProgress.onNext(OnSyncProgressData(progress, 100, time.toInt()))
+                }
+            }
+
+            override fun onPaused(download: Download) {
+            }
+
+            override fun onResumed(download: Download) {
+            }
+
+            override fun onCancelled(download: Download) {
+                subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
+            }
+
+            override fun onRemoved(download: Download) {
+            }
+
+            override fun onDeleted(download: Download) {
+            }
+        }
+
+        fetch?.addListener(fetchListener!!)
+
+        fetch?.enqueue(request,
+                Func<Request> {
+                },
+                Func<Error> {
+                })
     }
 
     fun stopDownload() {
-        downloadManager?.remove(downloadID)
-
-        stopProgressChecker()
-    }
-
-    fun checkDownloadStatus(id:Long) {
-        if (downloadID == id) {
-            val query = DownloadManager.Query()
-            query.setFilterById(downloadID)
-
-            val cursor = downloadManager?.query(query)
-            if (cursor!=null) {
-                if (!cursor.moveToFirst()) {
-                    cursor.close()
-
-                    stopProgressChecker()
-
-                    subDownloadProgress.onNext(OnSyncProgressData(-1, 100))
-
-                    return
-                }
-                do {
-                    val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-
-                    val status = cursor.getInt(columnIndex)
-
-                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                        subDownloadProgress.onNext(OnSyncProgressData(100, 100))
-                    }
-
-                } while (cursor.moveToNext())
-                cursor.close()
+        if (fetch?.isClosed == false) {
+            if (fetchListener!=null) {
+                fetch?.removeListener(fetchListener!!)
             }
-
-            stopProgressChecker()
-        }
-    }
-
-    private fun stopProgressChecker() {
-        if (isProgressCheckerRunning) {
-            downloadID = 0
-            handler.removeCallbacks(progressChecker)
-            progressChecker = null
-            isProgressCheckerRunning = false
-        }
-    }
-
-
-    private fun startProgressChecker() {
-        if (!isProgressCheckerRunning) {
-
-            progressChecker = object:Runnable {
-                override fun run() {
-                    try {
-                        checkProgress()
-                    } finally {
-                        handler.postDelayed(progressChecker, 300)
-                    }
-                }
-            }
-            progressChecker?.run()
-
-            isProgressCheckerRunning = true
-        }
-    }
-
-
-    private fun checkProgress() {
-        val query = DownloadManager.Query()
-        query.setFilterById(downloadID)
-
-        val cursor = downloadManager?.query(query)
-
-        if (cursor!=null) {
-
-            if (!cursor.moveToFirst()) {
-
-                cursor.close()
-
-                stopProgressChecker()
-
-                return
-            }
-            do {
-                val columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-
-                val downloaded = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR))
-                val total = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
-
-                val status = cursor.getInt(columnIndex)
-
-                if (status == DownloadManager.STATUS_RUNNING) {
-                    var progress = ((downloaded * 100L) / total)
-
-                    if (progress>=100) {
-                        progress = 99
-                    }
-
-                    subDownloadProgress.onNext(OnSyncProgressData(progress.toInt(), 100))
-                }
-
-
-            } while (cursor.moveToNext())
-            cursor.close()
+            fetch?.deleteAll()
+            fetch?.close()
         }
     }
 }

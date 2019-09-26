@@ -132,6 +132,7 @@
     <string name="pending">펜딩 중</string>
     <string name="transactions">거래내역</string>
     <string name="wallet_empty_transactions_list_message">거래 내역이 없습니다</string>
+    <string name="wallet_empty_transactions_list_message_proggress">활성화된 거래가 없습니다.</string>
     <string name="search">검색</string>
     <string name="filter">필터</string>
     <string name="export">내보내기</string>
@@ -189,6 +190,7 @@
     <string name="my_sending_address">나의 보내는 주소</string>
     <string name="my_address">내 주소</string>
     <string name="transaction_deleted">거래 삭제</string>
+    <string name="save_contact">Save contact</string>
     <!--ReceiveFragment-->
     <string name="swap">바꾸기</string>
     <string name="auto_generated">자동 생성</string>
@@ -280,8 +282,9 @@
     <string name="address_id">주소 ID</string>
     <string name="expiration_date">만료 일자</string>
     <string name="tag">태그</string>
+    <string name="show_qr_code_short">QR 보이기</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">주소 만료시키기</string>
+    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">주소 활성화</string>
     <string name="save">저장</string>
     <string name="now">현재</string>
@@ -301,6 +304,7 @@
     <string name="sender">보내는 사람</string>
     <string name="receiver">받는 사람</string>
     <string name="current_password_is_incorrect">올바른 비밀번호가 아닙니다</string>
+    <string name="paste_payment_proof">당신의 지불 증명을 여기에 붙여넣기 하세요</string>
     <!--CategoryFragment-->
     <string name="edit">수정</string>
     <string name="delete_tag">태그 삭제</string>
@@ -319,7 +323,8 @@
     <string name="owner_key_copied_message">소유자 키 코드가 클립보드에 복사되었습니다.</string>
     <string name="owner_key_code_description">신뢰할 수 있는 노드에게 소유자 키를 배포하면 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. \n\n 당신의 소유자 키를 다른 사람과 공유하지 마십시오 - 당신의 자금 상황이 추적 및 감시 당할 수 있습니다.</string>
     <string name="owner_key_verification_pass">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 비밀 번호를 입력해야 합니다.</string>
-    <string name="owner_key_verification_pass_finger">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑으로 전송된 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 2단계의 검증과정을 거쳐야 합니다. (비밀 번호 입력과 지문인식)</string>
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_title">새로운 거래 받는중</string>
     <string name="notification_receive_content_text">세부사항을 보려면 클릭하세요</string>
@@ -407,4 +412,12 @@
     <string name="connecting">연결중...</string>
     <string name="search_by_transaction_id_comment_address_or_contact">거래 ID , 코멘트 , 주소 혹은 연락처로 검색하기</string>
     <string name="address_details">주소 상세정보</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">시</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
 </resources>

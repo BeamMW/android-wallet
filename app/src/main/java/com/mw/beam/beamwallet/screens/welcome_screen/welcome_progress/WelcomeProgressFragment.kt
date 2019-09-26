@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 import android.animation.ObjectAnimator
 import androidx.navigation.NavOptions
+import com.mw.beam.beamwallet.core.helpers.toTimeFormat
 
 
 /**
@@ -107,13 +108,33 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE -> { }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
+
+                    var descriptionString = if (progressData.time != null) {
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
+                        "$downloadDescriptionString ${progressData.done}%, $estimate"
+                    } else{
+                        "$downloadDescriptionString ${progressData.done}%"
+                    }
+
                     title.text = downloadTitleString
+
                     restoreFullDescription.visibility = View.GONE
-                    configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
-                } else {
+
+                    configProgress(progressData.done,descriptionString)
+                }
+                else {
+                    var descriptionString = if (progressData.time != null) {
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
+                        "$restoreDescriptionString ${countProgress(progressData)}%, $estimate"
+                    } else{
+                        "$restoreDescriptionString ${countProgress(progressData)}%"
+                    }
+
                     title.text = restoreTitleString
+
                     restoreFullDescription.visibility = View.VISIBLE
-                    configProgress(countProgress(progressData), "$restoreDescriptionString ${countProgress(progressData)}%")
+
+                    configProgress(countProgress(progressData), descriptionString)
                 }
             }
             WelcomeMode.CREATE -> { }
@@ -247,8 +268,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         else{
             progress.progress = currentProgress
         }
-
     }
+
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())

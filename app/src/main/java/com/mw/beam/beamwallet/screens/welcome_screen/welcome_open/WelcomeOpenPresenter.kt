@@ -90,7 +90,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
 
     override fun onFingerprintSucceeded() {
         if (App.isShowedLockScreen) {
-            if (repository.checkPass(PreferencesManager.KEY_PASSWORD)) {
+            if (repository.checkPass(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))) {
                 view?.openWallet(view?.getPass() ?: return)
             }
             else{

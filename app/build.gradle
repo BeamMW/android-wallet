@@ -26,8 +26,8 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 116
-        versionName "3.1.6"
+        versionCode 121
+        versionName "3.2.04"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -207,12 +207,18 @@ dependencies {
     implementation 'me.relex:circleindicator:2.1.4'
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
     implementation 'com.karumi:dexter:6.0.0'
+    implementation "androidx.tonyodev.fetch2:xfetch2:3.1.4"
+
+
 
     testImplementation "junit:junit:$ver_junit"
     testImplementation "org.powermock:powermock-module-junit4:$ver_powermock"
     testImplementation "org.powermock:powermock-module-junit4-rule:$ver_powermock"
     testImplementation "org.powermock:powermock-api-mockito:$ver_powermock"
     testImplementation "org.powermock:powermock-classloading-xstream:$ver_powermock"
+
+
+
     androidTestImplementation "androidx.test:runner:$ver_test_runner"
     androidTestImplementation "androidx.test:rules:$ver_test_rules"
     androidTestImplementation "androidx.test.espresso:espresso-core:$ver_espresso"

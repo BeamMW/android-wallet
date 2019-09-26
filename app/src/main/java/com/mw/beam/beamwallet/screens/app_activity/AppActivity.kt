@@ -29,11 +29,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
-import android.app.DownloadManager
-import android.content.IntentFilter
-import android.content.BroadcastReceiver
-import android.content.Context
-import com.mw.beam.beamwallet.core.RestoreManager
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
@@ -67,9 +62,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState)
 
-        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        setupCrashHandler()
+     //   setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -77,9 +70,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState, persistentState)
 
-        registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-        setupCrashHandler()
+     //   setupCrashHandler()
     }
 
     override fun onDestroy() {
@@ -134,12 +125,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         return AppActivityPresenter(this, AppActivityRepository())
     }
 
-    private var onComplete: BroadcastReceiver = object : BroadcastReceiver() {
-        override fun onReceive(ctxt: Context, intent: Intent) {
-            val id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            RestoreManager.instance.checkDownloadStatus(id)
-        }
-    }
 
     private fun setupCrashHandler() {
         val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
