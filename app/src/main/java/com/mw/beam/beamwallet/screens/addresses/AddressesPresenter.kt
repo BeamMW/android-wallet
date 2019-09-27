@@ -122,4 +122,8 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
     override fun hasBackArrow(): Boolean? = true
     override fun hasStatus(): Boolean = true
+
+    override fun onModeChanged(mode: AddressesFragment.Mode) {
+        view?.changeMode(mode)
+    }
 }

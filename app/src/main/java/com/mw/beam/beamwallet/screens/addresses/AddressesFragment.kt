@@ -98,10 +98,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                     override fun onLongClick(item: WalletAddress) {
                         if (mode == Mode.NONE) {
 
-                            mode = Mode.EDIT
-
-                            pager.lockSwipeWithMode(mode)
-                            tabLayout.swipable = false
+                            presenter?.onModeChanged(Mode.EDIT)
 
                             selectedAddresses.add(item.walletID)
 
@@ -146,6 +143,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun onStart() {
         super.onStart()
         onBackPressedCallback.isEnabled = true
+        presenter?.onModeChanged(mode)
     }
 
     override fun onStop() {
@@ -165,9 +163,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.title = null
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_menu)
 
-        mode = Mode.NONE
-        pager.lockSwipeWithMode(mode)
-        tabLayout.swipable = true
+        presenter?.onModeChanged(Mode.NONE)
 
         selectedAddresses.clear()
 
@@ -245,7 +241,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         val id = selectedAddresses.first()
         val address = presenter?.state?.addresses?.find { it.walletID == id }
         if (address != null) {
-            mode = Mode.NONE
+            presenter?.onModeChanged(Mode.NONE)
             selectedAddresses.clear()
             findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToEditAddressFragment(address))
         }
@@ -333,6 +329,12 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         emptyLayout.visibility = View.GONE
         pager.visibility = View.VISIBLE
         tabLayout.visibility = View.VISIBLE
+    }
+
+    override fun changeMode(mode: Mode) {
+        this.mode = mode
+        tabLayout.setMode(mode)
+        pager.setMode(mode)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
