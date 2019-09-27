@@ -186,12 +186,16 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun getPass(): String = pass.text?.toString() ?: ""
 
     override fun openWallet(pass: String) {
+        hideKeyboard()
         if (App.isShowedLockScreen) {
             App.isShowedLockScreen = false
             findNavController().popBackStack()
         }
         else{
-            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+            val mDelayOnDrawerClose = 50
+            Handler().postDelayed({
+                findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+            }, mDelayOnDrawerClose.toLong())
         }
     }
     override fun changeWallet() {

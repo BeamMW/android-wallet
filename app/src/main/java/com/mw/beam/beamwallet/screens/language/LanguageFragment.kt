@@ -68,6 +68,8 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
 
         context!!.resources.updateConfiguration(config, context!!.resources.displayMetrics)
 
+        (activity as? AppActivity)?.reloadMenu()
+
         findNavController().popBackStack()
     }
 

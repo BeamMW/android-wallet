@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.navigation.AnimBuilder
@@ -34,6 +35,19 @@ import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.ndk.CrashlyticsNdk
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.mw.beam.beamwallet.screens.wallet.NavItem
+import com.mw.beam.beamwallet.screens.wallet.NavItemsAdapter
+import android.os.Handler
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavOptions
+import android.widget.TextView
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.AppConfig
+
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
@@ -47,6 +61,18 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun getToolbarTitle(): String? = null
 
+    private var result: Drawer? = null
+    private lateinit var navigationView:android.view.View
+
+    private lateinit var navItemsAdapter: NavItemsAdapter
+
+    private val menuItems by lazy {
+        arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+    }
 
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
@@ -62,7 +88,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState)
 
-     //   setupCrashHandler()
+        setupMenu(savedInstanceState)
+        setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -70,7 +97,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         super.onCreate(savedInstanceState, persistentState)
 
-     //   setupCrashHandler()
+        setupMenu(savedInstanceState)
+        setupCrashHandler()
     }
 
     override fun onDestroy() {
@@ -126,6 +154,71 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
 
+    private fun setupMenu(savedInstanceState: Bundle?)
+    {
+        navigationView = layoutInflater.inflate(R.layout.left_menu, null)
+        val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
+
+        navItemsAdapter = NavItemsAdapter(applicationContext, menuItems, object : NavItemsAdapter.OnItemClickListener {
+            override fun onItemClick(navItem: NavItem) {
+                if (navItemsAdapter.selectedItem != navItem.id) {
+                    val destinationFragment = when (navItem.id) {
+                        NavItem.ID.WALLET -> R.id.walletFragment
+                        NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+                        NavItem.ID.UTXO -> R.id.utxoFragment
+                        NavItem.ID.SETTINGS -> R.id.settingsFragment
+                        else -> 0
+                    }
+                    val navBuilder = NavOptions.Builder()
+                    val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                    findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
+
+                    val mDelayOnDrawerClose = 50
+                    Handler().postDelayed({
+                        result?.drawerLayout?.closeDrawers()
+                        navItemsAdapter.selectItem(navItem.id)
+                    }, mDelayOnDrawerClose.toLong())
+                }
+                else{
+                    result?.drawerLayout?.closeDrawers()
+                }
+            }
+        })
+        navMenu.layoutManager = LinearLayoutManager(applicationContext)
+        navMenu.adapter = navItemsAdapter
+        navItemsAdapter.selectItem(NavItem.ID.WALLET)
+
+        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
+        whereBuyBeamLink.setOnClickListener {
+
+            val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+            if (allow) {
+                openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+            }
+            else{
+                showAlert(
+                        getString(R.string.common_external_link_dialog_message),
+                        getString(R.string.open),
+                        { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
+                        getString(R.string.common_external_link_dialog_title),
+                        getString(R.string.cancel)
+                )
+            }
+
+        }
+
+        result = DrawerBuilder()
+                .withActivity(this)
+                .withSavedInstance(savedInstanceState)
+                .withDisplayBelowStatusBar(true)
+                .withTranslucentStatusBar(true)
+                .withCustomView(navigationView)
+                .build()
+
+        result?.drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
     private fun setupCrashHandler() {
         val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
 
@@ -167,4 +260,45 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         kotlin.system.exitProcess(10)
     }
 
+    fun enableLeftMenu(enable:Boolean) {
+        if (enable) {
+            result?.drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        }
+        else{
+            result?.drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
+    }
+
+    fun isMenuOpened() : Boolean {
+       return result?.isDrawerOpen == true
+    }
+
+    fun closeMenu() {
+        result?.closeDrawer()
+    }
+
+    fun openMenu() {
+        result?.openDrawer()
+    }
+
+    fun showWallet() {
+        navItemsAdapter.selectItem(NavItem.ID.WALLET)
+
+        val navBuilder = NavOptions.Builder()
+        val navigationOptions = navBuilder.setPopUpTo(R.id.walletFragment, true).build()
+        findNavController(R.id.nav_host).navigate(R.id.walletFragment, null, navigationOptions);
+    }
+
+    fun reloadMenu() {
+        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
+        whereBuyBeamLink.text = getString(R.string.welcome_where_to_buy_beam)
+
+        navItemsAdapter.data = arrayOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+        navItemsAdapter.selectItem(NavItem.ID.SETTINGS)
+        navItemsAdapter.notifyDataSetChanged()
+    }
 }

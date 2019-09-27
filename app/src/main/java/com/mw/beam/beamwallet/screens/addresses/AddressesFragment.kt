@@ -20,25 +20,21 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.navigation.NavigationView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
-import kotlinx.android.synthetic.main.fragment_addresses.drawerLayout
-import kotlinx.android.synthetic.main.fragment_addresses.navView
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
-import kotlinx.android.synthetic.main.fragment_settings.*
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
 
 /**
  *  2/28/19.
@@ -139,7 +135,12 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         })
 
         tabLayout.setupWithViewPager(pager)
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.ADDRESS_BOOK)
+
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
+        }
     }
 
     override fun onStart() {
