@@ -4,9 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.Toast
 import androidx.viewpager.widget.ViewPager
-import kotlin.math.abs
 
 class AddressesLockableViewPager(context: Context, attributeSet: AttributeSet) : ViewPager(context, attributeSet) {
 
@@ -26,7 +24,7 @@ class AddressesLockableViewPager(context: Context, attributeSet: AttributeSet) :
         }
     }
 
-    fun setMode(mode: AddressesFragment.Mode) {
+    fun lockSwipeWithMode(mode: AddressesFragment.Mode) {
         when(mode){
             AddressesFragment.Mode.EDIT -> this.locked = true
             else -> this.locked = false

@@ -1,27 +1,15 @@
 package com.mw.beam.beamwallet.screens.addresses
 
 import android.content.Context
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.MotionEvent
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_addresses.*
 
 class AddressesLockableTabLayout(context: Context, attributeSet: AttributeSet) : TabLayout(context, attributeSet) {
-    private var transition: AutoTransition = AutoTransition()
+    var swipable = true
 
-    init {
-        transition.duration = 525
-    }
-
-    fun setMode(mode: AddressesFragment.Mode) {
-        TransitionManager.beginDelayedTransition(parent as ViewGroup?, transition)
-        when(mode){
-            AddressesFragment.Mode.NONE -> this.visibility = View.VISIBLE
-            AddressesFragment.Mode.EDIT -> this.visibility = View.GONE
-        }
-
-    }
+    override fun onInterceptTouchEvent(event: MotionEvent): Boolean = !swipable
 
 }

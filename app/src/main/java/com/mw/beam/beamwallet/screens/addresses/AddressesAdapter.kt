@@ -54,15 +54,19 @@ class AddressesAdapter(private val context: Context,
     var selectedAddresses = mutableListOf<String>()
     var mode = AddressesFragment.Mode.NONE
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_address, parent, false)).apply {
         this.containerView.setOnClickListener {
 
             clickListener.onItemClick(data[adapterPosition])
 
-            if (mode == AddressesFragment.Mode.EDIT) {
-                if (selectedAddresses.contains(data[adapterPosition].walletID)) {
+            if (mode == AddressesFragment.Mode.EDIT)
+            {
+                if (selectedAddresses.contains(data[adapterPosition].walletID))
+                {
                     selectedAddresses.remove(data[adapterPosition].walletID)
-                } else {
+                }
+                else{
                     selectedAddresses.add(data[adapterPosition].walletID)
                 }
 
@@ -70,8 +74,9 @@ class AddressesAdapter(private val context: Context,
             }
         }
 
-        if (longListener != null) {
-            this.containerView.setOnLongClickListener {
+        if (longListener != null)
+        {
+            this.containerView.setOnLongClickListener{
                 longListener?.onLongClick(data[adapterPosition])
                 return@setOnLongClickListener true
             }
@@ -146,10 +151,12 @@ class AddressesAdapter(private val context: Context,
                 clickListener.onItemClick(address)
             }
 
-            if (mode == AddressesFragment.Mode.NONE) {
+            if (mode == AddressesFragment.Mode.NONE)
+            {
                 checkBox.isChecked = false
                 checkBox.visibility = View.GONE
-            } else {
+            }
+            else{
                 checkBox.isChecked = selectedAddresses.contains(address.walletID)
                 checkBox.visibility = View.VISIBLE
             }
@@ -158,7 +165,7 @@ class AddressesAdapter(private val context: Context,
 
     override fun getItemCount(): Int = data.size
 
-    fun item(index: Int): WalletAddress {
+    fun item(index:Int): WalletAddress {
         return data[index]
     }
 

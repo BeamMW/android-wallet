@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:filterTouchesWhenObscured="true"
     android:padding="@dimen/common_offset">
 
@@ -17,99 +17,86 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/container"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container"
+    <TextView
+        android:id="@+id/label"
+        style="@style/common_subheader_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/addresses_label_offset"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:textSize="@dimen/addresses_label_text_size"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/checkBox"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="label" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/addressId"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/addressId"
-            app:layout_constraintTop_toTopOf="@id/addressId"
-            tools:ignore="UseCompoundDrawables">
+    <TextView
+        android:id="@+id/addressId"
+        style="@style/common_text_big_dark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        app:layout_constraintEnd_toStartOf="@id/addressLimit"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@id/label"
+        tools:text="lwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12kln" />
 
-            <ImageView
-                android:id="@+id/expireStateIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="10dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_infinity" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/addressLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="128dp" />
 
-            <TextView
-                android:id="@+id/date"
-                style="@style/common_text_big_dark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="14dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                tools:text="expired 30 May 2019" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/addressId"
-            style="@style/common_text_big_dark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="@dimen/common_offset"
-            android:ellipsize="middle"
-            android:singleLine="true"
-            app:layout_constraintEnd_toStartOf="@id/addressLimit"
-            app:layout_constraintStart_toStartOf="@id/container"
-            app:layout_constraintTop_toBottomOf="@id/label"
-            tools:text="lwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12klnlwmef2llk124n12kln" />
-
-        <TextView
-            android:id="@+id/label"
-            style="@style/common_subheader_light"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/addresses_label_offset"
-            android:ellipsize="middle"
-            android:singleLine="true"
-            android:textSize="@dimen/addresses_label_text_size"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/container"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="label" />
-
-        <TextView
-            android:id="@+id/tag"
-            style="@style/common_text_big_light"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/addressId"
-            app:layout_constraintTop_toBottomOf="@id/addressId"
-            tools:text="Category Category Category Category Category"
-            tools:visibility="visible" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/addressLimit"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_marginStart="60dp"
+        app:layout_constraintStart_toEndOf="@id/addressId"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/addressId"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/addressId"
+        tools:ignore="UseCompoundDrawables">
+        <ImageView
+            android:id="@+id/expireStateIcon"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_infinity"
             android:layout_width="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintGuide_begin="128dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:contentDescription="@null" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_gravity="center"
+            style="@style/common_text_big_dark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="14dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            tools:text="expired 30 May 2019" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tag"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/addressId"
+        app:layout_constraintTop_toBottomOf="@id/addressId"
+        tools:text="Category Category Category Category Category"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

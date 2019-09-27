@@ -20,6 +20,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -34,13 +35,15 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
+import kotlinx.android.synthetic.main.fragment_addresses.drawerLayout
+import kotlinx.android.synthetic.main.fragment_addresses.navView
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 /**
  *  2/28/19.
  */
 class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.View {
-
     enum class Mode {
         NONE, EDIT
     }
@@ -56,7 +59,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     private var mode = Mode.NONE
     private var menuPosition = 0
-
 
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -79,6 +81,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         setHasOptionsMenu(true)
         setMenuVisibility(false)
+
         pagerAdapter = AddressesPagerAdapter(context,
                 object : AddressesAdapter.OnItemClickListener {
                     override fun onItemClick(item: WalletAddress) {
@@ -99,7 +102,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                     override fun onLongClick(item: WalletAddress) {
                         if (mode == Mode.NONE) {
 
-                            presenter?.onModeChanged(Mode.EDIT)
+                            mode = Mode.EDIT
+
+                            pager.lockSwipeWithMode(mode)
+                            tabLayout.swipable = false
 
                             selectedAddresses.add(item.walletID)
 
@@ -139,7 +145,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun onStart() {
         super.onStart()
         onBackPressedCallback.isEnabled = true
-        presenter?.onModeChanged(mode)
     }
 
     override fun onStop() {
@@ -159,7 +164,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.title = null
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_menu)
 
-        presenter?.onModeChanged(Mode.NONE)
+        mode = Mode.NONE
+        pager.lockSwipeWithMode(mode)
+        tabLayout.swipable = true
 
         selectedAddresses.clear()
 
@@ -237,7 +244,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         val id = selectedAddresses.first()
         val address = presenter?.state?.addresses?.find { it.walletID == id }
         if (address != null) {
-            presenter?.onModeChanged(Mode.NONE)
+            mode = Mode.NONE
             selectedAddresses.clear()
             findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToEditAddressFragment(address))
         }
@@ -325,13 +332,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         emptyLayout.visibility = View.GONE
         pager.visibility = View.VISIBLE
         tabLayout.visibility = View.VISIBLE
-    }
-
-
-    override fun changeMode(mode: Mode) {
-        this.mode = mode
-        tabLayout.setMode(mode)
-        pager.setMode(mode)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
