@@ -43,6 +43,7 @@ interface AddressesContract {
         fun deleteAddresses()
         fun showDeleteAddressesDialog()
         fun showDeleteAddressesSnackBar(removeTransactions:Boolean)
+        fun changeMode(mode: AddressesFragment.Mode)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -54,6 +55,7 @@ interface AddressesContract {
         fun onDeleteAddressesPressed()
         fun onDeleteAddress(selected: List<String>)
         fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>)
+        fun onModeChanged(mode: AddressesFragment.Mode)
     }
 
     interface Repository : MvpRepository {
