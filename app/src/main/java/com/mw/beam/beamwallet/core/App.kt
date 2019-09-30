@@ -21,6 +21,12 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.elvishew.xlog.LogConfiguration
 import com.elvishew.xlog.LogLevel
 import com.elvishew.xlog.XLog
@@ -57,8 +63,12 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver{
+            @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+            fun onResume(){
+                is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
+            }
+        })
 
         when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX
@@ -120,5 +130,10 @@ class App : Application() {
                         .build())
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
+        Log.d("24Format", "$is24HoursTimeFormat")
+    }
 
 }

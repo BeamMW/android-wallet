@@ -222,7 +222,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!)
 
-        if(status == TxStatus.Failed.name || status == TxStatus.Cancelled.name){
+        if(status == TxStatus.Failed.name || status == TxStatus.Cancelled.name || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED){
             btnOpenInBlockExplorer.visibility = View.INVISIBLE
         }
 
