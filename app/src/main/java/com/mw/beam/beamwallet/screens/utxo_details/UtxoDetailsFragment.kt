@@ -70,7 +70,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         statusLabel.text = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
-            UtxoStatus.Change -> getString(R.string.change)
+            UtxoStatus.Change -> getString(R.string.change_utxo_type)
             UtxoStatus.Outgoing -> getString(R.string.outgoing)
             UtxoStatus.Maturing -> getString(R.string.maturing)
             UtxoStatus.Spent -> getString(R.string.spent)
@@ -82,7 +82,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
-            UtxoKeyType.Change -> getString(R.string.change)
+            UtxoKeyType.Change -> getString(R.string.change_utxo_type)
             UtxoKeyType.Kernel -> getString(R.string.kernel)
             UtxoKeyType.Kernel2 -> getString(R.string.kernel2)
             UtxoKeyType.Identity -> getString(R.string.identity)

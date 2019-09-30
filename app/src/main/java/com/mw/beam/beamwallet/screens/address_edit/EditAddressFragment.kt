@@ -32,10 +32,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
@@ -47,8 +43,10 @@ import kotlinx.android.synthetic.main.fragment_edit_address.*
 import androidx.appcompat.widget.AppCompatTextView
 import android.util.TypedValue
 import android.view.*
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import java.util.Date
 import java.util.Calendar
 
@@ -59,6 +57,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     private lateinit var expireNowString: String
     private lateinit var activateString: String
     private var needSave = false
+    private var isContact = false
 
     private val commentTextWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -86,18 +85,22 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         }
     }
 
+    override fun getToolbarTitle(): String? { return null }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
-    override fun getToolbarTitle(): String? = getString(R.string.edit_address)
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(address: WalletAddress) {
+        isContact = address.isContact
+
         toolbarLayout.hasStatus = true
 
         expireNowString = getString(R.string.expire_address_now)
         activateString = getString(R.string.active_address)
 
         nameLabel.setText(address.label)
+
+        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.edit_contact else R.string.edit_address)
 
         if (address.isContact) {
             expireLayout.visibility = View.GONE
@@ -154,6 +157,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
         if (address.isContact) {
+            menu?.findItem(R.id.delete)?.title = getString(R.string.delete_contact)
             menu?.findItem(R.id.expire)?.isVisible = false
             menu?.findItem(R.id.active)?.isVisible = false
         }
@@ -193,6 +197,12 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun showDeleteAddressDialog() {
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+
+            if(isContact) {
+                view.clearDialogTitle.text = getString(R.string.delete_contact)
+                view.deleteAllTransactionsTitle.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+            }
+
             val dialog = AlertDialog.Builder(it).setView(view).show()
 
             view.btnConfirm.setOnClickListener {

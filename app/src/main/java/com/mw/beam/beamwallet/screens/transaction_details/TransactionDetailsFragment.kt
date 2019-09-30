@@ -44,13 +44,19 @@ import android.transition.AutoTransition
 import android.animation.ObjectAnimator
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
-import kotlinx.android.synthetic.main.fragment_proof_verification.*
 import kotlinx.android.synthetic.main.fragment_transaction_details.detailsArrowView
 import kotlinx.android.synthetic.main.fragment_transaction_details.detailsExpandLayout
 import kotlinx.android.synthetic.main.fragment_transaction_details.kernelLayout
 import kotlinx.android.synthetic.main.fragment_transaction_details.receiverLayout
 import kotlinx.android.synthetic.main.fragment_transaction_details.senderLayout
 import kotlinx.android.synthetic.main.fragment_transaction_details.toolbarLayout
+import android.view.MenuInflater
+import android.view.LayoutInflater
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
+import android.text.SpannableStringBuilder
+import android.graphics.Color
+
 
 /**
  *  10/18/18.
@@ -233,15 +239,15 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             endAddress.text = txDescription.peerId
 
             if (txDescription.selfTx) {
-                startAddressTitle.text = "${getString(R.string.my_sending_address)}"
-                endAddressTitle.text = "${getString(R.string.my_receiving_address)}"
+                startAddressTitle.text = "${getString(R.string.my_sending_address)}".toUpperCase()
+                endAddressTitle.text = "${getString(R.string.my_receiving_address)}".toUpperCase()
             } else {
-                startAddressTitle.text = "${getString(R.string.my_address)}"
-                endAddressTitle.text = "${getString(R.string.contact)}"
+                startAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
+                endAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
             }
         } else {
-            startAddressTitle.text = "${getString(R.string.contact)}"
-            endAddressTitle.text = "${getString(R.string.my_address)}"
+            startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
+            endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
             startAddress.text = txDescription.peerId
             endAddress.text = txDescription.myId
         }
@@ -303,6 +309,92 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         })
 
         proofLabel.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+
+        registerForContextMenu(startAddress)
+        registerForContextMenu(endAddress)
+        registerForContextMenu(idLabel)
+        registerForContextMenu(proofLabel)
+        registerForContextMenu(kernelLabel)
+    }
+
+
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val copy = SpannableStringBuilder()
+        copy.append(getString(R.string.copy))
+        copy.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, copy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val share = SpannableStringBuilder()
+        share.append(getString(R.string.share))
+        share.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, share.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        menu.add(0, v.id, 0, copy)
+        menu.add(0, v.id, 0, share)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == startAddress.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
+                copyToClipboard(startAddress.text.toString(), "")
+                showSnackBar(getString(R.string.address_copied_to_clipboard))
+            }
+            else{
+                shareText(startAddress.text.toString())
+            }
+        }
+        else if (item.itemId == endAddress.id) {
+            if (item.title.toString()  == getString(R.string.copy)) {
+                copyToClipboard(endAddress.text.toString(), "")
+                showSnackBar(getString(R.string.address_copied_to_clipboard))
+            }
+            else{
+                shareText(endAddress.text.toString())
+            }
+        }
+        else if (item.itemId == idLabel.id) {
+            if (item.title.toString()  == getString(R.string.copy)) {
+                copyToClipboard(idLabel.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            }
+            else{
+                shareText(idLabel.text.toString())
+            }
+        }
+        else if (item.itemId == proofLabel.id) {
+            if (item.title.toString()  == getString(R.string.copy)) {
+                copyToClipboard(proofLabel.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            }
+            else{
+                shareText(proofLabel.text.toString())
+            }
+        }
+        else if (item.itemId == kernelLabel.id) {
+            if (item.title.toString()  == getString(R.string.copy)) {
+                copyToClipboard(kernelLabel.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            }
+            else{
+               shareText(kernelLabel.text.toString())
+            }
+        }
+
+        return super.onContextItemSelected(item)
+    }
+
+    private fun shareText(text:String) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
+        startActivity(Intent.createChooser(intent, getString(R.string.common_share_title)))
     }
 
     override fun showDeleteSnackBar(txDescription: TxDescription) {

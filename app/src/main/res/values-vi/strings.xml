@@ -15,7 +15,10 @@
     <string name="cancel">Huỷ</string>
     <string name="delete">Xoá</string>
     <string name="confirm">Xác nhận</string>
-    <string name="change">Thay đổi</string>
+    <string name="change_address">Thay đổi</string>
+    <string name="change_address_title">Thay đổi địa chỉ</string>
+    <string name="change_utxo_type">Thay đổi</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">Đồng ý</string>
     <string name="undo">Hoàn tác</string>
     <string name="next">Tiếp</string>
@@ -26,7 +29,7 @@
     <string name="common_security_mode_title">Kích hoạt c
 hế độ bảo mật</string>
     <string name="common_security_mode_message">Tất cả số dư sẽ được ẩn cho đến khi biểu tượng mắt được gõ một lần nữa.</string>
-    <string name="common_fingerprint_error">Quá nhiều lần thử. Vui lòng nhập mật khẩu.</string>
+    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
     <string name="common_share_title">Chia sẻ…</string>
     <string name="common_external_link_dialog_title">Liên kết bên ngoài</string>
     <string name="common_external_link_dialog_message">Ứng dụng Beam Wallet yêu cầu sự cho phép để mở liên kết ngoài trong trình duyệt. Hành động này sẽ hiển thị IP của bạn cho máy chủ web. Để tránh điều này, chọn \"Hủy\". Bạn có thể thay đổi lựa chọn của mình trong cài đặt ứng dụng bất cứ lúc nào.</string>
@@ -43,6 +46,7 @@ hế độ bảo mật</string>
     <string name="notifications">Thông báo</string>
     <string name="help">Trợ giúp</string>
     <string name="settings">Cài đặt</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Tạo ví mới</string>
     <string name="restore_wallet">Khôi phục ví</string>
@@ -208,13 +212,12 @@ hế độ bảo mật</string>
     <string name="optional">Tùy chọn</string>
     <string name="name">Tên</string>
     <string name="edit_address">Sửa địa chỉ</string>
+    <string name="edit_contact">Chỉnh sửa liên hệ</string>
     <string name="advanced">Nâng cao</string>
-    <string-array name="receive_expires_periods">
-        <item>Trong 24 tiếng</item>
-        <item>Không bao giờ</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Nhập hoặc quét địa chỉ của người nhận</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Trường số lượng không thể để trống</string>
     <string name="send_amount_zero_error">Số tiền không thể là 0 BEAM</string>
     <string name="send_amount_overflow_error">Không đủ tiền: bạn sẽ cần %1$s beams để hoàn thành giao dịch.</string>
@@ -239,8 +242,8 @@ hế độ bảo mật</string>
     <string name="local_comment_not_shared">Bình luận cục bộ, sẽ không được chia sẻ</string>
     <string name="address_already_exist_1">Địa chỉ này đã tồn tại</string>
     <string name="address_already_exist_2">Bạn không thể lưu địa chỉ. Địa chỉ này đã tồn tại</string>
-    <!--SettingsFragment-->
     <string name="settings_report">Báo cáo một vấn đề</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Thay đổi mật khẩu ví</string>
     <string name="settings_version">Phiên bản ứng dụng</string>
     <string name="settings_send_logs_description">Gửi nhật ký…</string>
@@ -265,38 +268,41 @@ hế độ bảo mật</string>
     <string name="settings_confirm_clear_message">Bạn có chắc chắn muốn xóa tất cả %1$s khỏi ví của mình không?</string>
     <string name="contacts">Liên hệ</string>
     <string name="transaction">Giao dịch</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Đang tải ví</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Hoạt động của tôi</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Hết hạn của tôi</string>
     <string name="no_name">Không tên</string>
     <string name="address_deleted">Địa chỉ đã xoá</string>
     <string name="contact_deleted">Liên hệ đã xóa</string>
     <string name="addresses_deleted">Địa chỉ đã xoá</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Địa chỉ</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Hiển thị mã QR</string>
     <string name="delete_address">Xoá địa chỉ</string>
+    <string name="delete_contact">Xoá liên hệ</string>
     <string name="delete_addresses">Xoá địa chỉ</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Danh sách giao dịch</string>
     <string name="address_id">Địa chỉ ID</string>
     <string name="expiration_date">Ngày hết hạn</string>
     <string name="tag">Nhãn</string>
     <string name="show_qr_code_short">Hiển thị mã QR</string>
-    <!--EditAddressFragment-->
     <string name="expire_address_now">Expire addresss</string>
+    <!--EditAddressFragment-->
     <string name="active_address">Kích hoạt địa chỉ</string>
     <string name="save">Lưu</string>
     <string name="now">Bây giờ</string>
     <string name="none">Không có gì</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Thay đổi mật khẩu</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Nhập mật khẩu hiện tại của bạn</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Quét mã QR</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Xác minh bằng chứng thanh toán</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Dán bằng chứng thanh toán tại đây</string>
     <string name="payment_proof_verification_error">Không thể giải mã một bằng chứng, trình tự bất hợp pháp.</string>
     <string name="copy_details">Sao chép chi tiết</string>
@@ -306,16 +312,16 @@ hế độ bảo mật</string>
     <string name="receiver">Người nhận</string>
     <string name="current_password_is_incorrect">Mật khẩu hiện tại không chính xác</string>
     <string name="paste_payment_proof">Dán bằng chứng thanh toán tại đây</string>
-    <!--CategoryFragment-->
     <string name="edit">Chỉnh sửa</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Xóa nhãn</string>
     <string name="tag_delete_dialog_message">Bạn có chắc chắn muốn xóa nhãn %1$s?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Sửa nhãn</string>
+    <!--EditCategory-->
     <string name="create_tag">Tạo nhãn</string>
     <string name="color">Màu</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Hiển thị khóa chủ sở hữu</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Để xem khóa chủ sở hữu, bạn phải vượt qua xác minh 2 bước này (gửi mật khẩu và sử dụng Vân tay ID)</string>
     <string name="owner_key_verification_fingerprint_error">Xác minh vân tay thất bại. Vui lòng thử lại sau vài phút.</string>
     <string name="owner_key_verification_title_with_finger">Nhập mật khẩu của bạn và dùng ID vân tay để truy cập ví</string>
@@ -327,18 +333,17 @@ hế độ bảo mật</string>
 Bạn cần nhập mật khẩu để thấy khóa chủ sở hữu.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
     <string name="notification_receive_content_title">Đang nhận giao dịch mới</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Vui lòng bấm vào để xem chi tiết</string>
     <string name="notification_channel_name">Kênh thông báo</string>
     <string name="notification_channel_description">Kênh thông báo mặc định</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Chạm vào cảm biến vân tay</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">ID vân tay</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Thay đổi địa chỉ</string>
-    <!-- Language -->
     <string name="language">Ngôn ngữ</string>
+    <!-- Language -->
     <string name="language_dialog_message">Để cài đặt ngôn ngữ có hiệu lực, ứng dụng cần được khởi động lại</string>
     <string name="restart_now">Khởi động lại bây giờ</string>
     <string name="rate_app">Đánh giá ứng dụng</string>
@@ -350,7 +355,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Tổng giá trị UTXO</string>
     <string name="confirmation_send_description">Để giao dịch được hoàn thành, người nhận cần trực tuyến trong 12 giờ tới và bạn cần trực tuyến trong 2 giờ sau đó.</string>
     <string name="confirmation">Xác nhận</string>
-    <string name="change_description">sẽ bị khoá đến khi giao dịch thành công hoặc hết hạn</string>
     <string name="save_recipient_address">Bạn có muốn lưu địa chỉ người nhận cho các giao dịch trong tương lai?</string>
     <string name="save_address">Lưu địa chỉ</string>
     <string name="dont_save">Không lưu</string>
@@ -361,6 +365,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">Phí tối thiểu là %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Xóa toàn bộ giao dịch liên quan đến địa chỉ này</string>
     <string name="delete_all_transactions_related_to_this_addresses">Xóa toàn bộ giao dịch liên quan đến những địa chỉ này</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Tìm giao dịch</string>
     <string name="never_expires">Không bao giờ hết hạn</string>
     <string name="expires_in">Hết hạn trong %1$s giờ %2$s phút</string>
@@ -369,6 +375,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Sử dụng vân tay hoặc nhập mật khẩu của bạn để xác nhận giao dịch</string>
     <string name="fingerprint_not_recognized">Không nhận diện được vân tay</string>
     <string name="address_copied_to_clipboard">Địa chỉ được sao chép vào bảng tạm</string>
+    <string name="copied_to_clipboard">Đã sao chép vào bảng tạm</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Ví Beam sẽ tải xuống ảnh chụp nhanh blockchain từ đám mây.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet sẽ kết nối với nút cụ thể và nút sẽ tìm thấy tất cả tiền của bạn trong một blockchain.</string>
     <string name="restore_with_trusted_node">Khôi phục với nút đáng tin cậy</string>
@@ -412,8 +419,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Khi bạn đã dán mã, chạy nút của bạn trên máy tính để bàn và nhấp vào tiếp theo trên ứng dụng di động.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Nút không thể kết nối. Hãy thử kết nối ví với nút khác hoặc sử dụng khôi phục tự động.</string>
     <string name="connecting">Đang kết nối...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Tìm kiếm theo ID giao dịch, bình luận, địa chỉ hoặc liên hệ</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">Chi tiết địa chỉ</string>
+    <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
     <string name="crash_negative">No, thanks</string>
@@ -422,4 +431,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="m">mins</string>
     <string name="s">sec</string>
     <string name="estimted_time">Estimated time</string>
+    <string-array name="receive_expires_periods">
+        <item>Trong 24 tiếng</item>
+        <item>Không bao giờ</item>
+    </string-array>
 </resources>

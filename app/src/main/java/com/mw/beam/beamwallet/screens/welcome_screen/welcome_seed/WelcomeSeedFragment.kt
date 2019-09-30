@@ -46,6 +46,8 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun addListeners() {
+        forbidScreenshot()
+
         btnNext.setOnClickListener {
             presenter?.onNextPressed()
         }
@@ -56,15 +58,17 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun clearListeners() {
+        allowScreenshot()
+
         btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
     }
 
-    override fun forbidScreenshot() {
+    private fun forbidScreenshot() {
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
-    override fun allowScreenshot() {
+    private fun allowScreenshot() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 

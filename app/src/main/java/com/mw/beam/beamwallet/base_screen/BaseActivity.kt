@@ -19,6 +19,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.View
@@ -39,6 +40,7 @@ import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.*
+import java.util.*
 
 
 /**
@@ -209,6 +211,19 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.ContextWrapper.wrap(newBase))
+
+        val config = resources.configuration
+
+        var locale: Locale = Locale(LocaleHelper.getCurrentLanguage().languageCode)
+        Locale.setDefault(locale)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+        } else {
+            config.locale = locale;
+        }
+
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     override fun showLockScreen() {

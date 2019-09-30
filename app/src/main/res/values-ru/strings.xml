@@ -15,7 +15,10 @@
     <string name="cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="confirm">Подтвердить</string>
-    <string name="change">Сдача</string>
+    <string name="change_address">Сдача</string>
+    <string name="change_address_title">Изменить адрес</string>
+    <string name="change_utxo_type">Сдача</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">ОК</string>
     <string name="undo">Отменить</string>
     <string name="next">Дальше</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">поделиться QR</string>
     <string name="common_security_mode_title">Включить режим конфиденциальности</string>
     <string name="common_security_mode_message">Все суммы будут скрыты до следующего нажатия на иконку глаза.</string>
-    <string name="common_fingerprint_error">Слишком много попыток. Пожалуйста, используйте пароль.</string>
+    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
     <string name="common_share_title">Поделиться…</string>
     <string name="common_external_link_dialog_title">Внешняя ссылка</string>
     <string name="common_external_link_dialog_message">Кошелек пытается открыть внешнюю ссылку в браузере. Это действие может раскрыть ваш IP адрес серверу. Что бы избежать этого, нажмите \"Отмена\". Вы можете изменить свой выбор в настройках в любое время.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Оповещения</string>
     <string name="help">Помощь</string>
     <string name="settings">Настройки</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Создать кошелек</string>
     <string name="restore_wallet">Восстановить кошелек</string>
@@ -207,13 +211,12 @@
     <string name="optional">Не обязательное для заполнения</string>
     <string name="name">Имя</string>
     <string name="edit_address">Редактировать адрес</string>
+    <string name="edit_contact">Править контакт</string>
     <string name="advanced">Расширенные</string>
-    <string-array name="receive_expires_periods">
-        <item>24 часа</item>
-        <item>Никогда</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Введите или отсканируйте адрес получателя</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Поле суммы не может быть пустым</string>
     <string name="send_amount_zero_error">Сумма не может быть 0 BEAM</string>
     <string name="send_amount_overflow_error">Недостаточно средств: необходимо %1$s для завершения транзакции.</string>
@@ -238,8 +241,8 @@
     <string name="local_comment_not_shared">Локальный комментарий</string>
     <string name="address_already_exist_1">Такой адрес уже существует</string>
     <string name="address_already_exist_2">Вы не можете сохранить свой адрес. Такой адрес уже существует</string>
-    <!--SettingsFragment-->
     <string name="settings_report">Сообщить о проблеме</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Сменить пароль кошелька</string>
     <string name="settings_version">Версия приложения</string>
     <string name="settings_send_logs_description">Послать логи…</string>
@@ -264,38 +267,41 @@
     <string name="settings_confirm_clear_message">Вы уверены, что хотите удалить все %1$s из кошелька?</string>
     <string name="contacts">Контакты</string>
     <string name="transaction">Транзакция</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Загрузка кошелька</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Активные</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Мои просроченные</string>
     <string name="no_name">Имя не указано</string>
     <string name="address_deleted">Адрес удален</string>
     <string name="contact_deleted">Контакт удален</string>
     <string name="addresses_deleted">Адрес удален</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Адрес</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Показать QR код</string>
     <string name="delete_address">Удалить адрес</string>
+    <string name="delete_contact">Удалить контакт</string>
     <string name="delete_addresses">Удалить адрес</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
     <string name="tag">Метка</string>
     <string name="show_qr_code_short">Показать QR</string>
+    <string name="expire_address_now">Expire addresss</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Деактивировать</string>
     <string name="active_address">Активировать адрес</string>
     <string name="save">Сохранить</string>
     <string name="now">До текущего времени</string>
     <string name="none">Никакой</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Поменять пароль</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Введите текущий пароль</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Сканировать QR код</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Проверка подтверждения платежа</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Вставьте подтверждение платежа здесь</string>
     <string name="payment_proof_verification_error">Невозможно декодировать подтверждение</string>
     <string name="copy_details">Копировать подробности</string>
@@ -305,16 +311,16 @@
     <string name="receiver">Получатель</string>
     <string name="current_password_is_incorrect">Текущий пароль неверен</string>
     <string name="paste_payment_proof">Вставьте подтверждение платежа здесь</string>
-    <!--CategoryFragment-->
     <string name="edit">Править</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Удалить метку</string>
     <string name="tag_delete_dialog_message">Вы уверены, что хотите удалить метку %1$s?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Изменить метку</string>
+    <!--EditCategory-->
     <string name="create_tag">Создать метку</string>
     <string name="color">Цвет</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Показать owner key</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Для доступа к owner keу необходимо пройти двойную аутентикацию (пароль и Fingerprint ID)</string>
     <string name="owner_key_verification_fingerprint_error">Ошибка авторизации отпечатка пальца. Пожалуйста, попробуйте через несколько минут.</string>
     <string name="owner_key_verification_title_with_finger">Введите пароль и используйте Fingerprint ID для доступа к кошельку</string>
@@ -326,18 +332,17 @@
 Вы должны ввести пароль, чтобы увидеть Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
     <string name="notification_receive_content_title">Новая входящая транзакция</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Нажмите для просмотра детальной информации</string>
     <string name="notification_channel_name">Канал уведомлений</string>
     <string name="notification_channel_description">Канал уведомлений по умолчанию</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Прикоснитесь к сканеру отпечатков пальцев</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">Отпечатки пальцев</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Изменить адрес</string>
-    <!-- Language -->
     <string name="language">Язык</string>
+    <!-- Language -->
     <string name="language_dialog_message">Для того чтобы настройки языка вступили в силу, приложение должно быть перезапущено</string>
     <string name="restart_now">Перезапустить сейчас</string>
     <string name="rate_app">Оценить приложение</string>
@@ -349,7 +354,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Общая сумма UTXO</string>
     <string name="confirmation_send_description">Чтобы транзакция была завершена, получатель должен подключиться к Интернету в течение следующих 12 часов, с того момента вы должны подключиться к Интернету в течение 2 часов.</string>
     <string name="confirmation">Подтверждение</string>
-    <string name="change_description">будет заблокирована до тех пор, пока транзакция не будет успешной или истекает</string>
     <string name="save_recipient_address">Сохранить адрес получателя для использования в будущем?</string>
     <string name="save_address">Сохранить адрес</string>
     <string name="dont_save">Не сохранять</string>
@@ -360,6 +364,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
     <string name="delete_all_transactions_related_to_this_addresses">Удалить все транзакции, связанные с этими адресами</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Поиск транзакций</string>
     <string name="never_expires">Никогда</string>
     <string name="expires_in">Истекает через %1$s ч %2$s м</string>
@@ -368,6 +374,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Используйте Fingerprint ID или введите пароль для подтверждения транзакции</string>
     <string name="fingerprint_not_recognized">Отпечаток пальца не распознан</string>
     <string name="address_copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Кошелек загрузит часть блокчейна из облака.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Кошелек свяжется с конкретным узлом, а узел найдет все ваши средства в блокчейне.</string>
     <string name="restore_with_trusted_node">Восстановить с помощью вашего узла</string>
@@ -411,8 +418,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Как только вы добавите ваш код в конфигурацию узла, запустите свой узел на рабочем столе и нажмите «далее» в мобильном приложении.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Невозможно подключиться к узлу. Попробуйте подключить кошелек к другому узлу или используйте другой тип восстановления кошелька.</string>
     <string name="connecting">Соединение...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Поиск по ID транзакции, комментарию, адресу или контакту</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">Подробности адреса</string>
+    <string name="contact_details">Contact details</string>
     <string name="crash_title">Сбой приложения</string>
     <string name="crash_message">Вы хотите сообщить нам о ограниченном количестве информации? Сбор информации о сбоях позволит нам быстрее обнаружить и исправлять ошибки. Это только один отчет, связанный с ошибкой, мы не будем собирать какие-либо из ваших данных позже.</string>
     <string name="crash_negative">Нет, спасибо</string>
@@ -421,4 +430,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="m">мин.</string>
     <string name="s">сек.</string>
     <string name="estimted_time">Приблизительное время</string>
+    <string-array name="receive_expires_periods">
+        <item>24 часа</item>
+        <item>Никогда</item>
+    </string-array>
 </resources>

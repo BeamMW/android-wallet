@@ -25,10 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
@@ -46,12 +43,14 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private var adapter: TransactionsAdapter? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
-    override fun getToolbarTitle(): String? = getString(R.string.address_details)
+    override fun getToolbarTitle(): String? = null
     override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(address: WalletAddress) {
         toolbarLayout.hasStatus = true
+
+        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.contact_details else R.string.address_details)
 
         configAddressDetails(address)
 

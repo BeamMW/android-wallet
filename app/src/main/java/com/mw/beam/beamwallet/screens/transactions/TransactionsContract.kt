@@ -31,7 +31,8 @@ interface TransactionsContract {
         fun init()
         fun showTransactionDetails(txId: String)
         fun configTransactions(transactions: List<TxDescription>)
-        fun showShareFileChooser(file: File)
+        fun exportSave(content:String)
+        fun exportShare(file: File)
         fun showProofVerification()
         fun showSearchTransaction()
     }
@@ -39,7 +40,8 @@ interface TransactionsContract {
     interface Presenter: MvpPresenter<View> {
         fun onTransactionPressed(txDescription: TxDescription)
         fun onSearchPressed()
-        fun onExportPressed()
+        fun onExportShare()
+        fun onExportSave()
         fun onProofVerificationPressed()
     }
 

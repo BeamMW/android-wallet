@@ -13,7 +13,10 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="confirm">Confirm</string>
-    <string name="change">Change</string>
+    <string name="change_address">Change</string>
+    <string name="change_address_title">Change address</string>
+    <string name="change_utxo_type">Change</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">OK</string>
     <string name="undo">Undo</string>
     <string name="next">Next</string>
@@ -41,6 +44,7 @@
     <string name="notifications">Notifications</string>
     <string name="help">Help</string>
     <string name="settings">Settings</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
 
     <!--Welcome-->
     <string name="create_new_wallet">Create new wallet</string>
@@ -221,8 +225,11 @@
     <string name="optional">Optional</string>
     <string name="name">Name</string>
     <string name="edit_address">Edit address</string>
+    <string name="edit_contact">Edit contact</string>
     <string name="advanced">Advanced</string>
     <string name="send_token_description">Input or scan the recipient’s address</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
 
     <!--SendFragment-->
     <string name="send_amount_empty_error">Amount field can’t be empty</string>
@@ -288,12 +295,15 @@
     <string name="address_deleted">Address deleted</string>
     <string name="contact_deleted">Contact deleted</string>
     <string name="addresses_deleted">Addresses deleted</string>
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Address</string>
 
     <!--AddressFragment-->
     <string name="show_qr_code">Show QR code</string>
     <string name="delete_address">Delete address</string>
+    <string name="delete_contact">Delete contact</string>
     <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Transactions list</string>
     <string name="address_id">Address ID</string>
     <string name="expiration_date">Expiration date</string>
@@ -359,7 +369,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
 
     <!--FingerprintDialog-->
     <string name="fingerprint_id">Fingerprint ID</string>
-    <string name="change_address">Change address</string>
 
     <!--ChangeAddressFragment-->
     <string name="language">Language</string>
@@ -377,7 +386,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Total UTXO value</string>
     <string name="confirmation_send_description">For the transaction to complete, the recipient must get online within the next 12 hours and you should get online within 2 hours afterwards.</string>
     <string name="confirmation">Confirmation</string>
-    <string name="change_description">will be locked till the transaction will succeed or expire</string>
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
@@ -388,6 +396,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Search transaction</string>
     <string name="never_expires">Never expires</string>
     <string name="expires_in">Expires in %1$s h %2$s m</string>
@@ -443,6 +453,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
 address or contact</string>
     <string name="address_details">Address details</string>
+    <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
 
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>

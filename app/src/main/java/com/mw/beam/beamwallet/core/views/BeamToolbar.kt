@@ -26,6 +26,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 
 /**
  *  12/10/18.
@@ -61,6 +62,11 @@ class BeamToolbar : LinearLayout {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
+//        val asyncLayoutInflater = AsyncLayoutInflater(context!!)
+//        asyncLayoutInflater.inflate( R.layout.toolbar, this) { view, _, parent ->
+//            addView(view)
+//        }
+
         inflate(context, R.layout.toolbar, this)
         toolbar = this.findViewById(R.id.toolbar)
         status = this.findViewById(R.id.connectionStatus)

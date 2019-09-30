@@ -15,7 +15,10 @@
     <string name="cancel">Annuleren</string>
     <string name="delete">Verwijderen</string>
     <string name="confirm">Bevestigen</string>
-    <string name="change">Wijzig</string>
+    <string name="change_address">Wijzig</string>
+    <string name="change_address_title">Adres wijzigen</string>
+    <string name="change_utxo_type">Wijzig</string>
+    <string name="change_description">Wisselgeld (zal worden vergrendeld totdat de transactie is geslaagd of verlopen)</string>
     <string name="ok">OK</string>
     <string name="undo">Ongedaan maken</string>
     <string name="next">Volgende</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">QR delen</string>
     <string name="common_security_mode_title">Activeer privacy modus</string>
     <string name="common_security_mode_message">Alle balansen worden verborgen totdat het oogpictogram opnieuw wordt aangeklikt.</string>
-    <string name="common_fingerprint_error">Te veel pogingen. Voer wachtwoord in.</string>
+    <string name="common_fingerprint_error">Vingerafdruk kan niet worden herkend, voer uw wachtwoord in.</string>
     <string name="common_share_title">Deel…</string>
     <string name="common_external_link_dialog_title">Externe link</string>
     <string name="common_external_link_dialog_message">Beam Wallet vereist toestemming om externe links in de browser te openen. Deze actie zal uw IP adres aan de webserver blootstellen. Kies -Annuleren- om dit te voorkomen. U kunt uw keuze op elk gewenst moment wijzigen in Instellingen.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Meldingen</string>
     <string name="help">Help</string>
     <string name="settings">Instellingen</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Nieuwe portemonnee aanmaken</string>
     <string name="restore_wallet">Portemonnee herstellen</string>
@@ -190,7 +194,7 @@
     <string name="my_sending_address">Mijn verzendadres</string>
     <string name="my_address">Mijn adres</string>
     <string name="transaction_deleted">Transactie verwijderd</string>
-    <string name="save_contact">Save contact</string>
+    <string name="save_contact">Contact opslaan</string>
     <!--ReceiveFragment-->
     <string name="swap">Wisselen</string>
     <string name="auto_generated">Automatisch gegenereerd</string>
@@ -207,13 +211,12 @@
     <string name="optional">Optioneel</string>
     <string name="name">Naam</string>
     <string name="edit_address">Adres bewerken</string>
+    <string name="edit_contact">Contactpersoon bewerken</string>
     <string name="advanced">Geavanceerd</string>
-    <string-array name="receive_expires_periods">
-        <item>In 24 uur</item>
-        <item>Nooit</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Voer het adres van de ontvanger in of scan deze</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Aantal mag niet leeg zijn</string>
     <string name="send_amount_zero_error">Aantal kan niet 0 BEAM zijn</string>
     <string name="send_amount_overflow_error">Onvoldoende saldo: u heeft %1$s beams nodig om de transactie te voltooien.</string>
@@ -238,8 +241,8 @@
     <string name="local_comment_not_shared">Lokale omschrijving, wordt niet gedeeld</string>
     <string name="address_already_exist_1">Dit adres bestaat al</string>
     <string name="address_already_exist_2">U kunt uw adres niet opslaan. Dit adres bestaat al</string>
-    <!--SettingsFragment-->
     <string name="settings_report">Rapporteer een probleem</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Wijzig portemonnee wachtwoord</string>
     <string name="settings_version">App Versie</string>
     <string name="settings_send_logs_description">Logbestanden versturen…</string>
@@ -264,38 +267,41 @@
     <string name="settings_confirm_clear_message">Weet u zeker dat u alle %1$s uit uw wallet wilt verwijderen?</string>
     <string name="contacts">Contacten</string>
     <string name="transaction">Transactie</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Wallet aan het laden</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Mijn actieve</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Mijn verlopen</string>
     <string name="no_name">Geen naam</string>
     <string name="address_deleted">Adres verwijderd</string>
     <string name="contact_deleted">Contactpersoon verwijderd</string>
     <string name="addresses_deleted">Adressen verwijderd</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Adres</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Toon QR code</string>
     <string name="delete_address">Adres verwijderen</string>
+    <string name="delete_contact">Contactpersoon verwijderen</string>
     <string name="delete_addresses">Adressen verwijderen</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Transactielijst </string>
     <string name="address_id">Adres ID</string>
     <string name="expiration_date">Vervaldatum</string>
     <string name="tag">Label</string>
     <string name="show_qr_code_short">QR weergeven</string>
+    <string name="expire_address_now">Laat adres vervallen</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Adres activeren</string>
     <string name="save">Opslaan</string>
     <string name="now">Nu</string>
     <string name="none">Geen</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Wachtwoord wijzigen</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Voer uw huidige wachtwoord in</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Scan QR code</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Betalingsbewijs verificatie</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Plak hier uw betalingsbewijs</string>
     <string name="payment_proof_verification_error">Kan bewijs niet decoderen, onjuiste reeks.</string>
     <string name="copy_details">Kopieer details</string>
@@ -305,16 +311,16 @@
     <string name="receiver">Ontvanger</string>
     <string name="current_password_is_incorrect">Wachtwoord is onjuist</string>
     <string name="paste_payment_proof">Plak hier uw betalingsbewijs</string>
-    <!--CategoryFragment-->
     <string name="edit">Bewerken</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Label verwijderen</string>
     <string name="tag_delete_dialog_message">Weet u zeker dat u %1$s wilt verwijderen?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Label bewerken</string>
+    <!--EditCategory-->
     <string name="create_tag">Label maken</string>
     <string name="color">Kleur</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Toon eigenaarssleutel</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Om de eigenaarssleutel te zien moet u deze 2-staps verificatie doorlopen (voer een wachtwoord in en gebruik Vingerafdruk ID)</string>
     <string name="owner_key_verification_fingerprint_error">Vingerafdruk autorisatie mislukt. Probeer het over een paar minuten.</string>
     <string name="owner_key_verification_title_with_finger">Voer uw wachtwoord in en gebruik Vingerafdruk ID om toegang te krijgen tot de wallet</string>
@@ -324,20 +330,19 @@
     <string name="owner_key_code_description">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO gegenereerd vanuit dezelfde herstelzin, en verzonden naar welke wallet dan ook, te monitoren.\n\n Deel uw eigenaarssleutel niet met anderen. Het staat inzage in en controle van uw saldo toe.</string>
     <string name="owner_key_verification_pass">Het invoeren van de eigenaarssleutel op een vertrouwde node zal de node toestaan om alle UTXO verzonden naar deze wallet, en elke wallet gegenereerd vanuit uw herstelzin, te monitoren.
 Voer uw wachtwoord in om de eigenaarssleutel te kunnen zien.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
+    <string name="owner_key_verification_pass_finger">Door de eigenaarssleutel op een vertrouwd node in te voeren kan de node alle UTXO\'s die naar deze wallet zijn verzonden en iedere wallet die is gegenereerd met uw herstelzin controleren.
+U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) uitvoeren om uw eigenaarssleutel te kunnen zien.</string>
     <string name="notification_receive_content_title">Nieuwe transactie ontvangen</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Klik om details te bekijken</string>
     <string name="notification_channel_name">Notificatie Kanaal</string>
     <string name="notification_channel_description">Standaard notificatie kanaal</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Raak de vingerafdruksensor aan</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">Vingerafdruk ID</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Adres wijzigen</string>
-    <!-- Language -->
     <string name="language">Taal</string>
+    <!-- Language -->
     <string name="language_dialog_message">Om de taalinstellingen te kunnen gebruiken moet de app opnieuw worden gestart</string>
     <string name="restart_now">Nu opnieuw opstarten</string>
     <string name="rate_app">Beoordeel de app</string>
@@ -349,7 +354,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Totale UTXO waarde</string>
     <string name="confirmation_send_description">Om de transactie te voltooien moet de ontvanger binnen de komende 12 uur online zijn en moet u binnen 2 uur daarna online zijn.</string>
     <string name="confirmation">Bevestiging</string>
-    <string name="change_description">zal worden vergrendeld totdat de transactie zal slagen of verlopen</string>
     <string name="save_recipient_address">Wilt u het adres van de ontvanger opslaan voor toekomstige transacties?</string>
     <string name="save_address">Adres opslaan</string>
     <string name="dont_save">Niet opslaan</string>
@@ -360,6 +364,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">De minimale vergoeding is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Verwijder alle transacties die gerelateerd zijn aan dit adres</string>
     <string name="delete_all_transactions_related_to_this_addresses">Verwijder alle transacties die gerelateerd zijn aan deze adressen</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Zoek transactie</string>
     <string name="never_expires">Verloopt nooit</string>
     <string name="expires_in">Verloopt over %1$s uur %2$s minuten</string>
@@ -368,6 +374,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Gebruik vingerafdruk of voer uw wachtwoord in om de transactie te bevestigen</string>
     <string name="fingerprint_not_recognized">Vingerafdruk niet herkend</string>
     <string name="address_copied_to_clipboard">Adres naar klembord gekopieerd</string>
+    <string name="copied_to_clipboard">Naar klembord gekopieerd</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Portemonnee zal de blockchain snapshot downloaden uit de cloud.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet zal verbinding maken met specifieke node en de node zal al uw tegoeden vinden in de blockchain.</string>
     <string name="restore_with_trusted_node">Herstellen met vertrouwde node</string>
@@ -411,14 +418,19 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Zodra u de code heeft geplakt start u uw desktopnode en klikt u op volgende op de mobiele applicatie.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Kan geen verbinding maken met node. Probeer de wallet met een andere node te verbinden of gebruik automatische herstel.</string>
     <string name="connecting">Verbinden...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Zoek op transactie ID, omschrijving, adres of contact</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Zoek op transactie- of kernel ID, omschrijving, adres of contact</string>
     <string name="address_details">Adresgegevens</string>
-    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
-    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
-    <string name="crash_negative">No, thanks</string>
-    <string name="crash_positive">Send report</string>
+    <string name="contact_details">Contact details</string>
+    <string name="crash_title">Beam Wallet is onverwachts gecrasht</string>
+    <string name="crash_message">Zou u ermee instemmen een beperkte hoeveelheid informatie aan ons te verstrekken? Door crashinformatie te verzamelen kunnen wij bugs een stuk sneller ontdekken en verhelpen. Dit is slechts een eenmalig, crashgerelateerd rapport. We zullen uw gegevens niet blijven verzamelen.</string>
+    <string name="crash_negative">Nee, dank u</string>
+    <string name="crash_positive">Rapport verzenden</string>
     <string name="h">h</string>
-    <string name="m">mins</string>
-    <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="m">min.</string>
+    <string name="s">sec.</string>
+    <string name="estimted_time">Geschatte tijd</string>
+    <string-array name="receive_expires_periods">
+        <item>In 24 uur</item>
+        <item>Nooit</item>
+    </string-array>
 </resources>

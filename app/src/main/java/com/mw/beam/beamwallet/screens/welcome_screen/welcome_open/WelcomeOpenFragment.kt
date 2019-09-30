@@ -35,8 +35,6 @@ import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
 import android.os.Handler
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 
 /**
@@ -85,51 +83,59 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun init(shouldInitFingerprint: Boolean) {
-        if (!App.isShowedLockScreen) {
-            App.isAuthenticated = false
-        }
-        else{
-            btnChange.visibility = View.GONE
-        }
+        if (touchIDView!=null)
+        {
+            if (!App.isShowedLockScreen) {
+                App.isAuthenticated = false
+            }
+            else{
+                btnChange.visibility = View.GONE
+            }
 
-        if (shouldInitFingerprint) {
-            cancellationSignal = CancellationSignal()
+            if (shouldInitFingerprint) {
+                cancellationSignal = CancellationSignal()
 
-            authCallback = FingerprintCallback(this, presenter, cancellationSignal)
+                authCallback = FingerprintCallback(this, presenter, cancellationSignal)
 
-            touchIDView.visibility = View.VISIBLE
+                touchIDView.visibility = View.VISIBLE
 
-            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                    authCallback!!, null)
+                FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                        authCallback!!, null)
 
-            description.setText(R.string.welcome_open_description_with_fingerprint)
-        }
-        else {
-            description.setText(R.string.enter_your_password_to_access_the_wallet)
+                description.setText(R.string.welcome_open_description_with_fingerprint)
+            }
+            else {
+                description.setText(R.string.enter_your_password_to_access_the_wallet)
 
-            touchIDView.visibility = View.GONE
+                touchIDView.visibility = View.GONE
 
-            pass.requestFocus()
-
-            Handler().postDelayed({
                 pass.requestFocus()
-                showKeyboard()
-            }, 100)
-        }
 
-        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+                Handler().postDelayed({
+                    pass.requestFocus()
+                    showKeyboard()
+                }, 100)
+            }
+
+            passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        }
     }
 
     override fun addListeners() {
-        btnOpen.setOnClickListener {
-            presenter?.onOpenWallet()
-        }
+        val v = findViewById<com.mw.beam.beamwallet.core.views.BeamButton>(R.id.btnOpen)
 
-        btnChange.setOnClickListener {
-            presenter?.onChangeWallet()
-        }
+        if (btnOpen!=null)
+        {
+            btnOpen.setOnClickListener {
+                presenter?.onOpenWallet()
+            }
 
-        pass.addTextChangedListener(passWatcher)
+            btnChange.setOnClickListener {
+                presenter?.onChangeWallet()
+            }
+
+            pass.addTextChangedListener(passWatcher)
+        }
     }
 
     override fun hasValidPass(): Boolean {

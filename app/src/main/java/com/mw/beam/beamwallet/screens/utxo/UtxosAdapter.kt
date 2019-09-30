@@ -44,7 +44,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
     private val spentStatus = context.getString(R.string.spent)
     private val inProgressStatus = context.getString(R.string.in_progress)
     private val incomingStatus = context.getString(R.string.incoming)
-    private val changeStatus = context.getString(R.string.change)
+    private val changeStatus = context.getString(R.string.change_utxo_type)
     private val outgoingStatus = context.getString(R.string.outgoing)
     private val maturingStatus = context.getString(R.string.maturing)
     private val unavailableStatus = context.getString(R.string.unavailable)

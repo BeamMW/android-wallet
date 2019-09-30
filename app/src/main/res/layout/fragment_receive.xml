@@ -65,7 +65,7 @@
                     android:paddingEnd="@dimen/small_button_padding_horizontal"
                     android:paddingBottom="@dimen/small_button_padding_vertical"
                     app:button_icon="@drawable/ic_btn_change_receive"
-                    app:button_text="@string/change"
+                    app:button_text="@string/change_address"
                     app:button_text_color="@color/received_color"
                     app:layout_constraintBottom_toBottomOf="@id/token"
                     app:layout_constraintEnd_toEndOf="parent"

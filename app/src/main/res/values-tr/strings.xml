@@ -15,7 +15,10 @@
     <string name="cancel">İptal</string>
     <string name="delete">Sil</string>
     <string name="confirm">Onayla</string>
-    <string name="change">Değiştir</string>
+    <string name="change_address">Değiştir</string>
+    <string name="change_address_title">Adresi değiştir</string>
+    <string name="change_utxo_type">Değiştir</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">Tamam</string>
     <string name="undo">Geri al</string>
     <string name="next">İleri</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">QR kodunu paylaş</string>
     <string name="common_security_mode_title">Gizlilik modunu etkinleştir</string>
     <string name="common_security_mode_message">Göz simgesine tıklayana kadar tüm bakiyeler gizli kalacaktır.</string>
-    <string name="common_fingerprint_error">Çok fazla deneme yapıldı. Lütfen şifre giriniz.</string>
+    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
     <string name="common_share_title">Paylaş…</string>
     <string name="common_external_link_dialog_title">Harici link</string>
     <string name="common_external_link_dialog_message">Beam Wallet uygulaması tarayıcıda harici link açmak için izin gerektirir. Bu işlem IP\'nizi web sunucusuna maruz bırakacaktır. Bunu önlemek için \"İptal\" i seçin. İstediğiniz zaman uygulama ayarlarında seçiminizi değiştirebilirsiniz.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Bildirimler</string>
     <string name="help">Yardım</string>
     <string name="settings">Ayarlar</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Yeni cüzdan oluştur</string>
     <string name="restore_wallet">Cüzdanı geri yükle</string>
@@ -207,13 +211,12 @@
     <string name="optional">Opsiyonel</string>
     <string name="name">İsim</string>
     <string name="edit_address">Adresi düzenle</string>
+    <string name="edit_contact">Kişiyi düzenle</string>
     <string name="advanced">Gelişmiş</string>
-    <string-array name="receive_expires_periods">
-        <item>24 saat içinde</item>
-        <item>Asla</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Alıcının adresini girin veya tarayın</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Miktar kısmı boş bırakılamaz</string>
     <string name="send_amount_zero_error">Miktar 0 BEAM olamaz</string>
     <string name="send_amount_overflow_error">Yetersiz miktar: işlemi tamamlamak için %1$s gerekir.</string>
@@ -238,8 +241,8 @@
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <string name="address_already_exist_1">Bu adres zaten var</string>
     <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
-    <!--SettingsFragment-->
     <string name="settings_report">Sorunu rapor edin</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Cüzdan şifresini değiştirin</string>
     <string name="settings_version">App Versiyonu</string>
     <string name="settings_send_logs_description">Kayıtları gönder…</string>
@@ -264,38 +267,41 @@
     <string name="settings_confirm_clear_message">Tüm %1$s silmek istediğine emin misiniz?</string>
     <string name="contacts">Bağlantılar</string>
     <string name="transaction">İşlem</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Cüzdan yükleniyor</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Aktif olanlarım</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Süresi geçenler</string>
     <string name="no_name">İsim yok</string>
     <string name="address_deleted">Adres silindi</string>
     <string name="contact_deleted">Kişi silindi</string>
     <string name="addresses_deleted">Addresses deleted</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Adres</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">QR kodunu göster</string>
     <string name="delete_address">Adresi sil</string>
+    <string name="delete_contact">Kişiyi sil</string>
     <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">İşlem listesi</string>
     <string name="address_id">Adres kimliği</string>
     <string name="expiration_date">Son kullanım tarihi</string>
     <string name="tag">Etiket</string>
     <string name="show_qr_code_short">QR kodunu göster</string>
-    <!--EditAddressFragment-->
     <string name="expire_address_now">Expire addresss</string>
+    <!--EditAddressFragment-->
     <string name="active_address">Adresi aktifleştir</string>
     <string name="save">Kaydet</string>
     <string name="now">Şimdi</string>
     <string name="none">Hiçbiri</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Şifreyi değiştir</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Mevcut şifrenizi girin</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">QR kodunu tara</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Ödeme kanıtı doğrulama</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Ödeme kanıdınızı buraya yapıştırın</string>
     <string name="payment_proof_verification_error">Kanıt çözülemedi, yasadışı dizi.</string>
     <string name="copy_details">Detayları kopyala</string>
@@ -305,16 +311,16 @@
     <string name="receiver">Alıcı</string>
     <string name="current_password_is_incorrect">Şu anki şifre yanlış</string>
     <string name="paste_payment_proof">Ödeme kanıdınızı buraya yapıştırın</string>
-    <!--CategoryFragment-->
     <string name="edit">Düzenle</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Etiketi sil</string>
     <string name="tag_delete_dialog_message">%s etiketini silmek istediğinizden emin misiniz?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Etiketi değiştir</string>
+    <!--EditCategory-->
     <string name="create_tag">Etiket oluştur</string>
     <string name="color">Renk</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Sahiplik anahtarını göster</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Sahiplik anahtarını görmek için 2 adımlı doğrulamayı geçmelisiniz (şifrenizi girip ve Parmak izi kimliğinizi kullanın)</string>
     <string name="owner_key_verification_fingerprint_error">Parmak izi doğrulaması başarısız oldu. Lütfen birkaç dakika içinde tekrar deneyin.</string>
     <string name="owner_key_verification_title_with_finger">Cüzdana erişmek için şifrenizi girin ve Parmak İzi Kimliğinizi kullanın</string>
@@ -327,18 +333,17 @@ Doğrulamayı tamamlamak için lütfen Parmak İzi Kimliğinizi kullanın</strin
 Sahip Anahtarını görmek için şifrenizi girmeniz gerekir.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
     <string name="notification_receive_content_title">Yeni transfer alınıyor</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Ayrıntıları görmek için lütfen tıklayınız</string>
     <string name="notification_channel_name">Bildirim kanalı</string>
     <string name="notification_channel_description">Varsayılan bildirim kanalı</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Parmak izi sensörüne dokunun</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">Parmak İzi Kimliği</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Adresi değiştir</string>
-    <!-- Language -->
     <string name="language">Dil</string>
+    <!-- Language -->
     <string name="language_dialog_message">Dil ayarlarının etkili olması için uygulamanın yeniden başlatılması gerekiyor</string>
     <string name="restart_now">Şimdi yeniden başlat</string>
     <string name="rate_app">Uygulamayı oyla</string>
@@ -350,7 +355,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Toplam UTXO değeri</string>
     <string name="confirmation_send_description">İşlemin tamamlanması için, alıcının önümüzdeki 12 saat içinde çevrimiçi olması ve ardından sizin 2 saat içinde çevrimiçi olmanız gerekir.</string>
     <string name="confirmation">Onay</string>
-    <string name="change_description">işlem başarılı olana veya sona erene kadar kilitlenecek</string>
     <string name="save_recipient_address">Diğer işlemler için alıcı adresini kaydetmek ister misiniz?</string>
     <string name="save_address">Adresi kaydet</string>
     <string name="dont_save">Kaydetme</string>
@@ -361,6 +365,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">Minimum işlem ücreti %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Bu adresle ilintili tüm işlemleri sil</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">İşlemlerde Ara</string>
     <string name="never_expires">Hiçbir zaman süresi geçmez</string>
     <string name="expires_in">Süresi doluyor %1$s s %2$s d</string>
@@ -369,6 +375,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">İşlemi onaylamak için parmak izi kullanın veya şifrenizi girin</string>
     <string name="fingerprint_not_recognized">Parmak izi tanınmadı</string>
     <string name="address_copied_to_clipboard">Adres panoya kopyalandı</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam cüzdanı buluttan blokzincirin anlık görüntüsünü indirecek.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam cüzdanı belirli bir noda bağlanacak ve nod tüm paranızı blokzincirinde bulacak.</string>
     <string name="restore_with_trusted_node">Güvenilir nod ile geri yükle</string>
@@ -412,8 +419,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Kodu yapıştırdıktan sonra, nodu masaüstünde çalıştırın ve mobil uygulamada \"sonraki\" butonuna tıklayın.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Nod bağlanabilir değil. Cüzdanı farklı bir noda bağlamayı deneyin veya otomatik geri yüklemeyi kullanın.</string>
     <string name="connecting">Bağlanıyor...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Kimlik, yorum, adres veya kişiye göre işlem ara</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">Adres detayları</string>
+    <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
     <string name="crash_negative">No, thanks</string>
@@ -422,4 +431,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="m">mins</string>
     <string name="s">sec</string>
     <string name="estimted_time">Estimated time</string>
+    <string-array name="receive_expires_periods">
+        <item>24 saat içinde</item>
+        <item>Asla</item>
+    </string-array>
 </resources>

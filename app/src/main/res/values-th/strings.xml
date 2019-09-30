@@ -15,7 +15,10 @@
     <string name="cancel">ยกเลิก</string>
     <string name="delete">ลบ</string>
     <string name="confirm">ยืนยัน</string>
-    <string name="change">เปลี่ยน</string>
+    <string name="change_address">เปลี่ยน</string>
+    <string name="change_address_title">เปลี่ยนที่อยู่</string>
+    <string name="change_utxo_type">เปลี่ยน</string>
+    <string name="change_description">เงินทอน (จะถูกล็อกไว้จนกระทั้งธุรกรรมสำเร็จหรือหมดอายุ)</string>
     <string name="ok">ตกลง</string>
     <string name="undo">เลิกทำ</string>
     <string name="next">ถัดไป</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">แชร์ QR</string>
     <string name="common_security_mode_title">เปิดใช้งานโหมดส่วนตัว</string>
     <string name="common_security_mode_message">ยอดคงเหลือจะถูกซ่อนไว้ กดที่รูปไอคอนอีกครั้งหากไม่ต้องการซ่อนยอดคงเหลือ</string>
-    <string name="common_fingerprint_error">มีการพยายามหลายครั้งเกินไป กรุณากรอกรหัสผ่าน</string>
+    <string name="common_fingerprint_error">ไม่สามารถตรวจสอบลายนิ้วมือได้ กรุณากรอกรหัสผ่านแทน</string>
     <string name="common_share_title">แชร์...</string>
     <string name="common_external_link_dialog_title">ลิงก์ภายนอก</string>
     <string name="common_external_link_dialog_message">กระเป๋า Beam ต้องการการอนุญาตเพื่อที่จะเปิดลิงค์ภายนอก การกระทำนี้จะทำให้ IP ของคุณส่งไปยังเว็บปลายทาง เพื่อเป็นการป้องกัน ให้เลือก \"ยกเลิก\" และ คุณสามารถเปลี่ยนแปลงตัวเลือกนี้ได้ที่การตั้งค่าเมื่อไหร่ก็ได้</string>
@@ -42,6 +45,7 @@
     <string name="notifications">การแจ้งเตือน</string>
     <string name="help">ช่วยเหลือ</string>
     <string name="settings">การตั้งค่า</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">สร้างกระเป๋าใหม่</string>
     <string name="restore_wallet">กู้กระเป๋า</string>
@@ -190,7 +194,7 @@
     <string name="my_sending_address">ที่อยู่ที่ใช้โอนของฉัน</string>
     <string name="my_address">ที่อยู่ของฉัน</string>
     <string name="transaction_deleted">ธุรกรรมได้ถูกลบ</string>
-    <string name="save_contact">Save contact</string>
+    <string name="save_contact">บันทึกรายชื่อ</string>
     <!--ReceiveFragment-->
     <string name="swap">สวอป</string>
     <string name="auto_generated">สร้างอัตโนมัติ</string>
@@ -207,13 +211,12 @@
     <string name="optional">ตัวเลือก</string>
     <string name="name">ชื่อ</string>
     <string name="edit_address">แก้ไขที่อยู่</string>
+    <string name="edit_contact">แก้ไขผู้ติดต่อ</string>
     <string name="advanced">ขั้นสูง</string>
-    <string-array name="receive_expires_periods">
-        <item>ภายใน 24 ชั่วโมง</item>
-        <item>ไม่มี</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">กรอกหรือสแกนที่อยู่ผู้รับ</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">จำนวนไม่สามารถเว้นว่างได้</string>
     <string name="send_amount_zero_error">จำนวน BEAM ไม่สามารถเป็น 0 ได้</string>
     <string name="send_amount_overflow_error">จำนวนเงินไม่พอ: คุณจะต้องมีอีกเพิ่มอีก %1$s เพื่อดำเนินการธุรกรรม.</string>
@@ -238,8 +241,8 @@
     <string name="local_comment_not_shared">เป็นคอมเมนต์ที่อยู่เฉพาะในอุปกรณ์นี้เท่านั้น</string>
     <string name="address_already_exist_1">ที่อยู่นี้มีแล้ว</string>
     <string name="address_already_exist_2">คุณไม่สามารถบันทึกที่อยู่นี้ได้ เนื่องจากเคยมีที่อยู่นี้อยู่แล้ว</string>
-    <!--SettingsFragment-->
     <string name="settings_report">รายงานปัญหา</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">เปลี่ยนรหัสผ่านของกระเป๋า</string>
     <string name="settings_version">เวอร์ชั่นแอป</string>
     <string name="settings_send_logs_description">ส่ง Log...</string>
@@ -264,38 +267,41 @@
     <string name="settings_confirm_clear_message">คุณแน่ใจที่จะลบ %1$s ทั้งหมดจากกระเป๋าของคุณ</string>
     <string name="contacts">รายชื่อผู้ติดต่อ</string>
     <string name="transaction">รายการธุรกรรม</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">กำลังเปิดกระเป๋า</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">ยังคงใช้งานอยู่</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">หมดอายุแล้ว</string>
     <string name="no_name">ไม่มีชื่อ</string>
     <string name="address_deleted">ที่อยู่ถูกลบแล้ว</string>
     <string name="contact_deleted">ชื่อผู้ติดต่อถูกลบแล้ว</string>
     <string name="addresses_deleted">ที่อยู่ได้ถูกลบแล้ว</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">ที่อยู่</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">แสดง QR Code</string>
     <string name="delete_address">ลบที่อยู่</string>
+    <string name="delete_contact">ลบผู้ติดต่อ</string>
     <string name="delete_addresses">ลบที่อยู่</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">รายการธุรกรรม</string>
     <string name="address_id">ที่อยู่</string>
     <string name="expiration_date">วันหมดอายุ</string>
     <string name="tag">แท็ก</string>
     <string name="show_qr_code_short">แสดง QR</string>
+    <string name="expire_address_now">ให้ที่อยู่หมดอายุเลย</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">ใช้งานที่อยู่</string>
     <string name="save">บันทึก</string>
     <string name="now">ตอนนี้</string>
     <string name="none">ไม่มี</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">เปลี่ยนรหัสผ่าน</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">กรอกรหัสผ่านปัจจุบัน</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">สแกน QR Code</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">ตรวจสอบ Payment Proof</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">วาง Payment Proof ของคุณที่นี่</string>
     <string name="payment_proof_verification_error">ไม่สามารถถอดรหัส Payment Proof ได้</string>
     <string name="copy_details">คัดลอกรายละเอียด</string>
@@ -305,16 +311,16 @@
     <string name="receiver">ผู้รับ</string>
     <string name="current_password_is_incorrect">รหัสผ่านปัจจุบันไม่ถูกต้อง</string>
     <string name="paste_payment_proof">วาง Payment Proof ของคุณที่นี่</string>
-    <!--CategoryFragment-->
     <string name="edit">แก้ไข</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">ลบ​แท็ก</string>
     <string name="tag_delete_dialog_message">คุณแน่ใจที่จะลบแท็ก %1$s?</string>
-    <!--EditCategory-->
     <string name="edit_tag">แก้ไขแท็ก</string>
+    <!--EditCategory-->
     <string name="create_tag">สร้างแท็ก</string>
     <string name="color">สี</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">แสดง Owner Key</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">เพื่อที่จะดู Owner Key คุณจะต้องผ่านการป้องกัน 2 ขั้นตอน (ใส่รหัสผ่านและใช้งานการสแกนลายนิ้วมือ)</string>
     <string name="owner_key_verification_fingerprint_error">การสแกนลายนิ้วมือล้มเหลว กรุณาลองอีกครั้งในอีกไม่กี่นาที</string>
     <string name="owner_key_verification_title_with_finger">กรอกรหัสผ่านของคุณและสแกนลายนิ้วมือเพื่อเปิดกระเป๋า</string>
@@ -324,20 +330,19 @@
     <string name="owner_key_code_description">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ\n\nเพื่อเป็นการป้องกันการเข้าถึงข้อมูลทรัพย์สินของคุณ กรุณาอย่าได้แชร์ Owner Key กับผู้อื่น</string>
     <string name="owner_key_verification_pass">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
 คุณจะต้องกรอกรหัสผ่านเพื่อที่จะดู Owner Key ของคุณ</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
+    <string name="owner_key_verification_pass_finger">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
+คุณจะต้องผ่านการยืนยัน 2 ขั้นตอน (กรอกรหัสผ่านหรือใช้สแกนลายนิ้วมือ) เพื่อที่จะดู Owner Key ของคุณ</string>
     <string name="notification_receive_content_title">กำลังรับธุรกรรมใหม่</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">กรุณากดเพื่อแสดงรายละเอียด</string>
     <string name="notification_channel_name">ช่องทางการแจ้งเตือน</string>
     <string name="notification_channel_description">ช่องทางการแจ้งเตือนเริ่มต้น</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">แตะที่เซนเซอร์สแกนลายนิ้วมือ</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">ลายนิ้วมือ</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">เปลี่ยนที่อยู่</string>
-    <!-- Language -->
     <string name="language">ภาษา</string>
+    <!-- Language -->
     <string name="language_dialog_message">เพื่อให้การตั้งค่าถูกใช้งาน กรุณารีสตาร์ทเพื่อเปลี่ยนภาษาของแอป</string>
     <string name="restart_now">รีสตาร์ทเลย</string>
     <string name="rate_app">ให้คะแนนแอป</string>
@@ -349,7 +354,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">ค่าของ UTXO ทั้งหมด</string>
     <string name="confirmation_send_description">เพื่อให้ธุรกรรมเสร็จสมบูรณ์ ผู้รับโอนจะต้องออนไลน์ภายใน 12 ชั่วโมงและคุณควรจะออนไลน์หลังจากนั้นภายใน 2 ชั่วโมง</string>
     <string name="confirmation">การยืนยัน</string>
-    <string name="change_description">จะถูกล็อกไว้จนกระทั้งธุรกรรมสำเร็จหรือหมดอายุ</string>
     <string name="save_recipient_address">คุณต้องการที่จะบันทึกที่อยู่ผู้รับโอนนี้สำหรับการทำธุรกรรมในอนาคตหรือไม่?</string>
     <string name="save_address">บันทึกที่อยู่</string>
     <string name="dont_save">ไม่ต้องบันทึก</string>
@@ -360,6 +364,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">ค่าธรรมเนียมที่ต่ำที่สุดคือ %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับที่อยู่นี้</string>
     <string name="delete_all_transactions_related_to_this_addresses">ลบรายการธุรกรรมที่เกี่ยวข้องกับที่อยู่นี้ทั้งหมด</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">ค้นหาธุรกรรม</string>
     <string name="never_expires">ไม่มีวันหมดอายุ</string>
     <string name="expires_in">หมดอายุใน %1$s ชั่วโมง %2$s นาที</string>
@@ -368,6 +374,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">ใช้ลายนิ้วมือปลดล็อคหรือใส่รหัสผ่านเพื่อยืนยันธุรกรรม</string>
     <string name="fingerprint_not_recognized">ไม่รู้จักลายนิ้วมือนั้ โปรดลองอีกครั้ง</string>
     <string name="address_copied_to_clipboard">คัดลอกที่อยู่ไปยังคลิปบอร์ดแล้ว</string>
+    <string name="copied_to_clipboard">คัดลอกลงคลิปบอร์ดแล้ว</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">กระเป๋า Beam จะทำการดาวน์โหลดข้อมูลบล็อคเชนจากคลาวด์</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">กระเป๋า Beam จะทำการเชื่อมต่อไปยัง Node ที่กำหนดและ Node จะทำการค้นหาทรัพสินย์ของคุณในบล็อกเชน</string>
     <string name="restore_with_trusted_node">ดึงข้อมูลจาก Node ที่ไว้ใจได้</string>
@@ -411,14 +418,20 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">หลังจากที่คุณวาง Owner Key แล้ว ให้รัน Node ของคุณบนเดสท็อปและกดถัดไปที่แอปในมือถือ</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node ยังไม่ทำการเชื่อมต่อได้ ลองเชื่อมต่อประเป๋าโดยใช้ Node อื่นหรือใช้การกู้กระเป๋าแบบอัตโนมัติ</string>
     <string name="connecting">กำลังเชื่อมต่อ...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">ค้นหาโดยหมายเลขธุรกรรม, คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">ค้นหาโดยหมายเลขธุรกรรมหรือ Kernel ID,
+คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
     <string name="address_details">รายละเอียดที่อยู่</string>
-    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
-    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
-    <string name="crash_negative">No, thanks</string>
-    <string name="crash_positive">Send report</string>
+    <string name="contact_details">Contact details</string>
+    <string name="crash_title">กระเป๋า Beam มีปัญหาที่ไม่สามารถระบุได้</string>
+    <string name="crash_message">คุณตกลงที่จะรายงานข้อมูลเล็กน้อยกับทางเราหรือไม่? ข้อมูลความผิดพลาดนี้จะทำให้ทางเราสามารถหาปัญหาและแก้ไขได้เร็วยิ่งขึ้น เราจะเก็บเฉพาะข้อมูลที่เกี่ยวกับความผิดพลาดเท่านั้น เราจะไม่เก็บข้อมูลอื่นๆในภายหลัง</string>
+    <string name="crash_negative">ไม่ ขอบคุณ</string>
+    <string name="crash_positive">รายงานข้อผิดพลาด</string>
     <string name="h">ชม.</string>
-    <string name="m">mins</string>
-    <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="m">นาที</string>
+    <string name="s">วินาที</string>
+    <string name="estimted_time">เวลาโดยประมาณ</string>
+    <string-array name="receive_expires_periods">
+        <item>ภายใน 24 ชั่วโมง</item>
+        <item>ไม่มี</item>
+    </string-array>
 </resources>

@@ -192,15 +192,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
-                android:textAllCaps="false"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/change_description"
+                android:textAllCaps="false"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/totalUtxo"
-                tools:text="CHANGE (will be locked till the transaction will succeed or expire)" />
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/changeUtxo"

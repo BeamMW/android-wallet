@@ -29,8 +29,6 @@ interface WelcomeSeedContract {
         fun configSeed(seed: Array<String>)
         fun showCopiedAlert()
         fun showSaveAlert()
-        fun forbidScreenshot()
-        fun allowScreenshot()
     }
 
     interface Presenter : MvpPresenter<View> {

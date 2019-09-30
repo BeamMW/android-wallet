@@ -29,13 +29,6 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         WelcomeSeedContract.Presenter {
     private val COPY_TAG = "RECOVERY SEED"
 
-    override fun onStart() {
-        super.onStart()
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MASTERNET) {
-            view?.forbidScreenshot()
-        }
-    }
-
     override fun onViewCreated() {
         super.onViewCreated()
         view?.configSeed(repository.seed)
@@ -56,11 +49,6 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     override fun onCopyPressed() {
         view?.copyToClipboard(prepareSeed(repository.seed), COPY_TAG)
         view?.showCopiedAlert()
-    }
-
-    override fun onDestroy() {
-        view?.allowScreenshot()
-        super.onDestroy()
     }
 
     private fun prepareSeed(seed: Array<String>): String {

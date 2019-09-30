@@ -15,7 +15,10 @@
     <string name="cancel">Cancelar</string>
     <string name="delete">Borrar</string>
     <string name="confirm">Confirme</string>
-    <string name="change">Cambiar</string>
+    <string name="change_address">Cambiar</string>
+    <string name="change_address_title">Cambiar dirección</string>
+    <string name="change_utxo_type">Cambiar</string>
+    <string name="change_description">Cambiar (se bloqueará hasta que la transacción tenga éxito o expire)</string>
     <string name="ok">OK</string>
     <string name="undo">Deshacer</string>
     <string name="next">Siguiente</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">compartir QR</string>
     <string name="common_security_mode_title">Activar modo privacidad</string>
     <string name="common_security_mode_message">Se ocultarán todos los saldos hasta que se toque el icono del ojo nuevamente.</string>
-    <string name="common_fingerprint_error">Demasiados intentos. Por favor, inicie sesión con contraseña.</string>
+    <string name="common_fingerprint_error">No se puede reconocer la huella digital, por favor introduzca su contraseña.</string>
     <string name="common_share_title">Compartir…</string>
     <string name="common_external_link_dialog_title">Enlace externo</string>
     <string name="common_external_link_dialog_message">La aplicación Beam Wallet requiere permiso para abrir un enlace externo en el navegador. Esta acción expondrá su IP al servidor web. Para evitarlo, elige \"Cancelar\". Puede cambiar su elección en la configuración de la aplicación en cualquier momento.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Notificaciones</string>
     <string name="help">Ayuda</string>
     <string name="settings">Ajustes</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Crear nuevo wallet</string>
     <string name="restore_wallet">Restaura wallet</string>
@@ -192,7 +196,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="my_sending_address">Mi dirección de envío</string>
     <string name="my_address">Mi dirección</string>
     <string name="transaction_deleted">Transacción borrada</string>
-    <string name="save_contact">Save contact</string>
+    <string name="save_contact">Guardar contacto</string>
     <!--ReceiveFragment-->
     <string name="swap">Intercambiar</string>
     <string name="auto_generated">auto-generado</string>
@@ -209,13 +213,12 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="optional">Opcional</string>
     <string name="name">Nombre</string>
     <string name="edit_address">Editar dirección</string>
+    <string name="edit_contact">Editar contacto</string>
     <string name="advanced">Avanzado</string>
-    <string-array name="receive_expires_periods">
-        <item>En 24 horas</item>
-        <item>Nunca</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Ingrese o escanee la dirección del destinatario</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">El campo de cantidad no puede estar vacío</string>
     <string name="send_amount_zero_error">La cantidad no puede ser 0 BEAM</string>
     <string name="send_amount_overflow_error">Fondos insuficientes: usted necesitaría %1$s para completar la transacción.</string>
@@ -240,8 +243,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="local_comment_not_shared">Comentario local, no será compartido</string>
     <string name="address_already_exist_1">Esta dirección ya existe</string>
     <string name="address_already_exist_2">No puedes guardar tu dirección. Esta dirección ya existe</string>
-    <!--SettingsFragment-->
     <string name="settings_report">Informar de un problema</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Cambia la contraseña del wallet</string>
     <string name="settings_version">Versión de la aplicación</string>
     <string name="settings_send_logs_description">Enviar registros…</string>
@@ -266,38 +269,41 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="settings_confirm_clear_message">¿Está seguro de que desea eliminar todo %1$s de su wallet?</string>
     <string name="contacts">Contactos</string>
     <string name="transaction">Transacción</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Cargando wallet</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Mi activo</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Mi caducado</string>
     <string name="no_name">Sin nombre</string>
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
     <string name="addresses_deleted">Direcciones eliminadas</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Dirección</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Mostrar código QR</string>
     <string name="delete_address">Borrar dirección</string>
+    <string name="delete_contact">Borrar contacto</string>
     <string name="delete_addresses">Eliminar direcciones</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
     <string name="tag">Etiqueta</string>
     <string name="show_qr_code_short">Mostrar QR</string>
+    <string name="expire_address_now">Direcciones caducadas</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expire addresss</string>
     <string name="active_address">Activar dirección</string>
     <string name="save">Salvar</string>
     <string name="now">Ahora</string>
     <string name="none">Ninguno</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Cambia la contraseña</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Introduce tu contraseña actual</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Escanear código QR</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Verificación de prueba de pago</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Pega tu comprobante de pago aquí</string>
     <string name="payment_proof_verification_error">No se puede descodificar la prueba, secuencia ilegal.</string>
     <string name="copy_details">Copia los detalles</string>
@@ -307,16 +313,16 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="receiver">Destinatario</string>
     <string name="current_password_is_incorrect">La contraseña actual es incorrecta</string>
     <string name="paste_payment_proof">Pega tu comprobante de pago aquí</string>
-    <!--CategoryFragment-->
     <string name="edit">Editar</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Borrar etiqueta</string>
     <string name="tag_delete_dialog_message">¿Está seguro de que desea eliminar %1$s etiqueta?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Editar etiqueta</string>
+    <!--EditCategory-->
     <string name="create_tag">Crea una etiqueta</string>
     <string name="color">Color</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Mostrar la clave de propietario</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Para ver la clave del propietario debe pasar esta verificación de dos pasos (envíe una contraseña y utilice el ID de huella digital)</string>
     <string name="owner_key_verification_fingerprint_error">La autorización de huellas dactilares falló. Por favor intente en unos minutos.</string>
     <string name="owner_key_verification_title_with_finger">Introduzca su contraseña y use Face ID
@@ -327,20 +333,19 @@ para acceder al wallet</string>
     <string name="owner_key_code_description">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todo UTXO enviado a cualquier wallet generado con la misma frase de semilla.\n\n No comparta su Clave Propietaria con otros - permite la inspección y el control de sus fondos.</string>
     <string name="owner_key_verification_pass">El despliegue de la clave del propietario en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
 Debe introducir su contraseña para ver la clave del propietario.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
+    <string name="owner_key_verification_pass_finger">El despliegue de la Clave Propietaria en un nodo de confianza permitirá al nodo controlar todas las UTXOs enviadas a esta wallet y cualquier otra wallet generada a partir de su frase de semilla.
+Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huella digital) para ver su Clave del propietario.</string>
     <string name="notification_receive_content_title">Recibiendo nueva transacción</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Por favor, haz click para ver detalles</string>
     <string name="notification_channel_name">Canal de notificación</string>
     <string name="notification_channel_description">Canal de notificación predeterminado</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Toca el sensor de huella digital</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">ID Huella dactilar</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Cambiar dirección</string>
-    <!-- Language -->
     <string name="language">Idioma</string>
+    <!-- Language -->
     <string name="language_dialog_message">Para que la configuración de idioma tenga efecto, la aplicación debe reiniciarse</string>
     <string name="restart_now">Reiniciar ahora</string>
     <string name="rate_app">Califica la aplicación</string>
@@ -352,7 +357,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">Valor total del UTXO</string>
     <string name="confirmation_send_description">Para que la transacción se complete, el destinatario debe conectarse dentro de las próximas 12 horas y usted debe conectarse dentro de las 2 horas posteriores.</string>
     <string name="confirmation">Confirmación</string>
-    <string name="change_description">se bloqueará hasta que la transacción tenga éxito o caduque</string>
     <string name="save_recipient_address">¿Le gustaría guardar la dirección del destinatario para futuras transacciones?</string>
     <string name="save_address">Salvar dirección</string>
     <string name="dont_save">No guardar</string>
@@ -363,6 +367,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
     <string name="delete_all_transactions_related_to_this_addresses">Eliminar todas las transacciones relacionadas con estas direcciones</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Biscar transacción</string>
     <string name="never_expires">Nunca caduca</string>
     <string name="expires_in">Caduca en %1$s h %2$s m</string>
@@ -371,6 +377,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utiliza huella digital o introduce tu contraseña para confirmar la transacción</string>
     <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
     <string name="address_copied_to_clipboard">La dirección ha sido copiada al portapapeles</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet descargará la captura de pantalla blockchain de la nube.</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet se conectará a un nodo específico y el nodo encontrará todos sus fondos en blockchain.</string>
     <string name="restore_with_trusted_node">Restaurar con nodo de confianza</string>
@@ -414,14 +421,20 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Una vez que pegue el código, ejecute su nodo en el escritorio y haga clic en siguiente en la aplicación móvil.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">El nodo no se puede conectar. Intente conectar el wallet a un nodo diferente o use la restauración recomendada.</string>
     <string name="connecting">Conectando...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Buscar por ID de transacción, comentario, dirección o contacto</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Buscar por transacción o ID del núcleo, comentario,
+dirección o contacto</string>
     <string name="address_details">Detalles de la dirección</string>
-    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
-    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
-    <string name="crash_negative">No, thanks</string>
-    <string name="crash_positive">Send report</string>
+    <string name="contact_details">Contact details</string>
+    <string name="crash_title">La wallet de Beam falló inesperadamente</string>
+    <string name="crash_message">¿Aceptaría enviarnos su cantidad limitada de información? Recopilar información sobre fallos nos permitiría descubrir y corregir errores mucho más rápido. Este es solo un informe único relacionado con el error, no seguiremos recopilando sus datos más adelante.</string>
+    <string name="crash_negative">No, gracias</string>
+    <string name="crash_positive">Enviar informe</string>
     <string name="h">h</string>
-    <string name="m">mins</string>
-    <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="m">minutos</string>
+    <string name="s">segundos</string>
+    <string name="estimted_time">Tiempo estimado</string>
+    <string-array name="receive_expires_periods">
+        <item>En 24 horas</item>
+        <item>Nunca</item>
+    </string-array>
 </resources>

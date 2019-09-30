@@ -28,6 +28,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
@@ -270,12 +271,27 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
             val dialog = AlertDialog.Builder(it).setView(view).show()
 
-            if (selectedAddresses.count() > 1) {
-                val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
-                titleLabel.text = getString(R.string.delete_addresses)
+            val contact = AppManager.instance.getAddress(selectedAddresses.first())
 
-                val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
-                msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_addresses)
+            val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
+            val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
+
+            if (contact?.isContact == true)
+            {
+                if (selectedAddresses.count() > 1) {
+                    titleLabel.text = getString(R.string.delete_contacts)
+                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contacts)
+                }
+                else{
+                    titleLabel.text = getString(R.string.delete_contact)
+                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                }
+            }
+            else{
+                if (selectedAddresses.count() > 1) {
+                    titleLabel.text = getString(R.string.delete_addresses)
+                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_addresses)
+                }
             }
 
             view.btnConfirm.setOnClickListener {
@@ -290,12 +306,19 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun showDeleteAddressesSnackBar(removeTransactions: Boolean) {
-        presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
+        val contact = AppManager.instance.getAddress(selectedAddresses.first())
 
-        val text = if (selectedAddresses.count() > 1) {
-            getString(R.string.addresses_deleted)
-        } else {
-            getString(R.string.address_deleted)
+        val text = when {
+            contact?.isContact == true -> if (selectedAddresses.count() > 1) {
+                getString(R.string.contacts_deleted)
+            } else {
+                getString(R.string.contact_deleted)
+            }
+            else -> if (selectedAddresses.count() > 1) {
+                getString(R.string.addresses_deleted)
+            } else {
+                getString(R.string.address_deleted)
+            }
         }
 
         showSnackBar(text,
@@ -311,6 +334,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                     presenter?.removedAddresses?.clear()
                 }
         )
+
+        presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
 
         cancelSelectedAddresses()
     }

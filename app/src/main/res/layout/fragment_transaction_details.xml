@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="1"
-    android:focusableInTouchMode="true"
     android:orientation="vertical"
+    android:focusableInTouchMode="true"
     android:descendantFocusability="blocksDescendants"
     android:background="@color/colorPrimaryDark">
 
@@ -51,7 +51,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/infoCard"
                 style="@style/common_card_style"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="107dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
@@ -150,7 +150,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
                     android:padding="3dp"
@@ -261,15 +260,17 @@
 
                     <TextView
                         android:id="@+id/startAddress"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:padding="3dp"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
-                        android:textIsSelectable="true"
                         android:textSize="14sp"
-                        tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+                        android:enabled="true"
+                        android:textIsSelectable="true"
+                        tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy"
+                        />
 
                     <TextView
                         android:id="@+id/startAddressCategory"
@@ -516,7 +517,6 @@
                     android:layout_height="wrap_content"
                     android:background="#0CFFFFFF"
                     android:clickable="true"
-                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
                     android:paddingStart="10dp"
@@ -605,7 +605,6 @@
                     android:layout_height="wrap_content"
                     android:background="#0CFFFFFF"
                     android:clickable="true"
-                    android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:orientation="horizontal"
                     android:paddingStart="10dp"

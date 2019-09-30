@@ -15,7 +15,10 @@
     <string name="cancel">キャンセル</string>
     <string name="delete">削除</string>
     <string name="confirm">確定</string>
-    <string name="change">変更</string>
+    <string name="change_address">変更</string>
+    <string name="change_address_title">アドレスを変更</string>
+    <string name="change_utxo_type">変更</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">OK</string>
     <string name="undo">元に戻す</string>
     <string name="next">次へ</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">QRを共有</string>
     <string name="common_security_mode_title">プライバシーモードを有効化</string>
     <string name="common_security_mode_message">すべての残高が目のアイコンを再タップするまで非表示になります。</string>
-    <string name="common_fingerprint_error">試行数が多すぎます。パスワードを入力してください。</string>
+    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
     <string name="common_share_title">共有...</string>
     <string name="common_external_link_dialog_title">外部リンク</string>
     <string name="common_external_link_dialog_message">Beam ウォレットアプリは、外部リンクをブラウザで開く許可を必要とします。この操作により、あなたのIPアドレスがWebサーバーに共有されます。これを回避する為には、キャンセルを選択してください。この設定はいつでも変更できます。</string>
@@ -42,6 +45,7 @@
     <string name="notifications">通知</string>
     <string name="help">ヘルプ</string>
     <string name="settings">設定</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">新しいウォレットを作成</string>
     <string name="restore_wallet">ウォレットをリストア</string>
@@ -207,13 +211,12 @@
     <string name="optional">任意</string>
     <string name="name">名前</string>
     <string name="edit_address">アドレスを編集</string>
+    <string name="edit_contact">コンタクトを編集</string>
     <string name="advanced">アドバンスト</string>
-    <string-array name="receive_expires_periods">
-        <item>24時間後</item>
-        <item>無期限</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">受信者のアドレスをスキャンもしくは入力</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">数量欄は入力必須です</string>
     <string name="send_amount_zero_error">数量は0BEAMにはできません</string>
     <string name="send_amount_overflow_error">残高不足：トランザクションを完了する為にはあと %1$s が必要です。</string>
@@ -238,8 +241,8 @@
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <string name="address_already_exist_1">このアドレスはすでに存在しています</string>
     <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
-    <!--SettingsFragment-->
     <string name="settings_report">問題を報告</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">ウォレットパスワードを変更</string>
     <string name="settings_version">アプリバージョン</string>
     <string name="settings_send_logs_description">記録を送信...</string>
@@ -264,38 +267,41 @@
     <string name="settings_confirm_clear_message">ウォレットからすべての %1$s を削除してもよろしいですか？</string>
     <string name="contacts">コンタクト</string>
     <string name="transaction">トランザクション</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">ウォレットを読み込み中</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">アクティブ</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">期限切れ</string>
     <string name="no_name">名前なし</string>
     <string name="address_deleted">アドレスが削除されました</string>
     <string name="contact_deleted">コンタクトが削除されました</string>
     <string name="addresses_deleted">Addresses deleted</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">アドレス</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">QRコードを表示</string>
     <string name="delete_address">アドレスの削除</string>
+    <string name="delete_contact">コンタクトを削除</string>
     <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">トランザクションリスト</string>
     <string name="address_id">アドレスID</string>
     <string name="expiration_date">有効期限</string>
     <string name="tag">タグ</string>
     <string name="show_qr_code_short">QRを表示</string>
-    <!--EditAddressFragment-->
     <string name="expire_address_now">Expire addresss</string>
+    <!--EditAddressFragment-->
     <string name="active_address">アドレスを有効化</string>
     <string name="save">保存</string>
     <string name="now">今</string>
     <string name="none">無し</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">パスワードを変更</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">現在のパスワードを入力してください</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">QRコードをスキャン</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">支払証明照合</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">ここに支払証明を貼り付けてください</string>
     <string name="payment_proof_verification_error">証明をデコードできません、不正なシーケンスです。</string>
     <string name="copy_details">詳細をコピー</string>
@@ -305,16 +311,16 @@
     <string name="receiver">受信者</string>
     <string name="current_password_is_incorrect">パスワードが違います</string>
     <string name="paste_payment_proof">ここに支払証明を貼り付けてください</string>
-    <!--CategoryFragment-->
     <string name="edit">編集</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">タグを削除</string>
     <string name="tag_delete_dialog_message">本当に %1$s を削除しますか？</string>
-    <!--EditCategory-->
     <string name="edit_tag">タグを編集</string>
+    <!--EditCategory-->
     <string name="create_tag">タグを作成</string>
     <string name="color">カラー</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">オーナーキーを表示</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">オーナーキーを表示するためには二段階認証を経る必要があります。（パスワードを入力し、指紋認証を使用してください）</string>
     <string name="owner_key_verification_fingerprint_error">指紋認証に失敗しました。数分後に再試行してください。</string>
     <string name="owner_key_verification_title_with_finger">ウォレットにアクセスするには、パスワードを入力または指紋認証を行ってください</string>
@@ -325,18 +331,17 @@
     <string name="owner_key_verification_pass">オーナーキーを展開されたノードは、同じシードフレーズから生成されたウォレットに送信されるすべてのUTXOを監視できます。オーナーキーを確認するためにはパスワードを入力する必要があります。</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <!--BackgroundService-->
     <string name="notification_receive_content_title">新しいトランザクションを受信中</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">クリックして詳細を表示してください</string>
     <string name="notification_channel_name">通知チャネル</string>
     <string name="notification_channel_description">既定の通知チャネル</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">指紋認証センサーをタッチしてください</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">指紋ID</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">アドレスを変更</string>
-    <!-- Language -->
     <string name="language">言語</string>
+    <!-- Language -->
     <string name="language_dialog_message">言語設定の変更を反映するにはアプリケーションを再起動してください</string>
     <string name="restart_now">今すぐ再起動</string>
     <string name="rate_app">アプリを評価</string>
@@ -348,7 +353,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="total_utxo_value">UTXOの総数量</string>
     <string name="confirmation_send_description">トランザクションを完了させる為に、受信者は次の12時間オンラインである必要があり、送信者であるあなたはその後2時間オンラインである必要があります。</string>
     <string name="confirmation">確認</string>
-    <string name="change_description">トランザクションが成功するか期限切れになるまでロックされます</string>
     <string name="save_recipient_address">今後のトランザクションの為に受信者のアドレスを保存しますか？</string>
     <string name="save_address">アドレスを保存</string>
     <string name="dont_save">保存しない</string>
@@ -359,6 +363,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">最小手数料は %1$s GROTHです</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">トランザクションを検索</string>
     <string name="never_expires">無期限</string>
     <string name="expires_in">%1$s 時間 %2$s 分で期限切れ</string>
@@ -367,6 +373,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">指紋認証もしくはパスワードでトランザクションを認証</string>
     <string name="fingerprint_not_recognized">指紋が認識されていません</string>
     <string name="address_copied_to_clipboard">アドレスをクリップボードにコピーしました</string>
+    <string name="copied_to_clipboard">クリップボードにコピーしました</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beamウォレットはブロックチェーンのスナップショットをクラウドからダウンロードします</string>
     <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beamウォレットは特定のノードに接続し、ノードはあなたのすべての資金をブロックチェーンから発見します</string>
     <string name="restore_with_trusted_node">信頼できるノードでリストア</string>
@@ -410,8 +417,10 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">コードを貼り付けた後、デスクトップであなたのノードを起動し、モバイルウォレットで \"次へ\" をクリックしてください。</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">ノードに接続できません。異なるノードへの接続を試すか、自動復元（Automatic Restore）を使用してください。</string>
     <string name="connecting">接続中...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">ID、コメント、アドレス、連絡先で検索</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">アドレスの詳細</string>
+    <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
     <string name="crash_negative">No, thanks</string>
@@ -420,4 +429,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="m">mins</string>
     <string name="s">sec</string>
     <string name="estimted_time">Estimated time</string>
+    <string-array name="receive_expires_periods">
+        <item>24時間後</item>
+        <item>無期限</item>
+    </string-array>
 </resources>

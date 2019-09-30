@@ -243,28 +243,30 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
 //    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 //        val fs = this.javaClass.superclass.superclass.declaredFields
-//        fs[0].setAccessible(true);
+//        fs[0].isAccessible = true
 //
 //        val privateField = fs[0].get(this) as ViewControllerFragmentDelegate
 //
 //        val fs2 = privateField.javaClass.declaredFields
-//        fs2[3].setAccessible(true)
-//        fs2[3].setInt(privateField,3);
-//
-////        var state = fs2[3].get(privateField) as Int
-////        state = 3
-//
-////        val privateField = this.javaClass.superclass.superclass
-////                .accessField("controllerDelegate")
-////                as ViewControllerFragmentDelegate
+//        fs2[3].isAccessible = true
+//        fs2[3].setInt(privateField,3)
 //
 //        val asyncLayoutInflater = AsyncLayoutInflater(context!!)
-//        asyncLayoutInflater.inflate(onControllerGetContentLayoutId(), container) { view, resid, parent ->
+//        asyncLayoutInflater.inflate(onControllerGetContentLayoutId(), container) { view, _, parent ->
 //            parent?.addView(view)
-//           // onViewCreated(view, savedInstanceState)
+//
+//            val fs2 = privateField.javaClass.declaredFields
+//            fs2[3].isAccessible = true
+//            fs2[3].setInt(privateField,3)
+//
+//            fs2[0].isAccessible = true
+//            fs2[0].set(privateField,view)
+//
+//            onViewCreated(view, savedInstanceState)
+//            onControllerContentViewCreated()
+//
+//            presenter?.onStart()
 //        }
 //        return null
-//        // super.onCreateView(inflater, container, savedInstanceState)
-//       // return super.onCreateView(inflater, container, savedInstanceState)
 //    }
 }

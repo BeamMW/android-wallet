@@ -44,7 +44,18 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         view?.showSearchTransaction()
     }
 
-    override fun onExportPressed() {
+    override fun onExportSave() {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(TransactionFields.HEAD_LINE)
+
+        getTransactions().forEach {
+            stringBuilder.append(TransactionFields.formatTransaction(it))
+        }
+
+        view?.exportSave(stringBuilder.toString())
+    }
+
+    override fun onExportShare() {
         val file = repository.getTransactionsFile()
         val stringBuilder = StringBuilder()
         stringBuilder.append(TransactionFields.HEAD_LINE)
@@ -54,8 +65,9 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         }
         file.writeBytes(stringBuilder.toString().toByteArray())
 
-        view?.showShareFileChooser(file)
+        view?.exportShare(file)
     }
+
 
     override fun onProofVerificationPressed() {
         view?.showProofVerification()
