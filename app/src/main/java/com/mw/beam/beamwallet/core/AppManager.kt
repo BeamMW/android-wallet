@@ -24,7 +24,7 @@ class AppManager {
     var subOnTransactionsChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnUtxosChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
-    var subOnAddressesChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnAddressesChanged: Subject<Boolean?> = PublishSubject.create<Boolean?>().toSerialized()
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
@@ -247,7 +247,7 @@ class AppManager {
                 }
 
                 subOnTransactionsChanged.onNext(0)
-                subOnAddressesChanged.onNext(0)
+                subOnAddressesChanged.onNext(true)
             }
 
             WalletListener.subOnAddresses.subscribe(){
@@ -264,7 +264,7 @@ class AppManager {
                     deleteAddresses(TrashManager.getAllData().addresses)
                 }
 
-                subOnAddressesChanged.onNext(0)
+                subOnAddressesChanged.onNext(it.own)
             }
 
             WalletListener.obsOnTxStatus.subscribe(){

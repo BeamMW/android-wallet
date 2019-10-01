@@ -150,6 +150,8 @@
     <string name="filter">Filter</string>
     <string name="export">Export</string>
     <string name="payment_proof">Payment proof</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
 
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>

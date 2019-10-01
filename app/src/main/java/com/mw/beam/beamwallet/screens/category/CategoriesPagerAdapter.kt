@@ -25,21 +25,34 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 
 /**
  *  2/28/19.
  */
-class CategoriesPagerAdapter(val context: Context, onAddressClickListener: AddressesAdapter.OnItemClickListener) : androidx.viewpager.widget.PagerAdapter() {
+class CategoriesPagerAdapter(val context: Context, var categoryID:String, onAddressClickListener: AddressesAdapter.OnItemClickListener) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
-    private val addressesAdapter = AddressesAdapter(context, onAddressClickListener,null, null)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener,null, null)
+    private val addressesAdapter = AddressesAdapter(context, onAddressClickListener,null, {
+        return@AddressesAdapter onSearchTagsForAddress(it) ?: listOf()
+    })
+
+
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener,null, {
+        return@AddressesAdapter onSearchTagsForAddress(it) ?: listOf()
+    })
 
     private var addressesLayoutManager: LinearLayoutManager? = null
     private var contactsLayoutManager: LinearLayoutManager? = null
 
+    private fun onSearchTagsForAddress(address: String): List<Tag> {
+        return TagHelper.getTagsForAddress(address)
+    }
+
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup
 
         val recyclerView = layout.findViewById<com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport>(R.id.list)
@@ -103,6 +116,7 @@ class CategoriesPagerAdapter(val context: Context, onAddressClickListener: Addre
 
 
     fun setData(tab: Tab, addresses: List<WalletAddress>) {
+
         when (tab) {
             Tab.ADDRESSES -> addressesAdapter.apply {
                 setData(addresses.sortedByDescending { it.createTime })

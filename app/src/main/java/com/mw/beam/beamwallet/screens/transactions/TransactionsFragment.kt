@@ -47,8 +47,9 @@ import android.provider.Settings
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import kotlinx.android.synthetic.main.toolbar.*
-
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import android.graphics.drawable.ColorDrawable
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
     private lateinit var pageAdapter: TransactionsPageAdapter
@@ -152,9 +153,28 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
             R.id.menu_search -> presenter?.onSearchPressed()
             R.id.menu_proof -> presenter?.onProofVerificationPressed()
             R.id.menu_export ->  {
-                registerForContextMenu(toolbar)
-                toolbar.showContextMenu()
-                unregisterForContextMenu(toolbar)
+
+                val view = LayoutInflater.from(context).inflate(R.layout.dialog_share, null)
+
+                view.findViewById<TextView>(R.id.cancelBtn).setOnClickListener {
+                    dialog?.dismiss()
+                }
+
+                view.findViewById<TextView>(R.id.shareBtn).setOnClickListener {
+                    dialog?.dismiss()
+                    presenter?.onExportShare()
+                }
+
+                view.findViewById<TextView>(R.id.saveBtn).setOnClickListener {
+                    dialog?.dismiss()
+                    presenter?.onExportSave()
+                }
+
+                dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+                    window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                }
+
+
             }
         }
 

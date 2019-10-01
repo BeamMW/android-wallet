@@ -63,7 +63,7 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         setHasOptionsMenu(true)
 
         val context = context ?: return
-        pagerAdapter = CategoriesPagerAdapter(context,
+        pagerAdapter = CategoriesPagerAdapter(context, tag.id,
                 object : AddressesAdapter.OnItemClickListener {
                     override fun onItemClick(item: WalletAddress) {
                         presenter?.onAddressPressed(item)
