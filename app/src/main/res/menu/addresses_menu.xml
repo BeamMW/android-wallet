@@ -10,7 +10,7 @@
         android:id="@+id/edit"
         android:icon="@drawable/address_edit"
         android:title="@string/edit_address"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/delete"
         android:icon="@drawable/menu_delete"

@@ -63,9 +63,9 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
         TxStatus.Registered -> {
             when {
-                TxSender.RECEIVED == sender -> "Receiving"
+                TxSender.RECEIVED == sender -> "In progress"
                 TxSender.SENT == sender && selfTx -> "Sending to own address"
-                TxSender.SENT == sender -> "Sending"
+                TxSender.SENT == sender -> "In progress"
                 else -> ""
             }
         }
@@ -98,9 +98,9 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
         TxStatus.Registered -> {
             when {
-                TxSender.RECEIVED == sender -> context.getString(R.string.receiving)
+                TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
                 TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
-                TxSender.SENT == sender -> context.getString(R.string.sending)
+                TxSender.SENT == sender -> context.getString(R.string.in_progress)
                 else -> ""
             }
         }

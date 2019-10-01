@@ -13,6 +13,11 @@
                 android:title="@string/save_contact"
                 app:showAsAction="never" />
             <item
+                android:id="@+id/share"
+                android:icon="@drawable/ic_share_white"
+                android:title="@string/share_transaction"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/repeat"
                 android:icon="@drawable/tx_repeat"
                 android:title="@string/repeat_transaction"
@@ -31,11 +36,6 @@
                 android:id="@+id/delete"
                 android:icon="@drawable/tx_delete"
                 android:title="@string/delete_transaction"
-                app:showAsAction="never" />
-            <item
-                android:id="@+id/share"
-                android:icon="@drawable/ic_share_white"
-                android:title="@string/share_transaction"
                 app:showAsAction="never" />
         </menu>
     </item>

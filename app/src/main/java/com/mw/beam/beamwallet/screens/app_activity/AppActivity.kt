@@ -89,7 +89,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -98,7 +98,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
     }
 
     override fun onDestroy() {
@@ -223,16 +223,17 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
 
         if (lastException?.message != null) {
-            showAlert(getString(R.string.crash_message), getString(R.string.i_agree), {
+            showAlert(getString(R.string.crash_message), getString(R.string.crash_negative), {},
+                    getString(R.string.crash_title),
+                    getString(R.string.crash_positive),
+            {
                 Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
                 Crashlytics.logException(lastException)
 
                 Answers.getInstance().logCustom(CustomEvent("CRASH").
                         putCustomAttribute("message", lastException.message))
-            },
-                    getString(R.string.crash_title),
-                    getString(R.string.crash_negative))
+            })
         }
 
         Thread.setDefaultUncaughtExceptionHandler { _, e ->

@@ -230,6 +230,7 @@
     <string name="send_token_description">Input or scan the recipient’s address</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
 
     <!--SendFragment-->
     <string name="send_amount_empty_error">Amount field can’t be empty</string>

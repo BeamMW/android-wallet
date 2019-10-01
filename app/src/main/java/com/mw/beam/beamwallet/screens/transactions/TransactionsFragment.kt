@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.transactions
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -43,6 +44,10 @@ import java.io.IOException
 import android.view.*
 import android.net.Uri
 import android.provider.Settings
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
@@ -95,6 +100,9 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                             outputStream = FileOutputStream(file2)
                             outputStream.write(content.toByteArray())
                             outputStream.close()
+
+                            showSnackBar(getString(R.string.saved_to_downloads))
+
                         } catch (e: IOException) {
                             e.printStackTrace()
                         }
@@ -143,8 +151,11 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         when (item.itemId) {
             R.id.menu_search -> presenter?.onSearchPressed()
             R.id.menu_proof -> presenter?.onProofVerificationPressed()
-            R.id.share -> presenter?.onExportShare()
-            R.id.save -> presenter?.onExportSave()
+            R.id.menu_export ->  {
+                registerForContextMenu(toolbar)
+                toolbar.showContextMenu()
+                unregisterForContextMenu(toolbar)
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -155,4 +166,32 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     }
 
     override fun getToolbarTitle(): String? = getString(R.string.transactions)
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val save = SpannableStringBuilder()
+        save.append(getString(R.string.save_to_downloads))
+        save.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, save.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val share = SpannableStringBuilder()
+        share.append(getString(R.string.share))
+        share.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, share.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        menu.add(0, 1, 0, save)
+        menu.add(0, 2, 0, share)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == 1) {
+            presenter?.onExportSave()
+        }
+        else if (item.itemId == 2) {
+            presenter?.onExportShare()
+        }
+
+        return super.onContextItemSelected(item)
+    }
 }
