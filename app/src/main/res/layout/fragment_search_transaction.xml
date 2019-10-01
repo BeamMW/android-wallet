@@ -71,6 +71,6 @@
         android:textSize="14sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
         tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
