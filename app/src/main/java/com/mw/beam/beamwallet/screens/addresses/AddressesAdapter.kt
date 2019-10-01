@@ -60,23 +60,19 @@ class AddressesAdapter(private val context: Context,
 
             clickListener.onItemClick(data[adapterPosition])
 
-            if (mode == AddressesFragment.Mode.EDIT)
-            {
-                if (selectedAddresses.contains(data[adapterPosition].walletID))
-                {
+            if (mode == AddressesFragment.Mode.EDIT) {
+                if (selectedAddresses.contains(data[adapterPosition].walletID)) {
                     selectedAddresses.remove(data[adapterPosition].walletID)
-                }
-                else{
+                } else {
                     selectedAddresses.add(data[adapterPosition].walletID)
                 }
 
-                notifyItemChanged(adapterPosition)
             }
+            notifyItemChanged(adapterPosition)
         }
 
-        if (longListener != null)
-        {
-            this.containerView.setOnLongClickListener{
+        if (longListener != null) {
+            this.containerView.setOnLongClickListener {
                 longListener?.onLongClick(data[adapterPosition])
                 return@setOnLongClickListener true
             }
@@ -151,12 +147,10 @@ class AddressesAdapter(private val context: Context,
                 clickListener.onItemClick(address)
             }
 
-            if (mode == AddressesFragment.Mode.NONE)
-            {
+            if (mode == AddressesFragment.Mode.NONE) {
                 checkBox.isChecked = false
                 checkBox.visibility = View.GONE
-            }
-            else{
+            } else {
                 checkBox.isChecked = selectedAddresses.contains(address.walletID)
                 checkBox.visibility = View.VISIBLE
             }
@@ -164,8 +158,9 @@ class AddressesAdapter(private val context: Context,
     }
 
     override fun getItemCount(): Int = data.size
+    override fun getItemId(position: Int): Long = position.toLong()
 
-    fun item(index:Int): WalletAddress {
+    fun item(index: Int): WalletAddress {
         return data[index]
     }
 
