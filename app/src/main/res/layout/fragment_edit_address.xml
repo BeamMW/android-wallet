@@ -70,6 +70,7 @@
                         android:fontFamily="@font/roboto_regular"
                         android:hint="@string/no_name"
                         android:inputType="text|textCapSentences"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:paddingStart="3dp"
                         android:paddingTop="5dp"
                         android:paddingEnd="3dp"

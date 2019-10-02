@@ -39,4 +39,10 @@ class TransactionsRepository: BaseRepository(), TransactionsContract.Repository 
 
         return file
     }
+
+    override fun deleteTransaction(txDescription: TxDescription?) {
+        if (txDescription != null) {
+            TrashManager.add(txDescription.id, txDescription)
+        }
+    }
 }

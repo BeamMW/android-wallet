@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/common_alert_dialog_background"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:insetLeft="15dp"
+    android:insetRight="15dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/export_transaction_history_title"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialogTitle2"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@color/colorPrimary"
+        android:paddingEnd="@dimen/settings_common_offset"
+        android:text="@string/export_transaction_history_text"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialogTitle"
+        tools:ignore="RtlSymmetry" />
+
+
+    <TextView
+        android:id="@+id/saveBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/save_to_downloads"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialogTitle2"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/shareBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:text="@string/share"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saveBtn"
+        tools:ignore="RtlSymmetry" />
+
+    <TextView
+        android:id="@+id/cancelBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/alert_dialog_cancel_color"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/shareBtn"
+        tools:ignore="RtlSymmetry" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

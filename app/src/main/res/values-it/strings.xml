@@ -141,6 +141,8 @@
     <string name="filter">Filter</string>
     <string name="export">Export</string>
     <string name="payment_proof">Prova di pagamento</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Active</string>
@@ -195,6 +197,10 @@
     <string name="my_address">My address</string>
     <string name="transaction_deleted">Transaction deleted</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">auto-generated</string>
@@ -216,6 +222,7 @@
     <string name="send_token_description">Input or scan the recipient’s address</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Amount field can’t be empty</string>
     <string name="send_amount_zero_error">Amount can’t be 0 BEAM</string>

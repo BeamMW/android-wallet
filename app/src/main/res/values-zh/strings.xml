@@ -155,6 +155,8 @@
     <string name="filter">筛选</string>
     <string name="export">导出</string>
     <string name="payment_proof">付款证明</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">有效</string>
@@ -209,6 +211,10 @@
     <string name="my_address">我的地址</string>
     <string name="transaction_deleted">交易已被删除</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">交换</string>
     <string name="auto_generated">自动生成</string>
@@ -230,6 +236,7 @@
     <string name="send_token_description">输入或扫描收款人的地址</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">数量不能为空</string>
     <string name="send_amount_zero_error">数量不能是0个Beam</string>

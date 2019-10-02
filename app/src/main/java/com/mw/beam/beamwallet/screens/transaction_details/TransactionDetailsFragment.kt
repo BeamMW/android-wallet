@@ -56,6 +56,7 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
+import org.jetbrains.anko.doAsync
 
 
 /**
@@ -151,6 +152,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
         utxosLayout.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
 
+
         if (utxosList.childCount != utxoInfoList.count()) {
             utxosList.removeAllViews()
 
@@ -182,6 +184,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
         val start = AppManager.instance.getAddress(startAddress.text.toString())
+
         if (start != null && !start.label.isNullOrEmpty()) {
             startContactLayout.visibility = View.VISIBLE
             startContactValue.text = start.label
@@ -235,17 +238,21 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor)
 
         if (txDescription.sender.value) {
-            startAddress.text = txDescription.myId
-            endAddress.text = txDescription.peerId
-
             if (txDescription.selfTx) {
+                startAddress.text = txDescription.myId
+                endAddress.text = txDescription.peerId
+
                 startAddressTitle.text = "${getString(R.string.my_sending_address)}".toUpperCase()
                 endAddressTitle.text = "${getString(R.string.my_receiving_address)}".toUpperCase()
             } else {
-                startAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
-                endAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
+                startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
+                endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
+
+                startAddress.text = txDescription.peerId
+                endAddress.text = txDescription.myId
             }
-        } else {
+        }
+        else {
             startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
             endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
             startAddress.text = txDescription.peerId
@@ -299,16 +306,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         proofExpandLayout.setOnClickListener {
             presenter?.onExpandProofPressed()
         }
-
-        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onLongPress(e: MotionEvent) {
-                vibrate(100)
-                copyToClipboard(proofLabel.text.toString(), "proof")
-                showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-        })
-
-        proofLabel.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
 
         registerForContextMenu(startAddress)
         registerForContextMenu(endAddress)
@@ -430,7 +427,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         detailsExpandLayout.setOnClickListener(null)
         utxosExpandLayout.setOnClickListener(null)
         proofExpandLayout.setOnClickListener(null)
-        proofLabel.setOnTouchListener(null)
     }
 
     override fun finishScreen() {
@@ -492,6 +488,9 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         kernelLayout.visibility = contentVisibility
 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
+            commentLayout.visibility = contentVisibility
+        }
+        else{
             commentLayout.visibility = contentVisibility
         }
     }

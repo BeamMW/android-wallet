@@ -147,9 +147,11 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     }
 
     override fun error() {
-        touchIDView.setType(Type.ERROR)
+        if (touchIDView!=null) {
+            touchIDView.setType(Type.ERROR)
 
-        showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
+            showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
+        }
     }
 
 

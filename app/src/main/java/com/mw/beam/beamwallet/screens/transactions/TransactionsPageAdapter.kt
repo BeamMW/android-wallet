@@ -32,13 +32,17 @@ import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class TransactionsPageAdapter(private val context: Context, onTxClickListener: (TxDescription) -> Unit): androidx.viewpager.widget.PagerAdapter()  {
+class TransactionsPageAdapter(private val context: Context,
+                               onTxLongClickListener: TransactionsAdapter.OnLongClickListener? = null,
+                               onTxClickListener: (TxDescription) -> Unit): androidx.viewpager.widget.PagerAdapter()  {
 
     private var transactions: List<TxDescription> = listOf()
-    private val allTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
-    private val inProgressTxAdapter = TransactionsAdapter(context, listOf(),false, onTxClickListener)
-    private val sentTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
-    private val receivedTxAdapter = TransactionsAdapter(context, listOf(), false, onTxClickListener)
+    private val allTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), false, onTxClickListener)
+    private val inProgressTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(),false, onTxClickListener)
+    private val sentTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), false, onTxClickListener)
+    private val receivedTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), false, onTxClickListener)
+    private var mode = TransactionsFragment.Mode.NONE
+    private var selectedTransactions = mutableListOf<String>()
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup
@@ -128,6 +132,59 @@ class TransactionsPageAdapter(private val context: Context, onTxClickListener: (
 
     override fun getCount(): Int {
         return TransactionTab.values().size
+    }
+
+    fun reloadData(mode: TransactionsFragment.Mode) {
+        this.mode = mode
+
+        allTxAdapter.mode = mode
+        inProgressTxAdapter.mode = mode
+        sentTxAdapter.mode = mode
+        receivedTxAdapter.mode = mode
+
+        inProgressTxAdapter.notifyDataSetChanged()
+        allTxAdapter.notifyDataSetChanged()
+        sentTxAdapter.notifyDataSetChanged()
+        receivedTxAdapter.notifyDataSetChanged()
+    }
+
+    fun changeSelectedItems(data: List<String>, isAdded: Boolean, item: String?) {
+        selectedTransactions = data.toMutableList()
+
+        allTxAdapter.selectedTransactions = selectedTransactions
+        inProgressTxAdapter.selectedTransactions = selectedTransactions
+        sentTxAdapter.selectedTransactions = selectedTransactions
+        receivedTxAdapter.selectedTransactions = selectedTransactions
+
+        if (item != null) {
+            for (i in 0 until allTxAdapter.itemCount) {
+                if (allTxAdapter.item(i).id == item) {
+                    allTxAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+
+            for (i in 0 until inProgressTxAdapter.itemCount) {
+                if (inProgressTxAdapter.item(i).id == item) {
+                    inProgressTxAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+
+            for (i in 0 until sentTxAdapter.itemCount) {
+                if (sentTxAdapter.item(i).id == item) {
+                    sentTxAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+
+            for (i in 0 until receivedTxAdapter.itemCount) {
+                if (receivedTxAdapter.item(i).id == item) {
+                    receivedTxAdapter.notifyItemChanged(i)
+                    break
+                }
+            }
+        }
     }
 }
 

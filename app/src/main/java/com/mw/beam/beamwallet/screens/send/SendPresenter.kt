@@ -64,10 +64,25 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val address: String? = view?.getAddressFromArguments()
 
         if (!address.isNullOrBlank()) {
+            val amount = view?.getAmountFromArguments()?.convertToBeam() ?: 0.0
             view?.setAddress(address)
             onTokenChanged(address)
-            view?.setAmount(view?.getAmountFromArguments()?.convertToBeam() ?: 0.0)
+            view?.setAmount(amount)
+            view?.hideKeyboard()
+
+            if (amount>0) {
+                val availableAmount = AppManager.instance.getStatus().available
+                val feeAmount = try {
+                    view?.getFee() ?: 0L
+                } catch (exception: NumberFormatException) {
+                    0L
+                }
+
+                view?.hasAmountError(view?.getAmount()?.convertToGroth()
+                        ?: 0, feeAmount, availableAmount, state.privacyMode)
+            }
         }
+
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.walletID != state.outgoingAddress?.walletID) {
@@ -335,9 +350,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         val isPastedToken = state.isPastedText && validToken
 
-        if (searchAddress && !isPastedToken) {
+        if(rawToken == view?.getAddressFromArguments())
+        {
+
+        }
+        else if (searchAddress && !isPastedToken) {
             updateSuggestions(rawToken, true)
-        } else if (isPastedToken) {
+        }
+        else if (isPastedToken) {
             view?.handleAddressSuggestions(null)
             view?.requestFocusToAmount()
         }

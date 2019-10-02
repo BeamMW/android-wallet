@@ -10,6 +10,28 @@
     android:paddingEnd="@dimen/common_offset"
     android:paddingBottom="@dimen/transaction_item_padding">
 
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/container"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/checkBox"
+        app:layout_constraintTop_toTopOf="parent">
+
     <ImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
@@ -135,4 +157,5 @@
         app:layout_constraintStart_toStartOf="@id/message"
         app:layout_constraintTop_toBottomOf="@id/message"
         tools:text="@string/sending_to_own_address" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

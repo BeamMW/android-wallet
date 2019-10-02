@@ -45,7 +45,7 @@
     <string name="notifications">การแจ้งเตือน</string>
     <string name="help">ช่วยเหลือ</string>
     <string name="settings">การตั้งค่า</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">กรุณาเปิดการอนุญาตให้เข้าถึงที่เก็บข้อมูล</string>
     <!--Welcome-->
     <string name="create_new_wallet">สร้างกระเป๋าใหม่</string>
     <string name="restore_wallet">กู้กระเป๋า</string>
@@ -141,6 +141,8 @@
     <string name="filter">ตัวกรอง</string>
     <string name="export">ส่งออก</string>
     <string name="payment_proof">Payment proof</string>
+    <string name="export_transaction_history_title">ส่งออกประวัติธุรกรรม</string>
+    <string name="export_transaction_history_text">คุณต้องการที่จะบันทึกประวัติธุรกรรมในอุปกรณ์ของคุณหรือแชร์มันออกไป</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">ใช้งานอยู่</string>
@@ -195,6 +197,10 @@
     <string name="my_address">ที่อยู่ของฉัน</string>
     <string name="transaction_deleted">ธุรกรรมได้ถูกลบ</string>
     <string name="save_contact">บันทึกรายชื่อ</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">สวอป</string>
     <string name="auto_generated">สร้างอัตโนมัติ</string>
@@ -214,8 +220,9 @@
     <string name="edit_contact">แก้ไขผู้ติดต่อ</string>
     <string name="advanced">ขั้นสูง</string>
     <string name="send_token_description">กรอกหรือสแกนที่อยู่ผู้รับ</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
+    <string name="share">แชร์</string>
+    <string name="save_to_downloads">บันทึกเพื่อดาวน์โหลด</string>
+    <string name="saved_to_downloads">บันทึกแล้วดาวน์โหลดได้</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">จำนวนไม่สามารถเว้นว่างได้</string>
     <string name="send_amount_zero_error">จำนวน BEAM ไม่สามารถเป็น 0 ได้</string>
@@ -276,14 +283,14 @@
     <string name="address_deleted">ที่อยู่ถูกลบแล้ว</string>
     <string name="contact_deleted">ชื่อผู้ติดต่อถูกลบแล้ว</string>
     <string name="addresses_deleted">ที่อยู่ได้ถูกลบแล้ว</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">ชื่อผู้ติดต่อถูกลบแล้ว</string>
     <string name="address">ที่อยู่</string>
     <!--AddressFragment-->
     <string name="show_qr_code">แสดง QR Code</string>
     <string name="delete_address">ลบที่อยู่</string>
     <string name="delete_contact">ลบผู้ติดต่อ</string>
     <string name="delete_addresses">ลบที่อยู่</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">ลบรายชื่อติดต่อ</string>
     <string name="transactions_list">รายการธุรกรรม</string>
     <string name="address_id">ที่อยู่</string>
     <string name="expiration_date">วันหมดอายุ</string>
@@ -364,8 +371,8 @@
     <string name="min_fee_error">ค่าธรรมเนียมที่ต่ำที่สุดคือ %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับที่อยู่นี้</string>
     <string name="delete_all_transactions_related_to_this_addresses">ลบรายการธุรกรรมที่เกี่ยวข้องกับที่อยู่นี้ทั้งหมด</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับรายชื่อนี้</string>
+    <string name="delete_all_transactions_related_to_this_contacts">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับรายชื่อนี้</string>
     <string name="search_transaction">ค้นหาธุรกรรม</string>
     <string name="never_expires">ไม่มีวันหมดอายุ</string>
     <string name="expires_in">หมดอายุใน %1$s ชั่วโมง %2$s นาที</string>
@@ -421,7 +428,7 @@
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">ค้นหาโดยหมายเลขธุรกรรมหรือ Kernel ID,
 คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
     <string name="address_details">รายละเอียดที่อยู่</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">ราย​ละเอียด​รายชื่อผู้ติดต่อ</string>
     <string name="crash_title">กระเป๋า Beam มีปัญหาที่ไม่สามารถระบุได้</string>
     <string name="crash_message">คุณตกลงที่จะรายงานข้อมูลเล็กน้อยกับทางเราหรือไม่? ข้อมูลความผิดพลาดนี้จะทำให้ทางเราสามารถหาปัญหาและแก้ไขได้เร็วยิ่งขึ้น เราจะเก็บเฉพาะข้อมูลที่เกี่ยวกับความผิดพลาดเท่านั้น เราจะไม่เก็บข้อมูลอื่นๆในภายหลัง</string>
     <string name="crash_negative">ไม่ ขอบคุณ</string>

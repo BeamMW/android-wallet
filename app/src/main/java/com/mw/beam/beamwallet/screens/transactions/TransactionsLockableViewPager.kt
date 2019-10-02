@@ -1,4 +1,4 @@
-package com.mw.beam.beamwallet.screens.addresses
+package com.mw.beam.beamwallet.screens.transactions
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import androidx.viewpager.widget.ViewPager
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 
-class AddressesLockableViewPager(context: Context, attributeSet: AttributeSet) : ViewPager(context, attributeSet) {
+class TransactionsLockableViewPager(context: Context, attributeSet: AttributeSet) : ViewPager(context, attributeSet) {
 
     private var locked = false
 
@@ -24,9 +24,9 @@ class AddressesLockableViewPager(context: Context, attributeSet: AttributeSet) :
         }
     }
 
-    fun setMode(mode: AddressesFragment.Mode) {
+    fun setMode(mode: TransactionsFragment.Mode) {
         when(mode){
-            AddressesFragment.Mode.EDIT -> {
+            TransactionsFragment.Mode.EDIT -> {
                 val p = ScreenHelper.dpToPx(context,20)
                 setPadding(0,p,0,p)
                 this.locked = true

@@ -771,6 +771,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
 
+
     }
 
     override fun setComment(comment: String) {

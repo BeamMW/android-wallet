@@ -41,7 +41,6 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
         }
     }
 
-
     override fun getUtxoByTx(txId: String): Subject<List<Utxo>?> {
         return getResult(WalletListener.subOnCoinsByTx, "getUtxoByTx") {
             wallet?.getCoinsByTx(txId)

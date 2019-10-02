@@ -12,6 +12,8 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 class AppManager {
     var wallet: Wallet? = null
 
+    private var handler:android.os.Handler? = null
+
     private var contacts = mutableListOf<WalletAddress>()
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
@@ -20,12 +22,14 @@ class AppManager {
 
     private var networkStatus = NetworkStatus.ONLINE
     private var isSubscribe = false
+    var isConnecting = false
 
     var subOnTransactionsChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnUtxosChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
-    var subOnAddressesChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnAddressesChanged: Subject<Boolean?> = PublishSubject.create<Boolean?>().toSerialized()
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
         private var INSTANCE: AppManager? = null
@@ -153,6 +157,16 @@ class AppManager {
 
     //MARK: - Transactions
 
+    fun getTransactionById(id: String?) : TxDescription? {
+        transactions.forEach {
+            if (it.id == id) {
+                return it
+            }
+        }
+
+        return null
+    }
+
     fun getTransactionsByAddress(id: String?) : List<TxDescription> {
         var result = mutableListOf<TxDescription>()
 
@@ -227,6 +241,12 @@ class AppManager {
 
     //MARK: - Updates
 
+    fun onChangeNodeAddress() {
+        isConnecting = true
+
+        subOnConnectingChanged.onNext(0)
+    }
+
     @SuppressLint("CheckResult")
     fun subscribeToUpdates() {
         if (!isSubscribe)
@@ -247,7 +267,7 @@ class AppManager {
                 }
 
                 subOnTransactionsChanged.onNext(0)
-                subOnAddressesChanged.onNext(0)
+                subOnAddressesChanged.onNext(true)
             }
 
             WalletListener.subOnAddresses.subscribe(){
@@ -264,7 +284,7 @@ class AppManager {
                     deleteAddresses(TrashManager.getAllData().addresses)
                 }
 
-                subOnAddressesChanged.onNext(0)
+                subOnAddressesChanged.onNext(it.own)
             }
 
             WalletListener.obsOnTxStatus.subscribe(){
@@ -304,7 +324,24 @@ class AppManager {
 
             WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
                 networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
-                subOnNetworkStatusChanged.onNext(0)
+
+                if (isConnecting)
+                {
+                    val delay = if (it) 1000L else 3000L
+                    handler?.removeCallbacksAndMessages(null);
+                    handler = null
+
+                    handler = android.os.Handler()
+                    handler?.postDelayed({
+                        isConnecting = false
+                        subOnNetworkStatusChanged.onNext(0)
+                    }, delay)
+                }
+                else {
+                    isConnecting = false
+
+                    subOnNetworkStatusChanged.onNext(0)
+                }
             }
 
             WalletListener.subOnNodeConnectionFailed.subscribe(){

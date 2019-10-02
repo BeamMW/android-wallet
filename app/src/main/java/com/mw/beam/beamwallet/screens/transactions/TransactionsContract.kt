@@ -35,6 +35,10 @@ interface TransactionsContract {
         fun exportShare(file: File)
         fun showProofVerification()
         fun showSearchTransaction()
+        fun changeMode(mode: TransactionsFragment.Mode)
+        fun showRepeatTransaction()
+        fun showDeleteTransactionsSnackBar()
+        fun deleteTransactions()
     }
 
     interface Presenter: MvpPresenter<View> {
@@ -43,9 +47,14 @@ interface TransactionsContract {
         fun onExportShare()
         fun onExportSave()
         fun onProofVerificationPressed()
+        fun onModeChanged(mode: TransactionsFragment.Mode)
+        fun onRepeatTransaction()
+        fun onConfirmDeleteTransactions(transactions: List<String>)
+        fun onDeleteTransactionsPressed()
     }
 
     interface Repository: MvpRepository {
         fun getTransactionsFile(): File
+        fun deleteTransaction(txDescription: TxDescription?)
     }
 }

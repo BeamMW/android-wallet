@@ -53,7 +53,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun getToolbarTitle(): String? = getString(R.string.addresses)
 
     private var selectedAddresses = mutableListOf<String>()
-
     private var mode = Mode.NONE
     private var menuPosition = 0
 
@@ -184,7 +183,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
         toolbarLayout.toolbar.setNavigationOnClickListener {
             if (mode == Mode.NONE) {
-                showWalletFragment()
+                (activity as? AppActivity)?.openMenu()
             } else {
                 cancelSelectedAddresses()
             }

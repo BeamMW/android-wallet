@@ -41,11 +41,12 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
+import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
 
 /**
  * Created by vain onnellinen on 10/2/18.
  */
-class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
+class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
         androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
     private val colorSpan by lazy { ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent)) }
     private val boldFontSpan by lazy { StyleSpan(Typeface.BOLD) }
@@ -57,13 +58,11 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
     private var privacyMode: Boolean = false
     private var searchString: String? = null
 
+    var selectedTransactions = mutableListOf<String>()
+    var mode = TransactionsFragment.Mode.NONE
+
     var reverseColors = false
 
-    var invertItemColors = false
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     var addresses: List<WalletAddress>? = null
         set(value) {
@@ -74,7 +73,25 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
+
             clickListener.invoke(data[adapterPosition])
+
+            if (mode == TransactionsFragment.Mode.EDIT) {
+                if (selectedTransactions.contains(data[adapterPosition].id)) {
+                    selectedTransactions.remove(data[adapterPosition].id)
+                } else {
+                    selectedTransactions.add(data[adapterPosition].id)
+                }
+
+                checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
+            }
+        }
+
+        if (longListener != null) {
+            this.containerView.setOnLongClickListener {
+                longListener?.onLongClick(data[adapterPosition])
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -174,6 +191,18 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 }
             }
 
+            checkBox.setOnClickListener {
+                clickListener.invoke(transaction)
+            }
+
+            if (mode == TransactionsFragment.Mode.NONE) {
+                checkBox.isChecked = false
+                checkBox.visibility = View.GONE
+            } else {
+                checkBox.isChecked = selectedTransactions.contains(transaction.id)
+                checkBox.visibility = View.VISIBLE
+            }
+
         }
     }
 
@@ -249,6 +278,14 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             privacyMode = isEnable
             notifyDataSetChanged()
         }
+    }
+
+    fun item(index: Int): TxDescription {
+        return data[index]
+    }
+
+    interface OnLongClickListener {
+        fun onLongClick(item: TxDescription)
     }
 
     class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer

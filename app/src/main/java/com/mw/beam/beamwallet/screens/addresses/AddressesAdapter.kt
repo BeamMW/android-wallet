@@ -67,8 +67,8 @@ class AddressesAdapter(private val context: Context,
                     selectedAddresses.add(data[adapterPosition].walletID)
                 }
 
+                checkBox.isChecked = selectedAddresses.contains(data[adapterPosition].walletID)
             }
-            notifyItemChanged(adapterPosition)
         }
 
         if (longListener != null) {
