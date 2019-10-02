@@ -45,7 +45,7 @@
     <string name="notifications">Notifieringar</string>
     <string name="help">Hjälp</string>
     <string name="settings">Inställningar</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Vänligen tillåt access till lagringsutrymmet</string>
     <!--Welcome-->
     <string name="create_new_wallet">Skapa ny plånbok</string>
     <string name="restore_wallet">Återställ plånbok</string>
@@ -141,6 +141,8 @@
     <string name="filter">Filtrera</string>
     <string name="export">Exportera</string>
     <string name="payment_proof">Bevis på betalning</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Aktiva</string>
@@ -195,6 +197,10 @@
     <string name="my_address">Min adress</string>
     <string name="transaction_deleted">Transaktion borttagen</string>
     <string name="save_contact">Spara kontakt</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swappa</string>
     <string name="auto_generated">automatiskt genererad</string>
@@ -214,8 +220,9 @@
     <string name="edit_contact">Ändra kontakt</string>
     <string name="advanced">Avancerat</string>
     <string name="send_token_description">Mata in eller scanna mottagarens adress</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
+    <string name="share">Dela</string>
+    <string name="save_to_downloads">Spara till Nerladdade filer</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Belopp kan ej vara tom</string>
     <string name="send_amount_zero_error">Belopp kan ej vara 0 BEAM</string>
@@ -277,14 +284,14 @@ Denna adress finns redan</string>
     <string name="address_deleted">Adress borttagen</string>
     <string name="contact_deleted">Kontakt borttagen</string>
     <string name="addresses_deleted">Adresser borttagen</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Kontakter har raderats</string>
     <string name="address">Adress</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Visa QR-kod</string>
     <string name="delete_address">Ta bort adress</string>
     <string name="delete_contact">Ta bort kontakt</string>
     <string name="delete_addresses">Ta bort adresser</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Ta bort kontakter</string>
     <string name="transactions_list">Transaktionslista</string>
     <string name="address_id">Adress ID</string>
     <string name="expiration_date">Utgångsdatum</string>
@@ -363,8 +370,8 @@ Denna adress finns redan</string>
     <string name="min_fee_error">Minsta avgift är %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
     <string name="delete_all_transactions_related_to_this_addresses">Ta bort alla transaktioner som är kopplade till dessa adresser</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Ta bort alla transaktioner som är kopplade till denna kontakt</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Ta bort alla transaktioner som är kopplade till dessa kontakter</string>
     <string name="search_transaction">Sök transaktion</string>
     <string name="never_expires">Utgår aldrig</string>
     <string name="expires_in">Utgår om %1$s t %2$s m</string>
@@ -419,7 +426,7 @@ Denna adress finns redan</string>
     <string name="connecting">Ansluter...</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Sök med transaktions eller kernel-ID, kommentar, adress eller kontakt</string>
     <string name="address_details">Adressuppgifter</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">Kontaktdetaljer</string>
     <string name="crash_title">Beam-plånboken krashade oväntat</string>
     <string name="crash_message">Skulle du godkänna att rapportera din begränsade mängd information till oss? Insamlandet av krash-informationen skulle möjliggöra att vi upptäcker fixar och buggar mycket snabbare. Detta är endast en krash-relaterad rapport, vi kommer inte att samla in några av dina data senare.</string>
     <string name="crash_negative">Nej tack</string>

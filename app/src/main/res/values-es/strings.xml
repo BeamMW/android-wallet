@@ -45,7 +45,7 @@
     <string name="notifications">Notificaciones</string>
     <string name="help">Ayuda</string>
     <string name="settings">Ajustes</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Por favor, concede permiso de almacenamiento</string>
     <!--Welcome-->
     <string name="create_new_wallet">Crear nuevo wallet</string>
     <string name="restore_wallet">Restaura wallet</string>
@@ -143,6 +143,8 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="filter">Filtrar</string>
     <string name="export">Exportar</string>
     <string name="payment_proof">Prueba de pago</string>
+    <string name="export_transaction_history_title">Exportar historial de transacciones</string>
+    <string name="export_transaction_history_text">¿Desea guardar el historial de transacciones en su dispositivo o compartirlo?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Activar</string>
@@ -197,6 +199,10 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="my_address">Mi dirección</string>
     <string name="transaction_deleted">Transacción borrada</string>
     <string name="save_contact">Guardar contacto</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Intercambiar</string>
     <string name="auto_generated">auto-generado</string>
@@ -216,8 +222,9 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="edit_contact">Editar contacto</string>
     <string name="advanced">Avanzado</string>
     <string name="send_token_description">Ingrese o escanee la dirección del destinatario</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
+    <string name="share">Compartir</string>
+    <string name="save_to_downloads">Guardar en descargas</string>
+    <string name="saved_to_downloads">Guardado en descargas</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">El campo de cantidad no puede estar vacío</string>
     <string name="send_amount_zero_error">La cantidad no puede ser 0 BEAM</string>
@@ -278,14 +285,14 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="address_deleted">Dirección borrada</string>
     <string name="contact_deleted">Contacto borrado</string>
     <string name="addresses_deleted">Direcciones eliminadas</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Contactos eliminados</string>
     <string name="address">Dirección</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Mostrar código QR</string>
     <string name="delete_address">Borrar dirección</string>
     <string name="delete_contact">Borrar contacto</string>
     <string name="delete_addresses">Eliminar direcciones</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Eliminar contactos</string>
     <string name="transactions_list">Listado de transacciones</string>
     <string name="address_id">ID de la dirección</string>
     <string name="expiration_date">Fecha de caducidad</string>
@@ -367,8 +374,8 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="min_fee_error">La cuota minima es %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
     <string name="delete_all_transactions_related_to_this_addresses">Eliminar todas las transacciones relacionadas con estas direcciones</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Eliminar todas las transacciones relacionadas con este contacto</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Eliminar todas las transacciones relacionadas con estos contactos</string>
     <string name="search_transaction">Biscar transacción</string>
     <string name="never_expires">Nunca caduca</string>
     <string name="expires_in">Caduca en %1$s h %2$s m</string>
@@ -424,7 +431,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Buscar por transacción o ID del núcleo, comentario,
 dirección o contacto</string>
     <string name="address_details">Detalles de la dirección</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">Detalles del contacto</string>
     <string name="crash_title">La wallet de Beam falló inesperadamente</string>
     <string name="crash_message">¿Aceptaría enviarnos su cantidad limitada de información? Recopilar información sobre fallos nos permitiría descubrir y corregir errores mucho más rápido. Este es solo un informe único relacionado con el error, no seguiremos recopilando sus datos más adelante.</string>
     <string name="crash_negative">No, gracias</string>

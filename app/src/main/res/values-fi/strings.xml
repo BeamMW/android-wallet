@@ -45,7 +45,7 @@
     <string name="notifications">Ilmoitukset</string>
     <string name="help">Ohjeet</string>
     <string name="settings">Asetukset</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Myönnä tallennuslupa</string>
     <!--Welcome-->
     <string name="create_new_wallet">Luo uusi lompakko</string>
     <string name="restore_wallet">Palauta vanha lompakko</string>
@@ -141,6 +141,8 @@
     <string name="filter">Suodatin</string>
     <string name="export">Vie</string>
     <string name="payment_proof">Maksutodistus</string>
+    <string name="export_transaction_history_title">Vie tapahtumahistoria</string>
+    <string name="export_transaction_history_text">Haluatko tallentaa tapahtumahistorian laitteellesi tai jakaa sen muille?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Käytettävissä</string>
@@ -195,6 +197,10 @@
     <string name="my_address">Oma osoitteeni</string>
     <string name="transaction_deleted">Maksutapahtuma poistettu</string>
     <string name="save_contact">Tallenna yhteystieto</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">generoitu automaattisesti</string>
@@ -214,8 +220,9 @@
     <string name="edit_contact">Muokkaa yhteystietoa</string>
     <string name="advanced">Lisäasetukset</string>
     <string name="send_token_description">Lisää tai skannaa saajan osoite</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
+    <string name="share">Jaa</string>
+    <string name="save_to_downloads">Tallenna latauskansioon</string>
+    <string name="saved_to_downloads">Tallennettu latauskansioon</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Summaa ei voi jättää tyhjäksi</string>
     <string name="send_amount_zero_error">Summa ei voi olla 0 BEAMiä</string>
@@ -276,14 +283,14 @@
     <string name="address_deleted">Osoite poistettu</string>
     <string name="contact_deleted">Yhteystieto poistettu</string>
     <string name="addresses_deleted">Osoitteet poistettu</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Yhteystiedot poistettu</string>
     <string name="address">Osoite</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Näytä QR-koodi</string>
     <string name="delete_address">Poista osoite</string>
     <string name="delete_contact">Poista yhteystieto</string>
     <string name="delete_addresses">Poista osoitteet</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Poista yhteystiedot</string>
     <string name="transactions_list">Tilitapahtumat</string>
     <string name="address_id">Osoitteen id</string>
     <string name="expiration_date">Vanhentumispäivä</string>
@@ -364,8 +371,8 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="min_fee_error">Minimisiirtomaksu on %1$s GROTHia</string>
     <string name="delete_all_transactions_related_to_this_address">Poista kaikki tapahtumat, jotka liittyvät tähän osoitteeseen</string>
     <string name="delete_all_transactions_related_to_this_addresses">Poista kaikki tapahtumat, jotka liittyvät näihin osoitteisiin</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Poista kaikki tapahtumat, jotka liittyvät tähän yhteystietoon</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Poista kaikki tapahtumat, jotka liittyvät näihin yhteystietoihin</string>
     <string name="search_transaction">Etsi tapahtuma</string>
     <string name="never_expires">Pysyvä osoite</string>
     <string name="expires_in">Vanhentuu %1$s t %2$s min</string>
@@ -421,7 +428,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Etsi tapahtuman id:llä, kernel id:llä, kommentilla, 
 osoitteella tai yhteystiedolla</string>
     <string name="address_details">Osoitetiedot</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">Yhteystiedot</string>
     <string name="crash_title">Beam-lompakko kaatui odottamattomasti</string>
     <string name="crash_message">Haluaisitko lähettää raportin virhetiedoista meille? Virhetietojen saaminen auttaisi meitä paikantamaan ja korjaamaan virheet nopeammin. Tämä on ainoastaan yksittäinen virheraportti eikä siis jatkuva virhetietojen keräämisen hyväksyminen.</string>
     <string name="crash_negative">Ei kiitos</string>

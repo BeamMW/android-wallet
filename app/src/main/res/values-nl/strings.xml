@@ -45,7 +45,7 @@
     <string name="notifications">Meldingen</string>
     <string name="help">Help</string>
     <string name="settings">Instellingen</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Geef toestemming om op te slaan</string>
     <!--Welcome-->
     <string name="create_new_wallet">Nieuwe portemonnee aanmaken</string>
     <string name="restore_wallet">Portemonnee herstellen</string>
@@ -141,6 +141,8 @@
     <string name="filter">Filter</string>
     <string name="export">Exporteren</string>
     <string name="payment_proof">Betalingsbewijs</string>
+    <string name="export_transaction_history_title">Transactiegeschiedenis exporteren</string>
+    <string name="export_transaction_history_text">Wilt u de transactiegeschiedenis op uw apparaat opslaan of delen?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Actief</string>
@@ -195,6 +197,10 @@
     <string name="my_address">Mijn adres</string>
     <string name="transaction_deleted">Transactie verwijderd</string>
     <string name="save_contact">Contact opslaan</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Wisselen</string>
     <string name="auto_generated">Automatisch gegenereerd</string>
@@ -214,8 +220,9 @@
     <string name="edit_contact">Contactpersoon bewerken</string>
     <string name="advanced">Geavanceerd</string>
     <string name="send_token_description">Voer het adres van de ontvanger in of scan deze</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
+    <string name="share">Delen</string>
+    <string name="save_to_downloads">Opslaan in Downloads</string>
+    <string name="saved_to_downloads">Opslaan in Downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Aantal mag niet leeg zijn</string>
     <string name="send_amount_zero_error">Aantal kan niet 0 BEAM zijn</string>
@@ -276,14 +283,14 @@
     <string name="address_deleted">Adres verwijderd</string>
     <string name="contact_deleted">Contactpersoon verwijderd</string>
     <string name="addresses_deleted">Adressen verwijderd</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Contacten verwijderd</string>
     <string name="address">Adres</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Toon QR code</string>
     <string name="delete_address">Adres verwijderen</string>
     <string name="delete_contact">Contactpersoon verwijderen</string>
     <string name="delete_addresses">Adressen verwijderen</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Contacten verwijderen</string>
     <string name="transactions_list">Transactielijst </string>
     <string name="address_id">Adres ID</string>
     <string name="expiration_date">Vervaldatum</string>
@@ -364,8 +371,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="min_fee_error">De minimale vergoeding is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Verwijder alle transacties die gerelateerd zijn aan dit adres</string>
     <string name="delete_all_transactions_related_to_this_addresses">Verwijder alle transacties die gerelateerd zijn aan deze adressen</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Verwijder alle transacties die gerelateerd zijn aan dit contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Verwijder alle transacties die gerelateerd zijn aan deze contacten</string>
     <string name="search_transaction">Zoek transactie</string>
     <string name="never_expires">Verloopt nooit</string>
     <string name="expires_in">Verloopt over %1$s uur %2$s minuten</string>
@@ -420,7 +427,7 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="connecting">Verbinden...</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Zoek op transactie- of kernel ID, omschrijving, adres of contact</string>
     <string name="address_details">Adresgegevens</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">Contactgegevens</string>
     <string name="crash_title">Beam Wallet is onverwachts gecrasht</string>
     <string name="crash_message">Zou u ermee instemmen een beperkte hoeveelheid informatie aan ons te verstrekken? Door crashinformatie te verzamelen kunnen wij bugs een stuk sneller ontdekken en verhelpen. Dit is slechts een eenmalig, crashgerelateerd rapport. We zullen uw gegevens niet blijven verzamelen.</string>
     <string name="crash_negative">Nee, dank u</string>

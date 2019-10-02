@@ -141,6 +141,8 @@
     <string name="filter">Фильтр</string>
     <string name="export">Экспорт</string>
     <string name="payment_proof">Подтверждение платежа</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Действующие</string>
@@ -195,6 +197,10 @@
     <string name="my_address">Мой адрес</string>
     <string name="transaction_deleted">Транзакция успешно удалена</string>
     <string name="save_contact">Сохранить контакт</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Своп</string>
     <string name="auto_generated">создан автоматически</string>
@@ -216,6 +222,7 @@
     <string name="send_token_description">Введите или отсканируйте адрес получателя</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Поле суммы не может быть пустым</string>
     <string name="send_amount_zero_error">Сумма не может быть 0 BEAM</string>

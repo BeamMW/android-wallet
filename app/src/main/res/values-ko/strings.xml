@@ -141,6 +141,8 @@
     <string name="filter">필터</string>
     <string name="export">내보내기</string>
     <string name="payment_proof">지불 증명</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">활성화</string>
@@ -195,6 +197,10 @@
     <string name="my_address">내 주소</string>
     <string name="transaction_deleted">거래 삭제</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">바꾸기</string>
     <string name="auto_generated">자동 생성</string>
@@ -216,6 +222,7 @@
     <string name="send_token_description">수신자의 주소를 입력하거나 스캔하세요</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">양 칸이 비어있습니다.</string>
     <string name="send_amount_zero_error">0 BEAM 이 될 수는 없습니다</string>

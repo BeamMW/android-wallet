@@ -142,6 +142,8 @@ hế độ bảo mật</string>
     <string name="filter">Bộ lọc</string>
     <string name="export">Xuất</string>
     <string name="payment_proof">Bằng chứng thanh toán</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">Đầu ra chưa được xác định từ giao dịch</string>
     <string name="active">Được kích hoạt</string>
@@ -196,6 +198,10 @@ hế độ bảo mật</string>
     <string name="my_address">Địa chỉ của tôi</string>
     <string name="transaction_deleted">Giao dịch đã xóa</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Trao đổi</string>
     <string name="auto_generated">tạo tự động</string>
@@ -217,6 +223,7 @@ hế độ bảo mật</string>
     <string name="send_token_description">Nhập hoặc quét địa chỉ của người nhận</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Trường số lượng không thể để trống</string>
     <string name="send_amount_zero_error">Số tiền không thể là 0 BEAM</string>

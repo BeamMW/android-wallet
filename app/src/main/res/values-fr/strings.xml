@@ -144,6 +144,8 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="filter">Filtre</string>
     <string name="export">Exporter</string>
     <string name="payment_proof">Preuve de paiement</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Active</string>
@@ -198,6 +200,10 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="my_address">Mon adresse</string>
     <string name="transaction_deleted">Transaction supprimée</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Permuter</string>
     <string name="auto_generated">généré automatiquement</string>
@@ -219,6 +225,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="send_token_description">Saisissez ou scannez l’adresse du destinataire</string>
     <string name="share">Share</string>
     <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Le champ Montant ne peut pas rester vide</string>
     <string name="send_amount_zero_error">Le montant ne peut pas être 0 BEAM</string>
