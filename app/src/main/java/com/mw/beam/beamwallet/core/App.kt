@@ -129,11 +129,4 @@ class App : Application() {
                         .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
                         .build())
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
-        Log.d("24Format", "$is24HoursTimeFormat")
-    }
-
 }
