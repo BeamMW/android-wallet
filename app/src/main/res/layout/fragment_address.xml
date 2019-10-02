@@ -174,7 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginTop="1dp"
-                    android:text="@string/transaction_history"
+                    android:text="@string/transactions_list"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="parent"

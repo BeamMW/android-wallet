@@ -490,6 +490,9 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
         }
+        else{
+            commentLayout.visibility = contentVisibility
+        }
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
