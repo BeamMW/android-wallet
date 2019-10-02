@@ -16,7 +16,5 @@ class AddressesLockableTabLayout(context: Context, attributeSet: AttributeSet) :
             AddressesFragment.Mode.NONE -> this.visibility = View.VISIBLE
             AddressesFragment.Mode.EDIT -> this.visibility = View.GONE
         }
-
     }
-
 }

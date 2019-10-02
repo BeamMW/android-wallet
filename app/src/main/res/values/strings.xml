@@ -209,6 +209,11 @@
     <string name="my_address">My address</string>
     <string name="transaction_deleted">Transaction deleted</string>
     <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+
 
 
     <!--ReceiveFragment-->

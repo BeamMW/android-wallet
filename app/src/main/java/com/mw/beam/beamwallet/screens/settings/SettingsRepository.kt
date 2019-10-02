@@ -57,6 +57,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, random)
 
         if (random) {
+            AppManager.instance.onChangeNodeAddress()
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         }
@@ -88,6 +89,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setNodeAddress(address: String) {
         AppConfig.NODE_ADDRESS = address
+        AppManager.instance.onChangeNodeAddress()
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
     }

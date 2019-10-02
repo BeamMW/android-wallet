@@ -12,7 +12,7 @@
         android:background="@drawable/address_toolbar_gradient"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager.widget.ViewPager
+    <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -20,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
-    <com.google.android.material.tabs.TabLayout
+    <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

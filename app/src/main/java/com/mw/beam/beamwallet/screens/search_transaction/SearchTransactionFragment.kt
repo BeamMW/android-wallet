@@ -51,7 +51,7 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
     override fun getToolbarTitle(): String? = ""
 
     override fun init() {
-        adapter = TransactionsAdapter(context!!, mutableListOf(), false) {
+        adapter = TransactionsAdapter(context!!,null, mutableListOf(), false) {
             presenter?.onTransactionPressed(it)
         }
 

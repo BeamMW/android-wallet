@@ -30,6 +30,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     protected lateinit var disposable: CompositeDisposable
 
     private var nodeConnectionSubscription: Disposable? = null
+    private var nodeConnectingSubscription: Disposable? = null
 
     private var isActivityStopped = false
     private var isExpireLockScreenTime = false
@@ -55,6 +56,9 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         disposable.apply {
             if (nodeConnectionSubscription != null) {
                 add(nodeConnectionSubscription!!)
+            }
+            if (nodeConnectingSubscription != null) {
+                add(nodeConnectingSubscription!!)
             }
         }
 
@@ -99,6 +103,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view?.configStatus(AppManager.instance.getNetworkStatus())
 
         nodeConnectionSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe(){
+            view?.configStatus(AppManager.instance.getNetworkStatus())
+        }
+
+        nodeConnectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe() {
             view?.configStatus(AppManager.instance.getNetworkStatus())
         }
     }

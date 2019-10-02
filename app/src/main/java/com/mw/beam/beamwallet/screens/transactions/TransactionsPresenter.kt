@@ -28,6 +28,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
 
     private lateinit var txStatusSubscription: Disposable
+    var removedTransactions = mutableListOf<String>()
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -42,6 +43,10 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 
     override fun onSearchPressed() {
         view?.showSearchTransaction()
+    }
+
+    override fun onRepeatTransaction() {
+        view?.showRepeatTransaction()
     }
 
     override fun onExportSave() {
@@ -68,6 +73,22 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         view?.exportShare(file)
     }
 
+    override fun onDeleteTransactionsPressed() {
+        view?.deleteTransactions()
+    }
+
+    override fun onConfirmDeleteTransactions(transactions: List<String>) {
+        removedTransactions.clear()
+        removedTransactions.addAll(transactions)
+
+        for (i in 0 until transactions.count()) {
+            val id = transactions[i]
+            val transaction = AppManager.instance.getTransaction(id)
+            if (transaction != null) {
+                repository.deleteTransaction(transaction)
+            }
+        }
+    }
 
     override fun onProofVerificationPressed() {
         view?.showProofVerification()
@@ -81,6 +102,10 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             view?.configTransactions(getTransactions())
         }
+    }
+
+    override fun onModeChanged(mode: TransactionsFragment.Mode) {
+        view?.changeMode(mode)
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)

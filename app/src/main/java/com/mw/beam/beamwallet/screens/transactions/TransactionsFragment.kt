@@ -29,7 +29,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import kotlinx.android.synthetic.main.fragment_transactions.*
 import java.io.File
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -50,9 +49,34 @@ import android.text.style.ForegroundColorSpan
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import android.graphics.drawable.ColorDrawable
+import androidx.activity.OnBackPressedCallback
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.TrashManager
+import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
+import kotlinx.android.synthetic.main.fragment_transactions.pager
+import kotlinx.android.synthetic.main.fragment_transactions.tabLayout
+import kotlinx.android.synthetic.main.fragment_transactions.toolbarLayout
+import kotlinx.android.synthetic.main.toolbar.*
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
+    enum class Mode {
+        NONE, EDIT
+    }
+
+    private var selectedTransactions= mutableListOf<String>()
+    private var mode = Mode.NONE
+
     private lateinit var pageAdapter: TransactionsPageAdapter
+
+    private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (mode == TransactionsFragment.Mode.NONE) {
+                findNavController().popBackStack()
+            } else {
+                cancelSelectedTransactions()
+            }
+        }
+    }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_transactions
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
@@ -60,10 +84,43 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        toolbarLayout.hasStatus = true
     }
 
     override fun init() {
-        pageAdapter = TransactionsPageAdapter(context!!) { presenter?.onTransactionPressed(it) }
+        pageAdapter = TransactionsPageAdapter(context!!,
+                object : TransactionsAdapter.OnLongClickListener {
+                    override fun onLongClick(item: TxDescription) {
+                        if (mode == Mode.NONE) {
+                            presenter?.onModeChanged(Mode.EDIT)
+
+                            selectedTransactions.add(item.id)
+
+                            pageAdapter.changeSelectedItems(selectedTransactions, true, item.id)
+
+                            pageAdapter.reloadData(mode)
+
+                            onSelectedTransactionsChanged()
+                        }
+                    }
+                }
+         )
+        {
+
+            if (mode == Mode.NONE) {
+                presenter?.onTransactionPressed(it)
+            }
+            else{
+                if (selectedTransactions.contains(it.id)) {
+                    selectedTransactions.remove(it.id)
+                } else {
+                    selectedTransactions.add(it.id)
+                }
+
+                onSelectedTransactionsChanged()
+            }
+        }
         pageAdapter.setPrivacyMode(presenter?.repository?.isPrivacyModeEnabled() == true)
 
         pager.adapter = pageAdapter
@@ -84,6 +141,21 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
 
     override fun showTransactionDetails(txId: String) {
         findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToTransactionDetailsFragment(txId))
+    }
+
+    override fun showRepeatTransaction() {
+        val transaction = AppManager.instance.getTransaction(selectedTransactions.first())
+        if (transaction!=null) {
+            mode = Mode.NONE
+            selectedTransactions.clear()
+
+            if (transaction.sender.value) {
+                findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToSendFragment(transaction.peerId, transaction.amount))
+            } else {
+                val address = AppManager.instance.getAddress(transaction.myId)
+                findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToReceiveFragment(transaction.amount, address))
+            }
+        }
     }
 
     override fun exportSave(content: String) {
@@ -145,13 +217,20 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.wallet_transactions_menu, menu)
+        if (mode == Mode.EDIT) {
+            inflater.inflate(R.menu.wallet_transactions_menu_2, menu)
+            menu.findItem(R.id.repeat).isVisible = selectedTransactions.count() == 1
+        }
+        else{
+            inflater.inflate(R.menu.wallet_transactions_menu, menu)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_search -> presenter?.onSearchPressed()
             R.id.menu_proof -> presenter?.onProofVerificationPressed()
+            R.id.repeat -> presenter?.onRepeatTransaction()
             R.id.menu_export ->  {
 
                 val view = LayoutInflater.from(context).inflate(R.layout.dialog_share, null)
@@ -173,9 +252,8 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                 dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
                     window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 }
-
-
             }
+            R.id.delete -> presenter?.onDeleteTransactionsPressed()
         }
 
         return super.onOptionsItemSelected(item)
@@ -213,5 +291,90 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         }
 
         return super.onContextItemSelected(item)
+    }
+
+    private fun onSelectedTransactionsChanged() {
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = false
+        toolbarLayout.toolbar.title = selectedTransactions.count().toString() + " " + getString(R.string.selected).toLowerCase()
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
+        toolbarLayout.toolbar.setNavigationOnClickListener {
+            if (mode == Mode.NONE) {
+                findNavController().popBackStack()
+            } else {
+                cancelSelectedTransactions()
+            }
+        }
+
+        if (selectedTransactions.count() == 0) {
+            cancelSelectedTransactions()
+        } else {
+            activity?.invalidateOptionsMenu()
+        }
+    }
+
+    private fun cancelSelectedTransactions() {
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = false
+        toolbarLayout.toolbar.title = getString(R.string.transactions)
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_back)
+
+        presenter?.onModeChanged(Mode.NONE)
+
+        selectedTransactions.clear()
+
+        pageAdapter.changeSelectedItems(selectedTransactions, false, null)
+
+        pageAdapter.reloadData(mode)
+
+        activity?.invalidateOptionsMenu()
+    }
+
+    override fun deleteTransactions() {
+        showDeleteTransactionsSnackBar()
+    }
+
+    override fun showDeleteTransactionsSnackBar() {
+        val snackText = when {
+            selectedTransactions.count() > 1 -> getString(R.string.transactions_deleted)
+            else -> getString(R.string.transaction_deleted)
+        }
+
+        val titleText = when {
+            selectedTransactions.count() > 1 -> getString(R.string.delete_transactions)
+            else -> getString(R.string.delete_transaction)
+        }
+
+        val msgText = when {
+            selectedTransactions.count() > 1 -> getString(R.string.delete_transactions_text)
+            else -> getString(R.string.delete_transaction_text)
+        }
+
+        showAlert(msgText,getString(R.string.delete),{
+            showSnackBar(snackText,
+                    onDismiss = {
+                        presenter?.removedTransactions?.forEach { id ->
+                            TrashManager.remove(id)
+                        }
+                    },
+                    onUndo = {
+                        presenter?.removedTransactions?.forEach { id ->
+                            TrashManager.restore(id)
+                        }
+                        presenter?.removedTransactions?.clear()
+                    }
+            )
+
+            presenter?.onConfirmDeleteTransactions(selectedTransactions)
+
+            cancelSelectedTransactions()
+
+        },titleText,getString(R.string.cancel))
+    }
+
+    override fun changeMode(mode: Mode) {
+        this.mode = mode
+        tabLayout.setMode(mode)
+        pager.setMode(mode)
     }
 }
