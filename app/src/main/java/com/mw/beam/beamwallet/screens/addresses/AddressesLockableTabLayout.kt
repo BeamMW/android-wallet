@@ -9,14 +9,9 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 
 class AddressesLockableTabLayout(context: Context, attributeSet: AttributeSet) : TabLayout(context, attributeSet) {
-    private var transition: AutoTransition = AutoTransition()
-
-    init {
-        transition.duration = 525
-    }
 
     fun setMode(mode: AddressesFragment.Mode) {
-        TransitionManager.beginDelayedTransition(parent as ViewGroup?, transition)
+        TransitionManager.beginDelayedTransition(parent as ViewGroup?)
         when(mode){
             AddressesFragment.Mode.NONE -> this.visibility = View.VISIBLE
             AddressesFragment.Mode.EDIT -> this.visibility = View.GONE
