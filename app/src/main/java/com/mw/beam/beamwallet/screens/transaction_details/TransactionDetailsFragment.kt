@@ -508,4 +508,9 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.modifyTime!!)
+    }
+
 }
