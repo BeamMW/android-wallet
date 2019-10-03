@@ -73,6 +73,7 @@ class TransactionsPageAdapter(private val context: Context,
         }
 
         container.addView(layout)
+
         return layout
     }
 
@@ -86,23 +87,15 @@ class TransactionsPageAdapter(private val context: Context,
     }
 
     private fun updateData() {
+        allTxAdapter.data = transactions
+        sentTxAdapter.data = transactions.filter { it.sender.value && isCompletedTx(it)}
+        receivedTxAdapter.data = transactions.filter { !it.sender.value && isCompletedTx(it) }
+        inProgressTxAdapter.data = transactions.filter { !isCompletedTx(it) }
 
-        doAsync {
-            allTxAdapter.data = transactions
-
-            sentTxAdapter.data = transactions.filter { it.sender.value && isCompletedTx(it)}
-
-            receivedTxAdapter.data = transactions.filter { !it.sender.value && isCompletedTx(it) }
-
-            inProgressTxAdapter.data = transactions.filter { !isCompletedTx(it) }
-
-            uiThread {
-                allTxAdapter.notifyDataSetChanged()
-                sentTxAdapter.notifyDataSetChanged()
-                receivedTxAdapter.notifyDataSetChanged()
-                inProgressTxAdapter.notifyDataSetChanged()
-            }
-        }
+        allTxAdapter.notifyDataSetChanged()
+        sentTxAdapter.notifyDataSetChanged()
+        receivedTxAdapter.notifyDataSetChanged()
+        inProgressTxAdapter.notifyDataSetChanged()
     }
 
     fun setPrivacyMode(isPrivacyModeEnabled: Boolean) {

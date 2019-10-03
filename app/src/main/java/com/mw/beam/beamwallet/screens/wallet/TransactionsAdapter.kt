@@ -42,12 +42,12 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
 import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
+import androidx.recyclerview.widget.RecyclerView
 
-/**
- * Created by vain onnellinen on 10/2/18.
- */
+
 class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
-        androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+        RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+
     private val colorSpan by lazy { ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent)) }
     private val boldFontSpan by lazy { StyleSpan(Typeface.BOLD) }
     private val regularTypeface by lazy { ResourcesCompat.getFont(context, R.font.roboto_regular) }
@@ -63,13 +63,16 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
     var reverseColors = false
 
-
     var addresses: List<WalletAddress>? = null
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
+    override fun getItemId(position: Int): Long {
+        val data = data[position]
+        return data.createTime
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
         this.containerView.setOnClickListener {
@@ -288,5 +291,6 @@ class TransactionsAdapter(private val context: Context, private val longListener
         fun onLongClick(item: TxDescription)
     }
 
-    class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
+    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    }
 }

@@ -66,16 +66,33 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     private var selectedTransactions= mutableListOf<String>()
     private var mode = Mode.NONE
 
-    private lateinit var pageAdapter: TransactionsPageAdapter
+    private var pageAdapter: TransactionsPageAdapter? = null
 
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if (mode == TransactionsFragment.Mode.NONE) {
+            if (mode == Mode.NONE) {
                 findNavController().popBackStack()
             } else {
                 cancelSelectedTransactions()
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+
+        super.onDestroy()
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_transactions
@@ -89,46 +106,55 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     }
 
     override fun init() {
-        pageAdapter = TransactionsPageAdapter(context!!,
-                object : TransactionsAdapter.OnLongClickListener {
-                    override fun onLongClick(item: TxDescription) {
-                        if (mode == Mode.NONE) {
-                            presenter?.onModeChanged(Mode.EDIT)
-
-                            selectedTransactions.add(item.id)
-
-                            pageAdapter.changeSelectedItems(selectedTransactions, true, item.id)
-
-                            pageAdapter.reloadData(mode)
-
-                            onSelectedTransactionsChanged()
-                        }
-                    }
-                }
-         )
+        if (pageAdapter!=null)
         {
-
-            if (mode == Mode.NONE) {
-                presenter?.onTransactionPressed(it)
-            }
-            else{
-                if (selectedTransactions.contains(it.id)) {
-                    selectedTransactions.remove(it.id)
-                } else {
-                    selectedTransactions.add(it.id)
-                }
-
-                onSelectedTransactionsChanged()
+            if (pager.adapter == null) {
+                pager.adapter = pageAdapter
+                tabLayout.setupWithViewPager(pager)
             }
         }
-        pageAdapter.setPrivacyMode(presenter?.repository?.isPrivacyModeEnabled() == true)
+        else{
+            pageAdapter = TransactionsPageAdapter(context!!,
+                    object : TransactionsAdapter.OnLongClickListener {
+                        override fun onLongClick(item: TxDescription) {
+                            if (mode == Mode.NONE) {
+                                presenter?.onModeChanged(Mode.EDIT)
 
-        pager.adapter = pageAdapter
-        tabLayout.setupWithViewPager(pager)
+                                selectedTransactions.add(item.id)
+
+                                pageAdapter?.changeSelectedItems(selectedTransactions, true, item.id)
+
+                                pageAdapter?.reloadData(mode)
+
+                                onSelectedTransactionsChanged()
+                            }
+                        }
+                    }
+            )
+            {
+
+                if (mode == Mode.NONE) {
+                    presenter?.onTransactionPressed(it)
+                }
+                else{
+                    if (selectedTransactions.contains(it.id)) {
+                        selectedTransactions.remove(it.id)
+                    } else {
+                        selectedTransactions.add(it.id)
+                    }
+
+                    onSelectedTransactionsChanged()
+                }
+            }
+            pageAdapter?.setPrivacyMode(presenter?.repository?.isPrivacyModeEnabled() == true)
+
+            pager.adapter = pageAdapter
+            tabLayout.setupWithViewPager(pager)
+        }
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
-        pageAdapter.setData(transactions)
+        pageAdapter?.setData(transactions)
     }
 
     override fun showProofVerification() {
@@ -323,9 +349,9 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
 
         selectedTransactions.clear()
 
-        pageAdapter.changeSelectedItems(selectedTransactions, false, null)
+        pageAdapter?.changeSelectedItems(selectedTransactions, false, null)
 
-        pageAdapter.reloadData(mode)
+        pageAdapter?.reloadData(mode)
 
         activity?.invalidateOptionsMenu()
     }
