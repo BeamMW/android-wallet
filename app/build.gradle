@@ -28,14 +28,6 @@ android {
 }
 
 android {
-    signingConfigs {
-        release {
-            storeFile file('C:\\Users\\jagor\\my\\android-wallet\\app\\keystore.jks')
-            storePassword 'nEzGxNiV8Tht'
-            keyAlias = 'beamwallet'
-            keyPassword 'GgtkjXDIxV21'
-        }
-    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
