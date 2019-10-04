@@ -51,7 +51,7 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
     override fun getToolbarTitle(): String? = ""
 
     override fun init() {
-        adapter = TransactionsAdapter(context!!,null, mutableListOf(), false) {
+        adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SEARCH) {
             presenter?.onTransactionPressed(it)
         }
 
@@ -88,9 +88,6 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
         searchEditText.removeTextChangedListener(searchTextWatcher)
     }
 
-    override fun updateAddresses(addresses: List<WalletAddress>) {
-        adapter.addresses = addresses
-    }
 
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?) {
         adapter.setPrivacyMode(isEnablePrivacyMode)

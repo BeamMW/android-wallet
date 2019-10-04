@@ -17,13 +17,14 @@
 package com.mw.beam.beamwallet.screens.search_transaction
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import io.reactivex.disposables.Disposable
 
 class SearchTransactionPresenter(view: SearchTransactionContract.View?, repository: SearchTransactionContract.Repository, private val state: SearchTransactionState)
     : BasePresenter<SearchTransactionContract.View, SearchTransactionContract.Repository>(view, repository), SearchTransactionContract.Presenter {
+
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var addressesSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -32,21 +33,17 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
 
     override fun onStart() {
         super.onStart()
+
         onSearchTextChanged(state.searchText)
     }
 
     override fun initSubscriptions() {
-        txStatusSubscription = repository.getTxStatus().subscribe {
-            state.updateTransactions(it.tx)
-        }
-
-        addressesSubscription = repository.getAddresses().subscribe {
-            state.updateAddresses(it.addresses)
-            view?.updateAddresses(state.addresses.values.toList())
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            onSearchTextChanged(state.searchText)
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
 
     override fun onClearPressed() {
         view?.clearSearchText()
@@ -74,7 +71,7 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
     }
 
     private fun findWalletAddress(txDescription: TxDescription, searchText: String): Boolean {
-        return state.addresses.values.filter { it.walletID == txDescription.myId || it.walletID == txDescription.peerId }
+        return state.getAddresses().filter { it.walletID == txDescription.myId || it.walletID == txDescription.peerId }
                 .any { it.label.toLowerCase().contains(searchText) }
     }
 

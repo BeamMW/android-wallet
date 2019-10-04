@@ -240,7 +240,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private fun initTransactionsList() {
         val context = context ?: return
 
-        adapter = TransactionsAdapter(context, null, mutableListOf(), true) {
+        adapter = TransactionsAdapter(context, null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
             presenter?.onTransactionPressed(it)
         }
 
@@ -352,8 +352,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         App.showNotification = false
         onBackPressedCallback.isEnabled = true
-
-       // contentScrollView.visibility = View.VISIBLE
     }
 
     override fun onStop() {

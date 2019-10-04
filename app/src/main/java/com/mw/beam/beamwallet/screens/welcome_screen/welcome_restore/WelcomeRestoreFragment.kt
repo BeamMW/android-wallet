@@ -137,6 +137,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun onHideKeyboard() {
+        suggestionsView.find("")
     }
 
     override fun onShowKeyboard() {
@@ -148,6 +149,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 val y = view.height * rowIndex + suggestionsView.height
                 mainScroll.smoothScrollTo(0, y)
             }
+
+            suggestionsView.find(currentEditText?.text.toString())
         }
     }
 

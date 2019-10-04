@@ -56,7 +56,6 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_transactions.pager
 import kotlinx.android.synthetic.main.fragment_transactions.tabLayout
 import kotlinx.android.synthetic.main.fragment_transactions.toolbarLayout
-import kotlinx.android.synthetic.main.toolbar.*
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
     enum class Mode {
@@ -147,7 +146,6 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                 }
             }
             pageAdapter?.setPrivacyMode(presenter?.repository?.isPrivacyModeEnabled() == true)
-
             pager.adapter = pageAdapter
             tabLayout.setupWithViewPager(pager)
         }
@@ -172,8 +170,7 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     override fun showRepeatTransaction() {
         val transaction = AppManager.instance.getTransaction(selectedTransactions.first())
         if (transaction!=null) {
-            mode = Mode.NONE
-            selectedTransactions.clear()
+            cancelSelectedTransactions()
 
             if (transaction.sender.value) {
                 findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToSendFragment(transaction.peerId, transaction.amount))
@@ -246,6 +243,14 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         if (mode == Mode.EDIT) {
             inflater.inflate(R.menu.wallet_transactions_menu_2, menu)
             menu.findItem(R.id.repeat).isVisible = selectedTransactions.count() == 1
+            if (menu.findItem(R.id.repeat).isVisible) {
+                val transaction = AppManager.instance.getTransaction(selectedTransactions.first())
+                if (transaction!=null) {
+                    if (!transaction.sender.value) {
+                        menu.findItem(R.id.repeat).isVisible = false
+                    }
+                }
+            }
         }
         else{
             inflater.inflate(R.menu.wallet_transactions_menu, menu)

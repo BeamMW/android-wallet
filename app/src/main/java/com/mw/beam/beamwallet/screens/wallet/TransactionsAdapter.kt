@@ -43,10 +43,15 @@ import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
 import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.mw.beam.beamwallet.core.AppManager
 
 
-class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
+class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+
+    enum class Mode {
+        SHORT, FULL, SEARCH
+    }
 
     private val colorSpan by lazy { ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent)) }
     private val boldFontSpan by lazy { StyleSpan(Typeface.BOLD) }
@@ -63,18 +68,20 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
     var reverseColors = false
 
-    var addresses: List<WalletAddress>? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    private fun getRowId() : Int {
+        return when (cellMode) {
+            Mode.SHORT -> R.layout.item_transaction_short
+            Mode.FULL -> R.layout.item_transaction_full
+            else -> R.layout.item_transaction_search
         }
+    }
 
     override fun getItemId(position: Int): Long {
         val data = data[position]
         return data.createTime
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
         this.containerView.setOnClickListener {
 
             clickListener.invoke(data[adapterPosition])
@@ -119,7 +126,6 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             icon.setImageDrawable(transaction.statusImage())
 
-            date.text = CalendarUtils.fromTimestamp(transaction.createTime)
             currency.setImageDrawable(transaction.currencyImage)
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
@@ -132,46 +138,45 @@ class TransactionsAdapter(private val context: Context, private val longListener
             sum.visibility = amountVisibility
             currency.visibility = amountVisibility
 
-            searchResultContainer.removeAllViews()
-            searchResultContainer.visibility = if (searchString.isNullOrBlank()) View.GONE else View.VISIBLE
+            if (cellMode == Mode.SEARCH) {
+                searchResultContainer.removeAllViews()
+                searchResultContainer.visibility = if (searchString.isNullOrBlank()) View.GONE else View.VISIBLE
 
-            val txAddresses = addresses?.filter { it.walletID == transaction.myId || it.walletID == transaction.peerId }
-                    ?: listOf()
+                searchString?.let { search ->
 
-            searchString?.let { search ->
-                val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
+                    val txAddresses = AppManager.instance.getAllAddresses()?.filter { it.walletID == transaction.myId || it.walletID == transaction.peerId }
 
-                if (transaction.id.startsWith(search.toLowerCase())) {
-                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
-                }
+                    val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
 
-                if (transaction.peerId.startsWith(search.toLowerCase())) {
-                    val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
-                    addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
-                }
+                    if (transaction.id.startsWith(search.toLowerCase())) {
+                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
+                    }
 
-                if (transaction.myId.startsWith(search.toLowerCase())) {
-                    val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
-                    addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
-                }
+                    if (transaction.peerId.startsWith(search.toLowerCase())) {
+                        val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
+                        addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
+                    }
 
-                if (transaction.kernelId.startsWith(search.toLowerCase())) {
-                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
-                }
+                    if (transaction.myId.startsWith(search.toLowerCase())) {
+                        val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
+                        addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
+                    }
 
-                if (findAddresses.isNotEmpty()) {
-                    findAddresses.forEach {
-                        addSearchIconItem(searchResultContainer, it, search)
+                    if (transaction.kernelId.startsWith(search.toLowerCase())) {
+                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
+                    }
+
+                    if (findAddresses.isNotEmpty()) {
+                        findAddresses.forEach {
+                            addSearchIconItem(searchResultContainer, it, search)
+                        }
                     }
                 }
             }
 
-            if (compactMode) {
-                commentIcon.visibility = View.GONE
-                commentTextView.visibility = View.GONE
-                date.visibility = View.GONE
-            } else {
-                date.visibility = View.VISIBLE
+
+            if (cellMode != Mode.SHORT) {
+                date.text = CalendarUtils.fromTimestamp(transaction.createTime)
 
                 when {
                     !searchString.isNullOrBlank() && transaction.message.toLowerCase().contains(searchString?.toLowerCase()
@@ -194,18 +199,19 @@ class TransactionsAdapter(private val context: Context, private val longListener
                 }
             }
 
-            checkBox.setOnClickListener {
-                clickListener.invoke(transaction)
-            }
+            if (cellMode == Mode.FULL) {
+                checkBox.setOnClickListener {
+                    clickListener.invoke(transaction)
+                }
 
-            if (mode == TransactionsFragment.Mode.NONE) {
-                checkBox.isChecked = false
-                checkBox.visibility = View.GONE
-            } else {
-                checkBox.isChecked = selectedTransactions.contains(transaction.id)
-                checkBox.visibility = View.VISIBLE
+                if (mode == TransactionsFragment.Mode.NONE) {
+                    checkBox.isChecked = false
+                    checkBox.visibility = View.GONE
+                } else {
+                    checkBox.isChecked = selectedTransactions.contains(transaction.id)
+                    checkBox.visibility = View.VISIBLE
+                }
             }
-
         }
     }
 

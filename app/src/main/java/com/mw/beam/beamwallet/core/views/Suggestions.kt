@@ -71,45 +71,51 @@ class Suggestions: LinearLayout {
             updateVisibility(false)
         }
         else{
-            doAsync {
-                val words = suggestions?.filter { it.startsWith(text) }?.take(3)
+            val words = suggestions?.filter { it.startsWith(text) }?.take(3)
 
-                uiThread {
-                    if (mode == Mode.SingleWord && words?.size ?: 0 > 1) {
-                        updateDividers()
-                        updateVisibility(false)
-                    }
-                    else{
-                        if (words == null || words?.count() == 0) {
-                            updateVisibility(false)
-                        }
-                        else{
-                            updateVisibility(true)
-                        }
-
-                        words?.forEachIndexed { index, word ->
-                            val textView = when (index) {
-                                1 -> leftWord
-                                2 -> rightWord
-                                else -> centerWord
-                            }
-
-                            textView.text = word
-                        }
-
-                        updateDividers()
-                    }
-                }
+            if (mode == Mode.SingleWord && words?.size ?: 0 > 1) {
+                updateDividers()
+                updateVisibility(false)
             }
+            else{
+                if (words == null || words?.count() == 0) {
+                    updateVisibility(false)
+                }
+                else{
+                    updateVisibility(true)
+                }
+
+                words?.forEachIndexed { index, word ->
+                    val textView = when (index) {
+                        1 -> leftWord
+                        2 -> rightWord
+                        else -> centerWord
+                    }
+
+                    textView.text = word
+                }
+
+                updateDividers()
+            }
+//            doAsync {
+//
+//                uiThread {
+//
+//                }
+//            }
         }
     }
 
     private fun updateVisibility(visible:Boolean) {
         if(visible) {
-            this.visible(true)
+            this.visibility = View.VISIBLE
+
+         //   this.visible(true)
         }
         else{
-            this.gone(true)
+            this.visibility = View.GONE
+
+         //   this.gone(true)
         }
     }
 

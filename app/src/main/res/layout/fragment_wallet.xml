@@ -23,11 +23,13 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:descendantFocusability="blocksDescendants"
         android:fillViewport="true"
         android:filterTouchesWhenObscured="true"
         android:fitsSystemWindows="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +38,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -343,6 +346,7 @@
                 android:id="@+id/transactionsList"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:descendantFocusability="blocksDescendants"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintTop_toBottomOf="@id/transactionsTitle"
                 tools:itemCount="5"

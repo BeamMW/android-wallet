@@ -33,7 +33,6 @@ interface SearchTransactionContract {
         fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?)
         fun setClearButtonVisible(isVisible: Boolean)
         fun showTransactionDetails(txId: String)
-        fun updateAddresses(addresses: List<WalletAddress>)
     }
     interface Presenter: MvpPresenter<View> {
         fun onSearchTextChanged(text: String)
@@ -41,7 +40,5 @@ interface SearchTransactionContract {
         fun onTransactionPressed(txDescription: TxDescription)
     }
     interface Repository: MvpRepository {
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getAddresses(): Subject<OnAddressesData>
     }
 }

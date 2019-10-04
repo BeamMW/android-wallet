@@ -88,7 +88,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
 
     private fun initTransactionsList() {
         if (adapter == null) {
-            adapter = TransactionsAdapter(context!!,null, mutableListOf(), true) {
+            adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
                 presenter?.onTransactionPressed(it)
             }
             adapter?.reverseColors = true

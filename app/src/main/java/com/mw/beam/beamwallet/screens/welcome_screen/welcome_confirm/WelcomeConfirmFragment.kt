@@ -128,6 +128,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         currentEditText?.clearFocus()
 
         hideKeyboard()
+
+        suggestionsView.find("")
     }
 
     override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
@@ -221,11 +223,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun setTextToCurrentView(text: String) {
-        currentEditText?.apply {
-            setText("")
-            append(text)
-            onEditorAction(imeOptions)
-        }
+        currentEditText?.setText(text)
+        currentEditText?.onEditorAction(currentEditText?.imeOptions!!)
     }
 
     override fun updateSuggestions(text: String) {
@@ -249,4 +248,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
     }
 
+    override fun onHideKeyboard() {
+        suggestionsView.find("")
+    }
+
+    override fun onShowKeyboard() {
+        if (currentEditText!=null) {
+            suggestionsView.find(currentEditText?.text.toString())
+        }
+    }
 }

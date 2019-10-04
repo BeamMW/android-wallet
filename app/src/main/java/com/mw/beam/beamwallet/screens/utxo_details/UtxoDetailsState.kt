@@ -31,6 +31,6 @@ class UtxoDetailsState {
     var transactions = mutableListOf<TxDescription>()
 
     fun sortedTransactions():List<TxDescription> {
-        return transactions.sortedByDescending { it.modifyTime }
+        return transactions.sortedByDescending { it.createTime }
     }
 }

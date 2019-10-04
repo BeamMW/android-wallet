@@ -27,7 +27,7 @@
                 android:layout_width="78dp"
                 android:layout_height="70dp"
                 android:layout_marginTop="30dp"
-                android:src="@drawable/logo"
+                android:src="@drawable/ic_logo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

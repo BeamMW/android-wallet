@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="70dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/ic_logo" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/navMenu"

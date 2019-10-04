@@ -89,7 +89,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -98,7 +98,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
     }
 
     override fun onDestroy() {

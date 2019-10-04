@@ -33,5 +33,5 @@ class WalletState {
     var shouldExpandInProgress = false
     var privacyMode = false
 
-    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.modifyTime }.take(5)
+    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(5)
 }

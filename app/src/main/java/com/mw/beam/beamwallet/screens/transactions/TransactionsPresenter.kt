@@ -23,6 +23,8 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class TransactionsPresenter(view: TransactionsContract.View?, repository: TransactionsContract.Repository)
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
@@ -32,10 +34,30 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 
     override fun onViewCreated() {
         super.onViewCreated()
+
         view?.init()
+//
+//      android.os.Handler().postDelayed({
+//          view?.init()
+//          view?.configTransactions(getTransactions())
+//      }, 200)
+
     }
 
-    private fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.modifyTime }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        view?.init()
+//
+//        doAsync {
+//            val tr = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
+//            uiThread {
+//                view?.configTransactions(tr)
+//            }
+//        }
+//    }
+
+    private fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)
