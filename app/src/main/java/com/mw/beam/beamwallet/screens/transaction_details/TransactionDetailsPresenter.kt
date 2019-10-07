@@ -168,8 +168,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     override fun onCancelTransaction() {
-        repository.cancelTransaction(state.txDescription)
-        view?.finishScreen()
+        view?.showCancellAlert()
     }
 
     override fun onDeleteTransaction() {
@@ -200,5 +199,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun onExpandProofPressed() {
         state.shouldExpandProof = !state.shouldExpandProof
         view?.handleExpandProof(state.shouldExpandProof)
+    }
+
+    override fun onCancelTransactionConfirm() {
+        repository.cancelTransaction(state.txDescription)
+        view?.finishScreen()
     }
 }
