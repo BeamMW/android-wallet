@@ -53,6 +53,7 @@ interface TransactionDetailsContract {
         fun handleExpandDetails(shouldExpandDetails: Boolean)
         fun handleExpandUtxos(shouldExpandUtxos: Boolean)
         fun handleExpandProof(shouldExpandProof: Boolean)
+        fun showCancellAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -69,6 +70,7 @@ interface TransactionDetailsContract {
         fun onExpandUtxosPressed()
         fun onExpandProofPressed()
         fun onSaveContact()
+        fun onCancelTransactionConfirm()
     }
 
     interface Repository : MvpRepository {
