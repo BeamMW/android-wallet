@@ -133,8 +133,10 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                     share_transaction_details?.configGeneralTransactionInfo(presenter?.state?.txDescription)
                     share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context, 420),
                             ViewGroup.LayoutParams.WRAP_CONTENT)
-                    share_transaction_details?.alpha = 0f
                     mainContent.addView(share_transaction_details, 0)
+                    share_transaction_details?.refreshDrawableState()
+                    share_transaction_details?.requestLayout()
+                    share_transaction_details?.alpha = 0f
                 }
 
                 Handler().postDelayed({

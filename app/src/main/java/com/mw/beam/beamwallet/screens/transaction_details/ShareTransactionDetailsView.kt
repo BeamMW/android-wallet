@@ -72,12 +72,12 @@ class ShareTransactionDetailsView : FrameLayout {
         confirming_state_text.setTextColor(txDescription.statusColor)
         amount.setTextColor(txDescription.amountColor)
 
-        refreshDrawableState()
-        requestLayout()
-
         if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed
                 || txDescription.kernelId.contains("000000000")) {
             kernelLayout.visibility = View.GONE
         }
+
+        refreshDrawableState()
+        requestLayout()
     }
 }

@@ -39,6 +39,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     private lateinit var paymentProofSubscription: Disposable
     private lateinit var txSubscription: Disposable
+    private lateinit var addressesSubscription: Disposable
 
     override fun onCreate() {
         super.onCreate()
@@ -72,9 +73,17 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
         txSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             state.txDescription = AppManager.instance.getTransaction(state.txID!!)
-            if (state.txDescription != null)
-            {
+            if (state.txDescription != null) {
                 view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
+            }
+        }
+
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
+            if (it == false) {
+                state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+                if (state.txDescription != null) {
+                    view?.updateAddresses(state.txDescription!!)
+                }
             }
         }
     }
@@ -135,7 +144,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(paymentProofSubscription, txSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(paymentProofSubscription, txSubscription, addressesSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
         view?.configMenuItems(menu, inflater,state.txDescription)
