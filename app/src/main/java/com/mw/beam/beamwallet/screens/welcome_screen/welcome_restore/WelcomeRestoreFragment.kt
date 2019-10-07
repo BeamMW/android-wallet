@@ -259,7 +259,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
-        allowScreenshot()q
+        allowScreenshot()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
