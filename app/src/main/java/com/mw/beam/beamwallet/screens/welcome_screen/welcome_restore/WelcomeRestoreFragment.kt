@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
 import android.text.Editable
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
@@ -92,6 +93,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun addListeners() {
+        forbidScreenshot()
         btnShare.setOnClickListener {
             val data = PasteManager.getPasteData(context)
             val phrases1 = data.split(";").toTypedArray()
@@ -257,9 +259,19 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
+        allowScreenshot()q
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
+    }
+
+
+    private fun forbidScreenshot() {
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    private fun allowScreenshot() {
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 }
