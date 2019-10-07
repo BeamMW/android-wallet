@@ -18,7 +18,7 @@
     <string name="change_address">Modifica</string>
     <string name="change_address_title">Change address</string>
     <string name="change_utxo_type">Modifica</string>
-    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
+    <string name="change_description">Modifica (sarà bloccata fino a quando la transazione non avrà successo o scadrà)</string>
     <string name="ok">OK</string>
     <string name="undo">Undo</string>
     <string name="next">Prossimo</string>
@@ -28,7 +28,7 @@
     <string name="share_qr">share QR</string>
     <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
-    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
+    <string name="common_fingerprint_error">Impronta sconosciuta, inserisci la password.</string>
     <string name="common_share_title">Share…</string>
     <string name="common_external_link_dialog_title">External link</string>
     <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
@@ -45,7 +45,7 @@
     <string name="notifications">Notifications</string>
     <string name="help">Help</string>
     <string name="settings">Impostazioni</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Si prega di concedere l\'autorizzazione</string>
     <!--Welcome-->
     <string name="create_new_wallet">Crea un nuovo wallet</string>
     <string name="restore_wallet">Ripristina il Wallet</string>
@@ -114,6 +114,7 @@
     <string name="pass_back_seed_title">Back to seed phrase</string>
     <string name="pass_return_seed_title">Return to seed phrase</string>
     <string name="pass_return_seed_btn_create_new">Generate</string>
+    <string name="back">Torna indietro</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beams sent</string>
     <string name="available">Disponibile</string>
@@ -141,8 +142,8 @@
     <string name="filter">Filter</string>
     <string name="export">Export</string>
     <string name="payment_proof">Prova di pagamento</string>
-    <string name="export_transaction_history_title">Export transaction history</string>
-    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
+    <string name="export_transaction_history_title">Esporta lo storico delle transazioni</string>
+    <string name="export_transaction_history_text">Vuoi salvare la cronologia delle transazioni sul tuo dispositivo o condividerla?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Active</string>
@@ -196,11 +197,16 @@
     <string name="my_sending_address">My sending address</string>
     <string name="my_address">My address</string>
     <string name="transaction_deleted">Transaction deleted</string>
-    <string name="save_contact">Save contact</string>
-    <string name="transactions_deleted">Transactions deleted</string>
-    <string name="delete_transactions">Delete transactions</string>
-    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+    <string name="save_contact">Salva contatto</string>
+    <string name="transactions_deleted">Transazioni eliminate</string>
+    <string name="delete_transactions">Elimina transazioni</string>
+    <string name="delete_transaction_text">Questa transazione verrà eliminata dal tuo portafoglio.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">auto-generated</string>
@@ -220,9 +226,9 @@
     <string name="edit_contact">Edit contact</string>
     <string name="advanced">Advanced</string>
     <string name="send_token_description">Input or scan the recipient’s address</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
-    <string name="saved_to_downloads">Saved to downloads</string>
+    <string name="share">Condividi</string>
+    <string name="save_to_downloads">Salva nei download</string>
+    <string name="saved_to_downloads">Salvato in download</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Amount field can’t be empty</string>
     <string name="send_amount_zero_error">Amount can’t be 0 BEAM</string>
@@ -283,20 +289,20 @@
     <string name="address_deleted">Address deleted</string>
     <string name="contact_deleted">Contact deleted</string>
     <string name="addresses_deleted">Addresses deleted</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Contatti eliminati</string>
     <string name="address">Indirizzo</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Mostra codice QR</string>
     <string name="delete_address">Elimina indirizzo</string>
     <string name="delete_contact">Elimina contatto</string>
     <string name="delete_addresses">Delete addresses</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Elimina contatti</string>
     <string name="transactions_list">Elenco movimenti</string>
     <string name="address_id">ID indirizzo</string>
     <string name="expiration_date">Data di scadenza</string>
     <string name="tag">Tag</string>
     <string name="show_qr_code_short">Show QR</string>
-    <string name="expire_address_now">Expire addresss</string>
+    <string name="expire_address_now">Indirizzo di scadenza</string>
     <!--EditAddressFragment-->
     <string name="active_address">Activate address</string>
     <string name="save">Salvare</string>
@@ -337,8 +343,8 @@
     <string name="owner_key_code_description">Deploying the owner key at a trusted node will allow the node to monitor all UTXO sent to any wallet generated from the same seed phrase.\n\nDon\'t share your Owner Key with others - it allows inspection and monitoring of your funds.</string>
     <string name="owner_key_verification_pass">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must enter your password to see Owner Key.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">Distribuendo la chiave proprietaria su un nodo attendibile, il nodo potrà monitorare tutti gli UTXOs inviati a questo portafoglio e qualsiasi portafoglio generato dalla tua frase di seed.
+Devi superare la verifica a 2 passaggi (inviare una password e utilizzare l\'Impronta digitale) per vedere la tua chiave proprietaria. </string>
     <string name="notification_receive_content_title">Receiving new transaction</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_text">Please, click to view details</string>
@@ -371,8 +377,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Elimina tutte le transazioni relative a questo contatto</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Elimina tutte le transazioni relative a questo contatto</string>
     <string name="search_transaction">Search transaction</string>
     <string name="never_expires">Never expires</string>
     <string name="expires_in">Expires in %1$s h %2$s m</string>
@@ -428,15 +434,15 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
 address or contact</string>
     <string name="address_details">Address details</string>
-    <string name="contact_details">Contact details</string>
-    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
-    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
-    <string name="crash_negative">No, thanks</string>
-    <string name="crash_positive">Send report</string>
+    <string name="contact_details">Dettagli del contatto</string>
+    <string name="crash_title">Portafoglio Beam crashato inaspettatamente</string>
+    <string name="crash_message">Sei d\'accordo di segnalare la quantità limitata di informazioni a noi? Raccogliendo le informazioni sui crash ci permetterebbero di scoprire e risolvere i bug molto più velocemente. Questo è solo un singolo report correlato al crash, non continueremo a collazionare i tuoi dati.</string>
+    <string name="crash_negative">No, grazie</string>
+    <string name="crash_positive">Invia report</string>
     <string name="h">h</string>
-    <string name="m">mins</string>
-    <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="m">minuti</string>
+    <string name="s">secondi</string>
+    <string name="estimted_time">Tempo stimato</string>
     <string-array name="receive_expires_periods">
         <item>In 24 hours</item>
         <item>Mai</item>

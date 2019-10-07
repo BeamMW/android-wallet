@@ -29,16 +29,19 @@
         <item name="android:splitMotionEvents">false</item>
         <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/common_hint_text_color</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorPrimary">@color/common_text_color</item>
-        <item name="android:textColorSecondary">@color/common_text_dark_color</item>
-        <item name="android:popupBackground">@drawable/menu_background</item>
-<!--        <item name="android:colorBackground">@android:color/transparent</item>-->
-        <!--        <item name="android:popupBackground">@android:color/transparent</item>-->
+        <item name="android:textColorSecondary">@color/alert_dialog_color</item>
+<!--        <item name="android:popupBackground">@drawable/menu_background</item>-->
+        <item name="android:textColor">@color/common_text_color</item>
+       <item name="android:colorBackground">@color/alert_dialog_color</item>
+<!--        <item name="android:popupBackground">@android:color/transparent</item>-->
 <!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
-        <!--        <item name="android:itemBackground">@drawable/menu_background</item>-->
+<!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
+<!--        <item name="android:foreground">?android:attr/selectableItemBackground</item>-->
     </style>
 
     <style name="common_button_text_style">

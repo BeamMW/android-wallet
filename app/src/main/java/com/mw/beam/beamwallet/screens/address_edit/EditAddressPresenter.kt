@@ -97,9 +97,12 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
     override fun onDeleteAddress() {
         if (state.getTransactions().isNotEmpty()) {
-            view?.showDeleteAddressDialog()
-        } else {
-            onConfirmDeleteAddress(false)
+            view?.showDeleteAddressDialog(true)
+        }
+        else {
+            view?.showDeleteAddressDialog(false)
+
+            //  onConfirmDeleteAddress(false)
         }
     }
 

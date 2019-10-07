@@ -115,6 +115,7 @@ hế độ bảo mật</string>
     <string name="pass_back_seed_title">Quay lại cụm từ hạt giống</string>
     <string name="pass_return_seed_title">Quay lại cụm từ hạt giống</string>
     <string name="pass_return_seed_btn_create_new">Tạo</string>
+    <string name="back">Quay lại</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beams đã gửi</string>
     <string name="available">Có sẵn</string>
@@ -201,7 +202,12 @@ hế độ bảo mật</string>
     <string name="transactions_deleted">Transactions deleted</string>
     <string name="delete_transactions">Delete transactions</string>
     <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Trao đổi</string>
     <string name="auto_generated">tạo tự động</string>

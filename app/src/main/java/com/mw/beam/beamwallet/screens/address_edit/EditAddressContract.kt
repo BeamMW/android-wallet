@@ -42,7 +42,7 @@ interface EditAddressContract {
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
-        fun showDeleteAddressDialog()
+        fun showDeleteAddressDialog(transactionAlert:Boolean)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
     }
 

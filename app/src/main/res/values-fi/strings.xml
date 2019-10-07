@@ -17,7 +17,7 @@
     <string name="confirm">Vahvista</string>
     <string name="change_address">Vaihda</string>
     <string name="change_address_title">Vaihda osoite</string>
-    <string name="change_utxo_type">Vaihda</string>
+    <string name="change_utxo_type">Palautus</string>
     <string name="change_description">Palautus (lukitaan siihen asti, kunnes tapahtuma on valmis tai vanhentuu)</string>
     <string name="ok">Ok</string>
     <string name="undo">Kumoa</string>
@@ -114,6 +114,7 @@
     <string name="pass_back_seed_title">Takaisin palautusavaimeen</string>
     <string name="pass_return_seed_title">Takaisin palautusavaimeen</string>
     <string name="pass_return_seed_btn_create_new">Generoi</string>
+    <string name="back">Takaisin</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beamit lähetetty</string>
     <string name="available">Käytettävissä</string>
@@ -197,10 +198,15 @@
     <string name="my_address">Oma osoitteeni</string>
     <string name="transaction_deleted">Maksutapahtuma poistettu</string>
     <string name="save_contact">Tallenna yhteystieto</string>
-    <string name="transactions_deleted">Transactions deleted</string>
-    <string name="delete_transactions">Delete transactions</string>
-    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+    <string name="transactions_deleted">Tapahtumat poistettu</string>
+    <string name="delete_transactions">Poista tapahtumat</string>
+    <string name="delete_transaction_text">Tämä tapahtuma poistetaan lompakostasi.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">generoitu automaattisesti</string>

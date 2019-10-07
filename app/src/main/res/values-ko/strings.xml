@@ -18,7 +18,7 @@
     <string name="change_address">잔액</string>
     <string name="change_address_title">주소 바꾸기</string>
     <string name="change_utxo_type">잔액</string>
-    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
+    <string name="change_description">잔돈 (거래가 성공되거나 만료될 때까지 잠겨있게 됩니다)</string>
     <string name="ok">네</string>
     <string name="undo">취소하기</string>
     <string name="next">다음</string>
@@ -28,7 +28,7 @@
     <string name="share_qr">QR 코드 공유하기</string>
     <string name="common_security_mode_title">프라이버시 모드 실행</string>
     <string name="common_security_mode_message">모든 잔고는 눈 모양의 아이콘을 다시 누르기 전까지는 가려져있을 것입니다.</string>
-    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
+    <string name="common_fingerprint_error">지문 인식에 실패했습니다, 비밀번호를 입력해주세요</string>
     <string name="common_share_title">공유중...</string>
     <string name="common_external_link_dialog_title">외부 링크</string>
     <string name="common_external_link_dialog_message">Beam 지갑 앱은 브라우저에서 외부 링크를 열 수 있는 권한이 필요합니다. 이를 수행하면 당신의 IP 주소가 웹 서버에 노출 될 것입니다. 원하지 않는다면 \"취소\" 를 선택하십시오. 설정에서 언제든지 변경할 수 있습니다.</string>
@@ -45,7 +45,7 @@
     <string name="notifications">알림</string>
     <string name="help">도움말</string>
     <string name="settings">설정</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">저장소 사용 권한을 허용하십시오</string>
     <!--Welcome-->
     <string name="create_new_wallet">새로운 지갑 만들기</string>
     <string name="restore_wallet">지갑 복구하기</string>
@@ -95,7 +95,7 @@
     <string name="welcome_progress_update_utxo_description">UTXO 스캔하기</string>
     <string name="welcome_progress_restore_description">복구됨</string>
     <string name="welcome_progress_download_description">다운로드됨</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
+    <string name="welcome_progress_restore_description_full_top">동기화가 완료될 때까지 창을 닫거나 최소화 시키지 마십시오. 지갑 복구에 일정 시간이 소요될 예정입니다.</string>
     <string name="welcome_progress_restore_description_full_bottom">오직 지갑 잔고(UTXO)만 복구됩니다, 거래 내용은 항상 비공개이고 블록체인 상에 절대 저장되지 않습니다.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">지갑에 접근하기 위해서 비밀번호를 생성해야합니다.</string>
@@ -114,6 +114,7 @@
     <string name="pass_back_seed_title">시드 구문으로 돌아가기</string>
     <string name="pass_return_seed_title">시드 구문으로 돌아가기</string>
     <string name="pass_return_seed_btn_create_new">생성</string>
+    <string name="back">뒤로가기</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beam 이 보내졌습니다.</string>
     <string name="available">사용가능</string>
@@ -141,7 +142,7 @@
     <string name="filter">필터</string>
     <string name="export">내보내기</string>
     <string name="payment_proof">지불 증명</string>
-    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_title">거래내역 내보내기</string>
     <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
@@ -200,7 +201,12 @@
     <string name="transactions_deleted">Transactions deleted</string>
     <string name="delete_transactions">Delete transactions</string>
     <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">바꾸기</string>
     <string name="auto_generated">자동 생성</string>

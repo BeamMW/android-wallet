@@ -194,25 +194,42 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 onUndo = { TrashManager.restore(walletAddress.walletID) })
     }
 
-    override fun showDeleteAddressDialog() {
-        context?.let {
-            val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+    override fun showDeleteAddressDialog(transactionAlert:Boolean) {
+        if (transactionAlert) {
+            context?.let {
+                val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
 
-            if(isContact) {
-                view.clearDialogTitle.text = getString(R.string.delete_contact)
-                view.deleteAllTransactionsTitle.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                if(isContact) {
+                    view.clearDialogTitle.text = getString(R.string.delete_contact)
+                    view.deleteAllTransactionsTitle.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                }
+
+                val dialog = AlertDialog.Builder(it).setView(view).show()
+
+                view.btnConfirm.setOnClickListener {
+                    presenter?.onConfirmDeleteAddress(view.deleteAllTransactionsCheckbox.isChecked)
+                    dialog.dismiss()
+                }
+
+                view.btnCancel.setOnClickListener { dialog.dismiss() }
+
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+        }
+        else{
+            val msgText = when {
+                isContact -> getString(R.string.delete_contact_text)
+                else -> getString(R.string.delete_address_text)
             }
 
-            val dialog = AlertDialog.Builder(it).setView(view).show()
-
-            view.btnConfirm.setOnClickListener {
-                presenter?.onConfirmDeleteAddress(view.deleteAllTransactionsCheckbox.isChecked)
-                dialog.dismiss()
+            val titleText = when {
+                isContact -> getString(R.string.delete_contact)
+                else -> getString(R.string.delete_address)
             }
 
-            view.btnCancel.setOnClickListener { dialog.dismiss() }
-
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            showAlert(msgText,getString(R.string.delete),{
+                presenter?.onConfirmDeleteAddress(false)
+            },titleText,getString(R.string.cancel))
         }
     }
 

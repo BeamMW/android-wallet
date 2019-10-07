@@ -263,46 +263,79 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         presenter?.onDeleteAddress(selectedAddresses)
     }
 
-    override fun showDeleteAddressesDialog() {
-        context?.let {
-            val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
-            val dialog = AlertDialog.Builder(it).setView(view).show()
+    override fun showDeleteAddressesDialog(transactionAlert:Boolean) {
+        if (transactionAlert) {
+            context?.let {
+                val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+                val dialog = AlertDialog.Builder(it).setView(view).show()
 
-            val contact = AppManager.instance.getAddress(selectedAddresses.first())
+                val contact = AppManager.instance.getAddress(selectedAddresses.first())
 
-            val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
-            val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
+                val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
+                val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
 
-            if (contact?.isContact == true)
-            {
-                if (selectedAddresses.count() > 1) {
-                    titleLabel.text = getString(R.string.delete_contacts)
-                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contacts)
+                if (contact?.isContact == true)
+                {
+                    if (selectedAddresses.count() > 1) {
+                        titleLabel.text = getString(R.string.delete_contacts)
+                        msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contacts)
+                    }
+                    else{
+                        titleLabel.text = getString(R.string.delete_contact)
+                        msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                    }
                 }
                 else{
-                    titleLabel.text = getString(R.string.delete_contact)
-                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                    if (selectedAddresses.count() > 1) {
+                        titleLabel.text = getString(R.string.delete_addresses)
+                        msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_addresses)
+                    }
+                }
+
+                view.btnConfirm.setOnClickListener {
+                    showDeleteAddressesSnackBar(view.deleteAllTransactionsCheckbox.isChecked)
+                    dialog.dismiss()
+                }
+
+                view.btnCancel.setOnClickListener { dialog.dismiss() }
+
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+        }
+        else{
+            val contact = AppManager.instance.getAddress(selectedAddresses.first())
+
+            val msgText = when {
+                contact?.isContact == true -> when {
+                    selectedAddresses.count() > 1 -> getString(R.string.delete_contacts_text)
+                    else -> getString(R.string.delete_contact_text)
+                }
+                else ->  when {
+                    selectedAddresses.count() > 1 -> getString(R.string.delete_addresses_text)
+                    else -> getString(R.string.delete_address_text)
                 }
             }
-            else{
-                if (selectedAddresses.count() > 1) {
-                    titleLabel.text = getString(R.string.delete_addresses)
-                    msgLabel.text = getString(R.string.delete_all_transactions_related_to_this_addresses)
+
+            val titleText = when {
+                contact?.isContact == true -> when {
+                    selectedAddresses.count() > 1 -> getString(R.string.delete_contacts)
+                    else -> getString(R.string.delete_contact)
+                }
+                else ->  when {
+                    selectedAddresses.count() > 1 -> getString(R.string.delete_addresses)
+                    else -> getString(R.string.delete_address)
                 }
             }
 
-            view.btnConfirm.setOnClickListener {
-                showDeleteAddressesSnackBar(view.deleteAllTransactionsCheckbox.isChecked)
-                dialog.dismiss()
-            }
 
-            view.btnCancel.setOnClickListener { dialog.dismiss() }
+            showAlert(msgText,getString(R.string.delete),{
+                showDeleteAddressesSnackBar(false)
 
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            },titleText,getString(R.string.cancel))
         }
     }
 
-    override fun showDeleteAddressesSnackBar(removeTransactions: Boolean) {
+    private fun showDeleteAddressesSnackBar(removeTransactions: Boolean) {
         val contact = AppManager.instance.getAddress(selectedAddresses.first())
 
         val text = when {

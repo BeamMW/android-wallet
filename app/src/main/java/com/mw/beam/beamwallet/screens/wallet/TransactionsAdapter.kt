@@ -201,6 +201,13 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             if (cellMode == Mode.FULL) {
                 checkBox.setOnClickListener {
+
+                    if (selectedTransactions.contains(data[adapterPosition].id)) {
+                        selectedTransactions.remove(data[adapterPosition].id)
+                    } else {
+                        selectedTransactions.add(data[adapterPosition].id)
+                    }
+
                     clickListener.invoke(transaction)
                 }
 

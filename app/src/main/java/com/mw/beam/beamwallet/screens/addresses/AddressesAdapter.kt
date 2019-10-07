@@ -144,6 +144,13 @@ class AddressesAdapter(private val context: Context,
             category.text = findTags.createSpannableString(context)
 
             checkBox.setOnClickListener {
+
+                if (selectedAddresses.contains(data[adapterPosition].walletID)) {
+                    selectedAddresses.remove(data[adapterPosition].walletID)
+                } else {
+                    selectedAddresses.add(data[adapterPosition].walletID)
+                }
+
                 clickListener.onItemClick(address)
             }
 

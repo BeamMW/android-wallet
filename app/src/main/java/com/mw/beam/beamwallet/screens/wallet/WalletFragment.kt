@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
@@ -40,6 +41,8 @@ import com.mw.beam.beamwallet.core.AppManager
 import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
+
+
 
 /**
  *  10/1/18.
@@ -204,10 +207,13 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
 
         btnShowAll.setOnClickListener {
+
+            val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
+
             if (AppManager.instance.getTransactions().count() > 0) {
                 presenter?.onShowAllPressed()
             }
-            else PopupMenu(context, btnShowAll).apply {
+            else PopupMenu(wrapper, btnShowAll).apply {
                 setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
                     override fun onMenuItemClick(item: MenuItem?): Boolean {
                         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())

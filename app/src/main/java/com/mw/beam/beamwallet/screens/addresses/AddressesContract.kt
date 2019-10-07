@@ -41,8 +41,7 @@ interface AddressesContract {
         fun navigateToEditAddressScreen()
         fun copyAddress()
         fun deleteAddresses()
-        fun showDeleteAddressesDialog()
-        fun showDeleteAddressesSnackBar(removeTransactions:Boolean)
+        fun showDeleteAddressesDialog(transactionAlert:Boolean)
         fun changeMode(mode: AddressesFragment.Mode)
     }
 

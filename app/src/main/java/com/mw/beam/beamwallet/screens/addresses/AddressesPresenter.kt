@@ -85,9 +85,9 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         }
 
         if (showTransactionsAlert) {
-            view?.showDeleteAddressesDialog()
+            view?.showDeleteAddressesDialog(true)
         } else {
-            view?.showDeleteAddressesSnackBar(false)
+            view?.showDeleteAddressesDialog(false)
         }
     }
 

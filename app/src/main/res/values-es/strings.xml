@@ -116,6 +116,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="pass_back_seed_title">Vuelve a la frase semilla</string>
     <string name="pass_return_seed_title">Vuelve a la frase semilla</string>
     <string name="pass_return_seed_btn_create_new">Generar</string>
+    <string name="back">Volver</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Enviar Beams</string>
     <string name="available">Disponible</string>
@@ -199,10 +200,15 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="my_address">Mi dirección</string>
     <string name="transaction_deleted">Transacción borrada</string>
     <string name="save_contact">Guardar contacto</string>
-    <string name="transactions_deleted">Transactions deleted</string>
-    <string name="delete_transactions">Delete transactions</string>
-    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">This transactions will be deleted from your wallet.</string>
+    <string name="transactions_deleted">Transacciones eliminadas</string>
+    <string name="delete_transactions">Eliminar transacciones</string>
+    <string name="delete_transaction_text">Esta transacción se eliminará de su wallet.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Intercambiar</string>
     <string name="auto_generated">auto-generado</string>
