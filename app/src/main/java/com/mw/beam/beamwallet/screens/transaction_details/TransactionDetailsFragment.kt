@@ -223,9 +223,9 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         amountLabel.setTextColor(txDescription.amountColor)
 
         statusLabel.setTextColor(txDescription.statusColor)
-        val status = txDescription.getStatusString(context!!)
+        val status = txDescription.getStatusString(context!!).trim()
 
-        if(status == TxStatus.Failed.name || status == TxStatus.Cancelled.name || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED){
+        if(status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED){
             btnOpenInBlockExplorer.visibility = View.INVISIBLE
         }
 
@@ -263,8 +263,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
-        val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
-        btnOpenInBlockExplorer.visibility = externalLinkVisibility
+//        val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
+//        btnOpenInBlockExplorer.visibility = externalLinkVisibility
 
         if (txDescription.message.isNotEmpty()) {
             commentLabel.text = txDescription.message
