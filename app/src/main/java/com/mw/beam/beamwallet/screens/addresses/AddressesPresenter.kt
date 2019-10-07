@@ -33,7 +33,6 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
     private lateinit var addressesSubscription: Disposable
 
-    var removedAddresses = mutableListOf<String>()
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -93,9 +92,6 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     }
 
     override fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>) {
-        removedAddresses.clear()
-        removedAddresses.addAll(addresses)
-
         for (i in 0 until addresses.count()) {
             val id = addresses[i]
             val address = state?.addresses?.find { it.walletID == id }

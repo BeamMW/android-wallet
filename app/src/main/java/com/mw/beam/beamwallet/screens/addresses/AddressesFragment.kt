@@ -56,6 +56,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     private var mode = Mode.NONE
     private var menuPosition = 0
 
+    private var removedAddresses = mutableListOf<String>()
+
     private val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if (mode == Mode.NONE) {
@@ -318,17 +320,20 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
         showSnackBar(text,
                 onDismiss = {
-                    presenter?.removedAddresses?.forEach { walletID ->
+                    removedAddresses?.forEach { walletID ->
                         TrashManager.remove(walletID)
                     }
                 },
                 onUndo = {
-                    presenter?.removedAddresses?.forEach { walletID ->
+                    removedAddresses?.forEach { walletID ->
                         TrashManager.restore(walletID)
                     }
-                    presenter?.removedAddresses?.clear()
+                    removedAddresses?.clear()
                 }
         )
+
+        removedAddresses.clear()
+        removedAddresses.addAll(selectedAddresses.toList())
 
         presenter?.onConfirmDeleteAddresses(removeTransactions, selectedAddresses.toList())
 
