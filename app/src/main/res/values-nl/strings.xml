@@ -201,12 +201,12 @@
     <string name="transactions_deleted">Transacties verwijderd</string>
     <string name="delete_transactions">Transacties verwijderen</string>
     <string name="delete_transaction_text">Deze transactie zal uit uw wallet worden verwijderd.</string>
-    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">Deze transacties zullen uit uw wallet worden verwijderd.</string>
+    <string name="cancell_transaction_warning_message">Weet u zeker dat u deze transactie wilt annuleren?</string>
+    <string name="delete_addresses_text">Deze adressen zullen uit uw wallet worden verwijderd.</string>
+    <string name="delete_address_text">Dit adres zal uit uw wallet worden verwijderd.</string>
+    <string name="delete_contacts_text">Deze contacten zullen uit uw wallet worden verwijderd.</string>
+    <string name="delete_contact_text">Dit contacten zal uit uw wallet worden verwijderd.</string>
     <!--ReceiveFragment-->
     <string name="swap">Wisselen</string>
     <string name="auto_generated">Automatisch gegenereerd</string>
@@ -446,4 +446,9 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
         <item>In 24 uur</item>
         <item>Nooit</item>
     </string-array>
+    <string name="save_wallet_logs">Wallet logs opslaan</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

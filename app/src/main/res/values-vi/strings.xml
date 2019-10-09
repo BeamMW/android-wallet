@@ -448,4 +448,9 @@ address or contact</string>
         <item>Trong 24 tiếng</item>
         <item>Không bao giờ</item>
     </string-array>
+    <string name="save_wallet_logs">Lưu nhật ký ví</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

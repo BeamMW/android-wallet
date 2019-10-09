@@ -21,7 +21,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
-import android.content.res.Configuration
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -42,6 +41,12 @@ import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
 //import com.squareup.leakcanary.LeakCanary
 import java.util.concurrent.TimeUnit
+import android.os.Environment
+import android.view.Display
+import java.io.File
+import java.util.*
+import android.graphics.Point
+
 
 /**
  *  10/1/18.
@@ -63,6 +68,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver{
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume(){
@@ -117,6 +124,13 @@ class App : Application() {
 
         jobScheduler.schedule(jobInfo)
 
+        if (PreferencesManager.getString(PreferencesManager.KEY_DEFAULT_LOGS) == null) {
+            PreferencesManager.putString(PreferencesManager.KEY_DEFAULT_LOGS,PreferencesManager.KEY_DEFAULT_LOGS)
+            PreferencesManager.putLong(PreferencesManager.KEY_LOGS,5L)
+        }
+
+        clearLogs()
+
         XLog.init(LogConfiguration.Builder()
                 .logLevel(LogLevel.ALL)
                 .tag(AppConfig.APP_TAG)
@@ -128,5 +142,35 @@ class App : Application() {
                         .cleanStrategy(FileLastModifiedCleanStrategy(AppConfig.LOG_CLEAN_TIME))
                         .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
                         .build())
+    }
+
+    fun clearLogs() {
+        val days = PreferencesManager.getLong(PreferencesManager.KEY_LOGS)
+
+        if (days<=0L) {
+            return
+        }
+
+        val path = AppConfig.LOG_PATH
+        val directory = File(path)
+        val files = directory.listFiles()
+
+        if (files!=null)
+        {
+            var removedFiles = mutableListOf<File>()
+            for (i in files.indices) {
+                val modify = Date(files[i].lastModified())
+                val date = Calendar.getInstance().time
+                val diff =  date.time - modify.time
+                val numOfDays = (diff / (1000 * 60 * 60 * 24))
+                if(numOfDays>=days) {
+                    removedFiles.add(files[i])
+                }
+            }
+
+            removedFiles.forEach {
+                it.delete()
+            }
+        }
     }
 }

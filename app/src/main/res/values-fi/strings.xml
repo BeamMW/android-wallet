@@ -201,12 +201,12 @@
     <string name="transactions_deleted">Tapahtumat poistettu</string>
     <string name="delete_transactions">Poista tapahtumat</string>
     <string name="delete_transaction_text">Tämä tapahtuma poistetaan lompakostasi.</string>
-    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">Nämä tapahtumat poistetaan lompakostasi.</string>
+    <string name="cancell_transaction_warning_message">Haluatko varmasti peruuttaa tämän maksutapahtuman?</string>
+    <string name="delete_addresses_text">Nämä osoitteet poistetaan lompakostasi.</string>
+    <string name="delete_address_text">Tämä osoite poistetaan lompakostasi.</string>
+    <string name="delete_contacts_text">Nämä yhteystiedot poistetaan lompakostasi.</string>
+    <string name="delete_contact_text">Tämä yhteystieto poistetaan lompakostasi.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">generoitu automaattisesti</string>
@@ -447,4 +447,9 @@ osoitteella tai yhteystiedolla</string>
         <item>24 tunnissa</item>
         <item>Ei koskaan</item>
     </string-array>
+    <string name="save_wallet_logs">Tallenna lompakon lokitiedot</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

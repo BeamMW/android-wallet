@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.navigation.AnimBuilder

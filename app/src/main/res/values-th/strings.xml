@@ -201,12 +201,12 @@
     <string name="transactions_deleted">ธุรกรรมได้ถูกลบแล้ว</string>
     <string name="delete_transactions">ลบ​ธุรกรรม​</string>
     <string name="delete_transaction_text">ธุรกรรมนี้จะถูกลบออกจากกระเป๋าของคุณ</string>
-    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">ธุรกรรมเหล่านี้จะถูกลบออกจากกระเป๋าของคุณ</string>
+    <string name="cancell_transaction_warning_message">คุณแน่ใจที่จะยกเลิกการทำธุรกรรมนี้?</string>
+    <string name="delete_addresses_text">ที่อยู่เหล่านี้จะถูกลบออกจากกระเป๋าของคุณ</string>
+    <string name="delete_address_text">ที่อยู่นี้จะถูกลบออกจากกระเป๋าของคุณ</string>
+    <string name="delete_contacts_text">รายชื่อเหล่านี้จะถูกลบออกจากกระเป๋าของคุณ</string>
+    <string name="delete_contact_text">รายชื่อนี้จะถูกลบออกจากกระเป๋าของคุณ</string>
     <!--ReceiveFragment-->
     <string name="swap">สวอป</string>
     <string name="auto_generated">สร้างอัตโนมัติ</string>
@@ -447,4 +447,9 @@
         <item>ภายใน 24 ชั่วโมง</item>
         <item>ไม่มี</item>
     </string-array>
+    <string name="save_wallet_logs">เซฟ Log ของกระเป๋า</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

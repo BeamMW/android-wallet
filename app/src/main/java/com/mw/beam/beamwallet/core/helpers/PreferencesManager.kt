@@ -49,6 +49,8 @@ object PreferencesManager {
     const val KEY_LANGUAGE_CODE = "KEY_LANGUAGE_CODE"
     const val KEY_UNFINISHED_RESTORE = "KEY_UNFINISHED_RESTORE"
     const val KEY_RESTORED_FROM_TRUSTED = "KEY_RESTORED_FROM_TRUSTED"
+    const val KEY_LOGS = "KEY_LOGS"
+    const val KEY_DEFAULT_LOGS = "KEY_DEFAULT_LOGS"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

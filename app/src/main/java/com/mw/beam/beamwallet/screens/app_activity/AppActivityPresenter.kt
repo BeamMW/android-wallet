@@ -27,8 +27,6 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     override fun onViewCreated() {
         super.onViewCreated()
 
-        Log.d("TEST!!!!!!!!!","onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated onViewCreated")
-
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
@@ -45,7 +43,6 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     }
 
     override fun onNewIntent(txId: String?) {
-        Log.d("TEST!!!!!!!!!","onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent onNewIntent")
         if (!PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)
                 && repository.isWalletInitialized()) {
             if (App.isAuthenticated) {
@@ -57,6 +54,6 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     }
 
     override fun onPendingSend(info: PendingSendInfo) {
-        view?.startNewSnackbar({}, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee) })
+        view?.startNewSnackbar({ repository.cancelSendMoney(info.token) }, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee) })
     }
 }

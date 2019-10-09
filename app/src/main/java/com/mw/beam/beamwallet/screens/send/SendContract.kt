@@ -47,7 +47,7 @@ interface SendContract {
         fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean)
         fun clearErrors()
         fun clearToken(clearedToken: String?)
-        fun init(defaultFee: Int, maxFee: Int)
+        fun init(defaultFee: Int, max: Int)
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()

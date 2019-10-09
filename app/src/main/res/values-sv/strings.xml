@@ -445,4 +445,9 @@ Denna adress finns redan</string>
         <item>Inom 24 timmar</item>
         <item>Aldrig</item>
     </string-array>
+    <string name="save_wallet_logs">Spara plånboksloggar</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

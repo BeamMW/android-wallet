@@ -143,7 +143,7 @@
     <string name="export">내보내기</string>
     <string name="payment_proof">지불 증명</string>
     <string name="export_transaction_history_title">거래내역 내보내기</string>
-    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
+    <string name="export_transaction_history_text">거래 내역을 기기에 저장 하시겠습니까, 아니면 공유 하시겠습니까?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">활성화</string>
@@ -197,16 +197,16 @@
     <string name="my_sending_address">나의 보내는 주소</string>
     <string name="my_address">내 주소</string>
     <string name="transaction_deleted">거래 삭제</string>
-    <string name="save_contact">Save contact</string>
-    <string name="transactions_deleted">Transactions deleted</string>
-    <string name="delete_transactions">Delete transactions</string>
-    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
-    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="save_contact">연락처 저장</string>
+    <string name="transactions_deleted">거래 삭제됨</string>
+    <string name="delete_transactions">거래 내역 삭제</string>
+    <string name="delete_transaction_text">이 거래 기록은 지갑에서 삭제됩니다.</string>
+    <string name="delete_transactions_text">이 거래 기록들은 지갑에서 삭제됩니다.</string>
+    <string name="cancell_transaction_warning_message">이 거래를 정말 취소하시겠습니까?</string>
+    <string name="delete_addresses_text">이 주소들은 지갑에서 삭제됩니다.</string>
+    <string name="delete_address_text">이 주소는 지갑에서 삭제됩니다.</string>
+    <string name="delete_contacts_text">이 연락처는 지갑에서 삭제됩니다.</string>
+    <string name="delete_contact_text">이 연락처는 지갑에서 삭제됩니다.</string>
     <!--ReceiveFragment-->
     <string name="swap">바꾸기</string>
     <string name="auto_generated">자동 생성</string>
@@ -226,9 +226,9 @@
     <string name="edit_contact">컨트랙트 편집</string>
     <string name="advanced">추가기능</string>
     <string name="send_token_description">수신자의 주소를 입력하거나 스캔하세요</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
-    <string name="saved_to_downloads">Saved to downloads</string>
+    <string name="share">공유하기</string>
+    <string name="save_to_downloads">다운로드에 저장</string>
+    <string name="saved_to_downloads">다운로드에 저장됨</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">양 칸이 비어있습니다.</string>
     <string name="send_amount_zero_error">0 BEAM 이 될 수는 없습니다</string>
@@ -251,9 +251,9 @@
     <string name="outgoing_address">발신 주소</string>
     <string name="my_addresses">내 주소들</string>
     <string name="no_matching_address_found">일치한 주소가 없습니다</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">로컬 댓글은 공유되지 않습니다</string>
     <string name="address_already_exist_1">해당 주소는 이미 있습니다.</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
+    <string name="address_already_exist_2">주소를 저장할 수 없습니다. 해당 주소는 이미 존재합니다.</string>
     <string name="settings_report">문제 신고하기</string>
     <!--SettingsFragment-->
     <string name="settings_change_pass">지갑 비밀번호 바꾸기</string>
@@ -288,21 +288,21 @@
     <string name="no_name">이름 없음</string>
     <string name="address_deleted">주소 삭제됨</string>
     <string name="contact_deleted">연락처 삭제됨</string>
-    <string name="addresses_deleted">Addresses deleted</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="addresses_deleted">주소 삭제됨</string>
+    <string name="contacts_deleted">연락처 삭제됨</string>
     <string name="address">주소</string>
     <!--AddressFragment-->
     <string name="show_qr_code">QR 코드 보이기</string>
     <string name="delete_address">주소 삭제</string>
     <string name="delete_contact">연락처 삭제</string>
-    <string name="delete_addresses">Delete addresses</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_addresses">주소 삭제</string>
+    <string name="delete_contacts">연락처 삭제</string>
     <string name="transactions_list">거래내역</string>
     <string name="address_id">주소 ID</string>
     <string name="expiration_date">만료 일자</string>
     <string name="tag">태그</string>
     <string name="show_qr_code_short">QR 보이기</string>
-    <string name="expire_address_now">Expire addresss</string>
+    <string name="expire_address_now">주소 만료시키기</string>
     <!--EditAddressFragment-->
     <string name="active_address">주소 활성화</string>
     <string name="save">저장</string>
@@ -342,8 +342,7 @@
     <string name="owner_key_copied_message">소유자 키 코드가 클립보드에 복사되었습니다.</string>
     <string name="owner_key_code_description">신뢰할 수 있는 노드에게 소유자 키를 배포하면 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. \n\n 당신의 소유자 키를 다른 사람과 공유하지 마십시오 - 당신의 자금 상황이 추적 및 감시 당할 수 있습니다.</string>
     <string name="owner_key_verification_pass">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 비밀 번호를 입력해야 합니다.</string>
-    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
-You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
+    <string name="owner_key_verification_pass_finger">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑으로 전송된 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 2단계의 검증과정을 거쳐야 합니다. (비밀번호 입력과 지문인식)</string>
     <string name="notification_receive_content_title">새로운 거래 받는중</string>
     <!--BackgroundService-->
     <string name="notification_receive_content_text">세부사항을 보려면 클릭하세요</string>
@@ -375,9 +374,9 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="search_by_address_tag_or_name">주소, 태그 혹은 이름으로 검색하기</string>
     <string name="min_fee_error">최소 수수료는 %1$s GROTH 입니다</string>
     <string name="delete_all_transactions_related_to_this_address">해당 주소와 연관된 거래 모두 삭제하기</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_addresses">해당 주소와 연관된 거래 모두 삭제하기</string>
+    <string name="delete_all_transactions_related_to_this_contact">해당 주소와 연관된 거래 모두 삭제하기</string>
+    <string name="delete_all_transactions_related_to_this_contacts">해당 주소와 연관된 거래 모두 삭제하기</string>
     <string name="search_transaction">거래 검색</string>
     <string name="never_expires">만료 안됨</string>
     <string name="expires_in">%1$s 시간 %2$s 분 안에 만료됨</string>
@@ -430,20 +429,24 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">코드를 복사한 후에, 데스크탑에서는 노드를 돌리고 모바일 앱에서는 다음 버튼을 누르세요.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">노드가 연결할 수 없는 상태입니다. 다른 노드에 지갑을 연결하거나 자동 복구를 실행하십시오.</string>
     <string name="connecting">연결중...</string>
-    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
-address or contact</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">거래 ID , 코멘트 , 주소 혹은 연락처로 검색하기</string>
     <string name="address_details">주소 상세정보</string>
-    <string name="contact_details">Contact details</string>
-    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
-    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
-    <string name="crash_negative">No, thanks</string>
-    <string name="crash_positive">Send report</string>
+    <string name="contact_details">연락처 세부 정보</string>
+    <string name="crash_title">Beam 지갑이 알 수 없는 이유로 종료되었습니다</string>
+    <string name="crash_message">제한된 양의 정보를 당사에 보고하기로 동의 하시겠습니까? 에러 정보를 수집하면 버그를 훨씬 빨리 발견하고 수정할 수 있습니다. 이것은 에러 관련 보고서일 뿐이며 저희는 귀하의 데이터를 계속 수집하지는 않습니다.</string>
+    <string name="crash_negative">아니오, 괜찮습니다.</string>
+    <string name="crash_positive">신고하기</string>
     <string name="h">시</string>
-    <string name="m">mins</string>
-    <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="m">분</string>
+    <string name="s">초</string>
+    <string name="estimted_time">추정시간</string>
     <string-array name="receive_expires_periods">
         <item>24시간 이내</item>
         <item>안함</item>
     </string-array>
+    <string name="save_wallet_logs">지갑 로그 저장하기</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

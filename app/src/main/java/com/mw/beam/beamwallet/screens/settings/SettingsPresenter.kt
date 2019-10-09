@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
@@ -39,6 +40,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         updateConfirmTransactionValue()
         updateFingerprintValue()
         view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
+        view?.setLogSettings(repository.getLogSettings())
     }
 
     override fun onStart() {
@@ -121,6 +123,20 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         repository.setAllowOpenExternalLink(allowOpen)
     }
 
+    override fun onChangeLogSettings(days: Long) {
+        var d = when(days) {
+            0L->5L
+            1L->15L
+            2L->30L
+            else -> 0L
+        }
+        repository.saveLogSettings(d)
+
+        view?.setLogSettings(repository.getLogSettings())
+
+        App.self.clearLogs()
+    }
+
     override fun onChangeNodeAddress() {
         view?.clearInvalidNodeAddressError()
     }
@@ -137,6 +153,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onClearDataPressed() {
         view?.showClearDataDialog()
+    }
+
+    override fun onLogsPressed() {
+        view?.showLogsDialog()
     }
 
     override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {

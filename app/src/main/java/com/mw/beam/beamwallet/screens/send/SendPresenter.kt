@@ -112,7 +112,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.scannedAddress?.let {
                 view?.setAddress(it)
                 view?.handleAddressSuggestions(null)
-                view?.requestFocusToAmount()
+              //  view?.requestFocusToAmount()
             }
             state.scannedAmount?.let { view?.setAmount(it) }
 
@@ -316,7 +316,29 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 state.scannedAmount = qrObject.amount
             }
 
-            view?.requestFocusToAmount()
+            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+
+            if((state.scannedAmount == 0.0 || state.scannedAmount == null) && enteredAmount == 0L) {
+              android.os.Handler().postDelayed({
+                  view?.requestFocusToAmount()
+                  view?.showKeyboard()
+                  view?.clearErrors()
+                }, 200)
+            }
+            else{
+                android.os.Handler().postDelayed({
+                    view?.apply {
+                        val amount = getAmount()
+                        val fee = getFee()
+
+                        hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                                ?: 0, state.privacyMode)
+                    }
+
+                    view?.hideKeyboard()
+
+                }, 200)
+            }
         } else {
             view?.vibrate(100)
             view?.showNotBeamAddressError()

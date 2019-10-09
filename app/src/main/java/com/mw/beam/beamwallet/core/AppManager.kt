@@ -31,6 +31,8 @@ class AppManager {
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
+    var isResotred = false
+
     companion object {
         private var INSTANCE: AppManager? = null
 
@@ -245,6 +247,10 @@ class AppManager {
         isConnecting = true
 
         subOnConnectingChanged.onNext(0)
+    }
+
+    fun requestUTXO() {
+        wallet?.getUtxosStatus()
     }
 
     @SuppressLint("CheckResult")

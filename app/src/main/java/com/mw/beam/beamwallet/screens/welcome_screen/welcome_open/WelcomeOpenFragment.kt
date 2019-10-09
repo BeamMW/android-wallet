@@ -36,6 +36,8 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
 import android.os.Handler
 import androidx.activity.OnBackPressedCallback
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
  *  10/19/18.
@@ -195,6 +197,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         hideKeyboard()
         if (App.isShowedLockScreen) {
             App.isShowedLockScreen = false
+
+            (activity as? AppActivity)?.enableLeftMenu(true)
+
             findNavController().popBackStack()
         }
         else{

@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayout
 class TransactionsLockableTabLayout(context: Context, attributeSet: AttributeSet) : TabLayout(context, attributeSet) {
 
     fun setMode(mode: TransactionsFragment.Mode) {
-        TransitionManager.beginDelayedTransition(parent as ViewGroup?)
+       // TransitionManager.beginDelayedTransition(parent as ViewGroup?)
         when(mode){
             TransactionsFragment.Mode.NONE -> this.visibility = View.VISIBLE
             TransactionsFragment.Mode.EDIT -> this.visibility = View.GONE

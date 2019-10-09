@@ -447,4 +447,9 @@ address or contact</string>
         <item>24 часа</item>
         <item>Никогда</item>
     </string-array>
+    <string name="save_wallet_logs">Сохранить лог</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

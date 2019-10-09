@@ -17,9 +17,12 @@
 package com.mw.beam.beamwallet.screens.save_address
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddressContract.Repository, private val state: SaveAddressState)
     : BasePresenter<SaveAddressContract.View, SaveAddressContract.Repository>(view, repository), SaveAddressContract.Presenter {
@@ -66,6 +69,12 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
     }
 
     override fun onCancelPressed() {
+        val address = WalletAddress(WalletAddressDTO(state.address,"deleted","",0L,0L,0L))
+
+        TrashManager.add(state.address, address)
+
+        AppManager.instance.wallet?.deleteAddress(state.address)
+
         view?.close()
     }
 

@@ -49,6 +49,14 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
     }
 
+    override fun saveLogSettings(days:Long) {
+        PreferencesManager.putLong(PreferencesManager.KEY_LOGS,days)
+    }
+
+    override fun getLogSettings():Long {
+        return PreferencesManager.getLong(PreferencesManager.KEY_LOGS)
+    }
+
     override fun getSavedNodeAddress(): String? {
         return PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
     }

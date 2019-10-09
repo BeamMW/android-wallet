@@ -91,6 +91,10 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
+        if(AppManager.instance.isResotred) {
+            AppManager.instance.requestUTXO()
+        }
+
         view?.updateBlockchainInfo(AppManager.instance.getStatus().system)
 
         filter()

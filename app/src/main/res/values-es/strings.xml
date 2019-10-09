@@ -203,12 +203,12 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="transactions_deleted">Transacciones eliminadas</string>
     <string name="delete_transactions">Eliminar transacciones</string>
     <string name="delete_transaction_text">Esta transacción se eliminará de su wallet.</string>
-    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">Estas transacciones se eliminarán de su wallet.</string>
+    <string name="cancell_transaction_warning_message">¿Está seguro de que desea cancelar esta transacción?</string>
+    <string name="delete_addresses_text">Estas direcciones serán eliminadas de su wallet.</string>
+    <string name="delete_address_text">Esta dirección se eliminará de su wallet.</string>
+    <string name="delete_contacts_text">Estos contactos serán eliminados de su wallet.</string>
+    <string name="delete_contact_text">Este contacto se eliminará de su wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Intercambiar</string>
     <string name="auto_generated">auto-generado</string>
@@ -450,4 +450,9 @@ dirección o contacto</string>
         <item>En 24 horas</item>
         <item>Nunca</item>
     </string-array>
+    <string name="save_wallet_logs">Guardar registros del wallet</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

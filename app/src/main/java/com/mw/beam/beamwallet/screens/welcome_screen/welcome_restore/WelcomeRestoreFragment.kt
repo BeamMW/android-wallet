@@ -123,6 +123,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
             }
 
             btnNext.isEnabled = arePhrasesFilled()
+
+            hideKeyboard()
         }
 
         btnNext.setOnClickListener {

@@ -56,7 +56,9 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
+import android.util.Log
 import org.jetbrains.anko.doAsync
+import android.view.MotionEvent
 
 
 /**
@@ -72,6 +74,10 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+
+    var downX:Float = 0f
+    var downY:Float = 0f
+
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
         if (oldTransaction?.status != txDescription.status || dateLabel.text.isNullOrEmpty()) {
@@ -314,6 +320,45 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         registerForContextMenu(idLabel)
         registerForContextMenu(proofLabel)
         registerForContextMenu(kernelLabel)
+
+//        var listener = View.OnTouchListener(function = {view, motionEvent ->
+//
+//            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
+//                downX = view.getX() - motionEvent.getRawX();
+//                downY = motionEvent.getRawY()
+//            }
+//            else if (motionEvent.action == MotionEvent.ACTION_MOVE) {
+//                var x =  motionEvent.getRawX() + downX
+//
+//                if(x<0) {
+//                    x = 0f
+//                }
+//
+//                view.animate()
+//                        .x(x)
+//                        .y(view.y)
+//                        .setDuration(0)
+//                        .start()
+//
+//
+//            }
+//            else if (motionEvent.action == MotionEvent.ACTION_UP) {
+//                if (view.x > view.width/3) {
+//                    findNavController().popBackStack()
+//                }
+//                else{
+//                    view.animate()
+//                            .x( 0f)
+//                            .y(view.y)
+//                            .setDuration(0)
+//                            .start()
+//                }
+//            }
+//
+//                true
+//
+//        })
+//        mainScroll.setOnTouchListener(listener)
     }
 
 

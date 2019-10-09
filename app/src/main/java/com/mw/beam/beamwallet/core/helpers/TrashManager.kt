@@ -27,6 +27,8 @@ object TrashManager {
 
     val subOnTrashChanged: Subject<Action> = PublishSubject.create()
 
+    var ignoredAddress:String = ""
+
     fun add(id: String, address: WalletAddress) {
         val actionData = ActionData(listOf(), listOf(address))
         actions[id] = actionData

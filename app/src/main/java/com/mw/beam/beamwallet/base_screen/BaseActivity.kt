@@ -241,6 +241,11 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun showLockScreen() {
         if (App.isAuthenticated && !App.isShowedLockScreen) {
+            if ((this as? AppActivity)?.isMenuOpened() == true) {
+                (this as? AppActivity)?.closeMenu()
+            }
+            (this as? AppActivity)?.enableLeftMenu(false)
+
             App.isShowedLockScreen = true
 
             delegate.dismissAlert()

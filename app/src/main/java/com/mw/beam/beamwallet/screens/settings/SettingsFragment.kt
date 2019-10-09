@@ -143,6 +143,15 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
+    override fun setLogSettings(days: Long) {
+        logsValue.text =  when (days) {
+            0L ->  getString(R.string.all_time)
+            5L ->  getString(R.string.last_5_days)
+            15L ->  getString(R.string.last_15_days)
+            30L ->  getString(R.string.last_30_days)
+            else -> ""
+        }
+    }
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
         allowOpenLinkSwitch.isChecked = allowOpen
@@ -310,6 +319,46 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         ipportLayout.setOnClickListener {
             presenter?.onNodeAddressPressed()
+        }
+
+        logsLayout.setOnClickListener {
+            presenter?.onLogsPressed()
+        }
+    }
+
+    @SuppressLint("InflateParams")
+
+    override fun showLogsDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_log_screen_settings, null)
+
+            val time = LockScreenManager.getCurrentValue()
+            var valuesArray = mutableListOf<String>()
+            valuesArray.add(getString(R.string.last_5_days))
+            valuesArray.add(getString(R.string.last_15_days))
+            valuesArray.add(getString(R.string.last_30_days))
+            valuesArray.add(getString(R.string.all_time))
+
+            var tag = 0L
+            valuesArray.forEach { value ->
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+                button.tag = tag
+                (button as RadioButton).apply {
+                    text = value
+                    isChecked = value == logsValue.text
+                    setOnClickListener {
+                        presenter?.onChangeLogSettings(this.tag as Long)
+                        dialog?.dismiss()
+                    }
+                }
+
+                view.radioGroupLockSettings.addView(button)
+                tag++
+            }
+
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
 
@@ -505,6 +554,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         addNewCategory.setOnClickListener(null)
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)
+        logsLayout.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

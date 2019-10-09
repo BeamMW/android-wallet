@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
@@ -74,6 +75,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         state.mode = view?.getMode() ?: return
         state.password = view?.getPassword() ?: return
         state.seed = view?.getSeed()
+
+        AppManager.instance.isResotred = state.mode == WelcomeMode.RESTORE_AUTOMATIC
     }
 
     override fun onStart() {
