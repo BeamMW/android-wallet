@@ -560,12 +560,20 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.modifyTime!!)
     }
 
-    override fun showCancellAlert() {
+    override fun showCancelAlert() {
         showAlert(message = getString(R.string.cancell_transaction_warning_message),
                 title = getString(R.string.cancel_transaction),
                 btnConfirmText = getString(R.string.cancel),
                 btnCancelText = getString(R.string.back),
                 onConfirm = { presenter?.onCancelTransactionConfirm() })
+    }
+
+    override fun showDeleteAlert() {
+        showAlert(message = getString(R.string.delete_transaction_text),
+                title = getString(R.string.delete_transaction),
+                btnConfirmText = getString(R.string.delete),
+                btnCancelText = getString(R.string.cancel),
+                onConfirm = { presenter?.onDeleteTransactionsPressed() })
     }
 
 }
