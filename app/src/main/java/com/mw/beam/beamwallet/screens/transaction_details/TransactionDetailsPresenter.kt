@@ -18,11 +18,9 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -168,13 +166,11 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     }
 
     override fun onCancelTransaction() {
-        view?.showCancellAlert()
+        view?.showCancelAlert()
     }
 
     override fun onDeleteTransaction() {
-        state.txDescription?.let { view?.showDeleteSnackBar(it) }
-        repository.deleteTransaction(state.txDescription)
-        view?.finishScreen()
+        view?.showDeleteAlert()
     }
 
     override fun onStart() {
@@ -203,6 +199,12 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onCancelTransactionConfirm() {
         repository.cancelTransaction(state.txDescription)
+        view?.finishScreen()
+    }
+
+    override fun onDeleteTransactionsPressed() {
+        state.txDescription?.let { view?.showDeleteSnackBar(it) }
+        repository.deleteTransaction(state.txDescription)
         view?.finishScreen()
     }
 }
