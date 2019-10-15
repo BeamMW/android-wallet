@@ -39,6 +39,7 @@ interface TransactionsContract {
         fun showRepeatTransaction()
         fun showDeleteTransactionsSnackBar()
         fun deleteTransactions()
+        fun showInProgressToast()
     }
 
     interface Presenter: MvpPresenter<View> {

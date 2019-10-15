@@ -35,6 +35,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
 
+    val FORK_MIN_FEE = 100
+    var MAX_FEE = 2000
+    val DEFAULT_FEE = 100
+    val MAX_FEE_LENGTH = 15
+
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
@@ -42,12 +47,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
     private var categorySubscription: Disposable? = null
 
-    companion object {
-        const val FORK_MIN_FEE = 100
-        const val MAX_FEE = 1000
-        private const val DEFAULT_FEE = 10
-        private const val MAX_FEE_LENGTH = 15
-    }
+
 
     override fun onDestroy() {
         categorySubscription?.dispose()
@@ -57,6 +57,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onViewCreated() {
         super.onViewCreated()
+
+
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
         state.prevFee = DEFAULT_FEE.toLong()
@@ -86,6 +88,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.walletID != state.outgoingAddress?.walletID) {
+                AppManager.instance.lastGeneratedAddress = it.walletID
+
                 state.tags.clear()
                 state.isNeedGenerateNewAddress = false
                 state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID
@@ -227,6 +231,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onEnterFee(rawFee: String?) {
+
+
         rawFee?.let {
             view?.setFee(it)
             onFeeChanged(it)

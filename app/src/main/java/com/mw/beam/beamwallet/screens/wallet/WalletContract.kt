@@ -50,6 +50,7 @@ interface WalletContract {
         fun closeDrawer()
         fun clearAllNotification()
         fun showAllTransactions()
+        fun selectWalletMenu()
     }
 
     interface Presenter : MvpPresenter<View> {

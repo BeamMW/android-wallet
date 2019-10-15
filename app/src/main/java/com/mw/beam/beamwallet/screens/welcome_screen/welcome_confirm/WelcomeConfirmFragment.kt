@@ -223,8 +223,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     }
 
     override fun setTextToCurrentView(text: String) {
-        currentEditText?.setText(text)
-        currentEditText?.onEditorAction(currentEditText?.imeOptions!!)
+        currentEditText?.apply {
+            setText("")
+            append(text)
+            onEditorAction(imeOptions)
+        }
+//        currentEditText?.setText(text)
+//        currentEditText?.onEditorAction(currentEditText?.imeOptions!!)
     }
 
     override fun updateSuggestions(text: String) {

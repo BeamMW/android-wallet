@@ -18,9 +18,10 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.helpers.removeDatabase
+import com.mw.beam.beamwallet.core.AppConfig
+import java.io.File
+import com.mw.beam.beamwallet.core.Api.closeWallet
+import com.mw.beam.beamwallet.core.helpers.*
 
 /**
  *  10/19/18.
@@ -35,19 +36,25 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     override fun onStart() {
         super.onStart()
 
-        view?.init(repository.isFingerPrintEnabled())
-
-        isRestore = false
-
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
 
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
+            PreferencesManager.putBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE,false)
 
             removeDatabase()
-
-            view?.back()
         }
+
+        if (isRecoverDataBaseExists()) {
+            repository?.closeWallet()
+            checkRecoverDataBase()
+            repository?.isWalletInitialized()
+        }
+
+
+        view?.init(repository.isFingerPrintEnabled())
+
+        isRestore = false
     }
 
     override fun onOpenWallet() {
@@ -78,7 +85,24 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     }
 
     override fun onChangeConfirm() {
+        val oldFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
+        val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+
+        if (oldFile.exists()) {
+            oldFile.copyTo(recoverFile,true)
+        }
+
+        val journalOldFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME)
+        val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
+
+        if (journalOldFile.exists()) {
+            journalOldFile.copyTo(journalRecoverFile,true)
+        }
+
+        App.self.stopBackgroundService()
+
         isRestore = true
+
         view?.changeWallet()
     }
 

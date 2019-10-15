@@ -340,10 +340,10 @@
     <string name="owner_key_verification_fingerprint_description">กรุณาใช้งานการสแกนนิ้วมือตรวจสอบ</string>
     <string name="key_code">Key code</string>
     <string name="owner_key_copied_message">ได้ทำการคัดลอก Owner Key ไปยังคลิปบอร์ดแล้ว</string>
-    <string name="owner_key_code_description">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ\n\nเพื่อเป็นการป้องกันการเข้าถึงข้อมูลทรัพย์สินของคุณ กรุณาอย่าได้แชร์ Owner Key กับผู้อื่น</string>
-    <string name="owner_key_verification_pass">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
+    <string name="owner_key_code_description">การติดตั้ง Owner Key ใน  Trusted Node นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ\n\nเพื่อเป็นการป้องกันการเข้าถึงข้อมูลทรัพย์สินของคุณ กรุณาอย่าได้แชร์ Owner Key กับผู้อื่น</string>
+    <string name="owner_key_verification_pass">การติดตั้ง Owner Key ใน  Trusted Node นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
 คุณจะต้องกรอกรหัสผ่านเพื่อที่จะดู Owner Key ของคุณ</string>
-    <string name="owner_key_verification_pass_finger">การติดตั้ง Owner Key ใน Node ที่เชื่อถือได้นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
+    <string name="owner_key_verification_pass_finger">การติดตั้ง Owner Key ใน Trusted Node นั้นจะทำให้ Node สามารถดูข้อมูล UTXO ทั้งหมดที่ส่งมายังกระเป๋านี้รวมถึงกระเป๋าทุกใบที่ถูกสร้างมาจากกลุ่มคำลับของคุณ
 คุณจะต้องผ่านการยืนยัน 2 ขั้นตอน (กรอกรหัสผ่านหรือใช้สแกนลายนิ้วมือ) เพื่อที่จะดู Owner Key ของคุณ</string>
     <string name="notification_receive_content_title">กำลังรับธุรกรรมใหม่</string>
     <!--BackgroundService-->
@@ -388,8 +388,8 @@
     <string name="fingerprint_not_recognized">ไม่รู้จักลายนิ้วมือนั้ โปรดลองอีกครั้ง</string>
     <string name="address_copied_to_clipboard">คัดลอกที่อยู่ไปยังคลิปบอร์ดแล้ว</string>
     <string name="copied_to_clipboard">คัดลอกลงคลิปบอร์ดแล้ว</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">กระเป๋า Beam จะทำการดาวน์โหลดข้อมูลบล็อคเชนจากคลาวด์</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">กระเป๋า Beam จะทำการเชื่อมต่อไปยัง Node ที่กำหนดและ Node จะทำการค้นหาทรัพสินย์ของคุณในบล็อกเชน</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">กระเป๋า Beam จะทำการดาวน์โหลดข้อมูลบล็อคเชนและกู้คืนข้อมูลทรัพย์สินของคุณลงบนอุปกรณ์</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">ดึงข้อมูลจาก Node ที่ไว้ใจได้</string>
     <string name="automatic_restore_recommended">ดึงข้อมูลอัตโนมัติ (แนะนำ)</string>
     <string name="enter_trusted_node_address">กรอกที่อยู่ของ Node ที่ไว้ใจได้</string>
@@ -448,8 +448,8 @@
         <item>ไม่มี</item>
     </string-array>
     <string name="save_wallet_logs">เซฟ Log ของกระเป๋า</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">ทุกช่วงเวลา</string>
+    <string name="last_5_days">5 วันที่แล้ว</string>
+    <string name="last_15_days">15 วันที่แล้ว</string>
+    <string name="last_30_days">30 วันที่แล้ว</string>
 </resources>

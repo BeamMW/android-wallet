@@ -82,5 +82,32 @@ fun removeNodeDatabase() {
     File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME).delete()
 }
 
+fun checkRecoverDataBase() {
+    val oldFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
+    val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+
+    if (recoverFile.exists()) {
+        if(oldFile.exists()) {
+            oldFile.delete()
+        }
+        recoverFile.renameTo(oldFile)
+    }
+
+    val journalOldFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME)
+    val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
+
+    if (journalRecoverFile.exists()) {
+        if(journalOldFile.exists()) {
+            journalOldFile.delete()
+        }
+        journalRecoverFile.renameTo(journalOldFile)
+    }
+}
+
+fun isRecoverDataBaseExists() : Boolean {
+    val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+    return recoverFile.exists()
+}
+
 
 

@@ -403,6 +403,10 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         },titleText,getString(R.string.cancel))
     }
 
+    override fun showInProgressToast() {
+
+    }
+
     override fun changeMode(mode: Mode) {
         this.mode = mode
         tabLayout.setMode(mode)

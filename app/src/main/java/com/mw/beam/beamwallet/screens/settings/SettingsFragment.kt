@@ -56,6 +56,8 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import android.os.Build
+
 
 
 /**
@@ -84,6 +86,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         appVersionValue.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
+
 
         if(!runOnRandomNode)
         {

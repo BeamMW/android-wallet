@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="344dp"
-    android:layout_height="48dp"
-    android:layout_marginBottom="20dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/undo_card_background"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="344dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="bottom|center"
-    app:cardCornerRadius="5dp"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_marginBottom="20dp"
+    app:cardBackgroundColor="@color/undo_card_background"
+    app:cardCornerRadius="5dp">
+
     <LinearLayout
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="10dp">
+
         <FrameLayout
-            android:visibility="gone"
-            tools:visibility="visible"
             android:id="@+id/timerView"
-            android:layout_gravity="center"
             android:layout_width="35dp"
-            android:layout_height="35dp">
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible">
+
             <ProgressBar
                 android:id="@+id/progressTimer"
-                android:padding="0dp"
-                android:indeterminate="false"
-                android:progress="10"
-                android:secondaryProgress="100"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:background="@drawable/circle_border"
-                android:max="100"
-                android:progressDrawable="@drawable/progressbar_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_border"
+                android:indeterminate="false"
+                android:max="100"
+                android:padding="0dp"
+                android:progress="10"
+                android:progressDrawable="@drawable/progressbar_bg"
+                android:secondaryProgress="100" />
 
             <TextView
                 android:id="@+id/undoTime"

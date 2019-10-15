@@ -100,6 +100,8 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     }
 
     override fun onConfirmDeleteTransactions(transactions: List<String>) {
+        var hasInProgress = false
+
         removedTransactions.clear()
         removedTransactions.addAll(transactions)
 
@@ -107,8 +109,17 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
             val id = transactions[i]
             val transaction = AppManager.instance.getTransaction(id)
             if (transaction != null) {
-                repository.deleteTransaction(transaction)
+                if(!transaction.isInProgress()) {
+                    repository.deleteTransaction(transaction)
+                }
+                else{
+                    hasInProgress = true
+                }
             }
+        }
+
+        if (hasInProgress) {
+            view?.showInProgressToast()
         }
     }
 

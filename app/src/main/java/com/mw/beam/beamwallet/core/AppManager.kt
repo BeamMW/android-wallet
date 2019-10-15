@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.core
 
 import android.annotation.SuppressLint
+import android.util.Log
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -8,9 +9,13 @@ import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
+import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
+import java.util.Calendar
 
 class AppManager {
     var wallet: Wallet? = null
+
+    var lastGeneratedAddress:String? = null
 
     private var handler:android.os.Handler? = null
 
@@ -181,6 +186,24 @@ class AppManager {
         return result
     }
 
+    fun getAllTransactionsByAddress(id: String?) : List<TxDescription> {
+        var result = mutableListOf<TxDescription>()
+
+        transactions.forEach {
+            if (it.myId == id || it.peerId == id) {
+                result.add(it)
+            }
+        }
+
+        TrashManager.getAllData().transactions.forEach() {
+            if (it.myId == id || it.peerId == id) {
+                result.add(it)
+            }
+        }
+
+        return result
+    }
+
     fun getTransactions() : List<TxDescription> {
         return transactions.map { it }.toList()
     }
@@ -253,10 +276,27 @@ class AppManager {
         wallet?.getUtxosStatus()
     }
 
+    fun unSubscribeToUpdates() {
+        if (isSubscribe) {
+            Log.e("UN_SUBSCRIBE","UN_SUBSCRIBE")
+
+            isSubscribe = false
+        }
+    }
+
+    fun updateAllData() {
+        wallet?.getWalletStatus()
+        wallet?.getUtxosStatus()
+        wallet?.getAddresses(true)
+        wallet?.getAddresses(false)
+    }
+
     @SuppressLint("CheckResult")
     fun subscribeToUpdates() {
         if (!isSubscribe)
         {
+            Log.e("SUBSCRIBE","SUBSCRIBE")
+
             isSubscribe = true
 
             TrashManager.subOnTrashChanged.subscribe(){ item ->
@@ -310,6 +350,10 @@ class AppManager {
                 }
 
                 deleteTransactions(TrashManager.getAllData().transactions)
+
+                transactions.removeAll {item ->
+                    calendarFromTimestamp(item.createTime).get(Calendar.YEAR) == 1970
+                }
 
                 subOnTransactionsChanged.onNext(0)
             }

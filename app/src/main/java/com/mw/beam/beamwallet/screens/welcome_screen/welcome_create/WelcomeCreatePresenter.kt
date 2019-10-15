@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
+import java.io.File
 
 /**
  *  12/4/18.

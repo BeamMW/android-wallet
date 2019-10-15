@@ -114,8 +114,16 @@ class BackgroundService : JobService() {
 
         val password = repository.getPassword()
 
-        if (repository.isWalletRunning() || password.isNullOrBlank()) {
+        if (password.isNullOrBlank()) {
             return false
+        }
+
+        if (repository.isWalletRunning()) {
+            LogUtils.log("$LOG_TAG::onStartJob::Subscribe")
+            txDisposable = repository.getTxStatus().subscribe {
+                receiveOnTxData(it)
+            }
+            return true
         }
 
         val status = repository.openWallet(password)

@@ -405,8 +405,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="fingerprint_not_recognized">无法识别指纹</string>
     <string name="address_copied_to_clipboard">地址已被复制到剪贴板</string>
     <string name="copied_to_clipboard">已复制到剪贴板</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam钱包将会从云端下载区块链快照</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam钱包将连接到指定节点，指定节点将会从区块链中读取您的所有资金</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">通过信任节点恢复</string>
     <string name="automatic_restore_recommended">自动恢复(推荐)</string>
     <string name="enter_trusted_node_address">请输入信任的节点地址</string>

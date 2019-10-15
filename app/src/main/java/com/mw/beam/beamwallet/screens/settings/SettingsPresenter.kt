@@ -176,9 +176,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         if (clearTransactions) {
-            val trashId = "clear_data"
-            TrashManager.add(trashId, TrashManager.ActionData(state.transactions.toList(), listOf()))
-            state.transactions.forEach { repository.deleteTransaction(it) }
+            state.transactions.forEach {
+                repository.deleteTransaction(it)
+            }
         }
     }
 

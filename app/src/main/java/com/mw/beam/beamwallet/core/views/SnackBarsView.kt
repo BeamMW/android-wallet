@@ -49,7 +49,18 @@ class SnackBarsView: FrameLayout {
     constructor(context: Context) : super(context)
 
     fun show(message: String, onDismiss: (() -> Unit)? = null, onUndo: (() -> Unit)? = null) {
-        dismiss()
+     //   dismiss()
+
+        smoothAnimation?.cancel()
+        smoothAnimation = null
+
+        timer?.cancel()
+        timer = null
+
+        info = null
+
+        removeAllViews()
+        removeAllViewsInLayout()
 
         info = SnackBarInfo(message, onDismiss, onUndo)
 

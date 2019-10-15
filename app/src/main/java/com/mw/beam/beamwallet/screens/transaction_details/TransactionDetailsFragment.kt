@@ -136,12 +136,18 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 share_transaction_details = ShareTransactionDetailsView(context!!)
 
                 if (share_transaction_details != null) {
+
+                    //temp solution!
+                    var h = 700
+                    if (presenter?.state?.txDescription?.status == TxStatus.Cancelled || presenter?.state?.txDescription?.status == TxStatus.Failed
+                            || presenter?.state?.txDescription?.kernelId?.contains("000000000") == true) {
+                        h = 640
+                    }
+
                     share_transaction_details?.configGeneralTransactionInfo(presenter?.state?.txDescription)
                     share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context, 420),
-                            ViewGroup.LayoutParams.WRAP_CONTENT)
+                            ScreenHelper.dpToPx(context, h))
                     mainContent.addView(share_transaction_details, 0)
-                    share_transaction_details?.refreshDrawableState()
-                    share_transaction_details?.requestLayout()
                     share_transaction_details?.alpha = 0f
                 }
 

@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/initial_background"
+    android:id="@+id/mainLayout"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
+        android:id="@+id/topLayout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,6 +16,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
             android:id="@+id/btnBack"
+            android:visibility="gone"
             android:contentDescription="@null"
             android:src="@drawable/ic_back"
             android:layout_width="wrap_content"
@@ -43,8 +45,8 @@
     <ScrollView
         android:fillViewport="true"
         android:layout_width="match_parent"
+        android:background="@drawable/initial_background"
         android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +66,7 @@
 
             <TextView
                 android:id="@+id/logoText"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/welcome_logo_text_margin_top"
                 android:fontFamily="@font/slogan_font"
@@ -93,11 +95,12 @@
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnCreate"
                 style="@style/common_button_style"
+                android:layout_marginTop="@dimen/welcome_testnet_text_margin"
                 app:button_icon="@drawable/ic_btn_create"
+                app:lower_case="true"
                 app:button_text="@string/create_new_wallet"
                 app:layout_constraintBottom_toTopOf="@id/btnRestore"
                 android:layout_marginBottom="@dimen/welcome_button_margin_offset"
-                app:lower_case="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/flavorText"
@@ -132,5 +135,4 @@
                 android:layout_height="wrap_content" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </LinearLayout>

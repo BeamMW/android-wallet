@@ -46,12 +46,18 @@ import android.view.Display
 import java.io.File
 import java.util.*
 import android.graphics.Point
+import com.mw.beam.beamwallet.core.helpers.checkRecoverDataBase
+import com.mw.beam.beamwallet.core.utils.LogUtils
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 
 
 /**
  *  10/1/18.
  */
 class App : Application() {
+
+    var subOnStatusResume: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     companion object {
         lateinit var self: App
@@ -69,11 +75,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver{
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume(){
                 is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
+                subOnStatusResume.onNext(0)
+
+                if (isAuthenticated) {
+                    AppManager.instance.updateAllData()
+                }
             }
         })
 
@@ -89,12 +99,6 @@ class App : Application() {
             else -> 0
         }
 
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            // This process is dedicated to LeakCanary for heap analysis.
-//            // You should not init your app in this process.
-//            return
-//        }
-
         self = this
 
         AppConfig.DB_PATH = filesDir.absolutePath
@@ -102,34 +106,22 @@ class App : Application() {
         AppConfig.ZIP_PATH = AppConfig.LOG_PATH + "/logs.zip"
         AppConfig.TRANSACTIONS_PATH = AppConfig.DB_PATH + "/transactions"
         AppConfig.CACHE_PATH = AppConfig.DB_PATH + "/cache"
-        LocaleHelper.loadLocale()
-
-//        if (BuildConfig.DEBUG) {
-//            LeakCanary.install(self)
-//        }
 
         if (PreferencesManager.getBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE)) {
-
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, "")
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
-
+            PreferencesManager.putBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE, false);
             removeDatabase()
         }
 
-        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        val jobInfo = JobInfo.Builder(BACKGROUND_JOB_ID, ComponentName(applicationContext, BackgroundService::class.java))
-                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
-                .setPersisted(true)
-                .build()
+        checkRecoverDataBase()
 
-        jobScheduler.schedule(jobInfo)
+        LocaleHelper.loadLocale()
 
         if (PreferencesManager.getString(PreferencesManager.KEY_DEFAULT_LOGS) == null) {
             PreferencesManager.putString(PreferencesManager.KEY_DEFAULT_LOGS,PreferencesManager.KEY_DEFAULT_LOGS)
             PreferencesManager.putLong(PreferencesManager.KEY_LOGS,5L)
         }
-
-        clearLogs()
 
         XLog.init(LogConfiguration.Builder()
                 .logLevel(LogLevel.ALL)
@@ -139,9 +131,24 @@ class App : Application() {
                         .Builder(AppConfig.LOG_PATH)
                         .fileNameGenerator(DateFileNameGenerator())
                         .backupStrategy(NeverBackupStrategy())
-                        .cleanStrategy(FileLastModifiedCleanStrategy(AppConfig.LOG_CLEAN_TIME))
                         .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
                         .build())
+
+      clearLogs()
+    }
+
+    fun startBackgroundService() {
+        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        val jobInfo = JobInfo.Builder(BACKGROUND_JOB_ID, ComponentName(applicationContext, BackgroundService::class.java))
+                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
+                .setPersisted(true)
+                .build()
+        jobScheduler.schedule(jobInfo)
+    }
+
+    fun stopBackgroundService() {
+        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+        jobScheduler.cancelAll()
     }
 
     fun clearLogs() {
@@ -157,19 +164,29 @@ class App : Application() {
 
         if (files!=null)
         {
+            files.sortBy {
+                it.lastModified()
+            }
+
+            val date = Calendar.getInstance().time
+
             var removedFiles = mutableListOf<File>()
             for (i in files.indices) {
-                val modify = Date(files[i].lastModified())
-                val date = Calendar.getInstance().time
-                val diff =  date.time - modify.time
-                val numOfDays = (diff / (1000 * 60 * 60 * 24))
-                if(numOfDays>=days) {
-                    removedFiles.add(files[i])
+                if (files[i].exists()) {
+                    val modify = Date(files[i].lastModified())
+                    val diff =  date.time - modify.time
+                    val numOfDays = (diff / (1000 * 60 * 60 * 24))
+
+                    if(numOfDays>=days) {
+                        removedFiles.add(files[i])
+                    }
                 }
             }
 
             removedFiles.forEach {
-                it.delete()
+                if(it.exists()) {
+                    it.delete()
+                }
             }
         }
     }

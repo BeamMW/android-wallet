@@ -386,8 +386,8 @@
     <string name="fingerprint_not_recognized">지문 인증 실패</string>
     <string name="address_copied_to_clipboard">주소가 클립보드에 저장 되었습니다.</string>
     <string name="copied_to_clipboard">클립보드에 복사되었습니다.</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam 지갑이 클라우드에서 블록체인 스냅샷을 다운로드 받을 것입니다.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam 지갑은 특정 노드와 연결될 것이며 당신의 자금을 블록체인에서 검색할 것입니다.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">신뢰할 수 있는 노드로 복구하기</string>
     <string name="automatic_restore_recommended">자동 복구(추천방식)</string>
     <string name="enter_trusted_node_address">신뢰할 수 있는 노드 주소를 입력하세요</string>

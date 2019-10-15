@@ -56,14 +56,25 @@ open class BaseRepository : MvpRepository {
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
+            if (PreferencesManager.getString(PreferencesManager.KEY_PASSWORD) != pass) {
+                LogUtils.logResponse(result, "openWallet")
+                return result
+            }
+
             if (!Api.isWalletRunning()) {
-                AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                try {
+                    AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                }
+                catch(e:Exception) {
+                    return  Status.STATUS_ERROR
+                }
 
                 if (wallet != null) {
                     PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                     result = Status.STATUS_OK
                 }
-            } else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
+            }
+            else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
                 result = Status.STATUS_OK
             }
         }
@@ -77,10 +88,12 @@ open class BaseRepository : MvpRepository {
     }
 
     override fun closeWallet() {
-        getResult("closeWallet") {
-            if (Api.isWalletRunning()) {
-                AppManager.instance.wallet = null
+        if (Api.isWalletRunning()) {
+            getResult("closeWallet") {
                 Api.closeWallet()
+                AppManager.instance.wallet = null
+                AppManager.instance.unSubscribeToUpdates()
+
             }
         }
     }

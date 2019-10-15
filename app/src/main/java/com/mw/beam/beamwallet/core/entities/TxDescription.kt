@@ -48,6 +48,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val selfTx: Boolean = source.selfTx
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
 
+    fun isInProgress():Boolean {
+        return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
+    }
+
     override fun toString(): String {
         return "\n\nTxDescription(\n id=$id\n amount=$amount\n fee=$fee\n status=${status.name}\n kernelId=$kernelId\n change=$change\n minHeight=$minHeight\n " +
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"

@@ -41,6 +41,7 @@ import com.mw.beam.beamwallet.core.AppManager
 import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
+import android.content.Intent
 
 
 
@@ -57,8 +58,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                 (activity as? AppActivity)?.closeMenu()
             }
             else{
-                App.isAuthenticated = false
-                activity?.finish()
+                val setIntent = Intent(Intent.ACTION_MAIN)
+                setIntent.addCategory(Intent.CATEGORY_HOME)
+                setIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(setIntent)
             }
         }
     }
@@ -92,8 +95,11 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configAvailable(availableAmount: Long, maturingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+        balanceViewPager.adapter = balancePagerAdapter
+        indicator.setViewPager(balanceViewPager)
         balancePagerAdapter.available = availableAmount
         balancePagerAdapter.maturing = maturingAmount
+        balancePagerAdapter.notifyDataSetChanged()
 
         val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
@@ -120,6 +126,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             }
             else -> {
                 receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receiving.requestLayout()
+                receiving.refreshDrawableState()
                 receivingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
             }
         }
@@ -167,7 +175,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
         balancePagerAdapter = BalancePagerAdapter(context!!)
         balanceViewPager.adapter = balancePagerAdapter
-
         indicator.setViewPager(balanceViewPager)
     }
 
@@ -257,7 +264,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
         animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
         beginTransition()
-
 
         val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
@@ -357,18 +363,25 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         super.onStart()
 
         App.showNotification = false
+
         onBackPressedCallback.isEnabled = true
     }
 
     override fun onStop() {
         App.showNotification = true
+
         onBackPressedCallback.isEnabled = false
+
         super.onStop()
     }
 
 
     override fun clearAllNotification() {
         (context?.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager)?.cancelAll()
+    }
+
+    override fun selectWalletMenu() {
+        (activity as? AppActivity)?.selectItem(NavItem.ID.WALLET)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

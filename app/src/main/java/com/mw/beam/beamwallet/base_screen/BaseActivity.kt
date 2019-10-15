@@ -41,6 +41,7 @@ import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.Log
 import java.util.*
 
 
@@ -218,7 +219,9 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter?.onDestroy()
         presenter = null
+
         unregisterReceiver(lockScreenReceiver)
+
         super.onDestroy()
     }
 
@@ -240,7 +243,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun showLockScreen() {
-        if (App.isAuthenticated && !App.isShowedLockScreen) {
+        Log.d("lockApp","showLockScreen")
+
+        if ((App.isAuthenticated && !App.isShowedLockScreen) ||
+                (App.isAuthenticated && App.isShowedLockScreen && LockScreenManager.isNeedLocked)) {
+            Log.d("lockApp","try showLockScreen")
+
             if ((this as? AppActivity)?.isMenuOpened() == true) {
                 (this as? AppActivity)?.closeMenu()
             }
@@ -271,12 +279,21 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
             findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
         }
+        else{
+            Log.d("lockApp","not showLockScreen")
+        }
     }
 
 
     override fun logOut() {
         if (App.isAuthenticated) {
             App.isAuthenticated = false
+            startActivity(Intent(this, AppActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+        }
+        else{
             startActivity(Intent(this, AppActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })

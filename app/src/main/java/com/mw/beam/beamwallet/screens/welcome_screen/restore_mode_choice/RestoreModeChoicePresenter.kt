@@ -1,7 +1,9 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.restore_mode_choice
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import java.io.File
 
 class RestoreModeChoicePresenter(view: RestoreModeChoiceContract.View?, repository: RestoreModeChoiceContract.Repository)
     : BasePresenter<RestoreModeChoiceContract.View, RestoreModeChoiceContract.Repository>(view, repository), RestoreModeChoiceContract.Presenter {

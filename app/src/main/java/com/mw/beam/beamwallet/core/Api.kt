@@ -26,6 +26,8 @@ import android.app.DownloadManager
 import android.net.Uri
 import android.os.Handler
 import com.mw.beam.beamwallet.R
+import android.util.Log
+
 
 /**
  *  10/1/18.
@@ -33,9 +35,20 @@ import com.mw.beam.beamwallet.R
 
 
 object Api {
+   // var isLoaded = false
+
     init {
         System.loadLibrary("wallet-jni")
+
+//        isLoaded = try {
+//            System.loadLibrary("wallet-jni")
+//            true
+//        } catch (e: java.lang.UnsatisfiedLinkError) {
+//            Log.e("CRASH", "System.loadLibrary CRASH")
+//            false
+//        }
     }
+
     external fun createWallet(appVersion: String, nodeAddr: String, dbPath: String, pass: String, phrases: String, restore: Boolean = false): Wallet?
     external fun openWallet(appVersion: String, nodeAddr: String, dbPath: String, pass: String): Wallet?
     external fun isWalletInitialized(dbPath: String): Boolean

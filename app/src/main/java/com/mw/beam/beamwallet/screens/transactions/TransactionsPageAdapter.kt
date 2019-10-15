@@ -23,7 +23,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -31,6 +30,7 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import androidx.recyclerview.widget.LinearLayoutManager as LinearLayoutManager1
 
 class TransactionsPageAdapter(private val context: Context,
                                onTxLongClickListener: TransactionsAdapter.OnLongClickListener? = null,
@@ -48,7 +48,7 @@ class TransactionsPageAdapter(private val context: Context,
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup
 
         val recyclerView = layout.findViewById<com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport>(R.id.list)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager1(context)
 
         val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
 

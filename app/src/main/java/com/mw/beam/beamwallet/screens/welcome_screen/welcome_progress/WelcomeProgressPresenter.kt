@@ -359,7 +359,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         shouldCloseWallet = true
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
-        repository.closeWallet()
 
         view?.navigateToCreateFragment()
     }

@@ -24,16 +24,21 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".screens.app_activity.SplashActivity" android:theme="@style/SplashTheme">
+        <activity android:name=".screens.app_activity.SplashActivity" android:theme="@style/SplashTheme"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".screens.app_activity.AppActivity"
-            android:launchMode="singleTop"
+    <!--            -->
+
+    <activity android:name=".screens.app_activity.AppActivity"
             android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
 

@@ -419,8 +419,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download the blockchain snapshot from the cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific node and node will find all your funds in a blockchain.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">Restore with trusted node</string>
     <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
     <string name="enter_trusted_node_address">Enter trusted node address</string>

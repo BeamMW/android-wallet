@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
 
@@ -48,16 +49,23 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         } else {
             view?.clearAllNotification()
         }
+
+        view?.selectWalletMenu()
     }
 
     override fun onStart() {
         super.onStart()
+
         notifyPrivacyStateChange()
+
         view?.addTitleListeners(state.privacyMode)
     }
 
     private fun notifyPrivacyStateChange() {
         val privacyModeEnabled = repository.isPrivacyModeEnabled()
+        if(privacyModeEnabled == state.privacyMode) {
+            return
+        }
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
 

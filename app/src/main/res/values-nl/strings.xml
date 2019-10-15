@@ -388,8 +388,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="fingerprint_not_recognized">Vingerafdruk niet herkend</string>
     <string name="address_copied_to_clipboard">Adres naar klembord gekopieerd</string>
     <string name="copied_to_clipboard">Naar klembord gekopieerd</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Portemonnee zal de blockchain snapshot downloaden uit de cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet zal verbinding maken met specifieke node en de node zal al uw tegoeden vinden in de blockchain.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">Herstellen met vertrouwde node</string>
     <string name="automatic_restore_recommended">AUTOMATISCH HERSTEL (aanbevolen)</string>
     <string name="enter_trusted_node_address">Voer vertrouwd node adres in</string>
@@ -447,8 +447,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
         <item>Nooit</item>
     </string-array>
     <string name="save_wallet_logs">Wallet logs opslaan</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">Voor altijd</string>
+    <string name="last_5_days">Afgelopen 5 dagen</string>
+    <string name="last_15_days">Afgelopen 15 dagen</string>
+    <string name="last_30_days">Afgelopen 30 dagen</string>
 </resources>

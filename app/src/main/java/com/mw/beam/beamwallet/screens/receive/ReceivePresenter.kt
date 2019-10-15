@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.receive
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.subscribeIf
@@ -30,9 +31,13 @@ import io.reactivex.disposables.Disposable
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
+
     private lateinit var walletIdSubscription: Disposable
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
     private var categorySubscription: Disposable? = null
+
+    private var oldName:String? = null
+    private var oldDuration = 0L
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -50,6 +55,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.walletID != state.address?.walletID) {
+                oldName = it.label
+                oldDuration = it.duration
                 state.address = it
                 state.tags.clear()
                 initViewAddress(it)
@@ -190,6 +197,17 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         else if (!state.tags.containsAll(savedTags) && state.tags.count() > 0) {
             return true
         }
+        else if (oldName!=null){
+            val oldAddress = AppManager.instance.getAddress(state?.address?.walletID)
+            if (oldAddress!=null) {
+                if (oldName != state?.address?.label) {
+                    return true
+                }
+                else if (oldDuration != state?.address?.duration) {
+                    return true
+                }
+            }
+        }
         return false
     }
 
@@ -198,10 +216,17 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateAddress) {
             if (state.address == null) {
-                state.address = it
-                state.generatedAddress = it
-                view?.initAddress(true, it)
-                view?.setTags(repository.getAddressTags(it.walletID))
+                val tr = AppManager.instance.getAllTransactionsByAddress(it.walletID)
+                if (tr.count() == 0 && AppManager.instance.lastGeneratedAddress != it.walletID)
+                {
+                    AppManager.instance.lastGeneratedAddress = it.walletID
+
+                    state.address = it
+                    state.generatedAddress = it
+                    view?.initAddress(true, it)
+                    view?.setTags(repository.getAddressTags(it.walletID))
+                    state.isNeedGenerateAddress = false
+                }
             }
         }
 

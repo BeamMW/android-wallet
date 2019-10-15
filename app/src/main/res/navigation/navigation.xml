@@ -110,6 +110,13 @@
             android:name="isTrustedRestore"
             app:argType="boolean"
             android:defaultValue="false" />
+        <action
+            android:id="@+id/action_welcomeProgressFragment_to_welcomeOpenFragment"
+            app:destination="@id/welcomeOpenFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/welcomeSeedFragment"

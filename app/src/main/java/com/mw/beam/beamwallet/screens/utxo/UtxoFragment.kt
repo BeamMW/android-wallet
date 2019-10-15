@@ -145,7 +145,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
 
     private fun setVisibility() {
-        if (presenter?.repository?.isPrivacyModeEnabled() == false) {
+        if (presenter?.repository?.isPrivacyModeEnabled() == false && utxoPrivacyMessage!=null) {
 
             utxoPrivacyMessage.setPadding(0,0,0,170)
 
@@ -162,7 +162,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
                 tabLayout.visibility = View.VISIBLE
             }
         }
-        else{
+        else if (utxoPrivacyMessage!=null){
             utxoPrivacyMessage.setPadding(0,0,0,50)
 
             privacyLabel.text = getString(R.string.utxo_security_message) + "\n" + getString(R.string.utxo_turn_off_see_utxo)

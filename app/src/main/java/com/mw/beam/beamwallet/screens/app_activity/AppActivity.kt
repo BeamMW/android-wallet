@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.navigation.AnimBuilder
@@ -46,6 +47,10 @@ import androidx.navigation.NavOptions
 import android.widget.TextView
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import io.reactivex.disposables.Disposable
+
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
@@ -62,8 +67,10 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private var result: Drawer? = null
     private lateinit var navigationView:android.view.View
-
     private lateinit var navItemsAdapter: NavItemsAdapter
+
+    private lateinit var reinitNotification: Disposable
+    private lateinit var lockNotification: Disposable
 
     private val menuItems by lazy {
         arrayOf(
@@ -89,6 +96,31 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         setupMenu(savedInstanceState)
         setupCrashHandler()
+
+        //temp fix
+        reinitNotification = App.self.subOnStatusResume.subscribe(){
+            val brand = Build.BRAND.toLowerCase()
+            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
+                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
+                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
+                        val navController = findNavController(R.id.nav_host)
+                        navController.navigate(R.id.walletFragment, null, navOptions {
+                            popUpTo(R.id.navigation) { inclusive = true }
+                            launchSingleTop = true
+                        })
+                    }
+                }
+            }
+
+            if(LockScreenManager.isNeedLocked) {
+                showLockScreen()
+                LockScreenManager.isNeedLocked = false
+            }
+        }
+
+        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
+            showLockScreen()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -98,6 +130,31 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         setupMenu(savedInstanceState)
         setupCrashHandler()
+
+        //temp fix
+        reinitNotification = App.self.subOnStatusResume.subscribe(){
+            val brand = Build.BRAND.toLowerCase()
+            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
+                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
+                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
+                        val navController = findNavController(R.id.nav_host)
+                        navController.navigate(R.id.walletFragment, null, navOptions {
+                            popUpTo(R.id.navigation) { inclusive = true }
+                            launchSingleTop = true
+                        })
+                    }
+                }
+            }
+
+            if(LockScreenManager.isNeedLocked) {
+                showLockScreen()
+                LockScreenManager.isNeedLocked = false
+            }
+        }
+
+        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
+            showLockScreen()
+        }
     }
 
     override fun onDestroy() {
@@ -107,11 +164,13 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
+
         App.intentTransactionID = extras?.getString(TRANSACTION_ID)
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
         presenter?.onNewIntent(intent?.extras?.getString(TRANSACTION_ID))
     }
 
@@ -222,17 +281,16 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         val lastException = intent.getSerializableExtra(LAST_EXCEPTION) as Throwable?
 
         if (lastException?.message != null) {
-            showAlert(getString(R.string.crash_message), getString(R.string.crash_negative), {},
-                    getString(R.string.crash_title),
-                    getString(R.string.crash_positive),
-            {
+            showAlert(getString(R.string.crash_message), getString(R.string.crash_negative), {
                 Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
                 Crashlytics.logException(lastException)
 
                 Answers.getInstance().logCustom(CustomEvent("CRASH").
                         putCustomAttribute("message", lastException.message))
-            })
+            },
+                    getString(R.string.crash_title),
+                    getString(R.string.crash_positive), {})
         }
 
         Thread.setDefaultUncaughtExceptionHandler { _, e ->
@@ -279,6 +337,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     fun openMenu() {
         result?.openDrawer()
+    }
+
+    fun selectItem(item:NavItem.ID){
+        navItemsAdapter.selectItem(item)
+        navItemsAdapter.notifyDataSetChanged()
     }
 
     fun showWallet() {

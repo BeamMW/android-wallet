@@ -43,6 +43,8 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
  *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
+    private var clickedOpen = false
+
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -70,6 +72,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun onStart() {
         super.onStart()
+
+        LockScreenManager.isNeedLocked = false
+
         onBackPressedCallback.isEnabled = true
     }
 
@@ -200,13 +205,12 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
             (activity as? AppActivity)?.enableLeftMenu(true)
 
+            LockScreenManager.restartTimer(activity!!.applicationContext)
+
             findNavController().popBackStack()
         }
         else{
-            val mDelayOnDrawerClose = 50
-            Handler().postDelayed({
-                findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
-            }, mDelayOnDrawerClose.toLong())
+            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
         }
     }
     override fun changeWallet() {

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.content.Context
+import android.util.Log
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
@@ -116,8 +117,13 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     }
 
     private fun lockApp() {
+        Log.d("lockApp","lockApp")
+
         if (isLockScreenEnabled() && repository.isWalletInitialized()) {
             view?.showLockScreen()
+        }
+        else{
+            Log.d("lockApp","NOT lockApp")
         }
     }
 

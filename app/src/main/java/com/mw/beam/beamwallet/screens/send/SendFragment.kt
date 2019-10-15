@@ -467,7 +467,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
-        feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
+        feeEditText.filters = arrayOf(InputFilterMinMax(0, Int.MAX_VALUE))
         feeEditText.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
@@ -482,9 +482,22 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             val rawFee = feeEditText.text?.toString()
             val fee = rawFee?.toLongOrNull() ?: 0
             if (fee >= minFee) {
+
+                if(fee > presenter!!.MAX_FEE) {
+                    maxFee = fee.toInt()
+
+                    presenter!!.MAX_FEE = maxFee
+
+                    maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
+
+                    feeSeekBar.max = maxFee - minFee
+                }
+
                 presenter?.onEnterFee(rawFee)
+
                 dialog?.dismiss()
-            } else {
+            }
+            else {
                 val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
                 feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
                 feeErrorTextView.visibility = View.VISIBLE

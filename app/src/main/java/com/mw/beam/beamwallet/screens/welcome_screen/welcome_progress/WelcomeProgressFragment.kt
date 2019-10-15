@@ -34,8 +34,10 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 import android.animation.ObjectAnimator
 import androidx.navigation.NavOptions
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.toTimeFormat
-
+import java.io.File
+import com.mw.beam.beamwallet.core.helpers.*
 
 /**
  *  1/24/19.
@@ -219,7 +221,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun navigateToCreateFragment() {
-        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+        if (isRecoverDataBaseExists()) {
+            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeOpenFragment())
+        }
+        else{
+            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+        }
     }
 
     override fun close() {
@@ -241,8 +248,23 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+        val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
+
+        if (recoverFile.exists()) {
+            recoverFile.delete()
+        }
+
+        if (journalRecoverFile.exists()) {
+            journalRecoverFile.delete()
+        }
+
         App.isAuthenticated = true
+
         AppManager.instance.subscribeToUpdates()
+
+        App.self.clearLogs()
+        App.self.startBackgroundService()
 
         android.os.Handler().postDelayed({
             val navBuilder = NavOptions.Builder()

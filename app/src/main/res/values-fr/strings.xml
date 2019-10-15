@@ -392,8 +392,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
     <string name="address_copied_to_clipboard">Adresse copiée</string>
     <string name="copied_to_clipboard">Copié</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Le portefeuille Beam va télécharger une image de la blockchain à partir du Cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Le portefeuille Beam se connectera à un noeud spécifique et le noeud trouvera tous vos fonds sur la blockchain.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">Restaurer avec un noeud vérifié</string>
     <string name="automatic_restore_recommended">RESTAURATION AUTOMATIQUE (recommandé)</string>
     <string name="enter_trusted_node_address">Entrez l\'adresse du noeud vérifié</string>

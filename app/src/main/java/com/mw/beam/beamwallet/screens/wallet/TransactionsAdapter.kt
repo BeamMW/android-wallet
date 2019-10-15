@@ -84,17 +84,21 @@ class TransactionsAdapter(private val context: Context, private val longListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
         this.containerView.setOnClickListener {
 
-            clickListener.invoke(data[adapterPosition])
+            if (adapterPosition>-1)
+            {
+                clickListener.invoke(data[adapterPosition])
 
-            if (mode == TransactionsFragment.Mode.EDIT) {
-                if (selectedTransactions.contains(data[adapterPosition].id)) {
-                    selectedTransactions.remove(data[adapterPosition].id)
-                } else {
-                    selectedTransactions.add(data[adapterPosition].id)
+                if (mode == TransactionsFragment.Mode.EDIT) {
+                    if (selectedTransactions.contains(data[adapterPosition].id)) {
+                        selectedTransactions.remove(data[adapterPosition].id)
+                    } else {
+                        selectedTransactions.add(data[adapterPosition].id)
+                    }
+
+                    checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
                 }
-
-                checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
             }
+
         }
 
         if (longListener != null) {
