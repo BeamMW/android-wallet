@@ -72,7 +72,6 @@ interface WelcomeProgressContract {
         fun removeWallet()
         fun getImportRecoveryState(pass: String?, seed: String?, file: File): Subject<OnSyncProgressData>
         fun createWallet(pass: String?, seed: String?): Status
-        fun downloadRestoreFile(file: File): Subject<OnSyncProgressData>
         fun createRestoreFile(): File
         fun removeRestoreFile()
         fun setContext(c: Context)
