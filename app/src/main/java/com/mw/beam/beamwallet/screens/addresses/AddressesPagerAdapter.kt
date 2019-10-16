@@ -30,7 +30,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
- * Created by vain onnellinen on 2/28/19.
+ *  2/28/19.
  */
 class AddressesPagerAdapter(val context: Context,
                             onAddressClickListener: AddressesAdapter.OnItemClickListener,
@@ -38,9 +38,9 @@ class AddressesPagerAdapter(val context: Context,
                             tagProvider: (address: String) -> List<Tag>, private val type: AddressPagerType = AddressPagerType.FULL) : androidx.viewpager.widget.PagerAdapter() {
     private var touchListener: View.OnTouchListener? = null
 
-    private val activeAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
-    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
-    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener,onAddressLongListener, tagProvider)
+    private val activeAdapter = AddressesAdapter(context, onAddressClickListener, onAddressLongListener, tagProvider)
+    private val expiredAdapter = AddressesAdapter(context, onAddressClickListener, onAddressLongListener, tagProvider)
+    private val contactsAdapter = AddressesAdapter(context, onAddressClickListener, onAddressLongListener, tagProvider)
 
     private var activeLayoutManager: LinearLayoutManager? = null
     private var expiredLayoutManager: LinearLayoutManager? = null
@@ -82,8 +82,11 @@ class AddressesPagerAdapter(val context: Context,
             adapter = if (type == AddressPagerType.FULL) {
                 when (Tab.values()[position]) {
                     Tab.ACTIVE -> activeAdapter
+
                     Tab.EXPIRED -> expiredAdapter
+
                     Tab.CONTACTS -> contactsAdapter
+
                 }
             } else {
                 when (position) {
@@ -209,15 +212,14 @@ class AddressesPagerAdapter(val context: Context,
         contactsAdapter.notifyDataSetChanged()
     }
 
-    fun changeSelectedItems(data: List<String>, isAdded:Boolean, item:String?) {
+    fun changeSelectedItems(data: List<String>, isAdded: Boolean, item: String?) {
         selectedAddresses = data.toMutableList()
 
         activeAdapter.selectedAddresses = selectedAddresses
         expiredAdapter.selectedAddresses = selectedAddresses
         contactsAdapter.selectedAddresses = selectedAddresses
 
-        if (item!=null)
-        {
+        if (item != null) {
             for (i in 0 until activeAdapter.itemCount) {
                 if (activeAdapter.item(i).walletID == item) {
                     activeAdapter.notifyItemChanged(i)

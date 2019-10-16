@@ -24,6 +24,16 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
 
     override fun getToolbarTitle(): String? = getString(R.string.restore_wallet)
 
+    override fun onStart() {
+        super.onStart()
+
+        var title = getString(R.string.automatic_restore_recommended)
+        val splited = title.split("(")
+        if (splited.count() == 2) {
+            autoTitleLabel.text = splited[0].toUpperCase() + "(" + splited[1].toLowerCase()
+        }
+    }
+
     override fun addListeners() {
         btnNext.setOnClickListener {
 

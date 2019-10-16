@@ -30,27 +30,31 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 interface TransactionDetailsContract {
     interface View : MvpView {
         fun getTransactionId(): String
         fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean)
+        fun updateAddresses(txDescription: TxDescription)
         fun updatePaymentProof(paymentProof: PaymentProof)
-        fun configMenuItems(menu: Menu?, inflater: MenuInflater, txStatus: TxStatus, isSend: Boolean)
+        fun configMenuItems(menu: Menu?, inflater: MenuInflater, transaction: TxDescription?)
         fun finishScreen()
         fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean)
         fun showCopiedAlert()
         fun showPaymentProof(paymentProof: PaymentProof)
         fun showOpenLinkAlert()
-        fun configCategoryAddresses(senderTags: List<Tag>, receiverTags: List<Tag>)
         fun showSendFragment(address: String, amount: Long)
+        fun showSaveContact(address: String?)
         fun showReceiveFragment(amount: Long, walletAddress: WalletAddress?)
         fun showDeleteSnackBar(txDescription: TxDescription)
-        fun configSenderAddressInfo(walletAddress: WalletAddress?)
-        fun configReceiverAddressInfo(walletAddress: WalletAddress?)
         fun convertViewIntoBitmap(): Bitmap?
         fun shareTransactionDetails(file: File?)
+        fun handleExpandDetails(shouldExpandDetails: Boolean)
+        fun handleExpandUtxos(shouldExpandUtxos: Boolean)
+        fun handleExpandProof(shouldExpandProof: Boolean)
+        fun showCancelAlert()
+        fun showDeleteAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -63,13 +67,18 @@ interface TransactionDetailsContract {
         fun onOpenLinkPressed()
         fun onRepeatTransaction()
         fun onSharePressed()
+        fun onExpandDetailedPressed()
+        fun onExpandUtxosPressed()
+        fun onExpandProofPressed()
+        fun onSaveContact()
+        fun onCancelTransactionConfirm()
+        fun onDeleteTransactionsPressed()
     }
 
     interface Repository : MvpRepository {
         fun deleteTransaction(txDescription: TxDescription?)
         fun cancelTransaction(txDescription: TxDescription?)
         fun getTxStatus(): Observable<OnTxStatusData>
-        fun getAddresses(): Subject<OnAddressesData>
         fun getPaymentProof(txId: String, canRequestProof: Boolean): Subject<PaymentProof>
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)

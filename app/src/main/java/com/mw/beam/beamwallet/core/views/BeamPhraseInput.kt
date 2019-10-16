@@ -26,7 +26,7 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.common_phrase_input.view.*
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""

@@ -29,19 +29,9 @@ import io.reactivex.subjects.Subject
 
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 class WalletRepository : BaseRepository(), WalletContract.Repository {
-
-    override fun getWalletStatus(): Subject<WalletStatus> {
-        return getResult(WalletListener.subOnStatus, "getWalletStatus")
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)
 
@@ -49,14 +39,6 @@ class WalletRepository : BaseRepository(), WalletContract.Repository {
         val transactionID = App.intentTransactionID
         App.intentTransactionID = null
         return transactionID
-    }
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
     }
 
     override fun saveFinishRestoreFlag() {

@@ -17,12 +17,9 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -30,10 +27,9 @@ import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
-import android.os.Environment
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repository {
     private var context:Context? = null
@@ -50,13 +46,21 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     @SuppressLint("CheckResult")
     private fun subscribeToDownloadProgress() {
-        Api.subDownloadProgress.subscribe {
+        RestoreManager.instance.subDownloadProgress.subscribe {
             downloadProgressSubject?.apply {
                 if (!hasComplete() && !hasThrowable()) {
                     onNext(it)
                 }
             }
         }
+    }
+
+    override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
+        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
+    }
+
+    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
+        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
     }
 
     override fun getNodeProgressUpdated(): Subject<OnSyncProgressData> {
@@ -90,6 +94,8 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
         WalletListener.oldCurrent = -1
 
+        DownloadCalculator.onStartDownload()
+
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {
             wallet?.importRecovery(file.absolutePath)
         }
@@ -105,12 +111,20 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         return file
     }
 
+    override fun removeRestoreFile() {
+        val file = File(context?.getExternalFilesDir(null), "recovery.bin")
+        if (file.exists()) {
+            file.delete()
+        }
+    }
+
 
     @SuppressLint("CheckResult")
     override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
         downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
 
-        Api.download(this.context!!, file)
+        DownloadCalculator.onStartDownload()
+        RestoreManager.instance.startDownload(file)
 
         return downloadProgressSubject!!
     }
@@ -131,7 +145,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
-            App.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)
+            AppManager.instance.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
@@ -140,6 +154,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
 
         LogUtils.logResponse(result, "createWallet")
+        
         return result
     }
 }

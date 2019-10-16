@@ -19,7 +19,8 @@
             <item
                 android:id="@+id/menu_export"
                 android:icon="@drawable/menu_export"
-                android:title="@string/export" />
+                android:title="@string/export">
+            </item>
             <item
                 android:id="@+id/menu_proof"
                 android:icon="@drawable/ic_proof"

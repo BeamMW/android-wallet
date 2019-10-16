@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -29,6 +30,8 @@
             android:fillViewport="true"
             android:fitsSystemWindows="true"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,16 +40,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/common_offset"
                 android:paddingEnd="@dimen/common_offset">
-
-                <TextView
-                    android:id="@+id/addressTitle"
-                    style="@style/common_subheader_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/address"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/address"
@@ -66,6 +59,50 @@
                     tools:targetApi="o"
                     tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
+                <EditText
+                    android:id="@+id/name"
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_text_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/no_name"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textCapSentences"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nameTitle"
+                    tools:ignore="Autofill,LabelFor,TextFields"
+                    tools:targetApi="o" />
+
+                <ImageView
+                    android:id="@+id/scanQR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/address"
+                    app:srcCompat="@drawable/ic_scan_qr" />
+
+                <ImageView
+                    android:id="@+id/tagAction"
+                    android:layout_width="24dp"
+                    android:layout_height="44dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_add"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+
+                <TextView
+                    android:id="@+id/addressTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/address"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <TextView
                     android:id="@+id/tokenError"
                     style="@style/common_text_big_light"
@@ -80,58 +117,16 @@
                     app:layout_constraintTop_toBottomOf="@id/address"
                     tools:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/scanQR"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/address"
-                    app:srcCompat="@drawable/ic_scan_qr" />
-
-                <View
-                    android:id="@+id/addressDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintEnd_toEndOf="@id/address"
-                    app:layout_constraintStart_toStartOf="@id/address"
-                    app:layout_constraintTop_toBottomOf="@id/address" />
-
                 <TextView
                     android:id="@+id/nameTitle"
                     style="@style/common_subheader_dark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="50dp"
                     android:text="@string/name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tokenError" />
-
-                <EditText
-                    android:id="@+id/name"
-                    style="@style/common_text_big_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/edit_text_selector"
-                    android:backgroundTint="@android:color/transparent"
-                    android:hint="@string/no_name"
-                    android:importantForAutofill="noExcludeDescendants"
-                    android:singleLine="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nameTitle"
-                    tools:ignore="Autofill,LabelFor,TextFields"
-                    tools:targetApi="o" />
-
-                <View
-                    android:id="@+id/nameDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintEnd_toEndOf="@id/name"
-                    app:layout_constraintStart_toStartOf="@id/name"
-                    app:layout_constraintTop_toBottomOf="@id/name" />
+                    app:layout_constraintTop_toBottomOf="@id/address" />
 
                 <TextView
                     android:id="@+id/categoryTitle"
@@ -148,22 +143,31 @@
                     android:id="@+id/tags"
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/common_offset"
-                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toStartOf="@id/tagAction"
                     app:layout_constraintStart_toStartOf="@id/categoryTitle"
                     app:layout_constraintTop_toBottomOf="@id/categoryTitle"
                     tools:text="Salary, Payments" />
 
-                <ImageView
-                    android:id="@+id/tagAction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_add"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+                <View
+                    android:id="@+id/addressDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/address"
+                    app:layout_constraintStart_toStartOf="@id/address"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
+                <View
+                    android:id="@+id/nameDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/name"
+                    app:layout_constraintStart_toStartOf="@id/name"
+                    app:layout_constraintTop_toBottomOf="@id/name" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnSave"

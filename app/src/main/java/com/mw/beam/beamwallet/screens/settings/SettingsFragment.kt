@@ -22,8 +22,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
-import android.text.InputFilter
-import android.text.Spanned
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
@@ -53,21 +51,23 @@ import android.graphics.*
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.*
-import com.google.android.material.navigation.NavigationView
-import com.mw.beam.beamwallet.screens.wallet.NavItem
-import kotlinx.android.synthetic.main.fragment_settings.drawerLayout
-import kotlinx.android.synthetic.main.fragment_settings.navView
 import androidx.activity.OnBackPressedCallback
-import java.util.regex.Pattern
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
+import android.os.Build
+
+
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
-    private var dialog: AlertDialog? = null
-
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
     override fun getToolbarTitle(): String? = getString(R.string.settings)
+
+    private var isShareLogs = false
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -77,14 +77,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
     }
 
     override fun init(runOnRandomNode: Boolean) {
         appVersionTitle.addDoubleDots()
-        appVersion.text = BuildConfig.VERSION_NAME
+        appVersionValue.text = BuildConfig.VERSION_NAME
         runRandomNodeSwitch.isChecked = runOnRandomNode
         ip.text = AppConfig.NODE_ADDRESS
+
 
         if(!runOnRandomNode)
         {
@@ -100,7 +102,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
             ip.setPadding(5,0,5,0)
             ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
-            nodeLayout.setPadding(0,20,0,20)
             runRandomNodeSwitch.setPadding(0,30,0,0)
         }
         else{
@@ -114,14 +115,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 ipTitle.typeface = typeFace
             }
 
-            nodeLayout.setPadding(0,0,0,0)
             runRandomNodeSwitch.setPadding(0,0,0,0)
 
             ip.setPadding(0,0,0,0)
             ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
         }
 
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.SETTINGS);
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
+        }
     }
 
     override fun onStart() {
@@ -142,14 +146,22 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
+    override fun setLogSettings(days: Long) {
+        logsValue.text =  when (days) {
+            0L ->  getString(R.string.all_time)
+            5L ->  getString(R.string.last_5_days)
+            15L ->  getString(R.string.last_15_days)
+            30L ->  getString(R.string.last_30_days)
+            else -> ""
+        }
+    }
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
         allowOpenLinkSwitch.isChecked = allowOpen
     }
 
     override fun showFingerprintSettings(isFingerprintEnabled: Boolean) {
-        enableFingerprintTitle.visibility = View.VISIBLE
-        enableFingerprintSwitch.visibility = View.VISIBLE
+        enableFingerprintLayout.visibility = View.VISIBLE
         enableFingerprintSwitch.isChecked = isFingerprintEnabled
     }
 
@@ -190,8 +202,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 colorResId = category.color.getAndroidColorId()
                 text = category.name
                 setOnClickListener { presenter?.onCategoryPressed(category.id) }
-                setPadding(0,0,0,20)
             })
+        }
+
+        when {
+            allTag.count() == 0 -> categoriesList.visibility = View.GONE
+            else -> categoriesList.visibility = View.VISIBLE
         }
     }
 
@@ -200,24 +216,44 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun sendMailWithLogs() {
-        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
-        shareIntent.type = AppConfig.SHARE_TYPE
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfig.SHARE_VALUE)
-        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+        if (!isShareLogs)
+        {
+            isShareLogs = true
 
-        val uris = ArrayList<Uri>()
-        val files = File(AppConfig.LOG_PATH).listFiles()
+            doAsync {
+                ZipManager.zip(AppConfig.LOG_PATH, AppConfig.ZIP_PATH);
 
-        files.asIterable().forEach {
-            uris.add(FileProvider.getUriForFile(context
-                    ?: return, AppConfig.AUTHORITY, File(AppConfig.LOG_PATH, it.name)))
+                uiThread {
+
+                   val subject =  when(BuildConfig.FLAVOR) {
+                        AppConfig.FLAVOR_MASTERNET -> {
+                            "beam wallet masternet logs"
+                        }
+                        AppConfig.FLAVOR_TESTNET -> {
+                            "beam wallet testnet logs"
+                        }
+                        AppConfig.FLAVOR_MAINNET -> {
+                            "beam wallet logs"
+                        }
+                       else -> ""
+                   }
+
+                    val shareIntent = Intent()
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                    shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+                    shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    shareIntent.type = AppConfig.SHARE_TYPE
+                    shareIntent.action = Intent.ACTION_SEND;
+                    startActivity(shareIntent)
+
+                    isShareLogs = false
+                }
+            }
         }
 
-        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-        startActivity(Intent.createChooser(shareIntent, getString(R.string.settings_send_logs_description)))
     }
+
 
     override fun changePass() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCheckOldPassFragment())
@@ -282,6 +318,50 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         nodeLayout.setOnClickListener {
             presenter?.onNodeAddressPressed()
+        }
+
+        ipportLayout.setOnClickListener {
+            presenter?.onNodeAddressPressed()
+        }
+
+        logsLayout.setOnClickListener {
+            presenter?.onLogsPressed()
+        }
+    }
+
+    @SuppressLint("InflateParams")
+
+    override fun showLogsDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_log_screen_settings, null)
+
+            val time = LockScreenManager.getCurrentValue()
+            var valuesArray = mutableListOf<String>()
+            valuesArray.add(getString(R.string.last_5_days))
+            valuesArray.add(getString(R.string.last_15_days))
+            valuesArray.add(getString(R.string.last_30_days))
+            valuesArray.add(getString(R.string.all_time))
+
+            var tag = 0L
+            valuesArray.forEach { value ->
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+                button.tag = tag
+                (button as RadioButton).apply {
+                    text = value
+                    isChecked = value == logsValue.text
+                    setOnClickListener {
+                        presenter?.onChangeLogSettings(this.tag as Long)
+                        dialog?.dismiss()
+                    }
+                }
+
+                view.radioGroupLockSettings.addView(button)
+                tag++
+            }
+
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
 
@@ -477,6 +557,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         addNewCategory.setOnClickListener(null)
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)
+        logsLayout.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

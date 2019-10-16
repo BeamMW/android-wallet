@@ -26,7 +26,7 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 interface ReceiveContract {
     interface View : MvpView {

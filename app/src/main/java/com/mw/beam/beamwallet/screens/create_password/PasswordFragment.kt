@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
 
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ *  10/23/18.
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
     private val args by lazy {

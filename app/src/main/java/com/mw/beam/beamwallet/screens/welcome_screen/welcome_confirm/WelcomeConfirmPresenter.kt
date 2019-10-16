@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentRepository: WelcomeConfirmContract.Repository)
     : BasePresenter<WelcomeConfirmContract.View, WelcomeConfirmContract.Repository>(currentView, currentRepository),
@@ -60,13 +60,6 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
         }
     }
 
-    override fun onKeyboardStateChange(isVisible: Boolean) {
-        if (isVisible) {
-            view?.showSuggestions()
-        } else {
-            view?.hideSuggestions()
-        }
-    }
 
     override fun onNextPressed() {
         view?.showPasswordsFragment(repository.seed ?: return)

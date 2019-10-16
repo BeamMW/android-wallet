@@ -39,12 +39,14 @@
 
                 <GridLayout
                     android:id="@+id/seedLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/welcome_grid_offset"
-                    android:layout_marginEnd="@dimen/welcome_grid_offset"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
                     android:columnCount="2"
                     android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/description" />
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
@@ -66,8 +68,8 @@
 
     <com.mw.beam.beamwallet.core.views.Suggestions
         android:id="@+id/suggestionsView"
-        android:visibility="gone"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone" />
 </FrameLayout>

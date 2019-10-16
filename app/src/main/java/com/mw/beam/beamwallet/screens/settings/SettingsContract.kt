@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 interface SettingsContract {
     interface View : MvpView {
@@ -55,6 +55,8 @@ interface SettingsContract {
         fun navigateToLanguage()
         fun navigateToOwnerKeyVerification()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
+        fun setLogSettings(days:Long)
+        fun showLogsDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -77,6 +79,8 @@ interface SettingsContract {
         fun onCategoryPressed(categoryId: String)
         fun onLanguagePressed()
         fun onShowOwnerKey()
+        fun onChangeLogSettings(days:Long)
+        fun onLogsPressed()
     }
 
     interface Repository : MvpRepository {
@@ -94,9 +98,9 @@ interface SettingsContract {
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
-        fun getAddresses(): Subject<OnAddressesData>
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAllCategory(): List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
+        fun saveLogSettings(days:Long)
+        fun getLogSettings():Long
     }
 }

@@ -16,30 +16,23 @@
 
 package com.mw.beam.beamwallet.screens.address_details
 
-import android.util.Log
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressState {
     var address: WalletAddress? = null
 
-    private val transactions = HashMap<String, TxDescription>()
+    private val transactions = mutableListOf<TxDescription>()
 
     fun updateTransactions(tx: List<TxDescription>?) {
-        Log.d("Miolin", "updateTransactions:: address=${address?.walletID}\ntx.size=${tx?.size}\ntx=$tx")
-        tx?.forEach { transaction ->
-            if (transaction.myId == address?.walletID || transaction.peerId == address?.walletID) {
-                transactions[transaction.id] = transaction
-            }
+        transactions.clear()
+        if (tx!=null) {
+            transactions.addAll(tx)
         }
     }
 
-    fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
-
-    fun deleteTransaction(tx: List<TxDescription>?) {
-        tx?.forEach { transactions.remove(it.id) }
-    }
+    fun getTransactions() = transactions.sortedByDescending { it.modifyTime }
 }

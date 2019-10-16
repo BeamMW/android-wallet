@@ -29,7 +29,7 @@ import java.text.DecimalFormatSymbols
 
 
 /**
- * Created by vain onnellinen on 2/12/19.
+ *  2/12/19.
  */
 object QrHelper {
     const val BEAM_URI_PREFIX = "beam://"

@@ -19,24 +19,34 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.Log
+import java.util.*
+
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerAppCompatActivity(), MvpView, ScreenDelegate.ViewDelegate {
     protected var presenter: T? = null
@@ -50,6 +60,10 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, this, cancelable)
+    }
+
+    override fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, this, cancelable)
     }
 
@@ -97,7 +111,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
-    open fun ensureState(): Boolean = App.wallet != null
+    open fun ensureState(): Boolean = AppManager.instance.wallet != null
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 1) {
@@ -124,17 +138,29 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
 
-        when (networkStatus) {
-            NetworkStatus.ONLINE -> {
-                handleStatus(true, toolbarLayout)
-            }
-            NetworkStatus.OFFLINE -> {
-                handleStatus(false, toolbarLayout)
-            }
-            NetworkStatus.UPDATING -> {
-                toolbarLayout.progressBar.visibility = View.VISIBLE
-                toolbarLayout.statusIcon.visibility = View.INVISIBLE
-                toolbarLayout.status.text = getString(R.string.updating).toLowerCase()
+        if (AppManager.instance.isConnecting) {
+            toolbarLayout.progressBar.indeterminateDrawable.setColorFilter(getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+            toolbarLayout.status.setTextColor(getColor(R.color.category_orange))
+
+            toolbarLayout.progressBar.visibility = View.VISIBLE
+            toolbarLayout.statusIcon.visibility = View.INVISIBLE
+            toolbarLayout.status.text = getString(R.string.connecting).toLowerCase()
+        }
+        else{
+            when (networkStatus) {
+                NetworkStatus.ONLINE -> {
+                    handleStatus(true, toolbarLayout)
+                }
+                NetworkStatus.OFFLINE -> {
+                    handleStatus(false, toolbarLayout)
+                }
+                NetworkStatus.UPDATING -> {
+                    toolbarLayout.status.setTextColor(getColor(R.color.colorAccent))
+                    toolbarLayout.progressBar.indeterminateDrawable.setColorFilter(getColor(R.color.colorAccent), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    toolbarLayout.progressBar.visibility = View.VISIBLE
+                    toolbarLayout.statusIcon.visibility = View.INVISIBLE
+                    toolbarLayout.status.text = getString(R.string.updating).toLowerCase()
+                }
             }
         }
     }
@@ -193,17 +219,81 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun onDestroy() {
         presenter?.onDestroy()
         presenter = null
+
         unregisterReceiver(lockScreenReceiver)
+
         super.onDestroy()
     }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.ContextWrapper.wrap(newBase))
+
+        val config = resources.configuration
+
+        var locale: Locale = Locale(LocaleHelper.getCurrentLanguage().languageCode)
+        Locale.setDefault(locale)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+        } else {
+            config.locale = locale;
+        }
+
+        resources.updateConfiguration(config, resources.displayMetrics)
     }
+
+    override fun showLockScreen() {
+        Log.d("lockApp","showLockScreen")
+
+        if ((App.isAuthenticated && !App.isShowedLockScreen) ||
+                (App.isAuthenticated && App.isShowedLockScreen && LockScreenManager.isNeedLocked)) {
+            Log.d("lockApp","try showLockScreen")
+
+            if ((this as? AppActivity)?.isMenuOpened() == true) {
+                (this as? AppActivity)?.closeMenu()
+            }
+            (this as? AppActivity)?.enableLeftMenu(false)
+
+            App.isShowedLockScreen = true
+
+            delegate.dismissAlert()
+
+            val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+            navHost?.let { navFragment ->
+                navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                    val base = fragment as BaseFragment<*>
+                    if (base.dialog!=null)
+                    {
+                        base.dialog?.dismiss()
+                    }
+                }
+            }
+
+            val navBuilder = NavOptions.Builder()
+            navBuilder.setEnterAnim(android.R.anim.fade_in)
+            navBuilder.setPopEnterAnim(android.R.anim.fade_in)
+            navBuilder.setExitAnim(android.R.anim.fade_out)
+            navBuilder.setPopExitAnim(android.R.anim.fade_out)
+
+            val navigationOptions = navBuilder.build()
+
+            findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
+        }
+        else{
+            Log.d("lockApp","not showLockScreen")
+        }
+    }
+
 
     override fun logOut() {
         if (App.isAuthenticated) {
             App.isAuthenticated = false
+            startActivity(Intent(this, AppActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
+            finish()
+        }
+        else{
             startActivity(Intent(this, AppActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             })
@@ -229,6 +319,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
         toolbarLayout.progressBar.visibility = View.INVISIBLE
         toolbarLayout.statusIcon.visibility = View.VISIBLE
+
+        toolbarLayout.status.setTextColor(getColor(R.color.toolbar_status_color))
 
         if (isOnline) {
             toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))

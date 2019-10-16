@@ -17,9 +17,9 @@
 package com.mw.beam.beamwallet.screens.wallet
 
 /**
- * Created by vain onnellinen on 2/22/19.
+ *  2/22/19.
  */
-class NavItem(val id: ID, val iconResId: Int, val text: String, var isSelected : Boolean = false) {
+class NavItem(val id: ID, val iconResId: Int, var text: String, var isSelected : Boolean = false) {
     enum class ID {
         WALLET, ADDRESS_BOOK, UTXO, DASHBOARD, NOTIFICATIONS, HELP, SETTINGS
     }

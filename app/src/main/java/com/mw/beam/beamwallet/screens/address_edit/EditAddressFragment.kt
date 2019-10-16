@@ -17,10 +17,11 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -31,28 +32,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.TagAdapter
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
-import kotlinx.android.synthetic.main.common_button.*
 import kotlinx.android.synthetic.main.fragment_edit_address.*
-
+import androidx.appcompat.widget.AppCompatTextView
+import android.util.TypedValue
+import android.view.*
+import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.helpers.TrashManager
+import kotlinx.android.synthetic.main.dialog_delete_address.view.*
+import kotlinx.android.synthetic.main.toolbar.*
+import java.util.Date
+import java.util.Calendar
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressContract.View {
     private lateinit var expireNowString: String
     private lateinit var activateString: String
+    private var needSave = false
+    private var isContact = false
 
     private val commentTextWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -70,36 +75,48 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
                 else -> ExpirePeriod.NEVER
             })
+
+            if (expireList.selectedItemPosition == 1) {
+                expireLabel.visibility = View.GONE
+            }
+            else{
+                expireLabel.visibility = View.VISIBLE
+            }
         }
     }
 
+    override fun getToolbarTitle(): String? { return null }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
-    override fun getToolbarTitle(): String? = getString(R.string.edit_address)
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(address: WalletAddress) {
+        isContact = address.isContact
+
+        toolbarLayout.hasStatus = true
+
         expireNowString = getString(R.string.expire_address_now)
         activateString = getString(R.string.active_address)
 
-        findViewById<TextView>(R.id.addressId)?.text = address.walletID
-        expiresSwitchTitle.text = if (address.isExpired) activateString else expireNowString
-        comment.setText(address.label)
-        btnSave.isEnabled = false
+        nameLabel.setText(address.label)
 
-        val expiredVisibility = if (address.isExpired && !address.isContact) View.VISIBLE else View.GONE
-        val expiresVisibility = if (address.isExpired || address.isContact) View.GONE else View.VISIBLE
+        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.edit_contact else R.string.edit_address)
 
-        expiredTitle.visibility = expiredVisibility
-        expiredTime.visibility = expiredVisibility
-        expiresTitle.visibility = expiresVisibility
-        expiresSpinner.visibility = expiresVisibility
+        if (address.isContact) {
+            expireLayout.visibility = View.GONE
+        }
+        else{
+            if (address.duration == 0L) {
+                expireLabel.visibility = View.GONE
+            }
+            else if (address.isExpired) {
+                expireTitleLabel.text = getText(R.string.expired)
+                expireList.visibility = View.GONE
+                expireLine.visibility = View.GONE
+                expireLabel.setTextColor(resources.getColor(R.color.common_text_color))
+            }
 
-        val expireSwitchVisibility = if (address.isContact) View.GONE else View.VISIBLE
-        expiresSwitchTitle.visibility = expireSwitchVisibility
-        expiresSwitch.visibility = expireSwitchVisibility
-
-        if (address.isExpired && !address.isContact) {
-            expiredTime.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
+            expireLabel.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
         }
 
         val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
@@ -109,32 +126,111 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 val view = View.inflate(context,android.R.layout.simple_spinner_item,null)
                 val textView = view.findViewById(android.R.id.text1) as TextView
                 textView.text = strings[position]
-                if(position == expiresSpinner.selectedItemPosition) {
+                if(position == expireList.selectedItemPosition) {
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
-                textView.setPadding(15,15,15,15)
+                textView.setPadding(15,30,15,30)
                 view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
                 return view
+            }
 
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as AppCompatTextView).setTextColor(resources.getColor(R.color.common_text_color))
+                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F)
+                view.setPadding(0,0,0,0)
+                return view
             }
         }
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
-        expiresSpinner.adapter = adapter
-        expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
 
-//        ArrayAdapter.createFromResource(
-//                context!!,
-//                R.array.receive_expires_periods,
-//                android.R.layout.simple_spinner_item
-//        ).also { adapter ->
-//            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-//            expiresSpinner.adapter = adapter
-//            expiresSpinner.setSelection(if (address.duration == 0L) 1 else 0)
-//        }
+        expireList.adapter = adapter
+        expireList.setSelection(if (address.duration == 0L) 1 else 0)
 
-        idTitle.addDoubleDots()
-        expiredTitle.addDoubleDots()
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.address_edit_menu, menu)
+        presenter?.onMenuCreate(menu)
+    }
+
+    override fun configMenuItems(menu: Menu?, address: WalletAddress) {
+        if (address.isContact) {
+            menu?.findItem(R.id.delete)?.title = getString(R.string.delete_contact)
+            menu?.findItem(R.id.expire)?.isVisible = false
+            menu?.findItem(R.id.active)?.isVisible = false
+        }
+        else if (presenter?.state?.shouldActivateNow == true) {
+            menu?.findItem(R.id.active)?.isVisible = false
+            menu?.findItem(R.id.expire)?.isVisible = true
+        }
+        else if (presenter?.state?.shouldExpireNow == true) {
+            menu?.findItem(R.id.active)?.isVisible = true
+            menu?.findItem(R.id.expire)?.isVisible = false
+        }
+        else if (address.isExpired) {
+            menu?.findItem(R.id.expire)?.isVisible = false
+            menu?.findItem(R.id.active)?.isVisible = true
+        }
+        else{
+            menu?.findItem(R.id.active)?.isVisible = false
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.active -> presenter?.onSwitchCheckedChange(false)
+            R.id.expire -> presenter?.onSwitchCheckedChange(true)
+            R.id.delete -> presenter?.onDeleteAddress()
+        }
+
+        return true
+    }
+
+    override fun showDeleteSnackBar(walletAddress: WalletAddress) {
+        showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
+                onDismiss = { TrashManager.remove(walletAddress.walletID) },
+                onUndo = { TrashManager.restore(walletAddress.walletID) })
+    }
+
+    override fun showDeleteAddressDialog(transactionAlert:Boolean) {
+        if (transactionAlert) {
+            context?.let {
+                val view = LayoutInflater.from(it).inflate(R.layout.dialog_delete_address, null)
+
+                if(isContact) {
+                    view.clearDialogTitle.text = getString(R.string.delete_contact)
+                    view.deleteAllTransactionsTitle.text = getString(R.string.delete_all_transactions_related_to_this_contact)
+                }
+
+                val dialog = AlertDialog.Builder(it).setView(view).show()
+
+                view.btnConfirm.setOnClickListener {
+                    presenter?.onConfirmDeleteAddress(view.deleteAllTransactionsCheckbox.isChecked)
+                    dialog.dismiss()
+                }
+
+                view.btnCancel.setOnClickListener { dialog.dismiss() }
+
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
+        }
+        else{
+            val msgText = when {
+                isContact -> getString(R.string.delete_contact_text)
+                else -> getString(R.string.delete_address_text)
+            }
+
+            val titleText = when {
+                isContact -> getString(R.string.delete_contact)
+                else -> getString(R.string.delete_address)
+            }
+
+            showAlert(msgText,getString(R.string.delete),{
+                presenter?.onConfirmDeleteAddress(false)
+            },titleText,getString(R.string.cancel))
+        }
     }
 
     override fun setupTagAction(isEmptyTags: Boolean) {
@@ -178,7 +274,11 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun setTags(tags: List<Tag>) {
-        this.tags.text = tags.createSpannableString(context!!)
+        tagsLabel.text = tags.createSpannableString(context!!)
+
+        if (tagsLabel.text.isNullOrEmpty() || tags.count() == 0) {
+            tagsLabel.text = getString(R.string.none)
+        }
     }
 
     override fun showAddNewCategory() {
@@ -186,64 +286,82 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     }
 
     override fun addListeners() {
-        expiresSpinner.onItemSelectedListener = expireListener
-
-        expiresSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter?.onSwitchCheckedChange(isChecked)
-        }
+        expireList.onItemSelectedListener = expireListener
 
         btnSave.setOnClickListener {
-            presenter?.onSavePressed()
+            if (needSave) {
+                presenter?.onSavePressed()
+            }
+            else{
+                findNavController().popBackStack()
+            }
         }
 
-        tagAction.setOnClickListener {
+        btnCancel.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        tagsLayout.setOnClickListener {
             presenter?.onTagActionPressed()
         }
 
-        comment.addTextChangedListener(commentTextWatcher)
+        nameLabel.addTextChangedListener(commentTextWatcher)
     }
 
-    override fun configExpireSpinnerVisibility(shouldShow: Boolean) {
-        if (shouldShow) {
-            View.VISIBLE.apply {
-                expiresTitle.visibility = this
-                expiresSpinner.visibility = this
-            }
-        } else {
-            View.GONE.apply {
-                expiresTitle.visibility = this
-                expiresSpinner.visibility = this
-            }
-        }
-    }
 
     override fun configExpireSpinnerTime(shouldExpireNow: Boolean) {
+
         if (shouldExpireNow) {
-            expiresSpinner.visibility = View.GONE
-            expiresNow.visibility = View.VISIBLE
-            timestamp.visibility = View.VISIBLE
-            timestamp.text = CalendarUtils.fromTimestamp(System.currentTimeMillis() / 1000)
-        } else {
-            expiresSpinner.visibility = View.VISIBLE
-            expiresNow.visibility = View.GONE
-            timestamp.visibility = View.GONE
+            expireTitleLabel.text = getText(R.string.expired)
+            expireList.visibility = View.GONE
+            expireLine.visibility = View.GONE
+            expireLabel.setTextColor(resources.getColor(R.color.common_text_color))
+            expireLabel.text = CalendarUtils.fromTimestamp(System.currentTimeMillis() / 1000)
+            expireLabel.visibility = View.VISIBLE
         }
+        else{
+            val c = Calendar.getInstance()
+            c.time = Date()
+            c.add(Calendar.DATE, 1)
+
+            val currentDatePlusOne = c.time
+
+            expireTitleLabel.text = getText(R.string.expires)
+            expireList.visibility = View.VISIBLE
+            expireLine.visibility = View.VISIBLE
+            expireLabel.setTextColor(resources.getColor(R.color.common_text_dark_color))
+            expireLabel.text = CalendarUtils.fromTimestamp(currentDatePlusOne.time / 1000)
+            expireLabel.visibility = View.VISIBLE
+
+            expireList.setSelection(0)
+
+            presenter?.onExpirePeriodChanged(ExpirePeriod.DAY)
+        }
+
+        activity?.invalidateOptionsMenu()
     }
 
     override fun configSaveButton(shouldEnable: Boolean) {
-        btnSave.isEnabled = shouldEnable
+        needSave = shouldEnable
     }
 
     override fun finishScreen() {
         findNavController().popBackStack()
     }
 
+    override fun onAddressDeleted() {
+        val isBack = findNavController().popBackStack(R.id.addressesFragment, false)
+        if (!isBack) {
+            findNavController().popBackStack(R.id.categoryFragment, false)
+        }
+    }
+
     override fun clearListeners() {
-        expiresSwitch.setOnCheckedChangeListener(null)
         btnSave.setOnClickListener(null)
-        tagAction.setOnClickListener(null)
-        comment.removeTextChangedListener(commentTextWatcher)
-        expiresSpinner.onItemSelectedListener = null
+        btnCancel.setOnClickListener(null)
+        tagsLayout.setOnClickListener(null)
+        nameLabel.removeTextChangedListener(commentTextWatcher)
+        expireList.onItemSelectedListener = null
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

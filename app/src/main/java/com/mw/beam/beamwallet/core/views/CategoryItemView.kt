@@ -55,13 +55,6 @@ class CategoryItemView: FrameLayout {
             categoryName.text = field
         }
 
-    var enableCircleTitle: Boolean = true
-        set(value) {
-            field = value
-            val visibility = if (value) View.VISIBLE else View.GONE
-            colorCircle.visibility = visibility
-            emptySpaceDivider.visibility = visibility
-        }
 
     override fun setOnClickListener(l: OnClickListener?) {
         cardItem.setOnClickListener(l)

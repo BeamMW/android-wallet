@@ -22,7 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 
 /**
- * Created by vain onnellinen on 3/18/19.
+ *  3/18/19.
  */
 object PermissionsHelper {
     const val REQUEST_CODE_PERMISSION = 1043

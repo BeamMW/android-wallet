@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.edit_category
 
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
@@ -28,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagColor
 import kotlinx.android.synthetic.main.fragment_edit_category.*
+import java.util.*
 
 class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
     private var colorListAdapter: ColorListAdapter? = null
@@ -40,6 +42,8 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
         }
     }
 
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 
     override fun getToolbarTitle(): String? = if (categoryIdFromArgument == null) getString(R.string.create_tag) else getString(R.string.edit_tag)
@@ -50,8 +54,10 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
     override fun init(tag: Tag) {
         nameValue.setText(tag.name)
+
         colorListAdapter = ColorListAdapter {
             presenter?.onChangeColor(it)
+            nameValue.hint = it.getAndroidColorName()
         }
 
         colorList.adapter = colorListAdapter
@@ -61,7 +67,12 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
 
         colorListAdapter?.setData(TagColor.values().asList())
         colorListAdapter?.setSelectedColor(tag.color)
+
+        nameValue.hint = tag.color.getAndroidColorName()
+
         btnSave.isEnabled = false
+
+        toolbarLayout.hasStatus = true
     }
 
     override fun addListeners() {
@@ -81,7 +92,9 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
     }
 
     override fun setSaveEnabled(enable: Boolean) {
-        btnSave.isEnabled = enable
+        if (btnSave!=null) {
+            btnSave.isEnabled = enable
+        }
     }
 
     override fun finish() {

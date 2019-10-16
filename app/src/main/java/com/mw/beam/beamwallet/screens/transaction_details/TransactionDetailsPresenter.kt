@@ -18,26 +18,25 @@ package com.mw.beam.beamwallet.screens.transaction_details
 
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
-class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, private val state: TransactionDetailsState)
+class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, currentRepository: TransactionDetailsContract.Repository, val state: TransactionDetailsState)
     : BasePresenter<TransactionDetailsContract.View, TransactionDetailsContract.Repository>(currentView, currentRepository),
         TransactionDetailsContract.Presenter {
+
     private val COPY_TAG = "PROOF"
 
-    private lateinit var utxosByTxSubscription: Disposable
-    private lateinit var txUpdateSubscription: Disposable
     private lateinit var paymentProofSubscription: Disposable
+    private lateinit var txSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
 
     override fun onCreate() {
@@ -45,35 +44,22 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         state.txID = view?.getTransactionId()
     }
 
-    private fun configAddresses(txDescription: TxDescription) {
-        val senderAddress = if (txDescription.sender.value) txDescription.myId else txDescription.peerId
-        val receiverAddress = if (txDescription.sender.value) txDescription.peerId else txDescription.myId
-
-        view?.configCategoryAddresses(repository.getAddressTags(senderAddress), repository.getAddressTags(receiverAddress))
-    }
-
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        utxosByTxSubscription = repository.getUtxoByTx(state.txID!!).subscribe { utxos ->
-            if (!utxos.isNullOrEmpty()) {
-                updateUtxos(utxos)
+        state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+
+        if (state.txDescription != null) {
+            view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
+            view?.updateAddresses(state.txDescription!!)
+
+            if (canRequestProof()) {
+                repository.requestProof(state.txID!!)
             }
-        }
 
-        txUpdateSubscription = repository.getTxStatus().subscribe { data ->
-            state.configTransactions(data.tx)
-            data.tx?.firstOrNull { it.id == state.txID }?.let {
-                state.txDescription = it
-                repository.getUtxoByTx(state.txID!!)
+            repository.getUtxoByTx(state.txID!!)
 
-                view?.init(it, repository.isPrivacyModeEnabled())
-                configAddresses(it)
-
-                if (canRequestProof()) {
-                    repository.requestProof(it.id)
-                }
-            }
+            updateUtxos(AppManager.instance.getUTXOByTransaction(state.txDescription!!))
         }
 
         paymentProofSubscription = repository.getPaymentProof(state.txID!!, canRequestProof()).subscribe {
@@ -83,18 +69,19 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             }
         }
 
-        addressesSubscription = repository.getAddresses().subscribe {
-            state.updateAddresses(it.addresses)
+        txSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+            if (state.txDescription != null) {
+                view?.init(state.txDescription!!, repository.isPrivacyModeEnabled())
+            }
+        }
 
-            val myAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.myId }
-            val peerAddress = state.addresses.values.firstOrNull { address ->  address.walletID == state.txDescription?.peerId }
-
-            if (state.txDescription?.sender?.value == true) {
-                view?.configSenderAddressInfo(myAddress)
-                view?.configReceiverAddressInfo(peerAddress)
-            } else {
-                view?.configSenderAddressInfo(peerAddress)
-                view?.configReceiverAddressInfo(myAddress)
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
+            if (it == false) {
+                state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+                if (state.txDescription != null) {
+                    view?.updateAddresses(state.txDescription!!)
+                }
             }
         }
     }
@@ -123,7 +110,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.updateUtxos(utxos.map { utxo ->
             var type = UtxoType.Exchange
 
-            if (state.txDescription?.selfTx == false && !isExchangeUtxo(utxo)) {
+            if (state.txDescription?.selfTx == false) {
                 type = if (state.txID == utxo.createTxId) {
                     UtxoType.Receive
                 } else {
@@ -133,10 +120,6 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
             UtxoInfoItem(type, utxo.amount)
         }, repository.isPrivacyModeEnabled())
-    }
-
-    private fun isExchangeUtxo(utxo: Utxo): Boolean {
-        return state.transactions.values.any { (it.id == utxo.createTxId || it.id == utxo.spentTxId) && it.selfTx }
     }
 
     private fun canRequestProof(): Boolean {
@@ -159,10 +142,10 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         view?.showPaymentProof(state.paymentProof!!)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxosByTxSubscription, txUpdateSubscription, paymentProofSubscription, addressesSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(paymentProofSubscription, txSubscription, addressesSubscription)
 
     override fun onMenuCreate(menu: Menu?, inflater: MenuInflater) {
-        view?.configMenuItems(menu, inflater,state.txDescription?.status ?: return, state.txDescription?.sender == TxSender.SENT)
+        view?.configMenuItems(menu, inflater,state.txDescription)
     }
 
     override fun onRepeatTransaction() {
@@ -170,20 +153,24 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
             if (txDescription.sender.value) {
                 view?.showSendFragment(txDescription.peerId, txDescription.amount)
             } else {
-                view?.showReceiveFragment(txDescription.amount, state.addresses.values.firstOrNull { it.walletID == txDescription.myId })
+                val address = AppManager.instance.getAddress(txDescription.myId)
+                view?.showReceiveFragment(txDescription.amount, address)
             }
         }
     }
 
+    override fun onSaveContact() {
+        state.txDescription?.let { txDescription ->
+            view?.showSaveContact(txDescription.peerId)
+        }
+    }
+
     override fun onCancelTransaction() {
-        repository.cancelTransaction(state.txDescription)
-        view?.finishScreen()
+        view?.showCancelAlert()
     }
 
     override fun onDeleteTransaction() {
-        state.txDescription?.let { view?.showDeleteSnackBar(it) }
-        repository.deleteTransaction(state.txDescription)
-        view?.finishScreen()
+        view?.showDeleteAlert()
     }
 
     override fun onStart() {
@@ -193,6 +180,31 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSharePressed() {
         view?.shareTransactionDetails(repository.saveImage(view?.convertViewIntoBitmap()))
+    }
 
+    override fun onExpandDetailedPressed() {
+        state.shouldExpandDetail = !state.shouldExpandDetail
+        view?.handleExpandDetails(state.shouldExpandDetail)
+    }
+
+    override fun onExpandUtxosPressed() {
+        state.shouldExpandUtxos = !state.shouldExpandUtxos
+        view?.handleExpandUtxos(state.shouldExpandUtxos)
+    }
+
+    override fun onExpandProofPressed() {
+        state.shouldExpandProof = !state.shouldExpandProof
+        view?.handleExpandProof(state.shouldExpandProof)
+    }
+
+    override fun onCancelTransactionConfirm() {
+        repository.cancelTransaction(state.txDescription)
+        view?.finishScreen()
+    }
+
+    override fun onDeleteTransactionsPressed() {
+        state.txDescription?.let { view?.showDeleteSnackBar(it) }
+        repository.deleteTransaction(state.txDescription)
+        view?.finishScreen()
     }
 }

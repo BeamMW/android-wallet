@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -25,13 +27,11 @@ import io.reactivex.disposables.Disposable
 import java.net.URI
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsPresenter(currentView: SettingsContract.View, currentRepository: SettingsContract.Repository, private val state: SettingsState)
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
-    private lateinit var addressesSubscription: Disposable
-    private lateinit var txStatusSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -40,6 +40,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         updateConfirmTransactionValue()
         updateFingerprintValue()
         view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
+        view?.setLogSettings(repository.getLogSettings())
     }
 
     override fun onStart() {
@@ -56,27 +57,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToCategory(categoryId)
     }
 
-    override fun initSubscriptions() {
-        super.initSubscriptions()
-
-        addressesSubscription = repository.getAddresses().subscribe() {
-            if (it.own) {
-                state.addresses = it.addresses ?: listOf()
-            } else {
-                state.contacts = it.addresses ?: listOf()
-            }
-        }
-
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            val transactions = data.tx?.filter {
-                TxStatus.Failed == it.status || TxStatus.Completed == it.status || TxStatus.Cancelled == it.status
-            }?.toList()
-
-            state.updateTransactions(transactions)
-        }
-    }
-
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, txStatusSubscription)
 
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
@@ -143,6 +123,20 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         repository.setAllowOpenExternalLink(allowOpen)
     }
 
+    override fun onChangeLogSettings(days: Long) {
+        var d = when(days) {
+            0L->5L
+            1L->15L
+            2L->30L
+            else -> 0L
+        }
+        repository.saveLogSettings(d)
+
+        view?.setLogSettings(repository.getLogSettings())
+
+        App.self.clearLogs()
+    }
+
     override fun onChangeNodeAddress() {
         view?.clearInvalidNodeAddressError()
     }
@@ -159,6 +153,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onClearDataPressed() {
         view?.showClearDataDialog()
+    }
+
+    override fun onLogsPressed() {
+        view?.showLogsDialog()
     }
 
     override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
@@ -178,9 +176,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         if (clearTransactions) {
-            val trashId = "clear_data"
-            TrashManager.add(trashId, TrashManager.ActionData(state.transactions.values.toList(), listOf()))
-            state.transactions.values.forEach { repository.deleteTransaction(it) }
+            state.transactions.forEach {
+                repository.deleteTransaction(it)
+            }
         }
     }
 

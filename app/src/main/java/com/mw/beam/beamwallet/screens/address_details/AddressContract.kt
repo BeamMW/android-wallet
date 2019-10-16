@@ -30,7 +30,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 interface AddressContract {
     interface View : MvpView {
@@ -61,10 +61,6 @@ interface AddressContract {
 
     interface Repository : MvpRepository {
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
-        fun getAddresses(): Subject<OnAddressesData>
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun getAddressTags(address: String): List<Tag>
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }

@@ -23,7 +23,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.suggestion_layout.view.*
-
+import com.mw.beam.beamwallet.core.views.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class Suggestions: LinearLayout {
     private var suggestions: List<String>? = null
@@ -66,27 +68,55 @@ class Suggestions: LinearLayout {
         clear()
 
         if (text.isEmpty()) {
-            return
+            updateVisibility(false)
         }
+        else{
+            val words = suggestions?.filter { it.startsWith(text) }?.take(3)
 
-        val words = suggestions?.filter { it.startsWith(text) }?.take(3)
-
-        if (mode == Mode.SingleWord && words?.size ?: 0 > 1) {
-            updateDividers()
-            return
-        }
-
-        words?.forEachIndexed { index, word ->
-            val textView = when (index) {
-                1 -> leftWord
-                2 -> rightWord
-                else -> centerWord
+            if (mode == Mode.SingleWord && words?.size ?: 0 > 1) {
+                updateDividers()
+                updateVisibility(false)
             }
+            else{
+                if (words == null || words?.count() == 0) {
+                    updateVisibility(false)
+                }
+                else{
+                    updateVisibility(true)
+                }
 
-            textView.text = word
+                words?.forEachIndexed { index, word ->
+                    val textView = when (index) {
+                        1 -> leftWord
+                        2 -> rightWord
+                        else -> centerWord
+                    }
+
+                    textView.text = word
+                }
+
+                updateDividers()
+            }
+//            doAsync {
+//
+//                uiThread {
+//
+//                }
+//            }
         }
+    }
 
-        updateDividers()
+    private fun updateVisibility(visible:Boolean) {
+        if(visible) {
+            this.visibility = View.VISIBLE
+
+         //   this.visible(true)
+        }
+        else{
+            this.visibility = View.GONE
+
+         //   this.gone(true)
+        }
     }
 
     private fun updateDividers() {

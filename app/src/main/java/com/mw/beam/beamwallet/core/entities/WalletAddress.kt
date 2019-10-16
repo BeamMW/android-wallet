@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.core.utils.isBefore
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by vain onnellinen on 19.11.18.
+ *  19.11.18.
  */
 @Parcelize
 class WalletAddress(var source: WalletAddressDTO) : Parcelable {

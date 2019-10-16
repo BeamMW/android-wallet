@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressRepository : BaseRepository(), AddressContract.Repository {
 
@@ -39,24 +39,7 @@ class AddressRepository : BaseRepository(), AddressContract.Repository {
         }
     }
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses")
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
-
     override fun getAddressTags(address: String): List<Tag> {
         return TagHelper.getTagsForAddress(address)
-    }
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
     }
 }

@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 interface WelcomeSeedContract {
     interface View : MvpView {
@@ -29,8 +29,6 @@ interface WelcomeSeedContract {
         fun configSeed(seed: Array<String>)
         fun showCopiedAlert()
         fun showSaveAlert()
-        fun forbidScreenshot()
-        fun allowScreenshot()
     }
 
     interface Presenter : MvpPresenter<View> {

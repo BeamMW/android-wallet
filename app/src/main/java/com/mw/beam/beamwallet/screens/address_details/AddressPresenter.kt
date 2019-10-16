@@ -18,13 +18,14 @@ package com.mw.beam.beamwallet.screens.address_details
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressPresenter(currentView: AddressContract.View, currentRepository: AddressContract.Repository, private val state: AddressState)
     : BasePresenter<AddressContract.View, AddressContract.Repository>(currentView, currentRepository),
@@ -32,18 +33,20 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
 
     private val COPY_TAG = "ADDRESS"
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
     private lateinit var addressSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
-        state.address = view?.getAddress()
+
+        state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+
         view?.init(state.address ?: return)
     }
 
     override fun onStart() {
         super.onStart()
         notifyPrivacyStateChange()
+
         view?.configureTags(repository.getAddressTags(state.address?.walletID ?: return))
     }
 
@@ -94,40 +97,25 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            when (data.action) {
-                ChangeAction.REMOVED -> state.deleteTransaction(data.tx)
-                else -> state.updateTransactions(data.tx)
-            }
+        state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
+        view?.configTransactions(state.getTransactions())
 
-            state.deleteTransaction(repository.getAllTransactionInTrash())
-
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
             view?.configTransactions(state.getTransactions())
         }
 
-        addressSubscription = repository.getAddresses().subscribe {
-            it.addresses?.find { address -> address.walletID == state.address?.walletID }?.let { address ->
-                state.address = address
-                view?.init(address)
+        addressSubscription = AppManager.instance.subOnAddressesChanged.subscribe {
+            if (it == true && view?.getAddress()?.isContact == false) {
+                state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+                state.address?.let { it1 -> view?.init(it1) }
             }
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    state.deleteTransaction(it.data.transactions)
-                    view?.configTransactions(state.getTransactions())
-                }
-
-                TrashManager.ActionType.Restored -> {
-                    state.updateTransactions(it.data.transactions)
-                    view?.configTransactions(state.getTransactions())
-                }
-
-                TrashManager.ActionType.Removed -> {}
+            else if (it == false && view?.getAddress()?.isContact == true) {
+                state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+                state.address?.let { it1 -> view?.init(it1) }
             }
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, addressSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription,addressSubscription)
 }

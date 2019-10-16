@@ -22,13 +22,14 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 interface WelcomeProgressContract {
     interface View : MvpView {
@@ -62,6 +63,8 @@ interface WelcomeProgressContract {
 
     interface Repository : MvpRepository {
         fun getNodeProgressUpdated(): Subject<OnSyncProgressData>
+        fun getNodeConnectionFailed(): Subject<NodeConnectionError>
+        fun getSyncProgressUpdated(): Subject<OnSyncProgressData>
         fun getNodeStopped(): Subject<Any>
         fun getNodeThreadFinished(): Subject<Any>
         fun getFailedNodeStart(): Subject<Any>
@@ -71,6 +74,7 @@ interface WelcomeProgressContract {
         fun createWallet(pass: String?, seed: String?): Status
         fun downloadRestoreFile(file: File): Subject<OnSyncProgressData>
         fun createRestoreFile(): File
+        fun removeRestoreFile()
         fun setContext(c: Context)
     }
 }

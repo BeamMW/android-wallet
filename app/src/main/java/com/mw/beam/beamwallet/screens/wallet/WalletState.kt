@@ -18,31 +18,20 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
+import com.mw.beam.beamwallet.core.AppManager
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class WalletState {
     var walletStatus: WalletStatus? = null
+
+    var prevProgressExpandState = false
+    var prevAvailableExpandState = false
 
     var shouldExpandAvailable = false
     var shouldExpandInProgress = false
     var privacyMode = false
 
-    private val transactions = HashMap<String, TxDescription>()
-
-    fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
-
-        return getTransactions()
-    }
-
-    fun getTransactions() = transactions.values.sortedByDescending { it.createTime }.take(5)
-
-    fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transactions.remove(it.id) }
-        return getTransactions()
-    }
+    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(5)
 }

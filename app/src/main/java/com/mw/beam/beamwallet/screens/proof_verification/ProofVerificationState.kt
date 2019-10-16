@@ -20,4 +20,5 @@ import com.mw.beam.beamwallet.core.entities.PaymentProof
 
 class ProofVerificationState {
     var proof: PaymentProof? = null
+    var shouldExpandDetail = false
 }

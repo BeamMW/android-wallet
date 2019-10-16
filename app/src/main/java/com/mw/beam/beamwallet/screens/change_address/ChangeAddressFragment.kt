@@ -56,14 +56,13 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
     }
 
     override fun isFromReceive(): Boolean = ChangeAddressFragmentArgs.fromBundle(arguments!!).isFromReceive
 
     override fun getGeneratedAddress(): WalletAddress? = ChangeAddressFragmentArgs.fromBundle(arguments!!).generatedAddress
 
-    override fun getToolbarTitle(): String? = getString(R.string.change_address)
+    override fun getToolbarTitle(): String? = getString(R.string.change_address_title)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_change_address
 

@@ -16,12 +16,13 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.text.SpannableString
 import androidx.appcompat.app.AlertDialog
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 interface MvpView {
     fun showKeyboard()
@@ -29,6 +30,7 @@ interface MvpView {
     fun showSnackBar(status: Status)
     fun showSnackBar(message: String, onDismiss: (() -> Unit)? = null, onUndo: (() -> Unit)? = null)
     fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}, cancelable: Boolean = true): AlertDialog?
+    fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit = {}, title: String? = null, btnCancelText: String? = null, onCancel: () -> Unit = {}, cancelable: Boolean = true): AlertDialog?
     fun dismissAlert()
     fun copyToClipboard(content: String?, tag: String)
     fun showToast(message: String, duration: Int)
@@ -47,4 +49,5 @@ interface MvpView {
     fun vibrate(length: Long)
     fun logOut()
     fun dismissSnackBar()
+    fun showLockScreen()
 }

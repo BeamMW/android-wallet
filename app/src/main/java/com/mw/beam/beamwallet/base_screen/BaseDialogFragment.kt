@@ -22,6 +22,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.SpannableString
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import com.eightsines.holycycle.app.ViewControllerDialogFragment
@@ -64,6 +65,11 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun configStatus(networkStatus: NetworkStatus) {}
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
+                ?: return null, cancelable)
+    }
+
+    override fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null, cancelable)
     }
@@ -148,4 +154,5 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     }
 
     override fun logOut() {}
+    override fun showLockScreen() {}
 }

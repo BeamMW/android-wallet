@@ -31,32 +31,26 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * Created by vain onnellinen on 10/18/18.
+ *  10/18/18.
  */
 class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContract.Repository {
 
     override fun deleteTransaction(txDescription: TxDescription?) {
         if (txDescription != null) {
             TrashManager.add(txDescription.id, txDescription)
-//            getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
-//                wallet?.deleteTx(txDescription.id)
-//            }
-        }
-    }
-
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
         }
     }
 
     override fun getUtxoByTx(txId: String): Subject<List<Utxo>?> {
-        return getResult(WalletListener.subOnCoinsByTx, "getUtxoByTx") { wallet?.getCoinsByTx(txId) }
+        return getResult(WalletListener.subOnCoinsByTx, "getUtxoByTx") {
+            wallet?.getCoinsByTx(txId)
+        }
     }
 
     override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
+        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
+            wallet?.getWalletStatus()
+        }
     }
 
     override fun cancelTransaction(txDescription: TxDescription?) {

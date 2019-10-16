@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentRepository: WelcomeRestoreContract.Repository, private val state: WelcomeRestoreState)
     : BasePresenter<WelcomeRestoreContract.View, WelcomeRestoreContract.Repository>(currentView, currentRepository),
@@ -39,7 +39,6 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
 
     override fun onRestorePressed() {
         view?.showRestoreNotification()
-//        view?.showPasswordsFragment(view?.getSeed() ?: return)
     }
 
     override fun onSeedChanged(seed: String) {
@@ -63,14 +62,6 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
         view?.clearSuggestions()
         if (hasFocus) {
             view?.updateSuggestions(seed)
-        }
-    }
-
-    override fun onKeyboardStateChange(isVisible: Boolean) {
-        if (isVisible) {
-            view?.showSuggestions()
-        } else {
-            view?.hideSuggestions()
         }
     }
 }

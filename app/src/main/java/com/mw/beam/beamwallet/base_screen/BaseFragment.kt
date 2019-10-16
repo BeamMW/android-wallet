@@ -27,30 +27,26 @@ import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.screens.wallet.NavItemsAdapter
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.recyclerview.widget.RecyclerView
-import androidx.core.view.GravityCompat
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.core.views.BeamToolbar
-import com.mw.beam.beamwallet.screens.addresses.AddressesFragment
-import com.mw.beam.beamwallet.screens.wallet.WalletFragment
-import kotlinx.android.synthetic.main.fragment_wallet.view.*
-import com.mw.beam.beamwallet.screens.wallet.WalletFragmentDirections
-import android.os.Handler
-import android.view.Gravity
+import android.text.SpannableString
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.navigation.NavOptions
-import com.google.android.material.navigation.NavigationView
-import android.widget.TextView
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import kotlinx.coroutines.withTimeoutOrNull
-import androidx.core.app.ActivityCompat.invalidateOptionsMenu
+import android.view.animation.AnimationUtils
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.core.view.ViewCompat
+import com.eightsines.holycycle.ViewControllerFragmentDelegate
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.elvishew.xlog.XLog.b
 
 /**
- * Created by vain onnellinen on 10/4/18.
+ *  10/4/18.
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
+    var dialog: AlertDialog? = null
+
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()
@@ -70,111 +66,14 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     fun showWalletFragment() {
-        if (drawerLayout?.isDrawerVisible(GravityCompat.START) == true) {
-            drawerLayout?.closeDrawer(GravityCompat.START)
+        if ((activity as? AppActivity)?.isMenuOpened() == true) {
+            (activity as? AppActivity)?.closeMenu()
         }
         else{
-            val navItem = menuItems[0]
-            navItemClick(navItem)
-            navItemsAdapter.selectItem(navItem.id)
-            navigateIfNeed()
+            (activity as? AppActivity)?.showWallet()
         }
     }
 
-    fun configNavView(toolbarLayout:BeamToolbar, navigationView:NavigationView, layout: DrawerLayout, selected: NavItem.ID) {
-        val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
-
-        drawerLayout = layout
-
-        val toolbar = toolbarLayout.toolbar
-        (activity as? BaseActivity<*>)?.setSupportActionBar(toolbar)
-
-        drawerToggle = object : ActionBarDrawerToggle(
-                activity,
-                drawerLayout,
-                toolbar,
-                R.string.open,
-                R.string.close
-        ) {
-            override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-                navigateIfNeed()
-            }
-        }
-        drawerLayout?.addDrawerListener(drawerToggle)
-        drawerToggle.syncState()
-
-        navItemsAdapter = NavItemsAdapter(context!!, menuItems, object : NavItemsAdapter.OnItemClickListener {
-            override fun onItemClick(navItem: NavItem) {
-                navItemClick(navItem)
-            }
-        })
-        navMenu.layoutManager = LinearLayoutManager(context)
-        navMenu.adapter = navItemsAdapter
-
-        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
-        whereBuyBeamLink.setOnClickListener {
-
-            val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-
-            if (allow) {
-                openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
-            }
-            else{
-                showAlert(
-                        getString(R.string.common_external_link_dialog_message),
-                        getString(R.string.open),
-                        { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
-                        getString(R.string.common_external_link_dialog_title),
-                        getString(R.string.cancel)
-                )
-            }
-
-        }
-
-        navItemsAdapter.selectItem(selected)
-
-        toolbar.setNavigationIcon(R.drawable.ic_menu)
-    }
-
-    private fun navigateIfNeed() {
-        if (destinationFragment!=null && navigationOptions!=null) {
-            findNavController().navigate(destinationFragment!!, null, navigationOptions);
-        }
-    }
-
-    private fun navItemClick(navItem: NavItem) {
-        val direction = when (navItem.id) {
-            NavItem.ID.WALLET -> R.id.walletFragment
-            NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-            NavItem.ID.UTXO -> R.id.utxoFragment
-            NavItem.ID.SETTINGS -> R.id.settingsFragment
-            else -> null
-        }
-
-        val current = when (navItemsAdapter.selectedItem) {
-            NavItem.ID.WALLET -> R.id.walletFragment
-            NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-            NavItem.ID.UTXO -> R.id.utxoFragment
-            NavItem.ID.SETTINGS -> R.id.settingsFragment
-            else -> null
-        }
-
-        if (direction!=null && current!=null)
-        {
-            val navBuilder = NavOptions.Builder()
-            navBuilder.setEnterAnim(android.R.anim.fade_in)
-            navBuilder.setPopEnterAnim(android.R.anim.fade_in)
-            navBuilder.setExitAnim(android.R.anim.fade_out)
-            navBuilder.setPopExitAnim(android.R.anim.fade_out)
-
-            destinationFragment = direction
-
-            navigationOptions = navBuilder.setPopUpTo(current, true).build()
-
-            drawerLayout?.closeDrawer(GravityCompat.START)
-        }
-    }
 
     override fun onHideKeyboard() {
     }
@@ -210,6 +109,11 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
+        return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
+                ?: return null, cancelable)
+    }
+
+    override fun showAlert(message: SpannableString, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, context
                 ?: return null, cancelable)
     }
@@ -263,6 +167,12 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun onControllerStart() {
         super.onControllerStart()
+
+        if (context!=null) {
+            val view = view
+            view?.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+        }
+
         presenter?.onStart()
     }
 
@@ -302,4 +212,61 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
     }
+
+    override fun showLockScreen() {}
+
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
+        if (nextAnim == R.anim.slide_in_right) {
+            val nextAnimation = AnimationUtils.loadAnimation(context, nextAnim)
+            nextAnimation.setAnimationListener(object : Animation.AnimationListener {
+                private var startZ = 0f
+                override fun onAnimationStart(animation: Animation) {
+                    view?.apply {
+                        startZ = ViewCompat.getTranslationZ(this)
+                        ViewCompat.setTranslationZ(this, 1f)
+                    }
+                }
+
+                override fun onAnimationEnd(animation: Animation) {
+                    view?.apply {
+                        this.postDelayed({ ViewCompat.setTranslationZ(this, startZ) }, 100)
+                    }
+                }
+
+                override fun onAnimationRepeat(animation: Animation) {}
+            })
+            return nextAnimation
+        } else {
+            return null
+        }
+    }
+
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        val fs = this.javaClass.superclass.superclass.declaredFields
+//        fs[0].isAccessible = true
+//
+//        val privateField = fs[0].get(this) as ViewControllerFragmentDelegate
+//
+//        val fs2 = privateField.javaClass.declaredFields
+//        fs2[3].isAccessible = true
+//        fs2[3].setInt(privateField,3)
+//
+//        val asyncLayoutInflater = AsyncLayoutInflater(context!!)
+//        asyncLayoutInflater.inflate(onControllerGetContentLayoutId(), container) { view, _, parent ->
+//            parent?.addView(view)
+//
+//            val fs2 = privateField.javaClass.declaredFields
+//            fs2[3].isAccessible = true
+//            fs2[3].setInt(privateField,3)
+//
+//            fs2[0].isAccessible = true
+//            fs2[0].set(privateField,view)
+//
+//            onViewCreated(view, savedInstanceState)
+//            onControllerContentViewCreated()
+//
+//            presenter?.onStart()
+//        }
+//        return null
+//    }
 }

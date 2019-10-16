@@ -49,4 +49,14 @@ class ProofVerificationPresenter(view: ProofVerificationContract.View?, reposito
         view?.copyToClipboard(view?.getDetailsContent(state.proof ?: return), COPY_TAG)
         view?.showCopiedMessage()
     }
+
+    override fun setShouldExpandDetail(value:Boolean) {
+        state.shouldExpandDetail = value
+        view?.handleExpandDetails(state.shouldExpandDetail)
+    }
+
+    override fun onExpandDetailsPressed() {
+        state.shouldExpandDetail = !state.shouldExpandDetail
+        view?.handleExpandDetails(state.shouldExpandDetail)
+    }
 }

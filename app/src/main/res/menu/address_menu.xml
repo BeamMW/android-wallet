@@ -8,11 +8,6 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/showQR"
-                android:icon="@drawable/address_qr"
-                android:title="@string/show_qr_code"
-                app:showAsAction="never" />
-            <item
                 android:id="@+id/copy"
                 android:icon="@drawable/address_copy"
                 android:title="@string/copy"
@@ -21,6 +16,11 @@
                 android:id="@+id/edit"
                 android:icon="@drawable/address_edit"
                 android:title="@string/edit"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/showQR"
+                android:icon="@drawable/address_qr"
+                android:title="@string/show_qr_code_short"
                 app:showAsAction="never" />
             <item
                 android:id="@+id/delete"

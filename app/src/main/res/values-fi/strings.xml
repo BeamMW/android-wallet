@@ -15,7 +15,10 @@
     <string name="cancel">Peruuta</string>
     <string name="delete">Poista</string>
     <string name="confirm">Vahvista</string>
-    <string name="change">Vaihda</string>
+    <string name="change_address">Vaihda</string>
+    <string name="change_address_title">Vaihda osoite</string>
+    <string name="change_utxo_type">Palautus</string>
+    <string name="change_description">Palautus (lukitaan siihen asti, kunnes tapahtuma on valmis tai vanhentuu)</string>
     <string name="ok">Ok</string>
     <string name="undo">Kumoa</string>
     <string name="next">Seuraava</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">jaa QR-koodi</string>
     <string name="common_security_mode_title">Aktivoi yksityisyysnäkymä</string>
     <string name="common_security_mode_message">Lompakkosi saldotiedot piilotetaan, kunnes napautat silmäikonia uudelleen.</string>
-    <string name="common_fingerprint_error">Liian monta yritystä. Kirjoita salasana.</string>
+    <string name="common_fingerprint_error">Sormenjälkeä ei tunnistettu, kirjoita salasanasi.</string>
     <string name="common_share_title">Jaa…</string>
     <string name="common_external_link_dialog_title">Ulkoinen linkki</string>
     <string name="common_external_link_dialog_message">Beam-lompakkosovellus vaatii luvan sovelluksen ulkoisten linkkien avaamiseen selaimessasi. Tämä toiminto paljastaa IP-osoitteesi ulkoisen palvelimen ylläpitäjälle. Välttääksesi tämän valitse \"Peruuta\". Voit myöhemmin muuttaa asetuksia milloin vain.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Ilmoitukset</string>
     <string name="help">Ohjeet</string>
     <string name="settings">Asetukset</string>
+    <string name="storage_permission_required_message_small">Myönnä tallennuslupa</string>
     <!--Welcome-->
     <string name="create_new_wallet">Luo uusi lompakko</string>
     <string name="restore_wallet">Palauta vanha lompakko</string>
@@ -60,7 +64,7 @@
     <string name="welcome_btn_change_alert">Jatka</string>
     <string name="welcome_where_to_buy_beam">Mistä voin ostaa BEAMiä?</string>
     <string name="welcome_using_two_wallets_notification_message">Älä käytä samaa seed phrasea usealla laitteella, sillä saldosi ja tapahtumasi eivät synkronoidu.</string>
-    <string name="welcome_using_two_wallets_notification_title">Älä käytä samaan aikaan kahta lompakkoa, jotka molemmat ovat luotu samasta seed phrasesta</string>
+    <string name="welcome_using_two_wallets_notification_title">Älä käytä samaan aikaan kahta lompakkoa, jotka on luotu samasta seed phrasesta</string>
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Aloita lompakon käyttö</string>
     <string name="pass_save_new">Tallenna uusi salasana</string>
@@ -110,6 +114,7 @@
     <string name="pass_back_seed_title">Takaisin palautusavaimeen</string>
     <string name="pass_return_seed_title">Takaisin palautusavaimeen</string>
     <string name="pass_return_seed_btn_create_new">Generoi</string>
+    <string name="back">Takaisin</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beamit lähetetty</string>
     <string name="available">Käytettävissä</string>
@@ -132,10 +137,13 @@
     <string name="pending">Odottaa</string>
     <string name="transactions">Tapahtumat</string>
     <string name="wallet_empty_transactions_list_message">Tapahtumahistoriasi on tyhjä</string>
+    <string name="wallet_empty_transactions_list_message_proggress">Sinulla ei ole aktiivisia maksutapahtumia</string>
     <string name="search">Etsi</string>
     <string name="filter">Suodatin</string>
     <string name="export">Vie</string>
     <string name="payment_proof">Maksutodistus</string>
+    <string name="export_transaction_history_title">Vie tapahtumahistoria</string>
+    <string name="export_transaction_history_text">Haluatko tallentaa tapahtumahistorian laitteellesi tai jakaa sen muille?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Käytettävissä</string>
@@ -189,6 +197,16 @@
     <string name="my_sending_address">Lähettävä osoitteeni</string>
     <string name="my_address">Oma osoitteeni</string>
     <string name="transaction_deleted">Maksutapahtuma poistettu</string>
+    <string name="save_contact">Tallenna yhteystieto</string>
+    <string name="transactions_deleted">Tapahtumat poistettu</string>
+    <string name="delete_transactions">Poista tapahtumat</string>
+    <string name="delete_transaction_text">Tämä tapahtuma poistetaan lompakostasi.</string>
+    <string name="delete_transactions_text">Nämä tapahtumat poistetaan lompakostasi.</string>
+    <string name="cancell_transaction_warning_message">Haluatko varmasti peruuttaa tämän maksutapahtuman?</string>
+    <string name="delete_addresses_text">Nämä osoitteet poistetaan lompakostasi.</string>
+    <string name="delete_address_text">Tämä osoite poistetaan lompakostasi.</string>
+    <string name="delete_contacts_text">Nämä yhteystiedot poistetaan lompakostasi.</string>
+    <string name="delete_contact_text">Tämä yhteystieto poistetaan lompakostasi.</string>
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
     <string name="auto_generated">generoitu automaattisesti</string>
@@ -205,13 +223,13 @@
     <string name="optional">Valinnainen</string>
     <string name="name">Nimi</string>
     <string name="edit_address">Muokkaa osoitetta</string>
+    <string name="edit_contact">Muokkaa yhteystietoa</string>
     <string name="advanced">Lisäasetukset</string>
-    <string-array name="receive_expires_periods">
-        <item>24 tunnissa</item>
-        <item>Ei koskaan</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Lisää tai skannaa saajan osoite</string>
+    <string name="share">Jaa</string>
+    <string name="save_to_downloads">Tallenna latauskansioon</string>
+    <string name="saved_to_downloads">Tallennettu latauskansioon</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Summaa ei voi jättää tyhjäksi</string>
     <string name="send_amount_zero_error">Summa ei voi olla 0 BEAMiä</string>
     <string name="send_amount_overflow_error">Saldo ei riitä: tarvitset vähintään %1$s Beamiä suorittaaksesi maksutapahtuman.</string>
@@ -235,9 +253,9 @@
     <string name="no_matching_address_found">Yhteensopivaa osoitetta ei löytynyt</string>
     <string name="local_comment_not_shared">Kommentti, ei näy muille</string>
     <string name="address_already_exist_1">Tämä osoite on jo käytössä</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
-    <!--SettingsFragment-->
+    <string name="address_already_exist_2">Osoitetta ei voida tallentaa. Tämä osoite on jo olemassa</string>
     <string name="settings_report">Ilmoita ongelmasta (englanniksi)</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Vaihda lompakon salasana</string>
     <string name="settings_version">Sovelluksen versio</string>
     <string name="settings_send_logs_description">Lähetä lokit…</string>
@@ -262,37 +280,41 @@
     <string name="settings_confirm_clear_message">Oletko varma, että haluat poistaa kaikki %1$s lompakostasi?</string>
     <string name="contacts">Yhteystiedot</string>
     <string name="transaction">Tapahtuma</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Ladataan lompakkoa</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Omat aktiiviset</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Omat vanhentuneet</string>
     <string name="no_name">Ei nimeä</string>
     <string name="address_deleted">Osoite poistettu</string>
     <string name="contact_deleted">Yhteystieto poistettu</string>
     <string name="addresses_deleted">Osoitteet poistettu</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Yhteystiedot poistettu</string>
     <string name="address">Osoite</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Näytä QR-koodi</string>
     <string name="delete_address">Poista osoite</string>
+    <string name="delete_contact">Poista yhteystieto</string>
     <string name="delete_addresses">Poista osoitteet</string>
+    <string name="delete_contacts">Poista yhteystiedot</string>
     <string name="transactions_list">Tilitapahtumat</string>
     <string name="address_id">Osoitteen id</string>
     <string name="expiration_date">Vanhentumispäivä</string>
     <string name="tag">Luokka</string>
+    <string name="show_qr_code_short">Näytä QR-koodi</string>
+    <string name="expire_address_now">Vanhenna osoite</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Vanhenna osoite heti</string>
     <string name="active_address">Aktivoi osoite</string>
     <string name="save">Tallenna</string>
     <string name="now">Nyt</string>
     <string name="none">Ei mitään</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Vaihda salasana</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Kirjoita salasanasi</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Skannaa QR-koodi</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Maksutodistuksen varmennus</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Liitä maksutodistuksen koodi tähän</string>
     <string name="payment_proof_verification_error">Maksutodistusta ei voida käsitellä, virheellinen koodi.</string>
     <string name="copy_details">Kopioi tiedot</string>
@@ -301,16 +323,17 @@
     <string name="sender">Lähettäjä</string>
     <string name="receiver">Vastaanottaja</string>
     <string name="current_password_is_incorrect">Salasana on virheellinen</string>
-    <!--CategoryFragment-->
+    <string name="paste_payment_proof">Liitä maksutodistuksen koodi tähän</string>
     <string name="edit">Muokkaa</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Poista luokka</string>
     <string name="tag_delete_dialog_message">Oletko varma, että haluat poistaa luokan %1$s?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Muokkaa luokkaa</string>
+    <!--EditCategory-->
     <string name="create_tag">Lisää luokka</string>
     <string name="color">Väri</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Näytä omistusavain</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta)</string>
     <string name="owner_key_verification_fingerprint_error">Sormenjälkitunnistus epäonnistui. Yritä uudelleen hetken kuluttua.</string>
     <string name="owner_key_verification_title_with_finger">Kirjoita salasanasi ja käytä sormenjälkitunnistusta kirjautuaksesi sisään</string>
@@ -322,18 +345,17 @@
 Nähdäksesi omistusavaimesi sinun tulee kirjoittaa salasanasi.</string>
     <string name="owner_key_verification_pass_finger">Kun sijoitat omistusavaimesi luotettuun palvelimeen (node), se antaa palvelimelle oikeuden tarkkailla kaikkia UTXO-siirtoja tähän lompakkoon ja mihin tahansa muuhun lompakkoon, joka on generoitu samasta seed phrasesta.
 Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautuminen (kirjoita salasanasi ja käytä sormenjälkitunnistusta).</string>
-    <!--BackgroundService-->
     <string name="notification_receive_content_title">Vastaanottaa uutta maksua</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Paina nähdäksesi lisätietoja</string>
     <string name="notification_channel_name">Ilmoituskanava</string>
     <string name="notification_channel_description">Oletusilmoituskanava</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Kosketa sormenjälkitunnistinta</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">Sormenjälkitunnistus</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Vaihda osoite</string>
-    <!-- Language -->
     <string name="language">Kieli</string>
+    <!-- Language -->
     <string name="language_dialog_message">Jotta kielen vaihtaminen onnistuu, tulee sovellus käynnistää uudelleen</string>
     <string name="restart_now">Käynnistä uudelleen</string>
     <string name="rate_app">Arvioi sovellus</string>
@@ -345,7 +367,6 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="total_utxo_value">UTXO-kokonaisarvo</string>
     <string name="confirmation_send_description">Jotta maksutapahtuma onnistuu, tulee saajan avata lompakkonsa 12 tunnin sisällä lähetyksestä, minkä jälkeen sinun tulee vielä avata lompakko 2 tunnin sisällä.</string>
     <string name="confirmation">Vahvistus</string>
-    <string name="change_description">lukitaan siihen asti kunnes tapahtuma on valmis tai vanhentuu</string>
     <string name="save_recipient_address">Haluatko tallentaa saajan osoitteen yhteystietoihisi?</string>
     <string name="save_address">Tallenna osoite</string>
     <string name="dont_save">Älä tallenna</string>
@@ -356,6 +377,8 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="min_fee_error">Minimisiirtomaksu on %1$s GROTHia</string>
     <string name="delete_all_transactions_related_to_this_address">Poista kaikki tapahtumat, jotka liittyvät tähän osoitteeseen</string>
     <string name="delete_all_transactions_related_to_this_addresses">Poista kaikki tapahtumat, jotka liittyvät näihin osoitteisiin</string>
+    <string name="delete_all_transactions_related_to_this_contact">Poista kaikki tapahtumat, jotka liittyvät tähän yhteystietoon</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Poista kaikki tapahtumat, jotka liittyvät näihin yhteystietoihin</string>
     <string name="search_transaction">Etsi tapahtuma</string>
     <string name="never_expires">Pysyvä osoite</string>
     <string name="expires_in">Vanhentuu %1$s t %2$s min</string>
@@ -364,8 +387,9 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Käytä sormenjälkitunnistusta tai kirjoita salasanasi hyväksyäksesi maksutapahtuman</string>
     <string name="fingerprint_not_recognized">Sormenjälkeä ei tunnistettu</string>
     <string name="address_copied_to_clipboard">Osoite kopioitu leikepöydälle</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-lompakko lataa lohkoketjusta tilannekuvan pilvipalvelimelta.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam-lompakko yhdistetään määriteltyyn palvelimeen (node) ja palvelin etsii koko saldosi lohkoketjusta.</string>
+    <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">Palauta luotetun palvelimen (node) kautta</string>
     <string name="automatic_restore_recommended">AUTOMAATTINEN PALAUTUS (suositus)</string>
     <string name="enter_trusted_node_address">Anna luotetun palvelimen (node) osoite</string>
@@ -407,6 +431,25 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Kun olet liittänyt koodin, käynnistä palvelin (node) tietokoneellasi ja paina seuraava mobiililaitteen sovelluksessa.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Palvelimeen (node) ei saada yhteyttä. Kokeile yhdistää eri palvelimeen tai käytä automaattista palautusta.</string>
     <string name="connecting">Yhdistetään...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Etsi tapahtuman id:llä, kommentilla, osoitteella tai yhteystiedolla</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Etsi tapahtuman id:llä, kernel id:llä, kommentilla, 
+osoitteella tai yhteystiedolla</string>
     <string name="address_details">Osoitetiedot</string>
+    <string name="contact_details">Yhteystiedot</string>
+    <string name="crash_title">Beam-lompakko kaatui odottamattomasti</string>
+    <string name="crash_message">Haluaisitko lähettää raportin virhetiedoista meille? Virhetietojen saaminen auttaisi meitä paikantamaan ja korjaamaan virheet nopeammin. Tämä on ainoastaan yksittäinen virheraportti eikä siis jatkuva virhetietojen keräämisen hyväksyminen.</string>
+    <string name="crash_negative">Ei kiitos</string>
+    <string name="crash_positive">Lähetä raportti</string>
+    <string name="h">t</string>
+    <string name="m">min</string>
+    <string name="s">s</string>
+    <string name="estimted_time">Arvioitu aika</string>
+    <string-array name="receive_expires_periods">
+        <item>24 tunnissa</item>
+        <item>Ei koskaan</item>
+    </string-array>
+    <string name="save_wallet_logs">Tallenna lompakon lokitiedot</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 interface WelcomeRestoreContract {
     interface View : MvpView {
@@ -34,8 +34,6 @@ interface WelcomeRestoreContract {
         fun setTextToCurrentView(text: String)
         fun updateSuggestions(text: String)
         fun clearSuggestions()
-        fun showSuggestions()
-        fun hideSuggestions()
         fun showRestoreNotification()
     }
 
@@ -44,7 +42,6 @@ interface WelcomeRestoreContract {
         fun onSeedChanged(seed: String)
         fun onSuggestionClick(text: String)
         fun onSeedFocusChanged(seed: String, hasFocus: Boolean)
-        fun onKeyboardStateChange(isVisible: Boolean)
         fun onValidateSeed(seed: String?): Boolean
         fun onUnderstandPressed()
     }

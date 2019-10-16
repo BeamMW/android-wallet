@@ -9,18 +9,5 @@ class AddContactState {
 
     var addresses = HashMap<String, WalletAddress>()
 
-    fun updateAddresses(addresses: List<WalletAddress>?){
-        addresses?.forEach {
-            this.addresses[it.walletID] = it
-        }
-    }
-
     fun getAddresses() = addresses.values.toList()
-
-
-    fun deleteAddresses(addresses: List<WalletAddress>?) {
-        addresses?.forEach {
-            this.addresses.remove(it.walletID)
-        }
-    }
 }

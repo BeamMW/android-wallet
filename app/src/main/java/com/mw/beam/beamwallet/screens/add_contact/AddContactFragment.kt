@@ -155,7 +155,12 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     }
 
     override fun setTags(tags: List<Tag>) {
-        this.tags.text = tags.createSpannableString(context!!)
+        if (tags.count() > 0) {
+            this.tags.text = tags.createSpannableString(context!!)
+        }
+        else{
+            this.tags.text = getString(R.string.none)
+        }
     }
 
     override fun showTokenError(address: WalletAddress?) {
@@ -181,6 +186,15 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         tokenError.visibility = View.INVISIBLE
     }
 
+    override fun getAddressFromArguments(): String? {
+        if (arguments!=null)
+        {
+            return AddContactFragmentArgs.fromBundle(arguments!!).address
+        }
+
+        return null
+    }
+
     override fun clearListeners() {
         btnCancel.setOnClickListener(null)
         btnSave.setOnClickListener(null)
@@ -192,7 +206,6 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     override fun close() {
         findNavController().popBackStack()
     }
-
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AddContactPresenter(this, AddContactRepository(), AddContactState())

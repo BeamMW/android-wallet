@@ -27,7 +27,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 interface UtxoContract {
     interface View : MvpView {
@@ -49,11 +49,6 @@ interface UtxoContract {
     }
 
     interface Repository : MvpRepository {
-        fun getUtxoUpdated(): Subject<List<Utxo>>
-        fun getWalletStatus(): Subject<WalletStatus>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
     }
 }

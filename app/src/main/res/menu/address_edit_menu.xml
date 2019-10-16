@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_more"
+        android:icon="@drawable/ic_more"
+        android:title="@string/more"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/expire"
+                android:icon="@drawable/ic_address_expired"
+                android:title="@string/expire_address_now"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/active"
+                android:icon="@drawable/ic_address_exp"
+                android:title="@string/active_address"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/delete"
+                android:icon="@drawable/ic_address_delete"
+                android:title="@string/delete_address"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
+

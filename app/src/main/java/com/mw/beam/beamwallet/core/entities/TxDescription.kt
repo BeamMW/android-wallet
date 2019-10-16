@@ -16,6 +16,7 @@
 package com.mw.beam.beamwallet.core.entities
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
@@ -27,7 +28,7 @@ import com.mw.beam.beamwallet.core.helpers.TxStatus
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 @Parcelize
 class TxDescription(val source: TxDescriptionDTO) : Parcelable {
@@ -47,6 +48,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val selfTx: Boolean = source.selfTx
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
 
+    fun isInProgress():Boolean {
+        return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
+    }
+
     override fun toString(): String {
         return "\n\nTxDescription(\n id=$id\n amount=$amount\n fee=$fee\n status=${status.name}\n kernelId=$kernelId\n change=$change\n minHeight=$minHeight\n " +
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
@@ -62,9 +67,9 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
         TxStatus.Registered -> {
             when {
-                TxSender.RECEIVED == sender -> "Receiving"
+                TxSender.RECEIVED == sender -> "In progress"
                 TxSender.SENT == sender && selfTx -> "Sending to own address"
-                TxSender.SENT == sender -> "Sending"
+                TxSender.SENT == sender -> "In progress"
                 else -> ""
             }
         }
@@ -97,9 +102,9 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
         TxStatus.Registered -> {
             when {
-                TxSender.RECEIVED == sender -> context.getString(R.string.receiving)
+                TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
                 TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
-                TxSender.SENT == sender -> context.getString(R.string.sending)
+                TxSender.SENT == sender -> context.getString(R.string.in_progress)
                 else -> ""
             }
         }
@@ -141,6 +146,35 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val currencyImage = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_receive)
         TxSender.SENT -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_send)
+    }
+
+    fun statusImage():Drawable?  {
+        if (selfTx) return when {
+            this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+            this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+            this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
+            else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
+        }
+        else if (sender == TxSender.RECEIVED)
+        {
+            return when {
+                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
+                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
+            }
+        }
+        else if (sender == TxSender.SENT)
+        {
+            return when {
+                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
+                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+            }
+        }
+
+        return null
     }
 }
 

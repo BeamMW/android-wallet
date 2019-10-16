@@ -32,7 +32,7 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 interface SendContract {
 
@@ -47,7 +47,7 @@ interface SendContract {
         fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean)
         fun clearErrors()
         fun clearToken(clearedToken: String?)
-        fun init(defaultFee: Int, maxFee: Int)
+        fun init(defaultFee: Int, max: Int)
         fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
@@ -120,16 +120,12 @@ interface SendContract {
 
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
-        fun getWalletStatus(): Subject<WalletStatus>
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean
         fun isConfirmTransactionEnabled(): Boolean
-        fun getAddresses(): Subject<OnAddressesData>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun saveAddress(address: WalletAddress)
         fun updateAddress(address: WalletAddress)
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllAddressesInTrash(): List<WalletAddress>
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
         fun saveTagsForAddress(address: String, tags: List<Tag>)

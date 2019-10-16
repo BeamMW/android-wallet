@@ -1,33 +1,58 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 import io.reactivex.disposables.Disposable
 
 class AddContactPresenter(view: AddContactContract.View?, repository: AddContactContract.Repository, private val state: AddContactState):
         BasePresenter<AddContactContract.View, AddContactContract.Repository>(view, repository), AddContactContract.Presenter {
 
-    private lateinit var addressesSubscription: Disposable
+    private var categorySubscription: Disposable? = null
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        if (categorySubscription==null)
+        {
+            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
+                if (it!=null) {
+                    state.tags = listOf<Tag>(it)
+                }
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        categorySubscription?.dispose()
+
+        super.onDestroy()
+    }
+
+    override fun onViewCreated() {
+        super.onViewCreated()
+
+        val address: String? = view?.getAddressFromArguments()
+        if (!address.isNullOrBlank()) {
+            view?.setAddress(address)
+        }
+    }
 
     override fun onCancelPressed() {
         view?.close()
     }
 
-    override fun initSubscriptions() {
-        super.initSubscriptions()
-
-        addressesSubscription = repository.getAddresses().subscribe {
-            state.updateAddresses(it.addresses)
-
-            state.deleteAddresses(repository.getAllAddressesInTrash())
-        }
-    }
 
     override fun onStart() {
         super.onStart()
+
         val allTags = repository.getAllTags()
+
         view?.setupTagAction(allTags.isEmpty())
+
+        view?.setTags(state.tags)
     }
 
     override fun onSavePressed() {
@@ -35,8 +60,9 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         val name = view?.getName() ?: ""
 
         if (QrHelper.isValidAddress(address)) {
-            if (state.addresses.containsKey(address)) {
-                view?.showTokenError(state.addresses[address])
+            val oldAddress = AppManager.instance.getAddress(address)
+            if (oldAddress!=null) {
+                view?.showTokenError(oldAddress)
             }
             else{
                 repository.saveContact(address, name.trim(), state.tags)
@@ -104,6 +130,4 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
     override fun onTokenChanged() {
         view?.hideTokenError()
     }
-
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)
 }

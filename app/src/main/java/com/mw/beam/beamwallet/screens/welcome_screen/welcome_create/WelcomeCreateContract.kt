@@ -22,7 +22,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 interface WelcomeCreateContract {
     interface View : MvpView {

@@ -31,20 +31,31 @@ interface TransactionsContract {
         fun init()
         fun showTransactionDetails(txId: String)
         fun configTransactions(transactions: List<TxDescription>)
-        fun showShareFileChooser(file: File)
+        fun exportSave(content:String)
+        fun exportShare(file: File)
         fun showProofVerification()
         fun showSearchTransaction()
+        fun changeMode(mode: TransactionsFragment.Mode)
+        fun showRepeatTransaction()
+        fun showDeleteTransactionsSnackBar()
+        fun deleteTransactions()
+        fun showInProgressToast()
     }
+
     interface Presenter: MvpPresenter<View> {
         fun onTransactionPressed(txDescription: TxDescription)
         fun onSearchPressed()
-        fun onExportPressed()
+        fun onExportShare()
+        fun onExportSave()
         fun onProofVerificationPressed()
+        fun onModeChanged(mode: TransactionsFragment.Mode)
+        fun onRepeatTransaction()
+        fun onConfirmDeleteTransactions(transactions: List<String>)
+        fun onDeleteTransactionsPressed()
     }
+
     interface Repository: MvpRepository {
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getTrashSubject(): Subject<TrashManager.Action>
         fun getTransactionsFile(): File
-        fun getAllTransactionInTrash(): List<TxDescription>?
+        fun deleteTransaction(txDescription: TxDescription?)
     }
 }

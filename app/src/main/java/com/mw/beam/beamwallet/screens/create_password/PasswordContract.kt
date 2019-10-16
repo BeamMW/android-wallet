@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ *  10/23/18.
  */
 interface PasswordContract {
     interface View : MvpView {

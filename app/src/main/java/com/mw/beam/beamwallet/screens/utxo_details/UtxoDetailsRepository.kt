@@ -28,24 +28,9 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 class UtxoDetailsRepository : BaseRepository(), UtxoDetailsContract.Repository {
 
-    override fun getUtxoUpdated(): Subject<List<Utxo>> {
-        return getResult(WalletListener.subOnAllUtxoChanged, "getUtxoUpdated") { wallet?.getUtxosStatus() }
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") { wallet?.getWalletStatus() }
-    }
-
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
-    }
 
 }

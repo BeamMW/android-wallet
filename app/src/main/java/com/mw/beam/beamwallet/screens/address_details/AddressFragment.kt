@@ -20,45 +20,43 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseFragment
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
- * Created by vain onnellinen on 3/4/19.
+ *  3/4/19.
  */
 class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private var adapter: TransactionsAdapter? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
-    override fun getToolbarTitle(): String? = getString(R.string.address_details)
+    override fun getToolbarTitle(): String? = null
     override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
+    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun init(address: WalletAddress) {
-        configAddressDetails(address)
-        initTransactionsList()
-        setHasOptionsMenu(true)
+        toolbarLayout.hasStatus = true
 
-        addressIdTitle.addDoubleDots()
-        expireDateTitle.addDoubleDots()
-        categoryTitle.addDoubleDots()
-        annotationTitle.addDoubleDots()
+        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.contact_details else R.string.address_details)
+
+        configAddressDetails(address)
+
+        initTransactionsList()
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -67,6 +65,7 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
+        menu?.findItem(R.id.delete)?.isVisible = false
         menu?.findItem(R.id.showQR)?.isVisible = address.isContact || !address.isExpired
     }
 
@@ -81,14 +80,22 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
         return true
     }
 
+    override fun copyToClipboard(content: String?, tag: String) {
+        super.copyToClipboard(content, tag)
+
+        showSnackBar(getString(R.string.address_copied_to_clipboard))
+    }
+
     private fun initTransactionsList() {
         if (adapter == null) {
-            adapter = TransactionsAdapter(context!!, listOf(), true) {
+            adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
                 presenter?.onTransactionPressed(it)
             }
+            adapter?.reverseColors = true
+            transactionsList.layoutManager = LinearLayoutManager(context)
+            transactionsList.adapter = adapter
         }
-
-        if (transactionsList.adapter == null) {
+        else if (transactionsList.adapter == null) {
             transactionsList.layoutManager = LinearLayoutManager(context)
             transactionsList.adapter = adapter
         }
@@ -99,25 +106,22 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        addressId.text = address.walletID
-        expirationDate.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
-        annotation.text = address.label
+        idLabel.text = address.walletID
+        expirationLabel.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
+        nameLabel.text = address.label
 
-        val annotationVisibility = if (address.label.isNotBlank()) View.VISIBLE else View.GONE
-        annotation.visibility = annotationVisibility
-        annotationTitle.visibility = annotationVisibility
+        if (nameLabel.text.isNullOrEmpty()) {
+            nameLabel.text = getString(R.string.no_name)
+        }
 
         val expirationVisibility = if (address.isContact) View.GONE else View.VISIBLE
-        expirationDate.visibility = expirationVisibility
-        expireDateTitle.visibility = expirationVisibility
+        expirationLayout.visibility = expirationVisibility
     }
 
     override fun configureTags(findTag: List<Tag>) {
         val categoryVisibility = if (findTag.isEmpty()) View.GONE else View.VISIBLE
-        tags.visibility = categoryVisibility
-        categoryTitle.visibility = categoryVisibility
-
-        tags.text = findTag.createSpannableString(context!!)
+        tagsLayout.visibility = categoryVisibility
+        tagsLabel.text = findTag.createSpannableString(context!!)
     }
 
     @SuppressLint("InflateParams")
@@ -148,11 +152,13 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
-        Log.d("Miolin", "configTransactions::$transactions")
-        transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionsLayout.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionsList.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
-        adapter?.data = transactions
-        adapter?.notifyDataSetChanged()
+        if (transactions.isNotEmpty()) {
+            adapter?.data = transactions
+            adapter?.notifyDataSetChanged()
+        }
     }
 
     override fun showTransactionDetails(txDescription: TxDescription) {

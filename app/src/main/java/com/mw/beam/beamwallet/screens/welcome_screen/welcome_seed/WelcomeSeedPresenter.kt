@@ -22,19 +22,12 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentRepository: WelcomeSeedContract.Repository)
     : BasePresenter<WelcomeSeedContract.View, WelcomeSeedContract.Repository>(currentView, currentRepository),
         WelcomeSeedContract.Presenter {
     private val COPY_TAG = "RECOVERY SEED"
-
-    override fun onStart() {
-        super.onStart()
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MASTERNET) {
-            view?.forbidScreenshot()
-        }
-    }
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -56,11 +49,6 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     override fun onCopyPressed() {
         view?.copyToClipboard(prepareSeed(repository.seed), COPY_TAG)
         view?.showCopiedAlert()
-    }
-
-    override fun onDestroy() {
-        view?.allowScreenshot()
-        super.onDestroy()
     }
 
     private fun prepareSeed(seed: Array<String>): String {

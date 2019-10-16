@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 data class Wallet(val _this: Long) {
     external fun getWalletStatus()
@@ -34,7 +34,6 @@ data class Wallet(val _this: Long) {
 
     @Deprecated("Need usage 'updateAddress'")
     external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
-
     external fun updateAddress(addr: String, name: String, addressExpirationEnum: Int)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)

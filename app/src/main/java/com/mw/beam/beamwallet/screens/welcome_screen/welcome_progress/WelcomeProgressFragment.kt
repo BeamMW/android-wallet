@@ -27,13 +27,20 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
+import android.animation.ObjectAnimator
+import androidx.navigation.NavOptions
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.helpers.toTimeFormat
+import java.io.File
+import com.mw.beam.beamwallet.core.helpers.*
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), WelcomeProgressContract.View {
     private lateinit var openTitleString: String
@@ -44,10 +51,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private lateinit var downloadTitleString: String
     private lateinit var createTitleString: String
     override var enableOnBackPress: Boolean = true
-
-    companion object {
-        private const val FULL_PROGRESS = 100
-    }
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -107,13 +110,33 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE -> { }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
+
+                    var descriptionString = if (progressData.time != null) {
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
+                        "$downloadDescriptionString ${progressData.done}%, $estimate"
+                    } else{
+                        "$downloadDescriptionString ${progressData.done}%"
+                    }
+
                     title.text = downloadTitleString
+
                     restoreFullDescription.visibility = View.GONE
-                    configProgress(progressData.done, "$downloadDescriptionString ${progressData.done}%")
-                } else {
+
+                    configProgress(progressData.done,descriptionString)
+                }
+                else {
+                    var descriptionString = if (progressData.time != null) {
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
+                        "$restoreDescriptionString ${countProgress(progressData)}%, $estimate"
+                    } else{
+                        "$restoreDescriptionString ${countProgress(progressData)}%"
+                    }
+
                     title.text = restoreTitleString
+
                     restoreFullDescription.visibility = View.VISIBLE
-                    configProgress(countProgress(progressData), "$restoreDescriptionString ${countProgress(progressData)}%")
+
+                    configProgress(countProgress(progressData), descriptionString)
                 }
             }
             WelcomeMode.CREATE -> { }
@@ -198,7 +221,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun navigateToCreateFragment() {
-        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+        if (isRecoverDataBaseExists()) {
+            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeOpenFragment())
+        }
+        else{
+            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+        }
     }
 
     override fun close() {
@@ -220,14 +248,50 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
-        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+        val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+        val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
+
+        if (recoverFile.exists()) {
+            recoverFile.delete()
+        }
+
+        if (journalRecoverFile.exists()) {
+            journalRecoverFile.delete()
+        }
+
+        App.isAuthenticated = true
+
+        AppManager.instance.subscribeToUpdates()
+
+        App.self.clearLogs()
+        App.self.startBackgroundService()
+
+        android.os.Handler().postDelayed({
+            val navBuilder = NavOptions.Builder()
+            navBuilder.setEnterAnim(R.anim.fade_in)
+            navBuilder.setPopEnterAnim(R.anim.fade_in)
+            navBuilder.setExitAnim(R.anim.fade_out)
+            navBuilder.setPopExitAnim(R.anim.fade_out)
+
+            val navigationOptions = navBuilder.build()
+            findNavController().navigate(R.id.walletFragment, null, navigationOptions)
+        }, 600)
     }
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {
         description.text = descriptionString
         description.visibility = View.VISIBLE
-        progress.progress = currentProgress
+
+        if (progress.progress == 0 && currentProgress == 100) {
+            ObjectAnimator.ofInt(progress, "progress", 100)
+                    .setDuration(500)
+                    .start()
+        }
+        else{
+            progress.progress = currentProgress
+        }
     }
+
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeProgressPresenter(this, WelcomeProgressRepository(), WelcomeProgressState())

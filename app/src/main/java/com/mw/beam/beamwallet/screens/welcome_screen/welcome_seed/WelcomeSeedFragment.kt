@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
 
 /**
- * Created by vain onnellinen on 10/30/18.
+ *  10/30/18.
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
     private lateinit var copiedAlert: String
@@ -46,6 +46,8 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun addListeners() {
+        forbidScreenshot()
+
         btnNext.setOnClickListener {
             presenter?.onNextPressed()
         }
@@ -56,15 +58,17 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun clearListeners() {
+        allowScreenshot()
+
         btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
     }
 
-    override fun forbidScreenshot() {
+    private fun forbidScreenshot() {
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
-    override fun allowScreenshot() {
+    private fun allowScreenshot() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 

@@ -17,7 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
 /**
- * Created by vain onnellinen on 1/8/19.
+ *  1/8/19.
  */
 class WelcomeRestoreState {
     val phrasesCount: Int = 12

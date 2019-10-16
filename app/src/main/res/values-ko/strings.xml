@@ -15,7 +15,10 @@
     <string name="cancel">취소</string>
     <string name="delete">삭제</string>
     <string name="confirm">확인</string>
-    <string name="change">잔액</string>
+    <string name="change_address">잔액</string>
+    <string name="change_address_title">주소 바꾸기</string>
+    <string name="change_utxo_type">잔액</string>
+    <string name="change_description">잔돈 (거래가 성공되거나 만료될 때까지 잠겨있게 됩니다)</string>
     <string name="ok">네</string>
     <string name="undo">취소하기</string>
     <string name="next">다음</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">QR 코드 공유하기</string>
     <string name="common_security_mode_title">프라이버시 모드 실행</string>
     <string name="common_security_mode_message">모든 잔고는 눈 모양의 아이콘을 다시 누르기 전까지는 가려져있을 것입니다.</string>
-    <string name="common_fingerprint_error">너무 많이 시도했습니다. 비밀번호를 입력하십시오.</string>
+    <string name="common_fingerprint_error">지문 인식에 실패했습니다, 비밀번호를 입력해주세요</string>
     <string name="common_share_title">공유중...</string>
     <string name="common_external_link_dialog_title">외부 링크</string>
     <string name="common_external_link_dialog_message">Beam 지갑 앱은 브라우저에서 외부 링크를 열 수 있는 권한이 필요합니다. 이를 수행하면 당신의 IP 주소가 웹 서버에 노출 될 것입니다. 원하지 않는다면 \"취소\" 를 선택하십시오. 설정에서 언제든지 변경할 수 있습니다.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">알림</string>
     <string name="help">도움말</string>
     <string name="settings">설정</string>
+    <string name="storage_permission_required_message_small">저장소 사용 권한을 허용하십시오</string>
     <!--Welcome-->
     <string name="create_new_wallet">새로운 지갑 만들기</string>
     <string name="restore_wallet">지갑 복구하기</string>
@@ -91,7 +95,7 @@
     <string name="welcome_progress_update_utxo_description">UTXO 스캔하기</string>
     <string name="welcome_progress_restore_description">복구됨</string>
     <string name="welcome_progress_download_description">다운로드됨</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
+    <string name="welcome_progress_restore_description_full_top">동기화가 완료될 때까지 창을 닫거나 최소화 시키지 마십시오. 지갑 복구에 일정 시간이 소요될 예정입니다.</string>
     <string name="welcome_progress_restore_description_full_bottom">오직 지갑 잔고(UTXO)만 복구됩니다, 거래 내용은 항상 비공개이고 블록체인 상에 절대 저장되지 않습니다.</string>
     <!--PasswordFragment-->
     <string name="pass_screen_description">지갑에 접근하기 위해서 비밀번호를 생성해야합니다.</string>
@@ -110,6 +114,7 @@
     <string name="pass_back_seed_title">시드 구문으로 돌아가기</string>
     <string name="pass_return_seed_title">시드 구문으로 돌아가기</string>
     <string name="pass_return_seed_btn_create_new">생성</string>
+    <string name="back">뒤로가기</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beam 이 보내졌습니다.</string>
     <string name="available">사용가능</string>
@@ -132,10 +137,13 @@
     <string name="pending">펜딩 중</string>
     <string name="transactions">거래내역</string>
     <string name="wallet_empty_transactions_list_message">거래 내역이 없습니다</string>
+    <string name="wallet_empty_transactions_list_message_proggress">활성화된 거래가 없습니다.</string>
     <string name="search">검색</string>
     <string name="filter">필터</string>
     <string name="export">내보내기</string>
     <string name="payment_proof">지불 증명</string>
+    <string name="export_transaction_history_title">거래내역 내보내기</string>
+    <string name="export_transaction_history_text">거래 내역을 기기에 저장 하시겠습니까, 아니면 공유 하시겠습니까?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">활성화</string>
@@ -189,6 +197,16 @@
     <string name="my_sending_address">나의 보내는 주소</string>
     <string name="my_address">내 주소</string>
     <string name="transaction_deleted">거래 삭제</string>
+    <string name="save_contact">연락처 저장</string>
+    <string name="transactions_deleted">거래 삭제됨</string>
+    <string name="delete_transactions">거래 내역 삭제</string>
+    <string name="delete_transaction_text">이 거래 기록은 지갑에서 삭제됩니다.</string>
+    <string name="delete_transactions_text">이 거래 기록들은 지갑에서 삭제됩니다.</string>
+    <string name="cancell_transaction_warning_message">이 거래를 정말 취소하시겠습니까?</string>
+    <string name="delete_addresses_text">이 주소들은 지갑에서 삭제됩니다.</string>
+    <string name="delete_address_text">이 주소는 지갑에서 삭제됩니다.</string>
+    <string name="delete_contacts_text">이 연락처는 지갑에서 삭제됩니다.</string>
+    <string name="delete_contact_text">이 연락처는 지갑에서 삭제됩니다.</string>
     <!--ReceiveFragment-->
     <string name="swap">바꾸기</string>
     <string name="auto_generated">자동 생성</string>
@@ -205,13 +223,13 @@
     <string name="optional">선택사항</string>
     <string name="name">이름</string>
     <string name="edit_address">주소 수정</string>
+    <string name="edit_contact">컨트랙트 편집</string>
     <string name="advanced">추가기능</string>
-    <string-array name="receive_expires_periods">
-        <item>24시간 이내</item>
-        <item>안함</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">수신자의 주소를 입력하거나 스캔하세요</string>
+    <string name="share">공유하기</string>
+    <string name="save_to_downloads">다운로드에 저장</string>
+    <string name="saved_to_downloads">다운로드에 저장됨</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">양 칸이 비어있습니다.</string>
     <string name="send_amount_zero_error">0 BEAM 이 될 수는 없습니다</string>
     <string name="send_amount_overflow_error">자금이 부족합니다 : 거래를 완료하려면 %1$s 만큼의 beam이 필요합니다.</string>
@@ -233,11 +251,11 @@
     <string name="outgoing_address">발신 주소</string>
     <string name="my_addresses">내 주소들</string>
     <string name="no_matching_address_found">일치한 주소가 없습니다</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
+    <string name="local_comment_not_shared">로컬 댓글은 공유되지 않습니다</string>
     <string name="address_already_exist_1">해당 주소는 이미 있습니다.</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
-    <!--SettingsFragment-->
+    <string name="address_already_exist_2">주소를 저장할 수 없습니다. 해당 주소는 이미 존재합니다.</string>
     <string name="settings_report">문제 신고하기</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">지갑 비밀번호 바꾸기</string>
     <string name="settings_version">앱 버전</string>
     <string name="settings_send_logs_description">로그 보내는 중...</string>
@@ -262,37 +280,41 @@
     <string name="settings_confirm_clear_message">정말 모든 %1$s 를 지갑에서 지우시겠습니까?</string>
     <string name="contacts">연락처</string>
     <string name="transaction">거래내역</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">지갑 불러오는 중</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">활성화 상태 주소</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">만료된 주소</string>
     <string name="no_name">이름 없음</string>
     <string name="address_deleted">주소 삭제됨</string>
     <string name="contact_deleted">연락처 삭제됨</string>
-    <string name="addresses_deleted">Addresses deleted</string>
-    <!--AddressFragment-->
+    <string name="addresses_deleted">주소 삭제됨</string>
+    <string name="contacts_deleted">연락처 삭제됨</string>
     <string name="address">주소</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">QR 코드 보이기</string>
     <string name="delete_address">주소 삭제</string>
-    <string name="delete_addresses">Delete addresses</string>
+    <string name="delete_contact">연락처 삭제</string>
+    <string name="delete_addresses">주소 삭제</string>
+    <string name="delete_contacts">연락처 삭제</string>
     <string name="transactions_list">거래내역</string>
     <string name="address_id">주소 ID</string>
     <string name="expiration_date">만료 일자</string>
     <string name="tag">태그</string>
-    <!--EditAddressFragment-->
+    <string name="show_qr_code_short">QR 보이기</string>
     <string name="expire_address_now">주소 만료시키기</string>
+    <!--EditAddressFragment-->
     <string name="active_address">주소 활성화</string>
     <string name="save">저장</string>
     <string name="now">현재</string>
     <string name="none">없음</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">비밀번호 바꾸기</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">비밀번호를 입력하세요</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">QR 코드 스캔하기</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">지불 증명 검증</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">당신의 지불 증명을 여기에 붙여넣기 하세요</string>
     <string name="payment_proof_verification_error">디코딩 할 수 없습니다. 잘못된 시퀀스입니다.</string>
     <string name="copy_details">세부사항 복사하기</string>
@@ -301,16 +323,17 @@
     <string name="sender">보내는 사람</string>
     <string name="receiver">받는 사람</string>
     <string name="current_password_is_incorrect">올바른 비밀번호가 아닙니다</string>
-    <!--CategoryFragment-->
+    <string name="paste_payment_proof">당신의 지불 증명을 여기에 붙여넣기 하세요</string>
     <string name="edit">수정</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">태그 삭제</string>
     <string name="tag_delete_dialog_message">정말 %1$s 태그를 삭제 하시겠습니까?</string>
-    <!--EditCategory-->
     <string name="edit_tag">태그 편집</string>
+    <!--EditCategory-->
     <string name="create_tag">태그 생성</string>
     <string name="color">색깔</string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">소유자 키 보이기</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">소유자 키를 보기 위해서는 2단계의 검증을 거쳐야 합니다. (비밀번호를 입력하고 지문을 사용하세요)</string>
     <string name="owner_key_verification_fingerprint_error">지문 인증에 실패했습니다. 잠시 후에 다시 시도하십시오.</string>
     <string name="owner_key_verification_title_with_finger">지갑에 접근하려면 비밀번호를 입력하고 Fingerprint ID 를 사용하세요</string>
@@ -319,19 +342,18 @@
     <string name="owner_key_copied_message">소유자 키 코드가 클립보드에 복사되었습니다.</string>
     <string name="owner_key_code_description">신뢰할 수 있는 노드에게 소유자 키를 배포하면 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. \n\n 당신의 소유자 키를 다른 사람과 공유하지 마십시오 - 당신의 자금 상황이 추적 및 감시 당할 수 있습니다.</string>
     <string name="owner_key_verification_pass">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑의 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 비밀 번호를 입력해야 합니다.</string>
-    <string name="owner_key_verification_pass_finger">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑으로 전송된 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 2단계의 검증과정을 거쳐야 합니다. (비밀 번호 입력과 지문인식)</string>
-    <!--BackgroundService-->
+    <string name="owner_key_verification_pass_finger">신뢰할 수 있는 노드에게 소유자 키를 배포하면 이 지갑 그리고 이 지갑과 같은 시드 구문으로 생성된 모든 지갑으로 전송된 UTXO 를 볼 수 있습니다. 소유자 키를 보기 위해서는 2단계의 검증과정을 거쳐야 합니다. (비밀번호 입력과 지문인식)</string>
     <string name="notification_receive_content_title">새로운 거래 받는중</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">세부사항을 보려면 클릭하세요</string>
     <string name="notification_channel_name">알림 채널</string>
     <string name="notification_channel_description">고정 알림 채널</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">지문 센서를 터치하세요.</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">지문 ID</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">주소 바꾸기</string>
-    <!-- Language -->
     <string name="language">언어</string>
+    <!-- Language -->
     <string name="language_dialog_message">언어 설정을 적용하려면 앱을 다시 시작하십시오</string>
     <string name="restart_now">지금 다시 시작하기</string>
     <string name="rate_app">앱 평가하기</string>
@@ -343,7 +365,6 @@
     <string name="total_utxo_value">UTXO 총량</string>
     <string name="confirmation_send_description">거래가 완료되기 위해서, 수신자는 12시간 이내로 온라인 상태가 되어야하고 당신 역시 2시간 안으로 온라인 상태이어야합니다.</string>
     <string name="confirmation">확인</string>
-    <string name="change_description">거래가 성공되거나 만료될 때까지 잠겨있게 됩니다.</string>
     <string name="save_recipient_address">추후의 추가 거래를 위해 받는 사람의 주소를 저장하겠습니까?</string>
     <string name="save_address">주소 저장</string>
     <string name="dont_save">저장하지 않기</string>
@@ -353,7 +374,9 @@
     <string name="search_by_address_tag_or_name">주소, 태그 혹은 이름으로 검색하기</string>
     <string name="min_fee_error">최소 수수료는 %1$s GROTH 입니다</string>
     <string name="delete_all_transactions_related_to_this_address">해당 주소와 연관된 거래 모두 삭제하기</string>
-    <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
+    <string name="delete_all_transactions_related_to_this_addresses">해당 주소와 연관된 거래 모두 삭제하기</string>
+    <string name="delete_all_transactions_related_to_this_contact">해당 주소와 연관된 거래 모두 삭제하기</string>
+    <string name="delete_all_transactions_related_to_this_contacts">해당 주소와 연관된 거래 모두 삭제하기</string>
     <string name="search_transaction">거래 검색</string>
     <string name="never_expires">만료 안됨</string>
     <string name="expires_in">%1$s 시간 %2$s 분 안에 만료됨</string>
@@ -362,8 +385,9 @@
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">지문인식이나 비밀번호를 입력하여 거래를 완료하십시오</string>
     <string name="fingerprint_not_recognized">지문 인증 실패</string>
     <string name="address_copied_to_clipboard">주소가 클립보드에 저장 되었습니다.</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam 지갑이 클라우드에서 블록체인 스냅샷을 다운로드 받을 것입니다.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam 지갑은 특정 노드와 연결될 것이며 당신의 자금을 블록체인에서 검색할 것입니다.</string>
+    <string name="copied_to_clipboard">클립보드에 복사되었습니다.</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">신뢰할 수 있는 노드로 복구하기</string>
     <string name="automatic_restore_recommended">자동 복구(추천방식)</string>
     <string name="enter_trusted_node_address">신뢰할 수 있는 노드 주소를 입력하세요</string>
@@ -405,6 +429,24 @@
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">코드를 복사한 후에, 데스크탑에서는 노드를 돌리고 모바일 앱에서는 다음 버튼을 누르세요.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">노드가 연결할 수 없는 상태입니다. 다른 노드에 지갑을 연결하거나 자동 복구를 실행하십시오.</string>
     <string name="connecting">연결중...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">거래 ID , 코멘트 , 주소 혹은 연락처로 검색하기</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">거래 ID , 코멘트 , 주소 혹은 연락처로 검색하기</string>
     <string name="address_details">주소 상세정보</string>
+    <string name="contact_details">연락처 세부 정보</string>
+    <string name="crash_title">Beam 지갑이 알 수 없는 이유로 종료되었습니다</string>
+    <string name="crash_message">제한된 양의 정보를 당사에 보고하기로 동의 하시겠습니까? 에러 정보를 수집하면 버그를 훨씬 빨리 발견하고 수정할 수 있습니다. 이것은 에러 관련 보고서일 뿐이며 저희는 귀하의 데이터를 계속 수집하지는 않습니다.</string>
+    <string name="crash_negative">아니오, 괜찮습니다.</string>
+    <string name="crash_positive">신고하기</string>
+    <string name="h">시</string>
+    <string name="m">분</string>
+    <string name="s">초</string>
+    <string name="estimted_time">추정시간</string>
+    <string-array name="receive_expires_periods">
+        <item>24시간 이내</item>
+        <item>안함</item>
+    </string-array>
+    <string name="save_wallet_logs">지갑 로그 저장하기</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

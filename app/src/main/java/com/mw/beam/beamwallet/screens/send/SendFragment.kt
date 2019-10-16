@@ -69,10 +69,8 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
-import android.content.ClipboardManager
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
-import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.fragment_send.advancedContainer
 import kotlinx.android.synthetic.main.fragment_send.advancedGroup
 import kotlinx.android.synthetic.main.fragment_send.amount
@@ -89,12 +87,13 @@ import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var searchAddressViewDY = 0f
     private lateinit var pagerAdapter: AddressesPagerAdapter
     private var minFee = 0
+    private var maxFee = 0
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -156,12 +155,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val onFeeChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            if (progress >= minFee) {
-                presenter?.onFeeChanged(progress.toString())
-                updateFeeValue(progress)
-            } else {
-                feeSeekBar.progress = minFee
-            }
+            val p = progress + minFee
+            presenter?.onFeeChanged(p.toString())
+            updateFeeValue(p)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -203,12 +199,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun getToken(): String = token.text.toString()
     override fun getComment(): String? = comment.text.toString()
     override fun getFee(): Long {
-        val progress = feeSeekBar.progress.toLong()
+        val progress = feeSeekBar.progress.toLong() + minFee.toLong()
         return if (progress < 0) 0 else progress
     }
 
     @SuppressLint("SetTextI18n")
-    override fun init(defaultFee: Int, maxFee: Int) {
+    override fun init(defaultFee: Int, max: Int) {
+        maxFee = max
 
         if(token.text.toString().isEmpty()) {
             token.setTypeface(null,Typeface.ITALIC)
@@ -225,11 +222,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         setHasOptionsMenu(true)
-        feeSeekBar.max = maxFee
+
+        feeSeekBar.max = maxFee - minFee
+
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
         maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
 
-        feeSeekBar.progress = defaultFee
+        feeSeekBar.progress = 0
         updateFeeValue(defaultFee)
 
         val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
@@ -287,14 +286,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setupMinFee(fee: Int) {
         minFee = fee
 
-        if (feeSeekBar.progress < minFee) {
-            feeSeekBar.progress = minFee
-        }
+        feeSeekBar.max = maxFee - minFee
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
-            feeSeekBar.min = minFee
-        }
+        minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
     }
 
     override fun showMinFeeError() {
@@ -465,7 +459,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("InflateParams")
     override fun showFeeDialog() {
-        var dialog: AlertDialog? = null
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_send_fee, null)
 
         view.findViewById<ImageView>(R.id.btnClose).setOnClickListener {
@@ -474,7 +467,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
-        feeEditText.filters = arrayOf(InputFilterMinMax(0, SendPresenter.MAX_FEE))
+        feeEditText.filters = arrayOf(InputFilterMinMax(0, Int.MAX_VALUE))
         feeEditText.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
@@ -489,9 +482,22 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             val rawFee = feeEditText.text?.toString()
             val fee = rawFee?.toLongOrNull() ?: 0
             if (fee >= minFee) {
+
+                if(fee > presenter!!.MAX_FEE) {
+                    maxFee = fee.toInt()
+
+                    presenter!!.MAX_FEE = maxFee
+
+                    maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
+
+                    feeSeekBar.max = maxFee - minFee
+                }
+
                 presenter?.onEnterFee(rawFee)
+
                 dialog?.dismiss()
-            } else {
+            }
+            else {
                 val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
                 feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
                 feeErrorTextView.visibility = View.VISIBLE
@@ -501,6 +507,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
+
+        feeEditText.requestFocus()
+
+        Handler().postDelayed({
+            showKeyboard()
+        }, 100)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -586,7 +598,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun setFee(feeAmount: String) {
         val fee = feeAmount.toIntOrNull() ?: 0
-        feeSeekBar.progress = fee
+        feeSeekBar.progress = fee - minFee
         updateFeeValue(fee)
     }
 
@@ -682,7 +694,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setTags(currentTags: List<Tag>) {
-        tags.text = currentTags.createSpannableString(context!!)
+        if (currentTags.count()==0) {
+            tags.text = getString(R.string.none)
+        }
+        else{
+            tags.text = currentTags.createSpannableString(context!!)
+        }
     }
 
     override fun setupTagAction(isEmptyTags: Boolean) {
@@ -762,6 +779,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setAmount(amount: Double) {
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
+
 
     }
 
@@ -852,6 +870,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             spannable?.removeSpan(foregroundStartColorSpan)
             spannable?.removeSpan(foregroundEndColorSpan)
         }
+
+        if(length == 0) {
+            token.setTypeface(null,Typeface.ITALIC)
+        }
+        else {
+            token.setTypeface(null,Typeface.NORMAL)
+        }
     }
 
     override fun clearAddressError() {
@@ -875,14 +900,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.text = null
         comment.text = null
 
-        feeSeekBar.progress = defaultFee
+        feeSeekBar.progress = defaultFee - minFee
+
         updateFeeValue(defaultFee)
 
     }
 
     override fun updateFeeViews(clearAmountFocus: Boolean) {
         amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.sent_color))
-        updateFeeValue(feeSeekBar.progress, clearAmountFocus)
+        updateFeeValue(feeSeekBar.progress+minFee, clearAmountFocus)
     }
 
     override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {

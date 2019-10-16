@@ -29,7 +29,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 interface WalletContract {
     interface View : MvpView {
@@ -50,6 +50,7 @@ interface WalletContract {
         fun closeDrawer()
         fun clearAllNotification()
         fun showAllTransactions()
+        fun selectWalletMenu()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -68,12 +69,8 @@ interface WalletContract {
     }
 
     interface Repository : MvpRepository {
-        fun getWalletStatus(): Subject<WalletStatus>
-        fun getTxStatus(): Observable<OnTxStatusData>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun getIntentTransactionId(): String?
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
         fun saveFinishRestoreFlag()
     }
 }

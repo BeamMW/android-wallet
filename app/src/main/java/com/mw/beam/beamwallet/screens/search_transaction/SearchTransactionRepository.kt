@@ -24,16 +24,5 @@ import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 class SearchTransactionRepository : BaseRepository(), SearchTransactionContract.Repository {
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
-    }
 }

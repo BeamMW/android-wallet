@@ -1,9 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@android:id/background"
-        android:drawable="@drawable/progress_bar_empty" />
-    <item
-        android:id="@android:id/progress"
-        android:drawable="@drawable/progress_bar_full" />
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="8dp"/>
+            <solid android:color="@color/white_01"/>
+        </shape>
+    </item>
+
+    <item android:id="@android:id/progress"
+        android:top="1dp"
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp">
+
+        <scale android:scaleWidth="100%">
+            <shape>
+                <corners android:radius="8dp"/>
+                <solid android:color="@color/colorAccent"/>
+            </shape>
+        </scale>
+    </item>
 </layer-list>

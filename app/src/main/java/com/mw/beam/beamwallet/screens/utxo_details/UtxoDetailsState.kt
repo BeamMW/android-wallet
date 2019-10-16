@@ -20,24 +20,17 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 
 /**
- * Created by vain onnellinen on 12/28/18.
+ *  12/28/18.
  */
 class UtxoDetailsState {
-    var shouldExpandDetail = false
+    var shouldExpandDetail = true
     var shouldExpandTransactions = true
 
     var utxo: Utxo? = null
-    val transactions = HashMap<String, TxDescription>()
 
-    fun updateTransactions(tx: List<TxDescription>? = null) {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
+    var transactions = mutableListOf<TxDescription>()
+
+    fun sortedTransactions():List<TxDescription> {
+        return transactions.sortedByDescending { it.createTime }
     }
-
-    fun deleteTransactions(tx: List<TxDescription>?) {
-        tx?.forEach { transactions.remove(it.id) }
-    }
-
-    fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
 }

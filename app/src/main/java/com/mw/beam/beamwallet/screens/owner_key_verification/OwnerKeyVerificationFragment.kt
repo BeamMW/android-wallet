@@ -19,8 +19,6 @@ package com.mw.beam.beamwallet.screens.owner_key_verification
 import android.os.Handler
 import android.text.Editable
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import androidx.navigation.fragment.findNavController
@@ -33,23 +31,14 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import com.mw.beam.beamwallet.screens.fingerprint_dialog.FingerprintDialog
-import com.mw.beam.beamwallet.screens.fingerprint_dialog.FingerprintDialogContract
-import kotlinx.android.synthetic.main.dialog_fingerprint.*
 import kotlinx.android.synthetic.main.fragment_owner_key_verification.*
-import kotlinx.android.synthetic.main.fragment_owner_key_verification.fingerprintImage
 import kotlinx.android.synthetic.main.fragment_owner_key_verification.pass
 import kotlinx.android.synthetic.main.fragment_owner_key_verification.passError
-import com.mw.beam.beamwallet.core.*
-import com.mw.beam.beamwallet.core.views.gone
-import com.mw.beam.beamwallet.core.views.visible
-import kotlinx.android.synthetic.main.dialog_confirm_transaction.*
+import com.mw.beam.beamwallet.core.views.Type
 
 class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(), OwnerKeyVerificationContract.View {
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
-    private var delayedTask: DelayedTask? = null
-
 
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
@@ -92,7 +81,6 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     override fun displayFingerPrint(display: Boolean) {
         mainScrollView.visibility = if (display) View.GONE else View.VISIBLE
         fingerMainView.visibility = if (display) View.VISIBLE else View.GONE
-        fingerErrorLabel.visibility = View.GONE
     }
 
     override fun addListeners() {
@@ -142,22 +130,11 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     }
 
     override fun showFailed() {
-        fingerErrorLabel.visible(true)
-
-        animatedChangeDrawable(R.drawable.ic_touch_error)
-
-        delayedTask?.cancel(true)
-        delayedTask = DelayedTask.startNew(1, {
-            fingerErrorLabel.gone(true)
-            animatedChangeDrawable(R.drawable.ic_touch) })
+        touchIDView.setType(Type.FAILED)
     }
 
     override fun success() {
-        delayedTask?.cancel(true)
-
-        fingerErrorLabel.gone(true)
-
-        animatedChangeDrawable(R.drawable.ic_touch_success)
+        touchIDView.setType(Type.SUCCESS)
 
         DelayedTask.startNew(1, {
             presenter?.onFingerprintSuccess()
@@ -170,34 +147,13 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     }
 
     override fun error() {
-        delayedTask?.cancel(true)
-
-        if (fingerErrorLabel != null) {
-            fingerErrorLabel.text = getString(R.string.owner_key_verification_fingerprint_error)
-            fingerErrorLabel.visible(true)
-
-            animatedChangeDrawable(R.drawable.ic_touch_error)
+        if (touchIDView!=null) {
+            touchIDView.setType(Type.ERROR)
 
             showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
         }
     }
 
-    private fun animatedChangeDrawable(resId: Int) {
-        val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
-        val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-
-        fadeOut.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-
-            override fun onAnimationStart(animation: Animation?) {}
-
-            override fun onAnimationEnd(animation: Animation?) {
-                fingerprintImage.setImageDrawable(context?.getDrawable(resId))
-                fingerprintImage.startAnimation(fadeIn)
-            }
-        })
-        fingerprintImage.startAnimation(fadeOut)
-    }
 
     private class FingerprintCallback(val presenter: OwnerKeyVerificationContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {

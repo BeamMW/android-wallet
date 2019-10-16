@@ -27,6 +27,7 @@ interface AddContactContract {
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
         fun showErrorNotBeamAddress()
+        fun getAddressFromArguments(): String?
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -46,7 +47,5 @@ interface AddContactContract {
         fun saveContact(address: String, name: String, tags: List<Tag>)
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
-        fun getAddresses(): Subject<OnAddressesData>
-        fun getAllAddressesInTrash(): List<WalletAddress>
     }
 }

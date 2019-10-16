@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
 import android.text.Editable
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.GridLayout
@@ -37,10 +38,11 @@ import kotlinx.android.synthetic.main.fragment_welcome_restore.*
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.PasteManager
+import android.widget.LinearLayout
 
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeRestoreContract.View {
     override fun showRestoreNotification() {
@@ -54,12 +56,18 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     override fun getToolbarTitle(): String = getString(R.string.restore_wallet)
 
     override fun init() {
-        btnRestore.isEnabled = false
+        btnNext.isEnabled = false
 
         when(BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> {btnShare.visibility = View.VISIBLE}
-            AppConfig.FLAVOR_TESTNET -> {btnShare.visibility = View.VISIBLE}
-            AppConfig.FLAVOR_MAINNET -> {btnShare.visibility = View.GONE}
+            AppConfig.FLAVOR_MASTERNET -> {
+                btnShare.visibility = View.VISIBLE
+            }
+            AppConfig.FLAVOR_TESTNET -> {
+                btnShare.visibility = View.VISIBLE
+            }
+            AppConfig.FLAVOR_MAINNET -> {
+                btnShare.visibility = View.GONE
+            }
         }
     }
 
@@ -69,14 +77,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
 
     override fun clearSuggestions() {
         suggestionsView.clear()
-    }
-
-    override fun showSuggestions() {
-        suggestionsView.visibility = View.VISIBLE
-    }
-
-    override fun hideSuggestions() {
-        suggestionsView.visibility = View.GONE
     }
 
     override fun setTextToCurrentView(text: String) {
@@ -93,9 +93,9 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun addListeners() {
+        forbidScreenshot()
         btnShare.setOnClickListener {
-            //"suggest;upgrade;online;snow;record;salad;organ;december;chalk;update;maze;spell;"//
-            val data =  PasteManager.getPasteData(context)
+            val data = PasteManager.getPasteData(context)
             val phrases1 = data.split(";").toTypedArray()
             val phrases2 = data.split("\n").toTypedArray()
 
@@ -122,10 +122,12 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 }
             }
 
-            btnRestore.isEnabled = arePhrasesFilled()
+            btnNext.isEnabled = arePhrasesFilled()
+
+            hideKeyboard()
         }
 
-        btnRestore.setOnClickListener {
+        btnNext.setOnClickListener {
             if (it.isEnabled) {
                 presenter?.onRestorePressed()
             }
@@ -139,12 +141,10 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun onHideKeyboard() {
-        presenter?.onKeyboardStateChange(false)
+        suggestionsView.find("")
     }
 
     override fun onShowKeyboard() {
-        presenter?.onKeyboardStateChange(true)
-
         if (currentEditText != null)
         {
             val view = seedLayout.findFocus() as BeamEditText
@@ -153,6 +153,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
                 val y = view.height * rowIndex + suggestionsView.height
                 mainScroll.smoothScrollTo(0, y)
             }
+
+            suggestionsView.find(currentEditText?.text.toString())
         }
     }
 
@@ -231,7 +233,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun handleRestoreButton() {
-        btnRestore.isEnabled = arePhrasesFilled()
+        btnNext.isEnabled = arePhrasesFilled()
     }
 
     override fun getSeed(): Array<String> {
@@ -256,12 +258,22 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
     }
 
     override fun clearListeners() {
-        btnRestore.setOnClickListener(null)
+        btnNext.setOnClickListener(null)
         btnShare.setOnClickListener(null)
         suggestionsView.setOnSuggestionClick(null)
+        allowScreenshot()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return WelcomeRestorePresenter(this, WelcomeRestoreRepository(), WelcomeRestoreState())
+    }
+
+
+    private fun forbidScreenshot() {
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
+    }
+
+    private fun allowScreenshot() {
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
 }

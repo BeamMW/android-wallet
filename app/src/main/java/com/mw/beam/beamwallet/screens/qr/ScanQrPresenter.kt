@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 
 /**
- * Created by vain onnellinen on 3/15/19.
+ *  3/15/19.
  */
 class ScanQrPresenter (currentView: ScanQrContract.View, currentRepository: ScanQrContract.Repository)
     : BasePresenter<ScanQrContract.View, ScanQrContract.Repository>(currentView, currentRepository),

@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ *  10/19/18.
  */
 interface WelcomeOpenContract {
     interface View : MvpView {
@@ -50,5 +50,6 @@ interface WelcomeOpenContract {
 
     interface Repository : MvpRepository {
         fun isFingerPrintEnabled(): Boolean
+        fun checkPass(pass: String?): Boolean
     }
 }

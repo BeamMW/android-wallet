@@ -19,15 +19,17 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
-import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.RestoreManager
 
 /**
- * Created by vain onnellinen on 1/24/19.
+ *  1/24/19.
  */
 class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, currentRepository: WelcomeProgressContract.Repository, private val state: WelcomeProgressState)
     : BasePresenter<WelcomeProgressContract.View, WelcomeProgressContract.Repository>(currentView, currentRepository),
@@ -73,6 +75,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         state.mode = view?.getMode() ?: return
         state.password = view?.getPassword() ?: return
         state.seed = view?.getSeed()
+
+        AppManager.instance.isResotred = state.mode == WelcomeMode.RESTORE_AUTOMATIC
     }
 
     override fun onStart() {
@@ -107,7 +111,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
-
         downloadSubscription = repository.downloadRestoreFile(file)
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,8 +126,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
                         if (it.done == it.total) {
                             isAlreadyDownloaded = true
-
-                            Api.stopProgressChecker()
 
                             startImport()
                         }
@@ -323,28 +324,26 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
 
-        Api.stopProgressChecker()
+        RestoreManager.instance.stopDownload()
 
         super.onDestroy()
     }
 
     private fun showWallet() {
-        //sometimes lib notifies us few times about end of progress
-        //so we need to unsubscribe from events to prevent unexpected behaviour
        if(!isShow) {
            isShow = true
 
            disposable.dispose()
 
-           repository.createRestoreFile() //remove file
+           repository.removeRestoreFile()
+
+           DownloadCalculator.onStopDownload()
 
            view?.showWallet()
        }
     }
 
     private fun finishNodeProgressSubscription() {
-        //sometimes lib notifies us few times about end of progress
-        //so we need to unsubscribe from events to prevent unexpected behaviour
         nodeProgressUpdatedSubscription.dispose()
         isNodeSyncFinished = true
     }
@@ -355,12 +354,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     private fun cancelRestore() {
-        Api.stopDownload()
+        RestoreManager.instance.stopDownload()
 
         shouldCloseWallet = true
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
-        repository.closeWallet()
 
         view?.navigateToCreateFragment()
     }

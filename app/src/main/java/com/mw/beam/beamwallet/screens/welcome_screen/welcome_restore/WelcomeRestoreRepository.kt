@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 
 /**
- * Created by vain onnellinen on 11/5/18.
+ *  11/5/18.
  */
 class WelcomeRestoreRepository : BaseRepository(), WelcomeRestoreContract.Repository {
 

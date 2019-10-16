@@ -30,7 +30,7 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_check_old_pass.*
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPassContract.View {
     private val passWatcher = object : TextWatcher {

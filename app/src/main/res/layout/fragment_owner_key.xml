@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/common_card_padding"
-                android:text="@string/code"
+                android:text="@string/key_code"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

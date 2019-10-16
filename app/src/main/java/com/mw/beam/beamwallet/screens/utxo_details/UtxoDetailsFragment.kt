@@ -21,7 +21,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
@@ -38,13 +37,12 @@ import kotlinx.android.synthetic.main.fragment_utxo_details.*
 import kotlinx.android.synthetic.main.fragment_utxo_details.toolbarLayout
 import android.transition.TransitionManager
 import android.transition.AutoTransition
-import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
@@ -56,6 +54,8 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
+
+        detailsArrowView.rotation = 180f
     }
 
     @SuppressLint("SetTextI18n")
@@ -70,7 +70,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         statusLabel.text = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
-            UtxoStatus.Change -> getString(R.string.change)
+            UtxoStatus.Change -> getString(R.string.change_utxo_type)
             UtxoStatus.Outgoing -> getString(R.string.outgoing)
             UtxoStatus.Maturing -> getString(R.string.maturing)
             UtxoStatus.Spent -> getString(R.string.spent)
@@ -82,7 +82,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
-            UtxoKeyType.Change -> getString(R.string.change)
+            UtxoKeyType.Change -> getString(R.string.change_utxo_type)
             UtxoKeyType.Kernel -> getString(R.string.kernel)
             UtxoKeyType.Kernel2 -> getString(R.string.kernel2)
             UtxoKeyType.Identity -> getString(R.string.identity)
@@ -127,7 +127,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         animateDropDownIcon(detailsArrowView, !shouldExpandDetails)
         beginTransition()
 
-        val contentVisibility = if (!shouldExpandDetails) View.VISIBLE else View.GONE
+        val contentVisibility = if (shouldExpandDetails) View.VISIBLE else View.GONE
         idLayout.visibility = contentVisibility
         typeLayout.visibility = contentVisibility
     }
@@ -161,7 +161,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         view.tag = index
         view.setOnClickListener {
             val index = it.tag as Int
-            val transactionID = presenter?.state?.getTransactions()?.get(index)?.id
+            val transactionID = presenter?.state?.sortedTransactions()?.get(index)?.id
             if (transactionID != null) {
                 findNavController().navigate(UtxoDetailsFragmentDirections.actionUtxoDetailsFragmentToTransactionDetailsFragment(transactionID))
             }

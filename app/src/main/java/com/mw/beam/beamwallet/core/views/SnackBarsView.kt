@@ -28,9 +28,14 @@ import java.util.*
 import kotlin.concurrent.schedule
 import android.animation.ObjectAnimator
 import android.view.animation.AccelerateInterpolator
+import com.mw.beam.beamwallet.core.views.*
+import android.view.animation.AnimationUtils
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+
 
 class SnackBarsView: FrameLayout {
-    private val snackbarLifeTime: Long = 5000
+    private var snackbarLifeTime: Long = 5000
     private val period: Long = 10
 
     private var info: SnackBarInfo? = null
@@ -44,16 +49,32 @@ class SnackBarsView: FrameLayout {
     constructor(context: Context) : super(context)
 
     fun show(message: String, onDismiss: (() -> Unit)? = null, onUndo: (() -> Unit)? = null) {
-        dismiss()
+     //   dismiss()
+
+        smoothAnimation?.cancel()
+        smoothAnimation = null
+
+        timer?.cancel()
+        timer = null
+
+        info = null
+
+        removeAllViews()
+        removeAllViewsInLayout()
 
         info = SnackBarInfo(message, onDismiss, onUndo)
 
+        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+
         val view = LayoutInflater.from(context).inflate(R.layout.snackbar_layout, this)
+        view.startAnimation(animation)
         view?.setOnClickListener {  }
 
         view.findViewById<TextView>(R.id.contentText).text = message
 
         if (onUndo != null) {
+            snackbarLifeTime = 5000
+
             view.findViewById<View>(R.id.timerView).visibility = View.VISIBLE
 
             val btnUndo = view.findViewById<View>(R.id.btnUndo)
@@ -69,6 +90,9 @@ class SnackBarsView: FrameLayout {
             smoothAnimation = ObjectAnimator.ofInt(progressBar, "progress", progressBar!!.progress, progressBar.max)
             smoothAnimation?.duration = 100
             smoothAnimation?.interpolator = AccelerateInterpolator()
+        }
+        else{
+            snackbarLifeTime = 3000
         }
 
         startNewTimer()
@@ -95,7 +119,19 @@ class SnackBarsView: FrameLayout {
 
         info = null
 
-        removeAllViews()
+        val animation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+        animation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(arg0: Animation) {
+
+            }
+            override fun onAnimationRepeat(arg0: Animation) {
+
+            }
+            override fun onAnimationEnd(arg0: Animation) {
+                removeAllViews()
+            }
+        })
+        currentView?.startAnimation(animation)
     }
 
     private fun millisToSecond(millis: Long): String {

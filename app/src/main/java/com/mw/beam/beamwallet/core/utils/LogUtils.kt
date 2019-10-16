@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.core.utils
 import com.elvishew.xlog.XLog
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 object LogUtils {
     private const val LOG_TAG = "BeamWallet"

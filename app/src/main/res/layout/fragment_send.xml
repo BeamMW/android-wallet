@@ -10,11 +10,13 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="75dp"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
@@ -22,123 +24,23 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/addressContainer"
+            <EditText
+                android:id="@+id/comment"
+                style="@style/common_text_big_light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:paddingBottom="@dimen/common_offset"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tokenTitle"
-                    style="@style/common_subheader_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="@dimen/send_token_title_margin_top"
-                    android:text="@string/send_to"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="RtlSymmetry" />
-
-                <com.mw.beam.beamwallet.core.views.PasteEditText
-                    android:id="@+id/token"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:background="@drawable/edit_text_selector"
-                    android:backgroundTint="@android:color/transparent"
-                    android:hint="@string/search_by_address_tag_or_name"
-                    app:layout_constraintEnd_toStartOf="@id/scanQR"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tokenTitle"
-                    tools:ignore="Autofill,LabelFor,TextFields" />
-
-                <View
-                    android:id="@+id/tokenDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintEnd_toEndOf="@id/token"
-                    app:layout_constraintStart_toStartOf="@id/token"
-                    app:layout_constraintTop_toBottomOf="@id/token" />
-
-                <ImageView
-                    android:id="@+id/scanQR"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:contentDescription="@null"
-                    app:layout_constraintBottom_toBottomOf="@id/token"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/token"
-                    app:srcCompat="@drawable/ic_scan_qr" />
-
-                <TextView
-                    android:id="@+id/tokenError"
-                    style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="@dimen/send_amount_error_margin_top"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:text="@string/invalid_address"
-                    android:textColor="@color/common_error_color"
-                    android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/contactIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_contact"
-                    android:visibility="gone"
-                    android:layout_marginTop="7dp"
-                    app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:visibility="visible"
-                    app:layout_constraintStart_toStartOf="@id/token" />
-
-                <TextView
-                    android:id="@+id/contactName"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/common_margin"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:singleLine="true"
-                    android:ellipsize="middle"
-                    app:layout_constraintStart_toEndOf="@id/contactIcon"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:text="Sara Scholz" />
-
-                <TextView
-                    android:id="@+id/contactCategory"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:singleLine="true"
-                    android:ellipsize="middle"
-                    android:layout_marginTop="@dimen/common_margin"
-                    android:layout_marginStart="10dp"
-                    app:layout_constraintStart_toEndOf="@id/contactIcon"
-                    app:layout_constraintTop_toBottomOf="@id/contactName"
-                    app:layout_constraintEnd_toEndOf="@id/contactName"
-                    tools:text="Salary"
-                    tools:textColor="@color/category_yellow" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:background="@drawable/edit_text_selector"
+                android:backgroundTint="@android:color/transparent"
+                android:hint="@string/local_comment_not_shared"
+                android:imeOptions="actionDone"
+                android:inputType="text|textCapSentences"
+                android:singleLine="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/commentTitle"
+                tools:ignore="Autofill,LabelFor,TextFields"
+                tools:text="Payment to Laura" />
 
             <TextView
                 android:id="@+id/amountTitle"
@@ -152,45 +54,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addressContainer" />
 
-            <com.mw.beam.beamwallet.core.views.BeamEditText
-                android:id="@+id/amount"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginEnd="@dimen/send_amount_margin_end"
-                android:background="@drawable/edit_text_selector"
-                android:backgroundTint="@android:color/transparent"
-                android:inputType="numberDecimal"
-                android:textColor="@color/sent_color"
-                android:imeOptions="actionDone"
-                tools:hint="0"
-                android:textColorHint="@color/common_hint_text_color"
-                android:textSize="@dimen/send_amount_text_size"
-                app:layout_constraintEnd_toStartOf="@id/currency"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountTitle"
-                tools:ignore="Autofill,LabelFor" />
-
-            <View
-                android:id="@+id/amountDivider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                app:layout_constraintEnd_toEndOf="@id/amount"
-                app:layout_constraintStart_toStartOf="@id/amount"
-                app:layout_constraintTop_toBottomOf="@id/amount" />
-
             <TextView
                 android:id="@+id/usedFee"
-                android:visibility="gone"
-                tools:text="1234 USD (+10 GROTH transaction fee)"
                 style="@style/common_text_big_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/amountDivider"
                 app:layout_constraintStart_toStartOf="@id/amountDivider"
-                app:layout_constraintTop_toBottomOf="@id/amountDivider"/>
+                app:layout_constraintTop_toBottomOf="@id/amountDivider"
+                tools:text="1234 USD (+10 GROTH transaction fee)" />
 
             <TextView
                 android:id="@+id/amountError"
@@ -202,10 +75,10 @@
                 android:layout_marginEnd="@dimen/common_offset"
                 android:textColor="@color/common_error_color"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/usedFee" />
+                app:layout_constraintTop_toBottomOf="@id/usedFee"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/currency"
@@ -247,26 +120,6 @@
                 app:layout_constraintWidth_max="wrap"
                 tools:text="2345.28273 BEAM" />
 
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnSendAll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:background="@drawable/send_btn_change_background"
-                android:paddingStart="@dimen/small_button_padding_horizontal"
-                android:paddingTop="@dimen/small_button_padding_vertical"
-                android:paddingEnd="@dimen/small_button_padding_horizontal"
-                android:paddingBottom="@dimen/small_button_padding_vertical"
-                app:button_icon="@drawable/ic_history_sent"
-                app:button_text="@string/add_all"
-                app:button_text_color="@color/sent_color"
-                app:layout_constraintBottom_toBottomOf="@id/availableSum"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/availableTitle"
-                app:lower_case="true"
-                app:text_padding_enabled="false" />
-
-
             <TextView
                 android:id="@+id/commentTitle"
                 style="@style/common_subheader_dark"
@@ -277,25 +130,16 @@
                 android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/transaction_comment"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/availableSum"/>
+                app:layout_constraintTop_toBottomOf="@id/availableSum" />
 
-            <EditText
-                android:id="@+id/comment"
-                style="@style/common_text_big_light"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:background="@drawable/edit_text_selector"
-                android:backgroundTint="@android:color/transparent"
-                android:singleLine="true"
-                android:imeOptions="actionDone"
-                android:hint="@string/local_comment_not_shared"
-                android:inputType="text|textCapSentences"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/commentTitle"
-                tools:ignore="Autofill,LabelFor,TextFields"
-                tools:text="Payment to Laura" />
+            <View
+                android:id="@+id/amountDivider"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/divider_color"
+                app:layout_constraintEnd_toEndOf="@id/amount"
+                app:layout_constraintStart_toStartOf="@id/amount"
+                app:layout_constraintTop_toBottomOf="@id/amount" />
 
             <View
                 android:id="@+id/txCommentDivider"
@@ -305,6 +149,125 @@
                 app:layout_constraintEnd_toEndOf="@id/comment"
                 app:layout_constraintStart_toStartOf="@id/comment"
                 app:layout_constraintTop_toBottomOf="@id/comment" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/addressContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:paddingBottom="@dimen/common_offset"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/scanQR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:contentDescription="@null"
+                    app:layout_constraintBottom_toBottomOf="@id/token"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/token"
+                    app:srcCompat="@drawable/ic_scan_qr" />
+
+                <ImageView
+                    android:id="@+id/contactIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_contact"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@id/token"
+                    app:layout_constraintTop_toBottomOf="@id/token"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/tokenError"
+                    style="@style/common_text_big_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="@dimen/send_amount_error_margin_top"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:text="@string/invalid_address"
+                    android:textColor="@color/common_error_color"
+                    android:visibility="invisible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/token"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tokenTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="@dimen/send_token_title_margin_top"
+                    android:text="@string/send_to"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry" />
+
+                <TextView
+                    android:id="@+id/contactName"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/contactIcon"
+                    app:layout_constraintTop_toBottomOf="@id/token"
+                    tools:text="Sara Scholz"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/contactCategory"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="@dimen/common_margin"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@id/contactName"
+                    app:layout_constraintStart_toEndOf="@id/contactIcon"
+                    app:layout_constraintTop_toBottomOf="@id/contactName"
+                    tools:text="Salary"
+                    tools:textColor="@color/category_yellow"
+                    tools:visibility="visible" />
+
+                <View
+                    android:id="@+id/tokenDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/token"
+                    app:layout_constraintStart_toStartOf="@id/token"
+                    app:layout_constraintTop_toBottomOf="@id/token" />
+
+                <com.mw.beam.beamwallet.core.views.PasteEditText
+                    android:id="@+id/token"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:background="@drawable/edit_text_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    android:hint="@string/search_by_address_tag_or_name"
+                    app:layout_constraintEnd_toStartOf="@id/scanQR"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tokenTitle"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/advancedCard"
@@ -316,25 +279,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comment">
 
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/advancedGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress"
-                    tools:visibility="visible" />
-
                 <LinearLayout
                     android:id="@+id/advancedContainer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:paddingTop="@dimen/receive_card_padding"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:paddingBottom="@dimen/receive_card_padding"
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/receive_card_padding"
+                    android:paddingBottom="@dimen/receive_card_padding"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
                     <TextView
                         android:id="@+id/advancedTitle"
                         style="@style/common_subheader_light"
@@ -383,24 +339,6 @@
                     app:layout_constraintTop_toBottomOf="@id/outgoingAddressTitle"
                     tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
 
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnChangeAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:background="@drawable/send_btn_change_background"
-                    android:paddingStart="@dimen/small_button_padding_horizontal"
-                    android:paddingTop="@dimen/small_button_padding_vertical"
-                    android:paddingEnd="@dimen/small_button_padding_horizontal"
-                    android:paddingBottom="@dimen/small_button_padding_vertical"
-                    app:button_icon="@drawable/ic_btn_change_send"
-                    app:button_text="@string/change"
-                    app:button_text_color="@color/sent_color"
-                    app:layout_constraintBottom_toBottomOf="@id/outgoingAddress"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:lower_case="true"
-                    app:text_padding_enabled="false" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/editAddressCard"
                     android:layout_width="match_parent"
@@ -408,25 +346,45 @@
                     android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@id/outgoingAddress">
 
-                    <androidx.constraintlayout.widget.Group
-                        android:id="@+id/editAddressGroup"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/addressName"
+                        style="@style/common_text_big_light"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:constraint_referenced_ids="addressNameTitle,addressName,expiresTitle,tags,tagAction,categoryTitle,expiresOnSpinner,commentDivider"
-                        tools:visibility="visible" />
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:background="@drawable/edit_text_selector"
+                        android:backgroundTint="@android:color/transparent"
+                        android:hint="@string/no_name"
+                        android:imeOptions="actionDone"
+                        android:inputType="text|textCapSentences"
+                        android:singleLine="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/addressNameTitle"
+                        tools:ignore="Autofill,LabelFor,TextFields" />
+
+                    <ImageView
+                        android:id="@+id/tagAction"
+                        android:layout_width="24dp"
+                        android:layout_height="44dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_add"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
                     <LinearLayout
                         android:id="@+id/editAddressContainer"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:paddingTop="@dimen/receive_card_padding"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:paddingBottom="@dimen/receive_card_padding"
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/receive_card_padding"
+                        android:paddingBottom="@dimen/receive_card_padding"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
                         <TextView
                             android:id="@+id/editAddressTitle"
                             style="@style/common_subheader_light"
@@ -451,34 +409,66 @@
                             app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
                     </LinearLayout>
 
+                    <Spinner
+                        android:id="@+id/expiresOnSpinner"
+                        style="@style/Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="@dimen/receive_common_margin"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:backgroundTint="@color/divider_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
+
                     <TextView
                         android:id="@+id/addressNameTitle"
                         style="@style/common_subheader_dark"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="10dp"
+                        android:layout_marginEnd="@dimen/common_offset"
                         android:text="@string/name"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/editAddressContainer" />
 
-                    <EditText
-                        android:id="@+id/addressName"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        style="@style/common_text_big_light"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/expiresTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_selector"
-                        android:backgroundTint="@android:color/transparent"
-                        android:imeOptions="actionDone"
-                        android:inputType="text|textCapSentences"
-                        android:hint="@string/no_name"
-                        android:singleLine="true"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="@dimen/receive_title_margin_top"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:text="@string/expires"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/addressNameTitle"
-                        tools:ignore="Autofill,LabelFor,TextFields" />
+                        app:layout_constraintTop_toBottomOf="@id/addressName" />
+
+                    <TextView
+                        android:id="@+id/categoryTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="@dimen/edit_address_element_offset"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:text="@string/tag"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
+
+                    <TextView
+                        android:id="@+id/tags"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        app:layout_constraintEnd_toStartOf="@id/tagAction"
+                        app:layout_constraintStart_toStartOf="@id/categoryTitle"
+                        app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                        tools:text="Salary, Payments" />
 
                     <View
                         android:id="@+id/commentDivider"
@@ -489,66 +479,14 @@
                         app:layout_constraintStart_toStartOf="@id/addressName"
                         app:layout_constraintTop_toBottomOf="@id/addressName" />
 
-                    <TextView
-                        android:id="@+id/expiresTitle"
-                        style="@style/common_subheader_dark"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/editAddressGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/receive_title_margin_top"
-                        android:text="@string/expires"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/addressName" />
-
-                    <Spinner
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:id="@+id/expiresOnSpinner"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/receive_common_margin"
-                        android:backgroundTint="@color/divider_color"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
-
-                    <TextView
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:id="@+id/categoryTitle"
-                        style="@style/common_subheader_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/edit_address_element_offset"
-                        android:text="@string/tag"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
-
-                    <TextView
-                        android:id="@+id/tags"
-                        style="@style/common_text_big_light"
-                        android:layout_width="0dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toStartOf="@id/tagAction"
-                        app:layout_constraintStart_toStartOf="@id/categoryTitle"
-                        app:layout_constraintTop_toBottomOf="@id/categoryTitle"
-                        tools:text="Salary, Payments" />
-
-                    <ImageView
-                        android:id="@+id/tagAction"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_add"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="addressNameTitle,addressName,expiresTitle,tags,tagAction,categoryTitle,expiresOnSpinner,commentDivider"
+                        tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/feeContainer"
@@ -559,16 +497,6 @@
                     android:paddingTop="20dp"
                     android:paddingBottom="20dp"
                     app:layout_constraintTop_toBottomOf="@id/editAddressCard">
-
-                    <TextView
-                        android:id="@+id/feeTitle"
-                        style="@style/common_subheader_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:text="@string/transaction_fee"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/btnFeeKeyboard"
@@ -581,6 +509,16 @@
                         app:layout_constraintBottom_toBottomOf="@id/feeTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/feeTitle" />
+
+                    <TextView
+                        android:id="@+id/feeTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:text="@string/transaction_fee"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/minFeeValue"
@@ -604,6 +542,21 @@
                         app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
                         tools:text="10000000 GROTH" />
 
+                    <TextView
+                        android:id="@+id/feeProgressValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:textColor="@color/sent_color"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/feeTitle"
+                        tools:text="10 GROTH" />
+
                     <androidx.appcompat.widget.AppCompatSeekBar
                         android:id="@+id/feeSeekBar"
                         android:layout_width="match_parent"
@@ -615,24 +568,53 @@
                         android:thumb="@drawable/fee_thumb"
                         app:layout_constraintTop_toBottomOf="@id/feeProgressValue"
                         tools:progress="30" />
-
-                    <TextView
-                        android:id="@+id/feeProgressValue"
-                        style="@style/common_text_big_light"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/sent_color"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/feeTitle"
-                        tools:text="10 GROTH" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/advancedGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
+
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnChangeAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:background="@drawable/send_btn_change_background"
+                    android:paddingStart="@dimen/small_button_padding_horizontal"
+                    android:paddingTop="@dimen/small_button_padding_vertical"
+                    android:paddingEnd="@dimen/small_button_padding_horizontal"
+                    android:paddingBottom="@dimen/small_button_padding_vertical"
+                    app:button_icon="@drawable/ic_btn_change_send"
+                    app:button_text="@string/change_address"
+                    app:button_text_color="@color/sent_color"
+                    app:layout_constraintBottom_toBottomOf="@id/outgoingAddress"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:lower_case="true"
+                    app:text_padding_enabled="false" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.mw.beam.beamwallet.core.views.BeamButton
+                android:id="@+id/btnSendAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:background="@drawable/send_btn_change_background"
+                android:paddingStart="@dimen/small_button_padding_horizontal"
+                android:paddingTop="@dimen/small_button_padding_vertical"
+                android:paddingEnd="@dimen/small_button_padding_horizontal"
+                android:paddingBottom="@dimen/small_button_padding_vertical"
+                app:button_icon="@drawable/ic_history_sent"
+                app:button_text="@string/add_all"
+                app:button_text_color="@color/sent_color"
+                app:layout_constraintBottom_toBottomOf="@id/availableSum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/availableTitle"
+                app:lower_case="true"
+                app:text_padding_enabled="false" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnNext"
@@ -651,6 +633,26 @@
                 app:layout_constraintVertical_bias="1"
                 app:lower_case="true" />
 
+            <com.mw.beam.beamwallet.core.views.BeamEditText
+                android:id="@+id/amount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginEnd="@dimen/send_amount_margin_end"
+                android:background="@drawable/edit_text_selector"
+                android:backgroundTint="@android:color/transparent"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:textColor="@color/sent_color"
+                android:textColorHint="@color/common_hint_text_color"
+                android:textSize="@dimen/send_amount_text_size"
+                app:layout_constraintEnd_toStartOf="@id/currency"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/amountTitle"
+                tools:hint="0"
+                tools:ignore="Autofill,LabelFor" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -664,23 +666,29 @@
         app:layout_constraintVertical_bias="0"
         android:layout_width="0dp"
         android:layout_height="0dp">
+
         <com.google.android.material.tabs.TabLayout
-            android:background="@color/colorPrimaryDark"
             android:id="@+id/tabLayout"
-            app:tabMode="scrollable"
-            app:tabRippleColor="@color/sent_ripple_color"
-            app:tabTextAppearance="@style/common_subheader_dark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabIndicatorColor="@color/sent_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:tabMode="scrollable"
+            app:tabRippleColor="@color/sent_ripple_color"
+            app:tabTextAppearance="@style/common_subheader_dark" />
+
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/colorPrimaryDark"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View

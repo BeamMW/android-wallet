@@ -27,16 +27,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.PagerAdapter() {
 
     var available: Long = 0
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
     var maturing: Long = 0
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.wallet_balanse_item, container, false)

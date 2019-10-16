@@ -31,11 +31,14 @@ interface ProofVerificationContract {
         fun showCopiedMessage()
         fun getDetailsContent(proof: PaymentProof): String
         fun clear()
+        fun handleExpandDetails(shouldExpandDetails: Boolean)
     }
 
     interface Presenter: MvpPresenter<View> {
         fun onProofCodeChanged(proof: String)
         fun onCopyDetailsPressed()
+        fun onExpandDetailsPressed()
+        fun setShouldExpandDetail(value:Boolean);
     }
 
     interface Repository: MvpRepository {

@@ -29,7 +29,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
- * Created by vain onnellinen on 12/20/18.
+ *  12/20/18.
  */
 interface UtxoDetailsContract {
     interface View : MvpView {
@@ -46,9 +46,6 @@ interface UtxoDetailsContract {
     }
 
     interface Repository : MvpRepository {
-        fun getUtxoUpdated(): Subject<List<Utxo>>
-        fun getTxStatus(): Observable<OnTxStatusData>
-        fun getTrashSubject(): Subject<TrashManager.Action>
-        fun getAllTransactionInTrash(): List<TxDescription>
+
     }
 }

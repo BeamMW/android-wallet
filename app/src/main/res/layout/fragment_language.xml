@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/address_toolbar_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:hasStatus="false"/>
+        app:hasStatus="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:fitsSystemWindows="true"
-        tools:listitem="@layout/item_language"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+        android:layout_height="0dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLayout"
+        tools:listitem="@layout/item_language" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

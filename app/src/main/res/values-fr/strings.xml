@@ -15,7 +15,10 @@
     <string name="cancel">Annuler</string>
     <string name="delete">Effacer</string>
     <string name="confirm">Confirmer</string>
-    <string name="change">Changement</string>
+    <string name="change_address">Changement</string>
+    <string name="change_address_title">Modifier adresse</string>
+    <string name="change_utxo_type">Changement</string>
+    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">OK</string>
     <string name="undo">Annuler</string>
     <string name="next">Suivant</string>
@@ -25,7 +28,7 @@
     <string name="share_qr">partager le code QR</string>
     <string name="common_security_mode_title">Activer le mode privé</string>
     <string name="common_security_mode_message">Toutes les balances seront seront masquées jusqu\'à ce que l\'icône de l\'œil soit à nouveau activée.</string>
-    <string name="common_fingerprint_error">Trop d\'essais. Veuillez réessayer plus tard.</string>
+    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
     <string name="common_share_title">Partager…</string>
     <string name="common_external_link_dialog_title">Lien externe</string>
     <string name="common_external_link_dialog_message">L\'application Beam Wallet nécessite l\'autorisation d\'ouvrir un lien externe dans le navigateur. Cette action exposera votre adresse IP au serveur Web. Pour l\'éviter, choisissez -Annuler-. Vous pouvez modifier votre choix dans les paramètres de l\'application à tout moment.</string>
@@ -42,6 +45,7 @@
     <string name="notifications">Notifications</string>
     <string name="help">Aide</string>
     <string name="settings">Paramètres</string>
+    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
     <!--Welcome-->
     <string name="create_new_wallet">Créer un nouveau portefeuille</string>
     <string name="restore_wallet">Restauration du Portefeuille</string>
@@ -113,6 +117,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="pass_back_seed_title">Retour à la phrase clé</string>
     <string name="pass_return_seed_title">Retour à la phrase clé</string>
     <string name="pass_return_seed_btn_create_new">Générer</string>
+    <string name="back">Retour</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beams envoyés</string>
     <string name="available">Disponible</string>
@@ -135,10 +140,13 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="pending">En cours</string>
     <string name="transactions">Transactions</string>
     <string name="wallet_empty_transactions_list_message">Votre historique de transaction est vide</string>
+    <string name="wallet_empty_transactions_list_message_proggress">Vous n\'avez pas de transactions actives</string>
     <string name="search">Rechercher</string>
     <string name="filter">Filtre</string>
     <string name="export">Exporter</string>
     <string name="payment_proof">Preuve de paiement</string>
+    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
     <string name="active">Active</string>
@@ -192,6 +200,16 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="my_sending_address">Mon adresse d\'envoi</string>
     <string name="my_address">Mon adresse</string>
     <string name="transaction_deleted">Transaction supprimée</string>
+    <string name="save_contact">Save contact</string>
+    <string name="transactions_deleted">Transactions deleted</string>
+    <string name="delete_transactions">Delete transactions</string>
+    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
+    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
+    <string name="delete_address_text">This address will be deleted from your wallet.</string>
+    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
+    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
     <!--ReceiveFragment-->
     <string name="swap">Permuter</string>
     <string name="auto_generated">généré automatiquement</string>
@@ -208,13 +226,13 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="optional">En option</string>
     <string name="name">Nom</string>
     <string name="edit_address">Modifier adresse</string>
+    <string name="edit_contact">Modifier contact</string>
     <string name="advanced">Avancé</string>
-    <string-array name="receive_expires_periods">
-        <item>Dans les 24 heures</item>
-        <item>Jamais</item>
-    </string-array>
-    <!--SendFragment-->
     <string name="send_token_description">Saisissez ou scannez l’adresse du destinataire</string>
+    <string name="share">Share</string>
+    <string name="save_to_downloads">Save to downloads</string>
+    <string name="saved_to_downloads">Saved to downloads</string>
+    <!--SendFragment-->
     <string name="send_amount_empty_error">Le champ Montant ne peut pas rester vide</string>
     <string name="send_amount_zero_error">Le montant ne peut pas être 0 BEAM</string>
     <string name="send_amount_overflow_error">Fonds insuffisants: vous auriez besoin de % 1 pour finaliser la transaction.</string>
@@ -238,9 +256,10 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="no_matching_address_found">Aucune adresse correspondante trouvée</string>
     <string name="local_comment_not_shared">Commentaire local, ne sera pas partagé</string>
     <string name="address_already_exist_1">Cette adresse existe déjà</string>
-    <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
-    <!--SettingsFragment-->
+    <string name="address_already_exist_2">Vous ne pouvez pas enregistrer votre adresse.
+Cette adresse existe déjà</string>
     <string name="settings_report">Signaler un problème</string>
+    <!--SettingsFragment-->
     <string name="settings_change_pass">Modifier le mot de passe du portefeuille</string>
     <string name="settings_version">Version de l’application</string>
     <string name="settings_send_logs_description">Envoi des logs…</string>
@@ -265,37 +284,41 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="settings_confirm_clear_message">Êtes-vous sûr de vouloir supprimer tous les %1$s de votre portefeuille ?</string>
     <string name="contacts">Contacts</string>
     <string name="transaction">Transaction</string>
-    <!--ProgressFragment-->
     <string name="loading_wallet">Chargement du portefeuille</string>
-    <!--AddressesFragment-->
+    <!--ProgressFragment-->
     <string name="addresses_tab_active">Actives</string>
+    <!--AddressesFragment-->
     <string name="addresses_tab_expired">Expirées</string>
     <string name="no_name">Sans nom</string>
     <string name="address_deleted">Adresse effacée</string>
     <string name="contact_deleted">Contact supprimé</string>
     <string name="addresses_deleted">Adresse effacée</string>
-    <!--AddressFragment-->
+    <string name="contacts_deleted">Contacts deleted</string>
     <string name="address">Adresse</string>
+    <!--AddressFragment-->
     <string name="show_qr_code">Montrer le code QR</string>
     <string name="delete_address">Supprimer mon adresse</string>
+    <string name="delete_contact">Effacer un contact</string>
     <string name="delete_addresses">Supprimer les adresses</string>
+    <string name="delete_contacts">Delete contacts</string>
     <string name="transactions_list">Liste des transactions</string>
     <string name="address_id">Identifiant adresse</string>
     <string name="expiration_date">Date d\'expiration</string>
     <string name="tag">Tag</string>
+    <string name="show_qr_code_short">Afficher le code QR</string>
+    <string name="expire_address_now">Expire addresss</string>
     <!--EditAddressFragment-->
-    <string name="expire_address_now">Expiration de l\'adresse maintenant</string>
     <string name="active_address">Activer l\'adresse</string>
     <string name="save">Sauvegarder</string>
     <string name="now">Maintenant</string>
     <string name="none">Aucun</string>
-    <!--CheckOldPassActivity-->
     <string name="change_password">Modifier mot de passe</string>
+    <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Entrez votre mot de passe actuel</string>
-    <!--ScanQrActivity-->
     <string name="scan_qr_code">Scanner le code QR</string>
-    <!--PaymentProofActivity-->
+    <!--ScanQrActivity-->
     <string name="payment_proof_verification">Vérification de la preuve de paiement</string>
+    <!--PaymentProofActivity-->
     <string name="paste_your_payment_proof_here">Merci de copier et de coller votre preuve de paiement ici</string>
     <string name="payment_proof_verification_error">Impossible de décoder une preuve, séquence illégale.</string>
     <string name="copy_details">Copier détails</string>
@@ -304,16 +327,17 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="sender">Expéditeur</string>
     <string name="receiver">Récipiendaire</string>
     <string name="current_password_is_incorrect">Ce mot de passe est incorrect</string>
-    <!--CategoryFragment-->
+    <string name="paste_payment_proof">Merci de copier et de coller votre preuve de paiement ici</string>
     <string name="edit">Modifier</string>
+    <!--CategoryFragment-->
     <string name="delete_tag">Supprimer le tag</string>
     <string name="tag_delete_dialog_message">Etes-vous sûr de vouloir supprimer?</string>
-    <!--EditCategory-->
     <string name="edit_tag">Éditer le tag</string>
+    <!--EditCategory-->
     <string name="create_tag">Créer un tag</string>
     <string name="color">Couleur </string>
-    <!--OwnerKeyFragments-->
     <string name="show_owner_key">Montrer la clé propriétaire</string>
+    <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">Pour voir la clé propriétaire, vous devez valider cette vérification à deux étapes (soumettre un mot de passe et utiliser Touch ID)</string>
     <string name="owner_key_verification_fingerprint_error">L\'autorisation d\'empreinte digitale a échoué. Veuillez essayer dans quelques minutes.</string>
     <string name="owner_key_verification_title_with_finger">Merci de saisir votre mot de passe et d\'utiliser Face ID pour accéder à votre portefeuille</string>
@@ -323,20 +347,19 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="owner_key_code_description">Déployer la clé propriétaire d\'un noeud vérifié permettra au noeud de surveiller tous les UTXO envoyés à n\'importe quel portefeuille généré à partir de la même phrase Seed. \n\nNe partagez pas votre clé de propriétaire avec d\'autres - il permet l\'inspection et le contrôle de vos fonds.</string>
     <string name="owner_key_verification_pass">Déployer la clé propriétaire sur un noeud de confiance permettra au noeud de surveiller tous les UTXOs envoyés à ce portefeuille et tout portefeuille généré à partir de votre phrase Seed.
 Vous devez entrer votre mot de passe pour voir la clé propriétaire.</string>
-    <string name="owner_key_verification_pass_finger">Déployer la clé propriétaire à un nœud vérifié permettra au nœud de surveiller tous les UTXOs envoyés à ce portefeuille et tout portefeuille généré à partir de votre phrase de Seed.
-Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et utiliser Fingerprint) pour accéder à votre clé de propriétaire.</string>
-    <!--BackgroundService-->
+    <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="notification_receive_content_title">Réception d\'une nouvelle transaction</string>
+    <!--BackgroundService-->
     <string name="notification_receive_content_text">Veuillez cliquer pour voir les détails</string>
     <string name="notification_channel_name">Canal de notification</string>
     <string name="notification_channel_description">Canal de notification par défaut</string>
-    <!--FingerprintDialog-->
     <string name="touch_sensor">Touchez le capteur d\'empreintes digitales</string>
+    <!--FingerprintDialog-->
     <string name="fingerprint_id">ID empreinte digitale</string>
     <!--ChangeAddressFragment-->
-    <string name="change_address">Modifier adresse</string>
-    <!-- Language -->
     <string name="language">Langue</string>
+    <!-- Language -->
     <string name="language_dialog_message">Pour que les paramètres de langue prennent effet, l\'application doit être redémarrée</string>
     <string name="restart_now">Redémarrer maintenant</string>
     <string name="rate_app">Évaluer l’application</string>
@@ -348,7 +371,6 @@ Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et u
     <string name="total_utxo_value">Total valeur UTXO</string>
     <string name="confirmation_send_description">Pour compléter la transaction, le récipiendaire doit se connecter dans les douze heures et vous devrez être en ligne dans les deux heures suivant.</string>
     <string name="confirmation">Confirmation</string>
-    <string name="change_description">sera verrouillé jusqu\'à ce que la transaction soit validée ou expirée</string>
     <string name="save_recipient_address">Voulez-vous sauvegarder l\'adresse du récipiendaire pour de futures transactions ?</string>
     <string name="save_address">Sauvegarder adresse</string>
     <string name="dont_save">Ne pas sauvegarder</string>
@@ -359,6 +381,8 @@ Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et u
     <string name="min_fee_error">Frais de transaction minimum: 1 GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Supprimer toutes les transactions liées à cette adresse</string>
     <string name="delete_all_transactions_related_to_this_addresses">Supprimer toutes les transactions liées à cette adresse</string>
+    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
     <string name="search_transaction">Rechercher des transactions</string>
     <string name="never_expires">N\'expire jamais</string>
     <string name="expires_in">Expire dans %1$s h %2$s m</string>
@@ -367,8 +391,9 @@ Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et u
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Utilisez Touch Id ou entrez votre mot de passe pour confirmer la transaction</string>
     <string name="fingerprint_not_recognized">Empreinte digitale non reconnue</string>
     <string name="address_copied_to_clipboard">Adresse copiée</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Le portefeuille Beam va télécharger une image de la blockchain à partir du Cloud.</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Le portefeuille Beam se connectera à un noeud spécifique et le noeud trouvera tous vos fonds sur la blockchain.</string>
+    <string name="copied_to_clipboard">Copié</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
     <string name="restore_with_trusted_node">Restaurer avec un noeud vérifié</string>
     <string name="automatic_restore_recommended">RESTAURATION AUTOMATIQUE (recommandé)</string>
     <string name="enter_trusted_node_address">Entrez l\'adresse du noeud vérifié</string>
@@ -410,6 +435,25 @@ Vous devez passer une vérification à 2 étapes (soumettre un mot de passe et u
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Une fois que vous collez le code, exécutez votre nœud sur le bureau et cliquez sur l\'application mobile.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Impossible de connecter le noeud. Essayez de connecter le portefeuille à un noeud différent ou utilisez la restauration automatique.</string>
     <string name="connecting">Connexion...</string>
-    <string name="search_by_transaction_id_comment_address_or_contact">Rechercher par ID, commentaire, adresse ou contact</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
+address or contact</string>
     <string name="address_details">Détails de l\'adresse</string>
+    <string name="contact_details">Contact details</string>
+    <string name="crash_title">Beam Wallet crashed unexpectedly</string>
+    <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
+    <string name="crash_negative">No, thanks</string>
+    <string name="crash_positive">Send report</string>
+    <string name="h">heure(s)</string>
+    <string name="m">mins</string>
+    <string name="s">sec</string>
+    <string name="estimted_time">Estimated time</string>
+    <string-array name="receive_expires_periods">
+        <item>Dans les 24 heures</item>
+        <item>Jamais</item>
+    </string-array>
+    <string name="save_wallet_logs">Sauvegarder les logs du portefeuille</string>
+    <string name="all_time">For all time</string>
+    <string name="last_5_days">Last 5 days</string>
+    <string name="last_15_days">Last 15 days</string>
+    <string name="last_30_days">Last 30 days</string>
 </resources>

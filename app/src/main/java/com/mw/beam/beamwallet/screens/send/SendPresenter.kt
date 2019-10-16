@@ -22,50 +22,75 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.subscribeIf
 import io.reactivex.disposables.Disposable
 
 /**
- * Created by vain onnellinen on 11/13/18.
+ *  11/13/18.
  */
 class SendPresenter(currentView: SendContract.View, currentRepository: SendContract.Repository, private val state: SendState)
     : BasePresenter<SendContract.View, SendContract.Repository>(currentView, currentRepository),
         SendContract.Presenter {
+
+    val FORK_MIN_FEE = 100
+    var MAX_FEE = 2000
+    val DEFAULT_FEE = 100
+    val MAX_FEE_LENGTH = 15
+
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
-    private val changeAddressLiveData = MutableLiveData<WalletAddress>()
-    private var isRepeat = false
-    private var isAlreadySetContact = false
 
-    companion object {
-        const val FORK_MIN_FEE = 100
-        const val MAX_FEE = 1000
-        private const val DEFAULT_FEE = 10
-        private const val MAX_FEE_LENGTH = 15
+    private val changeAddressLiveData = MutableLiveData<WalletAddress>()
+    private var categorySubscription: Disposable? = null
+
+
+
+    override fun onDestroy() {
+        categorySubscription?.dispose()
+
+        super.onDestroy()
     }
 
     override fun onViewCreated() {
         super.onViewCreated()
+
+
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
         state.prevFee = DEFAULT_FEE.toLong()
 
         val address: String? = view?.getAddressFromArguments()
+
         if (!address.isNullOrBlank()) {
-
-            isRepeat = true
-
+            val amount = view?.getAmountFromArguments()?.convertToBeam() ?: 0.0
             view?.setAddress(address)
+            onTokenChanged(address)
+            view?.setAmount(amount)
+            view?.hideKeyboard()
 
-            view?.setAmount(view?.getAmountFromArguments()?.convertToBeam() ?: 0.0)
+            if (amount>0) {
+                val availableAmount = AppManager.instance.getStatus().available
+                val feeAmount = try {
+                    view?.getFee() ?: 0L
+                } catch (exception: NumberFormatException) {
+                    0L
+                }
+
+                view?.hasAmountError(view?.getAmount()?.convertToGroth()
+                        ?: 0, feeAmount, availableAmount, state.privacyMode)
+            }
         }
+
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.walletID != state.outgoingAddress?.walletID) {
+                AppManager.instance.lastGeneratedAddress = it.walletID
+
+                state.tags.clear()
                 state.isNeedGenerateNewAddress = false
                 state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID
                 setAddress(it, !state.wasAddressSaved)
@@ -91,7 +116,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             state.scannedAddress?.let {
                 view?.setAddress(it)
                 view?.handleAddressSuggestions(null)
-                view?.requestFocusToAmount()
+              //  view?.requestFocusToAmount()
             }
             state.scannedAmount?.let { view?.setAmount(it) }
 
@@ -106,7 +131,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         onTokenChanged(view?.getToken(), searchAddress = false)
 
-        state.outgoingAddress?.let { setAddress(it, !state.wasAddressSaved) }
+        state.outgoingAddress?.let {
+            setAddress(it, !state.wasAddressSaved)
+        }
 
         view?.setupTagAction(repository.getAllTags().isEmpty())
 
@@ -204,6 +231,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onEnterFee(rawFee: String?) {
+
+
         rawFee?.let {
             view?.setFee(it)
             onFeeChanged(it)
@@ -239,7 +268,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSelectTags(tags: List<Tag>) {
-        state.tags = tags
+        state.tags.clear()
+        state.tags.addAll(tags)
         view?.setTags(tags)
     }
 
@@ -292,7 +322,29 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 state.scannedAmount = qrObject.amount
             }
 
-            view?.requestFocusToAmount()
+            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+
+            if((state.scannedAmount == 0.0 || state.scannedAmount == null) && enteredAmount == 0L) {
+              android.os.Handler().postDelayed({
+                  view?.requestFocusToAmount()
+                  view?.showKeyboard()
+                  view?.clearErrors()
+                }, 200)
+            }
+            else{
+                android.os.Handler().postDelayed({
+                    view?.apply {
+                        val amount = getAmount()
+                        val fee = getFee()
+
+                        hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                                ?: 0, state.privacyMode)
+                    }
+
+                    view?.hideKeyboard()
+
+                }, 200)
+            }
         } else {
             view?.vibrate(100)
             view?.showNotBeamAddressError()
@@ -326,7 +378,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         val isPastedToken = state.isPastedText && validToken
 
-        if (searchAddress && !isPastedToken) {
+        if(rawToken == view?.getAddressFromArguments())
+        {
+
+        }
+        else if (searchAddress && !isPastedToken) {
             updateSuggestions(rawToken, true)
         }
         else if (isPastedToken) {
@@ -408,49 +464,24 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        walletStatusSubscription = repository.getWalletStatus().subscribe {
-            state.walletStatus = it
+        state.walletStatus = AppManager.instance.getStatus()
+        view?.updateAvailable(state.walletStatus!!.available)
+        if (isFork()) {
+            view?.setupMinFee(FORK_MIN_FEE)
+        }
+
+        walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
+            state.walletStatus = AppManager.instance.getStatus()
             view?.updateAvailable(state.walletStatus!!.available)
-            if (isFork()) {
-                view?.setupMinFee(FORK_MIN_FEE)
-            }
         }
 
-        addressesSubscription = repository.getAddresses().subscribe {
-            it.addresses?.forEach { address ->
+        AppManager.instance.getAllAddresses().forEach { address ->
+            state.addresses[address.walletID] = address
+        }
+
+        addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
+           AppManager.instance.getAllAddresses().forEach { address ->
                 state.addresses[address.walletID] = address
-            }
-
-            repository.getAllAddressesInTrash().forEach { address ->
-                state.addresses.remove(address.walletID)
-            }
-
-            if (isRepeat && !isAlreadySetContact) {
-                val address: String? = view?.getAddressFromArguments()
-                if (address == view?.getToken()) {
-                    val contact = state.addresses.values.firstOrNull { it.walletID == address }
-                    val category = contact?.let { repository.getAddressTags(it.walletID) } ?: listOf()
-                    view?.setSendContact(contact, category)
-                }
-            }
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    it.data.addresses.forEach { address ->
-                        state.addresses.remove(address.walletID)
-                    }
-                    updateSuggestions(view?.getToken(), false)
-                }
-                TrashManager.ActionType.Restored -> {
-                    it.data.addresses.forEach { address ->
-                        state.addresses[address.walletID] = address
-                    }
-                    updateSuggestions(view?.getToken(), false)
-                }
-                TrashManager.ActionType.Removed -> {
-                }
             }
         }
 
@@ -459,17 +490,33 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             setAddress(it, true)
             state.isNeedGenerateNewAddress = false
         }
+
+        if (categorySubscription==null)
+        {
+            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
+                if (it!=null) {
+                    state.tags.clear()
+                    state.tags.add(it)
+                }
+            }
+        }
     }
 
     private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
         state.outgoingAddress = walletAddress
-        state.tags = repository.getAddressTags(walletAddress.walletID)
+
+        if (state.tags.count() == 0 )
+        {
+            state.tags.addAll(repository.getAddressTags(walletAddress.walletID))
+        }
+
         view?.configOutgoingAddress(walletAddress, isGenerated)
+
         view?.setTags(state.tags)
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, trashSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription)
 
     override fun hasStatus(): Boolean = true
 }

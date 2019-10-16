@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:layout_height="44dp"
+    android:background="@color/alert_dialog_color"
     android:orientation="horizontal">
 
     <TextView
@@ -14,17 +14,10 @@
         android:layout_margin="@dimen/suggestions_word_margin"
         android:layout_weight="1"
         android:textAlignment="center"
-        tools:text="TextView" />
-
-    <View
-        android:id="@+id/dividerLeft"
-        android:layout_width="@dimen/suggestions_divider_wight"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/suggestions_divider_margin"
-        android:layout_marginBottom="@dimen/suggestions_divider_margin"
-        android:background="@drawable/divider"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="16sp"
+        tools:text="TextView"
+        android:layout_gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/centerWord"
@@ -34,6 +27,22 @@
         android:layout_margin="@dimen/suggestions_word_margin"
         android:layout_weight="1"
         android:textAlignment="center"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="16sp"
+        tools:text="TextView" />
+
+    <TextView
+        android:id="@+id/rightWord"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/suggestions_word_margin"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="16sp"
         tools:text="TextView" />
 
     <View
@@ -46,14 +55,14 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/rightWord"
-        style="@style/common_text_big_light"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/suggestions_word_margin"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        tools:text="TextView" />
+    <View
+        android:id="@+id/dividerLeft"
+        android:layout_width="@dimen/suggestions_divider_wight"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/suggestions_divider_margin"
+        android:layout_marginBottom="@dimen/suggestions_divider_margin"
+        android:background="@drawable/divider"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </LinearLayout>

@@ -18,24 +18,22 @@ package com.mw.beam.beamwallet.base_screen
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Wallet
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.NodeConnectionError
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.Status
-import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 open class BaseRepository : MvpRepository {
 
     override val wallet: Wallet?
-        get() = App.wallet
+        get() = AppManager.instance.wallet
 
 
     override fun isPrivacyModeEnabled() = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
@@ -58,14 +56,25 @@ open class BaseRepository : MvpRepository {
                 AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
             }
 
+            if (PreferencesManager.getString(PreferencesManager.KEY_PASSWORD) != pass) {
+                LogUtils.logResponse(result, "openWallet")
+                return result
+            }
+
             if (!Api.isWalletRunning()) {
-                App.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                try {
+                    AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                }
+                catch(e:Exception) {
+                    return  Status.STATUS_ERROR
+                }
 
                 if (wallet != null) {
                     PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                     result = Status.STATUS_OK
                 }
-            } else if (App.wallet?.checkWalletPassword(pass) == true) {
+            }
+            else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
                 result = Status.STATUS_OK
             }
         }
@@ -79,24 +88,14 @@ open class BaseRepository : MvpRepository {
     }
 
     override fun closeWallet() {
-        getResult("closeWallet") {
-            if (Api.isWalletRunning()) {
-                App.wallet = null
+        if (Api.isWalletRunning()) {
+            getResult("closeWallet") {
                 Api.closeWallet()
+                AppManager.instance.wallet = null
+                AppManager.instance.unSubscribeToUpdates()
+
             }
         }
-    }
-
-    override fun getNodeConnectionStatusChanged(): Subject<Boolean> {
-        return getResult(WalletListener.subOnNodeConnectedStatusChanged, "getNodeConnectionStatusChanged")
-    }
-
-    override fun getNodeConnectionFailed(): Subject<NodeConnectionError> {
-        return getResult(WalletListener.subOnNodeConnectionFailed, "getNodeConnectionFailed")
-    }
-
-    override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
-        return getResult(WalletListener.subOnSyncProgressUpdated, "getSyncProgressUpdated")
     }
 
     override fun isWalletInitialized(): Boolean {

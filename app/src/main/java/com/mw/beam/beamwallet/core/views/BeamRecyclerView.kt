@@ -33,6 +33,9 @@ class RecyclerViewEmptySupport : RecyclerView {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
 
     override fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
+        if (!adapter!!.hasObservers()) {
+            adapter?.setHasStableIds(true)
+        }
         super.setAdapter(adapter)
 
         adapter?.registerAdapterDataObserver(emptyObserver)

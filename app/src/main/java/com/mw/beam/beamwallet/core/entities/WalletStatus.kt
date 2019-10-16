@@ -19,7 +19,7 @@ package com.mw.beam.beamwallet.core.entities
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 
 /**
- * Created by vain onnellinen on 10/9/18.
+ *  10/9/18.
  */
 data class WalletStatus(private val source: WalletStatusDTO) {
     val available: Long = source.available

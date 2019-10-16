@@ -27,14 +27,6 @@ import io.reactivex.subjects.Subject
 import java.io.File
 
 class TransactionsRepository: BaseRepository(), TransactionsContract.Repository {
-
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
-        }
-    }
-
     override fun getTransactionsFile(): File {
         val file = File(AppConfig.TRANSACTIONS_PATH, "transactions_" + System.currentTimeMillis() + ".csv")
 
@@ -48,11 +40,9 @@ class TransactionsRepository: BaseRepository(), TransactionsContract.Repository 
         return file
     }
 
-    override fun getTrashSubject(): Subject<TrashManager.Action> {
-        return TrashManager.subOnTrashChanged
-    }
-
-    override fun getAllTransactionInTrash(): List<TxDescription> {
-        return TrashManager.getAllData().transactions
+    override fun deleteTransaction(txDescription: TxDescription?) {
+        if (txDescription != null) {
+            TrashManager.add(txDescription.id, txDescription)
+        }
     }
 }

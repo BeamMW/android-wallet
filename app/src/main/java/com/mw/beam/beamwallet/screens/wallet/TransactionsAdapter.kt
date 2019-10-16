@@ -20,12 +20,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.text.style.TypefaceSpan
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,44 +36,76 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
+import com.mw.beam.beamwallet.core.helpers.selector
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
+import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
+import androidx.recyclerview.widget.RecyclerView
+import com.mw.beam.beamwallet.core.AppManager
 
-/**
- * Created by vain onnellinen on 10/2/18.
- */
-class TransactionsAdapter(private val context: Context, var data: List<TxDescription>, private val compactMode: Boolean, private val clickListener: (TxDescription) -> Unit) :
-        androidx.recyclerview.widget.RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
-    private val sendIconId = R.drawable.ic_icon_sent
-    private val receivedIconId = R.drawable.ic_icon_received
+
+class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
+        RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+
+    enum class Mode {
+        SHORT, FULL, SEARCH
+    }
+
     private val colorSpan by lazy { ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorAccent)) }
     private val boldFontSpan by lazy { StyleSpan(Typeface.BOLD) }
     private val regularTypeface by lazy { ResourcesCompat.getFont(context, R.font.roboto_regular) }
     private val commonDarkTextColor by lazy { ContextCompat.getColor(context, R.color.common_text_dark_color) }
     private val itemOffset by lazy { context.resources.getDimensionPixelSize(R.dimen.search_text_offset) }
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
-    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_multiply_color)
     private val receiveText = context.getString(R.string.receive)
     private val sendText = context.getString(R.string.send)
     private var privacyMode: Boolean = false
     private var searchString: String? = null
-    var invertItemColors = false
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
-    var addresses: List<WalletAddress>? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    var selectedTransactions = mutableListOf<String>()
+    var mode = TransactionsFragment.Mode.NONE
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)).apply {
+    var reverseColors = false
+
+    private fun getRowId() : Int {
+        return when (cellMode) {
+            Mode.SHORT -> R.layout.item_transaction_short
+            Mode.FULL -> R.layout.item_transaction_full
+            else -> R.layout.item_transaction_search
+        }
+    }
+
+    override fun getItemId(position: Int): Long {
+        val data = data[position]
+        return data.createTime
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
         this.containerView.setOnClickListener {
-            clickListener.invoke(data[adapterPosition])
+
+            if (adapterPosition>-1)
+            {
+                clickListener.invoke(data[adapterPosition])
+
+                if (mode == TransactionsFragment.Mode.EDIT) {
+                    if (selectedTransactions.contains(data[adapterPosition].id)) {
+                        selectedTransactions.remove(data[adapterPosition].id)
+                    } else {
+                        selectedTransactions.add(data[adapterPosition].id)
+                    }
+
+                    checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
+                }
+            }
+
+        }
+
+        if (longListener != null) {
+            this.containerView.setOnLongClickListener {
+                longListener?.onLongClick(data[adapterPosition])
+                return@setOnLongClickListener true
+            }
         }
     }
 
@@ -92,18 +121,15 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
 
             message.text = messageStatus
 
-            val isMultiply = position % 2 == 0
-//            val color = if (position % 2 == 0) multiplyColor else notMultiplyColor
-            val color = when {
-                isMultiply && invertItemColors -> notMultiplyColor
-                !isMultiply && invertItemColors -> multiplyColor
-                isMultiply -> multiplyColor
-                !isMultiply -> notMultiplyColor
-                else -> notMultiplyColor
+            if (reverseColors) {
+                itemView.selector(if (position % 2 == 0) R.color.colorClear else R.color.wallet_adapter_multiply_color)
             }
-            itemView.setBackgroundColor(color) //logically reversed because count starts from zero
-            icon.setImageResource(if (transaction.sender.value) sendIconId else receivedIconId)
-            date.text = CalendarUtils.fromTimestamp(transaction.createTime)
+            else{
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
+            }
+
+            icon.setImageDrawable(transaction.statusImage())
+
             currency.setImageDrawable(transaction.currencyImage)
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
@@ -116,46 +142,45 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
             sum.visibility = amountVisibility
             currency.visibility = amountVisibility
 
-            searchResultContainer.removeAllViews()
-            searchResultContainer.visibility = if (searchString.isNullOrBlank()) View.GONE else View.VISIBLE
+            if (cellMode == Mode.SEARCH) {
+                searchResultContainer.removeAllViews()
+                searchResultContainer.visibility = if (searchString.isNullOrBlank()) View.GONE else View.VISIBLE
 
-            val txAddresses = addresses?.filter { it.walletID == transaction.myId || it.walletID == transaction.peerId }
-                    ?: listOf()
+                searchString?.let { search ->
 
-            searchString?.let { search ->
-                val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
+                    val txAddresses = AppManager.instance.getAllAddresses()?.filter { it.walletID == transaction.myId || it.walletID == transaction.peerId }
 
-                if (transaction.id.startsWith(search.toLowerCase())) {
-                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
-                }
+                    val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
 
-                if (transaction.peerId.startsWith(search.toLowerCase())) {
-                    val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
-                    addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
-                }
+                    if (transaction.id.startsWith(search.toLowerCase())) {
+                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.transaction_id)}:", transaction.id, search)
+                    }
 
-                if (transaction.myId.startsWith(search.toLowerCase())) {
-                    val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
-                    addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
-                }
+                    if (transaction.peerId.startsWith(search.toLowerCase())) {
+                        val title = context.getString(if (transaction.sender.value && !transaction.selfTx) R.string.contact else R.string.my_address)
+                        addSearchTextItem(searchResultContainer, "$title:", transaction.peerId, search)
+                    }
 
-                if (transaction.kernelId.startsWith(search.toLowerCase())) {
-                    addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
-                }
+                    if (transaction.myId.startsWith(search.toLowerCase())) {
+                        val title = context.getString(if (transaction.sender.value || transaction.selfTx) R.string.my_address else R.string.contact)
+                        addSearchTextItem(searchResultContainer, "$title:", transaction.myId, search)
+                    }
 
-                if (findAddresses.isNotEmpty()) {
-                    findAddresses.forEach {
-                        addSearchIconItem(searchResultContainer, it, search)
+                    if (transaction.kernelId.startsWith(search.toLowerCase())) {
+                        addSearchTextItem(searchResultContainer, "${context.getString(R.string.kernel_id)}:", transaction.kernelId, search)
+                    }
+
+                    if (findAddresses.isNotEmpty()) {
+                        findAddresses.forEach {
+                            addSearchIconItem(searchResultContainer, it, search)
+                        }
                     }
                 }
             }
 
-            if (compactMode) {
-                commentIcon.visibility = View.GONE
-                commentTextView.visibility = View.GONE
-                date.visibility = View.GONE
-            } else {
-                date.visibility = View.VISIBLE
+
+            if (cellMode != Mode.SHORT) {
+                date.text = CalendarUtils.fromTimestamp(transaction.createTime)
 
                 when {
                     !searchString.isNullOrBlank() && transaction.message.toLowerCase().contains(searchString?.toLowerCase()
@@ -178,6 +203,26 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
                 }
             }
 
+            if (cellMode == Mode.FULL) {
+                checkBox.setOnClickListener {
+
+                    if (selectedTransactions.contains(data[adapterPosition].id)) {
+                        selectedTransactions.remove(data[adapterPosition].id)
+                    } else {
+                        selectedTransactions.add(data[adapterPosition].id)
+                    }
+
+                    clickListener.invoke(transaction)
+                }
+
+                if (mode == TransactionsFragment.Mode.NONE) {
+                    checkBox.isChecked = false
+                    checkBox.visibility = View.GONE
+                } else {
+                    checkBox.isChecked = selectedTransactions.contains(transaction.id)
+                    checkBox.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -255,5 +300,14 @@ class TransactionsAdapter(private val context: Context, var data: List<TxDescrip
         }
     }
 
-    class ViewHolder(override val containerView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(containerView), LayoutContainer
+    fun item(index: Int): TxDescription {
+        return data[index]
+    }
+
+    interface OnLongClickListener {
+        fun onLongClick(item: TxDescription)
+    }
+
+    class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    }
 }

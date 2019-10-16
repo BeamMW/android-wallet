@@ -17,38 +17,47 @@
 package com.mw.beam.beamwallet.screens.transactions
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class TransactionsPresenter(view: TransactionsContract.View?, repository: TransactionsContract.Repository)
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
-    private lateinit var txStatusSubscription: Disposable
-    private lateinit var trashSubscription: Disposable
 
-    private val transactions = HashMap<String, TxDescription>()
+    private lateinit var txStatusSubscription: Disposable
+    var removedTransactions = mutableListOf<String>()
 
     override fun onViewCreated() {
         super.onViewCreated()
+
         view?.init()
+//
+//      android.os.Handler().postDelayed({
+//          view?.init()
+//          view?.configTransactions(getTransactions())
+//      }, 200)
+
     }
 
-    private fun updateTransactions(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transaction ->
-            transactions[transaction.id] = transaction
-        }
+//    override fun onStart() {
+//        super.onStart()
+//
+//        view?.init()
+//
+//        doAsync {
+//            val tr = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
+//            uiThread {
+//                view?.configTransactions(tr)
+//            }
+//        }
+//    }
 
-        return getTransactions()
-    }
-
-    private fun getTransactions() = transactions.values.sortedByDescending { it.createTime }
-
-    private fun deleteTransaction(tx: List<TxDescription>?): List<TxDescription> {
-        tx?.forEach { transactions.remove(it.id) }
-        return getTransactions()
-    }
+    private fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)
@@ -58,7 +67,22 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         view?.showSearchTransaction()
     }
 
-    override fun onExportPressed() {
+    override fun onRepeatTransaction() {
+        view?.showRepeatTransaction()
+    }
+
+    override fun onExportSave() {
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(TransactionFields.HEAD_LINE)
+
+        getTransactions().forEach {
+            stringBuilder.append(TransactionFields.formatTransaction(it))
+        }
+
+        view?.exportSave(stringBuilder.toString())
+    }
+
+    override fun onExportShare() {
         val file = repository.getTransactionsFile()
         val stringBuilder = StringBuilder()
         stringBuilder.append(TransactionFields.HEAD_LINE)
@@ -68,7 +92,35 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         }
         file.writeBytes(stringBuilder.toString().toByteArray())
 
-        view?.showShareFileChooser(file)
+        view?.exportShare(file)
+    }
+
+    override fun onDeleteTransactionsPressed() {
+        view?.deleteTransactions()
+    }
+
+    override fun onConfirmDeleteTransactions(transactions: List<String>) {
+        var hasInProgress = false
+
+        removedTransactions.clear()
+        removedTransactions.addAll(transactions)
+
+        for (i in 0 until transactions.count()) {
+            val id = transactions[i]
+            val transaction = AppManager.instance.getTransaction(id)
+            if (transaction != null) {
+                if(!transaction.isInProgress()) {
+                    repository.deleteTransaction(transaction)
+                }
+                else{
+                    hasInProgress = true
+                }
+            }
+        }
+
+        if (hasInProgress) {
+            view?.showInProgressToast()
+        }
     }
 
     override fun onProofVerificationPressed() {
@@ -78,32 +130,17 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        txStatusSubscription = repository.getTxStatus().subscribe { data ->
-            when (data.action) {
-                ChangeAction.REMOVED -> deleteTransaction(data.tx)
-                else -> updateTransactions(data.tx)
-            }
+        view?.configTransactions(getTransactions())
 
-            val transactions = deleteTransaction(repository.getAllTransactionInTrash())
-
-            view?.configTransactions(transactions)
-        }
-
-        trashSubscription = repository.getTrashSubject().subscribe {
-            when (it.type) {
-                TrashManager.ActionType.Added -> {
-                    view?.configTransactions(deleteTransaction(it.data.transactions))
-                }
-
-                TrashManager.ActionType.Restored -> {
-                    view?.configTransactions(updateTransactions(it.data.transactions))
-                }
-
-                TrashManager.ActionType.Removed -> {}
-            }
+        txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            view?.configTransactions(getTransactions())
         }
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, trashSubscription)
+    override fun onModeChanged(mode: TransactionsFragment.Mode) {
+        view?.changeMode(mode)
+    }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
 
 }

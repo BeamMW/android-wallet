@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
 
 /**
- * Created by vain onnellinen on 11/1/18.
+ *  11/1/18.
  */
 class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
     private var currentEditText: EditText? = null
@@ -128,6 +128,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         currentEditText?.clearFocus()
 
         hideKeyboard()
+
+        suggestionsView.find("")
     }
 
     override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
@@ -226,22 +228,8 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
             append(text)
             onEditorAction(imeOptions)
         }
-    }
-
-    override fun showSuggestions() {
-        suggestionsView.visibility = View.VISIBLE
-    }
-
-    override fun hideSuggestions() {
-        suggestionsView.visibility = View.GONE
-    }
-
-    override fun onHideKeyboard() {
-        presenter?.onKeyboardStateChange(false)
-    }
-
-    override fun onShowKeyboard() {
-        presenter?.onKeyboardStateChange(true)
+//        currentEditText?.setText(text)
+//        currentEditText?.onEditorAction(currentEditText?.imeOptions!!)
     }
 
     override fun updateSuggestions(text: String) {
@@ -265,4 +253,13 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
         return WelcomeConfirmPresenter(this, WelcomeConfirmRepository())
     }
 
+    override fun onHideKeyboard() {
+        suggestionsView.find("")
+    }
+
+    override fun onShowKeyboard() {
+        if (currentEditText!=null) {
+            suggestionsView.find(currentEditText?.text.toString())
+        }
+    }
 }

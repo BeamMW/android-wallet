@@ -1,5 +1,24 @@
 <resources>
 
+    <style name="Autocomplete">
+        <item name="colorControlNormal">@color/white_01</item>
+        <item name="colorControlActivated">@color/white_01</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+<!--        <item name="android:windowAnimationStyle">@null</item>-->
+    </style>
+
+    <style name="NoAnimTheme" parent="Theme.AppCompat.NoActionBar">
+<!--        <item name="android:windowAnimationStyle">@null</item>-->
+    </style>
+
     <!-- Base application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -13,16 +32,21 @@
         <item name="android:buttonStyle">@style/common_button_text_style</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
-        <!--<item name="android:windowTranslucentStatus">true</item>-->
         <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/common_hint_text_color</item>
-        <!--<item name="android:windowTranslucentNavigation">true</item>-->
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:textColor">@color/toolbar_title_color</item>
-        <item name="android:colorBackground">@android:color/transparent</item>
-        <item name="android:background">@drawable/menu_background</item>
+        <item name="android:textColorPrimary">@color/common_text_color</item>
+        <item name="android:textColorSecondary">@color/alert_dialog_color</item>
+<!--        <item name="android:popupBackground">@drawable/menu_background</item>-->
+        <item name="android:textColor">@color/common_text_color</item>
+       <item name="android:colorBackground">@color/alert_dialog_color</item>
+<!--        <item name="android:popupBackground">@android:color/transparent</item>-->
+<!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
+<!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
+<!--        <item name="android:foreground">?android:attr/selectableItemBackground</item>-->
     </style>
 
     <style name="common_button_text_style">

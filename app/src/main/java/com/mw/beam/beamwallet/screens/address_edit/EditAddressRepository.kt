@@ -17,15 +17,23 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
+import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 /**
- * Created by vain onnellinen on 3/5/19.
+ *  3/5/19.
  */
 class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
+
+    override fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>) {
+        getResult("deleteAddress") {
+            TrashManager.add(walletAddress.walletID, TrashManager.ActionData(txDescriptions, listOf(walletAddress)))
+        }
+    }
 
     override fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
         getResult("saveAddressChanges") {

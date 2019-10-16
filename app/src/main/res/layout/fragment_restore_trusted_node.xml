@@ -76,7 +76,7 @@
                     style="@style/common_text_big_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:./"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:./-_"
                     android:imeOptions="actionDone"
                     tools:ignore="Autofill,LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>

@@ -1,16 +1,17 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.restore_mode_choice
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.core.helpers.removeNodeDatabase
 
 class RestoreModeChoiceRepository: BaseRepository(), RestoreModeChoiceContract.Repository {
     override fun removeWallet() {
-        App.wallet = null
+        AppManager.instance.wallet = null
 
-        PreferencesManager.putString("",PreferencesManager.KEY_NODE_ADDRESS)
+        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
 
         removeDatabase()
 

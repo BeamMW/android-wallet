@@ -22,9 +22,9 @@
             android:layout_width="@dimen/welcome_small_logo_width"
             android:layout_height="@dimen/welcome_small_logo_height"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="70dp"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/ic_logo" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/navMenu"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                android:src="@drawable/logo_small"
+                android:src="@drawable/logo_small_menu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

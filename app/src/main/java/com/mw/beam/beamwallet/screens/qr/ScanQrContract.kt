@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 
 /**
- * Created by vain onnellinen on 3/15/19.
+ *  3/15/19.
  */
 interface ScanQrContract {
     interface View : MvpView {

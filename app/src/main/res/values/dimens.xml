@@ -211,6 +211,8 @@
     <dimen name="settings_card_offset">10dp</dimen>
     <dimen name="settings_version_offset">30dp</dimen>
     <dimen name="settings_common_offset">20dp</dimen>
+    <dimen name="settings_common_offset_left_right">20dp</dimen>
+    <dimen name="settings_common_offset_top_bottom">15dp</dimen>
     <dimen name="settings_small_text_margin">4dp</dimen>
     <dimen name="settings_dialog_button_group_top_margin">10dp</dimen>
     <dimen name="settings_dialog_button_group_start_margin">16dp</dimen>

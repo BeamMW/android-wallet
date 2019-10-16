@@ -33,15 +33,12 @@ import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
-import com.google.android.material.navigation.NavigationView
-import com.mw.beam.beamwallet.screens.wallet.NavItem
-import kotlinx.android.synthetic.main.fragment_utxo.drawerLayout
-import kotlinx.android.synthetic.main.fragment_utxo.navView
-import kotlinx.android.synthetic.main.fragment_utxo.toolbarLayout
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.toolbar.*
 
 
 /**
- * Created by vain onnellinen on 10/2/18.
+ *  10/2/18.
  */
 class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     private lateinit var pagerAdapter: UtxosPagerAdapter
@@ -76,7 +73,11 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         blockchainHeightTitle.addDoubleDots()
         blockchainHashTitle.addDoubleDots()
 
-        configNavView(toolbarLayout, navView as NavigationView, drawerLayout, NavItem.ID.UTXO);
+        (activity as? AppActivity)?.enableLeftMenu(true)
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.setNavigationOnClickListener {
+            (activity as? AppActivity)?.openMenu()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,7 +145,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
 
     private fun setVisibility() {
-        if (presenter?.repository?.isPrivacyModeEnabled() == false) {
+        if (presenter?.repository?.isPrivacyModeEnabled() == false && utxoPrivacyMessage!=null) {
 
             utxoPrivacyMessage.setPadding(0,0,0,170)
 
@@ -161,10 +162,10 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
                 tabLayout.visibility = View.VISIBLE
             }
         }
-        else{
+        else if (utxoPrivacyMessage!=null){
             utxoPrivacyMessage.setPadding(0,0,0,50)
 
-            privacyLabel.text = context?.getString(R.string.utxo_security_message)
+            privacyLabel.text = getString(R.string.utxo_security_message) + "\n" + getString(R.string.utxo_turn_off_see_utxo)
             privacyLabel.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_eye_crossed_big, 0, 0);
 
             utxoPrivacyMessage.visibility = View.VISIBLE

@@ -21,7 +21,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 /**
- * Created by vain onnellinen on 3/14/19.
+ *  3/14/19.
  */
 interface CheckOldPassContract {
     interface View : MvpView {

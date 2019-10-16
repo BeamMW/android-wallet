@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.password_strength.view.*
 
 /**
- * Created by vain onnellinen on 10/23/18.
+ *  10/23/18.
  */
 class PasswordStrengthView : ConstraintLayout {
     var strength: Strength = Strength.EMPTY

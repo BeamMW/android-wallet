@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:filterTouchesWhenObscured="true">
 
     <View
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/address_toolbar_gradient"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"/>
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/address_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+
+    <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableTabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+        app:tabMode="scrollable"
+        app:tabSelectedTextColor="@color/address_tab_text_color"
+        app:tabTextAppearance="@style/common_subheader_dark"
+        app:tabTextColor="@color/address_tab_text_color" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"
@@ -18,23 +36,5 @@
         android:layout_height="wrap_content"
         app:hasStatus="true"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        app:tabMode="scrollable"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:tabTextAppearance="@style/common_subheader_dark"
-        app:tabSelectedTextColor="@color/address_tab_text_color"
-        app:tabTextColor="@color/address_tab_text_color"/>
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/pager"
-        android:fitsSystemWindows="true"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,19 +17,22 @@
 package com.mw.beam.beamwallet.base_screen
 
 import android.content.Context
+import android.util.Log
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import com.mw.beam.beamwallet.core.AppManager
 
 /**
- * Created by vain onnellinen on 10/1/18.
+ *  10/1/18.
  */
 abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var repository: R) : MvpPresenter<T> {
     protected lateinit var disposable: CompositeDisposable
+
     private var nodeConnectionSubscription: Disposable? = null
-    private var nodeConnectionFailedSubscription: Disposable? = null
-    private var syncProgressUpdatedSubscription: Disposable? = null
+    private var nodeConnectingSubscription: Disposable? = null
+
     private var isActivityStopped = false
     private var isExpireLockScreenTime = false
 
@@ -42,6 +45,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     override fun onStart() {
         disposable = CompositeDisposable()
+
         initSubscriptions()
 
         val subscriptions = getSubscriptions()
@@ -54,13 +58,8 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             if (nodeConnectionSubscription != null) {
                 add(nodeConnectionSubscription!!)
             }
-
-            if (nodeConnectionFailedSubscription != null) {
-                add(nodeConnectionFailedSubscription!!)
-            }
-
-            if (syncProgressUpdatedSubscription != null) {
-                add(syncProgressUpdatedSubscription!!)
+            if (nodeConnectingSubscription != null) {
+                add(nodeConnectingSubscription!!)
             }
         }
 
@@ -102,16 +101,14 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     override fun getSubscriptions(): Array<Disposable>? = null
 
     override fun initSubscriptions() {
-        nodeConnectionSubscription = repository.getNodeConnectionStatusChanged().subscribe {
-            view?.configStatus(if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE)
+        view?.configStatus(AppManager.instance.getNetworkStatus())
+
+        nodeConnectionSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe(){
+            view?.configStatus(AppManager.instance.getNetworkStatus())
         }
 
-        nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
-            view?.configStatus(NetworkStatus.OFFLINE)
-        }
-
-        syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            view?.configStatus(if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING)
+        nodeConnectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe() {
+            view?.configStatus(AppManager.instance.getNetworkStatus())
         }
     }
 
@@ -120,9 +117,13 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     }
 
     private fun lockApp() {
+        Log.d("lockApp","lockApp")
+
         if (isLockScreenEnabled() && repository.isWalletInitialized()) {
-            repository.closeWallet()
-            view?.logOut()
+            view?.showLockScreen()
+        }
+        else{
+            Log.d("lockApp","NOT lockApp")
         }
     }
 

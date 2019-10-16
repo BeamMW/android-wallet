@@ -29,16 +29,4 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
     override fun getAllTags(): List<Tag> {
         return TagHelper.getAllTags()
     }
-
-
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
-            wallet?.getAddresses(true)
-            wallet?.getAddresses(false)
-        }
-    }
-
-    override fun getAllAddressesInTrash(): List<WalletAddress> {
-        return TrashManager.getAllData().addresses
-    }
 }

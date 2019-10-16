@@ -18,18 +18,13 @@ package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.listeners.WalletListener
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
 
 /**
- * Created by vain onnellinen on 1/21/19.
+ *  1/21/19.
  */
 class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     override fun getLockScreenValue(): Long = LockScreenManager.getCurrentValue()
@@ -54,6 +49,14 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
     }
 
+    override fun saveLogSettings(days:Long) {
+        PreferencesManager.putLong(PreferencesManager.KEY_LOGS,days)
+    }
+
+    override fun getLogSettings():Long {
+        return PreferencesManager.getLong(PreferencesManager.KEY_LOGS)
+    }
+
     override fun getSavedNodeAddress(): String? {
         return PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
     }
@@ -62,8 +65,9 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, random)
 
         if (random) {
+            AppManager.instance.onChangeNodeAddress()
             AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
-            App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+            AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         }
     }
 
@@ -72,12 +76,6 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
             getResult("deleteTransaction", "kernelID = ${txDescription.kernelId}") {
                 wallet?.deleteTx(txDescription.id)
             }
-        }
-    }
-
-    override fun getTxStatus(): Observable<OnTxStatusData> {
-        return getResult(WalletListener.obsOnTxStatus, "getTxStatus") {
-            wallet?.getWalletStatus()
         }
     }
 
@@ -92,12 +90,6 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return TagHelper.getAllTags()
     }
 
-    override fun getAddresses(): Subject<OnAddressesData> {
-        return getResult(WalletListener.subOnAddresses, "getAddresses") {
- //           wallet?.getAddresses(true)
-//            wallet?.getAddresses(false)
-        }
-    }
 
     override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
         return LocaleHelper.getCurrentLanguage()
@@ -105,7 +97,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setNodeAddress(address: String) {
         AppConfig.NODE_ADDRESS = address
-        App.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+        AppManager.instance.onChangeNodeAddress()
+        AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
     }
 

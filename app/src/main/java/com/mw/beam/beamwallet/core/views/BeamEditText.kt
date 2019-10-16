@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class BeamEditText : AppCompatEditText {
     companion object {

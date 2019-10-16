@@ -16,36 +16,35 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_open
 
+import android.os.Bundle
 import android.text.Editable
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import androidx.navigation.fragment.findNavController
-import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.core.views.visible
-import com.mw.beam.beamwallet.core.views.visibleOrGone
+import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
-
+import android.os.Handler
+import androidx.activity.OnBackPressedCallback
+import com.mw.beam.beamwallet.core.helpers.LockScreenManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
- * Created by vain onnellinen on 10/19/18.
+ *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
-    private var delayedTask: DelayedTask? = null
+    private var clickedOpen = false
+
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -57,43 +56,93 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_open
     override fun getToolbarTitle(): String? = ""
 
+    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (App.isShowedLockScreen) {
+            requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        LockScreenManager.isNeedLocked = false
+
+        onBackPressedCallback.isEnabled = true
+    }
+
+    override fun onStop() {
+        onBackPressedCallback.isEnabled = false
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        onBackPressedCallback.isEnabled = false
+        onBackPressedCallback.remove()
+        super.onDestroy()
+    }
+
     override fun init(shouldInitFingerprint: Boolean) {
-        App.isAuthenticated = false
+        if (touchIDView!=null)
+        {
+            if (!App.isShowedLockScreen) {
+                App.isAuthenticated = false
+            }
+            else{
+                btnChange.visibility = View.GONE
+            }
 
-        if (shouldInitFingerprint) {
-            cancellationSignal = CancellationSignal()
+            if (shouldInitFingerprint) {
+                cancellationSignal = CancellationSignal()
 
-            authCallback = FingerprintCallback(this, presenter, cancellationSignal)
+                authCallback = FingerprintCallback(this, presenter, cancellationSignal)
 
-            fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch))
+                touchIDView.visibility = View.VISIBLE
 
-            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                    authCallback!!, null)
+                FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                        authCallback!!, null)
 
-            description.setText(R.string.welcome_open_description_with_fingerprint)
+                description.setText(R.string.welcome_open_description_with_fingerprint)
+            }
+            else {
+                description.setText(R.string.enter_your_password_to_access_the_wallet)
+
+                touchIDView.visibility = View.GONE
+
+                pass.requestFocus()
+
+                Handler().postDelayed({
+                    pass.requestFocus()
+                    showKeyboard()
+                }, 100)
+            }
+
+            passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
         }
-        else {
-            pass.requestFocus()
-            showKeyboard()
-
-            description.setText(R.string.enter_your_password_to_access_the_wallet)
-        }
-
-        btnTouch.visibleOrGone(shouldInitFingerprint, false)
-
-        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
     }
 
     override fun addListeners() {
-        btnOpen.setOnClickListener {
-            presenter?.onOpenWallet()
-        }
+        val v = findViewById<com.mw.beam.beamwallet.core.views.BeamButton>(R.id.btnOpen)
 
-        btnChange.setOnClickListener {
-            presenter?.onChangeWallet()
-        }
+        if (btnOpen!=null)
+        {
+            btnOpen.setOnClickListener {
+                presenter?.onOpenWallet()
+            }
 
-        pass.addTextChangedListener(passWatcher)
+            btnChange.setOnClickListener {
+                presenter?.onChangeWallet()
+            }
+
+            pass.addTextChangedListener(passWatcher)
+        }
     }
 
     override fun hasValidPass(): Boolean {
@@ -112,42 +161,21 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     fun showFailed() {
-        animatedChangeDrawable(R.drawable.ic_touch_error)
-        delayedTask?.cancel(true)
-        delayedTask = DelayedTask.startNew(1, { animatedChangeDrawable(R.drawable.ic_touch) })
+        touchIDView.setType(Type.FAILED)
     }
 
     fun fingerprintError() {
-        delayedTask?.cancel(true)
-
-        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_error))
+        touchIDView.setType(Type.ERROR)
 
         pass.requestFocus()
+
         showKeyboard()
     }
 
     fun success() {
-        delayedTask?.cancel(true)
-
-        fingerprintImage.setImageDrawable(context?.getDrawable(R.drawable.ic_touch_success))
+        touchIDView.setType(Type.SUCCESS)
     }
 
-    private fun animatedChangeDrawable(resId: Int) {
-        val fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out)
-        val fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in)
-
-        fadeOut.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {}
-
-            override fun onAnimationStart(animation: Animation?) {}
-
-            override fun onAnimationEnd(animation: Animation?) {
-                fingerprintImage.setImageDrawable(context?.getDrawable(resId))
-                fingerprintImage.startAnimation(fadeIn)
-            }
-        })
-        fingerprintImage.startAnimation(fadeOut)
-    }
 
     override fun clearError() {
         passError.visibility = View.INVISIBLE
@@ -155,8 +183,6 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun clearListeners() {
-        delayedTask?.cancel(true)
-
         btnOpen.setOnClickListener(null)
         btnChange.setOnClickListener(null)
 
@@ -173,7 +199,19 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun getPass(): String = pass.text?.toString() ?: ""
 
     override fun openWallet(pass: String) {
-        findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+        hideKeyboard()
+        if (App.isShowedLockScreen) {
+            App.isShowedLockScreen = false
+
+            (activity as? AppActivity)?.enableLeftMenu(true)
+
+            LockScreenManager.restartTimer(activity!!.applicationContext)
+
+            findNavController().popBackStack()
+        }
+        else{
+            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+        }
     }
     override fun changeWallet() {
         findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeCreateFragment())

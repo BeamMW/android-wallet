@@ -19,7 +19,7 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.prepareForLog
 
 /**
- * Created by vain onnellinen on 10/15/18.
+ *  10/15/18.
  */
 data class OnTxStatusData(val action: ChangeAction, val tx: List<TxDescription>?) {
     override fun toString(): String {

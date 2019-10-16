@@ -33,29 +33,26 @@ import kotlinx.android.synthetic.main.item_utxo.*
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
-
+import com.mw.beam.beamwallet.core.helpers.selector
 
 
 /**
- * Created by vain onnellinen on 12/18/18.
+ *  12/18/18.
  */
 class UtxosAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
         androidx.recyclerview.widget.RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
     private val spentStatus = context.getString(R.string.spent)
     private val inProgressStatus = context.getString(R.string.in_progress)
     private val incomingStatus = context.getString(R.string.incoming)
-    private val changeStatus = context.getString(R.string.change)
+    private val changeStatus = context.getString(R.string.change_utxo_type)
     private val outgoingStatus = context.getString(R.string.outgoing)
     private val maturingStatus = context.getString(R.string.maturing)
     private val unavailableStatus = context.getString(R.string.unavailable)
-    private val resultRollbackStatus = context.getString(R.string.utxo_status_result_rollback)
     private val availableStatus = context.getString(R.string.available)
 
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
     private val commonStatusColor = ContextCompat.getColor(context, R.color.common_text_color)
-    private val multiplyColor = ContextCompat.getColor(context, R.color.wallet_adapter_not_multiply_color)
-    private val notMultiplyColor = ContextCompat.getColor(context, R.color.colorClear)
 
     private var data: List<Utxo> = listOf()
 
@@ -87,7 +84,8 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             }.toLowerCase() + " "
 
 
-            itemView.setBackgroundColor(if (position % 2 == 0) multiplyColor else notMultiplyColor)
+            itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color else R.color.colorClear)
+
             amount.text = utxo.amount.convertToBeamString()
 
             if (utxo.transactionComment != null && utxo.transactionDate != null)

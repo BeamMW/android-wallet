@@ -17,9 +17,11 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_create
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppConfig
+import java.io.File
 
 /**
- * Created by vain onnellinen on 12/4/18.
+ *  12/4/18.
  */
 class WelcomeCreatePresenter(currentView: WelcomeCreateContract.View, currentRepository: WelcomeCreateContract.Repository)
     : BasePresenter<WelcomeCreateContract.View, WelcomeCreateContract.Repository>(currentView, currentRepository),

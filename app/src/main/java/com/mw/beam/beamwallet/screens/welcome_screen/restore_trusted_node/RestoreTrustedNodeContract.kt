@@ -3,6 +3,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.restore_trusted_node
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import io.reactivex.subjects.Subject
 
 interface RestoreTrustedNodeContract {
 
@@ -21,5 +22,6 @@ interface RestoreTrustedNodeContract {
 
     interface Repository : MvpRepository {
         fun connectToNode(address: String)
+        fun getNodeConnectionStatusChanged(): Subject<Boolean>
     }
 }

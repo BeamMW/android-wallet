@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.common_button.view.*
 
 /**
- * Created by vain onnellinen on 10/22/18.
+ *  10/22/18.
  */
 class BeamButton : LinearLayout {
     var iconResId: Int = Integer.MIN_VALUE

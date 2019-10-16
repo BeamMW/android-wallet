@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:srcCompat="@drawable/ic_logo" />
 
         <TextView
             android:id="@+id/title"
@@ -47,6 +47,7 @@
             android:paddingStart="@dimen/welcome_progress_description_side_offset"
             android:paddingTop="@dimen/welcome_progress_description_top_offset"
             android:paddingEnd="@dimen/welcome_progress_description_side_offset"
+            android:textAlignment="center"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@id/progress"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +58,7 @@
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="@dimen/welcome_progress_progress_size"
-            android:layout_height="wrap_content"
+            android:layout_height="6dp"
             android:layout_marginTop="@dimen/welcome_progress_progress_top_offset"
             android:progressDrawable="@drawable/progress_bar"
             app:layout_constraintBottom_toTopOf="@id/restoreFullDescription"
