@@ -42,6 +42,9 @@ import java.io.File
 import com.mw.beam.beamwallet.core.AppManager
 import android.transition.AutoTransition
 import android.animation.ObjectAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
 import kotlinx.android.synthetic.main.fragment_transaction_details.detailsArrowView
@@ -56,9 +59,6 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
-import android.util.Log
-import org.jetbrains.anko.doAsync
-import android.view.MotionEvent
 
 
 /**
@@ -75,8 +75,8 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
-    var downX:Float = 0f
-    var downY:Float = 0f
+    var downX: Float = 0f
+    var downY: Float = 0f
 
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
@@ -156,6 +156,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 }, 100)
             }
             R.id.saveContact -> presenter?.onSaveContact()
+            R.id.copy -> presenter?.onCopyDetailsPressed()
         }
 
         return true
@@ -239,7 +240,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!).trim()
 
-        if(status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED){
+        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED) {
             btnOpenInBlockExplorer.visibility = View.INVISIBLE
         }
 
@@ -265,8 +266,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 startAddress.text = txDescription.peerId
                 endAddress.text = txDescription.myId
             }
-        }
-        else {
+        } else {
             startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
             endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
             startAddress.text = txDescription.peerId
@@ -368,7 +368,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
 
-
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
@@ -392,52 +391,43 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(startAddress.text.toString(), "")
                 showSnackBar(getString(R.string.address_copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(startAddress.text.toString())
             }
-        }
-        else if (item.itemId == endAddress.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == endAddress.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(endAddress.text.toString(), "")
                 showSnackBar(getString(R.string.address_copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(endAddress.text.toString())
             }
-        }
-        else if (item.itemId == idLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == idLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(idLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(idLabel.text.toString())
             }
-        }
-        else if (item.itemId == proofLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == proofLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(proofLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(proofLabel.text.toString())
             }
-        }
-        else if (item.itemId == kernelLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == kernelLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(kernelLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
-               shareText(kernelLabel.text.toString())
+            } else {
+                shareText(kernelLabel.text.toString())
             }
         }
 
         return super.onContextItemSelected(item)
     }
 
-    private fun shareText(text:String) {
+    private fun shareText(text: String) {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
@@ -542,8 +532,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
-        }
-        else{
+        } else {
             commentLayout.visibility = contentVisibility
         }
     }
@@ -580,6 +569,24 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 btnConfirmText = getString(R.string.delete),
                 btnCancelText = getString(R.string.cancel),
                 onConfirm = { presenter?.onDeleteTransactionsPressed() })
+    }
+
+    override fun copyDetails() {
+        val clipboardManager =  context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+
+        val txDetails = "${getString(R.string.amount)}: ${oldTransaction!!.amount.div(100000000) }\n" +
+                "${getString(R.string.status)}: ${statusLabel.text}\n" +
+                "${getString(R.string.date)}: ${dateLabel.text}\n" +
+                "${getString(R.string.contact)}: ${startContactValue.text}\n" +
+                "${startAddress.text}\n" +
+                "${getString(R.string.my_address)}: ${endAddress.text}\n" +
+                "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n" +
+                "${getString(R.string.transaction_id)}: ${idLabel.text}\n" +
+                "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
+
+        val clip = ClipData.newPlainText("label", txDetails)
+        clipboardManager?.primaryClip = clip
+        showSnackBar(getString(R.string.copied_to_clipboard))
     }
 
 }

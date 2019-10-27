@@ -28,6 +28,8 @@ import com.mw.beam.beamwallet.R
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.util.*
+import java.util.regex.Pattern
+import kotlin.Comparator
 
 object TagHelper {
     var subOnCategoryCreated: Subject<Tag?> = PublishSubject.create<Tag?>().toSerialized()
@@ -48,6 +50,38 @@ object TagHelper {
     }
 
     fun getAllTags() = tagData.getAllTags().values.toList()
+
+    fun getAllTagsSorted(): List<Tag> {
+        val tags: List<Tag> = getAllTags()
+        val pattern = Pattern.compile("^\\d+")
+        val comparator = object : Comparator<Tag> {
+            override
+            fun compare(object1: Tag, object2: Tag): Int {
+                var m = pattern.matcher(object1.name)
+                var number1: Int?
+                if (!m.find()) {
+                    return object1.name.compareTo(object2.name)
+                } else {
+                    var number2: Int?
+                    number1 = Integer.parseInt(m.group())
+                    m = pattern.matcher(object2.name)
+                    return if (!m.find()) {
+                        object1.name.compareTo(object2.name)
+                    } else {
+                        number2 = Integer.parseInt(m.group())
+                        val comparison = number1.compareTo(number2)
+                        if (comparison != 0) {
+                            comparison
+                        } else {
+                            object1.compareTo(object2)
+                        }
+                    }
+                }
+            }
+        }
+        Collections.sort(tags, comparator)
+        return tags
+    }
 
     fun getTag(tagId: String) = tagData.getAllTags().values.firstOrNull { it.id == tagId }
 
@@ -108,7 +142,10 @@ data class Tag(
         @SerializedName("id") val id: String,
         @SerializedName("color") var color: TagColor = TagColor.Red,
         @SerializedName("name") var name: String = "",
-        @SerializedName("addresses") var addresses: List<String> = listOf()) {
+        @SerializedName("addresses") var addresses: List<String> = listOf()) : Comparable<Tag> {
+    override fun compareTo(other: Tag): Int {
+        return this.name.compareTo(other.name)
+    }
 
     companion object {
         fun new(): Tag {
@@ -145,7 +182,7 @@ fun List<Tag>?.createSpannableString(context: Context): Spannable {
 enum class TagColor {
     Red, Orange, Yellow, Green, Blue, Pink;
 
-    fun getAndroidColorName() = when(this) {
+    fun getAndroidColorName() = when (this) {
         Red -> "Red"
         Orange -> "Orange"
         Yellow -> "Yellow"
@@ -154,7 +191,7 @@ enum class TagColor {
         Pink -> "Pink"
     }
 
-    fun getAndroidColorId() = when(this) {
+    fun getAndroidColorId() = when (this) {
         Red -> R.color.category_red
         Orange -> R.color.category_orange
         Yellow -> R.color.category_yellow

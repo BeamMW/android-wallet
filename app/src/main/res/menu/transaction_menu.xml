@@ -18,6 +18,11 @@
                 android:title="@string/share_transaction"
                 app:showAsAction="never" />
             <item
+                android:id="@+id/copy"
+                android:icon="@drawable/ic_copy_small_white"
+                android:title="@string/copy_details"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/repeat"
                 android:icon="@drawable/tx_repeat"
                 android:title="@string/repeat_transaction"
