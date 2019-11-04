@@ -86,8 +86,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         }
     }
 
-    override fun getAllCategory(): List<Tag> {
-        return TagHelper.getAllTags()
+    override fun getAllCategory() : List<Tag>{
+        return TagHelper.getAllTagsSorted()
     }
 
 

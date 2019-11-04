@@ -207,4 +207,8 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         repository.deleteTransaction(state.txDescription)
         view?.finishScreen()
     }
+
+    override fun onCopyDetailsPressed() {
+        view?.copyDetails()
+    }
 }

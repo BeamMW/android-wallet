@@ -98,7 +98,7 @@ interface SettingsContract {
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
-        fun getAllCategory(): List<Tag>
+        fun getAllCategory() : List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
         fun saveLogSettings(days:Long)
         fun getLogSettings():Long
