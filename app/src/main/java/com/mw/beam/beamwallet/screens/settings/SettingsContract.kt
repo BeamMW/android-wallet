@@ -57,6 +57,9 @@ interface SettingsContract {
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun setLogSettings(days:Long)
         fun showLogsDialog()
+        fun navigateToSeed()
+        fun showReceiveFaucet()
+        fun onFaucetAddressGenerated(link:String)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -81,6 +84,9 @@ interface SettingsContract {
         fun onShowOwnerKey()
         fun onChangeLogSettings(days:Long)
         fun onLogsPressed()
+        fun onSeedPressed()
+        fun onReceiveFaucet()
+        fun generateFaucetAddress()
     }
 
     interface Repository : MvpRepository {

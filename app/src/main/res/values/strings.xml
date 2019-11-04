@@ -77,7 +77,7 @@
     <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">Seed phrase</string>
     <string name="welcome_seed_save_title">Save seed phrase</string>
     <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
@@ -279,7 +279,7 @@
     <string name="settings_send_logs_description">Send logs…</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="settings_general_settings">General settings</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">Lock screen</string>
     <string name="never">Never</string>
     <string name="after">After</string>
@@ -491,5 +491,33 @@ address or contact</string>
     <string name="last_30_days">Last 30 days</string>
     <string name="status">Status</string>
 
+    <string name="complete_verification">Complete verification</string>
+    <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="i_will_later">I will do it later</string>
+    <string name="faucet_text">Would you like to see the wallet in action? Get a very small amount of Beams from the community faucet.</string>
+    <string name="get_coins">Get coins</string>
+    <string name="make_wallet_secure_text">Please increase wallet security by saving your seed phrase so you won’t loose your funds.</string>
+    <string name="secure_your_phrase">Secure your phrase</string>
+    <string name="clear_local_data">Clear local wallet data</string>
+    <string name="show_seed_phrase">Show seed phrase</string>
+    <string name="clear_wallet">Remove current wallet</string>
+    <string name="clear_wallet_text">All data will be erased. Make sure you’ve saved your seed phrase if you want to restore this wallet later on! Are you sure you want to remove your wallet?</string>
+    <string name="export_wallet_data">Export wallet data</string>
+    <string name="import_wallet_data">Import wallet data</string>
+    <string name="remove_wallet">Remove wallet</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Incorrect file</string>
+    <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. PLease choose another file and try again.</string>
+    <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
+    <string name="import_data_title">Import data</string>
+    <string name="imp">Import</string>
+    <string name="export_data">Export data</string>
+    <string name="clear_wallet_password">Enter your password to remove your wallet"</string>
+    <string name="change_node_text_2">Use TFingerprint or enter your password to change node settings</string>
+    <string name="change_node_text_3">Enter your password to change node settings</string>
+    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">Feedback</string>
+    <string name="enter_your_password">Enter your password</string>
 
 </resources>

@@ -21,12 +21,18 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.GridLayout
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhrase
+import kotlinx.android.synthetic.main.common_button.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
 
@@ -52,16 +58,32 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             presenter?.onNextPressed()
         }
 
-        btnShare.setOnClickListener {
-            presenter?.onCopyPressed()
+        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET)
+        {
+            seedLayout.setOnLongClickListener {
+                presenter?.onCopyPressed()
+                return@setOnLongClickListener true
+            }
         }
+
+        btnLater.setOnClickListener {
+            presenter?.oLaterPressed()
+        }
+
+        if (App.isAuthenticated && !OnboardManager.instance.canMakeSecure()) {
+            btnLater.visibility = View.GONE
+            btnNext.textResId = R.string.done
+            btnNext.iconResId = R.drawable.ic_btn_save
+        }
+
     }
 
     override fun clearListeners() {
         allowScreenshot()
 
         btnNext.setOnClickListener(null)
-        btnShare.setOnClickListener(null)
+        btnLater.setOnClickListener(null)
+        btnLater.setOnLongClickListener(null)
     }
 
     private fun forbidScreenshot() {
@@ -104,6 +126,14 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
 
     override fun showConfirmFragment(seed: Array<String>) {
         findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed))
+    }
+
+    override fun showPasswordFragment(seed: Array<String>) {
+        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
+    }
+
+    override fun onBack() {
+        findNavController().popBackStack()
     }
 
     private fun configPhrase(text: String, number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {

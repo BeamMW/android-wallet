@@ -57,7 +57,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import android.os.Build
-
+import com.mw.beam.beamwallet.core.OnboardManager
 
 
 /**
@@ -126,6 +126,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         toolbar.setNavigationOnClickListener {
             (activity as? AppActivity)?.openMenu()
         }
+
+        if (OnboardManager.instance.getSeed().isNullOrEmpty()) {
+            verificationFrame.visibility = View.GONE
+            seedFrame.visibility = View.GONE
+        }
+        else if (!OnboardManager.instance.canMakeSecure()) {
+            verificationFrame.visibility = View.GONE
+        }
     }
 
     override fun onStart() {
@@ -175,6 +183,35 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun navigateToLanguage() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToLanguageFragment())
+    }
+
+    override fun navigateToSeed() {
+        PasswordConfirmDialog.newInstance(getString(R.string.enter_your_password), {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToWelcomeSeedFragment())
+        }, {
+
+        }).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+    }
+
+    override fun showReceiveFaucet() {
+        val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+        if (allow) {
+            presenter?.generateFaucetAddress()
+        }
+        else{
+            showAlert(
+                    getString(R.string.common_external_link_dialog_message),
+                    getString(R.string.open),
+                    {  presenter?.generateFaucetAddress() },
+                    getString(R.string.common_external_link_dialog_title),
+                    getString(R.string.cancel)
+            )
+        }
+    }
+
+    override fun onFaucetAddressGenerated(link: String) {
+        openExternalLink(link)
     }
 
     private fun isEnableFingerprint(): Boolean {
@@ -326,6 +363,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         logsLayout.setOnClickListener {
             presenter?.onLogsPressed()
+        }
+
+        seedFrame.setOnClickListener {
+            presenter?.onSeedPressed()
+        }
+
+        verificationFrame.setOnClickListener {
+            presenter?.onSeedPressed()
+        }
+
+        faucetFrame.setOnClickListener {
+            presenter?.onReceiveFaucet()
         }
     }
 
@@ -558,6 +607,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         ip.setOnClickListener(null)
         ipTitle.setOnClickListener(null)
         logsLayout.setOnClickListener(null)
+        verificationFrame.setOnClickListener(null)
+        seedFrame.setOnClickListener(null)
+        faucetFrame.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

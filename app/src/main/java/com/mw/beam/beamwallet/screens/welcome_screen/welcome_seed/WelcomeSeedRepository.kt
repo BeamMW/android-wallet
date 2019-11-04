@@ -17,10 +17,28 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.OnboardManager
 
 /**
  *  10/30/18.
  */
 class WelcomeSeedRepository : BaseRepository(), WelcomeSeedContract.Repository {
-    override val seed: Array<String> = Api.createMnemonic()
+
+    override fun seed(): Array<String> {
+        if (App.isAuthenticated) {
+            val seed = OnboardManager.instance.getSeed()
+            if (seed!=null) {
+                val lstValues: List<String> = seed.split(";").map { it -> it.trim() }.dropLast(1)
+                return lstValues.toTypedArray()
+            }
+            else{
+                return Api.createMnemonic()
+            }
+        }
+        else{
+            return Api.createMnemonic()
+        }
+    }
 }

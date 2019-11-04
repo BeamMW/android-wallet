@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -46,30 +47,31 @@
                 app:layout_constraintTop_toBottomOf="@id/description" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnShare"
-                android:layout_width="@dimen/wallet_button_width"
+                android:id="@+id/btnNext"
+                android:layout_width="254dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
-                app:button_icon="@drawable/ic_btn_copy"
-                android:background="@drawable/primary_button"
-                app:lower_case="true"
-                app:button_text="@string/copy"
-                app:button_text_color="@color/common_text_color"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btnNext"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_marginBottom="24dp"
+                app:button_icon="@drawable/ic_icon_recovery"
+                app:button_text="@string/complete_verification"
+                app:layout_constraintBottom_toTopOf="@+id/btnLater"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:lower_case="true" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnNext"
-                android:layout_width="@dimen/wallet_button_width"
+                android:id="@+id/btnLater"
+                android:layout_width="254dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
-                app:lower_case="true"
-                app:button_icon="@drawable/ic_btn_proceed"
-                app:button_text="@string/next"
+                android:layout_marginBottom="32dp"
+                android:background="@drawable/primary_button"
+                app:button_icon="@drawable/ic_send_white"
+                app:button_text="@string/i_will_later"
+                app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnShare" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:lower_case="true" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

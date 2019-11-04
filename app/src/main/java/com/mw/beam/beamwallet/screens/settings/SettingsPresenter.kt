@@ -16,9 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -33,6 +36,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
 
+    private lateinit var faucetGeneratedSubscription: Disposable
+
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(repository.isEnabledConnectToRandomNode())
@@ -41,6 +46,21 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         updateFingerprintValue()
         view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
         view?.setLogSettings(repository.getLogSettings())
+    }
+
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
+            val link =  when (BuildConfig.FLAVOR) {
+                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet"
+                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet"
+                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet"
+            }
+
+            view?.onFaucetAddressGenerated(link)
+        }
     }
 
     override fun onStart() {
@@ -81,6 +101,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onShowOwnerKey() {
         view?.navigateToOwnerKeyVerification()
+    }
+
+    override fun onSeedPressed() {
+        view?.navigateToSeed()
     }
 
     override fun hasBackArrow(): Boolean? = true
@@ -227,6 +251,14 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
     }
 
+    override fun onReceiveFaucet() {
+        view?.showReceiveFaucet()
+    }
+
+    override fun generateFaucetAddress() {
+        AppManager.instance.createAddressForFaucet()
+    }
+
     override fun onDialogClosePressed() {
         view?.closeDialog()
     }
@@ -235,4 +267,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.closeDialog()
         super.onDestroy()
     }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription)
 }

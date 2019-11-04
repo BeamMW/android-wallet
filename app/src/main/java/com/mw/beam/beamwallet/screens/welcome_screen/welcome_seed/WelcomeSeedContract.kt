@@ -26,18 +26,21 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 interface WelcomeSeedContract {
     interface View : MvpView {
         fun showConfirmFragment(seed: Array<String>)
+        fun showPasswordFragment(seed: Array<String>)
         fun configSeed(seed: Array<String>)
         fun showCopiedAlert()
         fun showSaveAlert()
+        fun onBack()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNextPressed()
         fun onCopyPressed()
         fun onDonePressed()
+        fun oLaterPressed()
     }
 
     interface Repository : MvpRepository {
-        val seed: Array<String>
+        fun seed(): Array<String>
     }
 }

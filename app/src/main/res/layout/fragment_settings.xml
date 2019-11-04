@@ -119,6 +119,7 @@
                             tools:text="12.123.123.1234" />
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/generalSettingsCard"
                     android:layout_width="match_parent"
@@ -141,68 +142,7 @@
                         android:text="@string/settings_general_settings"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-                        <TextView
-                            android:id="@+id/confirmTransactionTitle"
-                            style="@style/common_menu_item"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/settings_ask_password_on_send" />
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="0" />
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/confirmTransactionSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:paddingStart="5dp"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:paddingEnd="5dp"
-                            android:theme="@style/SCBSwitch" />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/enableFingerprintLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/settings_common_offset_left_right"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        tools:visibility="visible"
-                        android:weightSum="1">
-                        <TextView
-                            style="@style/common_menu_item"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/settings_enable_fingerprint" />
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="0" />
-                        <androidx.appcompat.widget.SwitchCompat
-                            android:id="@+id/enableFingerprintSwitch"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0"
-                            android:paddingStart="5dp"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:paddingEnd="5dp"
-                            android:theme="@style/SCBSwitch" />
-                    </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -234,34 +174,7 @@
                             android:paddingEnd="5dp"
                             android:theme="@style/SCBSwitch" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/lockScreenLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/lockScreenTitle"
-                            style="@style/common_menu_item"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/lock_screen"
-                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
-                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
-                        <TextView
-                            android:id="@+id/lockScreenValue"
-                            style="@style/common_text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/settings_small_text_margin"
-                            tools:text="Never"
-                            android:layout_marginLeft="@dimen/settings_common_offset_left_right"
-                            android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/logsLayout"
@@ -321,42 +234,6 @@
                             android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
                     </LinearLayout>
                     <FrameLayout
-                        android:id="@+id/ownerKey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:layout_marginBottom="10dp">
-                        <TextView
-                            style="@style/common_menu_item"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/settings_common_offset_left_right"
-                            android:paddingRight="@dimen/settings_common_offset_left_right"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:text="@string/show_owner_key" />
-                    </FrameLayout>
-                    <FrameLayout
-                        android:id="@+id/changePass"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:layout_marginBottom="10dp">
-                        <TextView
-                            style="@style/common_menu_item"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="@dimen/settings_common_offset_left_right"
-                            android:paddingRight="@dimen/settings_common_offset_left_right"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="5dp"
-                            android:text="@string/settings_change_pass" />
-                    </FrameLayout>
-                    <FrameLayout
                         android:id="@+id/clearData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -375,6 +252,299 @@
                             android:text="@string/settings_dialog_clear_title" />
                     </FrameLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/utiliesCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/utiliesCardTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                        android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                        android:alpha="0.5"
+                        android:text="@string/utilities" />
+
+                    <FrameLayout
+                        android:id="@+id/faucetFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/get_beam_faucet" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/proofFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/payment_proof" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                    android:id="@+id/verificationFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        style="@style/common_menu_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/settings_common_offset_left_right"
+                        android:paddingRight="@dimen/settings_common_offset_left_right"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/complete_wallet_verification" />
+                </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/exportFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/export_wallet_data" />
+                    </FrameLayout>
+
+                    <FrameLayout
+                        android:id="@+id/importFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/import_wallet_data" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/privacyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/wallet_state_card_backgroud"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/privacyCardTitle"
+                    style="@style/common_subheader_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                    android:layout_marginTop="@dimen/settings_common_offset_left_right"
+                    android:layout_marginRight="@dimen/settings_common_offset_left_right"
+                    android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                    android:alpha="0.5"
+                    android:text="@string/privacy" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                    <TextView
+                        android:id="@+id/confirmTransactionTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_ask_password_on_send" />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/confirmTransactionSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/SCBSwitch" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/enableFingerprintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_common_offset_left_right"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:weightSum="1">
+                    <TextView
+                        style="@style/common_menu_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/settings_enable_fingerprint" />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0" />
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/enableFingerprintSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0"
+                        android:paddingStart="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/SCBSwitch" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lockScreenLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lockScreenTitle"
+                        style="@style/common_menu_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lock_screen"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                    <TextView
+                        android:id="@+id/lockScreenValue"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/settings_small_text_margin"
+                        tools:text="Never"
+                        android:layout_marginLeft="@dimen/settings_common_offset_left_right"
+                        android:layout_marginRight="@dimen/settings_common_offset_left_right"/>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/ownerKey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        style="@style/common_menu_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/settings_common_offset_left_right"
+                        android:paddingRight="@dimen/settings_common_offset_left_right"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/show_owner_key" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/seedFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        style="@style/common_menu_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/settings_common_offset_left_right"
+                        android:paddingRight="@dimen/settings_common_offset_left_right"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/show_seed_phrase" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/changePass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="10dp">
+                    <TextView
+                        style="@style/common_menu_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/settings_common_offset_left_right"
+                        android:paddingRight="@dimen/settings_common_offset_left_right"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/settings_change_pass" />
+                </FrameLayout>
+
+            </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/settingsCategoryCard"
                     android:layout_width="match_parent"
@@ -421,6 +591,8 @@
                             android:text="@string/add_new_tag" />
                     </FrameLayout>
                 </LinearLayout>
+
+
                 <LinearLayout
                     android:id="@+id/settingsReportCard"
                     android:layout_width="match_parent"
@@ -440,7 +612,7 @@
                         android:layout_marginRight="@dimen/settings_common_offset_left_right"
                         android:layout_marginBottom="@dimen/settings_common_offset_top_bottom"
                         android:alpha="0.5"
-                        android:text="@string/settings_general_settings" />
+                        android:text="@string/feedback" />
                     <FrameLayout
                         android:id="@+id/rateApp"
                         android:layout_width="match_parent"
@@ -478,6 +650,37 @@
                             android:text="@string/settings_report" />
                     </FrameLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/clearCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/wallet_state_card_backgroud"
+                    android:orientation="vertical">
+                    <FrameLayout
+                        android:id="@+id/clearCardFrame"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp">
+                        <TextView
+                            style="@style/common_menu_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="@dimen/settings_common_offset_left_right"
+                            android:paddingRight="@dimen/settings_common_offset_left_right"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/remove_wallet" />
+                    </FrameLayout>
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/appVersionLayout"
                     android:layout_width="wrap_content"

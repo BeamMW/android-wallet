@@ -51,6 +51,11 @@ interface WalletContract {
         fun clearAllNotification()
         fun showAllTransactions()
         fun selectWalletMenu()
+        fun showFaucet(show:Boolean)
+        fun showSecure(show:Boolean)
+        fun showReceiveFaucet()
+        fun onFaucetAddressGenerated(link:String)
+        fun showSeedScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -66,6 +71,9 @@ interface WalletContract {
         fun onShowAllPressed()
         fun onCheckShouldExpandAvailable()
         fun onCheckShouldExpandInProgress()
+        fun onReceiveFaucet()
+        fun generateFaucetAddress()
+        fun onSecure()
     }
 
     interface Repository : MvpRepository {

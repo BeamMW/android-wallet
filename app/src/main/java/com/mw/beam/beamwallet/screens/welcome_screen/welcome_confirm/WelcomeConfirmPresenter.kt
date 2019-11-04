@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_confirm
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.OnboardManager
 
 /**
  *  11/1/18.
@@ -62,11 +64,17 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
 
 
     override fun onNextPressed() {
+        OnboardManager.instance.makeSecure()
         view?.showPasswordsFragment(repository.seed ?: return)
     }
 
     override fun onBackPressed() {
-        view?.showSeedAlert()
+        if(App.isAuthenticated) {
+            view?.showSeedFragment()
+        }
+        else{
+            view?.showSeedAlert()
+        }
     }
 
     override fun onCreateNewSeed() {

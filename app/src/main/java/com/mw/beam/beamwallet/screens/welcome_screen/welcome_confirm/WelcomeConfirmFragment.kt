@@ -31,6 +31,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamEditText
@@ -135,13 +136,23 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
     override fun getData(): Array<String>? = arguments?.let { WelcomeConfirmFragmentArgs.fromBundle(it).seed }
 
     override fun showPasswordsFragment(seed: Array<String>) {
-        PreferencesManager.putBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED, false)
+        if(App.isAuthenticated) {
+           findNavController().popBackStack(R.id.walletFragment, false)
+        }
+        else{
+            PreferencesManager.putBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED, false)
+            findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
+        }
 
-        findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToPasswordFragment(seed, WelcomeMode.CREATE.name))
     }
 
     override fun showSeedFragment() {
-        findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToWelcomeSeedFragment())
+        if(App.isAuthenticated) {
+            findNavController().popBackStack(R.id.walletFragment, false)
+        }
+        else{
+            findNavController().navigate(WelcomeConfirmFragmentDirections.actionWelcomeConfirmFragmentToWelcomeSeedFragment())
+        }
     }
 
     override fun handleNextButton() {

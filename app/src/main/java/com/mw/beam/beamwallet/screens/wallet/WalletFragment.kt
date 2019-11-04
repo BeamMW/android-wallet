@@ -42,7 +42,10 @@ import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
-
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.views.gone
 
 
 /**
@@ -144,6 +147,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean) {
         transactionsList.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
         emptyTransactionsListMessage.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
+        btnShowAll.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
             adapter.setPrivacyMode(isEnablePrivacyMode)
@@ -152,10 +157,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
             btnShowAll.text = getString(R.string.show_all)
             btnShowAll.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,null,null)
-        }
-        else{
-            btnShowAll.text = null
-            btnShowAll.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,resources.getDrawable(R.drawable.ic_more),null)
         }
     }
 
@@ -230,6 +231,24 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                 inflate(R.menu.proof_menu)
                 show()
             }
+        }
+
+        btnFaucetClose.setOnClickListener {
+            OnboardManager.instance.isCloseFaucet = true
+            faucetLayout.gone(true)
+        }
+
+        btnSecureClose.setOnClickListener {
+            OnboardManager.instance.isCloseSecure = true
+            secureLayout.gone(true)
+        }
+
+        btnFaucetReceive.setOnClickListener {
+            presenter?.onReceiveFaucet()
+        }
+
+        btnSecureReceive.setOnClickListener {
+            presenter?.onSecure()
         }
     }
 
@@ -322,6 +341,35 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
+    override fun showFaucet(show: Boolean) {
+        faucetLayout.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun showSecure(show: Boolean) {
+        secureLayout.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun showReceiveFaucet() {
+        val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+        if (allow) {
+            presenter?.generateFaucetAddress()
+        }
+        else{
+            showAlert(
+                    getString(R.string.common_external_link_dialog_message),
+                    getString(R.string.open),
+                    {  presenter?.generateFaucetAddress() },
+                    getString(R.string.common_external_link_dialog_title),
+                    getString(R.string.cancel)
+            )
+        }
+    }
+
+    override fun onFaucetAddressGenerated(link: String) {
+        openExternalLink(link)
+    }
+
     override fun showTransactionDetails(txId: String) {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionDetailsFragment(txId))
     }
@@ -334,6 +382,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToSendFragment())
     }
 
+    override fun showSeedScreen() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToWelcomeSeedFragment())
+    }
+
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
         btnNext.setOnClickListener(null)
@@ -344,6 +396,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         availableTitle.setOnClickListener(null)
         maturingTitle.setOnClickListener(null)
         btnShowAll.setOnClickListener(null)
+        btnFaucetClose.setOnClickListener(null)
+        btnSecureClose.setOnClickListener(null)
+        btnFaucetReceive.setOnClickListener(null)
+        btnSecureReceive.setOnClickListener(null)
         balanceViewPager.removeOnPageChangeListener(onPageSelectedListener)
         clearTitleListeners()
     }

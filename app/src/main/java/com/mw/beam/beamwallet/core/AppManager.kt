@@ -10,6 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
+import io.reactivex.disposables.Disposable
 import java.util.Calendar
 
 class AppManager {
@@ -35,6 +36,8 @@ class AppManager {
     var subOnAddressesChanged: Subject<Boolean?> = PublishSubject.create<Boolean?>().toSerialized()
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
+    private var newAddressSubscription: Disposable? = null
 
     var isResotred = false
 
@@ -110,6 +113,24 @@ class AppManager {
 
     fun getMyAddresses() : List<WalletAddress> {
         return addresses.map { it }.toList()
+    }
+
+    fun getAddressByName(name:String?) : WalletAddress? {
+        contacts.forEach {
+            if (it.label == name)
+            {
+                return it
+            }
+        }
+
+        addresses.forEach {
+            if (it.label == name)
+            {
+                return it
+            }
+        }
+
+        return null
     }
 
     fun getAddress(id:String?) : WalletAddress? {
@@ -291,6 +312,30 @@ class AppManager {
         wallet?.getAddresses(false)
     }
 
+    fun createAddressForFaucet() {
+        val address = getAddressByName("Beam community faucet")
+
+        if (address == null || address.isExpired)
+        {
+            newAddressSubscription = WalletListener.subOnGeneratedNewAddress.subscribe(){
+                newAddressSubscription?.dispose()
+                newAddressSubscription = null
+
+                it.label = "Beam community faucet"
+                it.duration = 0L
+                wallet?.saveAddress(it.toDTO(), true)
+
+                subOnFaucedGenerated.onNext(it.walletID)
+            }
+
+            wallet?.generateNewAddress()
+        }
+        else{
+            subOnFaucedGenerated.onNext(address.walletID)
+        }
+
+    }
+
     @SuppressLint("CheckResult")
     fun subscribeToUpdates() {
         if (!isSubscribe)
@@ -408,8 +453,6 @@ class AppManager {
             wallet?.getUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
-           // wallet?.exportDataToJson()
-           // wallet?.importDataFromJson("{}")
         }
     }
 }

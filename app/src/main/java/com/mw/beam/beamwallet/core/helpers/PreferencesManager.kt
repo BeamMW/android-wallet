@@ -51,6 +51,8 @@ object PreferencesManager {
     const val KEY_RESTORED_FROM_TRUSTED = "KEY_RESTORED_FROM_TRUSTED"
     const val KEY_LOGS = "KEY_LOGS"
     const val KEY_DEFAULT_LOGS = "KEY_DEFAULT_LOGS"
+    const val KEY_SEED = "KEY_SEED"
+    const val KEY_SEED_IS_SKIP = "KEY_SEED_IS_SKIP"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

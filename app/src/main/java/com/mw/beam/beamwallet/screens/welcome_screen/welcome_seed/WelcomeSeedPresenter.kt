@@ -18,7 +18,10 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -31,24 +34,43 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.configSeed(repository.seed)
+        view?.configSeed(repository.seed())
 
         if (BuildConfig.DEBUG) {
-            LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed)}")
+            LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed())}")
         }
     }
 
     override fun onDonePressed() {
-        view?.showConfirmFragment(repository.seed)
+        view?.showConfirmFragment(repository.seed())
     }
 
     override fun onNextPressed() {
-        view?.showSaveAlert()
+        if (!App.isAuthenticated) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
+        }
+
+        if (App.isAuthenticated && !OnboardManager.instance.canMakeSecure()) {
+            view?.onBack()
+        }
+        else{
+            view?.showSaveAlert()
+        }
     }
 
     override fun onCopyPressed() {
-        view?.copyToClipboard(prepareSeed(repository.seed), COPY_TAG)
+        view?.copyToClipboard(prepareSeed(repository.seed()), COPY_TAG)
         view?.showCopiedAlert()
+    }
+
+    override fun oLaterPressed() {
+        if (!App.isAuthenticated) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, true)
+            view?.showPasswordFragment(repository.seed())
+        }
+        else{
+            view?.onBack()
+        }
     }
 
     private fun prepareSeed(seed: Array<String>): String {

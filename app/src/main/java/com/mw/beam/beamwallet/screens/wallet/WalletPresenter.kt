@@ -18,9 +18,11 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.view.Menu
 import android.view.MenuInflater
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -36,6 +38,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         WalletContract.Presenter {
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var faucetGeneratedSubscription: Disposable
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -51,6 +54,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         }
 
         view?.selectWalletMenu()
+        view?.showFaucet(OnboardManager.instance.canReceiveFaucet())
+        view?.showSecure(OnboardManager.instance.canMakeSecure())
     }
 
     override fun onStart() {
@@ -166,6 +171,13 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
                 ?: 0, !state.shouldExpandInProgress, state.privacyMode)
     }
 
+    override fun onReceiveFaucet() {
+        view?.showReceiveFaucet()
+    }
+
+    override fun generateFaucetAddress() {
+        AppManager.instance.createAddressForFaucet()
+    }
 
     override fun initSubscriptions() {
         super.initSubscriptions()
@@ -182,11 +194,27 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
             view?.configWalletStatus(AppManager.instance.getStatus(),
                     !state.shouldExpandAvailable,
                     !state.shouldExpandInProgress, state.privacyMode)
+            view?.showFaucet(OnboardManager.instance.canReceiveFaucet())
+            view?.showSecure(OnboardManager.instance.canMakeSecure())
         }
 
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             view?.configTransactions(state.getTransactions(), state.privacyMode)
         }
+
+        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
+            val link =  when (BuildConfig.FLAVOR) {
+                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet"
+                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet"
+                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet"
+            }
+
+            view?.onFaucetAddressGenerated(link)
+        }
+    }
+
+    override fun onSecure() {
+        view?.showSeedScreen()
     }
 
     override fun onDestroy() {
@@ -194,7 +222,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, faucetGeneratedSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true
