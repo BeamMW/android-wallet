@@ -154,5 +154,4 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     }
 
     override fun logOut() {}
-    override fun showLockScreen() {}
 }

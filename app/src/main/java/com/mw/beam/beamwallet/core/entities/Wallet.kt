@@ -46,4 +46,6 @@ data class Wallet(val _this: Long) {
     external fun changeNodeAddress(address: String)
     external fun exportOwnerKey(pass: String): String
     external fun importRecovery(path: String)
+    external fun importDataFromJson(data: String)
+    external fun exportDataToJson()
 }

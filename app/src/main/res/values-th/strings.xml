@@ -389,7 +389,7 @@
     <string name="address_copied_to_clipboard">คัดลอกที่อยู่ไปยังคลิปบอร์ดแล้ว</string>
     <string name="copied_to_clipboard">คัดลอกลงคลิปบอร์ดแล้ว</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">กระเป๋า Beam จะทำการดาวน์โหลดข้อมูลบล็อคเชนและกู้คืนข้อมูลทรัพย์สินของคุณลงบนอุปกรณ์</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">กระเป๋า Beam จะทำการเชื่อมต่อ Trusted Node (ที่คุณบันทึก Owner Key ไว้) และ Node จะทำการกู้คืนข้อมูลทรัพย์สินให้</string>
     <string name="restore_with_trusted_node">ดึงข้อมูลจาก Node ที่ไว้ใจได้</string>
     <string name="automatic_restore_recommended">ดึงข้อมูลอัตโนมัติ (แนะนำ)</string>
     <string name="enter_trusted_node_address">กรอกที่อยู่ของ Node ที่ไว้ใจได้</string>

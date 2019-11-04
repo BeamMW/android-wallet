@@ -47,7 +47,6 @@ import androidx.navigation.NavOptions
 import android.widget.TextView
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
 
@@ -95,32 +94,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
-
-        //temp fix
-        reinitNotification = App.self.subOnStatusResume.subscribe(){
-            val brand = Build.BRAND.toLowerCase()
-            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
-                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
-                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
-                        val navController = findNavController(R.id.nav_host)
-                        navController.navigate(R.id.walletFragment, null, navOptions {
-                            popUpTo(R.id.navigation) { inclusive = true }
-                            launchSingleTop = true
-                        })
-                    }
-                }
-            }
-
-            if(LockScreenManager.isNeedLocked) {
-                showLockScreen()
-                LockScreenManager.isNeedLocked = false
-            }
-        }
-
-        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
-            showLockScreen()
-        }
+       // setupCrashHandler()
+        subscribeToUpdates()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -129,33 +104,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
-
-        //temp fix
-        reinitNotification = App.self.subOnStatusResume.subscribe(){
-            val brand = Build.BRAND.toLowerCase()
-            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
-                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
-                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
-                        val navController = findNavController(R.id.nav_host)
-                        navController.navigate(R.id.walletFragment, null, navOptions {
-                            popUpTo(R.id.navigation) { inclusive = true }
-                            launchSingleTop = true
-                        })
-                    }
-                }
-            }
-
-            if(LockScreenManager.isNeedLocked) {
-                showLockScreen()
-                LockScreenManager.isNeedLocked = false
-            }
-        }
-
-        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
-            showLockScreen()
-        }
+       // setupCrashHandler()
+        subscribeToUpdates()
     }
+
+
 
     override fun onDestroy() {
         App.isAppRunning = false
@@ -263,7 +216,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                         getString(R.string.cancel)
                 )
             }
-
         }
 
         result = DrawerBuilder()
@@ -275,6 +227,35 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                 .build()
 
         result?.drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    private fun subscribeToUpdates() {
+        //temp fix
+        reinitNotification = App.self.subOnStatusResume.subscribe(){
+            val brand = Build.BRAND.toLowerCase()
+            if (App.isAuthenticated && !LockScreenManager.isShowedLockScreen && brand == "xiaomi") {
+                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
+                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
+                        val navController = findNavController(R.id.nav_host)
+                        navController.navigate(R.id.walletFragment, null, navOptions {
+                            popUpTo(R.id.navigation) { inclusive = true }
+                            launchSingleTop = true
+                        })
+                    }
+                }
+            }
+
+            if(LockScreenManager.isShowedLockScreen) {
+                showLockScreen()
+            }
+            else if(LockScreenManager.checkIsNeedShow()) {
+                showLockScreen()
+            }
+        }
+
+        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
+            showLockScreen()
+        }
     }
 
     private fun setupCrashHandler() {

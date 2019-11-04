@@ -152,6 +152,17 @@ object WalletListener {
         }
     }
 
+    @JvmStatic
+    fun onImportDataFromJson(isOk: Boolean) {
+        LogUtils.logResponse(isOk, "onImportDataFromJson")
+    }
+
+    @JvmStatic
+    fun onExportDataToJson(data: String) {
+        LogUtils.logResponse(data, "onExportDataToJson")
+    }
+
+
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {
             try {

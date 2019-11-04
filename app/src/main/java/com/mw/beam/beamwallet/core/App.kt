@@ -35,9 +35,6 @@ import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
 import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
 //import com.squareup.leakcanary.LeakCanary
 import java.util.concurrent.TimeUnit
@@ -46,7 +43,7 @@ import android.view.Display
 import java.io.File
 import java.util.*
 import android.graphics.Point
-import com.mw.beam.beamwallet.core.helpers.checkRecoverDataBase
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -66,7 +63,6 @@ class App : Application() {
 
         var showNotification = true
         var isAuthenticated = false
-        var isShowedLockScreen = false
         var intentTransactionID: String? = null
         var isAppRunning = false
         var is24HoursTimeFormat: Boolean? = null
@@ -84,6 +80,11 @@ class App : Application() {
                 if (isAuthenticated) {
                     AppManager.instance.updateAllData()
                 }
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            fun onPause(){
+                LockScreenManager.inactiveDate = System.currentTimeMillis()
             }
         })
 

@@ -392,7 +392,7 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="address_copied_to_clipboard">La dirección ha sido copiada al portapapeles</string>
     <string name="copied_to_clipboard">Copiado al portapapeles</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet descargará una instantánea del blockchain y restaurará sus fondos en el dispositivo</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet se conectará a un nodo de confianza específico (configurado con la clave del propietario) y el nodo restaurará sus fondos</string>
     <string name="restore_with_trusted_node">Restaurar con nodo de confianza</string>
     <string name="automatic_restore_recommended">RESTAURACIÓN AUTOMÁTICA (recomendado)</string>
     <string name="enter_trusted_node_address">Introduzca la dirección de nodo de confianza</string>

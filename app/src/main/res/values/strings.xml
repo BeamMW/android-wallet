@@ -188,6 +188,9 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="id">ID</string>
+    <string name="treasure">Treasure</string>
+
+
 
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>

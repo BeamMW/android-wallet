@@ -34,7 +34,6 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
     private var nodeConnectingSubscription: Disposable? = null
 
     private var isActivityStopped = false
-    private var isExpireLockScreenTime = false
 
     override fun onCreate() {
     }
@@ -63,11 +62,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             }
         }
 
-        if (isExpireLockScreenTime) {
-            lockApp()
-        } else {
-            isActivityStopped = false
-        }
+        isActivityStopped = false
 
         view?.addListeners()
         view?.registerKeyboardStateListener()
@@ -114,27 +109,6 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     private fun detachView() {
         view = null
-    }
-
-    private fun lockApp() {
-        Log.d("lockApp","lockApp")
-
-        if (isLockScreenEnabled() && repository.isWalletInitialized()) {
-            view?.showLockScreen()
-        }
-        else{
-            Log.d("lockApp","NOT lockApp")
-        }
-    }
-
-    override fun onLockBroadcastReceived() {
-        if (repository.wallet != null) {
-            if (isActivityStopped) {
-                isExpireLockScreenTime = true
-            } else {
-                lockApp()
-            }
-        }
     }
 
     override fun onStateIsNotEnsured() {

@@ -388,8 +388,8 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="fingerprint_not_recognized">Sormenjälkeä ei tunnistettu</string>
     <string name="address_copied_to_clipboard">Osoite kopioitu leikepöydälle</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-lompakko lataa lohkoketjusta tilannekuvan ja palauttaa saldon laitteellesi</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam-lompakko yhdistää luotettuun palvelimeen (node) (konfiguroitu omistusavaimellasi) ja palvelin palauttaa saldosi</string>
     <string name="restore_with_trusted_node">Palauta luotetun palvelimen (node) kautta</string>
     <string name="automatic_restore_recommended">AUTOMAATTINEN PALAUTUS (suositus)</string>
     <string name="enter_trusted_node_address">Anna luotetun palvelimen (node) osoite</string>
@@ -448,8 +448,8 @@ osoitteella tai yhteystiedolla</string>
         <item>Ei koskaan</item>
     </string-array>
     <string name="save_wallet_logs">Tallenna lompakon lokitiedot</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">Kaikki</string>
+    <string name="last_5_days">Viimeiset 5 päivää</string>
+    <string name="last_15_days">Viimeiset 15 päivää</string>
+    <string name="last_30_days">Viimeiset 30 päivää</string>
 </resources>

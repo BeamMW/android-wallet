@@ -408,6 +408,8 @@ class AppManager {
             wallet?.getUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
+           // wallet?.exportDataToJson()
+           // wallet?.importDataFromJson("{}")
         }
     }
 }

@@ -28,7 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@color/colorPrimary"
         android:paddingEnd="@dimen/settings_common_offset"
         android:text="@string/export_transaction_history_text"
         android:textColor="@android:color/white"

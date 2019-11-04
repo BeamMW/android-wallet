@@ -213,8 +213,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         (activity as BaseActivity<*>).logOut()
     }
 
-    override fun showLockScreen() {}
-
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
         if (nextAnim == R.anim.slide_in_right) {
             val nextAnimation = AnimationUtils.loadAnimation(context, nextAnim)

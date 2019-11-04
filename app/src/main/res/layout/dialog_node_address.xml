@@ -27,7 +27,6 @@
         style="@style/common_text_big_dark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:paddingEnd="@dimen/settings_common_offset"
         android:text="@string/settings_ip_title"
         app:layout_constraintStart_toStartOf="parent"

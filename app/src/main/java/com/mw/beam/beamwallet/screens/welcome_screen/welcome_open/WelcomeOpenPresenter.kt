@@ -61,7 +61,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.hideKeyboard()
 
         if (view?.hasValidPass() == true) {
-            if (App.isShowedLockScreen) {
+            if (LockScreenManager.isShowedLockScreen) {
                 if (repository.checkPass(view?.getPass())) {
                     view?.openWallet(view?.getPass() ?: return)
                 }
@@ -113,7 +113,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     }
 
     override fun onFingerprintSucceeded() {
-        if (App.isShowedLockScreen) {
+        if (LockScreenManager.isShowedLockScreen) {
             if (repository.checkPass(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))) {
                 view?.openWallet(view?.getPass() ?: return)
             }

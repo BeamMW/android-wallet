@@ -39,14 +39,6 @@ object Api {
 
     init {
         System.loadLibrary("wallet-jni")
-
-//        isLoaded = try {
-//            System.loadLibrary("wallet-jni")
-//            true
-//        } catch (e: java.lang.UnsatisfiedLinkError) {
-//            Log.e("CRASH", "System.loadLibrary CRASH")
-//            false
-//        }
     }
 
     external fun createWallet(appVersion: String, nodeAddr: String, dbPath: String, pass: String, phrases: String, restore: Boolean = false): Wallet?

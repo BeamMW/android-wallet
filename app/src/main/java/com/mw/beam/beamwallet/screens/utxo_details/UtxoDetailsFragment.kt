@@ -89,6 +89,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoKeyType.ChildKey -> getString(R.string.childKey)
             UtxoKeyType.Bbs -> getString(R.string.bbs)
             UtxoKeyType.Decoy -> getString(R.string.decoy)
+            UtxoKeyType.Treasury -> getString(R.string.treasure)
         }
     }
 

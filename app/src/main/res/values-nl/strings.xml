@@ -388,8 +388,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="fingerprint_not_recognized">Vingerafdruk niet herkend</string>
     <string name="address_copied_to_clipboard">Adres naar klembord gekopieerd</string>
     <string name="copied_to_clipboard">Naar klembord gekopieerd</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet zal een snapshot van de blockchain downloaden en uw saldo op het apparaat herstellen</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet zal verbinding maken met specifieke vertrouwde node (geconfigureerd met uw eigenaarssleutel) en de node zal uw saldo herstellen</string>
     <string name="restore_with_trusted_node">Herstellen met vertrouwde node</string>
     <string name="automatic_restore_recommended">AUTOMATISCH HERSTEL (aanbevolen)</string>
     <string name="enter_trusted_node_address">Voer vertrouwd node adres in</string>

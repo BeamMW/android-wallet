@@ -65,15 +65,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (App.isShowedLockScreen) {
+        if (LockScreenManager.isShowedLockScreen) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
         }
     }
 
     override fun onStart() {
         super.onStart()
-
-        LockScreenManager.isNeedLocked = false
 
         onBackPressedCallback.isEnabled = true
     }
@@ -92,7 +90,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun init(shouldInitFingerprint: Boolean) {
         if (touchIDView!=null)
         {
-            if (!App.isShowedLockScreen) {
+            if (!LockScreenManager.isShowedLockScreen) {
                 App.isAuthenticated = false
             }
             else{
@@ -200,8 +198,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun openWallet(pass: String) {
         hideKeyboard()
-        if (App.isShowedLockScreen) {
-            App.isShowedLockScreen = false
+        if (LockScreenManager.isShowedLockScreen) {
+            LockScreenManager.isShowedLockScreen = false
 
             (activity as? AppActivity)?.enableLeftMenu(true)
 
