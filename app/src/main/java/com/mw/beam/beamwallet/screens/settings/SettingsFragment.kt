@@ -193,6 +193,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
+    override fun navigateToPaymentProof() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToProofVerificationFragment())
+    }
+
     override fun showReceiveFaucet() {
         val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
 
@@ -375,6 +379,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         faucetFrame.setOnClickListener {
             presenter?.onReceiveFaucet()
+        }
+
+        proofFrame.setOnClickListener {
+            presenter?.onProofPressed()
         }
     }
 
@@ -610,6 +618,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         verificationFrame.setOnClickListener(null)
         seedFrame.setOnClickListener(null)
         faucetFrame.setOnClickListener(null)
+        proofFrame.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

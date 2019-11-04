@@ -255,6 +255,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showReceiveFaucet()
     }
 
+    override fun onProofPressed() {
+        view?.navigateToPaymentProof()
+    }
+
     override fun generateFaucetAddress() {
         AppManager.instance.createAddressForFaucet()
     }

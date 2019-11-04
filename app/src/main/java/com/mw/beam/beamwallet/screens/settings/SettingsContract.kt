@@ -54,6 +54,7 @@ interface SettingsContract {
         fun navigateToAddCategory()
         fun navigateToLanguage()
         fun navigateToOwnerKeyVerification()
+        fun navigateToPaymentProof()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun setLogSettings(days:Long)
         fun showLogsDialog()
@@ -87,6 +88,7 @@ interface SettingsContract {
         fun onSeedPressed()
         fun onReceiveFaucet()
         fun generateFaucetAddress()
+        fun onProofPressed()
     }
 
     interface Repository : MvpRepository {
