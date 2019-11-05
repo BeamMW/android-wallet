@@ -26,8 +26,12 @@ import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.disposables.Disposable
 import java.net.URI
+import com.google.gson.Gson
+
+
 
 /**
  *  1/21/19.
@@ -36,8 +40,15 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
 
-    private lateinit var faucetGeneratedSubscription: Disposable
+    enum class ExportType {
+        SAVE, SHARE
+    }
 
+    private lateinit var faucetGeneratedSubscription: Disposable
+    private lateinit var exportDataSubscription: Disposable
+    private var excludeExportParameters: Array<String> = arrayOf()
+
+    private var exportType = ExportType.SAVE
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(repository.isEnabledConnectToRandomNode())
@@ -61,6 +72,34 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
             view?.onFaucetAddressGenerated(link)
         }
+
+        exportDataSubscription = WalletListener.subOnDataExported.subscribe {
+            val json = Gson()
+
+            val allCategories = repository.getAllCategory()
+            val categoriesJson = "{\"Categories\":" + json.toJson(allCategories) + ","
+            val resultJson = categoriesJson + it.substring(1)
+
+            val map = json.fromJson(resultJson, HashMap::class.java)
+
+            for(param in excludeExportParameters){
+                map.remove(param)
+            }
+
+            val result = json.toJson(map).toString()
+
+            if (exportType == ExportType.SHARE) {
+                val file = repository.getDataFile(result)
+                view?.exportShare(file)
+            }
+            else{
+                view?.exportSave(result)
+            }
+        }
+    }
+
+    override fun omImportPressed() {
+        view?.showImportDialog()
     }
 
     override fun onStart() {
@@ -267,10 +306,29 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.closeDialog()
     }
 
+    override fun onExportPressed() {
+        view?.showExportDialog()
+    }
+
+    override fun onExportWithExclude(list: Array<String>) {
+        excludeExportParameters = list
+        view?.showExportSaveDialog()
+    }
+
+    override fun onExportSave() {
+        exportType = ExportType.SAVE
+        AppManager.instance.wallet?.exportDataToJson()
+    }
+
+    override fun onExportShare() {
+        exportType = ExportType.SHARE
+        AppManager.instance.wallet?.exportDataToJson()
+    }
+
     override fun onDestroy() {
         view?.closeDialog()
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription)
 }

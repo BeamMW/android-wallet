@@ -121,8 +121,7 @@ object TagHelper {
         saveTagData()
     }
 }
-
-private data class TagData(@SerializedName("data") var data: List<Tag>) {
+ data class TagData(@SerializedName("data") var data: List<Tag>) {
     fun getAllTags() = HashMap(data.map { it.id to it }.toMap())
 
     fun saveTag(tag: Tag) {

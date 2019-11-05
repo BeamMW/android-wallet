@@ -68,6 +68,8 @@ object WalletListener {
     var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
     var subOnCoinsByTx: Subject<List<Utxo>?> = BehaviorSubject.create<List<Utxo>?>().toSerialized()
     val subOnImportRecoveryProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
+    var subOnDataExported: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnDataImported: Subject<Boolean> = PublishSubject.create<Boolean>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -154,11 +156,13 @@ object WalletListener {
 
     @JvmStatic
     fun onImportDataFromJson(isOk: Boolean) {
+        subOnDataImported.onNext(isOk)
         LogUtils.logResponse(isOk, "onImportDataFromJson")
     }
 
     @JvmStatic
     fun onExportDataToJson(data: String) {
+        subOnDataExported.onNext(data)
         LogUtils.logResponse(data, "onExportDataToJson")
     }
 

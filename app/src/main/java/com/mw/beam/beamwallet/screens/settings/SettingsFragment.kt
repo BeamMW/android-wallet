@@ -57,7 +57,19 @@ import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import android.os.Build
+import android.os.Environment
+import android.provider.Settings
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import com.mw.beam.beamwallet.core.OnboardManager
+import kotlinx.android.synthetic.main.dialog_export_data.view.*
+import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 /**
@@ -384,6 +396,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         proofFrame.setOnClickListener {
             presenter?.onProofPressed()
         }
+
+        exportFrame.setOnClickListener{
+            presenter?.onExportPressed()
+        }
+
+        importFrame.setOnClickListener{
+            presenter?.omImportPressed()
+        }
     }
 
     @SuppressLint("InflateParams")
@@ -563,6 +583,64 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         )
     }
 
+    override fun showExportDialog() {
+
+        val viewExportOptions = LayoutInflater.from(context).inflate(R.layout.dialog_export_data, null)
+        viewExportOptions.findViewById<TextView>(R.id.btnCancel).setOnClickListener {
+            dialog?.dismiss()
+        }
+        viewExportOptions.contactsCheckbox.isChecked = true
+        viewExportOptions.addressesCheckbox.isChecked = true
+        viewExportOptions.transactionCheckbox.isChecked = true
+        viewExportOptions.tagsCheckbox.isChecked = true
+
+        viewExportOptions.findViewById<TextView>(R.id.btnConfirm).setOnClickListener {
+            dialog?.dismiss()
+
+            val contacts = viewExportOptions.contactsCheckbox.isChecked
+            val addresses = viewExportOptions.addressesCheckbox.isChecked
+            val transactions = viewExportOptions.transactionCheckbox.isChecked
+            val tags = viewExportOptions.tagsCheckbox.isChecked
+
+            var excludeParameters = mutableListOf<String>()
+            if (!contacts) excludeParameters.add("Contacts")
+            if (!addresses) excludeParameters.add("OwnAddresses")
+            if (!transactions) excludeParameters.add("TransactionParameters")
+            if (!tags) excludeParameters.add("Categories")
+
+            presenter?.onExportWithExclude(excludeParameters.toTypedArray())
+        }
+
+        dialog = AlertDialog.Builder(context!!).setView(viewExportOptions).show().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
+    override fun showExportSaveDialog() {
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_share, null)
+
+        view.findViewById<TextView>(R.id.dialogTitle).text = getString(R.string.export_wallet_data)
+        view.findViewById<TextView>(R.id.dialogTitle2).text = getString(R.string.export_wallet_data_text)
+
+        view.findViewById<TextView>(R.id.cancelBtn).setOnClickListener {
+            dialog?.dismiss()
+        }
+
+        view.findViewById<TextView>(R.id.shareBtn).setOnClickListener {
+            dialog?.dismiss()
+            presenter?.onExportShare()
+        }
+
+        view.findViewById<TextView>(R.id.saveBtn).setOnClickListener {
+            dialog?.dismiss()
+            presenter?.onExportSave()
+        }
+
+        dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
     override fun showInvalidNodeAddressError() {
         val textView = dialog?.findViewById<TextView>(R.id.nodeError)
         textView?.let { it.visibility = View.VISIBLE }
@@ -594,6 +672,78 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         confirmTransactionSwitch.isChecked = isConfirm
     }
 
+    override fun exportSave(content: String) {
+        val fileName = "wallet_data_" + System.currentTimeMillis() + ".json"
+
+        Dexter.withActivity(activity)
+                .withPermission(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ).withListener(object : PermissionListener {
+
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        val outputStream: FileOutputStream
+                        try {
+                            val file2 = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+                            outputStream = FileOutputStream(file2)
+                            outputStream.write(content.toByteArray())
+                            outputStream.close()
+
+                            showSnackBar(getString(R.string.wallet_data_saved))
+
+                        } catch (e: IOException) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+                        token?.continuePermissionRequest()
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        if (response?.isPermanentlyDenied == true){
+                            showAlert(message = getString(R.string.storage_permission_required_message_small),
+                                    btnConfirmText = getString(R.string.settings),
+                                    onConfirm = {
+                                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                        intent.data = Uri.fromParts("package", context?.packageName, null)
+                                        startActivity(intent)
+                                    },
+                                    title = getString(R.string.send_permission_required_title),
+                                    btnCancelText = getString(R.string.cancel))
+                        }
+                    }
+
+                }).check()
+    }
+
+    override fun exportShare(file: File) {
+        val context = context ?: return
+
+        val uri = FileProvider.getUriForFile(context, AppConfig.AUTHORITY, file)
+
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/json"
+            putExtra(Intent.EXTRA_STREAM, uri)
+        }
+
+        startActivity(Intent.createChooser(intent, getString(R.string.export_wallet_data)))
+    }
+
+    override fun showImportDialog() {
+        showAlert(message = getString(R.string.import_data_text),
+                btnConfirmText = getString(R.string.imp),
+                onConfirm = {
+                    val intent = Intent()
+                            .setType("*/*")
+                            .setAction(Intent.ACTION_GET_CONTENT)
+                            .putExtra(Intent.EXTRA_ALLOW_MULTIPLE,false)
+                    activity?.startActivityForResult(Intent.createChooser(intent, getString(R.string.import_data_title)), AppActivity.IMPORT_FILE_REQUEST)
+                },
+                title = getString(R.string.import_data_title),
+                btnCancelText = getString(R.string.cancel))
+    }
+
     override fun closeDialog() {
         dialog?.let {
             it.dismiss()
@@ -619,6 +769,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         seedFrame.setOnClickListener(null)
         faucetFrame.setOnClickListener(null)
         proofFrame.setOnClickListener(null)
+        exportFrame.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

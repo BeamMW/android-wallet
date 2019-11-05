@@ -2,6 +2,7 @@ package com.mw.beam.beamwallet.core
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
@@ -12,6 +13,9 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
 import io.reactivex.disposables.Disposable
 import java.util.Calendar
+import com.mw.beam.beamwallet.core.helpers.TagHelper
+import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagData
 
 class AppManager {
     var wallet: Wallet? = null
@@ -52,6 +56,23 @@ class AppManager {
 
                 return INSTANCE!!
             }
+    }
+
+    fun importData(data:String) {
+        val json = Gson()
+
+        val map = json.fromJson(data, HashMap::class.java)
+        val tags = map["Categories"]
+
+        if (tags!=null) {
+            val tagsString = json.toJson(tags).toString()
+            val tagData = json.fromJson(tagsString, Array<Tag>::class.java)
+            for (t in tagData) {
+                TagHelper.saveTag(t)
+            }
+        }
+
+        wallet?.importDataFromJson(data)
     }
 
     //MARK: -Status
@@ -453,6 +474,7 @@ class AppManager {
             wallet?.getUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
+            wallet?.getTransactions()
         }
     }
 }

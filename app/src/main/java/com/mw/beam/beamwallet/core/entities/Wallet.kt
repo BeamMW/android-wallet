@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
  */
 data class Wallet(val _this: Long) {
     external fun getWalletStatus()
+    external fun getTransactions()
     external fun getUtxosStatus()
     external fun syncWithNode()
     external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)

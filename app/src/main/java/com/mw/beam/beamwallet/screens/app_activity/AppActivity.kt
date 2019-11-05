@@ -49,12 +49,21 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
+import android.net.Uri
+import com.mw.beam.beamwallet.core.AppManager
+import com.elvishew.xlog.XLog.json
+import com.google.gson.JsonElement
+import com.google.gson.Gson
+
+
+
 
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
     companion object {
+        const val IMPORT_FILE_REQUEST = 1024
         const val TRANSACTION_ID = "TRANSACTION_ID"
         private const val RESTARTED = "appExceptionHandler_restarted"
         private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
@@ -94,7 +103,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-       // setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
     }
 
@@ -104,7 +113,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-       // setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
     }
 
@@ -143,6 +152,31 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         })
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMPORT_FILE_REQUEST && resultCode == RESULT_OK) {
+            val selectedFile = data?.data //The uri with the location of the file
+
+            if (selectedFile != null) {
+                val text = readText(selectedFile)
+                if (text.isNullOrEmpty()) {
+                    showAlert(getString(R.string.incorrect_file_text),getString(R.string.ok),{
+
+                    },getString(R.string.incorrect_file_title))
+                }
+                else{
+                    AppManager.instance.importData(text)
+                }
+            }
+            else{
+                showAlert(getString(R.string.incorrect_file_text),getString(R.string.ok),{
+
+                },getString(R.string.incorrect_file_title))
+            }
+        }
+    }
+
     private fun buildTransitionAnimation(): AnimBuilder.() -> Unit = {
         enter = R.anim.fade_in
         popEnter = R.anim.fade_in
@@ -164,6 +198,19 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         return AppActivityPresenter(this, AppActivityRepository())
     }
 
+    private fun readText(uri: Uri): String? {
+        val name = uri.lastPathSegment
+        val extension = name?.substring(name?.lastIndexOf("."))
+        if (extension!=".json") {
+            return null
+        }
+        val inputStream = contentResolver.openInputStream(uri)
+        val json = inputStream?.bufferedReader().use { it?.readText() }
+
+        Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+
+        return json
+    }
 
     private fun setupMenu(savedInstanceState: Bundle?)
     {

@@ -27,6 +27,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.File
 
 /**
  *  1/21/19.
@@ -61,6 +62,11 @@ interface SettingsContract {
         fun navigateToSeed()
         fun showReceiveFaucet()
         fun onFaucetAddressGenerated(link:String)
+        fun showExportDialog()
+        fun showExportSaveDialog()
+        fun exportSave(content:String)
+        fun exportShare(file: File)
+        fun showImportDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -89,6 +95,11 @@ interface SettingsContract {
         fun onReceiveFaucet()
         fun generateFaucetAddress()
         fun onProofPressed()
+        fun onExportPressed()
+        fun onExportWithExclude(list:Array<String>)
+        fun onExportSave()
+        fun onExportShare()
+        fun omImportPressed()
     }
 
     interface Repository : MvpRepository {
@@ -110,5 +121,6 @@ interface SettingsContract {
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
         fun saveLogSettings(days:Long)
         fun getLogSettings():Long
+        fun getDataFile(content:String): File
     }
 }
