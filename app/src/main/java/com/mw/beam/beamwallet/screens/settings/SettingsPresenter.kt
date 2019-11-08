@@ -325,6 +325,14 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         AppManager.instance.wallet?.exportDataToJson()
     }
 
+    override fun onRemoveWalletPressed() {
+        view?.showConfirmRemoveWallet()
+    }
+
+    override fun onConfirmRemoveWallet() {
+        view?.walletRemoved()
+    }
+
     override fun onDestroy() {
         view?.closeDialog()
         super.onDestroy()

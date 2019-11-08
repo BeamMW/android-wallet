@@ -66,6 +66,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletContract
+import com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletDialog
 import kotlinx.android.synthetic.main.dialog_export_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
@@ -84,6 +86,15 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             showWalletFragment()
+        }
+    }
+
+    private val confirmRemoveWalletCallback = object : ConfirmRemoveWalletContract.Callback {
+        override fun onClose(success: Boolean) {
+            if (success) {
+                presenter?.onConfirmRemoveWallet()
+            }
+            ConfirmRemoveWalletDialog.callback = null
         }
     }
 
@@ -403,6 +414,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         importFrame.setOnClickListener{
             presenter?.omImportPressed()
+        }
+
+        clearCardFrame.setOnClickListener{
+            presenter?.onRemoveWalletPressed()
         }
     }
 
@@ -751,6 +766,21 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    override fun showConfirmRemoveWallet() {
+        showAlert(message = getString(R.string.clear_wallet_text),
+                btnConfirmText = getString(R.string.remove_wallet),
+                onConfirm = {
+                    ConfirmRemoveWalletDialog.callback = confirmRemoveWalletCallback
+                    ConfirmRemoveWalletDialog.newInstance().show(activity?.supportFragmentManager!!, ConfirmRemoveWalletDialog.getFragmentTag())
+                },
+                title = getString(R.string.clear_wallet),
+                btnCancelText = getString(R.string.cancel))
+    }
+
+    override fun walletRemoved() {
+
+    }
+
     override fun clearListeners() {
         confirmTransactionSwitch.setOnCheckedChangeListener(null)
         enableFingerprintSwitch.setOnCheckedChangeListener(null)
@@ -770,6 +800,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         faucetFrame.setOnClickListener(null)
         proofFrame.setOnClickListener(null)
         exportFrame.setOnClickListener(null)
+        clearCardFrame.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

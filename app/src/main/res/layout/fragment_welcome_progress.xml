@@ -103,16 +103,34 @@
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnCancel"
             style="@style/common_button_style"
-            android:layout_marginBottom="@dimen/welcome_progress_button_margin"
-            android:visibility="gone"
-            tools:visibility="visible"
-            app:button_icon="@drawable/ic_btn_cancel"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/primary_button"
+            android:visibility="gone"
+            app:button_icon="@drawable/ic_btn_cancel"
             app:button_text="@string/cancel"
-            app:lower_case="true"
             app:button_text_color="@color/common_text_color"
+            app:layout_constraintBottom_toTopOf="@+id/appVersion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lower_case="true"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/appVersion"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:alpha="0.5"
+            tools:text="Version 1.1.2"
+            tools:visibility="visible" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

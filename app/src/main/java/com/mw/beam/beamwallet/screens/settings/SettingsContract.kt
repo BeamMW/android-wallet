@@ -67,6 +67,8 @@ interface SettingsContract {
         fun exportSave(content:String)
         fun exportShare(file: File)
         fun showImportDialog()
+        fun showConfirmRemoveWallet()
+        fun walletRemoved()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -100,6 +102,8 @@ interface SettingsContract {
         fun onExportSave()
         fun onExportShare()
         fun omImportPressed()
+        fun onRemoveWalletPressed()
+        fun onConfirmRemoveWallet()
     }
 
     interface Repository : MvpRepository {

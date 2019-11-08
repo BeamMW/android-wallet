@@ -25,7 +25,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class WalletAddressDTO(val walletID: String,
                             var label: String,
-                            val category: String,
+                            var category: String,
                             val createTime: Long,
                             var duration: Long,
                             val own: Long) : Parcelable {

@@ -15,7 +15,7 @@ import io.reactivex.disposables.Disposable
 import java.util.Calendar
 import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagData
+import android.os.Handler
 
 class AppManager {
     var wallet: Wallet? = null
@@ -475,6 +475,10 @@ class AppManager {
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
             wallet?.getTransactions()
+
+            Handler().postDelayed({
+                TagHelper.fixLegacyFormat()
+            }, 2000)
         }
     }
 }

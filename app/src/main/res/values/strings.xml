@@ -521,6 +521,7 @@ address or contact</string>
     <string name="feedback">Feedback</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="wallet_data_saved">Wallet data saved to Downloads</string>
-
+    <string name="remove_wallet_password_1">Use fingerprint or enter your password to remove current wallet</string>
+    <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
 
 </resources>

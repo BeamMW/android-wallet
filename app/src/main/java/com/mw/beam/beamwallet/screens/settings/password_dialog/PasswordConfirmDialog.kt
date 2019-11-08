@@ -37,10 +37,13 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
             this.title = title
         }
 
+
         fun getFragmentTag(): String = PasswordConfirmDialog::class.java.simpleName
     }
 
-    override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_password_confirm
+    override fun onControllerGetContentLayoutId(): Int {
+        return R.layout.dialog_password_confirm
+    }
 
     override fun init() {
 

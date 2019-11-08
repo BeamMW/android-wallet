@@ -38,13 +38,12 @@ import android.os.Handler
 import androidx.activity.OnBackPressedCallback
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.BuildConfig
 
 /**
  *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
-    private var clickedOpen = false
-
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -68,6 +67,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         if (LockScreenManager.isShowedLockScreen) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
         }
+
+        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+
     }
 
     override fun onStart() {

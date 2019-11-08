@@ -342,6 +342,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_confirmRemoveWalletDialog2"
+            app:destination="@id/confirmRemoveWalletDialog2"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -894,4 +901,8 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/confirmRemoveWalletDialog2"
+        android:name="com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletDialog"
+        android:label="ConfirmRemoveWalletDialog" />
 </navigation>

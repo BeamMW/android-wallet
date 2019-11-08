@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.send_confirmation.dialog
+package com.mw.beam.beamwallet.screens.settings.password_dialog
 
 import android.os.Handler
 import android.text.Editable
@@ -28,16 +28,15 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import kotlinx.android.synthetic.main.dialog_confirm_transaction.*
-import kotlinx.android.synthetic.main.dialog_confirm_transaction.description
-import kotlinx.android.synthetic.main.dialog_confirm_transaction.pass
-import kotlinx.android.synthetic.main.dialog_confirm_transaction.passError
+import kotlinx.android.synthetic.main.dialog_password_confirm_finger.*
+import kotlinx.android.synthetic.main.dialog_password_confirm_finger.description
+import kotlinx.android.synthetic.main.dialog_password_confirm_finger.pass
+import kotlinx.android.synthetic.main.dialog_password_confirm_finger.passError
 
-class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>(), ConfirmTransactionContract.View {
+class ConfirmRemoveWalletDialog : BaseDialogFragment<ConfirmRemoveWalletPresenter>(), ConfirmRemoveWalletContract.View {
     private var withFingerprint = false
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
@@ -47,17 +46,21 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
         }
     }
 
+    override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_password_confirm_finger
+
     companion object {
-        var callback: ConfirmTransactionContract.Callback? = null
+        var callback: ConfirmRemoveWalletContract.Callback? = null
+
+        fun newInstance() = ConfirmRemoveWalletDialog().apply {
+        }
+
+        fun getFragmentTag(): String = ConfirmRemoveWalletDialog::class.java.simpleName
     }
-
-    override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_confirm_transaction
-
 
     override fun init(isFingerprintEnable: Boolean) {
         withFingerprint = isFingerprintEnable
 
-        description.setText(if (withFingerprint) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
+        description.setText(if (withFingerprint) R.string.remove_wallet_password_1 else R.string.remove_wallet_password_2)
 
         touchIDView.visibility = if (withFingerprint) View.VISIBLE else View.GONE
 
@@ -140,16 +143,16 @@ class ConfirmTransactionDialog : BaseDialogFragment<ConfirmTransactionPresenter>
     }
 
     override fun close(success: Boolean) {
-        findNavController().popBackStack()
+        dismiss()
         callback?.onClose(success)
     }
 
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        return ConfirmTransactionPresenter(this, ConfirmTransactionRepository())
+        return ConfirmRemoveWalletPresenter(this, ConfirmRemoveWalletRepository())
     }
 
-    private class FingerprintCallback(val presenter: ConfirmTransactionContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+    private class FingerprintCallback(val presenter: ConfirmRemoveWalletContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
             presenter?.onErrorFingerprint()
