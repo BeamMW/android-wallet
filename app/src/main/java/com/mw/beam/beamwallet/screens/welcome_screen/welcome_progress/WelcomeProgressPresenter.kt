@@ -23,7 +23,6 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import java.io.File
 import com.mw.beam.beamwallet.core.RestoreManager
@@ -111,15 +110,12 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
-        downloadSubscription = repository.downloadRestoreFile(file)
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        downloadSubscription = RestoreManager.instance.subDownloadProgress
                 .subscribe({
 
-                    if(it.done == -1) {
+                    if (it.done == -1) {
                         view?.close()
-                    }
-                    else{
+                    } else {
                         onRecoveryLiveData.postValue {
                             view?.updateProgress(it, state.mode, true)
                         }
@@ -136,6 +132,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     state.isFailedNetworkConnect = true
                     view?.showFailedDownloadRestoreFileAlert()
                 })
+
+        DownloadCalculator.onStartDownload()
+        RestoreManager.instance.startDownload(file)
     }
 
     private fun startImport() {
