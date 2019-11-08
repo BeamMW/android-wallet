@@ -56,7 +56,7 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import android.os.Build
+import com.mw.beam.beamwallet.base_screen.*
 import android.os.Environment
 import android.provider.Settings
 import com.karumi.dexter.Dexter
@@ -778,7 +778,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun walletRemoved() {
-
+        (activity as BaseActivity<*>).logOut()
     }
 
     override fun clearListeners() {

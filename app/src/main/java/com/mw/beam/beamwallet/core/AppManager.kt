@@ -4,18 +4,15 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
 import io.reactivex.disposables.Disposable
 import java.util.Calendar
-import com.mw.beam.beamwallet.core.helpers.TagHelper
-import com.mw.beam.beamwallet.core.helpers.Tag
 import android.os.Handler
+import com.mw.beam.beamwallet.core.helpers.*
+import java.io.File
 
 class AppManager {
     var wallet: Wallet? = null
@@ -56,6 +53,50 @@ class AppManager {
 
                 return INSTANCE!!
             }
+    }
+
+    fun removeWallet() {
+        isSubscribe = false
+        isResotred = false
+
+        Api.closeWallet()
+
+        wallet = null
+
+        contacts.clear()
+        addresses.clear()
+        transactions.clear()
+        utxos.clear()
+
+        PreferencesManager.clear()
+
+        val db = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
+
+        if (db.exists()) {
+            db.delete()
+        }
+
+        val fr = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME)
+        if (fr.exists()) {
+            fr.delete()
+        }
+
+        val directory = File(AppConfig.LOG_PATH)
+        val logs = directory.listFiles()
+
+        if (logs!=null) {
+            logs.sortBy {
+                it.lastModified()
+            }
+
+            for (i in logs.indices) {
+                if (i > 0) {
+                    if (logs[i].exists()) {
+                        logs[i].delete()
+                    }
+                }
+            }
+        }
     }
 
     fun importData(data:String) {

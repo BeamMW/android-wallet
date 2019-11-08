@@ -330,6 +330,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onConfirmRemoveWallet() {
+        AppManager.instance.removeWallet()
         view?.walletRemoved()
     }
 

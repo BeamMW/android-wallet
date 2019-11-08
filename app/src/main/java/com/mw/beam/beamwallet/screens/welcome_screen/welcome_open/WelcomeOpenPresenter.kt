@@ -20,7 +20,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import java.io.File
-import com.mw.beam.beamwallet.core.Api.closeWallet
 import com.mw.beam.beamwallet.core.helpers.*
 
 /**
