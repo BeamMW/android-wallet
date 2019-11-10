@@ -14,14 +14,14 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.owner_key_verification
+package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
-class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, repository: OwnerKeyVerificationContract.Repository)
-    : BasePresenter<OwnerKeyVerificationContract.View, OwnerKeyVerificationContract.Repository>(view, repository), OwnerKeyVerificationContract.Presenter {
+class DoubleAuthorizationPresenter(view: DoubleAuthorizationContract.View?, repository: DoubleAuthorizationContract.Repository)
+    : BasePresenter<DoubleAuthorizationContract.View, DoubleAuthorizationContract.Repository>(view, repository), DoubleAuthorizationContract.Presenter {
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -50,7 +50,7 @@ class OwnerKeyVerificationPresenter(view: OwnerKeyVerificationContract.View?, re
         when {
             password.isNullOrBlank() -> view?.showEmptyPasswordError()
             repository.checkPassword(password) -> {
-                view?.navigateToOwnerKey()
+                view?.navigateToNextScreen()
             }
             else -> view?.showWrongPasswordError()
         }

@@ -42,7 +42,7 @@ import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.screens.settings.DoubleAuthorizationFragment
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone
@@ -383,7 +383,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun showSeedScreen() {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToWelcomeSeedFragment())
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.VerificationSeed))
     }
 
     override fun clearListeners() {

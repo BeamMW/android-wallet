@@ -49,6 +49,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     private var excludeExportParameters: Array<String> = arrayOf()
 
     private var exportType = ExportType.SAVE
+
+    override fun hasBackArrow(): Boolean? = true
+    override fun hasStatus(): Boolean = true
+
     override fun onViewCreated() {
         super.onViewCreated()
         view?.init(repository.isEnabledConnectToRandomNode())
@@ -58,7 +62,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
         view?.setLogSettings(repository.getLogSettings())
     }
-
 
     override fun initSubscriptions() {
         super.initSubscriptions()
@@ -146,8 +149,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToSeed()
     }
 
-    override fun hasBackArrow(): Boolean? = true
-    override fun hasStatus(): Boolean = true
+    override fun onSeedVerificationPressed() {
+        view?.navigateToSeedVerification()
+    }
 
     override fun onShowLockScreenSettings() {
         view?.showLockScreenSettingsDialog()

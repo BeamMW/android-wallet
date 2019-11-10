@@ -40,6 +40,11 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  *  10/30/18.
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
+
+    private fun onlyDisplay():Boolean {
+        return WelcomeSeedFragmentArgs.fromBundle(arguments!!).onlyDisplay
+    }
+
     private lateinit var copiedAlert: String
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed
@@ -70,10 +75,12 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             presenter?.oLaterPressed()
         }
 
-        if (App.isAuthenticated && !OnboardManager.instance.canMakeSecure()) {
+
+        if(onlyDisplay())
+        {
+            description.text = getString(R.string.welcome_seed_description_old)
             btnLater.visibility = View.GONE
-            btnNext.textResId = R.string.done
-            btnNext.iconResId = R.drawable.ic_btn_save
+            btnNext.visibility = View.GONE
         }
 
     }

@@ -103,7 +103,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+      //  setupCrashHandler()
         subscribeToUpdates()
     }
 
@@ -113,7 +113,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+      //  setupCrashHandler()
         subscribeToUpdates()
     }
 

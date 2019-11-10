@@ -40,7 +40,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.CategoryItemView
 import com.mw.beam.beamwallet.core.views.addDoubleDots
-import com.mw.beam.beamwallet.screens.settings.password_dialog.PasswordConfirmDialog
+import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
 import kotlinx.android.synthetic.main.dialog_node_address.view.*
@@ -66,8 +66,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.mw.beam.beamwallet.core.OnboardManager
-import com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletContract
-import com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletDialog
 import kotlinx.android.synthetic.main.dialog_export_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
@@ -86,15 +84,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             showWalletFragment()
-        }
-    }
-
-    private val confirmRemoveWalletCallback = object : ConfirmRemoveWalletContract.Callback {
-        override fun onClose(success: Boolean) {
-            if (success) {
-                presenter?.onConfirmRemoveWallet()
-            }
-            ConfirmRemoveWalletDialog.callback = null
         }
     }
 
@@ -154,7 +143,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             verificationFrame.visibility = View.GONE
             seedFrame.visibility = View.GONE
         }
-        else if (!OnboardManager.instance.canMakeSecure()) {
+        else if (!OnboardManager.instance.isSkipedSeed()) {
             verificationFrame.visibility = View.GONE
         }
     }
@@ -209,11 +198,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun navigateToSeed() {
-        PasswordConfirmDialog.newInstance(getString(R.string.enter_your_password), {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToWelcomeSeedFragment())
-        }, {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.DisplaySeed))
+    }
 
-        }).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+    override fun navigateToSeedVerification() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.VerificationSeed))
     }
 
     override fun navigateToPaymentProof() {
@@ -252,7 +241,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         showAlert(message = message,
                 btnConfirmText = getString(R.string.ok),
-                onConfirm = { findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToOwnerKeyVerificationFragment()) },
+                onConfirm = {
+                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.OwnerKey))
+                },
                 title = getString(R.string.owner_key),
                 btnCancelText = null,
                 onCancel = {  })
@@ -397,7 +388,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
 
         verificationFrame.setOnClickListener {
-            presenter?.onSeedPressed()
+            presenter?.onSeedVerificationPressed()
         }
 
         faucetFrame.setOnClickListener {
@@ -487,71 +478,68 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     @SuppressLint("InflateParams")
     override fun showNodeAddressDialog(nodeAddress: String?) {
-        context?.let {
-            val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
-            var okString = ""
+        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeNode, {
+            context?.let {
+                val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
+                var okString = ""
 
-            view.nodeBtnConfirm.setOnClickListener {
-                presenter?.onSaveNodeAddress(view.dialogNodeValue.text.toString())
-            }
-
-            view.nodeBtnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
-
-            view.dialogNodeValue.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(editable: Editable?) {
-
-                    val originalText = editable.toString()
-
-                    var allOK = true;
-
-                    val array = originalText.toCharArray().filter {
-                        it.equals(':',true)
-                    }
-
-                    if (array.count() > 1) {
-                        allOK = false
-                    }
-                    else if (array.count()==1) {
-                        val port = originalText.split(":").lastOrNull()
-                        if (!port.isNullOrEmpty())
-                        {
-                            val num = port?.toIntOrNull()
-                            if (num==null) {
-                                allOK = false
-                            }
-                            else if (num in 1..65535){
-                                allOK = true
-                            }
-                            else{
-                                allOK = false
-                            }
-                        }
-                    }
-
-                    if (!allOK) {
-                        view.dialogNodeValue.setText(okString);
-                        view.dialogNodeValue.setSelection(okString.length);
-                    }
-                    else{
-                        okString = originalText
-                    }
-
-                    presenter?.onChangeNodeAddress()
+                view.nodeBtnConfirm.setOnClickListener {
+                    presenter?.onSaveNodeAddress(view.dialogNodeValue.text.toString())
                 }
 
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                view.nodeBtnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            })
+                view.dialogNodeValue.addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(editable: Editable?) {
+
+                        val originalText = editable.toString()
+
+                        var allOK = true;
+
+                        val array = originalText.toCharArray().filter {
+                            it.equals(':',true)
+                        }
+
+                        if (array.count() > 1) {
+                            allOK = false
+                        }
+                        else if (array.count()==1) {
+                            val port = originalText.split(":").lastOrNull()
+                            if (!port.isNullOrEmpty())
+                            {
+                                allOK = when (port?.toIntOrNull()) {
+                                    null -> false
+                                    in 1..65535 -> true
+                                    else -> false
+                                }
+                            }
+                        }
+
+                        if (!allOK) {
+                            view.dialogNodeValue.setText(okString);
+                            view.dialogNodeValue.setSelection(okString.length);
+                        }
+                        else{
+                            okString = originalText
+                        }
+
+                        presenter?.onChangeNodeAddress()
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                })
 
 
-            if (!nodeAddress.isNullOrBlank()) {
-                view.dialogNodeValue.setText(nodeAddress)
+                if (!nodeAddress.isNullOrBlank()) {
+                    view.dialogNodeValue.setText(nodeAddress)
+                }
+
+                dialog = AlertDialog.Builder(it).setView(view).show()
+                dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
-
-            dialog = AlertDialog.Builder(it).setView(view).show()
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
+        }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     @SuppressLint("InflateParams")
@@ -667,7 +655,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
-        PasswordConfirmDialog.newInstance(onConfirm, onDismiss)
+        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeSettings, onConfirm, onDismiss)
                 .show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
@@ -770,8 +758,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         showAlert(message = getString(R.string.clear_wallet_text),
                 btnConfirmText = getString(R.string.remove_wallet),
                 onConfirm = {
-                    ConfirmRemoveWalletDialog.callback = confirmRemoveWalletCallback
-                    ConfirmRemoveWalletDialog.newInstance().show(activity?.supportFragmentManager!!, ConfirmRemoveWalletDialog.getFragmentTag())
+                    PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
+                        presenter?.onConfirmRemoveWallet()
+                    }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
                 },
                 title = getString(R.string.clear_wallet),
                 btnCancelText = getString(R.string.cancel))

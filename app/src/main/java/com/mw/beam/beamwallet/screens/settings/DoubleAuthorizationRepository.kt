@@ -14,21 +14,25 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.settings.password_dialog
+package com.mw.beam.beamwallet.screens.settings
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 
-class ConfirmRemoveWalletRepository: BaseRepository(), ConfirmRemoveWalletContract.Repository {
+class DoubleAuthorizationRepository: BaseRepository(), DoubleAuthorizationContract.Repository {
 
-    override fun isFingerPrintEnabled(): Boolean {
-        return getResult("isFingerPrintEnabled") {
-            PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED) && FingerprintManager.isManagerAvailable()
+
+    override fun checkPassword(pass: String): Boolean {
+        return getResult("checkPassword") {
+            wallet?.checkWalletPassword(pass) ?: false
         }
     }
 
-    override fun checkPassword(password: String): Boolean {
-        return wallet?.checkWalletPassword(password) ?: false
+    override fun isEnableFingerprint(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+                && FingerprintManager.isManagerAvailable()
+
     }
+
 }

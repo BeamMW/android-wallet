@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.owner_key_verification
+package com.mw.beam.beamwallet.screens.settings
 
 import android.os.Handler
 import android.text.Editable
@@ -31,12 +31,21 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.DelayedTask
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import kotlinx.android.synthetic.main.fragment_owner_key_verification.*
-import kotlinx.android.synthetic.main.fragment_owner_key_verification.pass
-import kotlinx.android.synthetic.main.fragment_owner_key_verification.passError
+import kotlinx.android.synthetic.main.fragment_double_authorization.*
+import kotlinx.android.synthetic.main.fragment_double_authorization.pass
+import kotlinx.android.synthetic.main.fragment_double_authorization.passError
 import com.mw.beam.beamwallet.core.views.Type
 
-class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(), OwnerKeyVerificationContract.View {
+class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(), DoubleAuthorizationContract.View {
+
+    enum class Mode {
+        OwnerKey, DisplaySeed,VerificationSeed
+    }
+
+    private fun type(): Mode {
+        return DoubleAuthorizationFragmentArgs.fromBundle(arguments!!).type
+    }
+
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
 
@@ -46,9 +55,19 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
         }
     }
 
-    override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_owner_key_verification
+    override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_double_authorization
 
-    override fun getToolbarTitle(): String? = getString(R.string.show_owner_key)
+    override fun getToolbarTitle(): String? {
+        return if (type() == Mode.OwnerKey) {
+            getString(R.string.show_owner_key)
+        } else if (type() == Mode.DisplaySeed){
+            getString(R.string.show_seed_phrase)
+        }
+        else{
+            getString(R.string.complete_verification)
+        }
+    }
+
 
     override fun init(isEnableFingerprint: Boolean) {
         enterPasswordTitle.setText(R.string.enter_your_current_password)
@@ -114,12 +133,21 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
         pass.isStateAccent = true
     }
 
-    override fun navigateToOwnerKey() {
-        findNavController().navigate(OwnerKeyVerificationFragmentDirections.actionOwnerKeyVerificationFragmentToOwnerKeyFragment())
+    override fun navigateToNextScreen() {
+
+        if(type() == Mode.OwnerKey) {
+            findNavController().navigate(DoubleAuthorizationFragmentDirections.actionOwnerKeyVerificationFragmentToOwnerKeyFragment())
+        }
+        else if (type() == Mode.DisplaySeed){
+            findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(true))
+        }
+        else if (type() == Mode.VerificationSeed){
+            findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(false))
+        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
-        return OwnerKeyVerificationPresenter(this, OwnerKeyVerificationRepository())
+        return DoubleAuthorizationPresenter(this, DoubleAuthorizationRepository())
     }
 
 
@@ -155,7 +183,7 @@ class OwnerKeyVerificationFragment: BaseFragment<OwnerKeyVerificationPresenter>(
     }
 
 
-    private class FingerprintCallback(val presenter: OwnerKeyVerificationContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
+    private class FingerprintCallback(val presenter: DoubleAuthorizationContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
             presenter?.onError()

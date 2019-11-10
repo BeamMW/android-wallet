@@ -138,6 +138,10 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="onlyDisplay"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeConfirmFragment"
@@ -281,12 +285,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_walletFragment_to_welcomeSeedFragment"
-            app:destination="@id/welcomeSeedFragment"
+            android:id="@+id/action_walletFragment_to_doubleAuthorizationFragment"
+            app:destination="@id/doubleAuthorizationFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/walletFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -323,11 +328,14 @@
             app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_settingsFragment_to_ownerKeyVerificationFragment"
-            app:destination="@id/ownerKeyVerificationFragment"
+            app:destination="@id/doubleAuthorizationFragment"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"/>
+            app:popExitAnim="@anim/fade_out">
+            <argument android:defaultValue="OwnerKey"
+                android:name="mode" />
+        </action>
         <action
             android:id="@+id/action_settingsFragment_to_welcomeSeedFragment"
             app:destination="@id/welcomeSeedFragment"
@@ -349,6 +357,13 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_settingsFragment_to_doubleAuthorizationFragment"
+            app:destination="@id/doubleAuthorizationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -662,10 +677,9 @@
         android:name="com.mw.beam.beamwallet.screens.language.LanguageFragment"
         android:label="LanguageFragment" />
     <fragment
-        android:id="@+id/ownerKeyVerificationFragment"
-        tools:layout="@layout/fragment_owner_key_verification"
-        android:name="com.mw.beam.beamwallet.screens.owner_key_verification.OwnerKeyVerificationFragment"
-        android:label="OwnerKeyVerificationFragment" >
+        android:id="@+id/doubleAuthorizationFragment"
+        android:name="com.mw.beam.beamwallet.screens.settings.DoubleAuthorizationFragment"
+        android:label="DoubleAuthorizationFragment">
         <action
             android:id="@+id/action_ownerKeyVerificationFragment_to_ownerKeyFragment"
             app:destination="@id/ownerKeyFragment"
@@ -673,8 +687,18 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpTo="@+id/settingsFragment"
-            app:popUpToInclusive="false" />
+            app:popUpTo="@+id/settingsFragment" />
+        <action
+            android:id="@+id/action_doubleAuthorizationFragment_to_welcomeSeedFragment2"
+            app:destination="@id/welcomeSeedFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/settingsFragment" />
+        <argument
+            android:name="type"
+            app:argType="com.mw.beam.beamwallet.screens.settings.DoubleAuthorizationFragment$Mode" />
     </fragment>
     <fragment
         android:id="@+id/ownerKeyFragment"
