@@ -55,12 +55,20 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(repository.isEnabledConnectToRandomNode())
-        view?.updateLockScreenValue(repository.getLockScreenValue())
-        updateConfirmTransactionValue()
-        updateFingerprintValue()
-        view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
-        view?.setLogSettings(repository.getLogSettings())
+
+        if (view?.mode() == SettingsFragment.Mode.General) {
+            view?.updateLockScreenValue(repository.getLockScreenValue())
+            view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
+            view?.setLogSettings(repository.getLogSettings())
+            view?.setLanguage(repository.getCurrentLanguage())
+        }
+        else if (view?.mode() == SettingsFragment.Mode.Node) {
+            view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
+        }
+        else if (view?.mode() == SettingsFragment.Mode.Privacy) {
+            updateFingerprintValue()
+            updateConfirmTransactionValue()
+        }
     }
 
     override fun initSubscriptions() {
@@ -107,18 +115,26 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onStart() {
         super.onStart()
-        view?.updateCategoryList(repository.getAllCategory())
-        view?.setLanguage(repository.getCurrentLanguage())
+
+        if (view?.mode() == SettingsFragment.Mode.Tags) {
+            view?.updateCategoryList(repository.getAllCategory())
+        }
     }
 
     override fun onAddCategoryPressed() {
         view?.navigateToAddCategory()
     }
 
-    override fun onCategoryPressed(categoryId: String) {
-        view?.navigateToCategory(categoryId)
-    }
+    override fun onCategoryPressed(categoryName: String) {
+        val tags = repository.getAllCategory()
+        val tag = tags.findLast {
+            it.name == categoryName
+        }
 
+        if (tag!=null) {
+            view?.navigateToCategory(tag.id)
+        }
+    }
 
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
@@ -256,7 +272,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         if (isEnabled) {
             repository.setRunOnRandomNode(isEnabled)
-            view?.init(isEnabled)
+            view?.setRunOnRandomNode(isEnabled)
             return
         }
 
@@ -265,9 +281,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (!savedAddress.isNullOrBlank() && isValidNodeAddress(savedAddress)) {
             repository.setNodeAddress(savedAddress)
             repository.setRunOnRandomNode(isEnabled)
-            view?.init(isEnabled)
+            view?.setRunOnRandomNode(isEnabled)
         } else {
-            view?.init(true)
+            view?.setRunOnRandomNode(true)
             view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
         }
     }
@@ -277,7 +293,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.closeDialog()
             repository.setNodeAddress(address)
             repository.setRunOnRandomNode(false)
-            view?.init(false)
+            view?.setRunOnRandomNode(false)
         } else {
             view?.showInvalidNodeAddressError()
         }

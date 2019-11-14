@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Application
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Bundle
@@ -42,7 +41,7 @@ import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
-import com.mw.beam.beamwallet.screens.settings.DoubleAuthorizationFragment
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragment
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone

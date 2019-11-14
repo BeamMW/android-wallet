@@ -17,16 +17,12 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.App
 
-import kotlinx.android.synthetic.main.item_category.view.*
-
-class CategoryItemView: FrameLayout {
+class SettingsItemCard: LinearLayout {
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
         init(context)
     }
@@ -39,29 +35,7 @@ class CategoryItemView: FrameLayout {
         init(context)
     }
 
-    var colorResId: Int? = null
-        set(value) {
-            field = value
-
-            if (value != null) {
-                colorCircle.backgroundTintList = ColorStateList.valueOf(resources.getColor(value, App.self.theme))
-            } else {
-                colorCircle.backgroundTintList = null
-            }
-        }
-
-    var text: String = ""
-        set(value) {
-            field = value
-            categoryName.text = field
-        }
-
-
-    override fun setOnClickListener(l: OnClickListener?) {
-        cardItem.setOnClickListener(l)
-    }
-
     private fun init(context: Context) {
-        inflate(context, R.layout.item_category, this)
+        inflate(context, R.layout.item_card_settings, this)
     }
 }

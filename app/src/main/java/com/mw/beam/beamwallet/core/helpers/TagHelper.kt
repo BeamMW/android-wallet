@@ -17,10 +17,12 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -266,6 +268,15 @@ data class Tag(
         @SerializedName("addresses") var addresses: List<String> = listOf()) : Comparable<Tag> {
     override fun compareTo(other: Tag): Int {
         return this.name.compareTo(other.name)
+    }
+
+    fun spannableName(context: Context):Spannable {
+        val color = ContextCompat.getColor(context, color.getAndroidColorId())
+
+        val spannableContent = SpannableString(name)
+        spannableContent.setSpan(ForegroundColorSpan(color), 0, name.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
+        return spannableContent
     }
 
     companion object {

@@ -17,12 +17,11 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RadioButton
@@ -38,7 +37,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.views.CategoryItemView
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 import kotlinx.android.synthetic.main.dialog_clear_data.view.*
@@ -59,6 +57,10 @@ import org.jetbrains.anko.uiThread
 import com.mw.beam.beamwallet.base_screen.*
 import android.os.Environment
 import android.provider.Settings
+import android.text.*
+import android.text.style.ForegroundColorSpan
+import android.widget.LinearLayout
+import androidx.core.view.children
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -66,92 +68,301 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragment
 import kotlinx.android.synthetic.main.dialog_export_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
 import java.io.IOException
+
+import com.mw.beam.beamwallet.core.views.SettingsItemView
+import kotlinx.android.synthetic.main.item_settings.view.*
+import android.text.style.StyleSpan
 
 
 /**
  *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
+
+    enum class Mode {
+        All, General, Node, Privacy, Utilities, Tags, Rate, Report, RemoveWallet, Logs, Allow, Lock, ClearLocal, Language,
+        ConnectNode, AskPassword, FingerPrint, OwnerKey, SeedPhrase, ChangePassword, Faucet, Proof, Verification, Export, Import, CreateTag, ShowTag
+    }
+
+    data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode:Mode, val switch:Boolean? = null, val spannable:Spannable? = null)
+
+    var items = mutableListOf<Array<SettingsItem>>()
+
+    override fun mode(): Mode {
+        return SettingsFragmentArgs.fromBundle(arguments!!).mode
+    }
+
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
-    override fun getToolbarTitle(): String? = getString(R.string.settings)
+
+    override fun getToolbarTitle(): String? {
+        return when {
+            mode() == Mode.All -> getString(R.string.settings)
+            mode() == Mode.General -> getString(R.string.settings_general_settings)
+            mode() == Mode.Node -> getString(R.string.node)
+            mode() == Mode.Privacy -> getString(R.string.privacy)
+            mode() == Mode.Utilities -> getString(R.string.utilities)
+            mode() == Mode.Tags -> getString(R.string.tags)
+            else -> ""
+        }
+    }
 
     private var isShareLogs = false
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            showWalletFragment()
+            if(mode() == Mode.All) {
+                showWalletFragment()
+            }
+            else{
+                findNavController().popBackStack()
+            }
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
-    }
+        mainLayout.removeAllViews()
+        items.clear()
 
-    override fun init(runOnRandomNode: Boolean) {
-        appVersionTitle.addDoubleDots()
-        appVersionValue.text = BuildConfig.VERSION_NAME
-        runRandomNodeSwitch.isChecked = runOnRandomNode
-        ip.text = AppConfig.NODE_ADDRESS
+        when {
+            mode() == Mode.All -> {
 
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, Mode.General))
+                s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, Mode.Node))
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, Mode.Privacy))
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, Mode.Utilities))
 
-        if(!runOnRandomNode)
-        {
-            ip.setTextColor(resources.getColor(R.color.btn_drop_down_color))
-            ipTitle.setTextColor(resources.getColor(R.color.btn_drop_down_color))
-            ipTitle.setPadding(0,0,0,0)
+                var s2 = mutableListOf<SettingsItem>()
+                s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, Mode.Tags))
 
-            if(this.context != null)
-            {
-                val typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_bold)
-                ipTitle.typeface = typeFace
+                var s3 = mutableListOf<SettingsItem>()
+                s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, Mode.Rate))
+                s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, Mode.Report))
+
+                var s4 = mutableListOf<SettingsItem>()
+                s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, Mode.RemoveWallet))
+
+                items.add(s1.toTypedArray())
+                items.add(s2.toTypedArray())
+                items.add(s3.toTypedArray())
+                items.add(s4.toTypedArray())
             }
+            mode()==Mode.General -> {
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, Mode.Allow, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.lock_screen),null, Mode.Lock))
+                s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, Mode.Logs))
+                s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, Mode.ClearLocal))
 
-            ip.setPadding(5,0,5,0)
-            ipportLayout.orientation = android.widget.LinearLayout.HORIZONTAL
-            runRandomNodeSwitch.setPadding(0,30,0,0)
+                var s2 = mutableListOf<SettingsItem>()
+                s2.add(SettingsItem(null, getString(R.string.language),null, Mode.Language))
+
+                items.add(s1.toTypedArray())
+                items.add(s2.toTypedArray())
+            }
+            mode() == Mode.Node -> {
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, Mode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
+                items.add(s1.toTypedArray())
+            }
+            mode() == Mode.Privacy -> {
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, Mode.AskPassword, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, Mode.FingerPrint, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, Mode.OwnerKey))
+                if (!OnboardManager.instance.getSeed().isNullOrEmpty()) {
+                    s1.add(SettingsItem(null, getString(R.string.show_seed_phrase),null, Mode.SeedPhrase))
+                }
+                s1.add(SettingsItem(null, getString(R.string.change_password),null, Mode.ChangePassword))
+                items.add(s1.toTypedArray())
+            }
+            mode() == Mode.Utilities -> {
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, Mode.Faucet))
+                s1.add(SettingsItem(null, getString(R.string.payment_proof),null, Mode.Proof))
+                if (OnboardManager.instance.isSkipedSeed()) {
+                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, Mode.Verification))
+                }
+                s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, Mode.Export))
+                s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, Mode.Import))
+
+                items.add(s1.toTypedArray())
+            }
+        }
+
+
+        addItems()
+
+        if(mode() == Mode.All) {
+            requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+            (activity as? AppActivity)?.enableLeftMenu(true)
+            toolbar.setNavigationIcon(R.drawable.ic_menu)
+            toolbar.setNavigationOnClickListener {
+                (activity as? AppActivity)?.openMenu()
+            }
         }
         else{
-            ip.setTextColor(resources.getColor(R.color.btn_drop_down_color))
-            ipTitle.setTextColor(resources.getColor(R.color.common_text_color))
-            ipTitle.setPadding(0,20,0,0)
+            toolbarLayout.centerTitle = false
+        }
 
-            if(this.context != null)
-            {
-                val typeFace: Typeface? = ResourcesCompat.getFont(this.context!!, R.font.roboto_regular)
-                ipTitle.typeface = typeFace
+        appVersionTitle.addDoubleDots()
+        appVersionValue.text = BuildConfig.VERSION_NAME
+
+        onBackPressedCallback.isEnabled = true
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun addItems() {
+        for (subItems in items.reversed()) {
+            var param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT)
+            param.setMargins(ScreenHelper.dpToPx(context,10),
+                    ScreenHelper.dpToPx(context,10),
+                    ScreenHelper.dpToPx(context,10),
+                    ScreenHelper.dpToPx(context,10))
+
+            val section = LinearLayout(context!!)
+            section.orientation = LinearLayout.VERTICAL
+            section.background = context!!.getDrawable(R.drawable.wallet_state_card_backgroud)
+            section.layoutParams = param
+
+            for (item in subItems) {
+                val item = SettingsItemView(context!!).apply {
+                    text = item.text
+                    detail = item.detail
+                    iconResId = item.icon
+                    mode = item.mode
+                    switch = item.switch
+                    spannable = item.spannable
+                }
+                item.setOnClickListener {
+                    val item:SettingsItemView = if (it is androidx.appcompat.widget.SwitchCompat) {
+                        it.parent.parent as SettingsItemView
+                    } else{
+                        it.parent as SettingsItemView
+                    }
+
+                    if (item.mode == Mode.General || item.mode == Mode.Node || item.mode == Mode.Privacy
+                            || item.mode == Mode.Utilities || item.mode == Mode.Tags) {
+                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
+                    }
+                    else if (item.mode == Mode.Lock) {
+                        presenter?.onShowLockScreenSettings()
+                    }
+                    else if (item.mode == Mode.Logs) {
+                        presenter?.onLogsPressed()
+                    }
+                    else if (item.mode == Mode.ClearLocal) {
+                        presenter?.onClearDataPressed()
+                    }
+                    else if (item.mode == Mode.Language) {
+                        presenter?.onLanguagePressed()
+                    }
+                    else if (item.mode == Mode.Allow) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeAllowOpenExternalLink(allow)
+                    }
+                    else if (item.mode == Mode.Rate) {
+                        try {
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.activity?.packageName)))
+                        }catch (exp:Exception){
+                            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)))
+                        }
+                    }
+                    else if(item.mode == Mode.Report) {
+                        presenter?.onReportProblem()
+                    }
+                    else if(item.mode == Mode.RemoveWallet) {
+                        presenter?.onRemoveWalletPressed()
+                    }
+                    else if(item.mode == Mode.ConnectNode) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeRunOnRandomNode(allow)
+                    }
+                    else if(item.mode == Mode.AskPassword) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeConfirmTransactionSettings(allow)
+                    }
+                    else if(item.mode == Mode.FingerPrint) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeFingerprintSettings(allow)
+                    }
+                    else if(item.mode == Mode.OwnerKey) {
+                        presenter?.onShowOwnerKey()
+                    }
+                    else if(item.mode == Mode.SeedPhrase) {
+                        presenter?.onSeedPressed()
+                    }
+                    else if(item.mode == Mode.ChangePassword) {
+                        presenter?.onChangePass()
+                    }
+                    else if(item.mode == Mode.Faucet) {
+                        presenter?.onReceiveFaucet()
+                    }
+                    else if(item.mode == Mode.Proof) {
+                        presenter?.onProofPressed()
+                    }
+                    else if(item.mode == Mode.Verification) {
+                        presenter?.onSeedVerificationPressed()
+                    }
+                    else if(item.mode == Mode.Export) {
+                        presenter?.onExportPressed()
+                    }
+                    else if(item.mode == Mode.Import) {
+                        presenter?.omImportPressed()
+                    }
+                    else if(item.mode == Mode.CreateTag) {
+                        presenter?.onAddCategoryPressed()
+                    }
+                    else if(item.mode == Mode.ShowTag) {
+                        presenter?.onCategoryPressed(item.spannable.toString())
+                    }
+                }
+
+                if(mode() == Mode.Node) {
+                    item.cardItem.setOnClickListener {
+                        presenter?.onNodeAddressPressed()
+                    }
+                }
+
+                if(item.mode  == Mode.FingerPrint) {
+                    item.visibility = View.GONE
+                }
+
+                if(item.mode == Mode.CreateTag) {
+                    item.setPadding(0,12,0,12)
+                }
+                else if(subItems.count() == 1 && item.iconResId != null) {
+                    item.setPadding(0,10,0,10)
+                }
+
+                section.addView(item)
             }
 
-            runRandomNodeSwitch.setPadding(0,0,0,0)
-
-            ip.setPadding(0,0,0,0)
-            ipportLayout.orientation = android.widget.LinearLayout.VERTICAL
-        }
-
-        (activity as? AppActivity)?.enableLeftMenu(true)
-        toolbar.setNavigationIcon(R.drawable.ic_menu)
-        toolbar.setNavigationOnClickListener {
-            (activity as? AppActivity)?.openMenu()
-        }
-
-        if (OnboardManager.instance.getSeed().isNullOrEmpty()) {
-            verificationFrame.visibility = View.GONE
-            seedFrame.visibility = View.GONE
-        }
-        else if (!OnboardManager.instance.isSkipedSeed()) {
-            verificationFrame.visibility = View.GONE
+            mainLayout.addView(section,0)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        onBackPressedCallback.isEnabled = true
+    override fun setRunOnRandomNode(runOnRandomNode: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.ConnectNode) {
+                    item.switch = runOnRandomNode
+                    item.spannable = createNodeSpannableString()
+                }
+            }
+        }
     }
+
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
@@ -167,22 +378,43 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 
     override fun setLogSettings(days: Long) {
-        logsValue.text =  when (days) {
-            0L ->  getString(R.string.all_time)
-            5L ->  getString(R.string.last_5_days)
-            15L ->  getString(R.string.last_15_days)
-            30L ->  getString(R.string.last_30_days)
-            else -> ""
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.Logs) {
+                    item.detail = when (days) {
+                        0L ->  getString(R.string.all_time)
+                        5L ->  getString(R.string.last_5_days)
+                        15L ->  getString(R.string.last_15_days)
+                        30L ->  getString(R.string.last_30_days)
+                        else -> ""
+                    }
+                }
+            }
         }
     }
 
     override fun setAllowOpenExternalLinkValue(allowOpen: Boolean) {
-        allowOpenLinkSwitch.isChecked = allowOpen
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.Allow) {
+                    item.switch = allowOpen
+                }
+            }
+        }
     }
 
     override fun showFingerprintSettings(isFingerprintEnabled: Boolean) {
-        enableFingerprintLayout.visibility = View.VISIBLE
-        enableFingerprintSwitch.isChecked = isFingerprintEnabled
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                item.visibility = View.VISIBLE
+                if (item.mode == Mode.FingerPrint) {
+                    item.switch = isFingerprintEnabled
+                }
+            }
+        }
     }
 
     override fun navigateToAddCategory() {
@@ -250,24 +482,33 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun updateCategoryList(allTag: List<Tag>) {
-        categoriesList.removeAllViews()
+        mainLayout.removeAllViews()
+        items.clear()
 
-        allTag.forEach { category ->
-            categoriesList.addView(CategoryItemView(context!!).apply {
-                colorResId = category.color.getAndroidColorId()
-                text = category.name
-                setOnClickListener { presenter?.onCategoryPressed(category.id) }
-            })
+        var s1 = mutableListOf<SettingsItem>()
+
+        for (tag in allTag){
+            s1.add(SettingsItem(null, "",null, Mode.ShowTag, switch = null, spannable = tag.spannableName(context!!)))
         }
 
-        when {
-            allTag.count() == 0 -> categoriesList.visibility = View.GONE
-            else -> categoriesList.visibility = View.VISIBLE
-        }
+        var s2 = mutableListOf<SettingsItem>()
+        s2.add(SettingsItem(null, getString(R.string.create_tag),null, Mode.CreateTag))
+
+        items.add(s1.toTypedArray())
+        items.add(s2.toTypedArray())
+
+        addItems()
     }
 
     override fun setLanguage(language: LocaleHelper.SupportedLanguage) {
-        languageValue.text = language.nativeName
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.Language) {
+                    item.detail = language.nativeName
+                }
+            }
+        }
     }
 
     override fun sendMailWithLogs() {
@@ -315,115 +556,50 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun addListeners() {
-        changePass.setOnClickListener {
-            presenter?.onChangePass()
+
+    }
+
+    private fun createNodeSpannableString(): Spannable {
+        val enabled = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+        val node = AppConfig.NODE_ADDRESS
+
+        val text = if (enabled) {
+            "\n" + getString(R.string.ip_port) + "\n" + node
+        } else {
+            getString(R.string.ip_port) + " " + node
         }
 
-        reportProblem.setOnClickListener {
-            presenter?.onReportProblem()
+        val colorId = if (enabled) {
+            resources.getColor(R.color.common_text_color)
+        } else {
+            resources.getColor(R.color.btn_drop_down_color)
         }
 
-        rateApp.setOnClickListener {
-            try {
-                var playstoreuri1: Uri = Uri.parse("market://details?id=" + this.activity?.packageName)
-                var playstoreIntent1: Intent = Intent(Intent.ACTION_VIEW, playstoreuri1)
-                startActivity(playstoreIntent1)
-            }catch (exp:Exception){
-                var playstoreuri2: Uri = Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)
-                var playstoreIntent2: Intent = Intent(Intent.ACTION_VIEW, playstoreuri2)
-                startActivity(playstoreIntent2)
-            }
-        }
+        val spannableContent = SpannableString(text)
+        spannableContent.setSpan(StyleSpan(Typeface.BOLD), 0, getString(R.string.ip_port).length + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        spannableContent.setSpan(ForegroundColorSpan(colorId), 0, getString(R.string.ip_port).length + 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
 
-        lockScreenLayout.setOnClickListener {
-            presenter?.onShowLockScreenSettings()
-        }
-
-        confirmTransactionSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter?.onChangeConfirmTransactionSettings(isChecked)
-        }
-
-        enableFingerprintSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter?.onChangeFingerprintSettings(isChecked)
-        }
-
-        runRandomNodeSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter?.onChangeRunOnRandomNode(isChecked)
-        }
-
-        allowOpenLinkSwitch.setOnCheckedChangeListener { _, isChecked ->
-            presenter?.onChangeAllowOpenExternalLink(isChecked)
-        }
-
-        ownerKey.setOnClickListener {
-            presenter?.onShowOwnerKey()
-        }
-
-        languageLayout.setOnClickListener {
-            presenter?.onLanguagePressed()
-        }
-
-        clearData.setOnClickListener {
-            presenter?.onClearDataPressed()
-        }
-
-        addNewCategory.setOnClickListener {
-            presenter?.onAddCategoryPressed()
-        }
-
-        nodeLayout.setOnClickListener {
-            presenter?.onNodeAddressPressed()
-        }
-
-        ipportLayout.setOnClickListener {
-            presenter?.onNodeAddressPressed()
-        }
-
-        logsLayout.setOnClickListener {
-            presenter?.onLogsPressed()
-        }
-
-        seedFrame.setOnClickListener {
-            presenter?.onSeedPressed()
-        }
-
-        verificationFrame.setOnClickListener {
-            presenter?.onSeedVerificationPressed()
-        }
-
-        faucetFrame.setOnClickListener {
-            presenter?.onReceiveFaucet()
-        }
-
-        proofFrame.setOnClickListener {
-            presenter?.onProofPressed()
-        }
-
-        exportFrame.setOnClickListener{
-            presenter?.onExportPressed()
-        }
-
-        importFrame.setOnClickListener{
-            presenter?.omImportPressed()
-        }
-
-        clearCardFrame.setOnClickListener{
-            presenter?.onRemoveWalletPressed()
-        }
+        return spannableContent
     }
 
     @SuppressLint("InflateParams")
-
     override fun showLogsDialog() {
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_log_screen_settings, null)
 
-            val time = LockScreenManager.getCurrentValue()
             var valuesArray = mutableListOf<String>()
             valuesArray.add(getString(R.string.last_5_days))
             valuesArray.add(getString(R.string.last_15_days))
             valuesArray.add(getString(R.string.last_30_days))
             valuesArray.add(getString(R.string.all_time))
+
+            val current = when (PreferencesManager.getLong(PreferencesManager.KEY_LOGS)) {
+                0L ->  getString(R.string.all_time)
+                5L ->  getString(R.string.last_5_days)
+                15L ->  getString(R.string.last_15_days)
+                30L ->  getString(R.string.last_30_days)
+                else -> ""
+            }
 
             var tag = 0L
             valuesArray.forEach { value ->
@@ -431,7 +607,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 button.tag = tag
                 (button as RadioButton).apply {
                     text = value
-                    isChecked = value == logsValue.text
+                    isChecked = value == current
                     setOnClickListener {
                         presenter?.onChangeLogSettings(this.tag as Long)
                         dialog?.dismiss()
@@ -668,11 +844,25 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun updateLockScreenValue(millis: Long) {
-        lockScreenValue.text = getLockScreenStringValue(millis)
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.Lock) {
+                    item.detail = getLockScreenStringValue(millis)
+                }
+            }
+        }
     }
 
     override fun updateConfirmTransactionValue(isConfirm: Boolean) {
-        confirmTransactionSwitch.isChecked = isConfirm
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == Mode.AskPassword) {
+                    item.switch = isConfirm
+                }
+            }
+        }
     }
 
     override fun exportSave(content: String) {
@@ -771,25 +961,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun clearListeners() {
-        confirmTransactionSwitch.setOnCheckedChangeListener(null)
-        enableFingerprintSwitch.setOnCheckedChangeListener(null)
-        changePass.setOnClickListener(null)
-        reportProblem.setOnClickListener(null)
-        lockScreenTitle.setOnClickListener(null)
-        lockScreenValue.setOnClickListener(null)
-        runRandomNodeSwitch.setOnCheckedChangeListener(null)
-        allowOpenLinkSwitch.setOnCheckedChangeListener(null)
-        clearData.setOnClickListener(null)
-        addNewCategory.setOnClickListener(null)
-        ip.setOnClickListener(null)
-        ipTitle.setOnClickListener(null)
-        logsLayout.setOnClickListener(null)
-        verificationFrame.setOnClickListener(null)
-        seedFrame.setOnClickListener(null)
-        faucetFrame.setOnClickListener(null)
-        proofFrame.setOnClickListener(null)
-        exportFrame.setOnClickListener(null)
-        clearCardFrame.setOnClickListener(null)
+
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

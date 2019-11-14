@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.settings
+package com.mw.beam.beamwallet.screens.confirm
 
 import android.os.Handler
 import android.text.Editable
@@ -35,11 +35,13 @@ import kotlinx.android.synthetic.main.fragment_double_authorization.*
 import kotlinx.android.synthetic.main.fragment_double_authorization.pass
 import kotlinx.android.synthetic.main.fragment_double_authorization.passError
 import com.mw.beam.beamwallet.core.views.Type
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentArgs
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentDirections
 
 class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(), DoubleAuthorizationContract.View {
 
     enum class Mode {
-        OwnerKey, DisplaySeed,VerificationSeed
+        OwnerKey, DisplaySeed, VerificationSeed
     }
 
     private fun type(): Mode {
@@ -58,13 +60,10 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_double_authorization
 
     override fun getToolbarTitle(): String? {
-        return if (type() == Mode.OwnerKey) {
-            getString(R.string.show_owner_key)
-        } else if (type() == Mode.DisplaySeed){
-            getString(R.string.show_seed_phrase)
-        }
-        else{
-            getString(R.string.complete_verification)
+        return when {
+            type() == Mode.OwnerKey -> getString(R.string.show_owner_key)
+            type() == Mode.DisplaySeed -> getString(R.string.show_seed_phrase)
+            else -> getString(R.string.complete_verification)
         }
     }
 

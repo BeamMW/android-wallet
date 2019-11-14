@@ -34,7 +34,8 @@ import java.io.File
  */
 interface SettingsContract {
     interface View : MvpView {
-        fun init(runOnRandomNode: Boolean)
+        fun mode(): SettingsFragment.Mode
+        fun setRunOnRandomNode(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)
         fun changePass()
@@ -89,7 +90,7 @@ interface SettingsContract {
         fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
         fun onAddCategoryPressed()
-        fun onCategoryPressed(categoryId: String)
+        fun onCategoryPressed(categoryName: String)
         fun onLanguagePressed()
         fun onShowOwnerKey()
         fun onChangeLogSettings(days:Long)

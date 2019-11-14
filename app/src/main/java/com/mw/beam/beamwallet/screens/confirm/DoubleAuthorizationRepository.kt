@@ -14,7 +14,7 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.settings
+package com.mw.beam.beamwallet.screens.confirm
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
