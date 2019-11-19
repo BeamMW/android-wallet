@@ -134,7 +134,7 @@
                 style="@style/common_subheader_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="30dp"
                 android:paddingStart="@dimen/common_offset"
                 android:paddingTop="@dimen/transactions_title_padding"
                 android:paddingEnd="@dimen/common_offset"
