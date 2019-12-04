@@ -56,6 +56,7 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_transactions.pager
 import kotlinx.android.synthetic.main.fragment_transactions.tabLayout
 import kotlinx.android.synthetic.main.fragment_transactions.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_transactions.itemsswipetorefresh
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
     enum class Mode {
@@ -102,6 +103,16 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         setHasOptionsMenu(true)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
         toolbarLayout.hasStatus = true
+
+        itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+        itemsswipetorefresh.setOnRefreshListener {
+            AppManager.instance.reload()
+            android.os.Handler().postDelayed({
+                itemsswipetorefresh.isRefreshing = false
+            }, 1000)
+        }
     }
 
     override fun init() {

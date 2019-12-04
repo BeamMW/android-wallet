@@ -176,9 +176,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, Mode.AskPassword, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, Mode.FingerPrint, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, Mode.OwnerKey))
-                if (!OnboardManager.instance.getSeed().isNullOrEmpty()) {
-                    s1.add(SettingsItem(null, getString(R.string.show_seed_phrase),null, Mode.SeedPhrase))
-                }
                 s1.add(SettingsItem(null, getString(R.string.change_password),null, Mode.ChangePassword))
                 items.add(s1.toTypedArray())
             }

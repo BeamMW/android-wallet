@@ -35,6 +35,9 @@ import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_addresses.*
 import kotlinx.android.synthetic.main.fragment_addresses.toolbarLayout
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.fragment_addresses.itemsswipetorefresh
+import kotlinx.android.synthetic.main.fragment_addresses.pager
+import kotlinx.android.synthetic.main.fragment_addresses.tabLayout
 import kotlinx.android.synthetic.main.toolbar.*
 
 /**
@@ -71,6 +74,16 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+        itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+        itemsswipetorefresh.setOnRefreshListener {
+            AppManager.instance.reload()
+            android.os.Handler().postDelayed({
+                itemsswipetorefresh.isRefreshing = false
+            }, 1000)
+        }
     }
 
     override fun init() {

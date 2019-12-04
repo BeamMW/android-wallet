@@ -55,6 +55,14 @@ class AppManager {
             }
     }
 
+    fun reload() {
+        wallet?.getWalletStatus()
+        wallet?.getUtxosStatus()
+        wallet?.getAddresses(true)
+        wallet?.getAddresses(false)
+        wallet?.getTransactions()
+    }
+
     fun removeWallet() {
         isSubscribe = false
         isResotred = false

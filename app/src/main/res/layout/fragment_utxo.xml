@@ -143,13 +143,23 @@
                 app:tabTextAppearance="@style/common_subheader_dark"
                 app:tabTextColor="@color/address_tab_text_color" />
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/itemsswipetorefresh"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout">
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
             <LinearLayout
                 android:id="@+id/utxoPrivacyMessage"

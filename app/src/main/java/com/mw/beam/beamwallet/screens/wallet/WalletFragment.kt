@@ -181,6 +181,16 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+        itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+        itemsswipetorefresh.setOnRefreshListener {
+            AppManager.instance.reload()
+            android.os.Handler().postDelayed({
+                itemsswipetorefresh.isRefreshing = false
+            }, 1000)
+        }
     }
 
     override fun onDestroy() {
