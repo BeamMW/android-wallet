@@ -54,10 +54,8 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.elvishew.xlog.XLog.json
 import com.google.gson.JsonElement
 import com.google.gson.Gson
-
-
-
-
+import com.google.zxing.integration.android.IntentIntegrator
+import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
@@ -67,6 +65,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         const val TRANSACTION_ID = "TRANSACTION_ID"
         private const val RESTARTED = "appExceptionHandler_restarted"
         private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
+
+        const val BUY_ID = "android.intent.action.BUY_BEAM"
+        const val RECEIVE_ID = "android.intent.action.RECEIVE_BEAM"
+        const val SEND_ID = "android.intent.action.SEND_BEAM"
+        const val SCAN_ID = "android.intent.action.SCAN_QR"
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_app
@@ -79,6 +82,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private lateinit var reinitNotification: Disposable
     private lateinit var lockNotification: Disposable
+
+    private var shortCut: String? = null
 
     private val menuItems by lazy {
         arrayOf(
@@ -103,8 +108,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
+
+        shortCut = intent.action;
+
+        checkShortCut()
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -113,11 +122,51 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
+
+        shortCut = intent.action;
+
+        checkShortCut()
     }
 
+    fun checkShortCut() {
+        if(App.isAuthenticated && shortCut!=null)
+        {
+            if(shortCut == BUY_ID) {
+                val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
 
+                if (allow) {
+                    openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+                }
+                else{
+                    showAlert(
+                            getString(R.string.common_external_link_dialog_message),
+                            getString(R.string.open),
+                            { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
+                            getString(R.string.common_external_link_dialog_title),
+                            getString(R.string.cancel)
+                    )
+                }
+            }
+            else {
+                showWallet()
+
+               if(shortCut == SEND_ID) {
+                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+               }
+               else if(shortCut == RECEIVE_ID) {
+                   findNavController(R.id.nav_host).navigate(R.id.receiveFragment, null, null)
+               }
+               else if(shortCut == SCAN_ID) {
+                   App.isNeedOpenScanner = true;
+                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+               }
+            }
+
+            shortCut = null
+        }
+    }
 
     override fun onDestroy() {
         App.isAppRunning = false

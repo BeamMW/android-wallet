@@ -85,6 +85,7 @@ import kotlinx.android.synthetic.main.fragment_send.tagAction
 import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  11/13/18.
@@ -202,6 +203,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val progress = feeSeekBar.progress.toLong() + minFee.toLong()
         return if (progress < 0) 0 else progress
     }
+
 
     @SuppressLint("SetTextI18n")
     override fun init(defaultFee: Int, max: Int) {
@@ -429,6 +431,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         super.onStart()
 
         onBackPressedCallback.isEnabled = true
+
+        if(App.isNeedOpenScanner) {
+            App.isNeedOpenScanner = false
+            presenter?.onScanQrPressed()
+        }
     }
 
     override fun onStop() {

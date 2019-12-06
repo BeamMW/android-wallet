@@ -430,6 +430,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         App.showNotification = false
 
         onBackPressedCallback.isEnabled = true
+
+        (activity as? AppActivity)?.checkShortCut()
     }
 
     override fun onStop() {

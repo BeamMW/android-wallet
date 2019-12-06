@@ -66,6 +66,7 @@ class App : Application() {
         var intentTransactionID: String? = null
         var isAppRunning = false
         var is24HoursTimeFormat: Boolean? = null
+        var isNeedOpenScanner: Boolean = false
     }
 
     override fun onCreate() {

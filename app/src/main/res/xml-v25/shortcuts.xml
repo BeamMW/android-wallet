@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_buy"
+        android:shortcutDisabledMessage="@string/welcome_where_to_buy_beam"
+        android:shortcutId="buy"
+        android:shortcutLongLabel="@string/welcome_where_to_buy_beam"
+        android:shortcutShortLabel="@string/welcome_where_to_buy_beam">
+        <intent
+            android:action="android.intent.action.BUY_BEAM"
+            android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
+            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_qr"
+        android:shortcutDisabledMessage="@string/scan_qr_code"
+        android:shortcutId="scan"
+        android:shortcutLongLabel="@string/scan_qr_code"
+        android:shortcutShortLabel="@string/scan_qr_code">
+        <intent
+            android:action="android.intent.action.SCAN_QR"
+            android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
+            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_receive"
+        android:shortcutDisabledMessage="@string/receive"
+        android:shortcutId="receive"
+        android:shortcutLongLabel="@string/receive"
+        android:shortcutShortLabel="@string/receive">
+        <intent
+            android:action="android.intent.action.RECEIVE_BEAM"
+            android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
+            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/shortcut_send"
+        android:shortcutDisabledMessage="@string/send"
+        android:shortcutId="send"
+        android:shortcutLongLabel="@string/send"
+        android:shortcutShortLabel="@string/send">
+        <intent
+            android:action="android.intent.action.SEND_BEAM"
+            android:targetClass="com.mw.beam.beamwallet.screens.app_activity.AppActivity"
+            android:targetPackage="com.mw.beam.beamwallet.masternet"/>
+    </shortcut>
+
+</shortcuts>
