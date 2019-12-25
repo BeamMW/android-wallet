@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.fragment_utxo.*
 import kotlinx.android.synthetic.main.item_utxo.*
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 import com.mw.beam.beamwallet.core.helpers.selector
 
@@ -42,13 +43,13 @@ import com.mw.beam.beamwallet.core.helpers.selector
 class UtxosAdapter(private val context: Context, private val clickListener: OnItemClickListener) :
         androidx.recyclerview.widget.RecyclerView.Adapter<UtxosAdapter.ViewHolder>() {
     private val spentStatus = context.getString(R.string.spent)
-    private val inProgressStatus = context.getString(R.string.in_progress)
     private val incomingStatus = context.getString(R.string.incoming)
     private val changeStatus = context.getString(R.string.change_utxo_type)
     private val outgoingStatus = context.getString(R.string.outgoing)
     private val maturingStatus = context.getString(R.string.maturing)
     private val unavailableStatus = context.getString(R.string.unavailable)
     private val availableStatus = context.getString(R.string.available)
+    private val tillBlockHeight = context.getString(R.string.till_block_height)
 
     private val receivedColor = ContextCompat.getColor(context, R.color.received_color)
     private val sentColor = ContextCompat.getColor(context, R.color.sent_color)
@@ -84,7 +85,12 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             }.toLowerCase() + " "
 
 
-            itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color else R.color.colorClear)
+            if (App.isDarkMode) {
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color_dark else R.color.colorClear)
+            }
+            else{
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
+            }
 
             amount.text = utxo.amount.convertToBeamString()
 
@@ -92,7 +98,6 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             {
                 commentLayout.visibility = View.VISIBLE
                 dateLabel.visibility = View.VISIBLE
-
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
 
                 status.setPadding(0,0,0,0)
@@ -125,6 +130,17 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
 
                 commentLabel.visibility = View.GONE
                 commentIcon.visibility = View.GONE
+            }
+            else if (utxo.status == UtxoStatus.Maturing) {
+                amount.setPadding(0,20,0,0)
+                status.setPadding(0,25,0,0)
+
+                commentLayout.visibility = View.GONE
+                commentLabel.visibility = View.GONE
+                commentIcon.visibility = View.GONE
+                dateLabel.visibility = View.VISIBLE
+
+                dateLabel.text = tillBlockHeight + " " + utxo.maturity
             }
             else{
                 amount.setPadding(0,20,0,20)

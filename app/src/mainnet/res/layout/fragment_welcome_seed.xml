@@ -60,18 +60,33 @@
                 app:layout_constraintEnd_toStartOf="@id/btnNext"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnNext"
-                android:layout_width="@dimen/wallet_button_width"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
-                app:lower_case="true"
-                app:button_icon="@drawable/ic_btn_proceed"
-                app:button_text="@string/next"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btnShare" />
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:button_icon="@drawable/ic_icon_recovery"
+            app:button_text="@string/complete_verification"
+            app:layout_constraintBottom_toTopOf="@+id/btnLater"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lower_case="true" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnLater"
+            android:layout_width="254dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/primary_button"
+            app:button_icon="@drawable/ic_send_white"
+            app:button_text="@string/i_will_later"
+            app:button_text_color="@color/common_text_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lower_case="true" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
 </LinearLayout>

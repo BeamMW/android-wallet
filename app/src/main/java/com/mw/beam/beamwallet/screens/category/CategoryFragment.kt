@@ -37,6 +37,7 @@ import android.text.style.StyleSpan
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.style.AbsoluteSizeSpan
+import com.mw.beam.beamwallet.core.App
 
 
 
@@ -44,7 +45,12 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
 
     private lateinit var pagerAdapter: CategoriesPagerAdapter
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun getToolbarTitle(): String? = getString(R.string.tag)
 

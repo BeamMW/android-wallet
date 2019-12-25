@@ -38,6 +38,7 @@ class AppManager {
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
+
     private var newAddressSubscription: Disposable? = null
 
     var isResotred = false
@@ -355,6 +356,26 @@ class AppManager {
         }
     }
 
+    private fun deleteUtxo(deleted: List<Utxo>) {
+        deleted.forEach { item2 ->
+            utxos.removeAll {item1 ->
+                item1.id == item2.id
+            }
+        }
+    }
+
+    private fun updateUtxo(updated: List<Utxo>) {
+        updated.forEach { item2 ->
+            val index = utxos.indexOfFirst {
+                it.id == item2.id
+            }
+            if (index != -1) {
+                utxos[index] = item2
+            }
+        }
+    }
+
+
     //MARK: - Updates
 
     fun onChangeNodeAddress() {
@@ -473,11 +494,27 @@ class AppManager {
                 subOnTransactionsChanged.onNext(0)
             }
 
-            WalletListener.subOnAllUtxoChanged.subscribe(){
-                utxos.clear()
-                utxos.addAll(it)
+            WalletListener.obsOnUtxos.subscribe{
+                if (it.action == ChangeAction.REMOVED && it.utxo != null) {
+                    deleteUtxo(it.utxo)
+                }
+                else if (it.action == ChangeAction.ADDED && it.utxo != null) {
+                    utxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.RESET && it.utxo != null) {
+                    utxos.clear()
+                    utxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.UPDATED && it.utxo != null) {
+                    updateUtxo(it.utxo)
+                }
 
                 subOnUtxosChanged.onNext(0)
+            }
+
+            WalletListener.obsOnAddresses.subscribe{
+              //  wallet?.getAddresses(true)
+               // wallet?.getAddresses(false)
             }
 
             WalletListener.subOnStatus.subscribe(){

@@ -105,10 +105,14 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     override fun onCreate(savedInstanceState: Bundle?) {
         App.isAppRunning = true
 
+        App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
+        changeTheme()
+
+
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+      //  setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
@@ -119,15 +123,31 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         App.isAppRunning = true
 
+        App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
+        changeTheme()
+
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+       // setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
 
         checkShortCut()
+    }
+
+    fun changeTheme()
+    {
+        if (App.isDarkMode)
+            setTheme(R.style.AppThemeDark)
+        else
+            setTheme(R.style.AppTheme)
+
+        if (result!=null)
+        {
+            setupMenu(null)
+        }
     }
 
     fun checkShortCut() {

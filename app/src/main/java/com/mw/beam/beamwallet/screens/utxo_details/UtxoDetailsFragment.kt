@@ -18,6 +18,9 @@ package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -39,6 +42,8 @@ import android.transition.TransitionManager
 import android.transition.AutoTransition
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.selector
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
@@ -46,7 +51,12 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
  */
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    }
+    else{
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
@@ -78,7 +88,18 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }
 
-        typeLabel.text = when (utxo.keyType) {
+        if (utxo.status == UtxoStatus.Maturing) {
+            val available = getString(R.string.maturing)
+            val till = "(" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
+            val string = available + till
+
+            val spannable = SpannableStringBuilder.valueOf(string)
+            spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.btn_drop_down_color, context?.theme)),
+                    available.length,string.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            statusLabel.text = spannable
+        }
+
+            typeLabel.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
@@ -140,7 +161,13 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     @SuppressLint("InflateParams")
     private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int, index:Int): View? {
         val notMultiplyColor = ContextCompat.getColor(context!!, R.color.colorClear)
-        val multiplyColor = ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
+
+        val multiplyColor = if (App.isDarkMode) {
+            R.color.wallet_adapter_multiply_color_dark
+        }
+        else{
+            R.color.wallet_adapter_multiply_color
+        }
 
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
         view.findViewById<TextView>(R.id.date).text = time

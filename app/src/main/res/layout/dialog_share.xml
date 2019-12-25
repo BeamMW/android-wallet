@@ -75,7 +75,7 @@
         android:paddingBottom="15dp"
         android:text="@string/cancel"
         android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
+        android:textColor="?attr/subHeaderTextColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/shareBtn"

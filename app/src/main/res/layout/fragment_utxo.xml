@@ -10,7 +10,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_gradient_size"
-            android:background="@drawable/address_toolbar_gradient"
+            android:background="?attr/headerBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,11 +37,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
-            <androidx.cardview.widget.CardView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/infoCard"
                 style="@style/common_card_style"
-                app:cardCornerRadius="@dimen/common_card_corner_radius"
-                app:cardElevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -54,13 +52,17 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
+                    android:background="@drawable/wallet_state_card_backgroud"
                     android:paddingStart="20dp"
                     android:paddingLeft="20dp"
                     android:paddingTop="20dp"
                     android:paddingEnd="20dp"
                     android:paddingRight="20dp"
-                    android:paddingBottom="20dp">
+                    android:paddingBottom="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:id="@+id/blockchainHeightTitle"
@@ -94,6 +96,7 @@
 
                     <TextView
                         android:id="@+id/blockchainHashTitle"
+                        style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/utxo_item_padding"
@@ -128,7 +131,7 @@
                         app:barrierDirection="end"
                         app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
@@ -139,9 +142,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/infoCard"
                 app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/address_tab_text_color"
+                app:tabSelectedTextColor="?attr/tabsColor"
                 app:tabTextAppearance="@style/common_subheader_dark"
-                app:tabTextColor="@color/address_tab_text_color" />
+                app:tabTextColor="?attr/tabsColor" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/itemsswipetorefresh"
@@ -169,10 +172,10 @@
                 android:orientation="vertical"
                 android:paddingBottom="40dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/pager"
+                app:layout_constraintBottom_toBottomOf="@+id/itemsswipetorefresh"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/pager">
+                app:layout_constraintTop_toTopOf="@+id/itemsswipetorefresh">
 
                 <TextView
                     android:id="@+id/privacyLabel"
@@ -180,12 +183,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:drawableTop="@drawable/ic_eye_crossed_big"
+                    android:drawableTint="?attr/subHeaderTextColor"
                     android:drawablePadding="15dp"
                     android:fontFamily="@font/proxima_regular"
                     android:maxLines="3"
                     android:text="@string/utxo_security_message"
                     android:textAlignment="center"
-                    android:textColor="@color/common_text_dark_color"
+                    android:textColor="?attr/subHeaderTextColor"
                     android:textSize="14sp" />
             </LinearLayout>
 

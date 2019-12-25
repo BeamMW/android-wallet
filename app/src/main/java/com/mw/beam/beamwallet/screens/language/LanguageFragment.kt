@@ -39,7 +39,12 @@ class LanguageFragment: BaseFragment<LanguagePresenter>(), LanguageContract.View
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_language
 
     override fun getToolbarTitle(): String? = getString(R.string.language)
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun init(languages: List<LocaleHelper.SupportedLanguage>, language: LocaleHelper.SupportedLanguage) {
         adapter = LanguageAdapter(languages) {

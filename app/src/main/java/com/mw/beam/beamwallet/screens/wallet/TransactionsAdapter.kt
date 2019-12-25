@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
 import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 
 
@@ -121,12 +122,22 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             message.text = messageStatus
 
-            if (reverseColors) {
-                itemView.selector(if (position % 2 == 0) R.color.colorClear else R.color.wallet_adapter_multiply_color)
+            if (App.isDarkMode) {
+                if (reverseColors) {
+                    itemView.selector(if (position % 2 == 0) R.color.colorClear else R.color.wallet_adapter_multiply_color_dark)
+                }
+                else{
+                    itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color_dark else R.color.colorClear)
+                }
             }
             else{
-                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
-            }
+              if (reverseColors) {
+                  itemView.selector(if (position % 2 == 0) R.color.colorClear else R.color.wallet_adapter_multiply_color)
+              }
+              else{
+                  itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
+              }
+          }
 
             icon.setImageDrawable(transaction.statusImage())
 

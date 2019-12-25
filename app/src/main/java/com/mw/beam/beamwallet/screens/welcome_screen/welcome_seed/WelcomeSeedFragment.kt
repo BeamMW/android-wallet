@@ -27,12 +27,9 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.BeamPhrase
-import kotlinx.android.synthetic.main.common_button.view.*
 import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
 

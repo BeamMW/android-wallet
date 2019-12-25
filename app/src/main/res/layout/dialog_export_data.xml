@@ -107,7 +107,7 @@
         android:layout_marginTop="@dimen/settings_dialog_clear_buttons_margin_top"
         android:text="@string/cancel"
         android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
+        android:textColor="?attr/subHeaderTextColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/btnConfirm"
         app:layout_constraintHorizontal_bias="1"

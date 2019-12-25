@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/alert_dialog_color" />
+    <solid android:color="?attr/alertDialogColor" />
     <corners android:radius="10dp" />
     <padding
         android:bottom="30dp"

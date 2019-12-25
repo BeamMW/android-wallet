@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.Date
 import java.util.Calendar
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  3/5/19.
@@ -88,7 +89,12 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun getToolbarTitle(): String? { return null }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun init(address: WalletAddress) {
         isContact = address.isContact

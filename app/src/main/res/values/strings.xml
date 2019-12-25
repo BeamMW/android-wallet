@@ -525,8 +525,8 @@ address or contact</string>
     <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="change_settings_text_2">Enter your current password to proceed changes in settings</string>
     <string name="change_settings_text_1">Use fingerprint or enter your password to proceed changes in settings</string>
-
-
-
+    <string name="till_block_height">till block height</string>
+    <string name="delete_all_tags">Delete all tags</string>
+    <string name="dark_mode">Dark mode</string>
 
 </resources>

@@ -77,7 +77,10 @@ import java.io.IOException
 import com.mw.beam.beamwallet.core.views.SettingsItemView
 import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
-
+import com.mw.beam.beamwallet.core.App
+import androidx.fragment.app.FragmentTransaction
+import android.os.Build
+import com.mw.beam.beamwallet.screens.wallet.NavItem
 
 /**
  *  1/21/19.
@@ -86,7 +89,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     enum class Mode {
         All, General, Node, Privacy, Utilities, Tags, Rate, Report, RemoveWallet, Logs, Allow, Lock, ClearLocal, Language,
-        ConnectNode, AskPassword, FingerPrint, OwnerKey, SeedPhrase, ChangePassword, Faucet, Proof, Verification, Export, Import, CreateTag, ShowTag
+        ConnectNode, AskPassword, FingerPrint, OwnerKey, SeedPhrase, ChangePassword, Faucet, Proof, Verification, Export, Import, CreateTag, ShowTag, DarkMode
     }
 
     data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode:Mode, val switch:Boolean? = null, val spannable:Spannable? = null)
@@ -116,7 +119,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if(mode() == Mode.All) {
-                showWalletFragment()
+                (activity as? AppActivity)?.openMenu()
             }
             else{
                 findNavController().popBackStack()
@@ -162,6 +165,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 var s2 = mutableListOf<SettingsItem>()
                 s2.add(SettingsItem(null, getString(R.string.language),null, Mode.Language))
+                s2.add(SettingsItem(null, getString(R.string.dark_mode),null, Mode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
                 items.add(s2.toTypedArray())
@@ -175,6 +179,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, Mode.AskPassword, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, Mode.FingerPrint, switch = true))
+                if (OnboardManager.instance.isSkipedSeed()) {
+                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, Mode.Verification))
+                }
                 s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, Mode.OwnerKey))
                 s1.add(SettingsItem(null, getString(R.string.change_password),null, Mode.ChangePassword))
                 items.add(s1.toTypedArray())
@@ -183,9 +190,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, Mode.Faucet))
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, Mode.Proof))
-                if (OnboardManager.instance.isSkipedSeed()) {
-                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, Mode.Verification))
-                }
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, Mode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, Mode.Import))
 
@@ -240,6 +244,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     switch = item.switch
                     spannable = item.spannable
                 }
+
                 item.setOnClickListener {
                     val item:SettingsItemView = if (it is androidx.appcompat.widget.SwitchCompat) {
                         it.parent.parent as SettingsItemView
@@ -322,6 +327,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     else if(item.mode == Mode.ShowTag) {
                         presenter?.onCategoryPressed(item.spannable.toString())
                     }
+                    else if (item.mode == Mode.DarkMode) {
+                        val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        App.isDarkMode = isDark
+                        PreferencesManager.putBoolean(PreferencesManager.DARK_MODE,isDark)
+                        (activity as? AppActivity)?.changeTheme()
+                        (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
+                        val ft = fragmentManager!!.beginTransaction();
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            ft.setReorderingAllowed(false)
+                        }
+                        ft.detach(this).attach(this).commit();
+                    }
                 }
 
                 if(mode() == Mode.Node) {
@@ -340,10 +357,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 else if(subItems.count() == 1 && item.iconResId != null) {
                     item.setPadding(0,10,0,10)
                 }
+                else{
+                    item.setPadding(0,4,0,4)
+                }
 
                 section.addView(item)
             }
 
+            if(subItems.last().icon == null) {
+                section.setPadding(0,12,0,12)
+            }
             mainLayout.addView(section,0)
         }
     }
@@ -372,7 +395,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         super.onDestroy()
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun setLogSettings(days: Long) {
         for (view in mainLayout.children) {
@@ -724,7 +752,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 presenter?.onDialogClearDataPressed(
                         view.deleteAllAddressesCheckbox.isChecked,
                         view.deleteAllContactsCheckbox.isChecked,
-                        view.deleteAllTransactionsCheckbox.isChecked
+                        view.deleteAllTransactionsCheckbox.isChecked,
+                        view.deleteAllTagsCheckbox.isChecked
                 )
             }
 
@@ -735,7 +764,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+    override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
         val clearData = arrayListOf<String>()
 
         if (clearAddresses) {
@@ -750,10 +779,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             clearData.add(getString(R.string.transactions).toLowerCase())
         }
 
+        if (clearTags) {
+            clearData.add(getString(R.string.tags).toLowerCase())
+        }
+
         showAlert(
                 getString(R.string.settings_confirm_clear_message, clearData.joinToString(separator = ", ")),
                 getString(R.string.delete),
-                { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
+                { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions, clearTags) },
                 getString(R.string.settings_dialog_clear_title),
                 getString(R.string.cancel)
         )

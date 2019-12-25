@@ -7,7 +7,7 @@
     
     <View
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"/>
     
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
         app:tabTextAppearance="@style/common_subheader_dark"
-        app:tabSelectedTextColor="@color/address_tab_text_color"
-        app:tabTextColor="@color/address_tab_text_color"/>
+        app:tabSelectedTextColor="?attr/tabsColor"
+        app:tabTextColor="?attr/tabsColor"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/itemsswipetorefresh"

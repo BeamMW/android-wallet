@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

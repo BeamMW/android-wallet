@@ -40,6 +40,8 @@ interface TransactionsContract {
         fun showDeleteTransactionsSnackBar()
         fun deleteTransactions()
         fun showInProgressToast()
+        fun didSelectAllTransactions(transactions: List<TxDescription>)
+        fun didUnSelectAllTransactions()
     }
 
     interface Presenter: MvpPresenter<View> {
@@ -52,6 +54,7 @@ interface TransactionsContract {
         fun onRepeatTransaction()
         fun onConfirmDeleteTransactions(transactions: List<String>)
         fun onDeleteTransactionsPressed()
+        fun onSelectAll()
     }
 
     interface Repository: MvpRepository {

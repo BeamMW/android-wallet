@@ -62,7 +62,7 @@
         android:layout_marginBottom="@dimen/common_card_padding"
         android:text="@string/cancel"
         android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
+        android:textColor="?attr/subHeaderTextColor"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

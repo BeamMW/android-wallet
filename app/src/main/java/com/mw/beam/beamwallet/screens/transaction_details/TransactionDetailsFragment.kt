@@ -59,6 +59,8 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
+import android.content.res.ColorStateList
+import com.mw.beam.beamwallet.core.App
 
 
 /**
@@ -73,7 +75,12 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     var downX: Float = 0f
     var downY: Float = 0f
@@ -173,7 +180,20 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                     UtxoType.Exchange -> R.drawable.menu_utxo
                 }
 
-                utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                if(utxo.type == UtxoType.Exchange) {
+                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                    val colorRes  = if (App.isDarkMode) {
+                        R.color.common_text_dark_color_dark
+                    }
+                    else{
+                        R.color.common_text_dark_color
+                    }
+                    utxoView.utxoIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, colorRes))
+                }
+                else{
+                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                }
+
                 utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
 
                 utxosList.addView(utxoView)

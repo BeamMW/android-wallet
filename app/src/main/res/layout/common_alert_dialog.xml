@@ -47,7 +47,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
+        android:textColor="?attr/subHeaderTextColor"
         android:textStyle="bold"
         tools:text="@string/cancel"
         app:layout_constraintWidth_min="wrap"

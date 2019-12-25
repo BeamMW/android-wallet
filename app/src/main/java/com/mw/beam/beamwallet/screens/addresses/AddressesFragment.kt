@@ -39,6 +39,7 @@ import kotlinx.android.synthetic.main.fragment_addresses.itemsswipetorefresh
 import kotlinx.android.synthetic.main.fragment_addresses.pager
 import kotlinx.android.synthetic.main.fragment_addresses.tabLayout
 import kotlinx.android.synthetic.main.toolbar.*
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  2/28/19.
@@ -173,6 +174,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     private fun cancelSelectedAddresses() {
+        presenter?.isAllSelected = false
+
         val toolbarLayout = toolbarLayout
         toolbarLayout.centerTitle = true
         toolbarLayout.toolbar.title = null
@@ -220,7 +223,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             menu.findItem(R.id.delete).isVisible = false
             menu.findItem(R.id.edit).isVisible = false
             menu.findItem(R.id.add).isVisible = true
-        } else {
+            menu.findItem(R.id.all).isVisible = false
+        }
+        else {
             if (selectedAddresses.count() == 1) {
                 menu.findItem(R.id.copy).isVisible = true
                 menu.findItem(R.id.delete).isVisible = true
@@ -232,6 +237,14 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                 menu.findItem(R.id.add).isVisible = false
                 menu.findItem(R.id.delete).isVisible = true
             }
+            menu.findItem(R.id.all).isVisible = true
+            if  (!presenter!!.isAllSelected) {
+                menu.findItem(R.id.all).icon = resources.getDrawable(R.drawable.ic_checkbox_empty_copy)
+            }
+            else{
+                menu.findItem(R.id.all).icon = resources.getDrawable(R.drawable.ic_checkbox_fill_copy)
+            }
+
         }
     }
 
@@ -244,8 +257,29 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             presenter?.onCopyAddressPressed()
         } else if (item.itemId == R.id.delete) {
             presenter?.onDeleteAddressesPressed()
+        } else if (item.itemId == R.id.all) {
+            presenter?.onSelectAll()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun didSelectAllAddresses(addresses: List<WalletAddress>) {
+        selectedAddresses.clear()
+        addresses.forEach {
+            selectedAddresses.add(it.walletID)
+        }
+        pagerAdapter.changeSelectedItems(selectedAddresses, false, null)
+        pagerAdapter.reloadData(mode)
+        onSelectedAddressesChanged()
+        activity?.invalidateOptionsMenu()
+    }
+
+    override fun didUnSelectAllAddresses() {
+        presenter?.isAllSelected = false
+        selectedAddresses.clear()
+        pagerAdapter.changeSelectedItems(selectedAddresses, false, null)
+        pagerAdapter.reloadData(mode)
+        onSelectedAddressesChanged()
     }
 
     override fun navigateToAddContactScreen() {
@@ -386,7 +420,12 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
         cancelSelectedAddresses()
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun showAddressDetails(address: WalletAddress) {
         findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment(address))

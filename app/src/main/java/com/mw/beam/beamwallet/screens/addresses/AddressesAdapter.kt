@@ -26,6 +26,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
@@ -98,7 +99,12 @@ class AddressesAdapter(private val context: Context,
 
             itemView.findViewById<TextView>(R.id.addressId).text = address.walletID
 
-            itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
+            if (App.isDarkMode) {
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color_dark else R.color.colorClear)
+            }
+            else{
+                itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
+            }
 
             val dateTextView = itemView.findViewById<TextView>(R.id.date)
             val expireDateVisibility = if (address.isContact) View.GONE else View.VISIBLE

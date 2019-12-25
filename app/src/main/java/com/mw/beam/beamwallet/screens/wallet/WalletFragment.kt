@@ -71,7 +71,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private val onPageSelectedListener = object : ViewPager.SimpleOnPageChangeListener() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            val selectedColor = ContextCompat.getColor(context!!, R.color.common_text_dark_color)
+            val selectedColor = if (App.isDarkMode) {
+                ContextCompat.getColor(context!!, R.color.common_text_dark_color_dark)
+            } else{
+                ContextCompat.getColor(context!!, R.color.common_text_dark_color)
+            }
+
             val unselectedColor = ContextCompat.getColor(context!!, R.color.unselect_balance_tab_text_color)
 
             when (BalanceTab.values()[position]) {
@@ -87,7 +92,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
     override fun getToolbarTitle(): String? = getString(R.string.wallet)
 

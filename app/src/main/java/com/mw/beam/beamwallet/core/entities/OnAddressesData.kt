@@ -16,6 +16,9 @@
 
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.core.helpers.ChangeAction
+import com.mw.beam.beamwallet.core.helpers.prepareForLog
+
 /**
  *  2/28/19.
  */

@@ -22,6 +22,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_navigation.*
 
@@ -32,14 +33,20 @@ class NavItemsAdapter(private val context: Context, var data: Array<NavItem>, pr
     lateinit var selectedItem:NavItem.ID
 
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    private val selectedColor = ContextCompat.getColor(context, R.color.colorAccent)
-    private val unselectedColor = ContextCompat.getColor(context, R.color.ic_menu_color)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder =
             ViewHolder(layoutInflater.inflate(R.layout.item_navigation, parent, false))
 
     override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         val item = data[position]
+
+        val selectedColor = ContextCompat.getColor(context, R.color.colorAccent)
+        val unselectedColor = if (App.isDarkMode) {
+            ContextCompat.getColor(context!!, R.color.ic_menu_color_dark)
+        } else{
+            ContextCompat.getColor(context!!, R.color.ic_menu_color)
+        }
 
         (holder as ViewHolder).apply {
             icon.setImageDrawable(ContextCompat.getDrawable(context, item.iconResId))

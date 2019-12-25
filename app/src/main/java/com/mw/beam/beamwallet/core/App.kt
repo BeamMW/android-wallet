@@ -60,7 +60,7 @@ class App : Application() {
         lateinit var self: App
 
         private const val BACKGROUND_JOB_ID = 71614
-
+        var isDarkMode = false
         var showNotification = true
         var isAuthenticated = false
         var intentTransactionID: String? = null

@@ -17,10 +17,12 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.text.Spannable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
@@ -49,6 +51,13 @@ class SettingsItemView: FrameLayout {
             if (value != null) {
                 iconView.visibility = View.VISIBLE
                 iconView.setImageDrawable(resources.getDrawable(value,App.self.theme))
+                val colorRes  = if (App.isDarkMode) {
+                    R.color.common_text_dark_color_dark
+                }
+                else{
+                    R.color.common_text_dark_color
+                }
+                iconView.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, colorRes))
             } else {
                 iconView.visibility = View.GONE
                 labelsLayout.setPadding(15,0,15,0)

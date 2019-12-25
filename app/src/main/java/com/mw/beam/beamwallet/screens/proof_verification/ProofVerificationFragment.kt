@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.fragment_proof_verification.senderLayout
 import kotlinx.android.synthetic.main.fragment_proof_verification.receiverLayout
 import android.view.inputmethod.EditorInfo
 import android.view.KeyEvent
+import com.mw.beam.beamwallet.core.App
 
 
 
@@ -63,7 +64,12 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification)
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun addListeners() {
         textWatcher = object : TextWatcher {

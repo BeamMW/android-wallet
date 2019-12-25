@@ -22,15 +22,11 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.OnboardManager
-import com.mw.beam.beamwallet.core.helpers.FingerprintManager
-import com.mw.beam.beamwallet.core.helpers.QrHelper
-import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.core.helpers.TxStatus
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.disposables.Disposable
 import java.net.URI
 import com.google.gson.Gson
-
+import com.mw.beam.beamwallet.core.helpers.*
 
 
 /**
@@ -242,14 +238,18 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showLogsDialog()
     }
 
-    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
         view?.closeDialog()
-        if (clearAddresses || clearContacts || clearTransactions) {
-            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions)
+        if (clearAddresses || clearContacts || clearTransactions || clearTags) {
+            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions, clearTags)
         }
     }
 
-    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
+        if (clearTags) {
+            TagHelper.getAllTags().forEach { TagHelper.deleteTag(it) }
+        }
+
         if (clearAddresses) {
             state.addresses.forEach { repository.deleteAddress(it.walletID) }
         }

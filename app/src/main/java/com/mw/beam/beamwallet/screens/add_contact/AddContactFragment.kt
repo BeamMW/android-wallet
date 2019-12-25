@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_add_contact.*
+import com.mw.beam.beamwallet.core.App
 
 class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContract.View {
     private val tokenWatcher = object : TextWatcher {
@@ -58,7 +59,12 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
 
     override fun getToolbarTitle(): String? = getString(R.string.add_contact)
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun addListeners() {
         btnCancel.setOnClickListener {

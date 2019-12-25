@@ -52,9 +52,12 @@
             android:name=".screens.qr.ScanQrActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
+
         <meta-data
-            android:name="com.google.android.actions"
+            android:name="android.app.shortcuts"
             android:resource="@xml/shortcuts" />
+<!--//https://developers.google.com/assistant/app/get-started-->
+
 
         <meta-data
             android:name="io.fabric.ApiKey"

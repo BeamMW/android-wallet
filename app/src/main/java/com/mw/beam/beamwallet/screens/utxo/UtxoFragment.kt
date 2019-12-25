@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.SystemState
 import com.mw.beam.beamwallet.core.entities.Utxo
@@ -153,7 +154,12 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    }
+    else{
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    }
 
 
     private fun setVisibility() {

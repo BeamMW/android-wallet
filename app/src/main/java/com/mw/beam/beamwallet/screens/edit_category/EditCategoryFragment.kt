@@ -30,6 +30,7 @@ import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagColor
 import kotlinx.android.synthetic.main.fragment_edit_category.*
 import java.util.*
+import com.mw.beam.beamwallet.core.App
 
 class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryContract.View {
     private var colorListAdapter: ColorListAdapter? = null
@@ -42,7 +43,12 @@ class EditCategoryFragment: BaseFragment<EditCategoryPresenter>(), EditCategoryC
         }
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_edit_category
 

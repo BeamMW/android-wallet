@@ -44,7 +44,7 @@
             android:fontFamily="@font/roboto_regular"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:textColor="@color/btn_drop_down_color"
+            android:textColor="?attr/subHeaderTextColor"
             android:textSize="14sp"
             tools:text="Salary"
             tools:visibility="gone" />

@@ -31,6 +31,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 
     private lateinit var txStatusSubscription: Disposable
     var removedTransactions = mutableListOf<String>()
+    var isAllSelected = false
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -61,6 +62,18 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)
+    }
+
+    override fun onSelectAll() {
+        isAllSelected = !isAllSelected
+
+        if(isAllSelected)
+        {
+            view?.didSelectAllTransactions(getTransactions())
+        }
+        else{
+            view?.didUnSelectAllTransactions()
+        }
     }
 
     override fun onSearchPressed() {

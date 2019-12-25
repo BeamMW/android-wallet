@@ -155,7 +155,7 @@
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="?attr/cardBackground"
                 android:paddingBottom="@dimen/common_offset"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -274,7 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="@color/colorPrimary"
+                android:background="?attr/cardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comment">
@@ -369,6 +369,7 @@
                         android:layout_height="44dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:contentDescription="@null"
+                        android:tint="?attr/subHeaderTextColor"
                         android:src="@drawable/ic_add"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/categoryTitle" />
@@ -505,6 +506,7 @@
                         android:layout_marginEnd="8dp"
                         android:contentDescription="@null"
                         android:padding="10dp"
+                        android:tint="?attr/subHeaderTextColor"
                         android:src="@drawable/ic_keyboard"
                         app:layout_constraintBottom_toBottomOf="@id/feeTitle"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -671,7 +673,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="?attr/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -684,7 +686,7 @@
             android:id="@+id/pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="?attr/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

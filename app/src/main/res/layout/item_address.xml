@@ -47,6 +47,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
                 android:contentDescription="@null"
+                android:tint="?attr/subHeaderTextColor"
                 android:src="@drawable/ic_infinity" />
 
             <TextView

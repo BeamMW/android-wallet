@@ -10,7 +10,7 @@
         android:id="@+id/view5"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -114,12 +114,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@null"
+                        android:tint="?attr/subHeaderTextColor"
                         android:src="@drawable/ic_wallet_empty" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_offset"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:text="@string/wallet_empty_transactions_list_message"
                         android:textAlignment="center" />
                 </LinearLayout>

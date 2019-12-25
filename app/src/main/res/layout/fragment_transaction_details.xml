@@ -17,7 +17,7 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -196,7 +196,7 @@
                         android:padding="3dp"
                         android:text="@string/date"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -228,7 +228,7 @@
                         android:padding="3dp"
                         android:text="@string/sender"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <LinearLayout
@@ -245,6 +245,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
+                            android:tint="?attr/subHeaderTextColor"
                             app:srcCompat="@drawable/ic_contact" />
 
                         <TextView
@@ -304,7 +305,7 @@
                         android:padding="3dp"
                         android:text="@string/sender"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <LinearLayout
@@ -321,6 +322,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
+                            android:tint="?attr/subHeaderTextColor"
                             app:srcCompat="@drawable/ic_contact" />
 
                         <TextView
@@ -377,7 +379,7 @@
                         android:padding="3dp"
                         android:text="@string/transaction_fee"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -407,7 +409,7 @@
                         android:padding="3dp"
                         android:text="@string/transaction_comment"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -437,7 +439,7 @@
                         android:padding="3dp"
                         android:text="@string/transaction_id"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -467,7 +469,7 @@
                         android:padding="3dp"
                         android:text="@string/kernel_id"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -568,7 +570,7 @@
                         android:letterSpacing="0.2"
                         android:text="@string/code"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView

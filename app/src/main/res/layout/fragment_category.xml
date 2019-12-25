@@ -9,7 +9,7 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
