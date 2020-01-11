@@ -25,14 +25,14 @@ import com.mw.beam.beamwallet.base_screen.MvpView
  */
 interface WelcomeOpenContract {
     interface View : MvpView {
-        fun init(shouldInitFingerprint : Boolean)
+        fun init(shouldInitBiometric : Boolean)
         fun hasValidPass(): Boolean
         fun getPass(): String
         fun openWallet(pass: String)
         fun changeWallet()
         fun showChangeAlert()
         fun showOpenWalletError()
-        fun showFingerprintAuthError()
+        fun showBiometricAuthError()
         fun clearError()
         fun clearFingerprintCallback()
         fun back()
@@ -43,13 +43,14 @@ interface WelcomeOpenContract {
         fun onChangeWallet()
         fun onChangeConfirm()
         fun onPassChanged()
-        fun onFingerprintError()
-        fun onFingerprintSucceeded()
-        fun onFingerprintFailed()
+        fun onBiometricError()
+        fun onBiometricSucceeded()
+        fun onBiometricFailed()
     }
 
     interface Repository : MvpRepository {
         fun isFingerPrintEnabled(): Boolean
+        fun isFaceIDEnabled(): Boolean
         fun checkPass(pass: String?): Boolean
     }
 }

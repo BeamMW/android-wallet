@@ -15,8 +15,9 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
-import com.mw.beam.beamwallet.core.views.Type
+import com.mw.beam.beamwallet.core.views.Status
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
+import com.mw.beam.beamwallet.core.views.Type
 
 import kotlinx.android.synthetic.main.dialog_password_confirm.pass
 import kotlinx.android.synthetic.main.dialog_password_confirm.passError
@@ -28,7 +29,7 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
         RemoveWallet, ChangeNode, ChangeSettings, SendBeam
     }
 
-    private var withFingerprint = false
+    private var withBiometric = false
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintManagerCompat.AuthenticationCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -57,18 +58,34 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_password_confirm_finger
 
     override fun init(isFingerprintEnable: Boolean) {
-        withFingerprint = isFingerprintEnable
+        withBiometric = isFingerprintEnable
 
-        when (mode) {
-            Mode.RemoveWallet -> description.setText(if (withFingerprint) R.string.remove_wallet_password_1 else R.string.remove_wallet_password_2)
-            Mode.ChangeNode -> description.setText(if (withFingerprint) R.string.change_node_text_2 else R.string.change_node_text_3)
-            Mode.ChangeSettings -> description.setText(if (withFingerprint) R.string.change_settings_text_1 else R.string.change_settings_text_2)
-            Mode.SendBeam -> description.setText(if (withFingerprint) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
+        if(presenter?.repository?.isFaceIDEnabled() == true)
+        {
+            biometricView.setBiometricType(Type.FACE)
+
+            when (mode) {
+                Mode.RemoveWallet -> description.setText(R.string.remove_wallet_password_3)
+                Mode.ChangeNode -> description.setText(R.string.change_node_text_4)
+                Mode.ChangeSettings -> description.setText(R.string.change_settings_text_3)
+                Mode.SendBeam -> description.setText(R.string.use_faceid_ot_enter_your_password_to_confirm_transaction)
+            }
+        }
+        else
+        {
+            when (mode) {
+                Mode.RemoveWallet -> description.setText(if (withBiometric) R.string.remove_wallet_password_1 else R.string.remove_wallet_password_2)
+                Mode.ChangeNode -> description.setText(if (withBiometric) R.string.change_node_text_2 else R.string.change_node_text_3)
+                Mode.ChangeSettings -> description.setText(if (withBiometric) R.string.change_settings_text_1 else R.string.change_settings_text_2)
+                Mode.SendBeam -> description.setText(if (withBiometric) R.string.use_fingerprint_ot_enter_your_password_to_confirm_transaction else R.string.enter_your_password_to_confirm_transaction)
+            }
         }
 
-        if (mode == Mode.SendBeam) btnOk.background = ContextCompat.getDrawable(context!!, R.drawable.send_button)
 
-        touchIDView.visibility = if (withFingerprint) View.VISIBLE else View.GONE
+        if (mode == Mode.SendBeam)
+            btnOk.background = ContextCompat.getDrawable(context!!, R.drawable.send_button)
+
+        biometricView.visibility = if (withBiometric) View.VISIBLE else View.GONE
 
         clearPasswordError()
     }
@@ -76,11 +93,15 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     override fun onStart() {
         super.onStart()
 
-        if (!withFingerprint) {
+        if (!withBiometric) {
             Handler().postDelayed({
                 pass.requestFocus()
                 showKeyboard()
             }, 100)
+        }
+        else if(presenter?.repository?.isFaceIDEnabled() == true) {
+            mainView.visibility = View.INVISIBLE
+            displayFaceIDPrompt()
         }
     }
 
@@ -95,7 +116,7 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
 
         pass.addTextChangedListener(passWatcher)
 
-        if (withFingerprint)
+        if (withBiometric && presenter?.repository?.isFaceIDEnabled() == false)
         {
             cancellationSignal = CancellationSignal()
 
@@ -105,6 +126,36 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
                     authCallback!!, null)
         }
 
+    }
+
+    private fun displayFaceIDPrompt() {
+        App.self.showFaceIdPrompt(this,description.text.toString()) {
+            when (it) {
+                Status.SUCCESS -> {
+                    presenter?.onSuccessFingerprint()
+                }
+                Status.ERROR -> {
+                    presenter?.onErrorFingerprint()
+                }
+                Status.FAILED -> {
+                    presenter?.onFailedFingerprint()
+                }
+                Status.CANCEL -> {
+                    when (mode) {
+                        Mode.RemoveWallet -> description.setText(R.string.remove_wallet_password_2)
+                        Mode.ChangeNode -> description.setText(R.string.change_node_text_3)
+                        Mode.ChangeSettings -> description.setText(R.string.change_settings_text_2)
+                        Mode.SendBeam -> description.setText(R.string.enter_your_password_to_confirm_transaction)
+                    }
+                    mainView.visibility = View.VISIBLE
+                    biometricView.visibility = View.GONE
+                    Handler().postDelayed({
+                        pass.requestFocus()
+                        showKeyboard()
+                    }, 200)
+                }
+            }
+        }
     }
 
     override fun clearListeners() {
@@ -118,17 +169,24 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     }
 
     override fun showErrorFingerprint() {
-        touchIDView.setType(Type.ERROR)
+        biometricView.setStatus(Status.ERROR)
 
-        showSnackBar(getString(R.string.owner_key_verification_fingerprint_error))
+        if(presenter?.repository?.isFaceIDEnabled() == true)
+        {
+            showSnackBar(getString(R.string.owner_key_verification_faceid_error))
+        }
+        else{
+            showSnackBar(getString(R.string.owner_key_verification_fingerprint_error))
+        }
+
     }
 
     override fun showFailedFingerprint() {
-        touchIDView.setType(Type.FAILED)
+        biometricView.setStatus(Status.FAILED)
     }
 
     override fun showSuccessFingerprint() {
-        touchIDView.setType(Type.SUCCESS)
+        biometricView.setStatus(Status.SUCCESS)
     }
 
     override fun clearPasswordError() {

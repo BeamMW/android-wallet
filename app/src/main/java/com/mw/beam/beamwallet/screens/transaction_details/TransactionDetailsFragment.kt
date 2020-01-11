@@ -598,7 +598,7 @@ else{
                 "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
 
         val clip = ClipData.newPlainText("label", txDetails)
-        clipboardManager?.primaryClip = clip
+        clipboardManager?.setPrimaryClip(clip)
         showSnackBar(getString(R.string.copied_to_clipboard))
     }
 

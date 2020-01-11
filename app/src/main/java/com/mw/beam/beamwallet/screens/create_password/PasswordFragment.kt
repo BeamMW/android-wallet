@@ -28,6 +28,9 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.FaceIDManager
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -134,7 +137,35 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) {
-        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+        when {
+            FaceIDManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_faceid_text),
+                    title = getString(R.string.use_faceid_access_wallet),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    },
+                    onCancel = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    })
+            FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
+                    title = getString(R.string.use_finger),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    },
+                    onCancel = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    })
+            else -> findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+        }
+
+
     }
     override fun showSeedFragment() {
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())

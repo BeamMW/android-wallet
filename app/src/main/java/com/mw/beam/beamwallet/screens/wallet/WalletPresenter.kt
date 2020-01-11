@@ -204,9 +204,9 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
         faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
             val link =  when (BuildConfig.FLAVOR) {
-                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet"
-                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet"
-                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet"
+                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=https://www.bmmobilemainnet.com"
+                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=https://www.bmmobiletestnet.com"
+                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=https://www.bmmobilemasternet.com"
             }
 
             view?.onFaucetAddressGenerated(link)

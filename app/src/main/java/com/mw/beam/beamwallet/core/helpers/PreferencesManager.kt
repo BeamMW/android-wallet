@@ -55,6 +55,7 @@ object PreferencesManager {
     const val KEY_SEED_IS_SKIP = "KEY_SEED_IS_SKIP"
     const val KEY_TAG_DATA_LEGACY = "KEY_TAG_DATA_LEGACY"
     const val DARK_MODE = "DARK_MODE"
+    const val DARK_MODE_DEFAULT = "DARK_MODE_DEFAULT"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

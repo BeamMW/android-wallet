@@ -20,13 +20,9 @@ import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
 import java.io.File
 
 /**
@@ -34,7 +30,7 @@ import java.io.File
  */
 interface SettingsContract {
     interface View : MvpView {
-        fun mode(): SettingsFragment.Mode
+        fun mode(): SettingsFragmentMode
         fun setRunOnRandomNode(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)

@@ -17,7 +17,6 @@
 package com.mw.beam.beamwallet.screens.settings
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -48,7 +47,6 @@ import java.util.concurrent.TimeUnit
 import android.graphics.*
 import android.os.Bundle
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.*
 import androidx.activity.OnBackPressedCallback
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
@@ -68,7 +66,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import com.mw.beam.beamwallet.core.OnboardManager
-import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragment
 import kotlinx.android.synthetic.main.dialog_export_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
@@ -78,25 +75,22 @@ import com.mw.beam.beamwallet.core.views.SettingsItemView
 import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
 import com.mw.beam.beamwallet.core.App
-import androidx.fragment.app.FragmentTransaction
 import android.os.Build
 import com.mw.beam.beamwallet.screens.wallet.NavItem
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 
 /**
  *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
 
-    enum class Mode {
-        All, General, Node, Privacy, Utilities, Tags, Rate, Report, RemoveWallet, Logs, Allow, Lock, ClearLocal, Language,
-        ConnectNode, AskPassword, FingerPrint, OwnerKey, SeedPhrase, ChangePassword, Faucet, Proof, Verification, Export, Import, CreateTag, ShowTag, DarkMode
-    }
 
-    data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode:Mode, val switch:Boolean? = null, val spannable:Spannable? = null)
+
+    data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null)
 
     var items = mutableListOf<Array<SettingsItem>>()
 
-    override fun mode(): Mode {
+    override fun mode(): SettingsFragmentMode {
         return SettingsFragmentArgs.fromBundle(arguments!!).mode
     }
 
@@ -104,12 +98,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun getToolbarTitle(): String? {
         return when {
-            mode() == Mode.All -> getString(R.string.settings)
-            mode() == Mode.General -> getString(R.string.settings_general_settings)
-            mode() == Mode.Node -> getString(R.string.node)
-            mode() == Mode.Privacy -> getString(R.string.privacy)
-            mode() == Mode.Utilities -> getString(R.string.utilities)
-            mode() == Mode.Tags -> getString(R.string.tags)
+            mode() == SettingsFragmentMode.All -> getString(R.string.settings)
+            mode() == SettingsFragmentMode.General -> getString(R.string.settings_general_settings)
+            mode() == SettingsFragmentMode.Node -> getString(R.string.node)
+            mode() == SettingsFragmentMode.Privacy -> getString(R.string.privacy)
+            mode() == SettingsFragmentMode.Utilities -> getString(R.string.utilities)
+            mode() == SettingsFragmentMode.Tags -> getString(R.string.tags)
             else -> ""
         }
     }
@@ -118,7 +112,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if(mode() == Mode.All) {
+            if(mode() == SettingsFragmentMode.All) {
                 (activity as? AppActivity)?.openMenu()
             }
             else{
@@ -133,65 +127,65 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         items.clear()
 
         when {
-            mode() == Mode.All -> {
+            mode() == SettingsFragmentMode.All -> {
 
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, Mode.General))
-                s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, Mode.Node))
-                s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, Mode.Privacy))
-                s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, Mode.Utilities))
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, SettingsFragmentMode.General))
+                s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, SettingsFragmentMode.Node))
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, SettingsFragmentMode.Privacy))
+                s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, SettingsFragmentMode.Utilities))
 
                 var s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, Mode.Tags))
+                s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, SettingsFragmentMode.Tags))
 
                 var s3 = mutableListOf<SettingsItem>()
-                s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, Mode.Rate))
-                s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, Mode.Report))
+                s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, SettingsFragmentMode.Rate))
+                s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, SettingsFragmentMode.Report))
 
                 var s4 = mutableListOf<SettingsItem>()
-                s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, Mode.RemoveWallet))
+                s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
 
                 items.add(s1.toTypedArray())
                 items.add(s2.toTypedArray())
                 items.add(s3.toTypedArray())
                 items.add(s4.toTypedArray())
             }
-            mode()==Mode.General -> {
+            mode()== SettingsFragmentMode.General -> {
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, Mode.Allow, switch = true))
-                s1.add(SettingsItem(null, getString(R.string.lock_screen),null, Mode.Lock))
-                s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, Mode.Logs))
-                s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, Mode.ClearLocal))
+                s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
+                s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
+                s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 var s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(null, getString(R.string.language),null, Mode.Language))
-                s2.add(SettingsItem(null, getString(R.string.dark_mode),null, Mode.DarkMode, switch = App.isDarkMode))
+                s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
+                s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
                 items.add(s2.toTypedArray())
             }
-            mode() == Mode.Node -> {
+            mode() == SettingsFragmentMode.Node -> {
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, Mode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
+                s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, SettingsFragmentMode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
                 items.add(s1.toTypedArray())
             }
-            mode() == Mode.Privacy -> {
+            mode() == SettingsFragmentMode.Privacy -> {
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, Mode.AskPassword, switch = true))
-                s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, Mode.FingerPrint, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, SettingsFragmentMode.AskPassword, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, SettingsFragmentMode.FingerPrint, switch = true))
                 if (OnboardManager.instance.isSkipedSeed()) {
-                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, Mode.Verification))
+                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, SettingsFragmentMode.Verification))
                 }
-                s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, Mode.OwnerKey))
-                s1.add(SettingsItem(null, getString(R.string.change_password),null, Mode.ChangePassword))
+                s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, SettingsFragmentMode.OwnerKey))
+                s1.add(SettingsItem(null, getString(R.string.change_password),null, SettingsFragmentMode.ChangePassword))
                 items.add(s1.toTypedArray())
             }
-            mode() == Mode.Utilities -> {
+            mode() == SettingsFragmentMode.Utilities -> {
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, Mode.Faucet))
-                s1.add(SettingsItem(null, getString(R.string.payment_proof),null, Mode.Proof))
-                s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, Mode.Export))
-                s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, Mode.Import))
+                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+                s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
+                s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
+                s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
 
                 items.add(s1.toTypedArray())
             }
@@ -200,7 +194,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         addItems()
 
-        if(mode() == Mode.All) {
+        if(mode() == SettingsFragmentMode.All) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
 
             (activity as? AppActivity)?.enableLeftMenu(true)
@@ -252,82 +246,82 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         it.parent as SettingsItemView
                     }
 
-                    if (item.mode == Mode.General || item.mode == Mode.Node || item.mode == Mode.Privacy
-                            || item.mode == Mode.Utilities || item.mode == Mode.Tags) {
+                    if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Node || item.mode == SettingsFragmentMode.Privacy
+                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags) {
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     }
-                    else if (item.mode == Mode.Lock) {
+                    else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
                     }
-                    else if (item.mode == Mode.Logs) {
+                    else if (item.mode == SettingsFragmentMode.Logs) {
                         presenter?.onLogsPressed()
                     }
-                    else if (item.mode == Mode.ClearLocal) {
+                    else if (item.mode == SettingsFragmentMode.ClearLocal) {
                         presenter?.onClearDataPressed()
                     }
-                    else if (item.mode == Mode.Language) {
+                    else if (item.mode == SettingsFragmentMode.Language) {
                         presenter?.onLanguagePressed()
                     }
-                    else if (item.mode == Mode.Allow) {
+                    else if (item.mode == SettingsFragmentMode.Allow) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeAllowOpenExternalLink(allow)
                     }
-                    else if (item.mode == Mode.Rate) {
+                    else if (item.mode == SettingsFragmentMode.Rate) {
                         try {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.activity?.packageName)))
                         }catch (exp:Exception){
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)))
                         }
                     }
-                    else if(item.mode == Mode.Report) {
+                    else if(item.mode == SettingsFragmentMode.Report) {
                         presenter?.onReportProblem()
                     }
-                    else if(item.mode == Mode.RemoveWallet) {
+                    else if(item.mode == SettingsFragmentMode.RemoveWallet) {
                         presenter?.onRemoveWalletPressed()
                     }
-                    else if(item.mode == Mode.ConnectNode) {
+                    else if(item.mode == SettingsFragmentMode.ConnectNode) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeRunOnRandomNode(allow)
                     }
-                    else if(item.mode == Mode.AskPassword) {
+                    else if(item.mode == SettingsFragmentMode.AskPassword) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeConfirmTransactionSettings(allow)
                     }
-                    else if(item.mode == Mode.FingerPrint) {
+                    else if(item.mode == SettingsFragmentMode.FingerPrint) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeFingerprintSettings(allow)
                     }
-                    else if(item.mode == Mode.OwnerKey) {
+                    else if(item.mode == SettingsFragmentMode.OwnerKey) {
                         presenter?.onShowOwnerKey()
                     }
-                    else if(item.mode == Mode.SeedPhrase) {
+                    else if(item.mode == SettingsFragmentMode.SeedPhrase) {
                         presenter?.onSeedPressed()
                     }
-                    else if(item.mode == Mode.ChangePassword) {
+                    else if(item.mode == SettingsFragmentMode.ChangePassword) {
                         presenter?.onChangePass()
                     }
-                    else if(item.mode == Mode.Faucet) {
+                    else if(item.mode == SettingsFragmentMode.Faucet) {
                         presenter?.onReceiveFaucet()
                     }
-                    else if(item.mode == Mode.Proof) {
+                    else if(item.mode == SettingsFragmentMode.Proof) {
                         presenter?.onProofPressed()
                     }
-                    else if(item.mode == Mode.Verification) {
+                    else if(item.mode == SettingsFragmentMode.Verification) {
                         presenter?.onSeedVerificationPressed()
                     }
-                    else if(item.mode == Mode.Export) {
+                    else if(item.mode == SettingsFragmentMode.Export) {
                         presenter?.onExportPressed()
                     }
-                    else if(item.mode == Mode.Import) {
+                    else if(item.mode == SettingsFragmentMode.Import) {
                         presenter?.omImportPressed()
                     }
-                    else if(item.mode == Mode.CreateTag) {
+                    else if(item.mode == SettingsFragmentMode.CreateTag) {
                         presenter?.onAddCategoryPressed()
                     }
-                    else if(item.mode == Mode.ShowTag) {
+                    else if(item.mode == SettingsFragmentMode.ShowTag) {
                         presenter?.onCategoryPressed(item.spannable.toString())
                     }
-                    else if (item.mode == Mode.DarkMode) {
+                    else if (item.mode == SettingsFragmentMode.DarkMode) {
                         val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         App.isDarkMode = isDark
                         PreferencesManager.putBoolean(PreferencesManager.DARK_MODE,isDark)
@@ -341,17 +335,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     }
                 }
 
-                if(mode() == Mode.Node) {
+                if(mode() == SettingsFragmentMode.Node) {
                     item.cardItem.setOnClickListener {
                         presenter?.onNodeAddressPressed()
                     }
                 }
 
-                if(item.mode  == Mode.FingerPrint) {
+                if(item.mode  == SettingsFragmentMode.FingerPrint) {
                     item.visibility = View.GONE
                 }
 
-                if(item.mode == Mode.CreateTag) {
+                if(item.mode == SettingsFragmentMode.CreateTag) {
                     item.setPadding(0,12,0,12)
                 }
                 else if(subItems.count() == 1 && item.iconResId != null) {
@@ -364,9 +358,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 section.addView(item)
             }
 
-            if(subItems.last().icon == null) {
-                section.setPadding(0,12,0,12)
+            if(subItems.count() > 0)
+            {
+                if(subItems.last().icon == null) {
+                    section.setPadding(0,12,0,12)
+                }
             }
+
             mainLayout.addView(section,0)
         }
     }
@@ -375,7 +373,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.ConnectNode) {
+                if (item.mode == SettingsFragmentMode.ConnectNode) {
                     item.switch = runOnRandomNode
                     item.spannable = createNodeSpannableString()
                 }
@@ -406,7 +404,7 @@ else{
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.Logs) {
+                if (item.mode == SettingsFragmentMode.Logs) {
                     item.detail = when (days) {
                         0L ->  getString(R.string.all_time)
                         5L ->  getString(R.string.last_5_days)
@@ -423,7 +421,7 @@ else{
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.Allow) {
+                if (item.mode == SettingsFragmentMode.Allow) {
                     item.switch = allowOpen
                 }
             }
@@ -435,7 +433,7 @@ else{
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
                 item.visibility = View.VISIBLE
-                if (item.mode == Mode.FingerPrint) {
+                if (item.mode == SettingsFragmentMode.FingerPrint) {
                     item.switch = isFingerprintEnabled
                 }
             }
@@ -455,11 +453,11 @@ else{
     }
 
     override fun navigateToSeed() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.DisplaySeed))
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.DisplaySeed))
     }
 
     override fun navigateToSeedVerification() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.VerificationSeed))
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.VerificationSeed))
     }
 
     override fun navigateToPaymentProof() {
@@ -493,13 +491,22 @@ else{
                 ?: return false)
     }
 
+    private fun isEnableFaceID(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED) &&
+                FaceIDManager.isManagerAvailable()
+    }
+
     override fun navigateToOwnerKeyVerification() {
-        val message = if (isEnableFingerprint()) getString(R.string.owner_key_verification_pass_finger) else getString(R.string.owner_key_verification_pass)
+        val message = when {
+            isEnableFaceID() -> getString(R.string.owner_key_verification_pass_face)
+            isEnableFingerprint() -> getString(R.string.owner_key_verification_pass_finger)
+            else -> getString(R.string.owner_key_verification_pass)
+        }
 
         showAlert(message = message,
                 btnConfirmText = getString(R.string.ok),
                 onConfirm = {
-                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.OwnerKey))
+                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.OwnerKey))
                 },
                 title = getString(R.string.owner_key),
                 btnCancelText = null,
@@ -513,11 +520,11 @@ else{
         var s1 = mutableListOf<SettingsItem>()
 
         for (tag in allTag){
-            s1.add(SettingsItem(null, "",null, Mode.ShowTag, switch = null, spannable = tag.spannableName(context!!)))
+            s1.add(SettingsItem(null, "",null, SettingsFragmentMode.ShowTag, switch = null, spannable = tag.spannableName(context!!)))
         }
 
         var s2 = mutableListOf<SettingsItem>()
-        s2.add(SettingsItem(null, getString(R.string.create_tag),null, Mode.CreateTag))
+        s2.add(SettingsItem(null, getString(R.string.create_tag),null, SettingsFragmentMode.CreateTag))
 
         items.add(s1.toTypedArray())
         items.add(s2.toTypedArray())
@@ -529,7 +536,7 @@ else{
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.Language) {
+                if (item.mode == SettingsFragmentMode.Language) {
                     item.detail = language.nativeName
                 }
             }
@@ -877,7 +884,7 @@ else{
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.Lock) {
+                if (item.mode == SettingsFragmentMode.Lock) {
                     item.detail = getLockScreenStringValue(millis)
                 }
             }
@@ -888,7 +895,7 @@ else{
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
-                if (item.mode == Mode.AskPassword) {
+                if (item.mode == SettingsFragmentMode.AskPassword) {
                     item.switch = isConfirm
                 }
             }
@@ -896,7 +903,7 @@ else{
     }
 
     override fun exportSave(content: String) {
-        val fileName = "wallet_data_" + System.currentTimeMillis() + ".json"
+        val fileName = "wallet_data_" + System.currentTimeMillis() + ".dat"
 
         Dexter.withActivity(activity)
                 .withPermission(
@@ -946,7 +953,7 @@ else{
 
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            type = "text/json"
+            type = "text/dat"
             putExtra(Intent.EXTRA_STREAM, uri)
         }
 

@@ -41,7 +41,7 @@ import android.widget.PopupMenu
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
-import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragment
+import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone
@@ -402,7 +402,7 @@ else{
     }
 
     override fun showSeedScreen() {
-        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragment.Mode.VerificationSeed))
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.VerificationSeed))
     }
 
     override fun clearListeners() {

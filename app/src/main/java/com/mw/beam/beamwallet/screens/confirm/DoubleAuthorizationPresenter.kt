@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.confirm
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.FaceIDManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
@@ -25,7 +26,7 @@ class DoubleAuthorizationPresenter(view: DoubleAuthorizationContract.View?, repo
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(isEnableFingerprint())
+        view?.init(isEnableFingerprint() || isEnableFaceID())
     }
 
     override fun onFingerprintSuccess() {
@@ -59,6 +60,11 @@ class DoubleAuthorizationPresenter(view: DoubleAuthorizationContract.View?, repo
     fun isEnableFingerprint(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
                 && FingerprintManager.isManagerAvailable()
+    }
+
+    fun isEnableFaceID(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+                && FaceIDManager.isManagerAvailable()
     }
 
     override fun onChangePassword() {

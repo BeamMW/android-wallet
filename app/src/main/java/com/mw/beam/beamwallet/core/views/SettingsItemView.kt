@@ -23,11 +23,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
+import com.mw.beam.beamwallet.screens.settings.SettingsFragmentMode
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
-
-import com.mw.beam.beamwallet.screens.settings.SettingsFragment
 
 import kotlinx.android.synthetic.main.item_settings.view.*
 
@@ -114,7 +113,7 @@ class SettingsItemView: FrameLayout {
             }
         }
 
-    var mode:SettingsFragment.Mode = SettingsFragment.Mode.RemoveWallet
+    var mode = SettingsFragmentMode.RemoveWallet
 
     override fun setOnClickListener(l: OnClickListener?) {
         if (switch==null) {

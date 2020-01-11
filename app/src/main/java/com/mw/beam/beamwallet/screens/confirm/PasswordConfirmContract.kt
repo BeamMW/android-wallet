@@ -23,10 +23,12 @@ interface PasswordConfirmContract {
         fun onErrorFingerprint()
         fun onPasswordChanged()
         fun onOkPressed(password: String)
+
     }
 
     interface Repository: MvpRepository {
         fun isFingerPrintEnabled(): Boolean
+        fun isFaceIDEnabled(): Boolean
         fun checkPassword(password: String): Boolean
     }
 }

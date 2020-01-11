@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.confirm
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.helpers.FaceIDManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 
@@ -33,6 +34,11 @@ class DoubleAuthorizationRepository: BaseRepository(), DoubleAuthorizationContra
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
                 && FingerprintManager.isManagerAvailable()
 
+    }
+
+    override fun isFaceIDEnabled(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED)
+                && FaceIDManager.isManagerAvailable()
     }
 
 }

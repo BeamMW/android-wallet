@@ -512,9 +512,40 @@ class AppManager {
                 subOnUtxosChanged.onNext(0)
             }
 
-            WalletListener.obsOnAddresses.subscribe{
-              //  wallet?.getAddresses(true)
-               // wallet?.getAddresses(false)
+            WalletListener.subOnAddressesChanged.subscribe{ items ->
+                if (items.action == ChangeAction.REMOVED && items.addresses != null) {
+                    deleteAddresses(items.addresses)
+                }
+                else if (items.action == ChangeAction.ADDED && items.addresses != null)
+                    items.addresses.forEach {
+                    if (it.isContact) {
+                        contacts.add(it)
+                    } else{
+                        addresses.add(it)
+                    }
+                }
+                else if (items.action == ChangeAction.RESET && items.addresses != null) {
+                    wallet?.getAddresses(true)
+                    wallet?.getAddresses(false)
+                }
+                else if (items.action == ChangeAction.UPDATED && items.addresses != null) {
+                    items.addresses.forEach { item ->
+                        val index1 = contacts.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index1 != -1) {
+                            contacts[index1] = item
+                        }
+
+                        val index2 = addresses.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index2 != -1) {
+                            addresses[index2] = item
+                        }
+                    }
+                }
+
             }
 
             WalletListener.subOnStatus.subscribe(){

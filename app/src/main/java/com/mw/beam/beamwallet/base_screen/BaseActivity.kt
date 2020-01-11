@@ -30,14 +30,12 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.NetworkStatus
-import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import java.util.*
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment
+import android.content.res.Configuration
+import com.mw.beam.beamwallet.core.helpers.*
 
 /**
  *  10/1/18.
@@ -212,6 +210,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.ContextWrapper.wrap(newBase))
 
+        androidx.multidex.MultiDex.install(this);
+
         val config = resources.configuration
 
         var locale: Locale = Locale(LocaleHelper.getCurrentLanguage().languageCode)
@@ -224,6 +224,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
 
         resources.updateConfiguration(config, resources.displayMetrics)
+
+
     }
 
     fun showLockScreen() {

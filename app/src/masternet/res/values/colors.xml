@@ -9,4 +9,5 @@
     <color name="wallet_adapter_multiply_color">#242424</color>
     <color name="addresses_status_bar_color">#2e2e2e</color>
     <color name="search_toolbar_color">#0f0f0f</color>
+    <color name="addresses_status_bar_color_black">#393939</color>
 </resources>

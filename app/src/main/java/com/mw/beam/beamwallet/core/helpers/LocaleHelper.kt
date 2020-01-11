@@ -83,7 +83,7 @@ object LocaleHelper {
 
             conf?.setLocale(AppConfig.LOCALE)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                conf?.locales = LocaleList(AppConfig.LOCALE).apply { LocaleList.setDefault(this) }
+                conf?.setLocales(LocaleList(AppConfig.LOCALE).apply { LocaleList.setDefault(this) })
             }
 
             Locale.setDefault(AppConfig.LOCALE)

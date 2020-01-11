@@ -50,5 +50,6 @@ interface DoubleAuthorizationContract {
     interface Repository: MvpRepository {
         fun checkPassword(pass: String): Boolean
         fun isEnableFingerprint(): Boolean
+        fun isFaceIDEnabled(): Boolean
     }
 }

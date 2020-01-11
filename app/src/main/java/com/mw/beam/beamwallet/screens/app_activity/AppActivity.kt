@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -50,6 +51,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
 import android.net.Uri
+import android.view.View
 import com.mw.beam.beamwallet.core.AppManager
 import com.elvishew.xlog.XLog.json
 import com.google.gson.JsonElement
@@ -103,38 +105,57 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setDefaultTheme()
         App.isAppRunning = true
-
         App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
         changeTheme()
-
 
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
 
         checkShortCut()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        setDefaultTheme()
         App.isAppRunning = true
-
         App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
         changeTheme()
 
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-       // setupCrashHandler()
+        setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
 
         checkShortCut()
+
+    }
+
+    private fun setDefaultTheme()
+    {
+        val isDarkModeSet = PreferencesManager.getBoolean(PreferencesManager.DARK_MODE_DEFAULT,false)
+        if (!isDarkModeSet) {
+            val config = resources.configuration
+            when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO -> {
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE_DEFAULT, true)
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, false)
+                }
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE_DEFAULT, true)
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, true)
+                }
+            }
+        }
     }
 
     fun changeTheme()
@@ -269,16 +290,23 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private fun readText(uri: Uri): String? {
         val name = uri.lastPathSegment
-        val extension = name?.substring(name?.lastIndexOf("."))
-        if (extension!=".json") {
-            return null
+        if(name != null) {
+            if(!name.contains(".")) {
+                return null
+            }
+            val extension = name?.substring(name?.lastIndexOf("."))
+            if (extension!=".dat") {
+                return null
+            }
+            val inputStream = contentResolver.openInputStream(uri)
+            val json = inputStream?.bufferedReader().use { it?.readText() }
+
+            Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+
+            return json
         }
-        val inputStream = contentResolver.openInputStream(uri)
-        val json = inputStream?.bufferedReader().use { it?.readText() }
 
-        Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
-
-        return json
+        return null
     }
 
     private fun setupMenu(savedInstanceState: Bundle?)

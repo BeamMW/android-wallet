@@ -116,7 +116,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun getDataFile(content:String): File {
-        val file = File(AppConfig.TRANSACTIONS_PATH, "wallet_data_" + System.currentTimeMillis() + ".json")
+        val file = File(AppConfig.TRANSACTIONS_PATH, "wallet_data_" + System.currentTimeMillis() + ".dat")
 
         if (!file.parentFile.exists()) {
             file.parentFile.mkdir()

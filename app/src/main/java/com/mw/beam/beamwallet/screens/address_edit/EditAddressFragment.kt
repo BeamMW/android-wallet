@@ -125,8 +125,8 @@ else{
             expireLabel.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
         }
 
-        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context, android.R.layout.simple_spinner_item,strings) {
+        val strings = context!!.resources.getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context!!, android.R.layout.simple_spinner_item,strings) {
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
 
                 val view = View.inflate(context,android.R.layout.simple_spinner_item,null)

@@ -176,7 +176,7 @@ class ScreenDelegate {
 
     fun copyToClipboard(context: Context, message: String?, tag: String?) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(tag, message)
+        clipboard?.setPrimaryClip(ClipData.newPlainText(tag, message))
     }
 
     fun dismissAlert() {

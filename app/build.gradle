@@ -30,14 +30,20 @@ android {
 android {
     signingConfigs {
 
+    release {
+        storeFile file('/Users/Denis/Documents/Projects/Android/android_wallet/app/keystore.jks')
+        storePassword 'nEzGxNiV8Tht'
+        keyPassword 'GgtkjXDIxV21'
+        keyAlias = 'beamwallet'
     }
-    compileSdkVersion 28
+    }
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 197
-        versionName "4.0.3"
+        targetSdkVersion 29
+        versionCode 199
+        versionName "4.0.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -46,6 +52,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     androidExtensions {
@@ -218,6 +225,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
     implementation 'com.karumi:dexter:6.0.0'
     implementation "androidx.tonyodev.fetch2:xfetch2:3.1.4"
+    implementation 'androidx.biometric:biometric:1.0.1'
+    implementation 'com.android.support:multidex:1.0.0'
 
     implementation "com.mikepenz:materialdrawer:7.0.0-rc07"
     implementation "com.android.support:support-annotations:28.0.0"

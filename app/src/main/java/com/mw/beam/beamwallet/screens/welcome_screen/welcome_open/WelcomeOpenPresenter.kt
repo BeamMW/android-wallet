@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentRepository: WelcomeOpenContract.Repository)
     : BasePresenter<WelcomeOpenContract.View, WelcomeOpenContract.Repository>(currentView, currentRepository),
         WelcomeOpenContract.Presenter {
+
     private val VIBRATION_LENGTH: Long = 100
     private var isOpenedWallet = false
     private var isRestore = false
@@ -51,7 +52,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         }
 
 
-        view?.init(repository.isFingerPrintEnabled())
+        view?.init(repository.isFingerPrintEnabled() || repository.isFaceIDEnabled())
 
         isRestore = false
     }
@@ -105,13 +106,13 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         view?.changeWallet()
     }
 
-    override fun onFingerprintError() {
+    override fun onBiometricError() {
         if (!isOpenedWallet && !isRestore) {
-            view?.showFingerprintAuthError()
+            view?.showBiometricAuthError()
         }
     }
 
-    override fun onFingerprintSucceeded() {
+    override fun onBiometricSucceeded() {
         if (LockScreenManager.isShowedLockScreen) {
             if (repository.checkPass(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))) {
                 view?.openWallet(view?.getPass() ?: return)
@@ -125,7 +126,7 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
         }
     }
 
-    override fun onFingerprintFailed() {
+    override fun onBiometricFailed() {
         view?.vibrate(VIBRATION_LENGTH)
     }
 

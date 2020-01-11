@@ -141,7 +141,7 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
     override fun copyToClipboard(content: String?, tag: String) {
         context?.let {
             val clipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            clipboard.primaryClip = ClipData.newPlainText(tag, content)
+            clipboard?.setPrimaryClip(ClipData.newPlainText(tag, content))
         }
     }
 

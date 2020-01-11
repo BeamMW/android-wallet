@@ -10,7 +10,7 @@ class PasswordConfirmPresenter(view: PasswordConfirmContract.View?, repository: 
 
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(repository.isFingerPrintEnabled())
+        view?.init(repository.isFingerPrintEnabled() || repository.isFaceIDEnabled())
     }
 
     override fun onCancel() {

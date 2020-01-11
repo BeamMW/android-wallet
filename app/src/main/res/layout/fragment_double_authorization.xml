@@ -140,15 +140,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.mw.beam.beamwallet.core.views.TouchIDView
-            android:id="@+id/touchIDView"
+        <com.mw.beam.beamwallet.core.views.BiometricView
+            android:id="@+id/biometricView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
-        </com.mw.beam.beamwallet.core.views.TouchIDView>
+        </com.mw.beam.beamwallet.core.views.BiometricView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

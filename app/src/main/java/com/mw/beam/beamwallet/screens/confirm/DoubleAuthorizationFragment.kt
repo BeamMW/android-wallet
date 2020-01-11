@@ -34,17 +34,13 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import kotlinx.android.synthetic.main.fragment_double_authorization.*
 import kotlinx.android.synthetic.main.fragment_double_authorization.pass
 import kotlinx.android.synthetic.main.fragment_double_authorization.passError
+import com.mw.beam.beamwallet.core.views.Status
 import com.mw.beam.beamwallet.core.views.Type
-import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentArgs
-import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentDirections
 
 class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(), DoubleAuthorizationContract.View {
 
-    enum class Mode {
-        OwnerKey, DisplaySeed, VerificationSeed
-    }
 
-    private fun type(): Mode {
+    private fun type(): DoubleAuthorizationFragmentMode {
         return DoubleAuthorizationFragmentArgs.fromBundle(arguments!!).type
     }
 
@@ -61,8 +57,8 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
 
     override fun getToolbarTitle(): String? {
         return when {
-            type() == Mode.OwnerKey -> getString(R.string.show_owner_key)
-            type() == Mode.DisplaySeed -> getString(R.string.show_seed_phrase)
+            type() == DoubleAuthorizationFragmentMode.OwnerKey -> getString(R.string.show_owner_key)
+            type() == DoubleAuthorizationFragmentMode.DisplaySeed -> getString(R.string.show_seed_phrase)
             else -> getString(R.string.complete_verification)
         }
     }
@@ -74,25 +70,61 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
 
         if (isEnableFingerprint)
         {
-            cancellationSignal = CancellationSignal()
-            authCallback = FingerprintCallback(presenter, cancellationSignal)
+            if(presenter?.isEnableFaceID() == true)
+            {
+                biometricView.setBiometricType(Type.FACE)
+                textView.text = getString(R.string.use_faceid)
+            }
+            else if(presenter?.isEnableFingerprint() == true) {
+                biometricView.setBiometricType(Type.FINGER)
 
-            FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                    authCallback!!, null)
+                cancellationSignal = CancellationSignal()
+                authCallback = FingerprintCallback(presenter, cancellationSignal)
+
+                FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                        authCallback!!, null)
+            }
         }
     }
 
     override fun onStart() {
         super.onStart()
 
-        displayFingerPrint((presenter?.isEnableFingerprint() == true))
+        displayFingerPrint((presenter?.isEnableFingerprint() == true) || presenter?.isEnableFaceID() == true)
 
-        if ((presenter?.isEnableFingerprint() == false))
+        if(presenter?.isEnableFaceID() == true)
+        {
+            displayFaceIDPrompt()
+        }
+        else if ((presenter?.isEnableFingerprint() == false))
         {
             Handler().postDelayed({
                 pass.requestFocus()
                 showKeyboard()
             }, 100)
+        }
+    }
+
+    private fun displayFaceIDPrompt() {
+        biometricView.visibility = View.GONE
+        textView.visibility = View.GONE
+
+        App.self.showFaceIdPrompt(this,getString(R.string.use_faceid_access_wallet).replace(".",""), getString(R.string.cancel)) {
+            when (it) {
+                Status.SUCCESS -> {
+                    success()
+                    presenter?.onSuccess()
+                }
+                Status.CANCEL -> {
+                    findNavController().popBackStack()
+                }
+                Status.ERROR -> {
+                    findNavController().popBackStack()
+                }
+                Status.FAILED -> {
+                    findNavController().popBackStack()
+                }
+            }
         }
     }
 
@@ -134,13 +166,13 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
 
     override fun navigateToNextScreen() {
 
-        if(type() == Mode.OwnerKey) {
+        if(type() == DoubleAuthorizationFragmentMode.OwnerKey) {
             findNavController().navigate(DoubleAuthorizationFragmentDirections.actionOwnerKeyVerificationFragmentToOwnerKeyFragment())
         }
-        else if (type() == Mode.DisplaySeed){
+        else if (type() == DoubleAuthorizationFragmentMode.DisplaySeed){
             findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(true))
         }
-        else if (type() == Mode.VerificationSeed){
+        else if (type() == DoubleAuthorizationFragmentMode.VerificationSeed){
             findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(false))
         }
     }
@@ -157,11 +189,11 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
     }
 
     override fun showFailed() {
-        touchIDView.setType(Type.FAILED)
+        biometricView.setStatus(Status.FAILED)
     }
 
     override fun success() {
-        touchIDView.setType(Type.SUCCESS)
+        biometricView.setStatus(Status.SUCCESS)
 
         DelayedTask.startNew(1, {
             presenter?.onFingerprintSuccess()
@@ -174,10 +206,15 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
     }
 
     override fun error() {
-        if (touchIDView!=null) {
-            touchIDView.setType(Type.ERROR)
-
-            showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
+        if (biometricView!=null) {
+            biometricView.setStatus(Status.ERROR)
+            if(presenter?.repository?.isFaceIDEnabled() == true)
+            {
+                showToast(getString(R.string.owner_key_verification_faceid_error),1000)
+            }
+            else{
+                showToast(getString(R.string.owner_key_verification_fingerprint_error),1000)
+            }
         }
     }
 

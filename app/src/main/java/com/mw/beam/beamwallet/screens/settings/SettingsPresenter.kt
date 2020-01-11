@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.disposables.Disposable
 import java.net.URI
@@ -52,16 +51,16 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onViewCreated() {
         super.onViewCreated()
 
-        if (view?.mode() == SettingsFragment.Mode.General) {
+        if (view?.mode() == SettingsFragmentMode.General) {
             view?.updateLockScreenValue(repository.getLockScreenValue())
             view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
             view?.setLogSettings(repository.getLogSettings())
             view?.setLanguage(repository.getCurrentLanguage())
         }
-        else if (view?.mode() == SettingsFragment.Mode.Node) {
+        else if (view?.mode() == SettingsFragmentMode.Node) {
             view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
         }
-        else if (view?.mode() == SettingsFragment.Mode.Privacy) {
+        else if (view?.mode() == SettingsFragmentMode.Privacy) {
             updateFingerprintValue()
             updateConfirmTransactionValue()
         }
@@ -72,9 +71,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
             val link =  when (BuildConfig.FLAVOR) {
-                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet"
-                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet"
-                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet"
+                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=https://www.bmmobilemainnet.com"
+                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=https://www.bmmobiletestnet.com"
+                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=https://www.bmmobilemasternet.com"
             }
 
             view?.onFaucetAddressGenerated(link)
@@ -112,7 +111,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onStart() {
         super.onStart()
 
-        if (view?.mode() == SettingsFragment.Mode.Tags) {
+        if (view?.mode() == SettingsFragmentMode.Tags) {
             view?.updateCategoryList(repository.getAllCategory())
         }
     }
@@ -137,11 +136,11 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     private fun updateFingerprintValue() {
-        if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
-                        ?: return)) {
-            view?.showFingerprintSettings(repository.isFingerPrintEnabled())
-        } else {
-            repository.saveEnableFingerprintSettings(false)
+        when {
+            FaceIDManager.isManagerAvailable() -> view?.showFingerprintSettings(repository.isFingerPrintEnabled())
+            FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
+                    ?: return) -> view?.showFingerprintSettings(repository.isFingerPrintEnabled())
+            else -> repository.saveEnableFingerprintSettings(false)
         }
     }
 

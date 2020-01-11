@@ -42,6 +42,7 @@
         <item name="sentColorPicked">@color/sent_color_picked_dark</item>
         <item name="cardBackground">@color/cardDarkColor</item>
         <item name="initialBackground">@drawable/initial_background_black</item>
+        <item name="addressStatusBarColor">@color/addresses_status_bar_color_black</item>
     </style>
 
     <!-- Base application theme -->
@@ -70,7 +71,7 @@
         <item name="sentColorPicked">@color/sent_color_picked</item>
         <item name="cardBackground">@color/colorPrimary</item>
         <item name="initialBackground">@drawable/initial_background</item>
-
+        <item name="addressStatusBarColor">@color/addresses_status_bar_color</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">

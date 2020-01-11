@@ -91,8 +91,8 @@
             app:layout_constraintTop_toBottomOf="@id/passError"
             app:lower_case="true" />
 
-        <com.mw.beam.beamwallet.core.views.TouchIDView
-            android:id="@+id/touchIDView"
+        <com.mw.beam.beamwallet.core.views.BiometricView
+            android:id="@+id/biometricView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -101,7 +101,7 @@
             app:layout_constraintTop_toBottomOf="@id/btnOpen"
             app:layout_constraintVertical_chainStyle="spread">
 
-        </com.mw.beam.beamwallet.core.views.TouchIDView>
+        </com.mw.beam.beamwallet.core.views.BiometricView>
 
 
         <LinearLayout
@@ -112,7 +112,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/touchIDView"
+            app:layout_constraintTop_toBottomOf="@id/biometricView"
             app:layout_constraintVertical_bias="1"
             app:layout_constraintWidth_max="wrap"
             app:layout_goneMarginTop="@dimen/welcome_button_margin_offset">
