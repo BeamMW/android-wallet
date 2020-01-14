@@ -142,6 +142,8 @@ else{
 
                                 pageAdapter?.reloadData(mode)
 
+                                presenter?.isAllSelected = selectedTransactions.count() == presenter?.getTransactions()?.count()
+
                                 onSelectedTransactionsChanged()
                             }
                         }
@@ -158,6 +160,8 @@ else{
                     } else {
                         selectedTransactions.add(it.id)
                     }
+
+                    presenter?.isAllSelected = selectedTransactions.count() == presenter?.getTransactions()?.count()
 
                     onSelectedTransactionsChanged()
                 }

@@ -106,6 +106,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                                 selectedAddresses.add(item.walletID)
                             }
 
+                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.addresses?.count()
+
                             onSelectedAddressesChanged()
                         }
                     }
@@ -121,6 +123,8 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                             pagerAdapter.changeSelectedItems(selectedAddresses, true, item.walletID)
 
                             pagerAdapter.reloadData(mode)
+
+                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.addresses?.count()
 
                             onSelectedAddressesChanged()
                         }

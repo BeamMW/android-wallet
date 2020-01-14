@@ -58,7 +58,7 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
 //        }
 //    }
 
-    private fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
+    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)

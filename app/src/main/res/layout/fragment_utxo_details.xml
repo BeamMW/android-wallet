@@ -97,12 +97,14 @@
                     <TextView
                         android:id="@+id/statusLabel"
                         style="@style/common_text_big_light"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/roboto_italic"
                         android:gravity="center"
                         android:textSize="16sp"
+
                         tools:text="@string/available" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

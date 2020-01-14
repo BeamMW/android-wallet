@@ -546,6 +546,10 @@ address or contact</string>
     <string name="enable_touch_id_text">Would you like to use Touch ID for login to your wallet?\n\nAfter login Touch ID can be enabled or disabled at any time in the settings menu</string>
     <string name="enable">Enable</string>
     <string name="dont_use">Don\'t use</string>
+    <string name="since">Since</string>
+    <string name="block_height">Block height</string>
+
+
 
 
 </resources>

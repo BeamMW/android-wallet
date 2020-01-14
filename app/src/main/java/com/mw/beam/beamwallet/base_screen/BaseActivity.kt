@@ -312,6 +312,13 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         toolbarLayout.progressBar.visibility = View.INVISIBLE
         toolbarLayout.statusIcon.visibility = View.VISIBLE
 
+        if(App.isDarkMode) {
+            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color_dark))
+        }
+        else{
+            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color))
+        }
+
         if (isOnline) {
             toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
             toolbarLayout.status.text = getString(R.string.online).toLowerCase()

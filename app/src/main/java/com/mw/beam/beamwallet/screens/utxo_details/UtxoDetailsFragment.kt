@@ -62,6 +62,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
     override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(arguments!!).utxo
 
+
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
 
@@ -78,7 +79,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         amountLabel.text = utxo.amount.convertToBeamString()
 
-        statusLabel.text = when (utxo.status) {
+        val status = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
             UtxoStatus.Change -> getString(R.string.change_utxo_type)
             UtxoStatus.Outgoing -> getString(R.string.outgoing)
@@ -88,15 +89,44 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }
 
+        val receivedColor = ContextCompat.getColor(context!!, R.color.received_color)
+        val sentColor = ContextCompat.getColor(context!!, R.color.sent_color)
+        val commonStatusColor = ContextCompat.getColor(context!!, R.color.common_text_color)
+
         if (utxo.status == UtxoStatus.Maturing) {
             val available = getString(R.string.maturing)
-            val till = "(" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
+            val till = " (" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
             val string = available + till
 
             val spannable = SpannableStringBuilder.valueOf(string)
-            spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.btn_drop_down_color, context?.theme)),
-                    available.length,string.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                    0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             statusLabel.text = spannable
+        }
+        else if(utxo.confirmHeight > 0) {
+            val till = " (" + getString(R.string.since).toLowerCase() + " " + utxo.confirmHeight + " " + getString(R.string.block_height).toLowerCase() + ")"
+            val string = status + till
+
+            val spannable = SpannableStringBuilder.valueOf(string)
+
+            when (utxo.status) {
+                UtxoStatus.Incoming ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.received_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            }
+
+            statusLabel.text = spannable
+        }
+        else{
+            statusLabel.text = status
+            statusLabel.setTextColor(when (utxo.status) {
+                UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
+            })
         }
 
             typeLabel.text = when (utxo.keyType) {

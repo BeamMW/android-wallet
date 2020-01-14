@@ -113,16 +113,16 @@ object TagHelper {
         val comparator = object : Comparator<Tag> {
             override
             fun compare(object1: Tag, object2: Tag): Int {
-                var m = pattern.matcher(object1.name)
+                var m = pattern.matcher(object1.name.toLowerCase())
                 var number1: Int?
                 if (!m.find()) {
-                    return object1.name.compareTo(object2.name)
+                    return object1.name.toLowerCase().compareTo(object2.name.toLowerCase())
                 } else {
                     var number2: Int?
                     number1 = Integer.parseInt(m.group())
-                    m = pattern.matcher(object2.name)
+                    m = pattern.matcher(object2.name.toLowerCase())
                     return if (!m.find()) {
-                        object1.name.compareTo(object2.name)
+                        object1.name.toLowerCase().compareTo(object2.name.toLowerCase())
                     } else {
                         number2 = Integer.parseInt(m.group())
                         val comparison = number1.compareTo(number2)

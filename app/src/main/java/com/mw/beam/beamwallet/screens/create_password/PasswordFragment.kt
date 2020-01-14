@@ -164,15 +164,40 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                     })
             else -> findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
         }
-
-
     }
+
     override fun showSeedFragment() {
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())
     }
 
     override fun showRestoreModeChoice(pass: String, seed: Array<String>) {
-        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+        when {
+            FaceIDManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_faceid_text),
+                    title = getString(R.string.use_faceid_access_wallet),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    },
+                    onCancel = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    })
+            FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
+                    title = getString(R.string.use_finger),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    },
+                    onCancel = {
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    })
+            else ->  findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+        }
     }
 
     override fun completePassChanging() {
