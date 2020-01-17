@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -208,8 +209,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         context?.let { delegate.copyToClipboard(it, content, tag) }
     }
 
-    override fun shareText(title: String, text: String) {
-        delegate.shareText(context, title, text)
+    override fun shareText(title: String, text: String, activity: Activity?) {
+        delegate.shareText(context, title, text, activity)
     }
 
     override fun openExternalLink(link: String) {

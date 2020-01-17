@@ -27,8 +27,10 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
+import com.mw.beam.beamwallet.core.utils.LogUtils
 import com.mw.beam.beamwallet.core.views.BeamPhrase
 import kotlinx.android.synthetic.main.fragment_welcome_seed.*
 
@@ -79,6 +81,9 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             btnLater.visibility = View.GONE
             btnNext.visibility = View.GONE
         }
+        else if(App.isAuthenticated) {
+            btnLater.visibility = View.GONE
+        }
 
     }
 
@@ -99,6 +104,10 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun configSeed(seed: Array<String>) {
+        if (BuildConfig.DEBUG) {
+            LogUtils.log("Seed phrase: \n$seed")
+        }
+
         val sideOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_side_offset)
         val topOffset: Int = resources.getDimensionPixelSize(R.dimen.welcome_grid_element_top_offset)
         var columnIndex = 0

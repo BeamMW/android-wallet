@@ -32,17 +32,18 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         WelcomeSeedContract.Presenter {
     private val COPY_TAG = "RECOVERY SEED"
 
+    private var seed = mutableListOf<String>()
+
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.configSeed(repository.seed())
 
-        if (BuildConfig.DEBUG) {
-            LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed())}")
-        }
+        seed = repository.seed().toMutableList()
+
+        view?.configSeed(seed.toTypedArray())
     }
 
     override fun onDonePressed() {
-        view?.showConfirmFragment(repository.seed())
+        view?.showConfirmFragment(seed.toTypedArray())
     }
 
     override fun onNextPressed() {
@@ -50,23 +51,18 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
         }
 
-        if (App.isAuthenticated && !OnboardManager.instance.canMakeSecure()) {
-            view?.onBack()
-        }
-        else{
-            view?.showSaveAlert()
-        }
+        view?.showSaveAlert()
     }
 
     override fun onCopyPressed() {
-        view?.copyToClipboard(prepareSeed(repository.seed()), COPY_TAG)
+        view?.copyToClipboard(prepareSeed(seed.toTypedArray()), COPY_TAG)
         view?.showCopiedAlert()
     }
 
     override fun oLaterPressed() {
         if (!App.isAuthenticated) {
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, true)
-            view?.showPasswordFragment(repository.seed())
+            view?.showPasswordFragment(seed.toTypedArray())
         }
         else{
             view?.onBack()

@@ -113,7 +113,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             if(mode() == SettingsFragmentMode.All) {
-                (activity as? AppActivity)?.openMenu()
+                showWalletFragment()
             }
             else{
                 findNavController().popBackStack()
@@ -121,8 +121,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+    override fun onNeedAddedViews() {
         mainLayout.removeAllViews()
         items.clear()
 
@@ -174,7 +173,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, SettingsFragmentMode.AskPassword, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, SettingsFragmentMode.FingerPrint, switch = true))
                 if (OnboardManager.instance.isSkipedSeed()) {
-                    s1.add(SettingsItem(null, getString(R.string.complete_wallet_verification),null, SettingsFragmentMode.Verification))
+                    s1.add(SettingsItem(null, getString(R.string.complete_seed_verification),null, SettingsFragmentMode.Verification))
                 }
                 s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, SettingsFragmentMode.OwnerKey))
                 s1.add(SettingsItem(null, getString(R.string.change_password),null, SettingsFragmentMode.ChangePassword))
@@ -193,6 +192,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
 
         addItems()
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if(mode() == SettingsFragmentMode.All) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
@@ -212,10 +219,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         onBackPressedCallback.isEnabled = true
 
-        super.onViewCreated(view, savedInstanceState)
     }
 
+
     private fun addItems() {
+        mainLayout.removeAllViews()
+
         for (subItems in items.reversed()) {
             var param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -327,11 +336,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         PreferencesManager.putBoolean(PreferencesManager.DARK_MODE,isDark)
                         (activity as? AppActivity)?.changeTheme()
                         (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
-                        val ft = fragmentManager!!.beginTransaction();
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            ft.setReorderingAllowed(false)
-                        }
-                        ft.detach(this).attach(this).commit();
+
+                        val ft = fragmentManager!!.beginTransaction()
+                        ft.detach(this).attach(this).commit()
+
+//                        if (App.isDarkMode)
+//                           context?.setTheme(R.style.AppThemeDark)
+//                        else
+//                            context?.setTheme(R.style.AppTheme)
+
+                       // addItems()
                     }
                 }
 
@@ -961,17 +975,16 @@ else{
     }
 
     override fun showImportDialog() {
-        showAlert(message = getString(R.string.import_data_text),
-                btnConfirmText = getString(R.string.imp),
+        showAlert(message = getString(R.string.import_data_warning),
+                btnConfirmText = getString(R.string.ok),
                 onConfirm = {
                     val intent = Intent()
                             .setType("*/*")
                             .setAction(Intent.ACTION_GET_CONTENT)
                             .putExtra(Intent.EXTRA_ALLOW_MULTIPLE,false)
-                    activity?.startActivityForResult(Intent.createChooser(intent, getString(R.string.import_data_title)), AppActivity.IMPORT_FILE_REQUEST)
+                    activity?.startActivityForResult(Intent.createChooser(intent, getString(R.string.import_wallet_data)), AppActivity.IMPORT_FILE_REQUEST)
                 },
-                title = getString(R.string.import_data_title),
-                btnCancelText = getString(R.string.cancel))
+                title = getString(R.string.import_wallet_data))
     }
 
     override fun closeDialog() {

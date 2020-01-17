@@ -19,7 +19,7 @@ class OnboardManager {
             }
     }
 
-    private val minAmountToSecure:Double = 100.0
+    private val minAmountToSecure:Double = 10.0
 
     var isCloseSecure = false
     var isCloseFaucet = false

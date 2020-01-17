@@ -20,6 +20,7 @@ import android.text.SpannableString
 import androidx.appcompat.app.AlertDialog
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
+import android.app.Activity
 
 /**
  *  10/1/18.
@@ -38,7 +39,7 @@ interface MvpView {
     fun initToolbar(title: String?, hasBackArrow: Boolean?, hasStatus: Boolean)
     fun configStatus(networkStatus: NetworkStatus)
     fun getToolbarTitle(): String?
-    fun shareText(title: String, text: String)
+    fun shareText(title: String, text: String, activity: Activity? = null)
     fun addListeners()
     fun clearListeners()
     fun onHideKeyboard()

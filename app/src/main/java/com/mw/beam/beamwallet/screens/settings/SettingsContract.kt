@@ -30,6 +30,7 @@ import java.io.File
  */
 interface SettingsContract {
     interface View : MvpView {
+        fun onNeedAddedViews()
         fun mode(): SettingsFragmentMode
         fun setRunOnRandomNode(runOnRandomNode: Boolean)
         fun sendMailWithLogs()

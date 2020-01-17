@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_gradient_size"
-            android:background="?attr/headerBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="?attr/headerBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
         <com.mw.beam.beamwallet.core.views.BeamToolbar
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
@@ -20,25 +22,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <ScrollView
-            android:id="@+id/mainScrollView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            android:fitsSystemWindows="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
 
-            <LinearLayout
-                android:id="@+id/mainLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:filterTouchesWhenObscured="true"
-                android:orientation="vertical">
-            </LinearLayout>
-        </ScrollView>
+    <ScrollView
+        android:id="@+id/mainScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toTopOf="@+id/appVersionLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
+
+        <LinearLayout
+            android:id="@+id/mainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:filterTouchesWhenObscured="true"
+            android:orientation="vertical"></LinearLayout>
+
+
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/appVersionLayout"
@@ -51,6 +56,7 @@
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView

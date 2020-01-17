@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.base_screen
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -120,8 +121,8 @@ abstract class BaseBottomSheetDialogFragment<T : BasePresenter<out MvpView, out 
         }
     }
 
-    override fun shareText(title: String, text: String) {
-        delegate.shareText(context, title, text)
+    override fun shareText(title: String, text: String, activity: Activity?) {
+        delegate.shareText(context, title, text, activity)
     }
 
     override fun openExternalLink(link: String) {

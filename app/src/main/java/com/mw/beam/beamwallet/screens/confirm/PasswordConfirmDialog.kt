@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.confirm
 
 
+import android.content.DialogInterface
 import android.os.Handler
 import android.text.Editable
 import android.view.View
@@ -156,6 +157,12 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
                 }
             }
         }
+    }
+
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+
+        onDismiss?.invoke()
     }
 
     override fun clearListeners() {

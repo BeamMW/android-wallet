@@ -41,6 +41,8 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
  *  10/23/18.
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
+    private var isButtonPressed = false
+
     private val args by lazy {
         PasswordFragmentArgs.fromBundle(arguments!!)
     }
@@ -125,7 +127,10 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         confirmPass.addTextChangedListener(confirmPassWatcher)
 
         btnProceed.setOnClickListener {
-            presenter?.onProceed()
+            if (!isButtonPressed) {
+                isButtonPressed = true
+                presenter?.onProceed()
+            }
         }
     }
 
@@ -143,26 +148,33 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                     btnConfirmText = getString(R.string.enable),
                     btnCancelText = getString(R.string.dont_use),
                     onConfirm = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     },
                     onCancel = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
-                    })
+                    }, cancelable = false)
             FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
                     title = getString(R.string.use_finger),
                     btnConfirmText = getString(R.string.enable),
                     btnCancelText = getString(R.string.dont_use),
                     onConfirm = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     },
                     onCancel = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
-                    })
-            else -> findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    }, cancelable = false)
+            else -> {
+                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                isButtonPressed = false
+            }
         }
     }
 
@@ -177,31 +189,39 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                     btnConfirmText = getString(R.string.enable),
                     btnCancelText = getString(R.string.dont_use),
                     onConfirm = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
                     },
                     onCancel = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
-                    })
+                    }, cancelable = false)
             FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
                     title = getString(R.string.use_finger),
                     btnConfirmText = getString(R.string.enable),
                     btnCancelText = getString(R.string.dont_use),
                     onConfirm = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
                     },
                     onCancel = {
+                        isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
                         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
-                    })
-            else ->  findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    }, cancelable = false)
+            else ->  {
+                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                isButtonPressed = false
+            }
         }
     }
 
     override fun completePassChanging() {
         findNavController().popBackStack()
+        isButtonPressed = false
     }
 
     override fun hasErrors(): Boolean {
@@ -236,6 +256,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         passError.visibility = View.VISIBLE
         passError.text = getString(R.string.pass_old_pass_error)
         pass.isStateError = true
+        isButtonPressed = false
     }
 
     override fun clearErrors() {

@@ -104,7 +104,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             statusLabel.text = spannable
         }
         else if(utxo.confirmHeight > 0) {
-            val till = " (" + getString(R.string.since).toLowerCase() + " " + utxo.confirmHeight + " " + getString(R.string.block_height).toLowerCase() + ")"
+            val till = " (" + getString(R.string.since_block_height).toLowerCase() + " " + utxo.confirmHeight + ")"
             val string = status + till
 
             val spannable = SpannableStringBuilder.valueOf(string)

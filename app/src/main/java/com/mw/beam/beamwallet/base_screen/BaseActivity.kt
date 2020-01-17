@@ -15,6 +15,7 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -300,8 +301,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
 
-    override fun shareText(title: String, text: String) {
-        delegate.shareText(this, title, text)
+    override fun shareText(title: String, text: String, activity: Activity?) {
+        delegate.shareText(this, title, text, activity)
     }
 
     override fun openExternalLink(link: String) {

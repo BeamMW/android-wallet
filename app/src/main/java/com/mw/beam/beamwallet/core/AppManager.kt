@@ -494,6 +494,12 @@ class AppManager {
                 subOnTransactionsChanged.onNext(0)
             }
 
+            WalletListener.subOnAllUtxoChanged.subscribe(){
+                utxos.clear()
+                utxos.addAll(it)
+                subOnUtxosChanged.onNext(0)
+            }
+
             WalletListener.obsOnUtxos.subscribe{
                 if (it.action == ChangeAction.REMOVED && it.utxo != null) {
                     deleteUtxo(it.utxo)
@@ -517,11 +523,27 @@ class AppManager {
                     deleteAddresses(items.addresses)
                 }
                 else if (items.action == ChangeAction.ADDED && items.addresses != null)
-                    items.addresses.forEach {
-                    if (it.isContact) {
-                        contacts.add(it)
+                    items.addresses.forEach {item->
+                    if (item.isContact) {
+                        val index1 = contacts.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index1 != -1) {
+                            contacts[index1] = item
+                        }
+                        else{
+                            contacts.add(item)
+                        }
                     } else{
-                        addresses.add(it)
+                        val index2 = addresses.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index2 != -1) {
+                            addresses[index2] = item
+                        }
+                        else{
+                            addresses.add(item)
+                        }
                     }
                 }
                 else if (items.action == ChangeAction.RESET && items.addresses != null) {
@@ -545,6 +567,8 @@ class AppManager {
                         }
                     }
                 }
+
+                subOnAddressesChanged?.onNext(true)
 
             }
 

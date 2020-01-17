@@ -50,21 +50,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onViewCreated() {
         super.onViewCreated()
-
-        if (view?.mode() == SettingsFragmentMode.General) {
-            view?.updateLockScreenValue(repository.getLockScreenValue())
-            view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
-            view?.setLogSettings(repository.getLogSettings())
-            view?.setLanguage(repository.getCurrentLanguage())
-        }
-        else if (view?.mode() == SettingsFragmentMode.Node) {
-            view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
-        }
-        else if (view?.mode() == SettingsFragmentMode.Privacy) {
-            updateFingerprintValue()
-            updateConfirmTransactionValue()
-        }
     }
+
 
     override fun initSubscriptions() {
         super.initSubscriptions()
@@ -111,8 +98,24 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onStart() {
         super.onStart()
 
+        view?.onNeedAddedViews()
+
         if (view?.mode() == SettingsFragmentMode.Tags) {
             view?.updateCategoryList(repository.getAllCategory())
+        }
+
+        if (view?.mode() == SettingsFragmentMode.General) {
+            view?.updateLockScreenValue(repository.getLockScreenValue())
+            view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
+            view?.setLogSettings(repository.getLogSettings())
+            view?.setLanguage(repository.getCurrentLanguage())
+        }
+        else if (view?.mode() == SettingsFragmentMode.Node) {
+            view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
+        }
+        else if (view?.mode() == SettingsFragmentMode.Privacy) {
+            updateFingerprintValue()
+            updateConfirmTransactionValue()
         }
     }
 

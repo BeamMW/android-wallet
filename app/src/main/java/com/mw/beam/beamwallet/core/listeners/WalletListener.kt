@@ -55,6 +55,7 @@ object WalletListener {
 
     var obsOnUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
 //    var obsOnAddresses: Subject<OnAddressesDataWithAction> = BehaviorSubject.create<OnAddressesDataWithAction>().toSerialized()
+    var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
 
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
@@ -102,6 +103,14 @@ object WalletListener {
     fun onAllUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllUtxoChanged")
 
     @JvmStatic
+    fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) : Unit {
+        if (App.isAuthenticated) {
+            return returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
+                    ?: emptyList(), "onAllUtxoChanged")
+        }
+    }
+
+    @JvmStatic
     fun onAddressesChanged(action: Int, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddressesChanged, OnAddressesDataWithAction(ChangeAction.fromValue(action), addresses?.map { WalletAddress(it) }), "onAddressesChanged")
 
     @JvmStatic
@@ -129,7 +138,10 @@ object WalletListener {
     fun onNodeCreated() = returnResult(subOnNodeCreated, DUMMY_OBJECT, "onNodeCreated")
 
     @JvmStatic
-    fun onNodeThreadFinished() = returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
+    fun onNodeThreadFinished() {
+        subOnNodeThreadFinished.onNext(DUMMY_OBJECT)
+        //returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
+    }
 
     @JvmStatic
     fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")

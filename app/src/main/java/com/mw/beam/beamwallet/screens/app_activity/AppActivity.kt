@@ -25,10 +25,6 @@ import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
 import io.fabric.sdk.android.Fabric
@@ -52,11 +48,13 @@ import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
 import android.net.Uri
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.AppManager
 import com.elvishew.xlog.XLog.json
 import com.google.gson.JsonElement
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
+import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 
@@ -64,6 +62,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     companion object {
         const val IMPORT_FILE_REQUEST = 1024
+        const val SHARE_CODE_REQUEST = 1025
+
         const val TRANSACTION_ID = "TRANSACTION_ID"
         private const val RESTARTED = "appExceptionHandler_restarted"
         private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
@@ -251,18 +251,30 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             if (selectedFile != null) {
                 val text = readText(selectedFile)
                 if (text.isNullOrEmpty()) {
-                    showAlert(getString(R.string.incorrect_file_text),getString(R.string.ok),{
+                    showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
 
-                    },getString(R.string.incorrect_file_title))
+                    }, getString(R.string.incorrect_file_title))
+                } else {
+                    showAlert(message = getString(R.string.import_data_text),
+                            btnConfirmText = getString(R.string.imp),
+                            onConfirm = {
+                                AppManager.instance.importData(text)
+                            },
+                            title = getString(R.string.import_wallet_data),
+                            btnCancelText = getString(R.string.cancel))
                 }
-                else{
-                    AppManager.instance.importData(text)
-                }
+            } else {
+                showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+
+                }, getString(R.string.incorrect_file_title))
             }
-            else{
-                showAlert(getString(R.string.incorrect_file_text),getString(R.string.ok),{
-
-                },getString(R.string.incorrect_file_title))
+        } else if (requestCode == SHARE_CODE_REQUEST && resultCode == RESULT_OK) {
+            val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+            navHost?.let { navFragment ->
+                navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                    val base = fragment as BaseFragment<*>
+                    base.findNavController().popBackStack()
+                }
             }
         }
     }
@@ -289,15 +301,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     private fun readText(uri: Uri): String? {
-        val name = uri.lastPathSegment
-        if(name != null) {
-            if(!name.contains(".")) {
-                return null
-            }
-            val extension = name?.substring(name?.lastIndexOf("."))
-            if (extension!=".dat") {
-                return null
-            }
+        try {
             val inputStream = contentResolver.openInputStream(uri)
             val json = inputStream?.bufferedReader().use { it?.readText() }
 
@@ -305,8 +309,9 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
             return json
         }
-
-        return null
+        catch (e: Exception) {
+            return null
+        }
     }
 
     private fun setupMenu(savedInstanceState: Bundle?)

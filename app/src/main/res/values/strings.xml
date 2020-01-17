@@ -502,6 +502,8 @@ address or contact</string>
 
     <string name="complete_verification">Complete verification</string>
     <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="complete_seed_verification">Complete seed verification</string>
+    <string name="seed_verification">Seed Verification</string>
     <string name="i_will_later">I will do it later</string>
     <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
     <string name="get_coins">Get coins</string>
@@ -546,10 +548,9 @@ address or contact</string>
     <string name="enable_touch_id_text">Would you like to use Touch ID for login to your wallet?\n\nAfter login Touch ID can be enabled or disabled at any time in the settings menu</string>
     <string name="enable">Enable</string>
     <string name="dont_use">Don\'t use</string>
-    <string name="since">Since</string>
+    <string name="since_block_height">Since block height</string>
     <string name="block_height">Block height</string>
-
-
+    <string name="import_data_warning">Only the data exported from the wallet with the same seed phrase can be imported.</string>
 
 
 </resources>

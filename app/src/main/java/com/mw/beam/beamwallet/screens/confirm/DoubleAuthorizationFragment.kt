@@ -59,7 +59,7 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
         return when {
             type() == DoubleAuthorizationFragmentMode.OwnerKey -> getString(R.string.show_owner_key)
             type() == DoubleAuthorizationFragmentMode.DisplaySeed -> getString(R.string.show_seed_phrase)
-            else -> getString(R.string.complete_verification)
+            else -> getString(R.string.seed_verification)
         }
     }
 

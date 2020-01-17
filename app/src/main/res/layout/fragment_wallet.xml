@@ -262,12 +262,12 @@
 
                     <TextView
                         android:id="@+id/btnSecureReceive"
-                        android:layout_width="168dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="16dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/secure_your_phrase"
+                        android:text="@string/complete_seed_verification"
                         android:textAlignment="center"
                         android:textColor="@color/colorAccent"
                         android:textSize="14sp"
