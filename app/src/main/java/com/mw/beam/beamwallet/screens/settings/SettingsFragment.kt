@@ -85,10 +85,10 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
 
 
-
     data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null)
 
     var items = mutableListOf<Array<SettingsItem>>()
+    var oldItemsCount = -1
 
     override fun mode(): SettingsFragmentMode {
         return SettingsFragmentArgs.fromBundle(arguments!!).mode
@@ -181,7 +181,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             }
             mode() == SettingsFragmentMode.Utilities -> {
                 var s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+
+                if(OnboardManager.instance.canReceiveFaucet()) {
+                    s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+                }
+
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
@@ -219,6 +223,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         onBackPressedCallback.isEnabled = true
 
+        if(mode() != SettingsFragmentMode.All) {
+            toolbar.title = getToolbarTitle()
+        }
     }
 
 
@@ -228,16 +235,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         for (subItems in items.reversed()) {
             var param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT)
-            param.setMargins(ScreenHelper.dpToPx(context,10),
-                    ScreenHelper.dpToPx(context,10),
-                    ScreenHelper.dpToPx(context,10),
-                    ScreenHelper.dpToPx(context,10))
+            param.setMargins(ScreenHelper.dpToPx(context, 10),
+                    ScreenHelper.dpToPx(context, 10),
+                    ScreenHelper.dpToPx(context, 10),
+                    ScreenHelper.dpToPx(context, 10))
 
             val section = LinearLayout(context!!)
             section.orientation = LinearLayout.VERTICAL
             section.background = context!!.getDrawable(R.drawable.wallet_state_card_backgroud)
             section.layoutParams = param
 
+            var index = 0
             for (item in subItems) {
                 val item = SettingsItemView(context!!).apply {
                     text = item.text
@@ -249,137 +257,119 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 }
 
                 item.setOnClickListener {
-                    val item:SettingsItemView = if (it is androidx.appcompat.widget.SwitchCompat) {
+                    val item: SettingsItemView = if (it is androidx.appcompat.widget.SwitchCompat) {
                         it.parent.parent as SettingsItemView
-                    } else{
+                    } else {
                         it.parent as SettingsItemView
                     }
 
                     if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Node || item.mode == SettingsFragmentMode.Privacy
                             || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags) {
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
-                    }
-                    else if (item.mode == SettingsFragmentMode.Lock) {
+                    } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
-                    }
-                    else if (item.mode == SettingsFragmentMode.Logs) {
+                    } else if (item.mode == SettingsFragmentMode.Logs) {
                         presenter?.onLogsPressed()
-                    }
-                    else if (item.mode == SettingsFragmentMode.ClearLocal) {
+                    } else if (item.mode == SettingsFragmentMode.ClearLocal) {
                         presenter?.onClearDataPressed()
-                    }
-                    else if (item.mode == SettingsFragmentMode.Language) {
+                    } else if (item.mode == SettingsFragmentMode.Language) {
                         presenter?.onLanguagePressed()
-                    }
-                    else if (item.mode == SettingsFragmentMode.Allow) {
+                    } else if (item.mode == SettingsFragmentMode.Allow) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeAllowOpenExternalLink(allow)
-                    }
-                    else if (item.mode == SettingsFragmentMode.Rate) {
+                    } else if (item.mode == SettingsFragmentMode.Rate) {
                         try {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.activity?.packageName)))
-                        }catch (exp:Exception){
+                        } catch (exp: Exception) {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + this.activity?.packageName)))
                         }
-                    }
-                    else if(item.mode == SettingsFragmentMode.Report) {
+                    } else if (item.mode == SettingsFragmentMode.Report) {
                         presenter?.onReportProblem()
-                    }
-                    else if(item.mode == SettingsFragmentMode.RemoveWallet) {
+                    } else if (item.mode == SettingsFragmentMode.RemoveWallet) {
                         presenter?.onRemoveWalletPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.ConnectNode) {
+                    } else if (item.mode == SettingsFragmentMode.ConnectNode) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeRunOnRandomNode(allow)
-                    }
-                    else if(item.mode == SettingsFragmentMode.AskPassword) {
+                    } else if (item.mode == SettingsFragmentMode.AskPassword) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeConfirmTransactionSettings(allow)
-                    }
-                    else if(item.mode == SettingsFragmentMode.FingerPrint) {
+                    } else if (item.mode == SettingsFragmentMode.FingerPrint) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeFingerprintSettings(allow)
-                    }
-                    else if(item.mode == SettingsFragmentMode.OwnerKey) {
+                    } else if (item.mode == SettingsFragmentMode.OwnerKey) {
                         presenter?.onShowOwnerKey()
-                    }
-                    else if(item.mode == SettingsFragmentMode.SeedPhrase) {
+                    } else if (item.mode == SettingsFragmentMode.SeedPhrase) {
                         presenter?.onSeedPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.ChangePassword) {
+                    } else if (item.mode == SettingsFragmentMode.ChangePassword) {
                         presenter?.onChangePass()
-                    }
-                    else if(item.mode == SettingsFragmentMode.Faucet) {
+                    } else if (item.mode == SettingsFragmentMode.Faucet) {
                         presenter?.onReceiveFaucet()
-                    }
-                    else if(item.mode == SettingsFragmentMode.Proof) {
+                    } else if (item.mode == SettingsFragmentMode.Proof) {
                         presenter?.onProofPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.Verification) {
+                    } else if (item.mode == SettingsFragmentMode.Verification) {
                         presenter?.onSeedVerificationPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.Export) {
+                    } else if (item.mode == SettingsFragmentMode.Export) {
                         presenter?.onExportPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.Import) {
+                    } else if (item.mode == SettingsFragmentMode.Import) {
                         presenter?.omImportPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.CreateTag) {
+                    } else if (item.mode == SettingsFragmentMode.CreateTag) {
                         presenter?.onAddCategoryPressed()
-                    }
-                    else if(item.mode == SettingsFragmentMode.ShowTag) {
+                    } else if (item.mode == SettingsFragmentMode.ShowTag) {
                         presenter?.onCategoryPressed(item.spannable.toString())
-                    }
-                    else if (item.mode == SettingsFragmentMode.DarkMode) {
+                    } else if (item.mode == SettingsFragmentMode.DarkMode) {
                         val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         App.isDarkMode = isDark
-                        PreferencesManager.putBoolean(PreferencesManager.DARK_MODE,isDark)
+                        PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, isDark)
                         (activity as? AppActivity)?.changeTheme()
                         (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
 
                         val ft = fragmentManager!!.beginTransaction()
                         ft.detach(this).attach(this).commit()
-
-//                        if (App.isDarkMode)
-//                           context?.setTheme(R.style.AppThemeDark)
-//                        else
-//                            context?.setTheme(R.style.AppTheme)
-
-                       // addItems()
                     }
                 }
 
-                if(mode() == SettingsFragmentMode.Node) {
+                if (mode() == SettingsFragmentMode.Node) {
                     item.cardItem.setOnClickListener {
                         presenter?.onNodeAddressPressed()
                     }
                 }
 
-                if(item.mode  == SettingsFragmentMode.FingerPrint) {
+                if (item.mode == SettingsFragmentMode.FingerPrint) {
                     item.visibility = View.GONE
                 }
 
-                if(item.mode == SettingsFragmentMode.CreateTag) {
-                    item.setPadding(0,12,0,12)
-                }
-                else if(subItems.count() == 1 && item.iconResId != null) {
-                    item.setPadding(0,10,0,10)
-                }
-                else{
-                    item.setPadding(0,4,0,4)
+                if (item.mode == SettingsFragmentMode.CreateTag) {
+                    item.setPadding(0, 12, 0, 12)
+                } else if (subItems.count() == 1 && item.iconResId != null) {
+                    item.setPadding(0, 10, 0, 10)
+                } else if (item.switch != null && index == 0) {
+                    item.setPadding(0, 4, 0, 25)
+                } else {
+                    item.setPadding(0, 4, 0, 4)
                 }
 
                 section.addView(item)
+
+                index++
             }
 
-            if(subItems.count() > 0)
-            {
-                if(subItems.last().icon == null) {
-                    section.setPadding(0,12,0,12)
+            if (subItems.count() > 0) {
+                if (subItems.last().icon == null) {
+                    section.setPadding(0, 12, 0, 12)
                 }
             }
 
-            mainLayout.addView(section,0)
+            mainLayout.addView(section, 0)
+        }
+
+        if (mode() == SettingsFragmentMode.Tags && oldItemsCount != presenter?.repository?.getAllCategory()?.count() && oldItemsCount != -1) {
+            mainScrollView.post {
+                mainScrollView.fullScroll(View.FOCUS_DOWN)
+            }
+        } else if (mode() == SettingsFragmentMode.Tags && oldItemsCount == -1) {
+            if(presenter?.repository?.getAllCategory()?.count()!=null) {
+                oldItemsCount = presenter?.repository?.getAllCategory()?.count()!!
+            }
         }
     }
 
@@ -1016,5 +1006,13 @@ else{
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return SettingsPresenter(this, SettingsRepository(), SettingsState())
+    }
+
+    override fun exportError() {
+        activity?.runOnUiThread {
+            showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+
+            }, getString(R.string.incorrect_file_title))
+        }
     }
 }

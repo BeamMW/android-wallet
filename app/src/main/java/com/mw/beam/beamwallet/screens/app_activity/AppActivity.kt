@@ -113,7 +113,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+      //  setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
@@ -131,7 +131,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+     //   setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;

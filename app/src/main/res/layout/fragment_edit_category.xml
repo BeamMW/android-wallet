@@ -99,7 +99,7 @@
         android:id="@+id/btnSave"
         android:layout_width="@dimen/send_transfer_btn_width"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="44dp"
         app:button_icon="@drawable/ic_btn_save"
         app:button_text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"

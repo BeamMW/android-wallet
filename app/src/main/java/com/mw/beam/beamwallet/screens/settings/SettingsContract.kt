@@ -68,6 +68,7 @@ interface SettingsContract {
         fun showImportDialog()
         fun showConfirmRemoveWallet()
         fun walletRemoved()
+        fun exportError()
     }
 
     interface Presenter : MvpPresenter<View> {

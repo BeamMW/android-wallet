@@ -103,7 +103,7 @@
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnCancel"
             style="@style/common_button_style"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="64dp"
             android:background="@drawable/primary_button"
             android:visibility="gone"
             app:button_icon="@drawable/ic_btn_cancel"
@@ -121,13 +121,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="24dp"
+            android:alpha="0.5"
             android:textAlignment="center"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:alpha="0.5"
             tools:text="Version 1.1.2"
             tools:visibility="visible" />
 

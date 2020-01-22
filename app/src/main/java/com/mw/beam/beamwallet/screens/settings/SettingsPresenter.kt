@@ -41,6 +41,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     private lateinit var faucetGeneratedSubscription: Disposable
     private lateinit var exportDataSubscription: Disposable
+    private lateinit var importDataSubscription: Disposable
     private var excludeExportParameters: Array<String> = arrayOf()
 
     private var exportType = ExportType.SAVE
@@ -87,6 +88,12 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             }
             else{
                 view?.exportSave(result)
+            }
+        }
+
+        importDataSubscription = WalletListener.subOnDataImported.subscribe {
+            if (!it)  {
+                view?.exportError()
             }
         }
     }
@@ -361,5 +368,5 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription)
 }

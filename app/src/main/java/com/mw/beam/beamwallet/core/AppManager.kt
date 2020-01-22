@@ -64,6 +64,13 @@ class AppManager {
         wallet?.getTransactions()
     }
 
+    fun removeOldValues() {
+        contacts.clear()
+        addresses.clear()
+        transactions.clear()
+        utxos.clear()
+    }
+
     fun removeWallet() {
         isSubscribe = false
         isResotred = false

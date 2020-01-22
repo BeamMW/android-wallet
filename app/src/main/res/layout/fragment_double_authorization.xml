@@ -68,8 +68,8 @@
                 android:id="@+id/passError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/proxima_regular"
-                android:paddingTop="@dimen/welcome_passwords_items_offset"
                 android:text="@string/pass_wrong"
                 android:textColor="@color/common_error_color"
                 android:textSize="@dimen/welcome_passwords_info_text_size"
@@ -94,7 +94,7 @@
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnNext"
                 style="@style/common_button_style"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="60dp"
                 app:button_icon="@drawable/ic_btn_proceed"
                 app:button_text="@string/next"
                 app:layout_constraintEnd_toEndOf="parent"

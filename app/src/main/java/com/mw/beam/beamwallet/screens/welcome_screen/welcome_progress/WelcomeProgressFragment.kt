@@ -76,6 +76,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
+        AppManager.instance.removeOldValues()
 
         presenter?.repository?.setContext(context!!)
 
@@ -226,10 +227,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun navigateToCreateFragment() {
         if (isRecoverDataBaseExists()) {
-            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeOpenFragment())
+            findNavController().popBackStack(R.id.welcomeOpenFragment,true)
         }
         else{
-            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+            findNavController().popBackStack(R.id.welcomeCreateFragment,true)
         }
     }
 

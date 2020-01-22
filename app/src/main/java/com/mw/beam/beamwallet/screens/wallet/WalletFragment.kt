@@ -198,7 +198,9 @@ else{
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
             android.os.Handler().postDelayed({
-                itemsswipetorefresh.isRefreshing = false
+                if (itemsswipetorefresh!=null) {
+                    itemsswipetorefresh.isRefreshing = false
+                }
             }, 1000)
         }
     }

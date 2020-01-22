@@ -233,6 +233,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_can_not_be_empty)
             pass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         if (!pass.text.isNullOrBlank() && pass.text.toString() != confirmPass.text.toString()) {
@@ -240,6 +241,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_not_match)
             confirmPass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         if (confirmPass.text.isNullOrBlank()) {
@@ -247,6 +249,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_can_not_be_empty)
             confirmPass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         return hasErrors

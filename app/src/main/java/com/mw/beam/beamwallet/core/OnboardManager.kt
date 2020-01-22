@@ -40,9 +40,11 @@ class OnboardManager {
     }
 
     fun canReceiveFaucet(): Boolean {
+
         val isInProgress = AppManager.instance.getStatus().sending > 0 || AppManager.instance.getStatus().receiving > 0
         val isBalanceZero = AppManager.instance.getStatus().available == 0L
-        return !isInProgress && isBalanceZero && !isCloseFaucet
+        val isTransactionsEmpty = AppManager.instance.getTransactions().count() == 0
+        return !isInProgress && isBalanceZero && !isCloseFaucet && isTransactionsEmpty
     }
 
     fun canMakeSecure(): Boolean {

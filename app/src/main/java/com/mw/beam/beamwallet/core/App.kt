@@ -34,7 +34,6 @@ import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.service.BackgroundService
-//import com.squareup.leakcanary.LeakCanary
 import java.util.concurrent.TimeUnit
 import java.io.File
 import java.util.*
@@ -46,12 +45,11 @@ import androidx.biometric.BiometricPrompt
 import java.util.concurrent.Executor
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.mw.beam.beamwallet.core.views.BiometricView
 
 /**
  *  10/1/18.
  */
-class App : androidx.multidex.MultiDexApplication() {
+class App : Application() {
 
     var subOnStatusResume: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 

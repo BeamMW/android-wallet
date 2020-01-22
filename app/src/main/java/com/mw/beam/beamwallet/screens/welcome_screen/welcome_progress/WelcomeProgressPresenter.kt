@@ -359,6 +359,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
 
+        AppManager.instance.isResotred = false
+
         view?.navigateToCreateFragment()
     }
 

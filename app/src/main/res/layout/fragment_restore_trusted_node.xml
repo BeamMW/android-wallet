@@ -54,11 +54,11 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore"
                 android:textAlignment="center"
                 android:textColor="@color/common_error_color"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/nodeAddressLayout"
@@ -81,19 +81,23 @@
                     tools:ignore="Autofill,LabelFor" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.mw.beam.beamwallet.core.views.BeamButton
-                android:id="@+id/btnNext"
-                style="@style/common_button_style"
-                android:layout_marginTop="@dimen/common_offset"
-                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
-                app:button_icon="@drawable/ic_btn_proceed"
-                app:button_text="@string/next"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/errorText"
-                app:layout_constraintVertical_bias="1"
-                app:lower_case="true" />
+                app:layout_constraintTop_toBottomOf="@+id/errorText">
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnNext"
+                    style="@style/common_button_style"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginBottom="30dp"
+                    app:button_icon="@drawable/ic_btn_proceed"
+                    app:button_text="@string/next"
+                    app:lower_case="true" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

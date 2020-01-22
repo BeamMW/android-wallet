@@ -20,7 +20,8 @@ object FaceIDManager {
     }
 
     fun isManagerAvailable(): Boolean {
+        val version = android.os.Build.VERSION.SDK_INT
         val status = biometricManager?.canAuthenticate()
-        return isFaceIDAvailable && status == BiometricManager.BIOMETRIC_SUCCESS
+        return version >= 29 && isFaceIDAvailable && status == BiometricManager.BIOMETRIC_SUCCESS
     }
 }

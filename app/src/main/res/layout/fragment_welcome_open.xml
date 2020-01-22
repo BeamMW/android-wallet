@@ -71,13 +71,15 @@
             style="@style/common_text_big_light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/welcome_open_margin_side"
-            android:layout_marginEnd="@dimen/welcome_open_margin_side"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="24dp"
             android:fontFamily="@font/roboto_regular"
-            android:paddingTop="@dimen/welcome_passwords_items_offset"
             android:text="@string/password_not_match"
             android:textColor="@color/common_error_color"
             android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passLayout" />
 
         <com.mw.beam.beamwallet.core.views.BeamButton
@@ -108,6 +110,7 @@
             android:id="@+id/bottomLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -122,12 +125,12 @@
                 style="@style/common_subheader_light"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="30dp"
                 android:padding="5dp"
                 android:text="@string/welcome_restore_or_create"
                 android:textAlignment="center"
-                android:layout_gravity="center"
                 android:textColor="@color/colorAccent" />
 
             <TextView
@@ -135,13 +138,13 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginBottom="10dp"
+                android:alpha="0.5"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_gravity="center"
-                android:alpha="0.5"
                 tools:text="Version 1.1.2" />
 
         </LinearLayout>
