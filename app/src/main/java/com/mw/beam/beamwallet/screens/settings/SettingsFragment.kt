@@ -148,7 +148,15 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s2.toTypedArray())
                 items.add(s3.toTypedArray())
                 items.add(s4.toTypedArray())
+
+//                if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
+//                {
+//                    var s5 = mutableListOf<SettingsItem>()
+//                    s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
+//                    items.add(s5.toTypedArray())
+//                }
             }
+
             mode()== SettingsFragmentMode.General -> {
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
@@ -325,6 +333,23 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                         val ft = fragmentManager!!.beginTransaction()
                         ft.detach(this).attach(this).commit()
+                    }
+                    else  if (item.mode == SettingsFragmentMode.ShareDB) {
+                        doAsync {
+                            ZipManager.zip(AppConfig.DB_PATH, AppConfig.ZIP_PATH);
+
+                            uiThread {
+                                val subject = ""
+                                val shareIntent = Intent()
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
+                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                                shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                shareIntent.type = AppConfig.SHARE_TYPE
+                                shareIntent.action = Intent.ACTION_SEND;
+                                startActivity(shareIntent)
+                            }
+                        }
                     }
                 }
 

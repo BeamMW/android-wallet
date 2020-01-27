@@ -185,7 +185,7 @@ object TagHelper {
         return listOf()
     }
 
-    fun changeTagsForAddress(id: String, tagList: List<Tag>?) {
+    fun changeTagsForAddress(id: String, tagList: List<Tag>?, name:String? = null) {
         if (tagList.isNullOrEmpty()) {
             removeAddressFromAllTags(id)
         } else {
@@ -203,6 +203,9 @@ object TagHelper {
 
                 var dto = address.toDTO()
                 dto.category = ids
+                if(name!=null) {
+                    dto.label = name
+                }
                 AppManager.instance.wallet?.saveAddress(dto, address.isContact)
             }
         }

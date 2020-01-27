@@ -193,10 +193,10 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         val notMultiplyColor = ContextCompat.getColor(context!!, R.color.colorClear)
 
         val multiplyColor = if (App.isDarkMode) {
-            R.color.wallet_adapter_multiply_color_dark
+            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color_dark)
         }
         else{
-            R.color.wallet_adapter_multiply_color
+            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
         }
 
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)

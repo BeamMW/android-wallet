@@ -45,8 +45,10 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
     override fun onSavePressed() {
         view?.apply {
             val address = WalletAddress(WalletAddressDTO(state.address, getName(), "", System.currentTimeMillis(), 0, 0))
+            if(state.tags.count() > 0) {
+                repository.saveTagsForAddress(state.address, state.tags)
+            }
             repository.saveAddress(address, false)
-            repository.saveTagsForAddress(state.address, state.tags)
             close()
         }
     }

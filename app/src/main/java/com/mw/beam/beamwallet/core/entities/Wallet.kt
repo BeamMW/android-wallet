@@ -33,8 +33,8 @@ data class Wallet(val _this: Long) {
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
 
-    @Deprecated("Need usage 'updateAddress'")
-    external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
+   // @Deprecated("Need usage 'updateAddress'")
+   // external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
     external fun updateAddress(addr: String, name: String, addressExpirationEnum: Int)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)

@@ -113,7 +113,9 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-      //  setupCrashHandler()
+        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
+        //  setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
@@ -132,6 +134,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         setupMenu(savedInstanceState)
      //   setupCrashHandler()
+        Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
         subscribeToUpdates()
 
         shortCut = intent.action;

@@ -227,10 +227,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun navigateToCreateFragment() {
         if (isRecoverDataBaseExists()) {
-            findNavController().popBackStack(R.id.welcomeOpenFragment,true)
+            findNavController().popBackStack(R.id.welcomeOpenFragment,false)
         }
         else{
-            findNavController().popBackStack(R.id.welcomeCreateFragment,true)
+            findNavController().popBackStack(R.id.welcomeCreateFragment,false)
         }
     }
 

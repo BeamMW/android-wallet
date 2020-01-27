@@ -17,8 +17,14 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
 
     override fun saveContact(address: String, name: String, tags: List<Tag>) {
         getResult("saveContact") {
-            TagHelper.changeTagsForAddress(address, tags)
-            wallet?.saveAddress(WalletAddressDTO(address, name, "", System.currentTimeMillis(), 0, 0), false)
+
+            var categories = mutableListOf<String>()
+            for (t in tags) {
+                categories.add(t.id)
+            }
+            var ids = categories.joinToString(";")
+            wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0), false)
+           // TagHelper.changeTagsForAddress(address, tags, name)
         }
     }
 

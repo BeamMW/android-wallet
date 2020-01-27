@@ -37,6 +37,10 @@ import java.util.*
 import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment
 import android.content.res.Configuration
 import com.mw.beam.beamwallet.core.helpers.*
+import androidx.core.content.ContextCompat.startActivity
+import android.content.ComponentName
+import android.content.pm.PackageManager
+
 
 /**
  *  10/1/18.
@@ -281,10 +285,18 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun logOut() {
         if (App.isAuthenticated) {
             App.isAuthenticated = false
-            startActivity(Intent(this, AppActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            })
-            finish()
+
+            val packageManager = applicationContext.packageManager
+            val intent = packageManager.getLaunchIntentForPackage(applicationContext.packageName)
+            val componentName = intent!!.component
+            val mainIntent = Intent.makeRestartActivityTask(componentName)
+           // mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            applicationContext.startActivity(mainIntent)
+            Runtime.getRuntime().exit(0)
+//            startActivity(Intent(this, AppActivity::class.java).apply {
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            })
+//            finish()
         }
         else{
             startActivity(Intent(this, AppActivity::class.java).apply {

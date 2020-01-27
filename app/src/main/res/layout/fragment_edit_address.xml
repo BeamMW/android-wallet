@@ -58,7 +58,7 @@
                         android:paddingEnd="3dp"
                         android:text="@string/name"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <EditText
@@ -97,7 +97,7 @@
                         android:padding="3dp"
                         android:text="@string/expires"
                         android:textAllCaps="true"
-                        android:textColor="#8798a9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <Spinner
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
                         android:padding="3dp"
-                        android:textColor="#8da1ad"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="14sp"
                         tools:text="2 Jan 2019     |     3:46 PM (GMT +3)" />
 
@@ -145,7 +145,7 @@
                         android:padding="3dp"
                         android:text="@string/tags"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout

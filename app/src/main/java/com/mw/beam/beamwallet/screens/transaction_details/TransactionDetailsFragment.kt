@@ -245,7 +245,7 @@ else{
             TxSender.SENT -> currencyIcon.setImageResource(R.drawable.currency_beam_send)
         }
 
-        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
+        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
         amountLabel.setTextColor(txDescription.amountColor)
@@ -565,7 +565,7 @@ else{
 
     override fun onResume() {
         super.onResume()
-        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.modifyTime!!)
+        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.createTime!!)
     }
 
     override fun showCancelAlert() {

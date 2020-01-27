@@ -135,8 +135,23 @@ else{
                 if(position == expireList.selectedItemPosition) {
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
+                else{
+                    val txtColor = if (App.isDarkMode) {
+                        resources.getColor(R.color.common_text_dark_color_dark)
+                    } else{
+                        resources.getColor(R.color.common_text_dark_color)
+                    }
+                    textView.setTextColor(txtColor)
+                }
                 textView.setPadding(15,30,15,30)
-                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+
+                val bgColor = if (App.isDarkMode) {
+                    resources.getColor(R.color.colorPrimary_dark)
+                } else{
+                    resources.getColor(R.color.colorPrimary)
+                }
+                view.setBackgroundColor(bgColor)
+
                 return view
             }
 
