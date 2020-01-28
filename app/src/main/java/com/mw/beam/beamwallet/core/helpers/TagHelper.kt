@@ -243,6 +243,11 @@ object TagHelper {
 
         saveTagData()
     }
+
+    fun clear() {
+        tagData.clear()
+        saveTagData()
+    }
 }
  private data class TagData(@SerializedName("data") var data: List<Tag>) {
     fun getAllTags() = HashMap(data.map { it.id to it }.toMap())

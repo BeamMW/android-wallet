@@ -75,7 +75,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="enter_your_password_to_access_the_wallet">Introduce tu contraseña para acceder al wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Utiliza huella digital o introduce tu contraseña para acceder al wallet.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Su frase semilla es la clave de acceso a todas las criptomonedas en su wallet. Imprime o escribe la frase para guardarla en un lugar seguro o caja de seguridad. Sin la frase no podrás recuperar tu dinero.</string>
+    <string name="welcome_seed_description">Tu frase de semilla es la clave de acceso a todos los fondos de tu wallet. A partir de ahora no podrás ver tu frase de semilla en ajustes. Imprime o escribe la frase para mantenerla en un lugar seguro o en una bóveda bloqueada. Sin la frase usted no podrá recuperar su dinero.</string>
     <string name="welcome_seed_title">Frase semilla</string>
     <string name="welcome_seed_save_title">Salvar frase semilla</string>
     <string name="welcome_seed_save_description">Por favor, escriba la frase semilla. No haga capturas de pantalla y no la guarde en su galería de fotos. Esto hace que la frase sea propensa a los ataques cibernéticos y, por lo tanto, menos segura.</string>
@@ -179,6 +179,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="date">Fecha</string>
     <string name="time">Tiempo</string>
     <string name="id">ID</string>
+    <string name="treasure">Tesoro</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Detalles de la transacción</string>
     <string name="general_transaction_info">Información general de la transacción</string>
@@ -263,7 +264,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="settings_send_logs_description">Enviar registros…</string>
     <string name="node">Nodo</string>
     <string name="settings_ip_title">ip: puerto:</string>
-    <string name="settings_general_settings">Configuración general</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">Bloquear pantalla</string>
     <string name="never">Nunca</string>
     <string name="after">Después</string>
@@ -373,7 +374,6 @@ Debe pasar la verificación de 2 pasos (envíe una contraseña y utilice la huel
     <string name="save_recipient_address">¿Le gustaría guardar la dirección del destinatario para futuras transacciones?</string>
     <string name="save_address">Salvar dirección</string>
     <string name="dont_save">No guardar</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Introduzca su contraseña actual para continuar con los cambios en la configuración</string>
     <string name="save_changes">Salvar cambios</string>
     <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
     <string name="search_by_address_tag_or_name">Buscar por dirección, etiqueta o nombre</string>
@@ -455,4 +455,40 @@ dirección o contacto</string>
     <string name="last_5_days">Últimos 5 días</string>
     <string name="last_15_days">Últimos 15 días</string>
     <string name="last_30_days">Últimos 30 días</string>
+    <string name="status">Estado</string>
+    <string name="complete_verification">Verificación completa</string>
+    <string name="complete_wallet_verification">Verificación completa de wallet</string>
+    <string name="i_will_later">Lo haré más tarde</string>
+    <string name="faucet_text">Vea la wallet en acción. Obtenga una pequeña cantidad de Beams del grifo de la comunidad.</string>
+    <string name="get_coins">Consigue monedas</string>
+    <string name="make_wallet_secure_text">Escribe y valida tu frase semilla para que siempre puedas recuperar tus fondos.</string>
+    <string name="secure_your_phrase">Asegura tu frase</string>
+    <string name="clear_local_data">Limpiar datos de wallet local</string>
+    <string name="show_seed_phrase">Mostrar frase semilla</string>
+    <string name="clear_wallet">Eliminar wallet actual</string>
+    <string name="clear_wallet_text">Todos los datos serán borrados. ¡Asegúrate de que has guardado tu frase semilla si quieres restaurar esta wallet más adelante! ¿Estás seguro de que quieres eliminar tu wallet?</string>
+    <string name="export_wallet_data">Exportar datos del wallet</string>
+    <string name="import_wallet_data">Importar datos del wallet</string>
+    <string name="export_wallet_data_text">¿Desea guardar los datos en su dispositivo o compartirlos?</string>
+    <string name="remove_wallet">Eliminar wallet</string>
+    <string name="utilities">Utilidades</string>
+    <string name="incorrect_file_title">Archivo incorrecto</string>
+    <string name="incorrect_file_text">El archivo que estás intentando importar a Beam Wallet no encaja. Por favor, elige otro archivo e inténtalo de nuevo.</string>
+    <string name="import_data_text">¿Está seguro que desea importar datos a su wallet de Beam? Todos los datos actuales serán reemplazados por uno importado.</string>
+    <string name="import_data_title">Importar datos</string>
+    <string name="imp">Importar</string>
+    <string name="export_data">Exportar datos</string>
+    <string name="clear_wallet_password">Introduce tu contraseña para eliminar tu wallet\"</string>
+    <string name="change_node_text_2">Usa la huella digital o introduce tu contraseña para cambiar la configuración del nodo</string>
+    <string name="change_node_text_3">Introduzca su contraseña para cambiar la configuración del nodo</string>
+    <string name="get_beam_faucet">Obtener Beams del grifo de la Comunidad de Beam</string>
+    <string name="privacy">Privacidad</string>
+    <string name="feedback">Sugerencias</string>
+    <string name="enter_your_password">Introduce tu contraseña</string>
+    <string name="wallet_data_saved">Datos de la wallet guardados en descargas</string>
+    <string name="remove_wallet_password_1">Utilice la huella digital o introduzca su contraseña para eliminar la wallet actual</string>
+    <string name="remove_wallet_password_2">Introduce tu contraseña para eliminar la wallet actual</string>
+    <string name="welcome_seed_description_old">Su frase semilla es la clave de acceso a todas las criptomonedas en su wallet. Imprime o escribe la frase para guardarla en un lugar seguro o caja de seguridad. Sin la frase no podrás recuperar tu dinero.</string>
+    <string name="change_settings_text_2">Introduce tu contraseña actual para proceder con los cambios en la configuración</string>
+    <string name="change_settings_text_1">Use la huella digital o introduzca su contraseña para proceder a los cambios en la configuración</string>
 </resources>

@@ -66,6 +66,7 @@
                 android:background="@drawable/primary_button"
                 app:button_icon="@drawable/ic_send_white"
                 app:button_text="@string/i_will_later"
+                app:lower_case="false"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

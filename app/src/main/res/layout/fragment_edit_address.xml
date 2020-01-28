@@ -21,12 +21,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
-        android:fitsSystemWindows="true"
-        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,6 +50,24 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <EditText
+                        android:id="@+id/nameLabel"
+                        style="@style/common_text_big_light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_text_selector"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="@string/no_name"
+                        android:importantForAutofill="noExcludeDescendants"
+                        android:inputType="text|textCapSentences"
+                        android:paddingStart="3dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="3dp"
+                        android:paddingBottom="5dp"
+                        android:singleLine="true"
+                        android:textSize="14sp"
+                        tools:ignore="Autofill,LabelFor,TextFields" />
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,24 +80,6 @@
                         android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
-                    <EditText
-                        android:id="@+id/nameLabel"
-                        style="@style/common_text_big_light"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/edit_text_selector"
-                        android:fontFamily="@font/roboto_regular"
-                        android:hint="@string/no_name"
-                        android:inputType="text|textCapSentences"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:paddingStart="3dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="3dp"
-                        android:paddingBottom="5dp"
-                        android:singleLine="true"
-                        android:textSize="14sp"
-                        tools:ignore="Autofill,LabelFor,TextFields" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -87,18 +88,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/expireTitleLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.2"
-                        android:padding="3dp"
-                        android:text="@string/expires"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/subHeaderTextColor"
-                        android:textSize="12sp" />
 
                     <Spinner
                         android:id="@+id/expireList"
@@ -112,11 +101,17 @@
                         android:textSize="14sp"
                         tools:text="24 hours" />
 
-                    <View
-                        android:id="@+id/expireLine"
+                    <TextView
+                        android:id="@+id/expireTitleLabel"
                         android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/white_01" />
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/expires"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/expireLabel"
@@ -127,6 +122,12 @@
                         android:textColor="?attr/subHeaderTextColor"
                         android:textSize="14sp"
                         tools:text="2 Jan 2019     |     3:46 PM (GMT +3)" />
+
+                    <View
+                        android:id="@+id/expireLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/white_01" />
 
                 </LinearLayout>
 

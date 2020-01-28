@@ -35,6 +35,16 @@ object CalendarUtils {
         return dataFormat.format(calendar.time)
     }
 
+    fun fromDate(date: Date): String {
+        var dataFormat = if (App.is24HoursTimeFormat!!) {
+            SimpleDateFormat(TIME_FORMAT_24, AppConfig.LOCALE)
+        } else {
+            SimpleDateFormat(TIME_FORMAT_12, AppConfig.LOCALE)
+        }
+
+        return dataFormat.format(date)
+    }
+
     fun fromTimestamp(timestamp: Long): String {
         val calendar = calendarFromTimestamp(timestamp)
 

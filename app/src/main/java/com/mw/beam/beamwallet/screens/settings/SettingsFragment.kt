@@ -71,6 +71,8 @@ import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
 import java.io.IOException
 
+import com.github.loadingview.LoadingDialog
+
 import com.mw.beam.beamwallet.core.views.SettingsItemView
 import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
@@ -83,7 +85,6 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
  *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
-
 
     data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null)
 
@@ -112,11 +113,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            if(mode() == SettingsFragmentMode.All) {
-                showWalletFragment()
-            }
-            else{
-                findNavController().popBackStack()
+            if(!isShareLogs) {
+                if(mode() == SettingsFragmentMode.All) {
+                    showWalletFragment()
+                }
+                else{
+                    findNavController().popBackStack()
+                }
             }
         }
     }
@@ -577,12 +580,14 @@ else{
         {
             isShareLogs = true
 
+            val dialog = LoadingDialog.get(activity!!).show()
+
             doAsync {
                 ZipManager.zip(AppConfig.LOG_PATH, AppConfig.ZIP_PATH);
 
                 uiThread {
 
-                   val subject =  when(BuildConfig.FLAVOR) {
+                    val subject =  when(BuildConfig.FLAVOR) {
                         AppConfig.FLAVOR_MASTERNET -> {
                             "beam wallet masternet logs"
                         }
@@ -603,6 +608,8 @@ else{
                     shareIntent.type = AppConfig.SHARE_TYPE
                     shareIntent.action = Intent.ACTION_SEND;
                     startActivity(shareIntent)
+
+                    dialog?.hide()
 
                     isShareLogs = false
                 }

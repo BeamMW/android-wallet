@@ -93,6 +93,9 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        isButtonPressed = false
+
         if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
 
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
@@ -105,11 +108,15 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         pass.requestFocus()
         showKeyboard()
 
+        isButtonPressed = false
+
         onBackPressedCallback.isEnabled = true
     }
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
+
+        isButtonPressed = false
 
         super.onStop()
     }

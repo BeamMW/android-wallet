@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">กรอกรหัสผ่านเพื่อเปิดกระเป๋า.</string>
     <string name="welcome_open_description_with_fingerprint">ใช้การสแกนนิ้วมือหรือกรอกรหัสผ่านเพื่อเปิดกระเป๋า</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">กลุ่มคำลับเหล่านี้ของคุณเป็นกุญแจเพื่อที่จะเข้าถึงทรัพย์สินในกระเป๋าของคุณ กรุณาเขียนกลุ่มคำลับนี้ลงกระดาษเก็บไว้ในที่ปลอดภัยอย่างตู้เซฟหรือห้องนิรภัย หากไม่มีกลุ่มคำลับเหล่านี้คุณจะไม่สามารถกู้คืนทรัพย์สินของคุณได้</string>
+    <string name="welcome_seed_description">กลุ่มคำลับเหล่านี้ของคุณเป็นกุญแจเพื่อที่จะเข้าถึงทรัพย์สินในกระเป๋าของคุณ หลังจากนี้คุณจะไม่สามารถดูกลุ่มคำลับนี้ในการตั้งค่า พิมพ์ลงกระดาษหรือเขียนกลุ่มคำและเก็บไว้ในที่ปลอดภัยอย่างตู้เซฟหรือห้องนิรภัย หากไม่มีกลุ่มคำลับเหล่านี้คุณจะไม่สามารถกู้คืนทรัพย์สินของคุณได้</string>
     <string name="welcome_seed_title">กลุ่มคำลับ</string>
     <string name="welcome_seed_save_title">บันทึกกลุ่มคำลับ</string>
     <string name="welcome_seed_save_description">กรุณาเขียนกลุ่มคำลับเหล่านี้ อย่าทำสกรีนช็อตหรือเซฟไว้ที่คลังภาพในเครื่องเพื่อป้องกันการโขมยโดยผู้ไม่หวังดีและมันปลอดภัยน้อยกว่าด้วย</string>
@@ -177,6 +177,7 @@
     <string name="date">วันที่</string>
     <string name="time">เวลา</string>
     <string name="id">ID</string>
+    <string name="treasure">คลังกลาง</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">รายละเอียดของธุรกรรม</string>
     <string name="general_transaction_info">รายละเอียดทั่วไปของธุรกรรม</string>
@@ -227,8 +228,8 @@
     <string name="advanced">ขั้นสูง</string>
     <string name="send_token_description">กรอกหรือสแกนที่อยู่ผู้รับ</string>
     <string name="share">แชร์</string>
-    <string name="save_to_downloads">บันทึกเพื่อดาวน์โหลด</string>
-    <string name="saved_to_downloads">บันทึกแล้วดาวน์โหลดได้</string>
+    <string name="save_to_downloads">บันทึกลงโฟลเดอร์ Downloads</string>
+    <string name="saved_to_downloads">บันทึกลงโฟลเดอร์ Downloads แล้ว</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">จำนวนไม่สามารถเว้นว่างได้</string>
     <string name="send_amount_zero_error">จำนวน BEAM ไม่สามารถเป็น 0 ได้</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">ส่ง Log...</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="settings_general_settings">ตั้งค่าทั่วไป</string>
+    <string name="settings_general_settings">ทั่วไป</string>
     <string name="lock_screen">ล็อกหน้าจอ</string>
     <string name="never">ไม่มี</string>
     <string name="after">หลังจาก</string>
@@ -298,7 +299,7 @@
     <string name="delete_addresses">ลบที่อยู่</string>
     <string name="delete_contacts">ลบรายชื่อติดต่อ</string>
     <string name="transactions_list">รายการธุรกรรม</string>
-    <string name="address_id">ที่อยู่</string>
+    <string name="address_id">ID ที่อยู่</string>
     <string name="expiration_date">วันหมดอายุ</string>
     <string name="tag">แท็ก</string>
     <string name="show_qr_code_short">แสดง QR</string>
@@ -370,7 +371,6 @@
     <string name="save_recipient_address">คุณต้องการที่จะบันทึกที่อยู่ผู้รับโอนนี้สำหรับการทำธุรกรรมในอนาคตหรือไม่?</string>
     <string name="save_address">บันทึกที่อยู่</string>
     <string name="dont_save">ไม่ต้องบันทึก</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">กรอกรหัสผ่านของคุณเพื่อดำเนินการเปลี่ยนแปลงการตั้งค่า</string>
     <string name="save_changes">บันทึกการเปลี่ยนแปลง</string>
     <string name="receive_description">เพื่อให้การทำธุรกรรมเสร็จสมบูรณ์ คุณควรจะออนไลน์ระหว่าง 12 ชั่วโมงหลังจากที่ได้ทำการสั่งโอน Beam ออกไป</string>
     <string name="search_by_address_tag_or_name">ค้นหาโดยใช้ที่อยู่, แท็ก หรือ ชื่อ</string>
@@ -431,7 +431,7 @@
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">หลังจากที่คุณวาง Owner Key แล้ว ให้รัน Node ของคุณบนเดสท็อปและกดถัดไปที่แอปในมือถือ</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node ยังไม่ทำการเชื่อมต่อได้ ลองเชื่อมต่อประเป๋าโดยใช้ Node อื่นหรือใช้การกู้กระเป๋าแบบอัตโนมัติ</string>
     <string name="connecting">กำลังเชื่อมต่อ...</string>
-    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">ค้นหาโดยหมายเลขธุรกรรมหรือ Kernel ID,
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">ค้นหาโดย ID ของธุรกรรมหรือ Kernel ID,
 คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
     <string name="address_details">รายละเอียดที่อยู่</string>
     <string name="contact_details">ราย​ละเอียด​รายชื่อผู้ติดต่อ</string>
@@ -452,4 +452,41 @@
     <string name="last_5_days">5 วันที่แล้ว</string>
     <string name="last_15_days">15 วันที่แล้ว</string>
     <string name="last_30_days">30 วันที่แล้ว</string>
+    <string name="status">สถานะ</string>
+    <string name="complete_verification">การตรวจสอบเสร็จสิ้น</string>
+    <string name="complete_wallet_verification">การตรวจสอบกระเป๋าเสร็จสิ้น</string>
+    <string name="i_will_later">ฉันต้องการทำที่หลัง</string>
+    <string name="faucet_text">หากต้องการทดลองใช้งานจริง คุณสามารถรับเหรียญ Beam จำนวนเล็กน้อยเพื่อมาทดสอบได้ที่ Community Faucet</string>
+    <string name="get_coins">รับเหรียญ</string>
+    <string name="make_wallet_secure_text">จดบันทึกและตรวจสอบกลุ่มคำลับของคุณเพื่อจะทำให้คุณสามารถกู้ทรัพย์สินได้เสมอ</string>
+    <string name="secure_your_phrase">ปกป้องกลุ่มคำของคุณ</string>
+    <string name="clear_local_data">ล้างข้อมูลกระเป๋าในอุปกรณ์นี้</string>
+    <string name="show_seed_phrase">แสดงกลุ่มคำลับ</string>
+    <string name="clear_wallet">ลบกระเป๋าปัจจุบัน</string>
+    <string name="clear_wallet_text">ข้อมูลทั้งหมดจะถูกลบทิ้ง กรุณาแน่ใจว่าคุณได้ทำการบันทึกกลุ่มคำลับไว้แล้วเผื่อไว้ในกรณีที่คุณต้องการกู้คืนกระเป๋านี้อีกครั้ง!
+คุณแน่ใจที่จะทำการลบกระเป๋านี้?</string>
+    <string name="export_wallet_data">ส่งออกข้อมูลกระเป๋า</string>
+    <string name="import_wallet_data">นำเข้าข้อมูลกระเป๋า</string>
+    <string name="export_wallet_data_text">คุณต้องการที่จะบันทึกข้อมูลลงอุปกรณ์ของคุณหรือแชร์ออกไป?</string>
+    <string name="remove_wallet">ลบกระเป๋า</string>
+    <string name="utilities">ยูทิลิตี้</string>
+    <string name="incorrect_file_title">ไฟล์ไม่ถูกต้อง</string>
+    <string name="incorrect_file_text">ไฟล์ที่คุณกำลังนำเข้านั้นไม่ถูกต้อง กรุณาเลือกไฟล์อื่นและลองอีกครั้ง</string>
+    <string name="import_data_text">คุณแน่ใจที่จะนำเข้าข้อมูลเข้ากระเป๋านี้? ข้อมูลในกระเป๋าปัจจุบันจะถูกแทนที่ด้วยข้อมูลที่นำเข้าทั้งหมด</string>
+    <string name="import_data_title">นำเข้าข้อมูล</string>
+    <string name="imp">นําเข้า</string>
+    <string name="export_data">ส่งออกข้อมูล</string>
+    <string name="clear_wallet_password">กรุณากรอกรหัสผ่านเพื่อทำการลบกระเป๋าของคุณ\"</string>
+    <string name="change_node_text_2">ใช้สแกนลายนิ้วมือหรือใส่รหัสผ่านเพื่อแก้การตั้งค่า Node</string>
+    <string name="change_node_text_3">ใส่รหัสผ่านของคุณเพื่อแก้การตั้งค่า Node</string>
+    <string name="get_beam_faucet">รับ Beam จาก Faucet โดยชุมชนของ Beam</string>
+    <string name="privacy">ความเป็นส่วนตัว</string>
+    <string name="feedback">คำติชม</string>
+    <string name="enter_your_password">ใส่รหัสผ่านของคุณ</string>
+    <string name="wallet_data_saved">ข้อมูลกระเป๋าได้ถูกบันทึกลงโฟลเดอร์ Downloads แล้ว</string>
+    <string name="remove_wallet_password_1">ใช้การสแกนนิ้วมือหรือกรอกรหัสผ่านเพื่อลบกระเป๋าปัจจุบัน</string>
+    <string name="remove_wallet_password_2">กรุณากรอกรหัสผ่านเพื่อทำการลบกระเป๋าปัจจุบัน</string>
+    <string name="welcome_seed_description_old">กลุ่มคำลับเหล่านี้ของคุณเป็นกุญแจเพื่อที่จะเข้าถึงทรัพย์สินในกระเป๋าของคุณ กรุณาเขียนกลุ่มคำลับนี้ลงกระดาษเก็บไว้ในที่ปลอดภัยอย่างตู้เซฟหรือห้องนิรภัย หากไม่มีกลุ่มคำลับเหล่านี้คุณจะไม่สามารถกู้คืนทรัพย์สินของคุณได้</string>
+    <string name="change_settings_text_2">กรอกรหัสผ่านปัจจุบันของคุณเพื่อดำเนินการเปลี่ยนแปลงการตั้งค่า</string>
+    <string name="change_settings_text_1">ใช้สแกนลายนิ้วมือหรือใส่รหัสผ่านเพื่อดำเนินการเปลี่ยนแปลงการตั้งค่า</string>
 </resources>

@@ -72,6 +72,9 @@ class AppManager {
     }
 
     fun removeWallet() {
+
+        TagHelper.clear()
+
         isSubscribe = false
         isResotred = false
 

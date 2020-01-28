@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">Immetti la tua password per accedere al portafoglio.</string>
     <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">Seed frase</string>
     <string name="welcome_seed_save_title">Save seed phrase</string>
     <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
@@ -177,6 +177,7 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="id">ID</string>
+    <string name="treasure">Treasure</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>
     <string name="general_transaction_info">General transaction info</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">Send logs…</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="settings_general_settings">Impostazioni generali</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">Schermata di blocco</string>
     <string name="never">Mai</string>
     <string name="after">After</string>
@@ -370,7 +371,6 @@ Devi superare la verifica a 2 passaggi (inviare una password e utilizzare l\'Imp
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
     <string name="save_address">Save address</string>
     <string name="dont_save">Non salvare</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
@@ -452,4 +452,40 @@ address or contact</string>
     <string name="last_5_days">Ultimi 5 giorni</string>
     <string name="last_15_days">Ultimi 15 giorni</string>
     <string name="last_30_days">Ultimi 30 giorni</string>
+    <string name="status">Stato</string>
+    <string name="complete_verification">Complete verification</string>
+    <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="i_will_later">I will do it later</string>
+    <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
+    <string name="get_coins">Get coins</string>
+    <string name="make_wallet_secure_text">Write down and validate your seed phrase so you can always recover your funds.</string>
+    <string name="secure_your_phrase">Secure your phrase</string>
+    <string name="clear_local_data">Clear local wallet data</string>
+    <string name="show_seed_phrase">Show seed phrase</string>
+    <string name="clear_wallet">Remove current wallet</string>
+    <string name="clear_wallet_text">All data will be erased. Make sure you’ve saved your seed phrase if you want to restore this wallet later on! Are you sure you want to remove your wallet?</string>
+    <string name="export_wallet_data">Export wallet data</string>
+    <string name="import_wallet_data">Import wallet data</string>
+    <string name="export_wallet_data_text">Would you like to save data on your device or share it?</string>
+    <string name="remove_wallet">Remove wallet</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Incorrect file</string>
+    <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
+    <string name="import_data_title">Import data</string>
+    <string name="imp">Import</string>
+    <string name="export_data">Export data</string>
+    <string name="clear_wallet_password">Enter your password to remove your wallet\"</string>
+    <string name="change_node_text_2">Use fingerprint or enter your password to change node settings</string>
+    <string name="change_node_text_3">Enter your password to change node settings</string>
+    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">Feedback</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="remove_wallet_password_1">Use fingerprint or enter your password to remove current wallet</string>
+    <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
+    <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="change_settings_text_2">Enter your current password to proceed changes in settings</string>
+    <string name="change_settings_text_1">Use fingerprint or enter your password to proceed changes in settings</string>
 </resources>

@@ -81,7 +81,14 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 expireLabel.visibility = View.GONE
             }
             else{
+                var dt = Date()
+                val c = Calendar.getInstance()
+                c.time = dt
+                c.add(Calendar.DATE, 1)
+                dt = c.time
+
                 expireLabel.visibility = View.VISIBLE
+                expireLabel.text = CalendarUtils.fromDate(dt)
             }
         }
     }
@@ -341,17 +348,17 @@ else{
             expireLabel.visibility = View.VISIBLE
         }
         else{
+            var dt = Date()
             val c = Calendar.getInstance()
-            c.time = Date()
+            c.time = dt
             c.add(Calendar.DATE, 1)
-
-            val currentDatePlusOne = c.time
+            dt = c.time
 
             expireTitleLabel.text = getText(R.string.expires)
             expireList.visibility = View.VISIBLE
             expireLine.visibility = View.VISIBLE
             expireLabel.setTextColor(resources.getColor(R.color.common_text_dark_color))
-            expireLabel.text = CalendarUtils.fromTimestamp(currentDatePlusOne.time / 1000)
+            expireLabel.text = CalendarUtils.fromDate(dt)
             expireLabel.visibility = View.VISIBLE
 
             expireList.setSelection(0)
