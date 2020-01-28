@@ -23,6 +23,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import androidx.navigation.fragment.findNavController
+import android.os.Handler
+import androidx.activity.OnBackPressedCallback
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -31,20 +34,20 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.core.views.Type
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
-import kotlinx.android.synthetic.main.fragment_welcome_open.*
-import android.os.Handler
-import androidx.activity.OnBackPressedCallback
+
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.core.views.Status
+import com.mw.beam.beamwallet.core.views.Type
+
+import kotlinx.android.synthetic.main.fragment_welcome_open.*
 
 /**
  *  10/19/18.
  */
 class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenContract.View {
-    private var clickedOpen = false
-
     private var cancellationSignal: CancellationSignal? = null
     private var authCallback: FingerprintCallback? = null
     private val passWatcher = object : TextWatcher {
@@ -65,15 +68,15 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (App.isShowedLockScreen) {
+        if (LockScreenManager.isShowedLockScreen) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
         }
+
+        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 
     override fun onStart() {
         super.onStart()
-
-        LockScreenManager.isNeedLocked = false
 
         onBackPressedCallback.isEnabled = true
     }
@@ -89,32 +92,41 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         super.onDestroy()
     }
 
-    override fun init(shouldInitFingerprint: Boolean) {
-        if (touchIDView!=null)
+    override fun init(shouldInitBiometric: Boolean) {
+        if (biometricView!=null)
         {
-            if (!App.isShowedLockScreen) {
+            if (!LockScreenManager.isShowedLockScreen) {
                 App.isAuthenticated = false
             }
             else{
                 btnChange.visibility = View.GONE
             }
 
-            if (shouldInitFingerprint) {
-                cancellationSignal = CancellationSignal()
+            if (shouldInitBiometric) {
+                if(presenter?.repository?.isFaceIDEnabled() == true) {
+                    biometricView.setBiometricType(Type.FACE)
+                    biometricView.visibility = View.VISIBLE
+                    description.setText(R.string.welcome_open_description_with_faceid)
+                    displayFaceIDPromt()
+                }
+                else if(presenter?.repository?.isFingerPrintEnabled() == true)
+                {
+                    cancellationSignal = CancellationSignal()
 
-                authCallback = FingerprintCallback(this, presenter, cancellationSignal)
+                    authCallback = FingerprintCallback(this, presenter, cancellationSignal)
 
-                touchIDView.visibility = View.VISIBLE
+                    biometricView.visibility = View.VISIBLE
 
-                FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
-                        authCallback!!, null)
+                    FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
+                            authCallback!!, null)
 
-                description.setText(R.string.welcome_open_description_with_fingerprint)
+                    description.setText(R.string.welcome_open_description_with_fingerprint)
+                }
             }
             else {
                 description.setText(R.string.enter_your_password_to_access_the_wallet)
 
-                touchIDView.visibility = View.GONE
+                biometricView.visibility = View.GONE
 
                 pass.requestFocus()
 
@@ -125,6 +137,25 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             }
 
             passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        }
+    }
+
+    private fun displayFaceIDPromt() {
+        App.self.showFaceIdPrompt(this,getString(R.string.use_faceid_access_wallet).replace(".","")) {
+            when (it) {
+                Status.SUCCESS -> {
+                    biometricSuccess()
+                    presenter?.onBiometricSucceeded()
+                }
+                Status.ERROR -> {
+                    biometricError()
+                    presenter?.onBiometricError()
+                }
+                Status.FAILED -> {
+                    biometricFailed()
+                    presenter?.onBiometricFailed()
+                }
+            }
         }
     }
 
@@ -139,6 +170,12 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
             btnChange.setOnClickListener {
                 presenter?.onChangeWallet()
+            }
+
+            biometricView.setOnClickListener {
+                if(presenter?.repository?.isFaceIDEnabled() == true) {
+                    displayFaceIDPromt()
+                }
             }
 
             pass.addTextChangedListener(passWatcher)
@@ -160,22 +197,21 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         return !hasErrors
     }
 
-    fun showFailed() {
-        touchIDView.setType(Type.FAILED)
+    fun biometricFailed() {
+        biometricView.setStatus(Status.FAILED)
     }
 
-    fun fingerprintError() {
-        touchIDView.setType(Type.ERROR)
+    fun biometricError() {
+        biometricView.setStatus(Status.ERROR)
 
         pass.requestFocus()
 
         showKeyboard()
     }
 
-    fun success() {
-        touchIDView.setType(Type.SUCCESS)
+    fun biometricSuccess() {
+        biometricView.setStatus(Status.SUCCESS)
     }
-
 
     override fun clearError() {
         passError.visibility = View.INVISIBLE
@@ -200,8 +236,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun openWallet(pass: String) {
         hideKeyboard()
-        if (App.isShowedLockScreen) {
-            App.isShowedLockScreen = false
+        if (LockScreenManager.isShowedLockScreen) {
+            LockScreenManager.isShowedLockScreen = false
 
             (activity as? AppActivity)?.enableLeftMenu(true)
 
@@ -235,8 +271,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
                 getString(R.string.cancel))
     }
 
-    override fun showFingerprintAuthError() {
-        showToast(getString(R.string.common_fingerprint_error), 3000)
+    override fun showBiometricAuthError() {
+        if(biometricView.type == Type.FINGER) {
+            showToast(getString(R.string.common_faceid_error), 3000)
+        }
+        else{
+            showToast(getString(R.string.common_fingerprint_error), 3000)
+        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -246,22 +287,22 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     private class FingerprintCallback(var view: WelcomeOpenFragment?, var presenter: WelcomeOpenContract.Presenter?, var cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
-            view?.fingerprintError()
-            presenter?.onFingerprintError()
+            view?.biometricError()
+            presenter?.onBiometricError()
             cancellationSignal?.cancel()
         }
 
         override fun onAuthenticationSucceeded(result: FingerprintManagerCompat.AuthenticationResult?) {
             super.onAuthenticationSucceeded(result)
-            view?.success()
-            presenter?.onFingerprintSucceeded()
+            view?.biometricSuccess()
+            presenter?.onBiometricSucceeded()
             cancellationSignal?.cancel()
         }
 
         override fun onAuthenticationFailed() {
             super.onAuthenticationFailed()
-            view?.showFailed()
-            presenter?.onFingerprintFailed()
+            view?.biometricFailed()
+            presenter?.onBiometricFailed()
         }
 
         fun clear() {

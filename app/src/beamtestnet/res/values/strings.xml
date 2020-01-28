@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Beam Wallet Testnet</string>
     <string name="online">Online (testnet)</string>
+    <string name="redirect" translatable="false">www.bmmobiletestnet.com</string>
 </resources>

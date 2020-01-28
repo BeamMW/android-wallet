@@ -23,6 +23,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -34,22 +35,13 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
-import com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionContract
-import com.mw.beam.beamwallet.screens.send_confirmation.dialog.ConfirmTransactionDialog
+import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
+
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
 
 class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private val args: SendConfirmationFragmentArgs by lazy {
         SendConfirmationFragmentArgs.fromBundle(arguments!!)
-    }
-
-    private val confirmCallback = object : ConfirmTransactionContract.Callback {
-        override fun onClose(success: Boolean) {
-            if (success) {
-                presenter?.onConfirmed()
-            }
-            ConfirmTransactionDialog.callback = null
-        }
     }
 
     private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
@@ -100,8 +92,11 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun showConfirmDialog() {
-        ConfirmTransactionDialog.callback = confirmCallback
-        findNavController().navigate(SendConfirmationFragmentDirections.actionSendConfirmationFragmentToConfirmTransactionDialog())
+        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.SendBeam, {
+            presenter?.onConfirmed()
+        }, {
+
+        }).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     override fun addListeners() {

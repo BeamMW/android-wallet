@@ -19,10 +19,11 @@ package com.mw.beam.beamwallet.core.views
 import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
+
 import kotlinx.android.synthetic.main.item_category.view.*
 
 class CategoryItemView: FrameLayout {

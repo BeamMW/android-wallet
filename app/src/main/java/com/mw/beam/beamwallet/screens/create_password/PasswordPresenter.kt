@@ -24,7 +24,7 @@ import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 /**
  *  10/23/18.
  */
-class PasswordPresenter(currentView: PasswordContract.View, currentRepository: PasswordContract.Repository, private val state: PasswordState)
+class PasswordPresenter(currentView: PasswordContract.View, currentRepository: PasswordContract.Repository, val state: PasswordState)
     : BasePresenter<PasswordContract.View, PasswordContract.Repository>(currentView, currentRepository),
         PasswordContract.Presenter {
     private val strengthVeryWeak = Regex("(?=.+)")

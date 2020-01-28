@@ -28,6 +28,9 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.helpers.FaceIDManager
+import com.mw.beam.beamwallet.core.helpers.FingerprintManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -38,6 +41,8 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
  *  10/23/18.
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
+    private var isButtonPressed = false
+
     private val args by lazy {
         PasswordFragmentArgs.fromBundle(arguments!!)
     }
@@ -88,6 +93,9 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        isButtonPressed = false
+
         if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
 
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
@@ -100,11 +108,15 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         pass.requestFocus()
         showKeyboard()
 
+        isButtonPressed = false
+
         onBackPressedCallback.isEnabled = true
     }
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
+
+        isButtonPressed = false
 
         super.onStop()
     }
@@ -122,7 +134,10 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         confirmPass.addTextChangedListener(confirmPassWatcher)
 
         btnProceed.setOnClickListener {
-            presenter?.onProceed()
+            if (!isButtonPressed) {
+                isButtonPressed = true
+                presenter?.onProceed()
+            }
         }
     }
 
@@ -134,18 +149,86 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun proceedToWallet(mode: WelcomeMode, pass: String, seed: Array<String>) {
-        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+        when {
+            FaceIDManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_faceid_text),
+                    title = getString(R.string.use_faceid_access_wallet),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    },
+                    onCancel = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    }, cancelable = false)
+            FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
+                    title = getString(R.string.use_finger),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    },
+                    onCancel = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                    }, cancelable = false)
+            else -> {
+                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                isButtonPressed = false
+            }
+        }
     }
+
     override fun showSeedFragment() {
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())
     }
 
     override fun showRestoreModeChoice(pass: String, seed: Array<String>) {
-        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+        when {
+            FaceIDManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_faceid_text),
+                    title = getString(R.string.use_faceid_access_wallet),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    },
+                    onCancel = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    }, cancelable = false)
+            FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
+                    title = getString(R.string.use_finger),
+                    btnConfirmText = getString(R.string.enable),
+                    btnCancelText = getString(R.string.dont_use),
+                    onConfirm = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    },
+                    onCancel = {
+                        isButtonPressed = false
+                        PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                    }, cancelable = false)
+            else ->  {
+                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToRestoreModeChoiceFragment2(pass, seed))
+                isButtonPressed = false
+            }
+        }
     }
 
     override fun completePassChanging() {
         findNavController().popBackStack()
+        isButtonPressed = false
     }
 
     override fun hasErrors(): Boolean {
@@ -157,6 +240,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_can_not_be_empty)
             pass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         if (!pass.text.isNullOrBlank() && pass.text.toString() != confirmPass.text.toString()) {
@@ -164,6 +248,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_not_match)
             confirmPass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         if (confirmPass.text.isNullOrBlank()) {
@@ -171,6 +256,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_can_not_be_empty)
             confirmPass.isStateError = true
             hasErrors = true
+            isButtonPressed = false
         }
 
         return hasErrors
@@ -180,6 +266,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         passError.visibility = View.VISIBLE
         passError.text = getString(R.string.pass_old_pass_error)
         pass.isStateError = true
+        isButtonPressed = false
     }
 
     override fun clearErrors() {

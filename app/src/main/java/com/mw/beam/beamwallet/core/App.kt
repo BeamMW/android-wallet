@@ -21,7 +21,6 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -32,25 +31,20 @@ import com.elvishew.xlog.XLog
 import com.elvishew.xlog.flattener.PatternFlattener
 import com.elvishew.xlog.printer.file.FilePrinter
 import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
-import com.elvishew.xlog.printer.file.clean.FileLastModifiedCleanStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import com.mw.beam.beamwallet.service.BackgroundService
-//import com.squareup.leakcanary.LeakCanary
 import java.util.concurrent.TimeUnit
-import android.os.Environment
-import android.view.Display
 import java.io.File
 import java.util.*
-import android.graphics.Point
-import com.mw.beam.beamwallet.core.helpers.checkRecoverDataBase
-import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.R
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-
+import androidx.biometric.BiometricPrompt
+import java.util.concurrent.Executor
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 /**
  *  10/1/18.
@@ -59,17 +53,21 @@ class App : Application() {
 
     var subOnStatusResume: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+
     companion object {
         lateinit var self: App
 
         private const val BACKGROUND_JOB_ID = 71614
-
+        var isDarkMode = false
         var showNotification = true
         var isAuthenticated = false
-        var isShowedLockScreen = false
         var intentTransactionID: String? = null
         var isAppRunning = false
         var is24HoursTimeFormat: Boolean? = null
+        var isNeedOpenScanner: Boolean = false
     }
 
     override fun onCreate() {
@@ -84,6 +82,11 @@ class App : Application() {
                 if (isAuthenticated) {
                     AppManager.instance.updateAllData()
                 }
+            }
+
+            @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+            fun onPause(){
+                LockScreenManager.inactiveDate = System.currentTimeMillis()
             }
         })
 
@@ -135,6 +138,47 @@ class App : Application() {
                         .build())
 
       clearLogs()
+    }
+
+    fun showFaceIdPrompt(fromFragment:Fragment,title:String,cancel:String? = null, resultCallback: (result: com.mw.beam.beamwallet.core.views.Status) -> Unit) {
+        executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(fromFragment, executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationError(errorCode: Int,
+                                                       errString: CharSequence) {
+                        super.onAuthenticationError(errorCode, errString)
+                        if(errorCode == 13 || cancel == errString)
+                        {
+                            resultCallback.invoke(com.mw.beam.beamwallet.core.views.Status.CANCEL)
+                        }
+                        else{
+                            resultCallback.invoke(com.mw.beam.beamwallet.core.views.Status.ERROR)
+                        }
+                    }
+
+                    override fun onAuthenticationSucceeded(
+                            result: BiometricPrompt.AuthenticationResult) {
+                        super.onAuthenticationSucceeded(result)
+                        resultCallback.invoke(com.mw.beam.beamwallet.core.views.Status.SUCCESS)
+                    }
+
+                    override fun onAuthenticationFailed() {
+                        super.onAuthenticationFailed()
+                        resultCallback.invoke(com.mw.beam.beamwallet.core.views.Status.FAILED)
+                    }
+                })
+
+        var cancelText = getString(R.string.enter_your_password)
+        if(cancel!=null) {
+            cancelText = cancel
+        }
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(title)
+                .setSubtitle("")
+                .setNegativeButtonText(cancelText)
+                .build()
+        biometricPrompt.authenticate(promptInfo)
     }
 
     fun startBackgroundService() {

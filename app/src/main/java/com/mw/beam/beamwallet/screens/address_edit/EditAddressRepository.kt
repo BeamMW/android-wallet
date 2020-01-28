@@ -37,7 +37,16 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 
     override fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
         getResult("saveAddressChanges") {
-            wallet?.saveAddressChanges(addr, name, isNever, makeActive, makeExpired)
+            var addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.OneDay
+
+            if(makeExpired) {
+                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Expired;
+            }
+            else if(isNever) {
+                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Never;
+            }
+
+            wallet?.updateAddress(addr, name, addressExpiration.ordinal)
         }
     }
 

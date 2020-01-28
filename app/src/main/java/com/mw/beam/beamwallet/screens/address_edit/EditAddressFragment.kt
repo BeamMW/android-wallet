@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.Date
 import java.util.Calendar
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  3/5/19.
@@ -80,7 +81,14 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 expireLabel.visibility = View.GONE
             }
             else{
+                var dt = Date()
+                val c = Calendar.getInstance()
+                c.time = dt
+                c.add(Calendar.DATE, 1)
+                dt = c.time
+
                 expireLabel.visibility = View.VISIBLE
+                expireLabel.text = CalendarUtils.fromDate(dt)
             }
         }
     }
@@ -88,7 +96,12 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
     override fun getToolbarTitle(): String? { return null }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun init(address: WalletAddress) {
         isContact = address.isContact
@@ -119,8 +132,8 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
             expireLabel.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
         }
 
-        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context, android.R.layout.simple_spinner_item,strings) {
+        val strings = context!!.resources.getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(context!!, android.R.layout.simple_spinner_item,strings) {
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
 
                 val view = View.inflate(context,android.R.layout.simple_spinner_item,null)
@@ -129,8 +142,23 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
                 if(position == expireList.selectedItemPosition) {
                     textView.setTextColor(resources.getColor(R.color.colorAccent))
                 }
+                else{
+                    val txtColor = if (App.isDarkMode) {
+                        resources.getColor(R.color.common_text_dark_color_dark)
+                    } else{
+                        resources.getColor(R.color.common_text_dark_color)
+                    }
+                    textView.setTextColor(txtColor)
+                }
                 textView.setPadding(15,30,15,30)
-                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+
+                val bgColor = if (App.isDarkMode) {
+                    resources.getColor(R.color.colorPrimary_dark)
+                } else{
+                    resources.getColor(R.color.colorPrimary)
+                }
+                view.setBackgroundColor(bgColor)
+
                 return view
             }
 
@@ -320,17 +348,17 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
             expireLabel.visibility = View.VISIBLE
         }
         else{
+            var dt = Date()
             val c = Calendar.getInstance()
-            c.time = Date()
+            c.time = dt
             c.add(Calendar.DATE, 1)
-
-            val currentDatePlusOne = c.time
+            dt = c.time
 
             expireTitleLabel.text = getText(R.string.expires)
             expireList.visibility = View.VISIBLE
             expireLine.visibility = View.VISIBLE
             expireLabel.setTextColor(resources.getColor(R.color.common_text_dark_color))
-            expireLabel.text = CalendarUtils.fromTimestamp(currentDatePlusOne.time / 1000)
+            expireLabel.text = CalendarUtils.fromDate(dt)
             expireLabel.visibility = View.VISIBLE
 
             expireList.setSelection(0)

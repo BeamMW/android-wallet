@@ -42,6 +42,9 @@ import java.io.File
 import com.mw.beam.beamwallet.core.AppManager
 import android.transition.AutoTransition
 import android.animation.ObjectAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Handler
 import android.graphics.drawable.GradientDrawable
 import kotlinx.android.synthetic.main.fragment_transaction_details.detailsArrowView
@@ -56,9 +59,8 @@ import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
-import android.util.Log
-import org.jetbrains.anko.doAsync
-import android.view.MotionEvent
+import android.content.res.ColorStateList
+import com.mw.beam.beamwallet.core.App
 
 
 /**
@@ -73,10 +75,15 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
-    var downX:Float = 0f
-    var downY:Float = 0f
+    var downX: Float = 0f
+    var downY: Float = 0f
 
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
@@ -137,17 +144,10 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
                 if (share_transaction_details != null) {
 
-                    //temp solution!
-                    var h = 700
-                    if (presenter?.state?.txDescription?.status == TxStatus.Cancelled || presenter?.state?.txDescription?.status == TxStatus.Failed
-                            || presenter?.state?.txDescription?.kernelId?.contains("000000000") == true) {
-                        h = 640
-                    }
-
                     share_transaction_details?.configGeneralTransactionInfo(presenter?.state?.txDescription)
                     share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context, 420),
-                            ScreenHelper.dpToPx(context, h))
-                    mainContent.addView(share_transaction_details, 0)
+                            ViewGroup.LayoutParams.WRAP_CONTENT)
+                    mainConstraintLayout.addView(share_transaction_details, 0)
                     share_transaction_details?.alpha = 0f
                 }
 
@@ -156,6 +156,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 }, 100)
             }
             R.id.saveContact -> presenter?.onSaveContact()
+            R.id.copy -> presenter?.onCopyDetailsPressed()
         }
 
         return true
@@ -179,7 +180,20 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                     UtxoType.Exchange -> R.drawable.menu_utxo
                 }
 
-                utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                if(utxo.type == UtxoType.Exchange) {
+                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                    val colorRes  = if (App.isDarkMode) {
+                        R.color.common_text_dark_color_dark
+                    }
+                    else{
+                        R.color.common_text_dark_color
+                    }
+                    utxoView.utxoIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, colorRes))
+                }
+                else{
+                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
+                }
+
                 utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
 
                 utxosList.addView(utxoView)
@@ -231,7 +245,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             TxSender.SENT -> currencyIcon.setImageResource(R.drawable.currency_beam_send)
         }
 
-        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.modifyTime)
+        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
         amountLabel.setTextColor(txDescription.amountColor)
@@ -239,7 +253,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!).trim()
 
-        if(status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED){
+        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED) {
             btnOpenInBlockExplorer.visibility = View.INVISIBLE
         }
 
@@ -265,8 +279,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 startAddress.text = txDescription.peerId
                 endAddress.text = txDescription.myId
             }
-        }
-        else {
+        } else {
             startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
             endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
             startAddress.text = txDescription.peerId
@@ -368,7 +381,6 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     }
 
 
-
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
 
@@ -392,52 +404,43 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
             if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(startAddress.text.toString(), "")
                 showSnackBar(getString(R.string.address_copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(startAddress.text.toString())
             }
-        }
-        else if (item.itemId == endAddress.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == endAddress.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(endAddress.text.toString(), "")
                 showSnackBar(getString(R.string.address_copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(endAddress.text.toString())
             }
-        }
-        else if (item.itemId == idLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == idLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(idLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(idLabel.text.toString())
             }
-        }
-        else if (item.itemId == proofLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == proofLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(proofLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
+            } else {
                 shareText(proofLabel.text.toString())
             }
-        }
-        else if (item.itemId == kernelLabel.id) {
-            if (item.title.toString()  == getString(R.string.copy)) {
+        } else if (item.itemId == kernelLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(kernelLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
-            }
-            else{
-               shareText(kernelLabel.text.toString())
+            } else {
+                shareText(kernelLabel.text.toString())
             }
         }
 
         return super.onContextItemSelected(item)
     }
 
-    private fun shareText(text:String) {
+    private fun shareText(text: String) {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
             type = "text/plain"
@@ -542,8 +545,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
-        }
-        else{
+        } else {
             commentLayout.visibility = contentVisibility
         }
     }
@@ -563,7 +565,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
     override fun onResume() {
         super.onResume()
-        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.modifyTime!!)
+        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.createTime!!)
     }
 
     override fun showCancelAlert() {
@@ -580,6 +582,24 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
                 btnConfirmText = getString(R.string.delete),
                 btnCancelText = getString(R.string.cancel),
                 onConfirm = { presenter?.onDeleteTransactionsPressed() })
+    }
+
+    override fun copyDetails() {
+        val clipboardManager =  context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+
+        val txDetails = "${getString(R.string.amount)}: ${oldTransaction!!.amount.div(100000000) }\n" +
+                "${getString(R.string.status)}: ${statusLabel.text}\n" +
+                "${getString(R.string.date)}: ${dateLabel.text}\n" +
+                "${getString(R.string.contact)}: ${startContactValue.text}\n" +
+                "${startAddress.text}\n" +
+                "${getString(R.string.my_address)}: ${endAddress.text}\n" +
+                "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n" +
+                "${getString(R.string.transaction_id)}: ${idLabel.text}\n" +
+                "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
+
+        val clip = ClipData.newPlainText("label", txDetails)
+        clipboardManager?.setPrimaryClip(clip)
+        showSnackBar(getString(R.string.copied_to_clipboard))
     }
 
 }

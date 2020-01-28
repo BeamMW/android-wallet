@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
+import java.io.File
 
 /**
  *  1/21/19.
@@ -86,8 +87,8 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         }
     }
 
-    override fun getAllCategory(): List<Tag> {
-        return TagHelper.getAllTags()
+    override fun getAllCategory() : List<Tag>{
+        return TagHelper.getAllTagsSorted()
     }
 
 
@@ -112,5 +113,23 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setAllowOpenExternalLink(allowOpen: Boolean) {
         PreferencesManager.putBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, allowOpen)
+    }
+
+    override fun getDataFile(content:String): File {
+        val file = File(AppConfig.TRANSACTIONS_PATH, "wallet_data_" + System.currentTimeMillis() + ".dat")
+
+        if (!file.parentFile.exists()) {
+            file.parentFile.mkdir()
+        } else {
+            file.parentFile.listFiles().forEach { it.delete() }
+        }
+        file.createNewFile()
+
+        val stringBuilder = StringBuilder()
+        stringBuilder.append(content)
+
+        file.writeBytes(stringBuilder.toString().toByteArray())
+
+        return file
     }
 }

@@ -8,6 +8,6 @@
     <color name="wallet_adapter_not_multiply_color">#292236</color>
     <color name="wallet_adapter_multiply_color">#332d40</color>
     <color name="search_toolbar_color">#150f21</color>
-
-    <color name="addresses_status_bar_color">#1e172c</color>
+    <color name="addresses_status_bar_color_black">#1e172c</color>
+    <color name="addresses_status_bar_color">#4c3677</color>
 </resources>

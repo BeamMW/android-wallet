@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.category
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
+import com.mw.beam.beamwallet.core.helpers.TagHelper
 
 class CategoryState {
     var tag: Tag? = null
@@ -29,7 +30,7 @@ class CategoryState {
         }
         else{
             val addresses= AppManager.instance.getAllAddresses()
-            val list= addresses.filter(::filterAddresses)
+            val list= TagHelper.getAddressesForTag(tag?.id)
             return list.count()
         }
     }
@@ -40,7 +41,7 @@ class CategoryState {
         }
         else{
             val addresses= AppManager.instance.getAllAddresses()
-            val list= addresses.filter(::filterAddresses)
+            val list= TagHelper.getAddressesForTag(tag?.id)
             return list.filter {
                 when(tab) {
                     Tab.ADDRESSES -> it.isContact == false
@@ -49,7 +50,5 @@ class CategoryState {
             }
         }
     }
-
-    private fun filterAddresses(walletAddress: WalletAddress) = tag?.addresses?.contains(walletAddress.walletID) ?: false
 
 }

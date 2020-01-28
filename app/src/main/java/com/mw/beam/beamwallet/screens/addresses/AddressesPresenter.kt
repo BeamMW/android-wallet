@@ -32,7 +32,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         AddressesContract.Presenter {
 
     private lateinit var addressesSubscription: Disposable
-
+    var isAllSelected = false
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -72,6 +72,18 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
     override fun onDeleteAddressesPressed() {
         view?.deleteAddresses()
+    }
+
+    override fun onSelectAll() {
+        isAllSelected = !isAllSelected
+
+        if(isAllSelected)
+        {
+            view?.didSelectAllAddresses(state.addresses)
+        }
+        else{
+            view?.didUnSelectAllAddresses()
+        }
     }
 
     override fun onDeleteAddress(selected: List<String>) {

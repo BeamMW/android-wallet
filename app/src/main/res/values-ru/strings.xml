@@ -15,10 +15,10 @@
     <string name="cancel">Отмена</string>
     <string name="delete">Удалить</string>
     <string name="confirm">Подтвердить</string>
-    <string name="change_address">Сдача</string>
+    <string name="change_address">Изменить</string>
     <string name="change_address_title">Изменить адрес</string>
-    <string name="change_utxo_type">Сдача</string>
-    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
+    <string name="change_utxo_type">Изменить</string>
+    <string name="change_description">Размен (будет заблокировано до тех пор, пока транзакция не завершится)</string>
     <string name="ok">ОК</string>
     <string name="undo">Отменить</string>
     <string name="next">Дальше</string>
@@ -28,7 +28,7 @@
     <string name="share_qr">поделиться QR</string>
     <string name="common_security_mode_title">Включить режим конфиденциальности</string>
     <string name="common_security_mode_message">Все суммы будут скрыты до следующего нажатия на иконку глаза.</string>
-    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
+    <string name="common_fingerprint_error">Отпечаток пальца не может быть распознан, пожалуйста, введите ваш пароль.</string>
     <string name="common_share_title">Поделиться…</string>
     <string name="common_external_link_dialog_title">Внешняя ссылка</string>
     <string name="common_external_link_dialog_message">Кошелек пытается открыть внешнюю ссылку в браузере. Это действие может раскрыть ваш IP адрес серверу. Что бы избежать этого, нажмите \"Отмена\". Вы можете изменить свой выбор в настройках в любое время.</string>
@@ -45,7 +45,7 @@
     <string name="notifications">Оповещения</string>
     <string name="help">Помощь</string>
     <string name="settings">Настройки</string>
-    <string name="storage_permission_required_message_small">Please, grant storage permission</string>
+    <string name="storage_permission_required_message_small">Пожалуйста, сначала дайте разрешение на доступ к хранилищу.</string>
     <!--Welcome-->
     <string name="create_new_wallet">Создать кошелек</string>
     <string name="restore_wallet">Восстановить кошелек</string>
@@ -142,7 +142,7 @@
     <string name="filter">Фильтр</string>
     <string name="export">Экспорт</string>
     <string name="payment_proof">Подтверждение платежа</string>
-    <string name="export_transaction_history_title">Export transaction history</string>
+    <string name="export_transaction_history_title">Экспорт истории транзакций</string>
     <string name="export_transaction_history_text">Would you like to save transaction history on your device or share it?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
@@ -177,6 +177,7 @@
     <string name="date">Дата</string>
     <string name="time">Время</string>
     <string name="id">Идентификатор</string>
+    <string name="treasure">Сокровище</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Информация о транзакции</string>
     <string name="general_transaction_info">Основная информация о транзакции</string>
@@ -198,15 +199,15 @@
     <string name="my_address">Мой адрес</string>
     <string name="transaction_deleted">Транзакция успешно удалена</string>
     <string name="save_contact">Сохранить контакт</string>
-    <string name="transactions_deleted">Transactions deleted</string>
-    <string name="delete_transactions">Delete transactions</string>
-    <string name="delete_transaction_text">This transaction will be deleted from your wallet.</string>
+    <string name="transactions_deleted">Транзакции удалены</string>
+    <string name="delete_transactions">Удалить транзакции</string>
+    <string name="delete_transaction_text">Эта транзакция будет удалена из вашего кошелька.</string>
     <string name="delete_transactions_text">These transactions will be deleted from your wallet.</string>
-    <string name="cancell_transaction_warning_message">Are you sure you want to cancel this transaction?</string>
-    <string name="delete_addresses_text">These addresses will be deleted from your wallet.</string>
-    <string name="delete_address_text">This address will be deleted from your wallet.</string>
-    <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
-    <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="cancell_transaction_warning_message">Вы уверены, что хотите отменить эту транзакцию?</string>
+    <string name="delete_addresses_text">Эти адреса будут удалены из вашего кошелька.</string>
+    <string name="delete_address_text">Этот адрес будет удален из вашего кошелька.</string>
+    <string name="delete_contacts_text">Эти контакты будут удалены из вашего кошелька.</string>
+    <string name="delete_contact_text">Этот контакт будет удален из вашего кошелька.</string>
     <!--ReceiveFragment-->
     <string name="swap">Своп</string>
     <string name="auto_generated">создан автоматически</string>
@@ -226,9 +227,9 @@
     <string name="edit_contact">Править контакт</string>
     <string name="advanced">Расширенные</string>
     <string name="send_token_description">Введите или отсканируйте адрес получателя</string>
-    <string name="share">Share</string>
-    <string name="save_to_downloads">Save to downloads</string>
-    <string name="saved_to_downloads">Saved to downloads</string>
+    <string name="share">Поделиться</string>
+    <string name="save_to_downloads">Сохранить в загрузки</string>
+    <string name="saved_to_downloads">Сохранено в загрузках</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Поле суммы не может быть пустым</string>
     <string name="send_amount_zero_error">Сумма не может быть 0 BEAM</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">Послать логи…</string>
     <string name="node">Узел</string>
     <string name="settings_ip_title">ip адрес:порт:</string>
-    <string name="settings_general_settings">Основные настройки</string>
+    <string name="settings_general_settings">Общее</string>
     <string name="lock_screen">Блокировать экран</string>
     <string name="never">Никогда</string>
     <string name="after">После</string>
@@ -289,20 +290,20 @@
     <string name="address_deleted">Адрес удален</string>
     <string name="contact_deleted">Контакт удален</string>
     <string name="addresses_deleted">Адрес удален</string>
-    <string name="contacts_deleted">Contacts deleted</string>
+    <string name="contacts_deleted">Контакты удалены</string>
     <string name="address">Адрес</string>
     <!--AddressFragment-->
     <string name="show_qr_code">Показать QR код</string>
     <string name="delete_address">Удалить адрес</string>
     <string name="delete_contact">Удалить контакт</string>
     <string name="delete_addresses">Удалить адрес</string>
-    <string name="delete_contacts">Delete contacts</string>
+    <string name="delete_contacts">Удалить контакты</string>
     <string name="transactions_list">Список транзакций</string>
     <string name="address_id">Идентификатор адреса</string>
     <string name="expiration_date">Действителен до</string>
     <string name="tag">Метка</string>
     <string name="show_qr_code_short">Показать QR</string>
-    <string name="expire_address_now">Expire addresss</string>
+    <string name="expire_address_now">Деактивировать</string>
     <!--EditAddressFragment-->
     <string name="active_address">Активировать адрес</string>
     <string name="save">Сохранить</string>
@@ -370,15 +371,14 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="save_recipient_address">Сохранить адрес получателя для использования в будущем?</string>
     <string name="save_address">Сохранить адрес</string>
     <string name="dont_save">Не сохранять</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Введите свой текущий пароль, чтобы изменить настройки</string>
     <string name="save_changes">Сохранить изменения</string>
     <string name="receive_description">Для завершения транзакции вы должны быть онлайн в течение 12 часов после отправки.</string>
     <string name="search_by_address_tag_or_name">Поиск по адресу, категории или метке</string>
     <string name="min_fee_error">Минимальная комиссия %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
     <string name="delete_all_transactions_related_to_this_addresses">Удалить все транзакции, связанные с этими адресами</string>
-    <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
-    <string name="delete_all_transactions_related_to_this_contacts">Delete all transactions related with these contacts</string>
+    <string name="delete_all_transactions_related_to_this_contact">Удалить все транзакции, связанные с этим контактом</string>
+    <string name="delete_all_transactions_related_to_this_contacts">Удалить все транзакции, связанные с этими контактами</string>
     <string name="search_transaction">Поиск транзакций</string>
     <string name="never_expires">Никогда</string>
     <string name="expires_in">Истекает через %1$s ч %2$s м</string>
@@ -431,10 +431,9 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Как только вы добавите ваш код в конфигурацию узла, запустите свой узел на рабочем столе и нажмите «далее» в мобильном приложении.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Невозможно подключиться к узлу. Попробуйте подключить кошелек к другому узлу или используйте другой тип восстановления кошелька.</string>
     <string name="connecting">Соединение...</string>
-    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
-address or contact</string>
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Поиск по ID транзакции, комментарию, адресу или контакту</string>
     <string name="address_details">Подробности адреса</string>
-    <string name="contact_details">Contact details</string>
+    <string name="contact_details">Детали контакта</string>
     <string name="crash_title">Сбой приложения</string>
     <string name="crash_message">Вы хотите сообщить нам о ограниченном количестве информации? Сбор информации о сбоях позволит нам быстрее обнаружить и исправлять ошибки. Это только один отчет, связанный с ошибкой, мы не будем собирать какие-либо из ваших данных позже.</string>
     <string name="crash_negative">Нет, спасибо</string>
@@ -448,8 +447,44 @@ address or contact</string>
         <item>Никогда</item>
     </string-array>
     <string name="save_wallet_logs">Сохранить лог</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">На все время</string>
+    <string name="last_5_days">Последние 5 дней</string>
+    <string name="last_15_days">Последние 15 дней</string>
+    <string name="last_30_days">Последние 30 дней</string>
+    <string name="status">Статус</string>
+    <string name="complete_verification">Завершить верификацию</string>
+    <string name="complete_wallet_verification">Завершить верификацию</string>
+    <string name="i_will_later">Подтвердить позже</string>
+    <string name="faucet_text">Посмотрите кошелек в действии. Получите небольшое количество Beam от сообщества.</string>
+    <string name="get_coins">Получить монеты</string>
+    <string name="make_wallet_secure_text">Запишите и подтвердите свою ключевую фразу, чтобы вы всегда могли восстановить свои средства.</string>
+    <string name="secure_your_phrase">Защитите вашу фразу</string>
+    <string name="clear_local_data">Очистить локальные данные кошелька</string>
+    <string name="show_seed_phrase">Показать контрольную фразу</string>
+    <string name="clear_wallet">Удалить текущий кошелек</string>
+    <string name="clear_wallet_text">Все данные будут очищены. Убедитесь, что вы сохранили вашу ключевую фразу, если хотите восстановить этот кошелек позже! Вы уверены, что хотите удалить свой кошелек?</string>
+    <string name="export_wallet_data">Экспорт данных кошелька</string>
+    <string name="import_wallet_data">Импорт данных кошелька</string>
+    <string name="export_wallet_data_text">Вы хотите сохранить данные на вашем устройстве или поделиться?</string>
+    <string name="remove_wallet">Удалить кошелек</string>
+    <string name="utilities">Утилиты</string>
+    <string name="incorrect_file_title">Некорректный файл</string>
+    <string name="incorrect_file_text">Файл, который вы пытаетесь импортировать в Beam кошелек не подходит. Пожалуйста, выберите другой файл и повторите попытку.</string>
+    <string name="import_data_text">Вы уверены, что хотите импортировать данные в ваш кошелек? Все текущие данные будут заменены импортированными.</string>
+    <string name="import_data_title">Импорт данных</string>
+    <string name="imp">Импорт</string>
+    <string name="export_data">Экспорт данных</string>
+    <string name="clear_wallet_password">Введите ваш пароль для удаления кошелька</string>
+    <string name="change_node_text_2">Используйте отпечаток пальца или введите свой пароль, чтобы продолжить изменения настроек</string>
+    <string name="change_node_text_3">Введите ваш пароль для изменения настроек узла</string>
+    <string name="get_beam_faucet">Получить Beams от Beam сообщества</string>
+    <string name="privacy">Безопасность</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="enter_your_password">Введите пароль</string>
+    <string name="wallet_data_saved">Данные кошелька сохранены в Загрузки</string>
+    <string name="remove_wallet_password_1">Используйте отпечаток пальца или введите пароль, чтобы удалить кошелек</string>
+    <string name="remove_wallet_password_2">Введите ваш пароль для удаления кошелька</string>
+    <string name="welcome_seed_description_old">Ваша контрольная фраза является ключом для доступа ко всем вашим средствам. Храните фразу в защищенном месте. В случае потери контрольной фразы, вы не сможете восстановить доступ к вашим средствам.</string>
+    <string name="change_settings_text_2">Введите пароль, чтобы продолжить изменения настроек</string>
+    <string name="change_settings_text_1">Используйте отпечаток пальца или введите свой пароль, чтобы продолжить изменения настроек</string>
 </resources>

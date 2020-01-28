@@ -2,15 +2,17 @@ package com.mw.beam.beamwallet.core
 
 import android.annotation.SuppressLint
 import android.util.Log
+import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
+import io.reactivex.disposables.Disposable
 import java.util.Calendar
+import android.os.Handler
+import com.mw.beam.beamwallet.core.helpers.*
+import java.io.File
 
 class AppManager {
     var wallet: Wallet? = null
@@ -35,6 +37,9 @@ class AppManager {
     var subOnAddressesChanged: Subject<Boolean?> = PublishSubject.create<Boolean?>().toSerialized()
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
+
+    private var newAddressSubscription: Disposable? = null
 
     var isResotred = false
 
@@ -49,6 +54,85 @@ class AppManager {
 
                 return INSTANCE!!
             }
+    }
+
+    fun reload() {
+        wallet?.getWalletStatus()
+        wallet?.getUtxosStatus()
+        wallet?.getAddresses(true)
+        wallet?.getAddresses(false)
+        wallet?.getTransactions()
+    }
+
+    fun removeOldValues() {
+        contacts.clear()
+        addresses.clear()
+        transactions.clear()
+        utxos.clear()
+    }
+
+    fun removeWallet() {
+
+        TagHelper.clear()
+
+        isSubscribe = false
+        isResotred = false
+
+        Api.closeWallet()
+
+        wallet = null
+
+        contacts.clear()
+        addresses.clear()
+        transactions.clear()
+        utxos.clear()
+
+        PreferencesManager.clear()
+
+        val db = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
+
+        if (db.exists()) {
+            db.delete()
+        }
+
+        val fr = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME)
+        if (fr.exists()) {
+            fr.delete()
+        }
+
+        val directory = File(AppConfig.LOG_PATH)
+        val logs = directory.listFiles()
+
+        if (logs!=null) {
+            logs.sortBy {
+                it.lastModified()
+            }
+
+            for (i in logs.indices) {
+                if (i > 0) {
+                    if (logs[i].exists()) {
+                        logs[i].delete()
+                    }
+                }
+            }
+        }
+    }
+
+    fun importData(data:String) {
+        val json = Gson()
+
+        val map = json.fromJson(data, HashMap::class.java)
+        val tags = map["Categories"]
+
+        if (tags!=null) {
+            val tagsString = json.toJson(tags).toString()
+            val tagData = json.fromJson(tagsString, Array<Tag>::class.java)
+            for (t in tagData) {
+                TagHelper.saveTag(t)
+            }
+        }
+
+        wallet?.importDataFromJson(data)
     }
 
     //MARK: -Status
@@ -110,6 +194,24 @@ class AppManager {
 
     fun getMyAddresses() : List<WalletAddress> {
         return addresses.map { it }.toList()
+    }
+
+    fun getAddressByName(name:String?) : WalletAddress? {
+        contacts.forEach {
+            if (it.label == name)
+            {
+                return it
+            }
+        }
+
+        addresses.forEach {
+            if (it.label == name)
+            {
+                return it
+            }
+        }
+
+        return null
     }
 
     fun getAddress(id:String?) : WalletAddress? {
@@ -264,6 +366,26 @@ class AppManager {
         }
     }
 
+    private fun deleteUtxo(deleted: List<Utxo>) {
+        deleted.forEach { item2 ->
+            utxos.removeAll {item1 ->
+                item1.id == item2.id
+            }
+        }
+    }
+
+    private fun updateUtxo(updated: List<Utxo>) {
+        updated.forEach { item2 ->
+            val index = utxos.indexOfFirst {
+                it.id == item2.id
+            }
+            if (index != -1) {
+                utxos[index] = item2
+            }
+        }
+    }
+
+
     //MARK: - Updates
 
     fun onChangeNodeAddress() {
@@ -289,6 +411,30 @@ class AppManager {
         wallet?.getUtxosStatus()
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
+    }
+
+    fun createAddressForFaucet() {
+        val address = getAddressByName("Beam community faucet")
+
+        if (address == null || address.isExpired)
+        {
+            newAddressSubscription = WalletListener.subOnGeneratedNewAddress.subscribe(){
+                newAddressSubscription?.dispose()
+                newAddressSubscription = null
+
+                it.label = "Beam community faucet"
+                it.duration = 0L
+                wallet?.saveAddress(it.toDTO(), true)
+
+                subOnFaucedGenerated.onNext(it.walletID)
+            }
+
+            wallet?.generateNewAddress()
+        }
+        else{
+            subOnFaucedGenerated.onNext(address.walletID)
+        }
+
     }
 
     @SuppressLint("CheckResult")
@@ -361,8 +507,79 @@ class AppManager {
             WalletListener.subOnAllUtxoChanged.subscribe(){
                 utxos.clear()
                 utxos.addAll(it)
+                subOnUtxosChanged.onNext(0)
+            }
+
+            WalletListener.obsOnUtxos.subscribe{
+                if (it.action == ChangeAction.REMOVED && it.utxo != null) {
+                    deleteUtxo(it.utxo)
+                }
+                else if (it.action == ChangeAction.ADDED && it.utxo != null) {
+                    utxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.RESET && it.utxo != null) {
+                    utxos.clear()
+                    utxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.UPDATED && it.utxo != null) {
+                    updateUtxo(it.utxo)
+                }
 
                 subOnUtxosChanged.onNext(0)
+            }
+
+            WalletListener.subOnAddressesChanged.subscribe{ items ->
+                if (items.action == ChangeAction.REMOVED && items.addresses != null) {
+                    deleteAddresses(items.addresses)
+                }
+                else if (items.action == ChangeAction.ADDED && items.addresses != null)
+                    items.addresses.forEach {item->
+                    if (item.isContact) {
+                        val index1 = contacts.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index1 != -1) {
+                            contacts[index1] = item
+                        }
+                        else{
+                            contacts.add(item)
+                        }
+                    } else{
+                        val index2 = addresses.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index2 != -1) {
+                            addresses[index2] = item
+                        }
+                        else{
+                            addresses.add(item)
+                        }
+                    }
+                }
+                else if (items.action == ChangeAction.RESET && items.addresses != null) {
+                    wallet?.getAddresses(true)
+                    wallet?.getAddresses(false)
+                }
+                else if (items.action == ChangeAction.UPDATED && items.addresses != null) {
+                    items.addresses.forEach { item ->
+                        val index1 = contacts.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index1 != -1) {
+                            contacts[index1] = item
+                        }
+
+                        val index2 = addresses.indexOfFirst {
+                            it.walletID == item.walletID
+                        }
+                        if (index2 != -1) {
+                            addresses[index2] = item
+                        }
+                    }
+                }
+
+                subOnAddressesChanged?.onNext(true)
+
             }
 
             WalletListener.subOnStatus.subscribe(){
@@ -408,6 +625,11 @@ class AppManager {
             wallet?.getUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
+            wallet?.getTransactions()
+
+            Handler().postDelayed({
+                TagHelper.fixLegacyFormat()
+            }, 2000)
         }
     }
 }

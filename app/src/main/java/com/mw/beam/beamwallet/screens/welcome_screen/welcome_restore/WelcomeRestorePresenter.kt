@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_restore
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 /**
  *  11/5/18.
@@ -38,6 +39,7 @@ class WelcomeRestorePresenter(currentView: WelcomeRestoreContract.View, currentR
     }
 
     override fun onRestorePressed() {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
         view?.showRestoreNotification()
     }
 

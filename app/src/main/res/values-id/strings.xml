@@ -17,7 +17,7 @@
     <string name="confirm">Konfirmasi</string>
     <string name="change_address">Change</string>
     <string name="change_address_title">Change address</string>
-    <string name="change_utxo_type">Change</string>
+    <string name="change_utxo_type">Ubah</string>
     <string name="change_description">Ubah (akan dikunci hingga transaksi berhasil atau kedaluwarsa)</string>
     <string name="ok">OK</string>
     <string name="undo">Undo</string>
@@ -27,11 +27,11 @@
     <string name="more">Selengkapnya</string>
     <string name="share_qr">bagikan QR</string>
     <string name="common_security_mode_title">Aktifkan mode rahasia</string>
-    <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
-    <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
+    <string name="common_security_mode_message">Semua saldo akan disembunyikan sampai ikon mata ditekan lagi.</string>
+    <string name="common_fingerprint_error">Sidik jari tidak dapat dikenali, silakan masukkan kata sandi Anda.</string>
     <string name="common_share_title">Bagikan...</string>
     <string name="common_external_link_dialog_title">External link</string>
-    <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose \"Cancel\". You can change your choice in app setting anytime.</string>
+    <string name="common_external_link_dialog_message">Aplikasi Beam Wallet memerlukan izin untuk membuka tautan eksternal di browser. Tindakan ini akan mengekspos IP Anda ke server web. Untuk menghindarinya, pilih \"Batal\". Anda dapat mengubah pilihan Anda dalam pengaturan aplikasi kapan saja.</string>
     <string name="currency_beam">BEAM</string>
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">Tidak ada sambungan internet</string>
@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">Masukan kata sandi anda untuk mengakses wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">Seed phrase</string>
     <string name="welcome_seed_save_title">Save seed phrase</string>
     <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
@@ -85,7 +85,7 @@
     <string name="welcome_restore_description">Type in your seed phrase</string>
     <!--WelcomeProgressFragment-->
     <string name="welcome_progress_create">Creating wallet</string>
-    <string name="welcome_progress_open">Loading wallet</string>
+    <string name="welcome_progress_open">Memuat wallet</string>
     <string name="welcome_progress_restore">Restoring wallet</string>
     <string name="welcome_progress_restore_error_title">Pemulihan Wallet gagal</string>
     <string name="welcome_progress_restore_error_description">The wallet can’t connect to the node. Please try again later.</string>
@@ -93,7 +93,7 @@
     <string name="welcome_progress_cancel_restore_title">Membatalkan pemulihan</string>
     <string name="welcome_progress_cancel_restore_description">You are going to cancel restore process. All data will be lost. Do you want to continue?</string>
     <string name="welcome_progress_update_utxo_description">Memindai UTXO</string>
-    <string name="welcome_progress_restore_description">Restored</string>
+    <string name="welcome_progress_restore_description">Pulih</string>
     <string name="welcome_progress_download_description">Downloaded</string>
     <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
     <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
@@ -114,7 +114,7 @@
     <string name="pass_back_seed_title">Back to seed phrase</string>
     <string name="pass_return_seed_title">Return to seed phrase</string>
     <string name="pass_return_seed_btn_create_new">Generate</string>
-    <string name="back">Back</string>
+    <string name="back">Kembali</string>
     <!--WalletFragment-->
     <string name="wallet_sent_message">Beams sent</string>
     <string name="available">Available</string>
@@ -177,6 +177,7 @@
     <string name="date">Date</string>
     <string name="time">Waktu</string>
     <string name="id">ID</string>
+    <string name="treasure">Treasure</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>
     <string name="general_transaction_info">General transaction info</string>
@@ -186,7 +187,7 @@
     <string name="transaction_id">Transaction ID</string>
     <string name="transaction_history">Transaction history</string>
     <string name="repeat_transaction">Repeat transaction</string>
-    <string name="save_peer_address">Save peer address</string>
+    <string name="save_peer_address">Simpan alamat ini</string>
     <string name="copy_address">Copy address</string>
     <string name="cancel_transaction">Cancel transaction</string>
     <string name="delete_transaction">Delete transaction</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">Kirim log...</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="settings_general_settings">General settings</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">Kunci layar</string>
     <string name="never">Never</string>
     <string name="after">Setelah</string>
@@ -280,7 +281,7 @@
     <string name="settings_confirm_clear_message">Anda yakin akan menghapus semua %1$s dari wallet anda?</string>
     <string name="contacts">Contacts</string>
     <string name="transaction">Transaksi</string>
-    <string name="loading_wallet">Loading wallet</string>
+    <string name="loading_wallet">Memuat wallet</string>
     <!--ProgressFragment-->
     <string name="addresses_tab_active">My active</string>
     <!--AddressesFragment-->
@@ -350,7 +351,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="notification_receive_content_text">Please, click to view details</string>
     <string name="notification_channel_name">Notifikasi Channel</string>
     <string name="notification_channel_description">Default notification channel</string>
-    <string name="touch_sensor">Touch the Fingerprint sensor</string>
+    <string name="touch_sensor">Sentuh sensor sidik jari</string>
     <!--FingerprintDialog-->
     <string name="fingerprint_id">Sidik jari</string>
     <!--ChangeAddressFragment-->
@@ -370,7 +371,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
@@ -418,7 +418,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="initiated">Initiated</string>
     <string name="latest_confirmation">Latest confirmation</string>
     <string name="share_transaction">Share transaction</string>
-    <string name="paste">Paste</string>
+    <string name="paste">Tempel</string>
     <string name="selected">Dipilih</string>
     <string name="empty_address_list">Your addresses list is empty</string>
     <string name="empty_contacts_list">Your contacts list is empty</string>
@@ -452,4 +452,40 @@ address or contact</string>
     <string name="last_5_days">Last 5 days</string>
     <string name="last_15_days">Last 15 days</string>
     <string name="last_30_days">Last 30 days</string>
+    <string name="status">Status</string>
+    <string name="complete_verification">Complete verification</string>
+    <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="i_will_later">I will do it later</string>
+    <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
+    <string name="get_coins">Get coins</string>
+    <string name="make_wallet_secure_text">Write down and validate your seed phrase so you can always recover your funds.</string>
+    <string name="secure_your_phrase">Secure your phrase</string>
+    <string name="clear_local_data">Clear local wallet data</string>
+    <string name="show_seed_phrase">Show seed phrase</string>
+    <string name="clear_wallet">Remove current wallet</string>
+    <string name="clear_wallet_text">All data will be erased. Make sure you’ve saved your seed phrase if you want to restore this wallet later on! Are you sure you want to remove your wallet?</string>
+    <string name="export_wallet_data">Export wallet data</string>
+    <string name="import_wallet_data">Import wallet data</string>
+    <string name="export_wallet_data_text">Would you like to save data on your device or share it?</string>
+    <string name="remove_wallet">Remove wallet</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Incorrect file</string>
+    <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
+    <string name="import_data_title">Import data</string>
+    <string name="imp">Import</string>
+    <string name="export_data">Export data</string>
+    <string name="clear_wallet_password">Enter your password to remove your wallet\"</string>
+    <string name="change_node_text_2">Use fingerprint or enter your password to change node settings</string>
+    <string name="change_node_text_3">Enter your password to change node settings</string>
+    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">Feedback</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="remove_wallet_password_1">Use fingerprint or enter your password to remove current wallet</string>
+    <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
+    <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="change_settings_text_2">Enter your current password to proceed changes in settings</string>
+    <string name="change_settings_text_1">Use fingerprint or enter your password to proceed changes in settings</string>
 </resources>

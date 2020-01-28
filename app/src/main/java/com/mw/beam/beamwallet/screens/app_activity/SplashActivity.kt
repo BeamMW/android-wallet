@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -16,6 +17,12 @@ class SplashActivity : AppCompatActivity() {
         startActivity(intent)
 
         finish()
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        super.attachBaseContext(newBase)
+
+        androidx.multidex.MultiDex.install(this);
     }
 
 }

@@ -38,6 +38,7 @@ object WalletListener {
     var oldCurrent = -1
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
+
     private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
     val obsOnTxStatus: Observable<OnTxStatusData> = subOnTxStatus.map {
         it.tx?.forEach { tx ->
@@ -51,11 +52,16 @@ object WalletListener {
         }
         it
     }
+
+    var obsOnUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
+//    var obsOnAddresses: Subject<OnAddressesDataWithAction> = BehaviorSubject.create<OnAddressesDataWithAction>().toSerialized()
+    var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
+
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnChangeCalculated: Subject<Long> = BehaviorSubject.create<Long>().toSerialized()
-    var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
+    var subOnAddressesChanged: Subject<OnAddressesDataWithAction> = BehaviorSubject.create<OnAddressesDataWithAction>().toSerialized()
     var subOnGeneratedNewAddress: Subject<WalletAddress> = BehaviorSubject.create<WalletAddress>().toSerialized()
     var subOnNodeConnectedStatusChanged: Subject<Boolean> = BehaviorSubject.create<Boolean>().toSerialized()
     var subOnNodeConnectionFailed: Subject<NodeConnectionError> = PublishSubject.create<NodeConnectionError>().toSerialized()
@@ -68,6 +74,8 @@ object WalletListener {
     var subOnPaymentProofExported: Subject<PaymentProof> = BehaviorSubject.create<PaymentProof>().toSerialized()
     var subOnCoinsByTx: Subject<List<Utxo>?> = BehaviorSubject.create<List<Utxo>?>().toSerialized()
     val subOnImportRecoveryProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
+    var subOnDataExported: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnDataImported: Subject<Boolean> = PublishSubject.create<Boolean>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -92,12 +100,18 @@ object WalletListener {
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
 
     @JvmStatic
+    fun onAllUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllUtxoChanged")
+
+    @JvmStatic
     fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) : Unit {
         if (App.isAuthenticated) {
             return returnResult(subOnAllUtxoChanged, utxos?.map { Utxo(it) }
                     ?: emptyList(), "onAllUtxoChanged")
         }
     }
+
+    @JvmStatic
+    fun onAddressesChanged(action: Int, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddressesChanged, OnAddressesDataWithAction(ChangeAction.fromValue(action), addresses?.map { WalletAddress(it) }), "onAddressesChanged")
 
     @JvmStatic
     fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), "onAddresses")
@@ -124,7 +138,10 @@ object WalletListener {
     fun onNodeCreated() = returnResult(subOnNodeCreated, DUMMY_OBJECT, "onNodeCreated")
 
     @JvmStatic
-    fun onNodeThreadFinished() = returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
+    fun onNodeThreadFinished() {
+        subOnNodeThreadFinished.onNext(DUMMY_OBJECT)
+        //returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
+    }
 
     @JvmStatic
     fun onFailedToStartNode() = returnResult(subOnFailedToStartNode, DUMMY_OBJECT, "onFailedToStartNode")
@@ -151,6 +168,19 @@ object WalletListener {
             }
         }
     }
+
+    @JvmStatic
+    fun onImportDataFromJson(isOk: Boolean) {
+        subOnDataImported.onNext(isOk)
+        LogUtils.logResponse(isOk, "onImportDataFromJson")
+    }
+
+    @JvmStatic
+    fun onExportDataToJson(data: String) {
+        subOnDataExported.onNext(data)
+        LogUtils.logResponse(data, "onExportDataToJson")
+    }
+
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

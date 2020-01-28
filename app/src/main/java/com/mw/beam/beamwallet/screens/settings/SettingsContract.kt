@@ -20,20 +20,19 @@ import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
+import java.io.File
 
 /**
  *  1/21/19.
  */
 interface SettingsContract {
     interface View : MvpView {
-        fun init(runOnRandomNode: Boolean)
+        fun onNeedAddedViews()
+        fun mode(): SettingsFragmentMode
+        fun setRunOnRandomNode(runOnRandomNode: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)
         fun changePass()
@@ -54,9 +53,22 @@ interface SettingsContract {
         fun navigateToAddCategory()
         fun navigateToLanguage()
         fun navigateToOwnerKeyVerification()
-        fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
+        fun navigateToPaymentProof()
+        fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
         fun setLogSettings(days:Long)
         fun showLogsDialog()
+        fun navigateToSeed()
+        fun navigateToSeedVerification()
+        fun showReceiveFaucet()
+        fun onFaucetAddressGenerated(link:String)
+        fun showExportDialog()
+        fun showExportSaveDialog()
+        fun exportSave(content:String)
+        fun exportShare(file: File)
+        fun showImportDialog()
+        fun showConfirmRemoveWallet()
+        fun walletRemoved()
+        fun exportError()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -72,15 +84,27 @@ interface SettingsContract {
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
         fun onClearDataPressed()
-        fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
-        fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
+        fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
+        fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
         fun onSaveNodeAddress(address: String?)
         fun onAddCategoryPressed()
-        fun onCategoryPressed(categoryId: String)
+        fun onCategoryPressed(categoryName: String)
         fun onLanguagePressed()
         fun onShowOwnerKey()
         fun onChangeLogSettings(days:Long)
         fun onLogsPressed()
+        fun onSeedPressed()
+        fun onSeedVerificationPressed()
+        fun onReceiveFaucet()
+        fun generateFaucetAddress()
+        fun onProofPressed()
+        fun onExportPressed()
+        fun onExportWithExclude(list:Array<String>)
+        fun onExportSave()
+        fun onExportShare()
+        fun omImportPressed()
+        fun onRemoveWalletPressed()
+        fun onConfirmRemoveWallet()
     }
 
     interface Repository : MvpRepository {
@@ -98,9 +122,10 @@ interface SettingsContract {
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
-        fun getAllCategory(): List<Tag>
+        fun getAllCategory() : List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
         fun saveLogSettings(days:Long)
         fun getLogSettings():Long
+        fun getDataFile(content:String): File
     }
 }

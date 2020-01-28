@@ -14,9 +14,7 @@
     <color name="common_header_small_color">#60ffffff</color>
     <color name="snack_bar_color">@color/colorPrimary</color>
     <color name="alert_dialog_color">#00446c</color>
-    <color name="alert_dialog_cancel_color">#8da1ad</color>
     <color name="status_bar_color">#33000000</color>
-    <color name="toolbar_title_color">@color/common_text_color</color>
     <color name="toolbar_status_color">#8da1ad</color>
     <color name="navigation_drawer_color">#021B35</color>
     <color name="received_color">#0bccf7</color>
@@ -86,4 +84,22 @@
 
     <!--Share transaction details-->
     <color name="share_transaction_details_divider_color">#22FFFFFF</color>
+
+
+    <color name="common_text_dark_color_dark">#a0a0a0</color>
+    <color name="ic_menu_color_dark">#a0a0a0</color>
+    <color name="wallet_adapter_multiply_color_dark">#0affffff</color>
+    <color name="alert_dialog_color_dark">#292929</color>
+    <color name="colorPrimary_dark">#242424</color>
+    <color name="colorPrimaryPicked_dark">#0F0F0F</color>
+    <color name="colorPrimaryDark_dark">#121212</color>
+    <color name="navigation_drawer_color_dark">#101010</color>
+    <color name="wallet_adapter_not_multiply_color_dark">#1d1d1d</color>
+    <color name="addresses_status_bar_color_dark">#2e2e2e</color>
+    <color name="search_toolbar_color_dark">#0f0f0f</color>
+    <color name="sent_color_picked_dark">@android:color/transparent</color>
+    <color name="cardDarkColor">#191919</color>
+    <color name="addresses_status_bar_color_black">#162e40</color>
+
+
 </resources>

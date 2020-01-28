@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.base_screen
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -40,6 +41,7 @@ import androidx.core.view.ViewCompat
 import com.eightsines.holycycle.ViewControllerFragmentDelegate
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.elvishew.xlog.XLog.b
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  10/4/18.
@@ -170,7 +172,13 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
 
         if (context!=null) {
             val view = view
-            view?.setBackgroundColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+            if (App.isDarkMode)
+            {
+                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark_dark, context!!.theme))
+            }
+            else{
+                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark, context!!.theme))
+            }
         }
 
         presenter?.onStart()
@@ -201,8 +209,8 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
         context?.let { delegate.copyToClipboard(it, content, tag) }
     }
 
-    override fun shareText(title: String, text: String) {
-        delegate.shareText(context, title, text)
+    override fun shareText(title: String, text: String, activity: Activity?) {
+        delegate.shareText(context, title, text, activity)
     }
 
     override fun openExternalLink(link: String) {
@@ -212,8 +220,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     override fun logOut() {
         (activity as BaseActivity<*>).logOut()
     }
-
-    override fun showLockScreen() {}
 
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
         if (nextAnim == R.anim.slide_in_right) {

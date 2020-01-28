@@ -18,6 +18,9 @@ package com.mw.beam.beamwallet.screens.utxo_details
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -39,6 +42,8 @@ import android.transition.TransitionManager
 import android.transition.AutoTransition
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.selector
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
@@ -46,11 +51,17 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
  */
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    }
+    else{
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
     override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(arguments!!).utxo
+
 
     override fun init(utxo: Utxo) {
         configUtxoInfo(utxo)
@@ -68,7 +79,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         amountLabel.text = utxo.amount.convertToBeamString()
 
-        statusLabel.text = when (utxo.status) {
+        val status = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
             UtxoStatus.Change -> getString(R.string.change_utxo_type)
             UtxoStatus.Outgoing -> getString(R.string.outgoing)
@@ -78,7 +89,47 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }
 
-        typeLabel.text = when (utxo.keyType) {
+        val receivedColor = ContextCompat.getColor(context!!, R.color.received_color)
+        val sentColor = ContextCompat.getColor(context!!, R.color.sent_color)
+        val commonStatusColor = ContextCompat.getColor(context!!, R.color.common_text_color)
+
+        if (utxo.status == UtxoStatus.Maturing) {
+            val available = getString(R.string.maturing)
+            val till = " (" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
+            val string = available + till
+
+            val spannable = SpannableStringBuilder.valueOf(string)
+            spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                    0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            statusLabel.text = spannable
+        }
+        else if(utxo.confirmHeight > 0) {
+            val till = " (" + getString(R.string.since_block_height).toLowerCase() + " " + utxo.confirmHeight + ")"
+            val string = status + till
+
+            val spannable = SpannableStringBuilder.valueOf(string)
+
+            when (utxo.status) {
+                UtxoStatus.Incoming ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.received_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            }
+
+            statusLabel.text = spannable
+        }
+        else{
+            statusLabel.text = status
+            statusLabel.setTextColor(when (utxo.status) {
+                UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
+            })
+        }
+
+            typeLabel.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
@@ -89,6 +140,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoKeyType.ChildKey -> getString(R.string.childKey)
             UtxoKeyType.Bbs -> getString(R.string.bbs)
             UtxoKeyType.Decoy -> getString(R.string.decoy)
+            UtxoKeyType.Treasury -> getString(R.string.treasure)
         }
     }
 
@@ -139,7 +191,13 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     @SuppressLint("InflateParams")
     private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int, index:Int): View? {
         val notMultiplyColor = ContextCompat.getColor(context!!, R.color.colorClear)
-        val multiplyColor = ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
+
+        val multiplyColor = if (App.isDarkMode) {
+            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color_dark)
+        }
+        else{
+            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
+        }
 
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)
         view.findViewById<TextView>(R.id.date).text = time

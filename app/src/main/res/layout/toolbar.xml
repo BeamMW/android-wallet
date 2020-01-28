@@ -60,7 +60,7 @@
             android:fontFamily="sans-serif-regular"
             android:paddingEnd="@dimen/toolbar_padding_end"
             android:text="@string/online"
-            android:textColor="@color/toolbar_status_color"
+            android:textColor="?attr/subHeaderTextColor"
             android:textSize="@dimen/toolbar_status_text_size"
             app:layout_constraintStart_toEndOf="@id/statusIcon"
             app:layout_constraintTop_toTopOf="parent"

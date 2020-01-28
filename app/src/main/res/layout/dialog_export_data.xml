@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/common_alert_dialog_background"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:gravity="center"
+        android:text="@string/export_wallet_data"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/transactionTitle"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/transaction_history"
+        app:layout_constraintEnd_toStartOf="@+id/transactionCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialogTitle" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/transactionCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/transactionTitle"
+        app:layout_constraintBottom_toBottomOf="@id/transactionTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/tagsTitle"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/tags"
+        app:layout_constraintEnd_toStartOf="@+id/tagsCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/transactionTitle" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/tagsCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/tagsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/tagsTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/addressesTitle"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/addresses"
+        app:layout_constraintEnd_toStartOf="@+id/addressesCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tagsTitle" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/addressesCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/addressesTitle"
+        app:layout_constraintBottom_toBottomOf="@id/addressesTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/contactsTitle"
+        style="@style/common_text_big_light"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_alert_dialog_margin"
+        android:layout_marginEnd="8dp"
+        android:text="@string/contacts"
+        app:layout_constraintEnd_toStartOf="@+id/contactsCheckbox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addressesTitle" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/contactsCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/contactsTitle"
+        app:layout_constraintBottom_toBottomOf="@id/contactsTitle"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_clear_buttons_margin_top"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textColor="?attr/subHeaderTextColor"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnConfirm"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contactsTitle" />
+
+    <TextView
+        android:id="@+id/btnConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/settings_dialog_clear_buttons_margin_top"
+        android:paddingStart="@dimen/alert_dialog_button_padding"
+        android:text="@string/export"
+        android:textAllCaps="true"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contactsTitle"
+        tools:ignore="RtlSymmetry" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

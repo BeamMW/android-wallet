@@ -16,15 +16,17 @@
 
 package com.mw.beam.beamwallet.screens.settings
 
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.helpers.FingerprintManager
-import com.mw.beam.beamwallet.core.helpers.QrHelper
-import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.core.helpers.TxStatus
+import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.disposables.Disposable
 import java.net.URI
+import com.google.gson.Gson
+import com.mw.beam.beamwallet.core.helpers.*
+
 
 /**
  *  1/21/19.
@@ -33,41 +35,122 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     : BasePresenter<SettingsContract.View, SettingsContract.Repository>(currentView, currentRepository),
         SettingsContract.Presenter {
 
+    enum class ExportType {
+        SAVE, SHARE
+    }
+
+    private lateinit var faucetGeneratedSubscription: Disposable
+    private lateinit var exportDataSubscription: Disposable
+    private lateinit var importDataSubscription: Disposable
+    private var excludeExportParameters: Array<String> = arrayOf()
+
+    private var exportType = ExportType.SAVE
+
+    override fun hasBackArrow(): Boolean? = true
+    override fun hasStatus(): Boolean = true
+
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.init(repository.isEnabledConnectToRandomNode())
-        view?.updateLockScreenValue(repository.getLockScreenValue())
-        updateConfirmTransactionValue()
-        updateFingerprintValue()
-        view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
-        view?.setLogSettings(repository.getLogSettings())
+    }
+
+
+    override fun initSubscriptions() {
+        super.initSubscriptions()
+
+        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
+            val link =  when (BuildConfig.FLAVOR) {
+                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=https://www.bmmobilemainnet.com"
+                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=https://www.bmmobiletestnet.com"
+                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=https://www.bmmobilemasternet.com"
+            }
+
+            view?.onFaucetAddressGenerated(link)
+        }
+
+        exportDataSubscription = WalletListener.subOnDataExported.subscribe {
+            val json = Gson()
+
+            val allCategories = repository.getAllCategory()
+            val categoriesJson = "{\"Categories\":" + json.toJson(allCategories) + ","
+            val resultJson = categoriesJson + it.substring(1)
+
+            val map = json.fromJson(resultJson, HashMap::class.java)
+
+            for(param in excludeExportParameters){
+                map.remove(param)
+            }
+
+            val result = json.toJson(map).toString()
+
+            if (exportType == ExportType.SHARE) {
+                val file = repository.getDataFile(result)
+                view?.exportShare(file)
+            }
+            else{
+                view?.exportSave(result)
+            }
+        }
+
+        importDataSubscription = WalletListener.subOnDataImported.subscribe {
+            if (!it)  {
+                view?.exportError()
+            }
+        }
+    }
+
+    override fun omImportPressed() {
+        view?.showImportDialog()
     }
 
     override fun onStart() {
         super.onStart()
-        view?.updateCategoryList(repository.getAllCategory())
-        view?.setLanguage(repository.getCurrentLanguage())
+
+        view?.onNeedAddedViews()
+
+        if (view?.mode() == SettingsFragmentMode.Tags) {
+            view?.updateCategoryList(repository.getAllCategory())
+        }
+
+        if (view?.mode() == SettingsFragmentMode.General) {
+            view?.updateLockScreenValue(repository.getLockScreenValue())
+            view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
+            view?.setLogSettings(repository.getLogSettings())
+            view?.setLanguage(repository.getCurrentLanguage())
+        }
+        else if (view?.mode() == SettingsFragmentMode.Node) {
+            view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
+        }
+        else if (view?.mode() == SettingsFragmentMode.Privacy) {
+            updateFingerprintValue()
+            updateConfirmTransactionValue()
+        }
     }
 
     override fun onAddCategoryPressed() {
         view?.navigateToAddCategory()
     }
 
-    override fun onCategoryPressed(categoryId: String) {
-        view?.navigateToCategory(categoryId)
-    }
+    override fun onCategoryPressed(categoryName: String) {
+        val tags = repository.getAllCategory()
+        val tag = tags.findLast {
+            it.name == categoryName
+        }
 
+        if (tag!=null) {
+            view?.navigateToCategory(tag.id)
+        }
+    }
 
     private fun updateConfirmTransactionValue() {
         view?.updateConfirmTransactionValue(repository.shouldConfirmTransaction())
     }
 
     private fun updateFingerprintValue() {
-        if (FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
-                        ?: return)) {
-            view?.showFingerprintSettings(repository.isFingerPrintEnabled())
-        } else {
-            repository.saveEnableFingerprintSettings(false)
+        when {
+            FaceIDManager.isManagerAvailable() -> view?.showFingerprintSettings(repository.isFingerPrintEnabled())
+            FingerprintManager.SensorState.READY == FingerprintManager.checkSensorState(view?.getContext()
+                    ?: return) -> view?.showFingerprintSettings(repository.isFingerPrintEnabled())
+            else -> repository.saveEnableFingerprintSettings(false)
         }
     }
 
@@ -83,8 +166,13 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToOwnerKeyVerification()
     }
 
-    override fun hasBackArrow(): Boolean? = true
-    override fun hasStatus(): Boolean = true
+    override fun onSeedPressed() {
+        view?.navigateToSeed()
+    }
+
+    override fun onSeedVerificationPressed() {
+        view?.navigateToSeedVerification()
+    }
 
     override fun onShowLockScreenSettings() {
         view?.showLockScreenSettingsDialog()
@@ -159,14 +247,18 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showLogsDialog()
     }
 
-    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
         view?.closeDialog()
-        if (clearAddresses || clearContacts || clearTransactions) {
-            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions)
+        if (clearAddresses || clearContacts || clearTransactions || clearTags) {
+            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions, clearTags)
         }
     }
 
-    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
+    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
+        if (clearTags) {
+            TagHelper.getAllTags().forEach { TagHelper.deleteTag(it) }
+        }
+
         if (clearAddresses) {
             state.addresses.forEach { repository.deleteAddress(it.walletID) }
         }
@@ -189,7 +281,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         if (isEnabled) {
             repository.setRunOnRandomNode(isEnabled)
-            view?.init(isEnabled)
+            view?.setRunOnRandomNode(isEnabled)
             return
         }
 
@@ -198,9 +290,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (!savedAddress.isNullOrBlank() && isValidNodeAddress(savedAddress)) {
             repository.setNodeAddress(savedAddress)
             repository.setRunOnRandomNode(isEnabled)
-            view?.init(isEnabled)
+            view?.setRunOnRandomNode(isEnabled)
         } else {
-            view?.init(true)
+            view?.setRunOnRandomNode(true)
             view?.showNodeAddressDialog(repository.getCurrentNodeAddress())
         }
     }
@@ -210,7 +302,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.closeDialog()
             repository.setNodeAddress(address)
             repository.setRunOnRandomNode(false)
-            view?.init(false)
+            view?.setRunOnRandomNode(false)
         } else {
             view?.showInvalidNodeAddressError()
         }
@@ -227,12 +319,54 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
     }
 
+    override fun onReceiveFaucet() {
+        view?.showReceiveFaucet()
+    }
+
+    override fun onProofPressed() {
+        view?.navigateToPaymentProof()
+    }
+
+    override fun generateFaucetAddress() {
+        AppManager.instance.createAddressForFaucet()
+    }
+
     override fun onDialogClosePressed() {
         view?.closeDialog()
+    }
+
+    override fun onExportPressed() {
+        view?.showExportDialog()
+    }
+
+    override fun onExportWithExclude(list: Array<String>) {
+        excludeExportParameters = list
+        view?.showExportSaveDialog()
+    }
+
+    override fun onExportSave() {
+        exportType = ExportType.SAVE
+        AppManager.instance.wallet?.exportDataToJson()
+    }
+
+    override fun onExportShare() {
+        exportType = ExportType.SHARE
+        AppManager.instance.wallet?.exportDataToJson()
+    }
+
+    override fun onRemoveWalletPressed() {
+        view?.showConfirmRemoveWallet()
+    }
+
+    override fun onConfirmRemoveWallet() {
+        AppManager.instance.removeWallet()
+        view?.walletRemoved()
     }
 
     override fun onDestroy() {
         view?.closeDialog()
         super.onDestroy()
     }
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription)
 }

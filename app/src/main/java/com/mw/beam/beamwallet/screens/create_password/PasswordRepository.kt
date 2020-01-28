@@ -49,6 +49,7 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
 
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                PreferencesManager.putString(PreferencesManager.KEY_SEED, phrases)
 
                 //TODO move synchronization to progress screen (already done) when progress for create flow will be needed
                 if (WelcomeMode.CREATE == mode) {

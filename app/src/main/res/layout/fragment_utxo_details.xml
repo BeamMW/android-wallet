@@ -11,7 +11,7 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -97,12 +97,14 @@
                     <TextView
                         android:id="@+id/statusLabel"
                         style="@style/common_text_big_light"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/roboto_italic"
                         android:gravity="center"
                         android:textSize="16sp"
+
                         tools:text="@string/available" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -169,7 +171,7 @@
                         android:padding="3dp"
                         android:text="@string/id"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -199,7 +201,7 @@
                         android:padding="3dp"
                         android:text="@string/type"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView

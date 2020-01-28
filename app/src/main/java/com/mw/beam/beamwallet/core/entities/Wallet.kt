@@ -24,6 +24,7 @@ import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
  */
 data class Wallet(val _this: Long) {
     external fun getWalletStatus()
+    external fun getTransactions()
     external fun getUtxosStatus()
     external fun syncWithNode()
     external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
@@ -32,8 +33,8 @@ data class Wallet(val _this: Long) {
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
 
-    @Deprecated("Need usage 'updateAddress'")
-    external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
+   // @Deprecated("Need usage 'updateAddress'")
+   // external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
     external fun updateAddress(addr: String, name: String, addressExpirationEnum: Int)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)
@@ -46,4 +47,6 @@ data class Wallet(val _this: Long) {
     external fun changeNodeAddress(address: String)
     external fun exportOwnerKey(pass: String): String
     external fun importRecovery(path: String)
+    external fun importDataFromJson(data: String)
+    external fun exportDataToJson()
 }

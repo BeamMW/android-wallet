@@ -9,7 +9,7 @@
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
@@ -74,7 +74,7 @@
                         android:padding="3dp"
                         android:text="@string/address"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:padding="3dp"
                         android:text="@string/expiration_date"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -134,7 +134,7 @@
                         android:padding="3dp"
                         android:text="@string/tags"
                         android:textAllCaps="true"
-                        android:textColor="#8798A9"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView

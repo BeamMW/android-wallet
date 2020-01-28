@@ -54,13 +54,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:layout_marginStart="@dimen/common_passwords_screen_padding"
-                android:layout_marginEnd="@dimen/common_passwords_screen_padding"
                 android:id="@+id/passError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_passwords_screen_padding"
+                android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-light"
-                android:paddingTop="@dimen/welcome_passwords_items_offset"
                 android:text="@string/pass_wrong"
                 android:textColor="@color/common_error_color"
                 android:textSize="@dimen/welcome_passwords_info_text_size"
@@ -72,15 +71,12 @@
                 android:id="@+id/btnNext"
                 style="@style/common_button_style"
                 android:layout_marginTop="@dimen/common_passwords_screen_button_margin"
-                android:layout_marginBottom="@dimen/common_passwords_screen_button_margin"
-                app:lower_case="true"
                 app:button_icon="@drawable/ic_btn_proceed"
                 app:button_text="@string/next"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/passError"
-                app:layout_constraintVertical_bias="1" />
+                app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -28,6 +28,8 @@
 -keep,includedescriptorclasses class com.mw.beam.beamwallet.core.entities.** { *; }
 -keep,includedescriptorclasses class com.mw.beam.beamwallet.core.listeners.** { *; }
 -keep,includedescriptorclasses class com.mw.beam.beamwallet.core.helpers.** { *; }
+-keep,includedescriptorclasses class com.mw.beam.beamwallet.screens.settings.SettingsFragmentMode { *; }
+-keep,includedescriptorclasses class com.mw.beam.beamwallet.screens.settings.** { *; }
 
 -keepclassmembers class * extends android.content.Context {
    public void *(android.view.View);

@@ -40,7 +40,7 @@
         android:padding="@dimen/settings_card_offset"
         android:text="@string/cancel"
         android:textAllCaps="true"
-        android:textColor="@color/alert_dialog_cancel_color"
+        android:textColor="?attr/subHeaderTextColor"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -18,7 +18,10 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_seed
 
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.utils.LogUtils
 
 /**
@@ -29,26 +32,41 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
         WelcomeSeedContract.Presenter {
     private val COPY_TAG = "RECOVERY SEED"
 
+    private var seed = mutableListOf<String>()
+
     override fun onViewCreated() {
         super.onViewCreated()
-        view?.configSeed(repository.seed)
 
-        if (BuildConfig.DEBUG) {
-            LogUtils.log("Seed phrase: \n${prepareSeed(repository.seed)}")
-        }
+        seed = repository.seed().toMutableList()
+
+        view?.configSeed(seed.toTypedArray())
     }
 
     override fun onDonePressed() {
-        view?.showConfirmFragment(repository.seed)
+        view?.showConfirmFragment(seed.toTypedArray())
     }
 
     override fun onNextPressed() {
+        if (!App.isAuthenticated) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
+        }
+
         view?.showSaveAlert()
     }
 
     override fun onCopyPressed() {
-        view?.copyToClipboard(prepareSeed(repository.seed), COPY_TAG)
+        view?.copyToClipboard(prepareSeed(seed.toTypedArray()), COPY_TAG)
         view?.showCopiedAlert()
+    }
+
+    override fun oLaterPressed() {
+        if (!App.isAuthenticated) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, true)
+            view?.showPasswordFragment(seed.toTypedArray())
+        }
+        else{
+            view?.onBack()
+        }
     }
 
     private fun prepareSeed(seed: Array<String>): String {

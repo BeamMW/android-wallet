@@ -38,6 +38,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.toTimeFormat
 import java.io.File
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.BuildConfig
 
 /**
  *  1/24/19.
@@ -75,6 +76,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
+        AppManager.instance.removeOldValues()
 
         presenter?.repository?.setContext(context!!)
 
@@ -83,10 +85,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = downloadTitleString
                 btnCancel.visibility = View.VISIBLE
+                appVersion.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
                 title.text = createTitleString
                 btnCancel.visibility = View.VISIBLE
+                appVersion.visibility = View.VISIBLE
             }
         }
 
@@ -150,6 +154,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 
     override fun onStart() {
@@ -222,10 +227,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun navigateToCreateFragment() {
         if (isRecoverDataBaseExists()) {
-            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeOpenFragment())
+            findNavController().popBackStack(R.id.welcomeOpenFragment,false)
         }
         else{
-            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWelcomeCreateFragment())
+            findNavController().popBackStack(R.id.welcomeCreateFragment,false)
         }
     }
 

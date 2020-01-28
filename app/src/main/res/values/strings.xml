@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Beam Wallet</string>
+    <string name="redirect" translatable="false">www.bmmobilemainnet.com</string>
     <string name="common_logo_text">Scalable confidential cryptocurrency</string>
     <string name="common_testnet">Testnet</string>
     <string name="common_masternet">Masternet</string>
@@ -27,6 +28,8 @@
     <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
+    <string name="common_faceid_error">Face ID can’t be recognized, please enter your password.</string>
+
     <string name="common_share_title">Share…</string>
     <string name="common_external_link_dialog_title">External link</string>
     <string name="common_external_link_dialog_message">Beam Wallet app requires permission to open external link in the browser. This action will expose your IP to the web server. To avoid it, choose "Cancel". You can change your choice in app setting anytime.</string>
@@ -75,9 +78,11 @@
     <string name="welcome_open">Open your wallet</string>
     <string name="enter_your_password_to_access_the_wallet">Enter your password to access the wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
+    <string name="welcome_open_description_with_faceid">Use Face ID or enter your password to access the wallet.</string>
+    <string name="use_faceid_access_wallet">Use Face ID to access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">Seed phrase</string>
     <string name="welcome_seed_save_title">Save seed phrase</string>
     <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
@@ -188,6 +193,9 @@
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="id">ID</string>
+    <string name="treasure">Treasure</string>
+
+
 
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>
@@ -276,7 +284,7 @@
     <string name="settings_send_logs_description">Send logs…</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:port:</string>
-    <string name="settings_general_settings">General settings</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">Lock screen</string>
     <string name="never">Never</string>
     <string name="after">After</string>
@@ -372,6 +380,8 @@ You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
     <string name="notification_receive_content_title">Receiving new transaction</string>
+    <string name="owner_key_verification_pass_face">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
+You must pass 2-step verification (submit a password and use FaceID) to see your Owner Key.</string>
 
     <!--BackgroundService-->
     <string name="notification_receive_content_text">Please, click to view details</string>
@@ -401,7 +411,6 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="save_recipient_address">Would you like to save recipient address for further transactions?</string>
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Enter your current password to proceed changes in settings</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
@@ -417,6 +426,8 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
+    <string name="faceid_not_recognized">Face ID not recognized</string>
+    <string name="use_faceid_ot_enter_your_password_to_confirm_transaction">Use Face ID or enter your password to confirm transaction</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
@@ -444,6 +455,7 @@ You must pass 2-step verification (submit a password and use Fingerprint) to see
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
     <string name="choose_tag">Choose tag</string>
     <string name="use_finger">Use your Fingerprint </string>
+    <string name="use_faceid">Use your Face ID </string>
     <string name="tags">Tags</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
@@ -486,6 +498,59 @@ address or contact</string>
     <string name="last_5_days">Last 5 days</string>
     <string name="last_15_days">Last 15 days</string>
     <string name="last_30_days">Last 30 days</string>
+    <string name="status">Status</string>
+
+    <string name="complete_verification">Complete verification</string>
+    <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="complete_seed_verification">Complete seed verification</string>
+    <string name="seed_verification">Seed Verification</string>
+    <string name="i_will_later">I will do it later</string>
+    <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
+    <string name="get_coins">Get coins</string>
+    <string name="make_wallet_secure_text">Write down and validate your seed phrase so you can always recover your funds.</string>
+    <string name="secure_your_phrase">Secure your phrase</string>
+    <string name="clear_local_data">Clear local wallet data</string>
+    <string name="show_seed_phrase">Show seed phrase</string>
+    <string name="clear_wallet">Remove current wallet</string>
+    <string name="clear_wallet_text">All data will be erased. Make sure you’ve saved your seed phrase if you want to restore this wallet later on! Are you sure you want to remove your wallet?</string>
+    <string name="export_wallet_data">Export wallet data</string>
+    <string name="import_wallet_data">Import wallet data</string>
+    <string name="export_wallet_data_text">Would you like to save data on your device or share it?</string>
+    <string name="remove_wallet">Remove wallet</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Incorrect file</string>
+    <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
+    <string name="import_data_title">Import data</string>
+    <string name="imp">Import</string>
+    <string name="export_data">Export data</string>
+    <string name="clear_wallet_password">Enter your password to remove your wallet"</string>
+    <string name="change_node_text_2">Use your fingerprint or enter your password to change node settings</string>
+    <string name="change_node_text_3">Enter your password to change node settings</string>
+    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">Feedback</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="remove_wallet_password_1">Use your fingerprint or enter your password to remove current wallet</string>
+    <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
+    <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="change_settings_text_2">Enter your current password to proceed changes in settings</string>
+    <string name="change_settings_text_1">Use fingerprint or enter your password to proceed changes in settings</string>
+    <string name="till_block_height">till block height</string>
+    <string name="delete_all_tags">Delete all tags</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="remove_wallet_password_3">Use your Face ID or enter your password to remove current wallet</string>
+    <string name="change_node_text_4">Use your Face ID or enter your password to change node settings</string>
+    <string name="change_settings_text_3">Use your Face ID or enter your password to proceed changes in settings</string>
+    <string name="owner_key_verification_faceid_error">Face ID authorization failed. Please try in a few minutes.</string>
+    <string name="enable_faceid_text">Would you like to use Face ID for login to your wallet?\n\nAfter login Face ID can be enabled or disabled at any time in the settings menu</string>
+    <string name="enable_touch_id_text">Would you like to use Touch ID for login to your wallet?\n\nAfter login Touch ID can be enabled or disabled at any time in the settings menu</string>
+    <string name="enable">Enable</string>
+    <string name="dont_use">Don\'t use</string>
+    <string name="since_block_height">Since block height</string>
+    <string name="block_height">Block height</string>
+    <string name="import_data_warning">Only the data exported from the wallet with the same seed phrase can be imported.</string>
 
 
 </resources>

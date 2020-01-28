@@ -93,7 +93,6 @@ open class BaseRepository : MvpRepository {
                 Api.closeWallet()
                 AppManager.instance.wallet = null
                 AppManager.instance.unSubscribeToUpdates()
-
             }
         }
     }

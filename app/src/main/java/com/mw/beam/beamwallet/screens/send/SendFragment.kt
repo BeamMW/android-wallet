@@ -54,9 +54,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.views.BeamButton
-import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
-import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -85,6 +82,8 @@ import kotlinx.android.synthetic.main.fragment_send.tagAction
 import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.views.*
 
 /**
  *  11/13/18.
@@ -94,6 +93,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private lateinit var pagerAdapter: AddressesPagerAdapter
     private var minFee = 0
     private var maxFee = 0
+    private var isFirstEditExanpd = true
+    private var isFirstAdvExanpd = true
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -203,6 +204,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return if (progress < 0) 0 else progress
     }
 
+
     @SuppressLint("SetTextI18n")
     override fun init(defaultFee: Int, max: Int) {
         maxFee = max
@@ -232,7 +234,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         updateFeeValue(defaultFee)
 
         val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context, R.layout.receive_expire_spinner_item,strings) {
+        val adapter = object: ArrayAdapter<CharSequence>(context!!, R.layout.receive_expire_spinner_item,strings) {
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
 
                 val view = View.inflate(context,R.layout.receive_expire_spinner_item,null)
@@ -429,6 +431,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         super.onStart()
 
         onBackPressedCallback.isEnabled = true
+
+        if(App.isNeedOpenScanner) {
+            App.isNeedOpenScanner = false
+            presenter?.onScanQrPressed()
+        }
     }
 
     override fun onStop() {
@@ -682,15 +689,42 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
-        animateDropDownIcon(btnExpandAdvanced, expand)
-        beginTransaction()
-        advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
+        if (isFirstAdvExanpd) {
+            isFirstAdvExanpd = false
+            animateDropDownIcon(btnExpandAdvanced, expand)
+            advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
+        }
+        else{
+            animateDropDownIcon(btnExpandAdvanced, expand)
+            beginTransaction(true)
+
+            if(expand) {
+                advancedGroup.visible(true)
+            }
+            else{
+                advancedGroup.gone(true)
+            }
+        }
     }
 
     override fun handleExpandEditAddress(expand: Boolean) {
-        animateDropDownIcon(btnExpandEditAddress, expand)
-        beginTransaction()
-        editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
+        if (isFirstEditExanpd) {
+            isFirstEditExanpd = false
+            animateDropDownIcon(btnExpandEditAddress, expand)
+            editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
+        }
+        else{
+            animateDropDownIcon(btnExpandEditAddress, expand)
+            beginTransaction(true)
+
+
+            if(expand) {
+                editAddressGroup.visible(true)
+            }
+            else{
+                editAddressGroup.gone(true)
+            }
+        }
     }
 
     override fun setTags(currentTags: List<Tag>) {

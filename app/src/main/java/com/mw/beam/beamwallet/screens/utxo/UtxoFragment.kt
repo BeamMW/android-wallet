@@ -28,12 +28,15 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.SystemState
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import kotlinx.android.synthetic.main.fragment_utxo.*
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.fragment_utxo.itemsswipetorefresh
 import kotlinx.android.synthetic.main.toolbar.*
 
 
@@ -55,6 +58,18 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+        itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+        itemsswipetorefresh.setOnRefreshListener {
+            AppManager.instance.reload()
+            android.os.Handler().postDelayed({
+                if (itemsswipetorefresh!=null) {
+                    itemsswipetorefresh.isRefreshing = false
+                }
+            }, 1000)
+        }
     }
 
     override fun init() {
@@ -141,7 +156,12 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
     }
 
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    }
+    else{
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    }
 
 
     private fun setVisibility() {

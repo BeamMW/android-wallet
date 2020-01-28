@@ -43,6 +43,8 @@ interface AddressesContract {
         fun deleteAddresses()
         fun showDeleteAddressesDialog(transactionAlert:Boolean)
         fun changeMode(mode: AddressesFragment.Mode)
+        fun didSelectAllAddresses(addresses: List<WalletAddress>)
+        fun didUnSelectAllAddresses()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -55,6 +57,7 @@ interface AddressesContract {
         fun onDeleteAddress(selected: List<String>)
         fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>)
         fun onModeChanged(mode: AddressesFragment.Mode)
+        fun onSelectAll()
     }
 
     interface Repository : MvpRepository {

@@ -3,6 +3,19 @@
     <attr name="phrase" format="string" />
     <attr name="number" format="integer" />
 
+    <attr name="subHeaderTextColor" format="reference"/>
+    <attr name="menuItemColor" format="reference"/>
+    <attr name="menuBackground" format="reference"/>
+    <attr name="tabsColor" format="reference"/>
+    <attr name="alertDialogColor" format="reference"/>
+    <attr name="headerBackground" format="reference"/>
+    <attr name="colorPrimaryPicked" format="reference"/>
+    <attr name="sentColorPicked" format="reference"/>
+    <attr name="cardBackground" format="reference"/>
+    <attr name="initialBackground" format="reference"/>
+    <attr name="addressStatusBarColor" format="reference"/>
+
+
     <declare-styleable name="BeamButton">
         <attr name="button_text" format="integer" />
         <attr name="button_icon" format="integer" />

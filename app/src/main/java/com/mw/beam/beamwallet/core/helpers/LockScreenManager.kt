@@ -16,12 +16,8 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
-import android.app.AlarmManager
-import android.app.PendingIntent
+
 import android.content.Context
-import android.content.Intent
-import android.util.Log
-import androidx.core.app.AlarmManagerCompat
 import com.mw.beam.beamwallet.core.App
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -30,34 +26,40 @@ import java.util.Timer
 import kotlin.concurrent.timerTask
 
 object LockScreenManager {
+    var isShowedLockScreen = false
+
     var subOnStatusLock: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
-    private const val REQUEST_CODE = 721
-
-    const val LOCK_SCREEN_ACTION = "com.mw.beam.beamwallet.core.utils.LockScreen"
     const val LOCK_SCREEN_NEVER_VALUE = 0L
 
     private var timer:Timer? = null
+    var inactiveDate = 0L
 
-    var isNeedLocked = false
+    fun checkIsNeedShow():Boolean {
+        if (inactiveDate > 0L) {
+            val currentTime = System.currentTimeMillis()
+            val diff = currentTime - inactiveDate
+            val time = getCurrentValue()
+
+            if (time > 0 && diff >= time) {
+                isShowedLockScreen = true
+                subOnStatusLock.onNext(0)
+            }
+        }
+        return  false
+    }
 
     fun restartTimer(context: Context) {
         timer?.cancel()
         timer = null
-
-        Log.e("lockApp","restartTimer")
 
         val time = getCurrentValue()
 
         if (time > 0) {
             timer = Timer()
             timer?.schedule(timerTask {
-                Log.e("lockApp","timer FIRED")
-
-                isNeedLocked = true
-
+                isShowedLockScreen = true
                 subOnStatusLock.onNext(0)
-
             }, time)
         }
 

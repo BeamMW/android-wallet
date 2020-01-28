@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.save_address
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TagHelper
@@ -24,7 +25,15 @@ import com.mw.beam.beamwallet.core.helpers.TagHelper
 class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
     override fun saveAddress(address: WalletAddress, own: Boolean) {
         getResult("updateAddress") {
-            wallet?.saveAddress(address.toDTO(), own)
+            val dto = address.toDTO()
+            val name = dto.label
+            val tmpaddress = AppManager.instance.getAddress(dto.walletID)
+            if(tmpaddress==null) {
+                wallet?.saveAddress(dto, own)
+            }
+            else{
+                wallet?.updateAddress(dto.walletID,name,0)
+            }
         }
     }
 

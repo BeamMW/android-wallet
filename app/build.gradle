@@ -28,16 +28,19 @@ android {
 }
 
 android {
-    signingConfigs {
+        signingConfigs {
 
+   release {
+
+   }
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
-        targetSdkVersion 28
-        versionCode 190
-        versionName "3.2.62"
+        targetSdkVersion 29
+        versionCode 228
+        versionName "4.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -46,6 +49,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     androidExtensions {
@@ -218,6 +222,9 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
     implementation 'com.karumi:dexter:6.0.0'
     implementation "androidx.tonyodev.fetch2:xfetch2:3.1.4"
+    implementation 'androidx.biometric:biometric:1.0.1'
+    implementation 'com.android.support:multidex:1.0.0'
+    implementation 'com.samigehi:loadingview:1.1'
 
     implementation "com.mikepenz:materialdrawer:7.0.0-rc07"
     implementation "com.android.support:support-annotations:28.0.0"
@@ -237,6 +244,7 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-web:$ver_espresso"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$ver_espresso"
     androidTestImplementation "com.agoda.kakao:kakao:$ver_kakao"
+
     implementation("com.crashlytics.sdk.android:crashlytics-ndk:$ver_crashlytics_ndk") {
         transitive = true
     }

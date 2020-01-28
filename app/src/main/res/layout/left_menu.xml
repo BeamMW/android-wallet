@@ -14,7 +14,7 @@
         android:id="@+id/menuLinerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/menu_gradient"
+        android:background="?attr/menuBackground"
         android:orientation="vertical">
 
         <ImageView

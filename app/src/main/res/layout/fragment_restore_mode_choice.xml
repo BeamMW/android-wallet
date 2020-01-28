@@ -97,7 +97,7 @@
                 android:id="@+id/btnNext"
                 style="@style/common_button_style"
                 android:layout_marginTop="@dimen/common_offset"
-                android:layout_marginBottom="@dimen/welcome_seed_button_margin"
+                android:layout_marginBottom="100dp"
                 app:button_icon="@drawable/ic_btn_proceed"
                 app:button_text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"

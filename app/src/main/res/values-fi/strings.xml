@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">Kirjoita salasanasi avataksesi lompakon.</string>
     <string name="welcome_open_description_with_fingerprint">Käytä sormenjälkitunnistusta tai kirjoita salasanasi kirjautuaksesi sisään lompakkoon.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Seed phrase -palautusavaimellasi pääsee käsiksi kaikkeen lompakon varallisuuteen. Tulosta tai kirjoita se huolellisesti ylös, sekä pidä se tallessa esimerkiksi kassakaapissa, pankkiholvissa tai muussa turvallisesti lukitussa tilassa. Ilman palautusavainta et voi palauttaa lompakkosi saldoa tarvittaessa.</string>
+    <string name="welcome_seed_description">Seed phrase -palautusavaimellasi pääsee käsiksi kaikkeen lompakon varallisuuteen. Tästä eteenpäin et voi nähdä seed phraseasi asetuksistasi. Tulosta tai kirjoita se huolellisesti ylös, sekä pidä se tallessa esimerkiksi kassakaapissa, pankkiholvissa tai muussa turvallisesti lukitussa tilassa. Ilman seed phrasea et voi palauttaa lompakkosi saldoa tarvittaessa.</string>
     <string name="welcome_seed_title">Seed phrase -palautusavain</string>
     <string name="welcome_seed_save_title">Ota seed phrase talteen</string>
     <string name="welcome_seed_save_description">Kirjoita seed phrase -palautusavaimesi talteen! Älä ota kuvakaappausta siitä äläkä tallenna sitä laitteesi kuvagalleriaan tai muuhunkaan vastaavaan digitaaliseen muotoon! Jos toimit vastoin edellä mainittua ohjetta, se asettaa palautusavaimesi alttiiksi hakkeroinnille ja vähentää lompakon turvallisuutta.</string>
@@ -177,6 +177,7 @@
     <string name="date">Päivämäärä</string>
     <string name="time">Aika</string>
     <string name="id">Id</string>
+    <string name="treasure">Treasure</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Tapahtuman tiedot</string>
     <string name="general_transaction_info">Tapahtuman yleiset tiedot</string>
@@ -231,7 +232,7 @@
     <string name="saved_to_downloads">Tallennettu latauskansioon</string>
     <!--SendFragment-->
     <string name="send_amount_empty_error">Summaa ei voi jättää tyhjäksi</string>
-    <string name="send_amount_zero_error">Summa ei voi olla 0 BEAMiä</string>
+    <string name="send_amount_zero_error">Summa ei voi olla 0 BEAM</string>
     <string name="send_amount_overflow_error">Saldo ei riitä: tarvitset vähintään %1$s Beamiä suorittaaksesi maksutapahtuman.</string>
     <string name="insufficient_funds">Saldo ei riitä</string>
     <string name="invalid_address">Virheellinen osoite</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">Lähetä lokit…</string>
     <string name="node">Palvelin (node)</string>
     <string name="settings_ip_title">IP:portti:</string>
-    <string name="settings_general_settings">Yleiset asetukset</string>
+    <string name="settings_general_settings">Yleiset</string>
     <string name="lock_screen">Lukitusnäyttö</string>
     <string name="never">Ei koskaan</string>
     <string name="after">jälkeen</string>
@@ -298,7 +299,7 @@
     <string name="delete_addresses">Poista osoitteet</string>
     <string name="delete_contacts">Poista yhteystiedot</string>
     <string name="transactions_list">Tilitapahtumat</string>
-    <string name="address_id">Osoitteen id</string>
+    <string name="address_id">Osoitteen ID</string>
     <string name="expiration_date">Vanhentumispäivä</string>
     <string name="tag">Luokka</string>
     <string name="show_qr_code_short">Näytä QR-koodi</string>
@@ -370,7 +371,6 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="save_recipient_address">Haluatko tallentaa saajan osoitteen yhteystietoihisi?</string>
     <string name="save_address">Tallenna osoite</string>
     <string name="dont_save">Älä tallenna</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Kirjoita salasanasi muuttaaksesi asetuksia</string>
     <string name="save_changes">Tallenna muutokset</string>
     <string name="receive_description">Jotta maksutapahtuma onnistuu, tulee sinun avata lompakkosi 12 tunnin sisällä lähetyksestä.</string>
     <string name="search_by_address_tag_or_name">Etsi osoitteella, luokalla tai nimellä</string>
@@ -388,8 +388,8 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="fingerprint_not_recognized">Sormenjälkeä ei tunnistettu</string>
     <string name="address_copied_to_clipboard">Osoite kopioitu leikepöydälle</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam-lompakko lataa lohkoketjusta tilannekuvan ja palauttaa saldon laitteellesi</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam-lompakko yhdistää luotettuun palvelimeen (node) (konfiguroitu omistusavaimellasi) ja palvelin palauttaa saldosi</string>
     <string name="restore_with_trusted_node">Palauta luotetun palvelimen (node) kautta</string>
     <string name="automatic_restore_recommended">AUTOMAATTINEN PALAUTUS (suositus)</string>
     <string name="enter_trusted_node_address">Anna luotetun palvelimen (node) osoite</string>
@@ -431,7 +431,7 @@ Nähdäksesi omistusavaimen sinun täytyy suorittaa kaksivaiheinen tunnistautumi
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Kun olet liittänyt koodin, käynnistä palvelin (node) tietokoneellasi ja paina seuraava mobiililaitteen sovelluksessa.</string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Palvelimeen (node) ei saada yhteyttä. Kokeile yhdistää eri palvelimeen tai käytä automaattista palautusta.</string>
     <string name="connecting">Yhdistetään...</string>
-    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Etsi tapahtuman id:llä, kernel id:llä, kommentilla, 
+    <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Etsi tapahtuman ID:llä, kernel ID:llä, kommentilla, 
 osoitteella tai yhteystiedolla</string>
     <string name="address_details">Osoitetiedot</string>
     <string name="contact_details">Yhteystiedot</string>
@@ -448,8 +448,44 @@ osoitteella tai yhteystiedolla</string>
         <item>Ei koskaan</item>
     </string-array>
     <string name="save_wallet_logs">Tallenna lompakon lokitiedot</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">Kaikki</string>
+    <string name="last_5_days">Viimeiset 5 päivää</string>
+    <string name="last_15_days">Viimeiset 15 päivää</string>
+    <string name="last_30_days">Viimeiset 30 päivää</string>
+    <string name="status">Tila</string>
+    <string name="complete_verification">Suorita varmennus</string>
+    <string name="complete_wallet_verification">Suorita lompakon varmennus</string>
+    <string name="i_will_later">Myöhemmin</string>
+    <string name="faucet_text">Näe lompakko toiminnassa. Ota vastaan pieni summa Beamiä yhteisön testikäyttöön tarkoitetusta kassasta.</string>
+    <string name="get_coins">Hanki kolikkoja</string>
+    <string name="make_wallet_secure_text">Kirjoita ylös ja tarkista seed phrasesi, jotta voit palauttaa saldosi tarvittaessa.</string>
+    <string name="secure_your_phrase">Suojaa seed phrasesi</string>
+    <string name="clear_local_data">Tyhjennä paikallisesti tallennetut tiedot</string>
+    <string name="show_seed_phrase">Näytä seed phrase</string>
+    <string name="clear_wallet">Poista nykyinen lompakko</string>
+    <string name="clear_wallet_text">Kaikki lompakon tiedot poistetaan. Varmista, että olet ottanut talteen seed phrase -palautusavaimesi, jos haluat palauttaa tämän lompakon myöhemmin. Haluatko varmasti poistaa lompakkosi?</string>
+    <string name="export_wallet_data">Vie lompakon tiedot</string>
+    <string name="import_wallet_data">Tuo lompakon tiedot</string>
+    <string name="export_wallet_data_text">Haluatko tallentaa tiedot laitteellesi tai jakaa ne?</string>
+    <string name="remove_wallet">Poista lompakko</string>
+    <string name="utilities">Ominaisuudet</string>
+    <string name="incorrect_file_title">Virheellinen tiedosto</string>
+    <string name="incorrect_file_text">Tiedosto, jonka yrität tuoda Beam lompakkoon, ei ole yhteensopiva. Valitse toinen tiedosto ja yritä uudelleen.</string>
+    <string name="import_data_text">Oletko varma, että haluat tuoda tiedot Beam-lompakkoosi? Nykyiset tiedot pyyhitään ja korvataan liittämilläsi tiedoilla.</string>
+    <string name="import_data_title">Tuo tiedot</string>
+    <string name="imp">Tuo</string>
+    <string name="export_data">Vie tiedot</string>
+    <string name="clear_wallet_password">Kirjoita salasanasi poistaaksesi lompakkosi</string>
+    <string name="change_node_text_2">Käytä sormenjälkitunnistusta tai kirjoita salasanasi muuttaaksesi palvelimen (node) asetuksia</string>
+    <string name="change_node_text_3">Kirjoita salasanasi muuttaaksesi palvelimen (node) asetuksia</string>
+    <string name="get_beam_faucet">Hanki Beamiä yhteisön testikäyttöön tarkoitetusta kassasta</string>
+    <string name="privacy">Yksityisyys</string>
+    <string name="feedback">Palaute</string>
+    <string name="enter_your_password">Kirjoita salasanasi</string>
+    <string name="wallet_data_saved">Lompakon tiedot tallennettu latauskansioon</string>
+    <string name="remove_wallet_password_1">Käytä sormenjälkitunnistusta tai kirjoita salasanasi poistaaksesi nykyisen lompakon</string>
+    <string name="remove_wallet_password_2">Kirjoita salasanasi poistaaksesi nykyisen lompakon</string>
+    <string name="welcome_seed_description_old">Seed phrase -palautusavaimellasi pääsee käsiksi kaikkeen lompakon varallisuuteen. Tulosta tai kirjoita se huolellisesti ylös, sekä pidä se tallessa esimerkiksi kassakaapissa, pankkiholvissa tai muussa turvallisesti lukitussa tilassa. Ilman palautusavainta et voi palauttaa lompakkosi saldoa tarvittaessa.</string>
+    <string name="change_settings_text_2">Kirjoita salasanasi muuttaaksesi asetuksia</string>
+    <string name="change_settings_text_1">Käytä sormenjälkitunnistusta tai kirjoita salasanasi muuttaaksesi asetuksia</string>
 </resources>

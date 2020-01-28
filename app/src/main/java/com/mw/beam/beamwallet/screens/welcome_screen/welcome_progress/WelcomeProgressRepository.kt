@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
-import android.annotation.SuppressLint
 import android.content.Context
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.*
@@ -24,7 +23,6 @@ import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.LogUtils
-import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
 
@@ -36,23 +34,6 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
     override fun setContext(c:Context) {
         this.context = c
-    }
-
-    private var downloadProgressSubject: Subject<OnSyncProgressData>? = null
-
-    init {
-        subscribeToDownloadProgress()
-    }
-
-    @SuppressLint("CheckResult")
-    private fun subscribeToDownloadProgress() {
-        RestoreManager.instance.subDownloadProgress.subscribe {
-            downloadProgressSubject?.apply {
-                if (!hasComplete() && !hasThrowable()) {
-                    onNext(it)
-                }
-            }
-        }
     }
 
     override fun getSyncProgressUpdated(): Subject<OnSyncProgressData> {
@@ -118,17 +99,6 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
     }
 
-
-    @SuppressLint("CheckResult")
-    override fun downloadRestoreFile(file: File): Subject<OnSyncProgressData> {
-        downloadProgressSubject = PublishSubject.create<OnSyncProgressData>()
-
-        DownloadCalculator.onStartDownload()
-        RestoreManager.instance.startDownload(file)
-
-        return downloadProgressSubject!!
-    }
-
     override fun createWallet(pass: String?, seed: String?): Status {
         var result = Status.STATUS_ERROR
 
@@ -154,7 +124,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
         }
 
         LogUtils.logResponse(result, "createWallet")
-        
+
         return result
     }
 }

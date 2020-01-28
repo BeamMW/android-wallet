@@ -28,11 +28,17 @@ import kotlinx.android.synthetic.main.fragment_payment_proof_details.*
 import com.mw.beam.beamwallet.core.AppManager
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.mw.beam.beamwallet.core.App
 
 class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
 
     override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(arguments!!).paymentProof
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     @SuppressLint("SetTextI18n")
     override fun init(paymentProof: PaymentProof) {

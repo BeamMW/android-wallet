@@ -56,6 +56,8 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.fragment_transactions.pager
 import kotlinx.android.synthetic.main.fragment_transactions.tabLayout
 import kotlinx.android.synthetic.main.fragment_transactions.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_transactions.itemsswipetorefresh
+import com.mw.beam.beamwallet.core.App
 
 class TransactionsFragment : BaseFragment<TransactionsPresenter>(), TransactionsContract.View {
     enum class Mode {
@@ -95,13 +97,30 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_transactions
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
         toolbarLayout.hasStatus = true
+
+        itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+        itemsswipetorefresh.setOnRefreshListener {
+            AppManager.instance.reload()
+            android.os.Handler().postDelayed({
+                if (itemsswipetorefresh!=null) {
+                    itemsswipetorefresh.isRefreshing = false
+                }
+            }, 1000)
+        }
     }
 
     override fun init() {
@@ -125,6 +144,8 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
 
                                 pageAdapter?.reloadData(mode)
 
+                                presenter?.isAllSelected = selectedTransactions.count() == presenter?.getTransactions()?.count()
+
                                 onSelectedTransactionsChanged()
                             }
                         }
@@ -141,6 +162,8 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                     } else {
                         selectedTransactions.add(it.id)
                     }
+
+                    presenter?.isAllSelected = selectedTransactions.count() == presenter?.getTransactions()?.count()
 
                     onSelectedTransactionsChanged()
                 }
@@ -251,6 +274,13 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                     }
                 }
             }
+            menu.findItem(R.id.all).isVisible = true
+            if  (!presenter!!.isAllSelected) {
+                menu.findItem(R.id.all).icon = resources.getDrawable(R.drawable.ic_checkbox_empty_copy)
+            }
+            else{
+                menu.findItem(R.id.all).icon = resources.getDrawable(R.drawable.ic_checkbox_fill_copy)
+            }
         }
         else{
             inflater.inflate(R.menu.wallet_transactions_menu, menu)
@@ -284,10 +314,30 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
                     window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 }
             }
+            R.id.all -> presenter?.onSelectAll()
             R.id.delete -> presenter?.onDeleteTransactionsPressed()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun didSelectAllTransactions(transactions: List<TxDescription>) {
+        selectedTransactions.clear()
+        transactions.forEach {
+            selectedTransactions.add(it.id)
+        }
+        pageAdapter?.changeSelectedItems(selectedTransactions, false, null)
+        pageAdapter?.reloadData(mode)
+        onSelectedTransactionsChanged()
+        activity?.invalidateOptionsMenu()
+    }
+
+    override fun didUnSelectAllTransactions() {
+        presenter?.isAllSelected = false
+        selectedTransactions.clear()
+        pageAdapter?.changeSelectedItems(selectedTransactions, false, null)
+        pageAdapter?.reloadData(mode)
+        onSelectedTransactionsChanged()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -345,6 +395,8 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
     }
 
     private fun cancelSelectedTransactions() {
+        presenter?.isAllSelected = false
+
         val toolbarLayout = toolbarLayout
         toolbarLayout.centerTitle = false
         toolbarLayout.toolbar.title = getString(R.string.transactions)

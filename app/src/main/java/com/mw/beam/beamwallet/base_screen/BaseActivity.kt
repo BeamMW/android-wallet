@@ -15,10 +15,9 @@
  */
 package com.mw.beam.beamwallet.base_screen
 
-import android.content.BroadcastReceiver
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableString
@@ -27,22 +26,20 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.eightsines.holycycle.app.ViewControllerAppCompatActivity
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.helpers.LocaleHelper
-import com.mw.beam.beamwallet.core.helpers.LockScreenManager
-import com.mw.beam.beamwallet.core.helpers.NetworkStatus
-import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.BeamToolbar
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.util.Log
 import java.util.*
+import com.mw.beam.beamwallet.screens.welcome_screen.welcome_open.WelcomeOpenFragment
+import android.content.res.Configuration
+import com.mw.beam.beamwallet.core.helpers.*
+import androidx.core.content.ContextCompat.startActivity
+import android.content.ComponentName
+import android.content.pm.PackageManager
 
 
 /**
@@ -52,12 +49,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()
-
-    private val lockScreenReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent?) {
-            presenter?.onLockBroadcastReceived()
-        }
-    }
 
     override fun showAlert(message: String, btnConfirmText: String, onConfirm: () -> Unit, title: String?, btnCancelText: String?, onCancel: () -> Unit, cancelable: Boolean): AlertDialog? {
         return delegate.showAlert(message, btnConfirmText, onConfirm, title, btnCancelText, onCancel, this, cancelable)
@@ -187,8 +178,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         } else {
             presenter?.onCreate()
         }
-
-        registerReceiver(lockScreenReceiver, IntentFilter(LockScreenManager.LOCK_SCREEN_ACTION))
     }
 
     override fun onControllerContentViewCreated() {
@@ -220,13 +209,13 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         presenter?.onDestroy()
         presenter = null
 
-        unregisterReceiver(lockScreenReceiver)
-
         super.onDestroy()
     }
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(LocaleHelper.ContextWrapper.wrap(newBase))
+
+        androidx.multidex.MultiDex.install(this);
 
         val config = resources.configuration
 
@@ -240,21 +229,18 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
 
         resources.updateConfiguration(config, resources.displayMetrics)
+
+
     }
 
-    override fun showLockScreen() {
-        Log.d("lockApp","showLockScreen")
-
-        if ((App.isAuthenticated && !App.isShowedLockScreen) ||
-                (App.isAuthenticated && App.isShowedLockScreen && LockScreenManager.isNeedLocked)) {
-            Log.d("lockApp","try showLockScreen")
+    fun showLockScreen() {
+        if (App.isAuthenticated && LockScreenManager.isShowedLockScreen && !isLockedScreenShow()) {
+            LockScreenManager.inactiveDate = 0L
 
             if ((this as? AppActivity)?.isMenuOpened() == true) {
                 (this as? AppActivity)?.closeMenu()
             }
             (this as? AppActivity)?.enableLeftMenu(false)
-
-            App.isShowedLockScreen = true
 
             delegate.dismissAlert()
 
@@ -279,19 +265,38 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
             findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
         }
-        else{
-            Log.d("lockApp","not showLockScreen")
+    }
+
+    private fun isLockedScreenShow():Boolean {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                val base = fragment as BaseFragment<*>
+                if (base is WelcomeOpenFragment) {
+                    return true
+                }
+            }
         }
+
+        return false
     }
 
 
     override fun logOut() {
         if (App.isAuthenticated) {
             App.isAuthenticated = false
-            startActivity(Intent(this, AppActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            })
-            finish()
+
+            val packageManager = applicationContext.packageManager
+            val intent = packageManager.getLaunchIntentForPackage(applicationContext.packageName)
+            val componentName = intent!!.component
+            val mainIntent = Intent.makeRestartActivityTask(componentName)
+           // mainIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            applicationContext.startActivity(mainIntent)
+            Runtime.getRuntime().exit(0)
+//            startActivity(Intent(this, AppActivity::class.java).apply {
+//                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            })
+//            finish()
         }
         else{
             startActivity(Intent(this, AppActivity::class.java).apply {
@@ -308,8 +313,8 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun copyToClipboard(content: String?, tag: String) = delegate.copyToClipboard(this, content, tag)
 
-    override fun shareText(title: String, text: String) {
-        delegate.shareText(this, title, text)
+    override fun shareText(title: String, text: String, activity: Activity?) {
+        delegate.shareText(this, title, text, activity)
     }
 
     override fun openExternalLink(link: String) {
@@ -320,7 +325,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         toolbarLayout.progressBar.visibility = View.INVISIBLE
         toolbarLayout.statusIcon.visibility = View.VISIBLE
 
-        toolbarLayout.status.setTextColor(getColor(R.color.toolbar_status_color))
+        if(App.isDarkMode) {
+            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color_dark))
+        }
+        else{
+            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color))
+        }
 
         if (isOnline) {
             toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))

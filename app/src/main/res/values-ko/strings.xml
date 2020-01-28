@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">지갑에 접근하려면 비밀번호를 입력하세요.</string>
     <string name="welcome_open_description_with_fingerprint">지문인식이나 비밀번호를 입력하여 지갑에 접근하십시오.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">당신의 시드 구문은 당신의 지갑에 있는 모든 자금에 접근할 수 있는 키입니다. 안전하게 구문을 프린트하거나 적어놓으십시오. 혹은 금고에 보관하세요. 구문 없이는 당신의 자금을 복구할 수 없을 것입니다.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">시드 구문</string>
     <string name="welcome_seed_save_title">시드 구문 저장하기</string>
     <string name="welcome_seed_save_description">시드 구문을 적어놓으십시오. 스크린샷 하여 포토 갤러리에 저장하지 마십시오. 사이버 공격의 원인이 될 수 있고 보안성이 떨어집니다.</string>
@@ -177,6 +177,7 @@
     <string name="date">날짜</string>
     <string name="time">시간</string>
     <string name="id">아이디</string>
+    <string name="treasure">Treasure</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">거래 세부사항</string>
     <string name="general_transaction_info">일반 거래 정보</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">로그 보내는 중...</string>
     <string name="node">노드</string>
     <string name="settings_ip_title">아이피 : 포트:</string>
-    <string name="settings_general_settings">일반 설정</string>
+    <string name="settings_general_settings">General</string>
     <string name="lock_screen">잠금 화면</string>
     <string name="never">안함</string>
     <string name="after">다음</string>
@@ -368,7 +369,6 @@
     <string name="save_recipient_address">추후의 추가 거래를 위해 받는 사람의 주소를 저장하겠습니까?</string>
     <string name="save_address">주소 저장</string>
     <string name="dont_save">저장하지 않기</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">설정 변경하시려면 비밀번호를 입력하세요</string>
     <string name="save_changes">변경 저장</string>
     <string name="receive_description">거래를 완료하기 위해서는, Beam 을 보낸 후 12시간 동안 온라인 상태이어야 합니다.</string>
     <string name="search_by_address_tag_or_name">주소, 태그 혹은 이름으로 검색하기</string>
@@ -445,8 +445,44 @@
         <item>안함</item>
     </string-array>
     <string name="save_wallet_logs">지갑 로그 저장하기</string>
-    <string name="all_time">For all time</string>
-    <string name="last_5_days">Last 5 days</string>
-    <string name="last_15_days">Last 15 days</string>
-    <string name="last_30_days">Last 30 days</string>
+    <string name="all_time">전체 기록</string>
+    <string name="last_5_days">지난 5일</string>
+    <string name="last_15_days">지난 15일</string>
+    <string name="last_30_days">지난 30일</string>
+    <string name="status">상태</string>
+    <string name="complete_verification">Complete verification</string>
+    <string name="complete_wallet_verification">Complete wallet verification</string>
+    <string name="i_will_later">I will do it later</string>
+    <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
+    <string name="get_coins">Get coins</string>
+    <string name="make_wallet_secure_text">Write down and validate your seed phrase so you can always recover your funds.</string>
+    <string name="secure_your_phrase">Secure your phrase</string>
+    <string name="clear_local_data">Clear local wallet data</string>
+    <string name="show_seed_phrase">Show seed phrase</string>
+    <string name="clear_wallet">Remove current wallet</string>
+    <string name="clear_wallet_text">All data will be erased. Make sure you’ve saved your seed phrase if you want to restore this wallet later on! Are you sure you want to remove your wallet?</string>
+    <string name="export_wallet_data">Export wallet data</string>
+    <string name="import_wallet_data">Import wallet data</string>
+    <string name="export_wallet_data_text">Would you like to save data on your device or share it?</string>
+    <string name="remove_wallet">Remove wallet</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Incorrect file</string>
+    <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
+    <string name="import_data_title">Import data</string>
+    <string name="imp">Import</string>
+    <string name="export_data">Export data</string>
+    <string name="clear_wallet_password">Enter your password to remove your wallet\"</string>
+    <string name="change_node_text_2">Use fingerprint or enter your password to change node settings</string>
+    <string name="change_node_text_3">Enter your password to change node settings</string>
+    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">피드백</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="remove_wallet_password_1">Use fingerprint or enter your password to remove current wallet</string>
+    <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
+    <string name="welcome_seed_description_old">당신의 시드 구문은 당신의 지갑에 있는 모든 자금에 접근할 수 있는 키입니다. 안전하게 구문을 프린트하거나 적어놓으십시오. 혹은 금고에 보관하세요. 구문 없이는 당신의 자금을 복구할 수 없을 것입니다.</string>
+    <string name="change_settings_text_2">Enter your current password to proceed changes in settings</string>
+    <string name="change_settings_text_1">Use fingerprint or enter your password to proceed changes in settings</string>
 </resources>

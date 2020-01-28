@@ -9,16 +9,28 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/address_toolbar_gradient"
+        android:background="?attr/headerBackground"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:fitsSystemWindows="true"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/itemsswipetorefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout">
+
+        <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fitsSystemWindows="true"
+           />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
 
     <com.mw.beam.beamwallet.screens.transactions.TransactionsLockableTabLayout
         android:id="@+id/tabLayout"

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/btnTouch"
+        android:layout_width="@dimen/fingerprint_card_size"
+        android:layout_height="@dimen/fingerprint_card_size"
+        app:cardBackgroundColor="@color/fingerprint_card_background_color"
+        app:cardCornerRadius="@dimen/fingerprint_card_corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnOpen"
+        app:layout_constraintVertical_chainStyle="spread"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/biometricImage"
+            android:layout_width="@dimen/fingerprint_icon_size"
+            android:layout_height="@dimen/fingerprint_icon_size"
+            android:tint="@android:color/white"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_touch" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/fingerErrorLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:fontFamily="@font/roboto_regular"
+        android:text="@string/fingerprint_not_recognized"
+        android:textAlignment="center"
+        android:textColor="@color/common_error_color"
+        android:textSize="@dimen/welcome_passwords_info_text_size"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnTouch"
+        tools:visibility="visible" />
+
+</LinearLayout>

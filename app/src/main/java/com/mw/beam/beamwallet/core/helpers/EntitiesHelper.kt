@@ -44,7 +44,7 @@ enum class TxSender(val value: Boolean) {
         }
 
         fun fromValue(type: Boolean): TxSender {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of TxSender")
+            return map[type] ?: SENT
         }
     }
 }
@@ -62,7 +62,7 @@ enum class TxStatus(val value: Int) {
         }
 
         fun fromValue(type: Int): TxStatus {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of TxStatus")
+            return map[type] ?: Pending
         }
     }
 }
@@ -101,7 +101,7 @@ enum class UtxoStatus(val value: Int) {
         }
 
         fun fromValue(type: Int): UtxoStatus {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of UtxoStatus")
+            return map[type] ?: Unavailable
         }
     }
 }
@@ -109,7 +109,7 @@ enum class UtxoStatus(val value: Int) {
 enum class UtxoKeyType(val value: String) {
     Commission("fees"), Coinbase("mine"), Regular("norm"), Change("chng"),
     Kernel("kern"), Kernel2("kerM"), Identity("iden"),
-    ChildKey("SubK"), Bbs("BbsM"), Decoy("dcoy");
+    ChildKey("SubK"), Bbs("BbsM"), Decoy("dcoy"), Treasury("tres");
 
     companion object {
         private val map: HashMap<String, UtxoKeyType> = HashMap()
@@ -121,7 +121,7 @@ enum class UtxoKeyType(val value: String) {
         }
 
         fun fromValue(type: String): UtxoKeyType {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of UtxoKeyType")
+            return map[type] ?: Treasury
         }
     }
 }
@@ -143,7 +143,7 @@ enum class ChangeAction(val value: Int) {
         }
 
         fun fromValue(type: Int): ChangeAction {
-            return map[type] ?: throw IllegalArgumentException("Unknown type of ChangeAction")
+            return map[type] ?: UPDATED
         }
     }
 }

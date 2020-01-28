@@ -41,6 +41,7 @@ import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.views.SnackBarsView
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 
 /**
@@ -69,7 +70,7 @@ class ScreenDelegate {
         )
     }
 
-    fun shareText(context: Context?, title: String, text: String) {
+    fun shareText(context: Context?, title: String, text: String, activity: Activity? = null) {
         context?.apply {
             val intent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -77,7 +78,12 @@ class ScreenDelegate {
                 putExtra(Intent.EXTRA_TEXT, text)
             }
 
-            startActivity(Intent.createChooser(intent, title))
+            if(activity!=null) {
+                activity.startActivityForResult(Intent.createChooser(intent, title),AppActivity.SHARE_CODE_REQUEST)
+            }
+            else{
+               startActivity(Intent.createChooser(intent, title))
+            }
         }
     }
 
@@ -176,7 +182,7 @@ class ScreenDelegate {
 
     fun copyToClipboard(context: Context, message: String?, tag: String?) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText(tag, message)
+        clipboard?.setPrimaryClip(ClipData.newPlainText(tag, message))
     }
 
     fun dismissAlert() {

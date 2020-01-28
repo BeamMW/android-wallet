@@ -2,10 +2,19 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.core.widget.NestedScrollView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,89 +26,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
-            android:paddingStart="@dimen/common_offset"
-            android:paddingEnd="@dimen/common_offset"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/addressTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/address"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/address"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addressTitle"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/nameTitle"
-                android:layout_marginTop="50dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address"
-                android:text="@string/name"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/name"
-                style="@style/common_text_big_light"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:hint="@string/no_name"
-                android:importantForAutofill="noExcludeDescendants"
-                android:backgroundTint="@android:color/transparent"
-                android:background="@drawable/edit_text_selector"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameTitle"
-                tools:ignore="Autofill,LabelFor,TextFields"
-                tools:targetApi="o" />
-
-            <View
-                android:id="@+id/nameDivider"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                app:layout_constraintEnd_toEndOf="@id/name"
-                app:layout_constraintStart_toStartOf="@id/name"
-                app:layout_constraintTop_toBottomOf="@id/name" />
-
-            <TextView
-                android:id="@+id/categoryTitle"
-                android:layout_marginTop="50dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                android:text="@string/tag"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tags"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@id/tagAction"
-                app:layout_constraintStart_toStartOf="@id/categoryTitle"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
-                tools:text="Salary, Payments" />
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/common_offset"
+            android:paddingEnd="@dimen/common_offset">
 
             <ImageView
                 android:id="@+id/tagAction"
@@ -109,6 +39,94 @@
                 android:src="@drawable/ic_add"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/categoryTitle" />
+
+            <LinearLayout
+                android:id="@+id/nameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address">
+
+                <TextView
+                    android:id="@+id/nameTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.2"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/name"
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@drawable/edit_text_selector"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/no_name"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="text|textCapSentences"
+                    android:paddingStart="3dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="3dp"
+                    android:paddingBottom="5dp"
+                    android:singleLine="true"
+                    android:textSize="14sp"
+                    tools:ignore="Autofill,LabelFor,TextFields" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/addressTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/categoryTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/tag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nameLayout" />
+
+            <TextView
+                android:id="@+id/tags"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                app:layout_constraintEnd_toStartOf="@id/tagAction"
+                app:layout_constraintStart_toStartOf="@id/categoryTitle"
+                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+                tools:text="Salary, Payments" />
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addressTitle"
+                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnSave"
@@ -132,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="@dimen/send_btn_margin"
-                app:button_icon="@drawable/ic_btn_cancel"
                 android:background="@drawable/primary_button"
+                app:button_icon="@drawable/ic_btn_cancel"
                 app:button_text="@string/dont_save"
                 app:button_text_color="@color/common_text_color"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -144,13 +162,7 @@
                 app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/send_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
+    </ScrollView>
 
     <com.mw.beam.beamwallet.core.views.BeamToolbar
         android:id="@+id/toolbarLayout"

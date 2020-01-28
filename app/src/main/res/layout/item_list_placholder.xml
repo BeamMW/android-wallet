@@ -27,12 +27,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
+            android:drawableTint="?attr/tabsColor"
             android:drawableTop="@drawable/ic_addressbook_empty"
             android:drawablePadding="15dp"
             android:fontFamily="@font/proxima_regular"
             android:text="@string/empty_address_list"
             android:textAlignment="center"
-            android:textColor="@color/common_text_dark_color"
+            android:textColor="?attr/tabsColor"
             android:textSize="14sp" />
     </LinearLayout>
 

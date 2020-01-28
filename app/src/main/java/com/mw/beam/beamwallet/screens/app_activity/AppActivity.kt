@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -24,10 +25,6 @@ import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.BaseActivity
-import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.base_screen.MvpRepository
-import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
 import io.fabric.sdk.android.Fabric
@@ -47,18 +44,34 @@ import androidx.navigation.NavOptions
 import android.widget.TextView
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
-
+import android.net.Uri
+import android.view.View
+import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.core.AppManager
+import com.elvishew.xlog.XLog.json
+import com.google.gson.JsonElement
+import com.google.gson.Gson
+import com.google.zxing.integration.android.IntentIntegrator
+import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
     companion object {
+        const val IMPORT_FILE_REQUEST = 1024
+        const val SHARE_CODE_REQUEST = 1025
+
         const val TRANSACTION_ID = "TRANSACTION_ID"
         private const val RESTARTED = "appExceptionHandler_restarted"
         private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
+
+        const val BUY_ID = "android.intent.action.BUY_BEAM"
+        const val RECEIVE_ID = "android.intent.action.RECEIVE_BEAM"
+        const val SEND_ID = "android.intent.action.SEND_BEAM"
+        const val SCAN_ID = "android.intent.action.SCAN_QR"
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.activity_app
@@ -71,6 +84,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private lateinit var reinitNotification: Disposable
     private lateinit var lockNotification: Disposable
+
+    private var shortCut: String? = null
 
     private val menuItems by lazy {
         arrayOf(
@@ -90,70 +105,111 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setDefaultTheme()
         App.isAppRunning = true
+        App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
+        changeTheme()
 
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
+       // Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
         setupCrashHandler()
+        subscribeToUpdates()
 
-        //temp fix
-        reinitNotification = App.self.subOnStatusResume.subscribe(){
-            val brand = Build.BRAND.toLowerCase()
-            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
-                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
-                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
-                        val navController = findNavController(R.id.nav_host)
-                        navController.navigate(R.id.walletFragment, null, navOptions {
-                            popUpTo(R.id.navigation) { inclusive = true }
-                            launchSingleTop = true
-                        })
-                    }
-                }
-            }
+        shortCut = intent.action;
 
-            if(LockScreenManager.isNeedLocked) {
-                showLockScreen()
-                LockScreenManager.isNeedLocked = false
-            }
-        }
+        checkShortCut()
 
-        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
-            showLockScreen()
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        setDefaultTheme()
         App.isAppRunning = true
+        App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
+        changeTheme()
 
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
         setupCrashHandler()
+       // Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
-        //temp fix
-        reinitNotification = App.self.subOnStatusResume.subscribe(){
-            val brand = Build.BRAND.toLowerCase()
-            if (App.isAuthenticated && !App.isShowedLockScreen && brand == "xiaomi") {
-                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
-                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
-                        val navController = findNavController(R.id.nav_host)
-                        navController.navigate(R.id.walletFragment, null, navOptions {
-                            popUpTo(R.id.navigation) { inclusive = true }
-                            launchSingleTop = true
-                        })
-                    }
+        subscribeToUpdates()
+
+        shortCut = intent.action;
+
+        checkShortCut()
+
+    }
+
+    private fun setDefaultTheme()
+    {
+        val isDarkModeSet = PreferencesManager.getBoolean(PreferencesManager.DARK_MODE_DEFAULT,false)
+        if (!isDarkModeSet) {
+            val config = resources.configuration
+            when (config.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO -> {
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE_DEFAULT, true)
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, false)
+                }
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE_DEFAULT, true)
+                    PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, true)
                 }
             }
-
-            if(LockScreenManager.isNeedLocked) {
-                showLockScreen()
-                LockScreenManager.isNeedLocked = false
-            }
         }
+    }
 
-        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
-            showLockScreen()
+    fun changeTheme()
+    {
+        if (App.isDarkMode)
+            setTheme(R.style.AppThemeDark)
+        else
+            setTheme(R.style.AppTheme)
+
+        if (result!=null)
+        {
+            setupMenu(null)
+        }
+    }
+
+    fun checkShortCut() {
+        if(App.isAuthenticated && shortCut!=null)
+        {
+            if(shortCut == BUY_ID) {
+                val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+                if (allow) {
+                    openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
+                }
+                else{
+                    showAlert(
+                            getString(R.string.common_external_link_dialog_message),
+                            getString(R.string.open),
+                            { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
+                            getString(R.string.common_external_link_dialog_title),
+                            getString(R.string.cancel)
+                    )
+                }
+            }
+            else {
+                showWallet()
+
+               if(shortCut == SEND_ID) {
+                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+               }
+               else if(shortCut == RECEIVE_ID) {
+                   findNavController(R.id.nav_host).navigate(R.id.receiveFragment, null, null)
+               }
+               else if(shortCut == SCAN_ID) {
+                   App.isNeedOpenScanner = true;
+                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+               }
+            }
+
+            shortCut = null
         }
     }
 
@@ -190,6 +246,43 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         })
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMPORT_FILE_REQUEST && resultCode == RESULT_OK) {
+            val selectedFile = data?.data //The uri with the location of the file
+
+            if (selectedFile != null) {
+                val text = readText(selectedFile)
+                if (text.isNullOrEmpty()) {
+                    showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+
+                    }, getString(R.string.incorrect_file_title))
+                } else {
+                    showAlert(message = getString(R.string.import_data_text),
+                            btnConfirmText = getString(R.string.imp),
+                            onConfirm = {
+                                AppManager.instance.importData(text)
+                            },
+                            title = getString(R.string.import_wallet_data),
+                            btnCancelText = getString(R.string.cancel))
+                }
+            } else {
+                showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+
+                }, getString(R.string.incorrect_file_title))
+            }
+        } else if (requestCode == SHARE_CODE_REQUEST && resultCode == RESULT_OK) {
+            val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+            navHost?.let { navFragment ->
+                navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                    val base = fragment as BaseFragment<*>
+                    base.findNavController().popBackStack()
+                }
+            }
+        }
+    }
+
     private fun buildTransitionAnimation(): AnimBuilder.() -> Unit = {
         enter = R.anim.fade_in
         popEnter = R.anim.fade_in
@@ -211,6 +304,19 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         return AppActivityPresenter(this, AppActivityRepository())
     }
 
+    private fun readText(uri: Uri): String? {
+        try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val json = inputStream?.bufferedReader().use { it?.readText() }
+
+            Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+
+            return json
+        }
+        catch (e: Exception) {
+            return null
+        }
+    }
 
     private fun setupMenu(savedInstanceState: Bundle?)
     {
@@ -263,7 +369,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                         getString(R.string.cancel)
                 )
             }
-
         }
 
         result = DrawerBuilder()
@@ -275,6 +380,35 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                 .build()
 
         result?.drawerLayout?.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    }
+
+    private fun subscribeToUpdates() {
+        //temp fix
+        reinitNotification = App.self.subOnStatusResume.subscribe(){
+            val brand = Build.BRAND.toLowerCase()
+            if (App.isAuthenticated && !LockScreenManager.isShowedLockScreen && brand == "xiaomi") {
+                if (navItemsAdapter.selectedItem == NavItem.ID.WALLET) {
+                    if (findNavController(R.id.nav_host).currentDestination?.id == R.id.walletFragment) {
+                        val navController = findNavController(R.id.nav_host)
+                        navController.navigate(R.id.walletFragment, null, navOptions {
+                            popUpTo(R.id.navigation) { inclusive = true }
+                            launchSingleTop = true
+                        })
+                    }
+                }
+            }
+
+            if(LockScreenManager.isShowedLockScreen) {
+                showLockScreen()
+            }
+            else if(LockScreenManager.checkIsNeedShow()) {
+                showLockScreen()
+            }
+        }
+
+        lockNotification = LockScreenManager.subOnStatusLock.subscribe(){
+            showLockScreen()
+        }
     }
 
     private fun setupCrashHandler() {

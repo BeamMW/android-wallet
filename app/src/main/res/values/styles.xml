@@ -12,11 +12,37 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
-<!--        <item name="android:windowAnimationStyle">@null</item>-->
     </style>
 
     <style name="NoAnimTheme" parent="Theme.AppCompat.NoActionBar">
-<!--        <item name="android:windowAnimationStyle">@null</item>-->
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary_dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark_dark</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textViewStyle">@style/common_text_big_dark_dark</item>
+        <item name="android:textAppearance">@style/common_text_big_dark_dark</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:buttonStyle">@style/common_button_text_style</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryDark_dark</item>
+        <item name="android:textColorHint">@color/common_hint_text_color</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="subHeaderTextColor">@color/common_text_dark_color_dark</item>
+        <item name="menuItemColor">@color/ic_menu_color_dark</item>
+        <item name="menuBackground">@drawable/menu_gradient_dark</item>
+        <item name="tabsColor">@color/common_text_dark_color_dark</item>
+        <item name="alertDialogColor">@color/alert_dialog_color_dark</item>
+        <item name="headerBackground">@drawable/address_toolbar_gradient_black</item>
+        <item name="colorPrimaryPicked">@color/colorPrimary_dark</item>
+        <item name="sentColorPicked">@color/sent_color_picked_dark</item>
+        <item name="cardBackground">@color/cardDarkColor</item>
+        <item name="initialBackground">@drawable/initial_background_black</item>
+        <item name="addressStatusBarColor">@color/addresses_status_bar_color_black</item>
     </style>
 
     <!-- Base application theme -->
@@ -35,18 +61,24 @@
         <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
         <item name="android:textColorHint">@color/common_hint_text_color</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="subHeaderTextColor">@color/common_text_dark_color</item>
+        <item name="menuItemColor">@color/ic_menu_color</item>
+        <item name="menuBackground">@drawable/menu_gradient</item>
+        <item name="tabsColor">@color/address_tab_text_color</item>
+        <item name="alertDialogColor">@color/colorPrimary</item>
+        <item name="headerBackground">@drawable/address_toolbar_gradient</item>
+        <item name="colorPrimaryPicked">@color/colorPrimary</item>
+        <item name="sentColorPicked">@color/sent_color_picked</item>
+        <item name="cardBackground">@color/colorPrimary</item>
+        <item name="initialBackground">@drawable/initial_background</item>
+        <item name="addressStatusBarColor">@color/addresses_status_bar_color</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorPrimary">@color/common_text_color</item>
-        <item name="android:textColorSecondary">@color/alert_dialog_color</item>
-<!--        <item name="android:popupBackground">@drawable/menu_background</item>-->
+        <item name="android:textColorSecondary">?attr/alertDialogColor</item>
         <item name="android:textColor">@color/common_text_color</item>
-       <item name="android:colorBackground">@color/alert_dialog_color</item>
-<!--        <item name="android:popupBackground">@android:color/transparent</item>-->
-<!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
-<!--        <item name="android:itemBackground">@color/alert_dialog_color</item>-->
-<!--        <item name="android:foreground">?android:attr/selectableItemBackground</item>-->
+        <item name="android:colorBackground">?attr/alertDialogColor</item>
     </style>
 
     <style name="common_button_text_style">
@@ -78,7 +110,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginStart">@dimen/common_margin</item>
         <item name="android:layout_marginEnd">@dimen/common_margin</item>
-        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="common_menu_item" parent="common_text_big_light">
@@ -116,9 +147,15 @@
         <item name="android:letterSpacing">0.2</item>
     </style>
 
-    <style name="common_text_big_dark">
+    <style name="common_text_big_dark_dark">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_dark_color</item>
+        <item name="android:textSize">@dimen/common_text_big_size</item>
+    </style>
+
+    <style name="common_text_big_dark">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/subHeaderTextColor</item>
         <item name="android:textSize">@dimen/common_text_big_size</item>
     </style>
 

@@ -20,6 +20,7 @@ import android.os.Parcelable
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.utils.isBefore
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -29,7 +30,7 @@ import kotlinx.android.parcel.Parcelize
 class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
     var label: String = source.label
-    val category: String = source.category
+    var category: String = source.category
     val createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
@@ -39,6 +40,10 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
+    }
+
+    fun splitCategories() : MutableList<String>  {
+        return category.split(";").toMutableList()
     }
 
     override fun toString(): String {

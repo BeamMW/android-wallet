@@ -35,6 +35,7 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
+import com.mw.beam.beamwallet.core.App
 
 /**
  *  3/4/19.
@@ -45,7 +46,12 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
     override fun getToolbarTitle(): String? = null
     override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
-    override fun getStatusBarColor(): Int = ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    override fun getStatusBarColor(): Int = if (App.isDarkMode) {
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+}
+else{
+    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+}
 
     override fun init(address: WalletAddress) {
         toolbarLayout.hasStatus = true

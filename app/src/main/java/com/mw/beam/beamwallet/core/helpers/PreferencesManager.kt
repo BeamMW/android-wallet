@@ -51,6 +51,11 @@ object PreferencesManager {
     const val KEY_RESTORED_FROM_TRUSTED = "KEY_RESTORED_FROM_TRUSTED"
     const val KEY_LOGS = "KEY_LOGS"
     const val KEY_DEFAULT_LOGS = "KEY_DEFAULT_LOGS"
+    const val KEY_SEED = "KEY_SEED"
+    const val KEY_SEED_IS_SKIP = "KEY_SEED_IS_SKIP"
+    const val KEY_TAG_DATA_LEGACY = "KEY_TAG_DATA_LEGACY"
+    const val DARK_MODE = "DARK_MODE"
+    const val DARK_MODE_DEFAULT = "DARK_MODE_DEFAULT"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
@@ -59,4 +64,18 @@ object PreferencesManager {
     fun getBoolean(key: String, defValue: Boolean = false): Boolean = preferenceStore.getBoolean(key, defValue)
     fun putLong(key: String, value: Long) = preferenceStore.edit().putLong(key, value).apply()
     fun getLong(key: String, defValue: Long = 0L) = preferenceStore.getLong(key, defValue)
+
+    fun clear() {
+        putString(KEY_PASSWORD,"");
+        putString(KEY_SEED,"");
+        putBoolean(KEY_IS_SENDING_CONFIRM_ENABLED,false)
+        putBoolean(KEY_IS_FINGERPRINT_ENABLED,false)
+        putLong(KEY_LOCK_SCREEN, 0L)
+        putBoolean(KEY_PRIVACY_MODE,false)
+        putBoolean(KEY_PRIVACY_MODE_NEED_CONFIRM,false)
+        putBoolean(KEY_CONNECT_TO_RANDOM_NODE,true)
+        putBoolean(KEY_ALWAYS_OPEN_LINK,false)
+        putString(KEY_TAG_DATA,"");
+        putBoolean(KEY_SEED_IS_SKIP,true)
+    }
 }

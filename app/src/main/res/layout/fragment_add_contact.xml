@@ -12,7 +12,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_gradient_size"
-            android:background="@drawable/address_toolbar_gradient"
+            android:background="?attr/headerBackground"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.mw.beam.beamwallet.core.views.BeamToolbar
@@ -108,7 +108,7 @@
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/send_amount_error_margin_top"
+                    android:layout_marginTop="10dp"
                     android:text="@string/invalid_address"
                     android:textColor="@color/common_error_color"
                     android:visibility="invisible"
@@ -173,8 +173,7 @@
                     android:id="@+id/btnSave"
                     android:layout_width="@dimen/send_transfer_btn_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="@dimen/send_btn_margin"
+                    android:layout_marginTop="60dp"
                     android:background="@drawable/accept_button"
                     app:button_icon="@drawable/ic_btn_save"
                     app:button_text="@string/save"
@@ -187,8 +186,7 @@
                     android:id="@+id/btnCancel"
                     android:layout_width="@dimen/send_transfer_btn_width"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="@dimen/send_btn_margin"
+                    android:layout_marginTop="60dp"
                     android:background="@drawable/primary_button"
                     app:button_icon="@drawable/ic_btn_cancel"
                     app:button_text="@string/cancel"

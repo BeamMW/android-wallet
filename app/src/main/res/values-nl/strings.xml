@@ -73,7 +73,7 @@
     <string name="enter_your_password_to_access_the_wallet">Voer uw wachtwoord in om toegang te krijgen tot de wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Gebruik Vingerafdruk of voer uw wachtwoord in om toegang te krijgen tot de wallet.</string>
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Uw herstelzin is de toegangssleutel tot alle tegoeden in uw portemonnee. Print de zin uit of schrijf deze op en bewaar de zin op een veilige plaats zoals in een kluis. Zonder de zin kunt u uw portemonnee, en dus uw tegoeden, niet herstellen.</string>
+    <string name="welcome_seed_description">Uw herstelzin is de toegangssleutel tot alle tegoeden in uw wallet. Vanaf nu is het niet mogelijk uw herstelzin in de instellingen te laten weergeven. Print de zin uit of schrijf deze op en bewaar de zin op een veilige plaats. Zonder de zin kunt u uw tegoeden niet herstellen.</string>
     <string name="welcome_seed_title">Herstelzin</string>
     <string name="welcome_seed_save_title">Herstelzin opslaan</string>
     <string name="welcome_seed_save_description">Schrijf de herstelzin op. Maak geen screenshot en sla het niet op in uw fotogalerij. Het maakt de herstelzin vatbaar voor cyberaanvallen en is dus minder veilig.</string>
@@ -116,7 +116,7 @@
     <string name="pass_return_seed_btn_create_new">Genereer</string>
     <string name="back">Terug</string>
     <!--WalletFragment-->
-    <string name="wallet_sent_message">Beams verzonden</string>
+    <string name="wallet_sent_message">Beam\'s verzonden</string>
     <string name="available">Beschikbaar</string>
     <string name="in_progress">Bezig</string>
     <string name="receiving">Bezig met ontvangen</string>
@@ -153,7 +153,7 @@
     <string name="spent">Besteed</string>
     <string name="unavailable">Niet beschikbaar</string>
     <string name="utxo_status_result_rollback">Mining resultaat terugdraaien</string>
-    <string name="blockchain_height">Blockchain hoogte</string>
+    <string name="blockchain_height">Blockchain Height</string>
     <string name="last_block_hash">Laatste block hash</string>
     <string name="utxo_security_message">U bent momenteel in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Schakel het uit om uw UTXO lijst te zien.</string>
@@ -177,6 +177,7 @@
     <string name="date">Datum</string>
     <string name="time">Tijd</string>
     <string name="id">ID</string>
+    <string name="treasure">Treasure</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transactiegegevens</string>
     <string name="general_transaction_info">Algemene transactieinformatie</string>
@@ -232,7 +233,7 @@
     <!--SendFragment-->
     <string name="send_amount_empty_error">Aantal mag niet leeg zijn</string>
     <string name="send_amount_zero_error">Aantal kan niet 0 BEAM zijn</string>
-    <string name="send_amount_overflow_error">Onvoldoende saldo: u heeft %1$s beams nodig om de transactie te voltooien.</string>
+    <string name="send_amount_overflow_error">Onvoldoende saldo: u heeft %1$s beam\'s nodig om de transactie te voltooien.</string>
     <string name="insufficient_funds">Onvoldoende saldo</string>
     <string name="invalid_address">Ongeldig adres</string>
     <string name="send_error_expired_address">Kan niet naar het verlopen adres verzenden</string>
@@ -261,7 +262,7 @@
     <string name="settings_send_logs_description">Logbestanden versturen…</string>
     <string name="node">Node</string>
     <string name="settings_ip_title">ip:poort:</string>
-    <string name="settings_general_settings">Algemene instellingen</string>
+    <string name="settings_general_settings">Algemeen</string>
     <string name="lock_screen">Vergrendel scherm</string>
     <string name="never">Nooit</string>
     <string name="after">Na</string>
@@ -370,9 +371,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="save_recipient_address">Wilt u het adres van de ontvanger opslaan voor toekomstige transacties?</string>
     <string name="save_address">Adres opslaan</string>
     <string name="dont_save">Niet opslaan</string>
-    <string name="enter_your_current_password_to_proceed_changes_in_settings">Voer uw huidige wachtwoord in om de gewijzigde instellingen door te voeren</string>
     <string name="save_changes">Wijzigingen opslaan</string>
-    <string name="receive_description">Om de transactie te voltooien moet u binnen 12 uur nadat de Beams zijn verzonden online zijn.</string>
+    <string name="receive_description">Om de transactie te voltooien moet u binnen 12 uur nadat de Beam\'s zijn verzonden online zijn.</string>
     <string name="search_by_address_tag_or_name">Zoek op adres, label of naam</string>
     <string name="min_fee_error">De minimale vergoeding is %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Verwijder alle transacties die gerelateerd zijn aan dit adres</string>
@@ -388,8 +388,8 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="fingerprint_not_recognized">Vingerafdruk niet herkend</string>
     <string name="address_copied_to_clipboard">Adres naar klembord gekopieerd</string>
     <string name="copied_to_clipboard">Naar klembord gekopieerd</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet zal een snapshot van de blockchain downloaden en uw saldo op het apparaat herstellen</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet zal verbinding maken met specifieke vertrouwde node (geconfigureerd met uw eigenaarssleutel) en de node zal uw saldo herstellen</string>
     <string name="restore_with_trusted_node">Herstellen met vertrouwde node</string>
     <string name="automatic_restore_recommended">AUTOMATISCH HERSTEL (aanbevolen)</string>
     <string name="enter_trusted_node_address">Voer vertrouwd node adres in</string>
@@ -451,4 +451,40 @@ U moet de 2-staps authenticatie (wachtwoord opgeven en vingerafdruk gebruiken) u
     <string name="last_5_days">Afgelopen 5 dagen</string>
     <string name="last_15_days">Afgelopen 15 dagen</string>
     <string name="last_30_days">Afgelopen 30 dagen</string>
+    <string name="status">Status</string>
+    <string name="complete_verification">Verificatie voltooien</string>
+    <string name="complete_wallet_verification">Voltooi wallet verificatie</string>
+    <string name="i_will_later">Ik doe het later</string>
+    <string name="faucet_text">De wallet in gebruik zien. Ontvang een heel klein aantal Beam\'s van de community faucet.</string>
+    <string name="get_coins">Coins verkrijgen</string>
+    <string name="make_wallet_secure_text">Schrijf uw herstelzin op en valideer deze zodat u uw saldo altijd kunt herstellen.</string>
+    <string name="secure_your_phrase">Beveilig je herstelzin</string>
+    <string name="clear_local_data">Lokale wallet gegevens wissen</string>
+    <string name="show_seed_phrase">Herstelzin weergeven</string>
+    <string name="clear_wallet">Huidige wallet verwijderen</string>
+    <string name="clear_wallet_text">Alle gegevens worden gewist. Zorg ervoor dat u uw herstelzin heeft opgeslagen als u deze wallet later wilt herstellen! Weet u zeker dat u uw wallet wilt verwijderen?</string>
+    <string name="export_wallet_data">Exporteer wallet data</string>
+    <string name="import_wallet_data">Importeer wallet data</string>
+    <string name="export_wallet_data_text">Wilt u data op uw apparaat opslaan of delen?</string>
+    <string name="remove_wallet">Wallet verwijderen</string>
+    <string name="utilities">Utilities</string>
+    <string name="incorrect_file_title">Onjuist bestand</string>
+    <string name="incorrect_file_text">Het bestand dat u in de Beam wallet probeert te importeren is ongeschikt. Kies een ander bestand en probeer het opnieuw.</string>
+    <string name="import_data_text">Weet u zeker dat u data naar uw Beam wallet wilt importeren? Alle huidige data worden vervangen door de geïmporteerde data.</string>
+    <string name="import_data_title">Importeer data</string>
+    <string name="imp">Importeren</string>
+    <string name="export_data">Exporteer data</string>
+    <string name="clear_wallet_password">Voer uw wachtwoord in om uw wallet te verwijderen\"</string>
+    <string name="change_node_text_2">Gebruik vingerafdruk of voer uw wachtwoord in om node instellingen te wijzigen</string>
+    <string name="change_node_text_3">Voer uw wachtwoord in om de node instellingen te wijzigen</string>
+    <string name="get_beam_faucet">Verkrijg Beam\'s van Beam Community Faucet</string>
+    <string name="privacy">Privacy</string>
+    <string name="feedback">Feedback</string>
+    <string name="enter_your_password">Voer uw wachtwoord in</string>
+    <string name="wallet_data_saved">Wallet data opgeslagen in Downloads</string>
+    <string name="remove_wallet_password_1">Gebruik vingerafdruk of voer uw wachtwoord in om de huidige wallet te verwijderen</string>
+    <string name="remove_wallet_password_2">Voer uw wachtwoord in om de huidige wallet te verwijderen</string>
+    <string name="welcome_seed_description_old">Uw herstelzin is de toegangssleutel tot alle tegoeden in uw portemonnee. Print de zin uit of schrijf deze op en bewaar de zin op een veilige plaats zoals in een kluis. Zonder de zin kunt u uw portemonnee, en dus uw tegoeden, niet herstellen.</string>
+    <string name="change_settings_text_2">Voer uw huidige wachtwoord in om de gewijzigde instellingen door te voeren</string>
+    <string name="change_settings_text_1">Gebruik vingerafdruk of voer uw wachtwoord in om de gewijzigde instellingen door te voeren</string>
 </resources>

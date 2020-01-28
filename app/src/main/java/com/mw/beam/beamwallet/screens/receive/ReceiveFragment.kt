@@ -241,7 +241,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun shareToken(receiveToken: String) {
-        shareText(getString(R.string.common_share_title), receiveToken)
+        shareText(getString(R.string.common_share_title), receiveToken, activity)
     }
 
     override fun showChangeAddressFragment(generatedAddress: WalletAddress?) {
