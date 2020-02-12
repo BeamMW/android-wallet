@@ -257,6 +257,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
 
         if (recoverFile.exists()) {
+            PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER, "")
             recoverFile.delete()
         }
 
@@ -264,12 +265,14 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             journalRecoverFile.delete()
         }
 
+
         App.isAuthenticated = true
 
         AppManager.instance.subscribeToUpdates()
 
         App.self.clearLogs()
-        App.self.startBackgroundService()
+
+       // App.self.startBackgroundService()
 
         android.os.Handler().postDelayed({
             val navBuilder = NavOptions.Builder()

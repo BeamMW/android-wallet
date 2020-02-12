@@ -60,7 +60,7 @@ class EditCategoryPresenter(view: EditCategoryContract.View?, repository: EditCa
     }
 
     private fun checkIsUniqueName(name: String): Boolean {
-        return state.allTag.firstOrNull { category -> category.name.toLowerCase() == name.trim().toLowerCase() } == null
+        return state.allTag.firstOrNull { category -> category.name == name } == null
     }
 
     override fun onSavePressed() {

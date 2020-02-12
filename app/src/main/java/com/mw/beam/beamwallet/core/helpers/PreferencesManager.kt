@@ -56,6 +56,9 @@ object PreferencesManager {
     const val KEY_TAG_DATA_LEGACY = "KEY_TAG_DATA_LEGACY"
     const val DARK_MODE = "DARK_MODE"
     const val DARK_MODE_DEFAULT = "DARK_MODE_DEFAULT"
+    const val KEY_BACKGROUND_MODE = "KEY_BACKGROUND_MODE"
+    const val KEY_BACKGROUND_MODE_ASK = "KEY_BACKGROUND_MODE_ASK"
+    const val KEY_TAG_DATA_RECOVER = "KEY_TAG_DATA_RECOVER"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

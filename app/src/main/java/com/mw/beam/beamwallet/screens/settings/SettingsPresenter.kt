@@ -116,6 +116,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
             view?.setLogSettings(repository.getLogSettings())
             view?.setLanguage(repository.getCurrentLanguage())
+            view?.setRunOnBackground(repository.isAllowBackgroundMode())
         }
         else if (view?.mode() == SettingsFragmentMode.Node) {
             view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
@@ -361,6 +362,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     override fun onConfirmRemoveWallet() {
         AppManager.instance.removeWallet()
         view?.walletRemoved()
+    }
+
+    override fun onChangeRunOnBackground(allow: Boolean) {
+        repository.setRunOnBackground(allow)
     }
 
     override fun onDestroy() {

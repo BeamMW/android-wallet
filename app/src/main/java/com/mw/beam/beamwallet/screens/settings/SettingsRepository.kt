@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.App
 import java.io.File
 
 /**
@@ -88,7 +89,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun getAllCategory() : List<Tag>{
-        return TagHelper.getAllTagsSorted()
+        return TagHelper.getAllTagsSorted(TagHelper.getAllTags())
     }
 
 
@@ -113,6 +114,22 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setAllowOpenExternalLink(allowOpen: Boolean) {
         PreferencesManager.putBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK, allowOpen)
+    }
+
+    override fun isAllowBackgroundMode(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE)
+    }
+
+
+    override fun setRunOnBackground(allow: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE, allow)
+
+        if(allow) {
+            App.self.startBackgroundService()
+        }
+        else{
+            App.self.stopBackgroundService()
+        }
     }
 
     override fun getDataFile(content:String): File {

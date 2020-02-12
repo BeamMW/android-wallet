@@ -45,6 +45,7 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone
+import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
 
 /**
@@ -203,6 +204,26 @@ else{
                 }
             }, 1000)
         }
+
+        if(!PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE_ASK,false)) {
+            android.os.Handler().postDelayed({
+                showAlert(message = getString(R.string.background_mode_text),
+                        btnConfirmText = getString(R.string.allow),
+                        onConfirm = {
+                            PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE, true)
+                            PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE_ASK, true)
+                            App.self.startBackgroundService()
+                        },
+                        onCancel = {
+                            PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE, false)
+                            PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE_ASK, true)
+                        },
+                        title = getString(R.string.background_mode_title),
+                        btnCancelText = getString(R.string.cancel))
+            }, 500)
+        }
+
+
     }
 
     override fun onDestroy() {
@@ -388,7 +409,17 @@ else{
     }
 
     override fun onFaucetAddressGenerated(link: String) {
-        openExternalLink(link)
+        blurView.visibility = View.VISIBLE
+
+        jp.wasabeef.blurry.Blurry.with(context).capture(view).into(blurView)
+
+        val dialog = TimerOverlayDialog.newInstance {
+            blurView.visibility = View.GONE
+            if(it) {
+                openExternalLink(link)
+            }
+        }
+        dialog.show(activity?.supportFragmentManager!!, TimerOverlayDialog.getFragmentTag())
     }
 
     override fun showTransactionDetails(txId: String) {

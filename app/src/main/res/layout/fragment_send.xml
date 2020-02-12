@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     android:filterTouchesWhenObscured="true">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:alpha="1"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTitle="true"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
@@ -41,6 +56,27 @@
                 app:layout_constraintTop_toBottomOf="@id/commentTitle"
                 tools:ignore="Autofill,LabelFor,TextFields"
                 tools:text="Payment to Laura" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/advancedCard">
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="@dimen/send_transfer_btn_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/send_btn_next_background"
+                    app:button_icon="@drawable/ic_btn_next_pink"
+                    app:button_text="@string/next"
+                    app:button_text_color="@color/sent_color"
+                    app:lower_case="true" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/amountTitle"
@@ -141,6 +177,7 @@
                 app:layout_constraintStart_toStartOf="@id/amount"
                 app:layout_constraintTop_toBottomOf="@id/amount" />
 
+
             <View
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
@@ -150,11 +187,11 @@
                 app:layout_constraintStart_toStartOf="@id/comment"
                 app:layout_constraintTop_toBottomOf="@id/comment" />
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:background="?attr/cardBackground"
                 android:paddingBottom="@dimen/common_offset"
                 app:layout_constraintTop_toTopOf="parent">
@@ -368,8 +405,8 @@
                         android:layout_height="44dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:contentDescription="@null"
-                        android:tint="?attr/subHeaderTextColor"
                         android:src="@drawable/ic_add"
+                        android:tint="?attr/subHeaderTextColor"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
@@ -505,8 +542,8 @@
                         android:layout_marginEnd="8dp"
                         android:contentDescription="@null"
                         android:padding="10dp"
-                        android:tint="?attr/subHeaderTextColor"
                         android:src="@drawable/ic_keyboard"
+                        android:tint="?attr/subHeaderTextColor"
                         app:layout_constraintBottom_toBottomOf="@id/feeTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@id/feeTitle" />
@@ -637,27 +674,6 @@
                 tools:hint="0"
                 tools:ignore="Autofill,LabelFor" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/advancedCard">
-
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnNext"
-                    android:layout_width="@dimen/send_transfer_btn_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/send_btn_next_background"
-                    app:button_icon="@drawable/ic_btn_next_pink"
-                    app:button_text="@string/next"
-                    app:button_text_color="@color/sent_color"
-                    app:lower_case="true" />
-            </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -696,18 +712,4 @@
             app:layout_constraintTop_toBottomOf="@id/tabLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:alpha="1"
-        android:layout_height="@dimen/toolbar_gradient_size"
-        android:background="@drawable/send_toolbar_gradient"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mw.beam.beamwallet.core.views.BeamToolbar
-
-        android:id="@+id/toolbarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:centerTitle="true"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

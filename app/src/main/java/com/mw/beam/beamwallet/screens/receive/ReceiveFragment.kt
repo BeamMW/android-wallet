@@ -54,7 +54,8 @@ import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.receive_expire_spinner_item.view.*
 import android.text.Editable
 import android.text.TextWatcher
-
+import com.mw.beam.beamwallet.core.App
+import org.jetbrains.anko.withAlpha
 
 
 /**
@@ -126,6 +127,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.filters = arrayOf(AmountFilter())
         amountTitle.text = "${getString(R.string.request_an_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
+
+        if(App.isDarkMode) {
+            addressGroup.setBackgroundColor(context!!.getColor(R.color.colorPrimary_dark).withAlpha(95))
+        }
+        else{
+            addressGroup.setBackgroundColor(context!!.getColor(R.color.colorPrimary).withAlpha(95))
+        }
     }
 
     override fun getStatusBarColor(): Int {

@@ -33,6 +33,7 @@ interface SettingsContract {
         fun onNeedAddedViews()
         fun mode(): SettingsFragmentMode
         fun setRunOnRandomNode(runOnRandomNode: Boolean)
+        fun setRunOnBackground(allow: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)
         fun changePass()
@@ -80,6 +81,7 @@ interface SettingsContract {
         fun onChangeConfirmTransactionSettings(isConfirm: Boolean)
         fun onChangeFingerprintSettings(isEnabled: Boolean)
         fun onChangeRunOnRandomNode(isEnabled: Boolean)
+        fun onChangeRunOnBackground(allow: Boolean)
         fun onChangeAllowOpenExternalLink(allowOpen: Boolean)
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
@@ -115,10 +117,12 @@ interface SettingsContract {
         fun shouldConfirmTransaction(): Boolean
         fun isFingerPrintEnabled(): Boolean
         fun isAllowOpenExternalLink(): Boolean
+        fun isAllowBackgroundMode(): Boolean
         fun setAllowOpenExternalLink(allowOpen: Boolean)
         fun setNodeAddress(address: String)
         fun getSavedNodeAddress(): String?
         fun setRunOnRandomNode(random: Boolean)
+        fun setRunOnBackground(allow: Boolean)
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)

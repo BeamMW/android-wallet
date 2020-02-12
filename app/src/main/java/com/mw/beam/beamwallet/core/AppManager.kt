@@ -266,6 +266,17 @@ class AppManager {
 
     //MARK: - Transactions
 
+    fun hasActiveTransactions() :Boolean {
+        transactions.forEach {
+            if(it.status == TxStatus.Registered || it.status == TxStatus.InProgress ||
+                    it.status == TxStatus.Pending) {
+                return true
+            }
+        }
+
+        return false
+    }
+
     fun getTransactionById(id: String?) : TxDescription? {
         transactions.forEach {
             if (it.id == id) {

@@ -78,8 +78,10 @@ import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
 import com.mw.beam.beamwallet.core.App
 import android.os.Build
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
+import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
 /**
  *  1/21/19.
@@ -163,6 +165,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             mode()== SettingsFragmentMode.General -> {
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
                 s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
@@ -192,15 +195,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             }
             mode() == SettingsFragmentMode.Utilities -> {
                 var s1 = mutableListOf<SettingsItem>()
-
-                if(OnboardManager.instance.canReceiveFaucet()) {
-                    s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
-                }
-
+                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
-
                 items.add(s1.toTypedArray())
             }
         }
@@ -301,7 +299,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     } else if (item.mode == SettingsFragmentMode.ConnectNode) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeRunOnRandomNode(allow)
-                    } else if (item.mode == SettingsFragmentMode.AskPassword) {
+                    }
+                    else if (item.mode == SettingsFragmentMode.BackgroundMode) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeRunOnBackground(allow)
+                    }
+                    else if (item.mode == SettingsFragmentMode.AskPassword) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeConfirmTransactionSettings(allow)
                     } else if (item.mode == SettingsFragmentMode.FingerPrint) {
@@ -413,6 +416,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    override fun setRunOnBackground(allow: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.BackgroundMode) {
+                    item.switch = allow
+                }
+            }
+        }
+    }
+
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
@@ -514,7 +528,17 @@ else{
     }
 
     override fun onFaucetAddressGenerated(link: String) {
-        openExternalLink(link)
+        blurView.visibility = View.VISIBLE
+
+        jp.wasabeef.blurry.Blurry.with(context).capture(view).into(blurView)
+
+        val dialog = TimerOverlayDialog.newInstance {
+            blurView.visibility = View.GONE
+            if(it) {
+                openExternalLink(link)
+            }
+        }
+        dialog.show(activity?.supportFragmentManager!!, TimerOverlayDialog.getFragmentTag())
     }
 
     private fun isEnableFingerprint(): Boolean {
@@ -1017,15 +1041,23 @@ else{
     }
 
     override fun showConfirmRemoveWallet() {
-        showAlert(message = getString(R.string.clear_wallet_text),
-                btnConfirmText = getString(R.string.remove_wallet),
-                onConfirm = {
-                    PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
-                        presenter?.onConfirmRemoveWallet()
-                    }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
-                },
-                title = getString(R.string.clear_wallet),
-                btnCancelText = getString(R.string.cancel))
+        if(AppManager.instance.hasActiveTransactions())
+        {
+            showAlert(getString(R.string.clear_wallet_transactions_text),getString(R.string.ok),{
+            },getString(R.string.clear_wallet))
+        }
+        else{
+            showAlert(message = getString(R.string.clear_wallet_text),
+                    btnConfirmText = getString(R.string.remove_wallet),
+                    onConfirm = {
+                        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
+                            presenter?.onConfirmRemoveWallet()
+                        }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+                    },
+                    title = getString(R.string.clear_wallet),
+                    btnCancelText = getString(R.string.cancel))
+        }
+
     }
 
     override fun walletRemoved() {

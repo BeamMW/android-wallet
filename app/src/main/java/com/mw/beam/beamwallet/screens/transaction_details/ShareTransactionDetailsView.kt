@@ -13,6 +13,7 @@ import com.mw.beam.beamwallet.core.helpers.TxStatus
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.share_transaction_detail_layout.view.*
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 class ShareTransactionDetailsView : FrameLayout {
 
@@ -36,10 +37,22 @@ class ShareTransactionDetailsView : FrameLayout {
             TxSender.SENT -> txCurrency.setImageResource(R.drawable.currency_beam_send)
         }
 
+        val isPrivacyModeEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
+
+        if(isPrivacyModeEnabled) {
+            statusLayoutCenter.visibility = View.VISIBLE
+            txCurrency.visibility = View.GONE
+            amount.visibility = View.GONE
+            imageView.visibility = View.GONE
+            confirming_state_text.visibility = View.GONE
+        }
+
         val createTime = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         txDate.text = createTime
         confirming_state_text.text = txDescription.getStatusString(context).capitalize()
+        confirming_state_textCenter.text = txDescription.getStatusString(context).capitalize()
+
         amount.text = txDescription.amount.convertToBeamString()
 
         if (txDescription.sender.value) {
@@ -69,7 +82,11 @@ class ShareTransactionDetailsView : FrameLayout {
         kernelLabel.text = txDescription.kernelId
 
         imageView.setImageDrawable(txDescription.statusImage())
+        imageViewCenter.setImageDrawable(txDescription.statusImage())
+
         confirming_state_text.setTextColor(txDescription.statusColor)
+        confirming_state_textCenter.setTextColor(txDescription.statusColor)
+
         amount.setTextColor(txDescription.amountColor)
 
         if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed

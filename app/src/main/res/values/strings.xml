@@ -28,7 +28,7 @@
     <string name="common_security_mode_title">Activate privacy  mode</string>
     <string name="common_security_mode_message">All balances will be hidden until the eye icon is tapped again.</string>
     <string name="common_fingerprint_error">Fingerprint can’t be recognized, please enter your password.</string>
-    <string name="common_faceid_error">Face ID can’t be recognized, please enter your password.</string>
+    <string name="common_faceid_error">Face recognition can’t be recognized, please enter your password.</string>
 
     <string name="common_share_title">Share…</string>
     <string name="common_external_link_dialog_title">External link</string>
@@ -78,11 +78,11 @@
     <string name="welcome_open">Open your wallet</string>
     <string name="enter_your_password_to_access_the_wallet">Enter your password to access the wallet.</string>
     <string name="welcome_open_description_with_fingerprint">Use Fingerprint or enter your password to access the wallet.</string>
-    <string name="welcome_open_description_with_faceid">Use Face ID or enter your password to access the wallet.</string>
-    <string name="use_faceid_access_wallet">Use Face ID to access the wallet.</string>
+    <string name="welcome_open_description_with_faceid">Use Face recognition or enter your password to access the wallet.</string>
+    <string name="use_faceid_access_wallet">Use Face recognition to access the wallet.</string>
 
     <!--WelcomeSeedFragment-->
-    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. From now on you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
+    <string name="welcome_seed_description">Your seed phrase is the access key to all the funds in your wallet. After successful verification, you won’t be able to see your seed phrase in settings. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>
     <string name="welcome_seed_title">Seed phrase</string>
     <string name="welcome_seed_save_title">Save seed phrase</string>
     <string name="welcome_seed_save_description">Please write the seed phrase down. Do not screenshot it and save it in your photo gallery. It makes the phrase prone to cyber attacks and, therefore, less secure.</string>
@@ -426,8 +426,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="enter_your_password_to_confirm_transaction">Enter your password to confirm transaction</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Use fingerprint or enter your password to confirm transaction</string>
     <string name="fingerprint_not_recognized">Fingerprint not recognized</string>
-    <string name="faceid_not_recognized">Face ID not recognized</string>
-    <string name="use_faceid_ot_enter_your_password_to_confirm_transaction">Use Face ID or enter your password to confirm transaction</string>
+    <string name="faceid_not_recognized">Face not recognized</string>
+    <string name="use_faceid_ot_enter_your_password_to_confirm_transaction">Use Face recognition or enter your password to confirm transaction</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
@@ -455,7 +455,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="you_can_create_more_tags_in_settings">You can create more tags in Settings.</string>
     <string name="choose_tag">Choose tag</string>
     <string name="use_finger">Use your Fingerprint </string>
-    <string name="use_faceid">Use your Face ID </string>
+    <string name="use_faceid">Use your  Face recognition</string>
     <string name="tags">Tags</string>
     <string name="add_new_tag">Add new tag</string>
     <string name="initiated">Initiated</string>
@@ -540,17 +540,22 @@ address or contact</string>
     <string name="till_block_height">till block height</string>
     <string name="delete_all_tags">Delete all tags</string>
     <string name="dark_mode">Dark mode</string>
-    <string name="remove_wallet_password_3">Use your Face ID or enter your password to remove current wallet</string>
-    <string name="change_node_text_4">Use your Face ID or enter your password to change node settings</string>
-    <string name="change_settings_text_3">Use your Face ID or enter your password to proceed changes in settings</string>
-    <string name="owner_key_verification_faceid_error">Face ID authorization failed. Please try in a few minutes.</string>
-    <string name="enable_faceid_text">Would you like to use Face ID for login to your wallet?\n\nAfter login Face ID can be enabled or disabled at any time in the settings menu</string>
-    <string name="enable_touch_id_text">Would you like to use Touch ID for login to your wallet?\n\nAfter login Touch ID can be enabled or disabled at any time in the settings menu</string>
+    <string name="remove_wallet_password_3">Use your Face recognition or enter your password to remove current wallet</string>
+    <string name="change_node_text_4">Use your Face recognition or enter your password to change node settings</string>
+    <string name="change_settings_text_3">Use your  Face recognition or enter your password to proceed changes in settings</string>
+    <string name="owner_key_verification_faceid_error">Face recognition authorization failed. Please try in a few minutes.</string>
+    <string name="enable_faceid_text">Would you like to use Face recognition for login to your wallet?\n\nAfter login Face recognition can be enabled or disabled at any time in the settings menu</string>
+    <string name="enable_touch_id_text">Would you like to use Fingerprint for login to your wallet?\n\nAfter login Fingerprint can be enabled or disabled at any time in the settings menu</string>
     <string name="enable">Enable</string>
     <string name="dont_use">Don\'t use</string>
     <string name="since_block_height">Since block height</string>
     <string name="block_height">Block height</string>
     <string name="import_data_warning">Only the data exported from the wallet with the same seed phrase can be imported.</string>
+    <string name="faucet_redirect_text">Redirecting to the faucet website.\nYour address will be filled-in automatically.</string>
+    <string name="clear_wallet_transactions_text">Unable to delete wallet with active transactions</string>
 
+    <string name="background_mode_title">Allow wallet to run in background</string>
+    <string name="background_mode_text">Beam Wallet requires permission to run in background. We recommend to allow it so you can always accept transactions. You can change your choice in app setting anytime.</string>
+    <string name="allow">Allow</string>
 
 </resources>

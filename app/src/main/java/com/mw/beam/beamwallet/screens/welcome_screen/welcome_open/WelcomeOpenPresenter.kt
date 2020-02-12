@@ -99,6 +99,12 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
             journalOldFile.copyTo(journalRecoverFile,true)
         }
 
+        val oldTags = PreferencesManager.getString(PreferencesManager.KEY_TAG_DATA)
+        if(oldTags != null) {
+            PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER, oldTags)
+            PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA, "")
+        }
+
         App.self.stopBackgroundService()
 
         isRestore = true

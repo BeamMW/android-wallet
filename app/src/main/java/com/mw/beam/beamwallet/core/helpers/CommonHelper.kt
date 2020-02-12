@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.core.AppConfig
 import java.io.File
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.os.storage.StorageManager
 
 /**
  *  3/14/19.
@@ -85,6 +86,7 @@ fun removeNodeDatabase() {
 fun checkRecoverDataBase() {
     val oldFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
     val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+    val recoverTags = PreferencesManager.getString(PreferencesManager.KEY_TAG_DATA_RECOVER)
 
     if (recoverFile.exists()) {
         if(oldFile.exists()) {
@@ -101,6 +103,11 @@ fun checkRecoverDataBase() {
             journalOldFile.delete()
         }
         journalRecoverFile.renameTo(journalOldFile)
+    }
+
+    if(recoverTags!=null) {
+        PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA,recoverTags)
+        PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER,"")
     }
 }
 

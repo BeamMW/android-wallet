@@ -84,6 +84,7 @@ import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.views.*
+import org.jetbrains.anko.withAlpha
 
 /**
  *  11/13/18.
@@ -418,8 +419,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
-
         contentScrollView.setOnTouchListener { _, _ -> isOpenSearchView() }
+
+        if(App.isDarkMode) {
+            addressContainer.setBackgroundColor(context!!.getColor(R.color.colorPrimary_dark).withAlpha(95))
+        }
+        else{
+            addressContainer.setBackgroundColor(context!!.getColor(R.color.colorPrimary).withAlpha(95))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

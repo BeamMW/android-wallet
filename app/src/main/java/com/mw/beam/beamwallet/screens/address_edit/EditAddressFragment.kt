@@ -33,9 +33,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -44,12 +41,12 @@ import androidx.appcompat.widget.AppCompatTextView
 import android.util.TypedValue
 import android.view.*
 import com.mw.beam.beamwallet.base_screen.*
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.toolbar.*
 import java.util.Date
 import java.util.Calendar
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.*
 
 /**
  *  3/5/19.
@@ -302,9 +299,10 @@ else{
     }
 
     override fun setTags(tags: List<Tag>) {
-        tagsLabel.text = tags.createSpannableString(context!!)
+        val sorted = TagHelper.getAllTagsSorted(tags)
+        tagsLabel.text = sorted.createSpannableString(context!!)
 
-        if (tagsLabel.text.isNullOrEmpty() || tags.count() == 0) {
+        if (tagsLabel.text.isNullOrEmpty() || sorted.count() == 0) {
             tagsLabel.text = getString(R.string.none)
         }
     }

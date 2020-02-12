@@ -36,6 +36,11 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.Comparator
 import kotlin.collections.HashMap
+import kotlin.collections.mutableMapOf as mutableMapOf1
+import java.text.Collator
+
+
+
 
 object TagHelper {
     var subOnCategoryCreated: Subject<Tag?> = PublishSubject.create<Tag?>().toSerialized()
@@ -107,36 +112,108 @@ object TagHelper {
 
     fun getAllTags() = tagData.getAllTags().values.toList()
 
-    fun getAllTagsSorted(): List<Tag> {
-        val tags: List<Tag> = getAllTags()
-        val pattern = Pattern.compile("^\\d+")
-        val comparator = object : Comparator<Tag> {
-            override
-            fun compare(object1: Tag, object2: Tag): Int {
-                var m = pattern.matcher(object1.name.toLowerCase())
-                var number1: Int?
-                if (!m.find()) {
-                    return object1.name.toLowerCase().compareTo(object2.name.toLowerCase())
-                } else {
-                    var number2: Int?
-                    number1 = Integer.parseInt(m.group())
-                    m = pattern.matcher(object2.name.toLowerCase())
-                    return if (!m.find()) {
-                        object1.name.toLowerCase().compareTo(object2.name.toLowerCase())
-                    } else {
-                        number2 = Integer.parseInt(m.group())
-                        val comparison = number1.compareTo(number2)
-                        if (comparison != 0) {
-                            comparison
-                        } else {
-                            object1.compareTo(object2)
-                        }
+    fun getAllTagsSorted(tags : List<Tag>): List<Tag> {
+
+        var alphabets = mutableListOf<String>()
+        var digits = mutableListOf<String>()
+        var charters = mutableListOf<String>()
+
+        tags.forEach {
+            val char = it.name.toCharArray()[0]
+            val check = charCheck(char)
+            if(check == 0) {
+                if(!alphabets.contains(char.toString())) {
+                    alphabets.add(char.toString())
+                }
+            }
+            else if(check == 1) {
+                if(!digits.contains(char.toString())) {
+                    digits.add(char.toString())
+                }
+            }
+            else{
+                if(!charters.contains(char.toString())) {
+                    charters.add(char.toString())
+                }
+            }
+        }
+
+
+        val collator = Collator.getInstance(Locale.ENGLISH)
+
+        var sortedAlphaBetsHash = kotlin.collections.mutableMapOf<String,MutableList<Tag>>()
+
+        var sortedAlphaBets = alphabets.sorted()
+
+        Collections.sort(sortedAlphaBets,collator)
+
+        sortedAlphaBets.forEach {
+            val lower = it.toLowerCase()
+
+            tags.forEach{ tag ->
+                if(!sortedAlphaBetsHash.contains(lower)) {
+                    sortedAlphaBetsHash[lower] = mutableListOf<Tag>()
+                }
+
+                val first = tag.name.toCharArray()[0].toString().toLowerCase()
+                if(lower == first) {
+                    if(!sortedAlphaBetsHash[lower]!!.contains(tag)) {
+                        sortedAlphaBetsHash[lower]!!.add(tag)
                     }
                 }
             }
         }
-        Collections.sort(tags, comparator)
-        return tags
+
+
+        sortedAlphaBetsHash.forEach { entry ->
+            entry.value.sortBy { it.name }
+        }
+
+
+        var sortedDigits = digits.sorted()
+        var sortedCharters = charters.sorted()
+
+        var result = mutableListOf<Tag>()
+
+
+        sortedAlphaBetsHash.forEach { entry ->
+            result.addAll(entry.value)
+        }
+
+
+        sortedCharters.forEach{ ch ->
+            tags.forEach{
+                val first2 = it.name.toCharArray()[0].toString()
+                if(ch == first2) {
+                    result.add(it)
+                }
+            }
+        }
+
+        sortedDigits.forEach{ ch ->
+            tags.forEach{
+                val first2 = it.name.toCharArray()[0].toString()
+                if(ch == first2) {
+                    result.add(it)
+                }
+            }
+        }
+
+        return result
+    }
+
+    private fun charCheck(input_char: Char) : Int {
+        val specialCharacters = " !#$%&'()*+,-./:;<=>?@[]^_`{|} "
+
+        if(specialCharacters.contains(input_char)) {
+            return 2
+        }
+        else if (input_char.toInt() >= 48 && input_char.toInt() <= 57) {
+            return 1
+        }
+        else{
+            return 0
+        }
     }
 
     fun getTag(tagId: String) = tagData.getAllTags().values.firstOrNull { it.id == tagId }
@@ -178,7 +255,7 @@ object TagHelper {
                         }
                     }
                 }
-                return result
+                return getAllTagsSorted(result)
             }
         }
 
@@ -245,6 +322,15 @@ object TagHelper {
     }
 
     fun clear() {
+        tagData.clear()
+
+        PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER, gson.toJson(tagData))
+
+        saveTagData()
+    }
+
+    fun restore() {
+        PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER, gson.toJson(tagData))
         tagData.clear()
         saveTagData()
     }

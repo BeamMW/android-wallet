@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.item_selectable_tag.view.*
 class TagAdapter(private val onSelectedChangeListener: (List<Tag>) -> Unit) : RecyclerView.Adapter<TagAdapter.ViewHolder>() {
     private val noneTag = Tag("none")
 
-    private val allTags: List<Tag> = ArrayList(TagHelper.getAllTags()).apply {
+    private val allTags: List<Tag> = ArrayList(TagHelper.getAllTagsSorted(TagHelper.getAllTags())).apply {
         add(0, noneTag)
     }
 

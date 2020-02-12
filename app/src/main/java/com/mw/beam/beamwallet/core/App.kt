@@ -137,7 +137,11 @@ class App : Application() {
                         .flattener(PatternFlattener(AppConfig.LOG_PATTERN))
                         .build())
 
-      clearLogs()
+        clearLogs()
+
+        if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE,false)) {
+            App.self.startBackgroundService()
+        }
     }
 
     fun showFaceIdPrompt(fromFragment:Fragment,title:String,cancel:String? = null, resultCallback: (result: com.mw.beam.beamwallet.core.views.Status) -> Unit) {
