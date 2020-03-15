@@ -587,12 +587,42 @@ else{
     override fun copyDetails() {
         val clipboardManager =  context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
-        val txDetails = "${getString(R.string.amount)}: ${oldTransaction!!.amount.div(100000000) }\n" +
+        var startAddressTitle = ""
+        var endAddressTitle = ""
+
+        var startAddress = ""
+        var endAddress = ""
+
+        val transaction = oldTransaction!!
+
+        if (transaction.sender.value) {
+            if (transaction.selfTx) {
+                startAddress = transaction.myId
+                endAddress = transaction.peerId
+
+                startAddressTitle = "${getString(R.string.my_sending_address)}"
+                endAddressTitle = "${getString(R.string.my_receiving_address)}"
+            } else {
+                startAddressTitle = "${getString(R.string.contact)}"
+                endAddressTitle = "${getString(R.string.my_address)}"
+
+                startAddress = transaction.peerId
+                endAddress = transaction.myId
+            }
+        }
+        else {
+            startAddressTitle = "${getString(R.string.contact)}"
+            endAddressTitle = "${getString(R.string.my_address)}"
+            startAddress = transaction.peerId
+            endAddress = transaction.myId
+        }
+
+
+        val txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
                 "${getString(R.string.status)}: ${statusLabel.text}\n" +
-                "${getString(R.string.date)}: ${dateLabel.text}\n" +
-                "${getString(R.string.contact)}: ${startContactValue.text}\n" +
-                "${startAddress.text}\n" +
-                "${getString(R.string.my_address)}: ${endAddress.text}\n" +
+                "${getString(R.string.amount)}: ${amountLabel.text}\n" +
+                startAddressTitle + ": " + startAddress + "\n" +
+                endAddressTitle + ": " + endAddress + "\n" +
                 "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n" +
                 "${getString(R.string.transaction_id)}: ${idLabel.text}\n" +
                 "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"

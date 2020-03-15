@@ -73,10 +73,10 @@ interface ReceiveContract {
 
     interface Repository : MvpRepository {
         fun generateNewAddress() : Subject<WalletAddress>
-        fun saveAddress(address: WalletAddress)
+        fun saveAddress(address: WalletAddress, tags: List<Tag>)
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
         fun saveTagsForAddress(address: String, tags: List<Tag>)
-        fun updateAddress(address: WalletAddress)
+        fun updateAddress(address: WalletAddress, tags: List<Tag>)
     }
 }

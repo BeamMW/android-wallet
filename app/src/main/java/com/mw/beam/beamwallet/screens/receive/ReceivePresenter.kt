@@ -265,9 +265,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             }
 
             if (state.wasAddressSaved) {
-                repository.updateAddress(address)
+                repository.updateAddress(address, state.tags)
             } else {
-                repository.saveAddress(address)
+                repository.saveAddress(address, state.tags)
             }
 
             repository.saveTagsForAddress(address.walletID, state.tags)

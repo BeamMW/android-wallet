@@ -272,7 +272,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     }
 
     override fun showBiometricAuthError() {
-        if(biometricView.type == Type.FINGER) {
+        if(biometricView.type == Type.FACE) {
             showToast(getString(R.string.common_faceid_error), 3000)
         }
         else{
@@ -287,8 +287,12 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
     private class FingerprintCallback(var view: WelcomeOpenFragment?, var presenter: WelcomeOpenContract.Presenter?, var cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
-            view?.biometricError()
-            presenter?.onBiometricError()
+
+            if(errMsgId != 5) {
+                view?.biometricError()
+                presenter?.onBiometricError()
+            }
+
             cancellationSignal?.cancel()
         }
 

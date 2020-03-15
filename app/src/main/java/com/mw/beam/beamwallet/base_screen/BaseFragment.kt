@@ -33,6 +33,7 @@ import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.app.Dialog
 import android.view.animation.Animation
 import androidx.navigation.NavOptions
 import android.view.animation.AnimationUtils
@@ -42,12 +43,15 @@ import com.eightsines.holycycle.ViewControllerFragmentDelegate
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.elvishew.xlog.XLog.b
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 
 /**
  *  10/4/18.
  */
 abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> : ViewControllerFragment(), MvpView, ScreenDelegate.ViewDelegate {
     var dialog: AlertDialog? = null
+    var bottomDialog: Dialog? = null
+    var passwordDialog: PasswordConfirmDialog? = null
 
     protected var presenter: T? = null
         private set

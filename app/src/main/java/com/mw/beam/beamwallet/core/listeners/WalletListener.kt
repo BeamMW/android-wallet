@@ -181,6 +181,15 @@ object WalletListener {
         LogUtils.logResponse(data, "onExportDataToJson")
     }
 
+    @JvmStatic
+    fun onNewVersionNotification(action: Int, notificationInfo: NotificationDTO, content: VersionInfoDTO) {
+        LogUtils.logResponse(notificationInfo, "onNewVersionNotification")
+    }
+
+    @JvmStatic
+    fun onExchangeRates(rates: Array<ExchangeRateDTO>?) {
+        LogUtils.logResponse(rates, "onExchangeRates")
+    }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {
         uiHandler.post {

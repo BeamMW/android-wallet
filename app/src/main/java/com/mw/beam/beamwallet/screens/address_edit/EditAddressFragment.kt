@@ -276,7 +276,7 @@ else{
 
     @SuppressLint("InflateParams")
     override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+       this.bottomDialog = BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
             setContentView(view)
 

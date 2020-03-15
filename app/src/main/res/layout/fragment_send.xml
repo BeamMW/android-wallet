@@ -26,7 +26,7 @@
         android:id="@+id/contentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="95dp"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,7 +191,7 @@
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="?attr/cardBackground"
                 android:paddingBottom="@dimen/common_offset"
                 app:layout_constraintTop_toTopOf="parent">

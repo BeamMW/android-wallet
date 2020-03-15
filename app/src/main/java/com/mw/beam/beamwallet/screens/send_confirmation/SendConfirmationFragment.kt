@@ -92,11 +92,12 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun showConfirmDialog() {
-        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.SendBeam, {
+       this.passwordDialog =  PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.SendBeam, {
             presenter?.onConfirmed()
         }, {
 
-        }).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+        })
+        this.passwordDialog?.show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     override fun addListeners() {

@@ -252,6 +252,14 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
                     {
                         base.dialog?.dismiss()
                     }
+                    if (base.bottomDialog!=null)
+                    {
+                        base.bottomDialog?.dismiss()
+                    }
+                    if (base.passwordDialog!=null)
+                    {
+                        base.passwordDialog?.stop()
+                    }
                 }
             }
 

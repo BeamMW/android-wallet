@@ -746,7 +746,8 @@ else{
 
     @SuppressLint("InflateParams")
     override fun showNodeAddressDialog(nodeAddress: String?) {
-        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeNode, {
+
+        this.passwordDialog = PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeNode, {
             context?.let {
                 val view = LayoutInflater.from(it).inflate(R.layout.dialog_node_address, null)
                 var okString = ""
@@ -807,7 +808,8 @@ else{
                 dialog = AlertDialog.Builder(it).setView(view).show()
                 dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
-        }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+        }, {})
+        this.passwordDialog?.show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     @SuppressLint("InflateParams")
@@ -928,8 +930,8 @@ else{
     }
 
     override fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
-        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeSettings, onConfirm, onDismiss)
-                .show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+        this.passwordDialog =  PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeSettings, onConfirm, onDismiss)
+        this.passwordDialog?.show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
     }
 
     private fun getLockScreenStringValue(millis: Long): String {
@@ -1050,9 +1052,10 @@ else{
             showAlert(message = getString(R.string.clear_wallet_text),
                     btnConfirmText = getString(R.string.remove_wallet),
                     onConfirm = {
-                        PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
+                       this.passwordDialog =  PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
                             presenter?.onConfirmRemoveWallet()
-                        }, {}).show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
+                        }, {})
+                        this.passwordDialog?.show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())
                     },
                     title = getString(R.string.clear_wallet),
                     btnCancelText = getString(R.string.cancel))
@@ -1067,6 +1070,7 @@ else{
     override fun clearListeners() {
 
     }
+
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return SettingsPresenter(this, SettingsRepository(), SettingsState())

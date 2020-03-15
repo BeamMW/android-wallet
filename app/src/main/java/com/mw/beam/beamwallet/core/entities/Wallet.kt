@@ -49,4 +49,13 @@ data class Wallet(val _this: Long) {
     external fun importRecovery(path: String)
     external fun importDataFromJson(data: String)
     external fun exportDataToJson()
+
+    external fun switchOnOffExchangeRates(isActive: Boolean)
+    external fun switchOnOffNotifications(type: Int, isActive: Boolean)
+
+    external fun getExchangeRates()
+
+    external fun getNotifications()
+    external fun markNotificationAsRead(id : String)
+    external fun deleteNotification(id : String)
 }

@@ -50,6 +50,18 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:paddingStart="3dp"
+                        android:paddingEnd="3dp"
+                        android:text="@string/name"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
                     <EditText
                         android:id="@+id/nameLabel"
                         style="@style/common_text_big_light"
@@ -67,18 +79,6 @@
                         android:singleLine="true"
                         android:textSize="14sp"
                         tools:ignore="Autofill,LabelFor,TextFields" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.2"
-                        android:paddingStart="3dp"
-                        android:paddingEnd="3dp"
-                        android:text="@string/name"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/subHeaderTextColor"
-                        android:textSize="12sp" />
 
                 </LinearLayout>
 

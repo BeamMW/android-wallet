@@ -632,11 +632,16 @@ class AppManager {
                 subOnNetworkStatusChanged.onNext(0)
             }
 
+            wallet?.switchOnOffExchangeRates(true)
+            wallet?.switchOnOffNotifications(0, true)
+
             wallet?.getWalletStatus()
             wallet?.getUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
             wallet?.getTransactions()
+            wallet?.getExchangeRates()
+            wallet?.getNotifications()
 
             Handler().postDelayed({
                 TagHelper.fixLegacyFormat()

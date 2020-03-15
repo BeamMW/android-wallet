@@ -106,6 +106,10 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
         }
     }
 
+    fun stop() {
+        dismiss()
+    }
+
     override fun addListeners() {
         btnOk.setOnClickListener {
             presenter?.onOkPressed(pass.text?.toString() ?: "")
@@ -120,7 +124,6 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
         if (withBiometric && presenter?.repository?.isFaceIDEnabled() == false)
         {
             cancellationSignal = CancellationSignal()
-
             authCallback = FingerprintCallback(presenter, cancellationSignal)
 
             FingerprintManagerCompat.from(App.self).authenticate(FingerprintManager.cryptoObject, 0, cancellationSignal,
@@ -230,7 +233,10 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
     private class FingerprintCallback(val presenter: PasswordConfirmPresenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
-            presenter?.onErrorFingerprint()
+
+            if(errMsgId!=5) {
+                presenter?.onErrorFingerprint()
+            }
             cancellationSignal?.cancel()
         }
 

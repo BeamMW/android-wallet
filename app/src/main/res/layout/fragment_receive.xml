@@ -18,10 +18,11 @@
         android:id="@+id/mainScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="20dp"
         android:fillViewport="true"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
@@ -45,18 +46,40 @@
                 app:layout_constraintTop_toBottomOf="@id/txCommentTitle"
                 tools:ignore="Autofill,LabelFor,TextFields" />
 
-            <TextView
-                android:id="@+id/txCommentTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/transaction_comment"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/addressGroup" />
+                app:layout_constraintTop_toBottomOf="@+id/receiveDescription">
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnShowQR"
+                    android:layout_width="@dimen/wallet_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/primary_button"
+                    app:button_icon="@drawable/ic_btn_qr"
+                    app:button_text="@string/show_qr"
+                    app:button_text_color="@color/common_text_color">
+
+                </com.mw.beam.beamwallet.core.views.BeamButton>
+
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/btnShareToken"
+                    android:layout_width="@dimen/wallet_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/receive_button"
+                    app:button_icon="@drawable/ic_share"
+                    app:button_text="@string/share_address"
+                    app:lower_case="true" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/receiveDescription"
@@ -73,6 +96,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/advancedCard" />
 
+            <TextView
+                android:id="@+id/txCommentTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/transaction_comment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/addressGroup" />
+
+
             <View
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
@@ -84,127 +121,10 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/advancedCard"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="?attr/cardBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txCommentDivider">
-
-                <EditText
-                    android:id="@+id/amount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:background="@drawable/edit_text_selector"
-                    android:backgroundTint="@android:color/transparent"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/received_color"
-                    android:textColorHint="@color/common_hint_text_color"
-                    android:textSize="@dimen/receive_amount_text_size"
-                    app:layout_constraintEnd_toStartOf="@id/currency"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/amountTitle"
-                    tools:hint="0"
-                    tools:ignore="Autofill,LabelFor" />
-
-                <LinearLayout
-                    android:id="@+id/advancedContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:orientation="horizontal"
-                    android:paddingTop="@dimen/receive_card_padding"
-                    android:paddingBottom="@dimen/receive_card_padding"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/advancedTitle"
-                        style="@style/common_subheader_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:letterSpacing="0.15"
-                        android:text="@string/advanced"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/common_text_small_size"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <View
-                        android:id="@+id/btnExpandAdvanced"
-                        android:layout_width="@dimen/wallet_expandable_icon_size"
-                        android:layout_height="@dimen/wallet_expandable_icon_size"
-                        android:background="@drawable/btn_drop_down"
-                        android:contentDescription="@null"
-                        app:layout_constraintBottom_toBottomOf="@id/advancedTitle"
-                        app:layout_constraintStart_toEndOf="@id/advancedTitle"
-                        app:layout_constraintTop_toTopOf="@id/advancedTitle" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/amountTitle"
-                    style="@style/common_subheader_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:textAllCaps="false"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/advancedContainer"
-                    tools:text="@string/request_an_amount" />
-
-                <TextView
-                    android:id="@+id/currency"
-                    style="@style/common_subheader_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:text="@string/currency_beam"
-                    android:textAllCaps="true"
-                    android:textSize="@dimen/send_currency_text_size"
-                    app:layout_constraintBottom_toBottomOf="@id/amount"
-                    app:layout_constraintEnd_toEndOf="parent" />
-
-                <View
-                    android:id="@+id/amountDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:background="@color/divider_color"
-                    app:layout_constraintEnd_toEndOf="@id/amount"
-                    app:layout_constraintStart_toStartOf="@id/amount"
-                    app:layout_constraintTop_toBottomOf="@id/amount" />
-
-                <View
-                    android:id="@+id/emptySpaceDivider"
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/amountDivider" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/advancedGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    app:constraint_referenced_ids="currency,amountDivider,amount,amountTitle,emptySpaceDivider"
-                    tools:visibility="visible" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="?attr/cardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -410,40 +330,121 @@
                     app:text_padding_enabled="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/advancedCard"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:orientation="horizontal"
+                android:background="?attr/cardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/receiveDescription">
+                app:layout_constraintTop_toBottomOf="@id/txCommentDivider">
 
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnShowQR"
-                    android:layout_width="@dimen/wallet_button_width"
+                <EditText
+                    android:id="@+id/amount"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/primary_button"
-                    app:button_icon="@drawable/ic_btn_qr"
-                    app:button_text="@string/show_qr"
-                    app:button_text_color="@color/common_text_color">
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:background="@drawable/edit_text_selector"
+                    android:backgroundTint="@android:color/transparent"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/received_color"
+                    android:textColorHint="@color/common_hint_text_color"
+                    android:textSize="@dimen/receive_amount_text_size"
+                    app:layout_constraintEnd_toStartOf="@id/currency"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amountTitle"
+                    tools:hint="0"
+                    tools:ignore="Autofill,LabelFor" />
 
-                </com.mw.beam.beamwallet.core.views.BeamButton>
-
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnShareToken"
-                    android:layout_width="@dimen/wallet_button_width"
+                <LinearLayout
+                    android:id="@+id/advancedContainer"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/receive_button"
-                    app:button_icon="@drawable/ic_share"
-                    app:button_text="@string/share_address"
-                    app:lower_case="true" />
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/receive_card_padding"
+                    android:paddingBottom="@dimen/receive_card_padding"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/advancedTitle"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:letterSpacing="0.15"
+                        android:text="@string/advanced"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/common_text_small_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/btnExpandAdvanced"
+                        android:layout_width="@dimen/wallet_expandable_icon_size"
+                        android:layout_height="@dimen/wallet_expandable_icon_size"
+                        android:background="@drawable/btn_drop_down"
+                        android:contentDescription="@null"
+                        app:layout_constraintBottom_toBottomOf="@id/advancedTitle"
+                        app:layout_constraintStart_toEndOf="@id/advancedTitle"
+                        app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/amountTitle"
+                    style="@style/common_subheader_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:textAllCaps="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/advancedContainer"
+                    tools:text="@string/request_an_amount" />
+
+                <TextView
+                    android:id="@+id/currency"
+                    style="@style/common_subheader_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:text="@string/currency_beam"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/send_currency_text_size"
+                    app:layout_constraintBottom_toBottomOf="@id/amount"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:id="@+id/amountDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    app:layout_constraintEnd_toEndOf="@id/amount"
+                    app:layout_constraintStart_toStartOf="@id/amount"
+                    app:layout_constraintTop_toBottomOf="@id/amount" />
+
+                <View
+                    android:id="@+id/emptySpaceDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/amountDivider" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/advancedGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="currency,amountDivider,amount,amountTitle,emptySpaceDivider"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

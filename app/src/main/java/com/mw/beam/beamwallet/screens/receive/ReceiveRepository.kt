@@ -34,16 +34,28 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
         }
     }
 
-    override fun updateAddress(address: WalletAddress) {
+    override fun updateAddress(address: WalletAddress, tags: List<Tag>) {
         getResult("updateAddress") {
             val isNever = address.duration == 0L
           //  wallet?.saveAddressChanges(address.walletID, address.label, isNever, makeActive = !isNever, makeExpired = false)
         }
     }
 
-    override fun saveAddress(address: WalletAddress) {
+    override fun saveAddress(address: WalletAddress, tags: List<Tag>) {
         getResult("saveAddressChanges") {
-            wallet?.saveAddress(address.toDTO(), true)
+
+            var categories = mutableListOf<String>()
+
+            for (t in tags) {
+                categories.add(t.id)
+            }
+
+            var ids = categories.joinToString(";")
+
+            var dto = address.toDTO()
+            dto.category = ids
+
+            wallet?.saveAddress(dto, true)
         }
     }
 

@@ -222,7 +222,11 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
     private class FingerprintCallback(val presenter: DoubleAuthorizationContract.Presenter?, val cancellationSignal: CancellationSignal?): FingerprintManagerCompat.AuthenticationCallback() {
         override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
             super.onAuthenticationError(errMsgId, errString)
-            presenter?.onError()
+
+            if(errMsgId!=5) {
+                presenter?.onError()
+            }
+
             cancellationSignal?.cancel()
         }
 
