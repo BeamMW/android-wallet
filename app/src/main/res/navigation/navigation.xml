@@ -376,6 +376,13 @@
             android:name="mode"
             app:argType="com.mw.beam.beamwallet.screens.settings.SettingsFragmentMode"
             android:defaultValue="All" />
+        <action
+            android:id="@+id/action_settingsFragment_to_currencyFragment"
+            app:destination="@id/currencyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -942,4 +949,8 @@
         android:id="@+id/confirmRemoveWalletDialog2"
         android:name="com.mw.beam.beamwallet.screens.settings.password_dialog.ConfirmRemoveWalletDialog"
         android:label="ConfirmRemoveWalletDialog" />
+    <fragment
+        android:id="@+id/currencyFragment"
+        android:name="com.mw.beam.beamwallet.screens.currency.CurrencyFragment"
+        android:label="CurrencyFragment" />
 </navigation>

@@ -54,7 +54,7 @@
                 android:id="@+id/infoCard"
                 style="@style/common_card_style"
                 android:layout_width="0dp"
-                android:layout_height="107dp"
+                android:layout_height="122dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
@@ -102,6 +102,17 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/secondAvailableSum"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:text="1234 USD" />
+
+                    <TextView
                         android:id="@+id/statusLabel"
                         style="@style/common_text_big_light"
                         android:layout_width="wrap_content"
@@ -109,6 +120,7 @@
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/roboto_italic"
                         android:gravity="center"
+                        android:paddingTop="5dp"
                         android:textSize="16sp"
                         tools:text="@string/available" />
                 </LinearLayout>

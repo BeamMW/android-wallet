@@ -74,6 +74,8 @@
     <color name="category_green">#73ff7c</color>
     <color name="category_blue">#4fa5ff</color>
     <color name="category_pink">#d785ff</color>
+    <color name="remove">#ff625c</color>
+
 
 
     <!--Switch-->

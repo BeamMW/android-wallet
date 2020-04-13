@@ -69,7 +69,7 @@ interface SendContract {
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
-        fun updateFeeTransactionVisibility(isVisible: Boolean)
+        fun updateFeeTransactionVisibility()
         fun getLifecycleOwner(): LifecycleOwner
         fun getCommentOutgoingAddress(): String
         fun handleExpandEditAddress(expand: Boolean)

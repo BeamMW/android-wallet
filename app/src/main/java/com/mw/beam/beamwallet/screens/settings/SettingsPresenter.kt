@@ -115,6 +115,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.updateLockScreenValue(repository.getLockScreenValue())
             view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
             view?.setLogSettings(repository.getLogSettings())
+            view?.setCurrencySettings(repository.getCurrencySettings())
             view?.setLanguage(repository.getCurrentLanguage())
             view?.setRunOnBackground(repository.isAllowBackgroundMode())
         }
@@ -246,6 +247,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onLogsPressed() {
         view?.showLogsDialog()
+    }
+
+    override fun onCurrencyPressed() {
+        view?.navigateToCurrency()
     }
 
     override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {

@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.QrHelper
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 import kotlinx.android.synthetic.main.dialog_qr_code.*
 import java.io.File
 
@@ -80,8 +81,10 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
         val amountVisibility = if (amount > 0) View.VISIBLE else View.GONE
         amountTitle.visibility = amountVisibility
         amountView.visibility = amountVisibility
+        secondAvailableSum.visibility = amountVisibility
 
         amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
+        secondAvailableSum.text = amount.convertToCurrencyString()
 
         btnShare.setOnClickListener { presenter?.onSharePressed(qrImage!!) }
         close.setOnClickListener { findNavController().popBackStack() }

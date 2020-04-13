@@ -176,7 +176,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             view?.setAmount(availableAmount.convertToBeam())
             onAmountUnfocused()
         }
-        view?.updateFeeTransactionVisibility(true)
+        view?.updateFeeTransactionVisibility()
     }
 
     override fun onPaste() {
@@ -411,7 +411,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onAmountChanged() {
         view?.apply {
             clearErrors()
-            updateFeeTransactionVisibility(false)
+            updateFeeTransactionVisibility()
         }
     }
 
@@ -444,9 +444,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
                 setAmount(availableAmount, feeAmount)
                 view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
-                view?.updateFeeTransactionVisibility(true)
+                view?.updateFeeTransactionVisibility()
             }
-            else -> view?.updateFeeTransactionVisibility(false)
+            else -> view?.updateFeeTransactionVisibility()
         }
 
         state.prevFee = feeAmount

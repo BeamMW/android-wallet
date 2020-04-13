@@ -66,7 +66,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
             if (canRequestProof) {
                 requestProof(txId)
             }
-        }
+        } //FLAG_SECURE
     }
 
     override fun requestProof(txId: String) {

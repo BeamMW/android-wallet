@@ -345,7 +345,7 @@
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/balanceViewPager"
                         android:layout_width="0dp"
-                        android:layout_height="58dp"
+                        android:layout_height="78dp"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -442,13 +442,27 @@
                         app:layout_constraintWidth_max="wrap"
                         tools:text="-125.989883830000" />
 
+                    <TextView
+                        android:id="@+id/sendingSecondBalance"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/sendingIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/sending"
+                        tools:text="1234 USD" />
+
                     <!--Sending-->
                     <TextView
                         android:id="@+id/receiving"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                        android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
+                        android:layout_marginTop="20dp"
                         android:drawableRight="@drawable/currency_receive_main_screen"
                         android:drawablePadding="5dp"
                         android:fontFamily="@font/roboto_regular"
@@ -457,16 +471,30 @@
                         android:textSize="@dimen/wallet_sum_text_size"
                         app:layout_constraintHorizontal_chainStyle="packed"
                         app:layout_constraintStart_toEndOf="@id/receivingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/sending"
+                        app:layout_constraintTop_toBottomOf="@+id/sendingSecondBalance"
                         app:layout_constraintWidth_max="wrap"
                         tools:text="+125.989883830000" />
+
+                    <TextView
+                        android:id="@+id/receivingSecondBalance"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="3dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toEndOf="@+id/receivingIcon"
+                        app:layout_constraintTop_toBottomOf="@+id/receiving"
+                        tools:text="1234 USD" />
 
                     <androidx.constraintlayout.widget.Group
                         android:id="@+id/receivingGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="receiving,receivingIcon"
+                        app:constraint_referenced_ids="receiving,receivingIcon,receivingSecondBalance"
                         tools:layout_editor_absoluteX="20dp"
                         tools:layout_editor_absoluteY="20dp"
                         tools:visibility="visible" />
@@ -476,7 +504,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="sending,sendingIcon"
+                        app:constraint_referenced_ids="sending,sendingIcon,sendingSecondBalance"
                         tools:layout_editor_absoluteX="20dp"
                         tools:layout_editor_absoluteY="20dp"
                         tools:visibility="visible" />

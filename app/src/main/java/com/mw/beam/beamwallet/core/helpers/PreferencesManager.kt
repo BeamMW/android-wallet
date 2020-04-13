@@ -59,6 +59,8 @@ object PreferencesManager {
     const val KEY_BACKGROUND_MODE = "KEY_BACKGROUND_MODE"
     const val KEY_BACKGROUND_MODE_ASK = "KEY_BACKGROUND_MODE_ASK"
     const val KEY_TAG_DATA_RECOVER = "KEY_TAG_DATA_RECOVER"
+    const val KEY_CURRENCY = "KEY_CURRENCY"
+    const val KEY_CURRENCY_RECOVER = "KEY_CURRENCY_RECOVER"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()

@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.settings
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -79,6 +80,8 @@ import android.text.style.StyleSpan
 import com.mw.beam.beamwallet.core.App
 import android.os.Build
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
@@ -168,6 +171,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
                 s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
+                s1.add(SettingsItem(null, getString(R.string.show_amounts),null, SettingsFragmentMode.Currency))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 var s2 = mutableListOf<SettingsItem>()
@@ -265,6 +269,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     spannable = item.spannable
                 }
 
+                if(item.mode == SettingsFragmentMode.RemoveWallet)
+                {
+                    item.textLabel.setTextColor(ContextCompat.getColor(context!!, R.color.remove))
+                    item.iconView.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.remove))
+                }
+
                 item.setOnClickListener {
                     val item: SettingsItemView = if (it is androidx.appcompat.widget.SwitchCompat) {
                         it.parent.parent as SettingsItemView
@@ -279,7 +289,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         presenter?.onShowLockScreenSettings()
                     } else if (item.mode == SettingsFragmentMode.Logs) {
                         presenter?.onLogsPressed()
-                    } else if (item.mode == SettingsFragmentMode.ClearLocal) {
+                    }
+                    else if (item.mode == SettingsFragmentMode.Currency) {
+                        presenter?.onCurrencyPressed()
+                    }
+                    else if (item.mode == SettingsFragmentMode.ClearLocal) {
                         presenter?.onClearDataPressed()
                     } else if (item.mode == SettingsFragmentMode.Language) {
                         presenter?.onLanguagePressed()
@@ -440,11 +454,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
-}
-else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
-}
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    }
+    else{
+        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    }
 
     override fun setLogSettings(days: Long) {
         for (view in mainLayout.children) {
@@ -458,6 +472,17 @@ else{
                         30L ->  getString(R.string.last_30_days)
                         else -> ""
                     }
+                }
+            }
+        }
+    }
+
+    override fun setCurrencySettings(currency: Currency) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.Currency) {
+                    item.detail = currency.name(context!!)
                 }
             }
         }
@@ -488,6 +513,10 @@ else{
 
     override fun navigateToAddCategory() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToEditCategoryFragment(null))
+    }
+
+    override fun navigateToCurrency() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCurrencyFragment())
     }
 
     override fun navigateToCategory(categoryId: String) {

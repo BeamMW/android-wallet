@@ -130,6 +130,21 @@
                 tools:text="2133.78927292 BEAM" />
 
             <TextView
+                android:id="@+id/secondAvailableSum"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/amountToSend"
+                tools:text="1234 USD" />
+
+
+            <TextView
                 android:id="@+id/feeTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="0dp"
@@ -140,7 +155,7 @@
                 android:text="@string/transaction_fee"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountToSend" />
+                app:layout_constraintTop_toBottomOf="@id/secondAvailableSum" />
 
             <TextView
                 android:id="@+id/fee"

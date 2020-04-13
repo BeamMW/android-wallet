@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.Currency
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -28,3 +30,60 @@ fun Double.convertToBeamString(): String = DecimalFormat("#.########").apply { d
 fun Long.convertToBeam(): Double = this.toDouble() / 100000000
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
 fun Double.convertToGroth() = Math.round(this * 100000000)
+
+fun Long.convertToCurrencyString(): String? {
+    val current = AppManager.instance.currentExchangeRate()
+    if (current!=null && this != 0L) {
+        val value = current.amount.toDouble() / 100000000
+        val beam = this.convertToBeam()
+        val rate = value * beam
+        if (current.currency == Currency.Usd) {
+            return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+        }
+        else if (current.currency == Currency.Bitcoin) {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+        }
+    }
+   return null
+}
+
+fun Long.convertToCurrencyGrothString(): String? {
+    val current = AppManager.instance.currentExchangeRate()
+    if (current!=null && this != 0L) {
+        val value = current.amount.toDouble() / 100000000
+        val beam = this.convertToBeam()
+        var rate = value * beam
+        if (current.currency == Currency.Usd) {
+            if(rate < 0.01) {
+                return "< 1 cent";
+            }
+            return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+        }
+        else if (current.currency == Currency.Bitcoin) {
+            val resultString = DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+            if(resultString == "0 BTC") {
+                rate *= 100000000;
+                return DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " satoshis"
+            }
+
+            return resultString
+        }
+    }
+    return null
+}
+
+
+fun Double.convertToCurrencyString(): String? {
+    val current = AppManager.instance.currentExchangeRate()
+    if (current!=null && this != 0.0) {
+        val value = current.amount.toDouble() / 100000000
+        val rate = value * this
+        if (current.currency == Currency.Usd) {
+            return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+        }
+        else if (current.currency == Currency.Bitcoin) {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+        }
+    }
+    return null
+}

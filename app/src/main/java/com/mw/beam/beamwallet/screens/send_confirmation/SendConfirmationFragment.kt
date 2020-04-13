@@ -32,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
@@ -72,6 +73,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
         this.outgoingAddress.text = outgoingAddress
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+        secondAvailableSum.text = amount.convertToCurrencyString()
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
     }
 

@@ -89,22 +89,37 @@
                 app:layout_constraintTop_toBottomOf="@id/amountTitle"
                 tools:text="1000 BEAM" />
 
+            <TextView
+                android:id="@+id/secondAvailableSum"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/amountView"
+                tools:text="1234 USD" />
+
 
             <LinearLayout
                 android:id="@+id/tokenDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@id/btnShare"
-                app:layout_constraintTop_toBottomOf="@id/amountView" >
+                app:layout_constraintBottom_toTopOf="@+id/btnShare"
+                app:layout_constraintTop_toBottomOf="@+id/secondAvailableSum">
+
                 <TextView
                     style="@style/common_text_big_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/receive_common_qr_offset"
                     android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
-                    android:layout_marginBottom="@dimen/receive_qr_token_description_margin_top"
                     android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                    android:layout_marginBottom="@dimen/receive_qr_token_description_margin_top"
                     android:gravity="center"
                     android:text="@string/receive_description" />
             </LinearLayout>
@@ -119,7 +134,8 @@
                 app:button_text="@string/share_qr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tokenDescription" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

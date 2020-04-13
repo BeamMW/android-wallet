@@ -23,6 +23,8 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import java.io.File
 
 /**
@@ -148,5 +150,14 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         file.writeBytes(stringBuilder.toString().toByteArray())
 
         return file
+    }
+
+    override fun getCurrencySettings(): Currency {
+        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+        return Currency.fromValue(value.toInt())
+    }
+
+    override fun setCurrencySettings(currency: Currency) {
+        PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, currency.value.toLong())
     }
 }

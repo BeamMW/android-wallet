@@ -54,6 +54,21 @@
         app:layout_constraintTop_toBottomOf="@id/dialogTitle"
         tools:text="123" />
 
+    <TextView
+        android:id="@+id/secondAvailableSum"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/feeEditText"
+        tools:text="1234 USD" />
+
+
     <View
         android:id="@+id/feeEditTextDivider"
         android:layout_width="0dp"

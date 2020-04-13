@@ -25,6 +25,10 @@ class AppManager {
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
     private var utxos = mutableListOf<Utxo>()
+
+    var currencies = mutableListOf<ExchangeRate>()
+    private var currentRate: ExchangeRate? = null
+
     private lateinit var walletStatus:WalletStatus
 
     private var networkStatus = NetworkStatus.ONLINE
@@ -54,6 +58,39 @@ class AppManager {
 
                 return INSTANCE!!
             }
+    }
+
+    init {
+        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
+        if(!jsonString.isNullOrEmpty()) {
+            val gson = Gson()
+            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
+        }
+
+        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+        if(value == 0L) {
+            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
+        }
+
+        currencies.forEach {
+            if (it.unit == value.toInt()) {
+                currentRate = it
+            }
+        }
+
+    }
+
+    fun updateCurrentCurrency() {
+        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+        currencies.forEach {
+            if (it.unit == value.toInt()) {
+                currentRate = it
+            }
+        }
+    }
+
+    fun currentExchangeRate(): ExchangeRate? {
+        return currentRate
     }
 
     fun reload() {
@@ -631,6 +668,31 @@ class AppManager {
                 networkStatus = if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING
                 subOnNetworkStatusChanged.onNext(0)
             }
+
+            WalletListener.subOnExchangeRates.subscribe() {
+                it?.forEach { item ->
+                    val index1 = currencies.indexOfFirst {old->
+                        old.unit == item.unit
+                    }
+                    if (index1 != -1) {
+                        currencies[index1] = item
+                    } else {
+                        currencies.add(item)
+                    }
+                }
+
+                val gson = Gson()
+                val jsonString = gson.toJson(currencies)
+                PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
+
+                val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+                currencies.forEach {rate ->
+                    if (rate.unit == value.toInt()) {
+                        currentRate = rate
+                    }
+                }
+            }
+
 
             wallet?.switchOnOffExchangeRates(true)
             wallet?.switchOnOffNotifications(0, true)

@@ -76,6 +76,7 @@ object WalletListener {
     val subOnImportRecoveryProgress = PublishSubject.create<OnSyncProgressData>().toSerialized()
     var subOnDataExported: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnDataImported: Subject<Boolean> = PublishSubject.create<Boolean>().toSerialized()
+    var subOnExchangeRates: Subject<List<ExchangeRate>?> = BehaviorSubject.create<List<ExchangeRate>?>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -189,6 +190,9 @@ object WalletListener {
     @JvmStatic
     fun onExchangeRates(rates: Array<ExchangeRateDTO>?) {
         LogUtils.logResponse(rates, "onExchangeRates")
+        if(rates!=null) {
+            subOnExchangeRates.onNext(rates.map { ExchangeRate(it)})
+        }
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

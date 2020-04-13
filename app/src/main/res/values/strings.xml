@@ -557,5 +557,10 @@ address or contact</string>
     <string name="background_mode_title">Allow wallet to run in background</string>
     <string name="background_mode_text">Beam Wallet requires permission to run in background. We recommend to allow it so you can always accept transactions. You can change your choice in app setting anytime.</string>
     <string name="allow">Allow</string>
+    <string name="show_amounts">Show amounts in</string>
+    <string name="usd">USD (United States Dollar)</string>
+    <string name="btc">BTC (Bitcoin)</string>
+    <string name="second_currency">Secondary currency</string>
+
 
 </resources>

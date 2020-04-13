@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 
 class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.PagerAdapter() {
 
@@ -36,6 +37,11 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
         }.convertToBeamString()
+
+        view.findViewById<TextView>(R.id.secondBalance).text = when (BalanceTab.values()[position]) {
+            BalanceTab.Available -> available
+            BalanceTab.Maturing -> maturing
+        }.convertToCurrencyString()
 
         container.addView(view)
         return view

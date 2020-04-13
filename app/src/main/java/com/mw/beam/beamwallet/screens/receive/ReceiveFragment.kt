@@ -41,10 +41,6 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
@@ -55,6 +51,8 @@ import kotlinx.android.synthetic.main.receive_expire_spinner_item.view.*
 import android.text.Editable
 import android.text.TextWatcher
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.views.PasteEditTextWatcher
 import org.jetbrains.anko.withAlpha
 
 
@@ -63,6 +61,23 @@ import org.jetbrains.anko.withAlpha
  */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private val copyTag = "ADDRESS"
+
+    private val amountWatcher: com.mw.beam.beamwallet.core.watchers.TextWatcher = object : com.mw.beam.beamwallet.core.watchers.TextWatcher {
+        override fun afterTextChanged(token: Editable?) {
+            if(getAmount() != null) {
+                if (getAmount()!! > 0) {
+                    secondAvailableSum.visibility = View.VISIBLE
+                    secondAvailableSum.text = getAmount()!!.convertToCurrencyString()
+                }
+                else {
+                    secondAvailableSum.visibility = View.GONE
+                }
+            }
+            else {
+                secondAvailableSum.visibility = View.GONE
+            }
+        }
+    }
 
     private val expireListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -98,7 +113,16 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
-    override fun setAmount(newAmount: Double) = amount.setText(newAmount.convertToBeamString())
+    override fun setAmount(newAmount: Double) {
+        amount.setText(newAmount.convertToBeamString())
+        secondAvailableSum.text = newAmount.convertToCurrencyString()
+        if (newAmount > 0) {
+            secondAvailableSum.visibility = View.VISIBLE
+        }
+        else {
+            secondAvailableSum.visibility = View.GONE
+        }
+    }
     override fun getTxComment(): String? {
         return txComment?.text?.toString()
     }
@@ -201,6 +225,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 amount.hint = ""
             }
         }
+
+        amount.addTextChangedListener(amountWatcher)
 
         val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onLongPress(e: MotionEvent) {
@@ -359,6 +385,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         editAddressContainer.setOnClickListener(null)
         token.setOnTouchListener(null)
         tagAction.setOnTouchListener(null)
+        amount.removeTextChangedListener(amountWatcher)
 
         amount.onFocusChangeListener = null
         expiresOnSpinner.onItemSelectedListener = null

@@ -44,6 +44,7 @@ import android.content.Intent
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
@@ -139,6 +140,7 @@ else{
             }
             else -> {
                 receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receivingSecondBalance.text = "+" + receivingAmount.convertToCurrencyString()
                 receiving.requestLayout()
                 receiving.refreshDrawableState()
                 receivingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
@@ -149,6 +151,7 @@ else{
             0L -> sendingGroup.visibility = View.GONE
             else -> {
                 sending.text = sendingAmount.convertToBeamWithSign(true)
+                sendingSecondBalance.text = "-" + receivingAmount.convertToCurrencyString()
                 sendingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
             }
         }

@@ -95,6 +95,7 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/amountDivider"
                 app:layout_constraintStart_toStartOf="@id/amountDivider"
@@ -157,16 +158,29 @@
                 tools:text="2345.28273 BEAM" />
 
             <TextView
+                android:id="@+id/secondAvailableSum"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/availableSum"
+                tools:text="1234 USD" />
+
+            <TextView
                 android:id="@+id/commentTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="@dimen/send_title_margin_top"
-                android:layout_marginEnd="@dimen/common_offset"
+                android:layout_marginTop="30dp"
                 android:text="@string/transaction_comment"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/availableSum" />
+                app:layout_constraintTop_toBottomOf="@+id/secondAvailableSum" />
 
             <View
                 android:id="@+id/amountDivider"

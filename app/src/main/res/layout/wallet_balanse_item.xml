@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
-        android:src="@drawable/ic_beam"
+        android:src="@drawable/ic_beam_new"
         app:layout_constraintBottom_toBottomOf="@id/balance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/balance" />
@@ -30,5 +30,19 @@
         app:layout_constraintStart_toEndOf="@id/currencyIcon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="125.9898776890000" />
+
+    <TextView
+        android:id="@+id/secondBalance"
+        style="@style/common_text_big_dark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        android:visibility="visible"
+        app:layout_constraintStart_toEndOf="@+id/currencyIcon"
+        app:layout_constraintTop_toBottomOf="@+id/balance"
+        tools:text="1234 USD" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,12 +8,9 @@ import android.view.View
 import android.widget.FrameLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.TxStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.synthetic.main.share_transaction_detail_layout.view.*
-import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 class ShareTransactionDetailsView : FrameLayout {
 
@@ -43,6 +40,7 @@ class ShareTransactionDetailsView : FrameLayout {
             statusLayoutCenter.visibility = View.VISIBLE
             txCurrency.visibility = View.GONE
             amount.visibility = View.GONE
+            secondAvailableSum.visibility = View.GONE
             imageView.visibility = View.GONE
             confirming_state_text.visibility = View.GONE
         }
@@ -54,6 +52,7 @@ class ShareTransactionDetailsView : FrameLayout {
         confirming_state_textCenter.text = txDescription.getStatusString(context).capitalize()
 
         amount.text = txDescription.amount.convertToBeamString()
+        secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
 
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {

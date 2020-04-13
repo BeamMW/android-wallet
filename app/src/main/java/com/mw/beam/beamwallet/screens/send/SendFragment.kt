@@ -471,7 +471,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return addressContainer.height - offset
     }
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "StringFormatInvalid")
     override fun showFeeDialog() {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_send_fee, null)
 
@@ -479,12 +479,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             dialog?.dismiss()
         }
 
+        val secondAvailableSum = view.findViewById<TextView>(R.id.secondAvailableSum)
+        secondAvailableSum.text = getFee().convertToCurrencyGrothString()
+
         val feeEditText = view.findViewById<AppCompatEditText>(R.id.feeEditText)
         feeEditText.setText(getFee().toString())
         feeEditText.filters = arrayOf(InputFilterMinMax(0, Int.MAX_VALUE))
         feeEditText.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: Editable?) {
+                secondAvailableSum.visibility = View.VISIBLE
                 view.findViewById<TextView>(R.id.feeError)?.visibility = View.GONE
+
+                val rawFee = feeEditText.text?.toString()
+                val fee = rawFee?.toLongOrNull() ?: 0
+                secondAvailableSum.text = fee.convertToCurrencyGrothString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -515,6 +523,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
                 feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
                 feeErrorTextView.visibility = View.VISIBLE
+                secondAvailableSum.visibility = View.GONE
             }
         }
 
@@ -591,6 +600,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val availableVisibility = if (isEnable) View.GONE else View.VISIBLE
         availableTitle.visibility = availableVisibility
         availableSum.visibility = availableVisibility
+        secondAvailableSum.visibility = availableVisibility
         btnSendAll.visibility = availableVisibility
     }
 
@@ -630,11 +640,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        usedFee.text = "${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()}"
+        val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
+        usedFee.text = getAmount().convertToCurrencyString() + " " + feeString
     }
 
-    override fun updateFeeTransactionVisibility(isVisible: Boolean) {
-        usedFee.visibility = if (isVisible) View.VISIBLE else View.GONE
+    override fun updateFeeTransactionVisibility() {
+        usedFee.visibility = if ((getAmount() > 0.0) && amountError.visibility == View.GONE) View.VISIBLE else View.GONE
+        if (usedFee.visibility == View.VISIBLE) {
+            updateFeeValue(feeSeekBar.progress+minFee, false)
+        }
     }
 
     override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
@@ -933,6 +947,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amountError.visibility = View.GONE
         amount.setTextColor(ContextCompat.getColor(context!!, R.color.sent_color))
         amount.isStateNormal = true
+        updateFeeTransactionVisibility()
     }
 
     override fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean) {
@@ -960,6 +975,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun updateAvailable(available: Long) {
         btnSendAll.isEnabled = available > 0
         availableSum.text = "${available.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+        secondAvailableSum.text = available.convertToCurrencyString()
     }
 
     override fun isAmountErrorShown(): Boolean {
@@ -992,6 +1008,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amountError.text = errorString
         amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.text_color_selector))
         amount.isStateError = true
+        updateFeeTransactionVisibility()
     }
 
     private fun showAppDetailsPage() {

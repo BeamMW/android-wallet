@@ -359,6 +359,22 @@
                     tools:hint="0"
                     tools:ignore="Autofill,LabelFor" />
 
+                <TextView
+                    android:id="@+id/secondAvailableSum"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/amount"
+                    app:layout_constraintTop_toBottomOf="@+id/amount"
+                    tools:text="1234 USD" />
+
+
                 <LinearLayout
                     android:id="@+id/advancedContainer"
                     android:layout_width="match_parent"
@@ -433,6 +449,9 @@
                     android:id="@+id/emptySpaceDivider"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/amountDivider" />

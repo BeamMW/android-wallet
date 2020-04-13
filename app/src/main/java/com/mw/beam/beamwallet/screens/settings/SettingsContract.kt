@@ -20,6 +20,8 @@ import android.content.Context
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
@@ -53,10 +55,12 @@ interface SettingsContract {
         fun navigateToCategory(categoryId: String)
         fun navigateToAddCategory()
         fun navigateToLanguage()
+        fun navigateToCurrency()
         fun navigateToOwnerKeyVerification()
         fun navigateToPaymentProof()
         fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
         fun setLogSettings(days:Long)
+        fun setCurrencySettings(currency: Currency)
         fun showLogsDialog()
         fun navigateToSeed()
         fun navigateToSeedVerification()
@@ -107,6 +111,7 @@ interface SettingsContract {
         fun omImportPressed()
         fun onRemoveWalletPressed()
         fun onConfirmRemoveWallet()
+        fun onCurrencyPressed()
     }
 
     interface Repository : MvpRepository {
@@ -119,6 +124,7 @@ interface SettingsContract {
         fun isAllowOpenExternalLink(): Boolean
         fun isAllowBackgroundMode(): Boolean
         fun setAllowOpenExternalLink(allowOpen: Boolean)
+        fun setCurrencySettings(currency: Currency)
         fun setNodeAddress(address: String)
         fun getSavedNodeAddress(): String?
         fun setRunOnRandomNode(random: Boolean)
@@ -131,5 +137,6 @@ interface SettingsContract {
         fun saveLogSettings(days:Long)
         fun getLogSettings():Long
         fun getDataFile(content:String): File
+        fun getCurrencySettings():Currency
     }
 }

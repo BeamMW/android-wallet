@@ -101,6 +101,7 @@ else{
             toolbarLayout.hasStatus = true
 
             amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+            secondAvailableSum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
 
             detailsArrowView.rotation = 180f
             proofArrowView.rotation = 180f
@@ -249,6 +250,8 @@ else{
 
         amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
         amountLabel.setTextColor(txDescription.amountColor)
+
+        secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!).trim()
