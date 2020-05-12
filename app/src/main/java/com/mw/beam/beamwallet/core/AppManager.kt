@@ -1,18 +1,21 @@
 package com.mw.beam.beamwallet.core
 
 import android.annotation.SuppressLint
+import android.os.Handler
 import android.util.Log
 import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
+import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
-import io.reactivex.disposables.Disposable
-import java.util.Calendar
-import android.os.Handler
-import com.mw.beam.beamwallet.core.helpers.*
 import java.io.File
+import java.util.*
+import kotlin.collections.HashMap
 
 class AppManager {
     var wallet: Wallet? = null
@@ -25,6 +28,8 @@ class AppManager {
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
     private var utxos = mutableListOf<Utxo>()
+    private var notifications = mutableListOf<Notification>()
+    private var sentNotifications = mutableListOf<String>()
 
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
@@ -42,6 +47,7 @@ class AppManager {
     var subOnNetworkStatusChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -99,13 +105,16 @@ class AppManager {
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
         wallet?.getTransactions()
+        wallet?.getNotifications()
     }
 
     fun removeOldValues() {
+        sentNotifications.clear()
         contacts.clear()
         addresses.clear()
         transactions.clear()
         utxos.clear()
+        notifications.clear()
     }
 
     fun removeWallet() {
@@ -119,9 +128,11 @@ class AppManager {
 
         wallet = null
 
+        sentNotifications.clear()
         contacts.clear()
         addresses.clear()
         transactions.clear()
+        notifications.clear()
         utxos.clear()
 
         PreferencesManager.clear()
@@ -433,6 +444,90 @@ class AppManager {
         }
     }
 
+    //MARK: - Notifications
+
+    fun getUnreadNotificationsCount(): Int {
+        var count = 0
+        notifications.forEach {
+            if(!it.isRead) {
+                count += 1
+            }
+        }
+        return count;
+    }
+
+    fun getUnsentNotificationsCount(): Int {
+        var count = 0
+        notifications.forEach {
+            if(!it.isSent && !it.isRead) {
+                count += 1
+            }
+        }
+        return count;
+    }
+
+    fun getUnsentNotification(): Notification? {
+        notifications.forEach {
+            if (!it.isSent && !it.isRead) {
+                return  it
+            }
+        }
+        return null
+    }
+
+    fun getLastVersionNotification(): Notification? {
+        notifications.forEach {
+            if (it.type == NotificationType.Version && !it.isRead) {
+                return  it
+            }
+        }
+        return null
+    }
+
+    fun allUnsentIsAddresses(): Boolean {
+        notifications.forEach {
+            if(it.type != NotificationType.Address && !it.isSent && !it.isRead) {
+                return false
+            }
+        }
+        return true
+    }
+
+    fun readNotification(id:String) {
+        wallet?.markNotificationAsRead(id)
+    }
+
+    fun readNotificationByObject(id:String) {
+        notifications.forEach {
+            if(it.objId == id) {
+                readNotification(it.id)
+                return
+            }
+        }
+    }
+
+    fun deleteNotification(id:String) {
+        wallet?.deleteNotification(id)
+    }
+
+    fun deleteAllNotifications() {
+        notifications.toMutableList().forEach {
+           deleteNotification(it.id)
+        }
+    }
+
+    fun sendNotifications() {
+        notifications.forEach {
+            if(!it.isSent) {
+                it.isSent = true
+                sentNotifications.add(it.id)
+            }
+        }
+    }
+
+    fun getNotifications() : List<Notification> {
+        return notifications.map { it }.toList()
+    }
 
     //MARK: - Updates
 
@@ -693,9 +788,69 @@ class AppManager {
                 }
             }
 
+            WalletListener.subNotificationChanged.subscribe() {
+                if (it.action == ChangeAction.REMOVED) {
+                    notifications.removeAll {item ->
+                        item.id == it.notification.id
+                    }
+                }
+                else if (it.action == ChangeAction.ADDED || it.action == ChangeAction.RESET) {
+                    val walledUpdatesOn = PreferencesManager.getBoolean(PreferencesManager.KEY_WALLET_UPDATES, true);
+                    val addressesOn = PreferencesManager.getBoolean(PreferencesManager.KEY_ADDRESS_EXPIRATION, true);
+                    val transactionOn = PreferencesManager.getBoolean(PreferencesManager.KEY_TRANSACTIONS_STATUS, true);
+                    val newsOn = PreferencesManager.getBoolean(PreferencesManager.KEY_NEWS, true);
+
+                    if(it.notification.type == NotificationType.Version && !walledUpdatesOn) {
+                        return@subscribe
+                    }
+                    else if(it.notification.type == NotificationType.Address && !addressesOn) {
+                        return@subscribe
+                    }
+                    else if(it.notification.type == NotificationType.Transaction && !transactionOn) {
+                        return@subscribe
+                    }
+                    else if(it.notification.type == NotificationType.News && !newsOn) {
+                        return@subscribe
+                    }
+
+                    it.notification.isSent = sentNotifications.contains(it.notification.id)
+
+                    val index = notifications.indexOfFirst {item->
+                        item.id == it.notification.id
+                    }
+                    if (index != -1) {
+                        notifications[index] = it.notification
+                    }
+                    else {
+                        notifications.add(it.notification)
+                    }
+                }
+                else {
+                    val index = notifications.indexOfFirst {item->
+                        item.id == it.notification.id
+                    }
+                    if (index != -1) {
+                        notifications[index] = it.notification
+                    }
+                }
+
+                Timer().schedule(object : TimerTask() {
+                    override fun run() {
+                        (AppActivity.self)?.reloadNotifications()
+                        subOnNotificationsChanged.onNext(0)
+                    }
+                }, 2000)
+
+            }
+
 
             wallet?.switchOnOffExchangeRates(true)
             wallet?.switchOnOffNotifications(0, true)
+            wallet?.switchOnOffNotifications(1, true)
+            wallet?.switchOnOffNotifications(2, true)
+            wallet?.switchOnOffNotifications(3, true)
+            wallet?.switchOnOffNotifications(4, true)
+            wallet?.switchOnOffNotifications(5, true)
 
             wallet?.getWalletStatus()
             wallet?.getUtxosStatus()

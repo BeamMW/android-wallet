@@ -84,9 +84,11 @@ else{
 
     var downX: Float = 0f
     var downY: Float = 0f
-
+    var txId:String = ""
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
+        txId = txDescription.id
+
         if (oldTransaction?.status != txDescription.status || dateLabel.text.isNullOrEmpty()) {
             oldTransaction = txDescription
 

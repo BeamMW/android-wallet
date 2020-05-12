@@ -126,6 +126,12 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             updateFingerprintValue()
             updateConfirmTransactionValue()
         }
+        else if (view?.mode() == SettingsFragmentMode.Notifications) {
+            view?.setAllowNews(repository.isAllowNews())
+            view?.setAllowTransaction(repository.isAllowTransactions())
+            view?.setAllowWalletUpdates(repository.isAllowWalletUpdates())
+            view?.setAllowAddressExpiration(repository.isAllowAddressExpiration())
+        }
     }
 
     override fun onAddCategoryPressed() {
@@ -371,6 +377,22 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onChangeRunOnBackground(allow: Boolean) {
         repository.setRunOnBackground(allow)
+    }
+
+    override fun onChangeAllowNews(allow: Boolean) {
+        repository?.setAllowNews(allow)
+    }
+
+    override fun onChangeAllowTransactionStatus(allow: Boolean) {
+        repository?.setAllowTransactions(allow)
+    }
+
+    override fun onChangeAllowWalletUpdates(allow: Boolean) {
+        repository?.setAllowWalletUpdates(allow)
+    }
+
+    override fun onChangeAllowAddressExpiration(allow: Boolean) {
+        repository?.setAllowAddressExpiration(allow)
     }
 
     override fun onDestroy() {

@@ -28,6 +28,8 @@
     <color name="white_01">#19ffffff</color>
     <color name="white_02">#33ffffff</color>
     <color name="black_02">#33000000</color>
+    <color name="n_color">#063863</color>
+    <color name="black_12">#0C0C0C</color>
 
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>

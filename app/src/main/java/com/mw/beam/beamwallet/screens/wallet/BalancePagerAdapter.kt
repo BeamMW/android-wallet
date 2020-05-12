@@ -30,6 +30,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
     var available: Long = 0
     var maturing: Long = 0
 
+    //tablayout
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.wallet_balanse_item, container, false)
 

@@ -379,7 +379,7 @@
 You must enter your password to see Owner Key.</string>
     <string name="owner_key_verification_pass_finger">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use Fingerprint) to see your Owner Key.</string>
-    <string name="notification_receive_content_title">Receiving new transaction</string>
+    <string name="notification_receive_content_title">Incoming transaction</string>
     <string name="owner_key_verification_pass_face">Deploying the Owner Key at a trusted node will allow the node to monitor all UTXOs sent to this wallet and any wallet generated from your seed phrase.
 You must pass 2-step verification (submit a password and use FaceID) to see your Owner Key.</string>
 
@@ -562,5 +562,32 @@ address or contact</string>
     <string name="btc">BTC (Bitcoin)</string>
     <string name="second_currency">Secondary currency</string>
 
+    <string name="wallet_updates">Wallet updates</string>
+    <string name="news">News</string>
+    <string name="address_expiration">Address expiration</string>
+    <string name="transaction_status">Transaction status</string>
+
+    <string name="new_notifications_title">You have new notifications</string>
+    <string name="new_notifications_text">Please click to open details</string>
+    <string name="transaction_received_notif_body">You received (value) BEAM from (address)</string>
+    <string name="transaction_receiving_notif_body">You receiving (value) BEAM from (address)</string>
+    <string name="transaction_sent_notif_body">You sent (value) BEAM to (address)</string>
+    <string name="address_expired_notif">1 address expired</string>
+    <string name="addresses_expired_notif">(count) addresses expired</string>
+    <string name="clear_all">Clear all</string>
+    <string name="address_expired">Address expired</string>
+    <string name="transaction_received">Transaction received</string>
+    <string name="transaction_received_notif_body_failed">Receiving (value) BEAM from (address) failed</string>
+    <string name="transaction_sent_notif_body_failed">Sending (value) BEAM to (address) failed</string>
+    <string name="transaction_sent">Transaction sent</string>
+    <string name="no_notifications">There are no notifications yet.</string>
+    <string name="read">Read</string>
+    <string name="new_version_available_title">New version (version) is available</string>
+    <string name="new_version_available_detail">Your current version is v(version)\nPlease update to get the most of your Beam wallet.</string>
+    <string name="new_version_available_notif_title">New version is available</string>
+    <string name="new_version_available_notif_detail">Please update to get the most of your Beam wallet</string>
+    <string name="notification">Notification</string>
+    <string name="update_now">Update now</string>
+    <string name="buy_transaction_failed_title">Transaction failed</string>
 
 </resources>

@@ -15,10 +15,11 @@
  */
 package com.mw.beam.beamwallet.core.listeners
 
-import android.app.Application
 import android.os.Handler
 import android.os.Looper
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.*
@@ -27,6 +28,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+
 
 /**
  *  10/4/18.
@@ -77,6 +79,7 @@ object WalletListener {
     var subOnDataExported: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnDataImported: Subject<Boolean> = PublishSubject.create<Boolean>().toSerialized()
     var subOnExchangeRates: Subject<List<ExchangeRate>?> = BehaviorSubject.create<List<ExchangeRate>?>().toSerialized()
+    var subNotificationChanged: Subject<OnNotificationDataWithAction> = BehaviorSubject.create<OnNotificationDataWithAction>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -184,7 +187,71 @@ object WalletListener {
 
     @JvmStatic
     fun onNewVersionNotification(action: Int, notificationInfo: NotificationDTO, content: VersionInfoDTO) {
-        LogUtils.logResponse(notificationInfo, "onNewVersionNotification")
+        if(content.application == 1) {
+            val versionName: String = BuildConfig.VERSION_NAME
+            val versionReceivedName: String =  content.versionMajor.toString() + "." + content.versionMinor.toString()
+
+            if (versionReceivedName.toDouble() > versionName.toDouble()) {
+                val notification = Notification(
+                        NotificationType.Version,
+                        notificationInfo.id,
+                        "v." + content.versionMajor.toString() + "." + content.versionMinor.toString(),
+                        notificationInfo.state == 1,
+                        false, notificationInfo.createTime,
+                        "")
+                subNotificationChanged.onNext(OnNotificationDataWithAction(ChangeAction.fromValue(action), notification))
+            }
+        }
+        else {
+            AppManager.instance.deleteNotification(notificationInfo.id)
+        }
+    }
+
+    @JvmStatic
+    fun onAddressChangedNotification(action: Int, notificationInfo: NotificationDTO, content: WalletAddressDTO) {
+        val address =  WalletAddress(content)
+        if(address.isExpired) {
+            val notification = Notification(
+                    NotificationType.Address,
+                    notificationInfo.id,
+                    content.walletID,
+                    notificationInfo.state == 1,
+                    false, notificationInfo.createTime,
+                    "")
+            subNotificationChanged.onNext(OnNotificationDataWithAction(ChangeAction.fromValue(action), notification))
+        }
+        else {
+            AppManager.instance.deleteNotification(notificationInfo.id)
+        }
+    }
+
+    @JvmStatic
+    fun onTransactionFailedNotification(action: Int, notificationInfo: NotificationDTO, content: TxDescriptionDTO) {
+        val notification = Notification(
+                NotificationType.Transaction,
+                notificationInfo.id,
+                content.id,
+                notificationInfo.state == 1,
+                false, notificationInfo.createTime,
+                "")
+        subNotificationChanged.onNext(OnNotificationDataWithAction(ChangeAction.fromValue(action), notification))
+    }
+
+    @JvmStatic
+    fun onTransactionCompletedNotification(action: Int, notificationInfo: NotificationDTO, content: TxDescriptionDTO) {
+        val notification = Notification(
+                NotificationType.Transaction,
+                notificationInfo.id,
+                content.id,
+                notificationInfo.state == 1,
+                false, notificationInfo.createTime,
+                "")
+        subNotificationChanged.onNext(OnNotificationDataWithAction(ChangeAction.fromValue(action), notification))
+    }
+
+    @JvmStatic
+    fun onBeamNewsNotification(action: Int) {
+        println(">>>>>>>>>>>>>> async onBeamNewsNotification in Java")
     }
 
     @JvmStatic

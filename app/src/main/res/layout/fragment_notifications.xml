@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:background="?attr/headerBackground"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        app:centerTitle="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/itemsswipetorefresh"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnClearAll">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/notificationsListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/wallet_empty_list_message_padding"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/itemsswipetorefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemsswipetorefresh"
+        tools:ignore="UseCompoundDrawables"
+        tools:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@null"
+            android:tint="?attr/subHeaderTextColor"
+            android:src="@drawable/ic_notification_empty" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_offset"
+            android:textColor="?attr/subHeaderTextColor"
+            android:text="@string/no_notifications"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+
+    <com.mw.beam.beamwallet.core.views.BeamButton
+        android:id="@+id/btnClearAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="@dimen/common_offset"
+        android:background="@drawable/green_btn_background"
+        android:paddingStart="@dimen/small_button_padding_horizontal"
+        android:paddingTop="@dimen/small_button_padding_vertical"
+        android:paddingEnd="@dimen/small_button_padding_horizontal"
+        android:paddingBottom="@dimen/small_button_padding_vertical"
+        app:button_icon="@drawable/ic_clear_green"
+        app:button_text="@string/clear_all"
+        app:button_text_color="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbarLayout"
+        app:lower_case="true"
+        app:text_padding_enabled="false" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,6 +45,7 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
+import com.mw.beam.beamwallet.core.views.NotificationBanner
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
@@ -473,15 +474,12 @@ else{
     override fun onStart() {
         super.onStart()
 
-        App.showNotification = false
-
         onBackPressedCallback.isEnabled = true
 
         (activity as? AppActivity)?.checkShortCut()
     }
 
     override fun onStop() {
-        App.showNotification = true
 
         onBackPressedCallback.isEnabled = false
 

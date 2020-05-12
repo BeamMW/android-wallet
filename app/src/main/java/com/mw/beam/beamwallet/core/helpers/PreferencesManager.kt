@@ -61,6 +61,10 @@ object PreferencesManager {
     const val KEY_TAG_DATA_RECOVER = "KEY_TAG_DATA_RECOVER"
     const val KEY_CURRENCY = "KEY_CURRENCY"
     const val KEY_CURRENCY_RECOVER = "KEY_CURRENCY_RECOVER"
+    const val KEY_WALLET_UPDATES = "KEY_WALLET_UPDATES"
+    const val KEY_TRANSACTIONS_STATUS = "KEY_TRANSACTIONS_STATUS"
+    const val KEY_NEWS = "KEY_NEWS"
+    const val KEY_ADDRESS_EXPIRATION = "KEY_ADDRESS_EXPIRATION"
 
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
@@ -82,5 +86,9 @@ object PreferencesManager {
         putBoolean(KEY_ALWAYS_OPEN_LINK,false)
         putString(KEY_TAG_DATA,"");
         putBoolean(KEY_SEED_IS_SKIP,true)
+        putBoolean(KEY_WALLET_UPDATES,true)
+        putBoolean(KEY_TRANSACTIONS_STATUS,true)
+        putBoolean(KEY_NEWS,true)
+        putBoolean(KEY_ADDRESS_EXPIRATION,true)
     }
 }

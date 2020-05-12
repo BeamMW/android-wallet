@@ -74,6 +74,10 @@ interface SettingsContract {
         fun showConfirmRemoveWallet()
         fun walletRemoved()
         fun exportError()
+        fun setAllowNews(allow: Boolean)
+        fun setAllowTransaction(allow: Boolean)
+        fun setAllowWalletUpdates(allow: Boolean)
+        fun setAllowAddressExpiration(allow: Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -112,6 +116,10 @@ interface SettingsContract {
         fun onRemoveWalletPressed()
         fun onConfirmRemoveWallet()
         fun onCurrencyPressed()
+        fun onChangeAllowNews(allow: Boolean)
+        fun onChangeAllowTransactionStatus(allow: Boolean)
+        fun onChangeAllowWalletUpdates(allow: Boolean)
+        fun onChangeAllowAddressExpiration(allow: Boolean)
     }
 
     interface Repository : MvpRepository {
@@ -138,5 +146,14 @@ interface SettingsContract {
         fun getLogSettings():Long
         fun getDataFile(content:String): File
         fun getCurrencySettings():Currency
+        fun isAllowWalletUpdates():Boolean
+        fun isAllowTransactions():Boolean
+        fun isAllowNews():Boolean
+        fun isAllowAddressExpiration():Boolean
+        fun setAllowWalletUpdates(allow: Boolean)
+        fun setAllowTransactions(allow: Boolean)
+        fun setAllowNews(allow: Boolean)
+        fun setAllowAddressExpiration(allow: Boolean)
+
     }
 }

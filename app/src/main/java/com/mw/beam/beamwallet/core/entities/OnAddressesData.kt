@@ -23,3 +23,6 @@ import com.mw.beam.beamwallet.core.helpers.prepareForLog
  *  2/28/19.
  */
 data class OnAddressesData(val own: Boolean, val addresses: List<WalletAddress>?)
+
+
+

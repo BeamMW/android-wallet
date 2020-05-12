@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.app_activity
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -47,6 +48,10 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
 import android.net.Uri
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
+import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.AppManager
@@ -55,18 +60,35 @@ import com.google.gson.JsonElement
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.entities.NotificationItem
+import com.mw.beam.beamwallet.core.entities.NotificationType
+import com.mw.beam.beamwallet.core.views.NotificationBanner
+import com.mw.beam.beamwallet.screens.address_details.AddressFragment
+import com.mw.beam.beamwallet.screens.address_details.AddressFragmentArgs
+import com.mw.beam.beamwallet.screens.notifications.NotificationsFragment
+import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragment
+import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragmentArgs
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
+import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragment
+import kotlinx.android.synthetic.main.activity_app.*
+import java.util.*
+import kotlin.concurrent.schedule
 
 
 class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.View {
 
     companion object {
+        lateinit var self: AppActivity
+
         const val IMPORT_FILE_REQUEST = 1024
         const val SHARE_CODE_REQUEST = 1025
 
         const val TRANSACTION_ID = "TRANSACTION_ID"
         private const val RESTARTED = "appExceptionHandler_restarted"
         private const val LAST_EXCEPTION = "appExceptionHandler_lastException"
+
+        const val NOTIFICATION_ID_ADDRESSES = "NOTIFICATION_ID_ADDRESSES"
+        const val NOTIFICATION_ID_ALL = "NOTIFICATION_ID_ALL"
 
         const val BUY_ID = "android.intent.action.BUY_BEAM"
         const val RECEIVE_ID = "android.intent.action.RECEIVE_BEAM"
@@ -87,13 +109,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private var shortCut: String? = null
 
-    private val menuItems by lazy {
-        arrayOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
-    }
+    private var menuItems = mutableListOf<NavItem>()
 
     override fun showOpenFragment() {
         val navController = findNavController(R.id.nav_host)
@@ -122,6 +138,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         checkShortCut()
 
+        self = this
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -141,7 +158,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         shortCut = intent.action;
 
         checkShortCut()
-
     }
 
     private fun setDefaultTheme()
@@ -164,6 +180,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     fun changeTheme()
     {
+
         if (App.isDarkMode)
             setTheme(R.style.AppThemeDark)
         else
@@ -197,16 +214,18 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             else {
                 showWallet()
 
-               if(shortCut == SEND_ID) {
-                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
-               }
-               else if(shortCut == RECEIVE_ID) {
-                   findNavController(R.id.nav_host).navigate(R.id.receiveFragment, null, null)
-               }
-               else if(shortCut == SCAN_ID) {
-                   App.isNeedOpenScanner = true;
-                   findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
-               }
+                when (shortCut) {
+                    SEND_ID -> {
+                        findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+                    }
+                    RECEIVE_ID -> {
+                        findNavController(R.id.nav_host).navigate(R.id.receiveFragment, null, null)
+                    }
+                    SCAN_ID -> {
+                        App.isNeedOpenScanner = true;
+                        findNavController(R.id.nav_host).navigate(R.id.sendFragment, null, null)
+                    }
+                }
             }
 
             shortCut = null
@@ -320,10 +339,17 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private fun setupMenu(savedInstanceState: Bundle?)
     {
+       menuItems =  mutableListOf(
+                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notifications, getString(R.string.notifications)),
+                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
+                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+
         navigationView = layoutInflater.inflate(R.layout.left_menu, null)
         val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
 
-        navItemsAdapter = NavItemsAdapter(applicationContext, menuItems, object : NavItemsAdapter.OnItemClickListener {
+        navItemsAdapter = NavItemsAdapter(applicationContext, menuItems.toTypedArray(), object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
                 if (navItemsAdapter.selectedItem != navItem.id) {
                     val destinationFragment = when (navItem.id) {
@@ -331,6 +357,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                         NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
                         NavItem.ID.UTXO -> R.id.utxoFragment
                         NavItem.ID.SETTINGS -> R.id.settingsFragment
+                        NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
                         else -> 0
                     }
                     val navBuilder = NavOptions.Builder()
@@ -490,12 +517,183 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
         whereBuyBeamLink.text = getString(R.string.welcome_where_to_buy_beam)
 
-        navItemsAdapter.data = arrayOf(
+        menuItems =  mutableListOf(
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notifications, getString(R.string.notifications)),
                 NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+
+        navItemsAdapter.data = menuItems.toTypedArray()
         navItemsAdapter.selectItem(NavItem.ID.SETTINGS)
         navItemsAdapter.notifyDataSetChanged()
+    }
+
+    fun reloadNotifications() {
+        runOnUiThread {
+            menuItems[2].unreadCount = AppManager.instance.getUnreadNotificationsCount()
+            navItemsAdapter.notifyItemChanged(2)
+            sendNotifications()
+        }
+    }
+
+    private fun sendNotifications() {
+        val count = AppManager.instance.getUnsentNotificationsCount()
+        if (count > 1 && AppManager.instance.allUnsentIsAddresses()) {
+            val title = getString(R.string.addresses_expired_notif).replace("(count)", count.toString())
+
+            val view = self.findViewById<View>(android.R.id.content)
+            val banner = NotificationBanner.make(view, self, title, null, R.drawable.ic_icon_notifictions_expired, NOTIFICATION_ID_ADDRESSES,"", NotificationType.Address) { notificationId, objectId, type ->
+                openNotification(notificationId, objectId, type)
+            }
+            banner.show()
+        }
+        else if (count == 1 && AppManager.instance.allUnsentIsAddresses()) {
+            val notification = AppManager.instance.getUnsentNotification()
+
+            val title = getString(R.string.address_expired_notif)
+
+            if(notification!=null) {
+                val view = self.findViewById<View>(android.R.id.content)
+                val banner = NotificationBanner.make(view, self, title, null, R.drawable.ic_icon_notifictions_expired, notification.id,notification.objId, NotificationType.Address) { notificationId, objectId, type ->
+                    openNotification(notificationId, objectId, type)
+                }
+                banner.show()
+            }
+        }
+        else if(count > 1) {
+            val title = getString(R.string.new_notifications_title)
+            val detail = getString(R.string.new_notifications_text)
+            val spannableString = SpannableString(detail)
+            spannableString.setSpan(
+                    StyleSpan(Typeface.BOLD),
+                    0, detail.length-1,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+            val view = self.findViewById<View>(android.R.id.content)
+            val banner = NotificationBanner.make(view, self, title, spannableString, R.drawable.ic_icon_beam_new, NOTIFICATION_ID_ALL,"", NotificationType.News) { notificationId, objectId, type ->
+                openNotification(notificationId, objectId, type)
+            }
+            banner.show()
+        }
+        else if(count == 1) {
+            val notification = AppManager.instance.getUnsentNotification()
+            if(notification!=null) {
+                val privacy = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
+                val item = NotificationItem(notification, privacy)
+                val view = self.findViewById<View>(android.R.id.content)
+                val banner = NotificationBanner.make(view, self, item) { notificationId, objectId, type ->
+                   openNotification(notificationId, objectId, type)
+                }
+                banner.show()
+            }
+        }
+
+        AppManager.instance.sendNotifications()
+    }
+
+    fun openNotification(nId:String, pId:String, type: NotificationType) {
+        if(App.isAuthenticated && !isLockedScreenShow()) {
+            closeMenu()
+
+            if (nId == NOTIFICATION_ID_ADDRESSES || nId == NOTIFICATION_ID_ALL) {
+                if (!isNotificationsShow()) {
+                    val destinationFragment = R.id.notificationsFragment
+                    val navBuilder = NavOptions.Builder()
+                    val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                    findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
+                }
+            }
+            else {
+                if(type == NotificationType.Address) {
+                    val address = AppManager.instance.getAddress(pId)
+                    if (address != null && !isAddressScreenShow(pId)) {
+                        val destinationFragment = R.id.addressFragment
+                        val navBuilder = NavOptions.Builder()
+                        val addressArg = AddressFragmentArgs(address)
+                        val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                        findNavController(R.id.nav_host).navigate(destinationFragment, addressArg.toBundle(), navigationOptions)
+                    }
+                }
+                else if(type == NotificationType.Transaction) {
+                    val transaction = AppManager.instance.getTransaction(pId)
+                    if (transaction != null && !isTransactionShow(pId)) {
+                        val destinationFragment = R.id.transactionDetailsFragment
+                        val navBuilder = NavOptions.Builder()
+                        val transactionArg = TransactionDetailsFragmentArgs(pId)
+                        val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                        findNavController(R.id.nav_host).navigate(destinationFragment, transactionArg.toBundle(), navigationOptions)
+                    }
+                }
+                else if(type == NotificationType.Version && !isNewVersionShow()) {
+                    val destinationFragment = R.id.newVersionFragment
+                    val navBuilder = NavOptions.Builder()
+                    val versionArg = NewVersionFragmentArgs(pId)
+                    val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                    findNavController(R.id.nav_host).navigate(destinationFragment, versionArg.toBundle(), navigationOptions)
+                }
+
+                AppManager.instance.wallet?.markNotificationAsRead(nId)
+            }
+        }
+    }
+
+    private fun isAddressScreenShow(id: String):Boolean {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                val base = fragment as BaseFragment<*>
+                if (base is AddressFragment) {
+                    val addressFragment = base as AddressFragment
+                    if(addressFragment.addressId == id) {
+                        return true
+                    }
+                }
+            }
+        }
+
+        return false
+    }
+
+    private fun isTransactionShow(id: String):Boolean {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
+                val base = fragment as BaseFragment<*>
+                if (base is TransactionDetailsFragment) {
+                    val transactionFragment = base as TransactionDetailsFragment
+                    if(transactionFragment.txId == id) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+
+    private fun isNotificationsShow():Boolean {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
+                val base = fragment as BaseFragment<*>
+                if (base is NotificationsFragment) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    private fun isNewVersionShow(): Boolean {
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
+        navHost?.let { navFragment ->
+            navFragment.childFragmentManager.primaryNavigationFragment?.let { fragment ->
+                val base = fragment as BaseFragment<*>
+                if (base is NewVersionFragment) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

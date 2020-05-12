@@ -110,6 +110,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             mode() == SettingsFragmentMode.Privacy -> getString(R.string.privacy)
             mode() == SettingsFragmentMode.Utilities -> getString(R.string.utilities)
             mode() == SettingsFragmentMode.Tags -> getString(R.string.tags)
+            mode() == SettingsFragmentMode.Notifications -> getString(R.string.notifications)
             else -> ""
         }
     }
@@ -138,6 +139,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, SettingsFragmentMode.General))
+                s1.add(SettingsItem(R.drawable.ic_notification,getString(R.string.notifications),null, SettingsFragmentMode.Notifications))
                 s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, SettingsFragmentMode.Node))
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, SettingsFragmentMode.Privacy))
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, SettingsFragmentMode.Utilities))
@@ -180,6 +182,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 items.add(s1.toTypedArray())
                 items.add(s2.toTypedArray())
+            }
+            mode() == SettingsFragmentMode.Notifications -> {
+                var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.wallet_updates),null, SettingsFragmentMode.WalletUpdates, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.news),null, SettingsFragmentMode.News, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.address_expiration),null, SettingsFragmentMode.AddressExpiration, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.transaction_status),null, SettingsFragmentMode.TransactionStatus, switch = true))
+                items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Node -> {
                 var s1 = mutableListOf<SettingsItem>()
@@ -258,8 +268,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             section.background = context!!.getDrawable(R.drawable.wallet_state_card_backgroud)
             section.layoutParams = param
 
-            var index = 0
-            for (item in subItems) {
+            for ((index, item) in subItems.withIndex()) {
                 val item = SettingsItemView(context!!).apply {
                     text = item.text
                     detail = item.detail
@@ -283,7 +292,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     }
 
                     if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Node || item.mode == SettingsFragmentMode.Privacy
-                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags) {
+                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags || item.mode == SettingsFragmentMode.Notifications) {
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
@@ -300,7 +309,24 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     } else if (item.mode == SettingsFragmentMode.Allow) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeAllowOpenExternalLink(allow)
-                    } else if (item.mode == SettingsFragmentMode.Rate) {
+                    }
+                    else if (item.mode == SettingsFragmentMode.News) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeAllowNews(allow)
+                    }
+                    else if (item.mode == SettingsFragmentMode.TransactionStatus) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeAllowTransactionStatus(allow)
+                    }
+                    else if (item.mode == SettingsFragmentMode.WalletUpdates) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeAllowWalletUpdates(allow)
+                    }
+                    else if (item.mode == SettingsFragmentMode.AddressExpiration) {
+                        val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onChangeAllowAddressExpiration(allow)
+                    }
+                    else if (item.mode == SettingsFragmentMode.Rate) {
                         try {
                             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + this.activity?.packageName)))
                         } catch (exp: Exception) {
@@ -383,7 +409,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     item.visibility = View.GONE
                 }
 
-                if (item.mode == SettingsFragmentMode.CreateTag) {
+                if (item.mode == SettingsFragmentMode.News || item.mode == SettingsFragmentMode.WalletUpdates ||
+                        item.mode == SettingsFragmentMode.AddressExpiration || item.mode == SettingsFragmentMode.TransactionStatus) {
+                    item.setPadding(0, 4, 0, 25)
+                }
+                else  if (item.mode == SettingsFragmentMode.CreateTag) {
                     item.setPadding(0, 12, 0, 12)
                 } else if (subItems.count() == 1 && item.iconResId != null) {
                     item.setPadding(0, 10, 0, 10)
@@ -395,7 +425,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 section.addView(item)
 
-                index++
             }
 
             if (subItems.count() > 0) {
@@ -494,6 +523,50 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var item = group as SettingsItemView
                 if (item.mode == SettingsFragmentMode.Allow) {
                     item.switch = allowOpen
+                }
+            }
+        }
+    }
+
+    override fun setAllowNews(allow: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.News) {
+                    item.switch = allow
+                }
+            }
+        }
+    }
+
+    override fun setAllowTransaction(allow: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.TransactionStatus) {
+                    item.switch = allow
+                }
+            }
+        }
+    }
+
+    override fun setAllowWalletUpdates(allow: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.WalletUpdates) {
+                    item.switch = allow
+                }
+            }
+        }
+    }
+
+    override fun setAllowAddressExpiration(allow: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.AddressExpiration) {
+                    item.switch = allow
                 }
             }
         }
@@ -650,8 +723,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         AppConfig.FLAVOR_MAINNET -> {
                             "beam wallet logs"
                         }
-                       else -> ""
-                   }
+                        else -> ""
+                    }
 
                     val shareIntent = Intent()
                     shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
@@ -1081,7 +1154,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             showAlert(message = getString(R.string.clear_wallet_text),
                     btnConfirmText = getString(R.string.remove_wallet),
                     onConfirm = {
-                       this.passwordDialog =  PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
+                        this.passwordDialog =  PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.RemoveWallet, {
                             presenter?.onConfirmRemoveWallet()
                         }, {})
                         this.passwordDialog?.show(activity?.supportFragmentManager!!, PasswordConfirmDialog.getFragmentTag())

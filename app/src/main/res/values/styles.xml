@@ -317,5 +317,9 @@
         </item>
     </style>
 
+    <style name="topAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/top_enter</item>
+        <item name="android:windowExitAnimation">@anim/top_exit</item>
+    </style>
 
 </resources>

@@ -53,8 +53,12 @@ else{
     ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
 }
 
+    var addressId = ""
+
     override fun init(address: WalletAddress) {
         toolbarLayout.hasStatus = true
+
+        addressId = address.walletID
 
         (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.contact_details else R.string.address_details)
 

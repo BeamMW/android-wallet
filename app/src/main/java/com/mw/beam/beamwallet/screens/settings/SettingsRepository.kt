@@ -122,6 +122,37 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE)
     }
 
+    override fun isAllowWalletUpdates(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_WALLET_UPDATES, true)
+    }
+
+    override fun isAllowTransactions(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_TRANSACTIONS_STATUS, true)
+    }
+
+    override fun isAllowNews(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_NEWS, true)
+    }
+
+    override fun isAllowAddressExpiration(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_ADDRESS_EXPIRATION, true)
+    }
+
+    override fun setAllowWalletUpdates(allow: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_WALLET_UPDATES, allow)
+    }
+
+    override fun setAllowTransactions(allow: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_TRANSACTIONS_STATUS, allow)
+    }
+
+    override fun setAllowNews(allow: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_NEWS, allow)
+    }
+
+    override fun setAllowAddressExpiration(allow: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_ADDRESS_EXPIRATION, allow)
+    }
 
     override fun setRunOnBackground(allow: Boolean) {
         PreferencesManager.putBoolean(PreferencesManager.KEY_BACKGROUND_MODE, allow)

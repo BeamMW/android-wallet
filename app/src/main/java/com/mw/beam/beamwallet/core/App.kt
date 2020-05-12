@@ -68,6 +68,7 @@ class App : Application() {
         var isAppRunning = false
         var is24HoursTimeFormat: Boolean? = null
         var isNeedOpenScanner: Boolean = false
+        var isForeground = false
     }
 
     override fun onCreate() {
@@ -76,6 +77,7 @@ class App : Application() {
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver{
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
             fun onResume(){
+                isForeground = true
                 is24HoursTimeFormat = android.text.format.DateFormat.is24HourFormat(applicationContext)
                 subOnStatusResume.onNext(0)
 
@@ -86,6 +88,7 @@ class App : Application() {
 
             @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
             fun onPause(){
+                isForeground = false
                 LockScreenManager.inactiveDate = System.currentTimeMillis()
             }
         })
@@ -138,10 +141,6 @@ class App : Application() {
                         .build())
 
         clearLogs()
-
-        if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE,false)) {
-            App.self.startBackgroundService()
-        }
     }
 
     fun showFaceIdPrompt(fromFragment:Fragment,title:String,cancel:String? = null, resultCallback: (result: com.mw.beam.beamwallet.core.views.Status) -> Unit) {

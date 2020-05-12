@@ -54,7 +54,8 @@ class NavItemsAdapter(private val context: Context, var data: Array<NavItem>, pr
             title.text = item.text
             icon.setColorFilter(if (item.isSelected) selectedColor else unselectedColor)
             title.setTextColor(if (item.isSelected) selectedColor else unselectedColor)
-
+            unreadTextView.visibility = if (item.unreadCount != 0) View.VISIBLE else View.GONE
+            unreadTextView.text = item.unreadCount.toString()
             icon.alpha = if (item.isSelected) 1F else 0.8F
             title.alpha = if (item.isSelected) 1F else 0.8F
 

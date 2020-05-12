@@ -953,4 +953,46 @@
         android:id="@+id/currencyFragment"
         android:name="com.mw.beam.beamwallet.screens.currency.CurrencyFragment"
         android:label="CurrencyFragment" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.mw.beam.beamwallet.screens.notifications.NotificationsFragment"
+        android:label="NotifcationsFragment" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_addressFragment"
+            app:destination="@id/addressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_transactionsFragment"
+            app:destination="@id/transactionsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_transactionDetailsFragment"
+            app:destination="@id/transactionDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_newVersionFragment"
+            app:destination="@id/newVersionFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/newVersionFragment"
+        android:name="com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragment"
+        android:label="NewVersionFragment" >
+        <argument
+            android:name="version"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -275,6 +275,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
        // App.self.startBackgroundService()
 
         android.os.Handler().postDelayed({
+            if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE,false)) {
+                App.self.startBackgroundService()
+            }
+
             val navBuilder = NavOptions.Builder()
             navBuilder.setEnterAnim(R.anim.fade_in)
             navBuilder.setPopEnterAnim(R.anim.fade_in)

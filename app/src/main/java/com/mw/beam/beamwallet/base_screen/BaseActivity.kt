@@ -275,7 +275,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
     }
 
-    private fun isLockedScreenShow():Boolean {
+    fun isLockedScreenShow():Boolean {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host)
         navHost?.let { navFragment ->
             navFragment.childFragmentManager.primaryNavigationFragment?.let {fragment->
