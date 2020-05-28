@@ -42,6 +42,8 @@ interface NotifcationsContract {
         fun onPrivacyModeActivated()
         fun onCancelDialog()
         fun onOpenNotification(notification: NotificationItem)
+        fun deleteAllNotifications()
+        fun deleteNotifications(list: List<String>)
     }
 
     interface Repository : MvpRepository {

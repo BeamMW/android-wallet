@@ -55,6 +55,14 @@ class NotificationsPresenter(currentView: NotifcationsContract.View, currentRepo
         }
     }
 
+    override fun deleteAllNotifications() {
+        AppManager.instance.deleteAllNotifications()
+    }
+
+    override fun deleteNotifications(list: List<String>) {
+        AppManager.instance.deleteAllNotifications(list)
+    }
+
     override fun hasBackArrow(): Boolean? = false
     override fun hasStatus(): Boolean = true
 

@@ -54,6 +54,9 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
             if (mode == Mode.NONE) {
                 showWalletFragment()
             }
+            else {
+                cancelSelectedNotifications()
+            }
         }
     }
 
@@ -92,10 +95,32 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
         adapter = NotificationsAdapter(context, object: NotificationsAdapter.OnItemClickListener{
             override fun onItemClick(item: NotificationItem) {
-                presenter?.onOpenNotification(item)
+                if (mode == Mode.EDIT) {
+                    if (selectedNotifications.contains(item.nId)) {
+                        selectedNotifications.remove(item.nId)
+                    } else {
+                        selectedNotifications.add(item.nId)
+                    }
+                    onlSelectedNotificationsChanged()
+                }
+                else {
+                    presenter?.onOpenNotification(item)
+                }
             }
         }, object: NotificationsAdapter.OnLongClickListener {
             override fun onLongClick(item: NotificationItem) {
+                if (mode == Mode.NONE) {
+
+                    mode = Mode.EDIT
+
+                    selectedNotifications.add(item.nId)
+
+                    adapter.changeSelectedItems(selectedNotifications, true, item.nId)
+
+                    adapter.reloadData(mode)
+
+                    onlSelectedNotificationsChanged()
+                }
             }
         }, listOf())
 
@@ -103,11 +128,54 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
         notificationsListView.adapter = adapter
     }
 
+    private fun cancelSelectedNotifications() {
+        mode = Mode.NONE
+
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = true
+        toolbarLayout.toolbar.title = null
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_menu)
+
+        selectedNotifications.clear()
+
+        adapter.changeSelectedItems(selectedNotifications, false, null)
+
+        adapter.reloadData(mode)
+
+        activity?.invalidateOptionsMenu()
+
+        setMenuVisibility(true)
+    }
+
+    private fun onlSelectedNotificationsChanged() {
+        val toolbarLayout = toolbarLayout
+        toolbarLayout.centerTitle = false
+        toolbarLayout.toolbar.title = selectedNotifications.count().toString() + " " + getString(R.string.selected).toLowerCase()
+        toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
+        toolbarLayout.toolbar.setNavigationOnClickListener {
+            if (mode == Mode.NONE) {
+                (activity as? AppActivity)?.openMenu()
+            } else {
+                cancelSelectedNotifications()
+            }
+        }
+
+        if (selectedNotifications.count() == 0) {
+            cancelSelectedNotifications()
+        } else {
+            setMenuVisibility(true)
+            activity?.invalidateOptionsMenu()
+        }
+    }
+
     override fun addListeners() {
         super.addListeners()
 
         btnClearAll.setOnClickListener {
-
+            if(mode == Mode.EDIT) {
+                cancelSelectedNotifications()
+            }
+           presenter?.deleteAllNotifications()
         }
     }
 
@@ -145,7 +213,6 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
             notificationsListView.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
             btnClearAll.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
             emptyLayout.visibility = if (notifications.isEmpty()) View.VISIBLE else View.GONE
-
             if (notifications.isNotEmpty()) {
                 adapter.setPrivacyMode(isEnablePrivacyMode)
                 adapter.data = notifications
@@ -159,14 +226,48 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     }
 
     override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
-        inflater?.inflate(R.menu.privacy_menu, menu)
-        val menuItem = menu?.findItem(R.id.privacy_mode)
-        menuItem?.setOnMenuItemClickListener {
-            presenter?.onChangePrivacyModePressed()
-            false
-        }
+        if (mode == Mode.NONE) {
+            inflater?.inflate(R.menu.privacy_menu, menu)
+            val menuItem = menu?.findItem(R.id.privacy_mode)
+            menuItem?.setOnMenuItemClickListener {
+                presenter?.onChangePrivacyModePressed()
+                false
+            }
 
-        menuItem?.setIcon(if (isEnablePrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+            menuItem?.setIcon(if (isEnablePrivacyMode) R.drawable.ic_eye_crossed else R.drawable.ic_icon_details)
+        }
+        else {
+            inflater?.inflate(R.menu.notifications_menu, menu)
+            if  (selectedNotifications.count() != AppManager.instance.getNotifications().count()) {
+                menu?.findItem(R.id.all)?.icon = resources.getDrawable(R.drawable.ic_checkbox_empty_copy)
+            }
+            else{
+                menu?.findItem(R.id.all)?.icon = resources.getDrawable(R.drawable.ic_checkbox_fill_copy)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.delete) {
+            presenter?.deleteNotifications(selectedNotifications)
+            cancelSelectedNotifications()
+        } else if (item.itemId == R.id.all) {
+            if (selectedNotifications.count() == AppManager.instance.getNotifications().count()) {
+                cancelSelectedNotifications()
+            }
+            else {
+                selectedNotifications.clear()
+
+                val notifications = AppManager.instance.getNotifications()
+                notifications.forEach {
+                    selectedNotifications.add(it.id)
+                }
+                adapter.changeSelectedItems(selectedNotifications, false, null)
+                adapter.notifyDataSetChanged()
+                activity?.invalidateOptionsMenu()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun showActivatePrivacyModeDialog() {

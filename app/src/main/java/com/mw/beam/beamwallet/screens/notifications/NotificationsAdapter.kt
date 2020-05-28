@@ -43,7 +43,7 @@ class NotificationsAdapter(private val context: Context,
 
     private var privacyMode = false
 
-    var selectedNotifiations = mutableListOf<String>()
+    private var selectedNotifiations = mutableListOf<String>()
     var mode = NotificationsFragment.Mode.NONE
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,15 +59,15 @@ class NotificationsAdapter(private val context: Context,
     private fun notificationHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_notification, parent, false)).apply {
         this.containerView.setOnClickListener {
             clickListener.onItemClick(data[adapterPosition])
-//            if (mode == NotifcationsFragment.Mode.EDIT) {
-//                if (selectedNotifiations.contains(data[adapterPosition].nId)) {
-//                    selectedNotifiations.remove(data[adapterPosition].nId)
-//                } else {
-//                    selectedNotifiations.add(data[adapterPosition].nId)
-//                }
-//
-//                checkBox.isChecked = selectedNotifiations.contains(data[adapterPosition].nId)
-//            }
+
+            if (mode == NotificationsFragment.Mode.EDIT) {
+                if (selectedNotifiations.contains(data[adapterPosition].nId)) {
+                    selectedNotifiations.remove(data[adapterPosition].nId)
+                } else {
+                    selectedNotifiations.add(data[adapterPosition].nId)
+                }
+                checkBox.isChecked = selectedNotifiations.contains(data[adapterPosition].nId)
+            }
         }
 
         if (longListener != null) {
@@ -78,7 +78,25 @@ class NotificationsAdapter(private val context: Context,
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    fun changeSelectedItems(data: List<String>, isAdded: Boolean, item: String?) {
+        selectedNotifiations = data.toMutableList()
+
+        if (item != null) {
+            for (i in 0 until itemCount) {
+                if (item(i).nId == item) {
+                    notifyItemChanged(i)
+                    break
+                }
+            }
+        }
+    }
+
+    fun reloadData(mode: NotificationsFragment.Mode) {
+        this.mode = mode
+        notifyDataSetChanged()
+    }
+
+        @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(getItemViewType(position) == NOTIFICATION) {
             val notificationItem = data[position]
@@ -119,7 +137,13 @@ class NotificationsAdapter(private val context: Context,
 
                 date.text = CalendarUtils.fromTimestamp(notificationItem.date)
 
-                checkBox.visibility = View.GONE
+                if (mode == NotificationsFragment.Mode.NONE) {
+                    checkBox.isChecked = false
+                    checkBox.visibility = View.GONE
+                } else {
+                    checkBox.isChecked = selectedNotifiations.contains(notificationItem.nId)
+                    checkBox.visibility = View.VISIBLE
+                }
             }
         }
     }

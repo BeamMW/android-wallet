@@ -10,17 +10,20 @@ import android.net.Uri;
 import android.os.Vibrator;
 import android.text.Spannable;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GestureDetectorCompat;
 
 import com.mw.beam.beamwallet.R;
 import com.mw.beam.beamwallet.core.entities.NotificationItem;
@@ -56,6 +59,9 @@ public class NotificationBanner {
     private TextView titleMessage;
     private TextView detailMessage;
     private CardView cardView;
+    private float initialX, initialY;
+    private GestureDetector gestureDetector;
+    private GestureDetectorCompat simpleGestureHandler;
 
     private AppCompatImageView iconView;
 
@@ -176,14 +182,36 @@ public class NotificationBanner {
 
     private void setListener() {
         cardView = popupView.findViewById(R.id.mainCard);
-        cardView.setOnClickListener(new View.OnClickListener() {
+        cardView.setAlpha(1.0f);
+
+        gestureDetector = new GestureDetector(activity.getBaseContext(), new OnSwipeListener(){
             @Override
-            public void onClick(View v) {
-                listener.onViewClickListener(notificationId, objectId, type);
-                dismissBanner();
+            public boolean onSwipe(Direction direction) {
+                 if (direction==Direction.up){
+                    dismissBanner();
+                }
+                return true;
             }
         });
 
+        simpleGestureHandler = new GestureDetectorCompat(activity.getBaseContext(), new SimpleGestureListener());
+
+        cardView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(simpleGestureHandler.onTouchEvent(event)) {
+                    AlphaAnimation animation1 = new AlphaAnimation(1.0f, 0.0f);
+                    animation1.setDuration(250);
+                    cardView.startAnimation(animation1);
+                    listener.onViewClickListener(notificationId, objectId, type);
+                    dismissBanner();
+                }
+                else {
+                    gestureDetector.onTouchEvent(event);
+                }
+                return true;
+            }
+        });
     }
 
     public void setLayout(int layout){

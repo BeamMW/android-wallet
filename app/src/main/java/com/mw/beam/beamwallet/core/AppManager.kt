@@ -510,10 +510,28 @@ class AppManager {
         wallet?.deleteNotification(id)
     }
 
+    fun deleteAllNotifications(list: List<String>) {
+        list.forEach {
+            deleteNotification(it)
+            notifications.removeAll {item ->
+                item.id == it
+            }
+        }
+
+        (AppActivity.self)?.reloadNotifications()
+
+        subOnNotificationsChanged.onNext(0)
+    }
+
     fun deleteAllNotifications() {
         notifications.toMutableList().forEach {
            deleteNotification(it.id)
         }
+        notifications.clear()
+
+        (AppActivity.self)?.reloadNotifications()
+
+        subOnNotificationsChanged.onNext(0)
     }
 
     fun sendNotifications() {
