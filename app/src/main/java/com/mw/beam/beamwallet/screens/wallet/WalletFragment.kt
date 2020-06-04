@@ -56,6 +56,7 @@ import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var balancePagerAdapter: BalancePagerAdapter
+    private var selectedSection = BalanceTab.Available
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -80,16 +81,24 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                 ContextCompat.getColor(context!!, R.color.common_text_dark_color)
             }
 
-            val unselectedColor = ContextCompat.getColor(context!!, R.color.unselect_balance_tab_text_color)
+            selectedSection = balancePagerAdapter.tabs[position]
 
-            when (BalanceTab.values()[position]) {
+            val unselectedColor = ContextCompat.getColor(context!!, R.color.unselect_balance_tab_text_color)
+            when (selectedSection) {
                 BalanceTab.Available -> {
+                    unlinkedTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(selectedColor)
                     maturingTitle.setTextColor(unselectedColor)
                 }
                 BalanceTab.Maturing -> {
+                    unlinkedTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(selectedColor)
+                }
+                BalanceTab.Unlinked -> {
+                    availableTitle.setTextColor(unselectedColor)
+                    maturingTitle.setTextColor(unselectedColor)
+                    unlinkedTitle.setTextColor(selectedColor)
                 }
             }
         }
@@ -105,21 +114,47 @@ else{
     override fun getToolbarTitle(): String? = getString(R.string.wallet)
 
     override fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, walletStatus.maturing, expandBalanceCard, isEnablePrivacyMode)
+        configAvailable(walletStatus.available, walletStatus.maturing, walletStatus.unlinked, expandBalanceCard, isEnablePrivacyMode)
         configInProgress(walletStatus.receiving, walletStatus.sending, expandInProgressCard, isEnablePrivacyMode)
     }
 
-    override fun configAvailable(availableAmount: Long, maturingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+    override fun configAvailable(availableAmount: Long, maturingAmount: Long, unlinkedAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
         balanceViewPager.adapter = balancePagerAdapter
         indicator.setViewPager(balanceViewPager)
         balancePagerAdapter.available = availableAmount
         balancePagerAdapter.maturing = maturingAmount
+        balancePagerAdapter.unlinked = unlinkedAmount
+        balancePagerAdapter.tabs = mutableListOf<BalanceTab>()
+        balancePagerAdapter.tabs.add(BalanceTab.Available)
+        if (maturingAmount > 0) {
+            balancePagerAdapter.tabs.add(BalanceTab.Maturing)
+        }
+        if (unlinkedAmount > 0) {
+            balancePagerAdapter.tabs.add(BalanceTab.Unlinked)
+        }
+
         balancePagerAdapter.notifyDataSetChanged()
 
         val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
-        indicator.visibility = if (maturingAmount > 0 ) contentVisibility else View.GONE
+        if (contentVisibility == View.VISIBLE) {
+            balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
+        }
+
+        indicator.visibility = if (maturingAmount > 0 || unlinkedAmount > 0) contentVisibility else View.GONE
         maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
+        unlinkedTitle.visibility = if (unlinkedAmount > 0) View.VISIBLE else View.GONE
+        unlinkButton.visibility = if (unlinkedAmount > 0 && expandCard) View.VISIBLE else View.GONE
+
+        //TODO:: for test
+//        if (availableAmount > 0) {
+//            unlinkButton.alpha = 1.0f
+//            unlinkButton.isEnabled = true;
+//        }
+//        else {
+//            unlinkButton.alpha = 0.5f
+//            unlinkButton.isEnabled = false;
+//        }
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
@@ -253,6 +288,14 @@ else{
             balanceViewPager.setCurrentItem(BalanceTab.Maturing.ordinal, true)
         }
 
+        unlinkedTitle.setOnClickListener {
+            balanceViewPager.setCurrentItem(BalanceTab.Unlinked.ordinal, true)
+        }
+
+        unlinkButton.setOnClickListener {
+            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToUnlinkFragment2())
+        }
+
         balanceViewPager.addOnPageChangeListener(onPageSelectedListener)
         onPageSelectedListener.onPageSelected(balanceViewPager.currentItem)
 
@@ -332,6 +375,7 @@ else{
 
         val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
+        unlinkButton.visibility = contentVisibility
         indicator.visibility = contentVisibility
     }
 
@@ -451,8 +495,10 @@ else{
         inProgressTitleContainer.setOnClickListener(null)
         availableTitle.setOnClickListener(null)
         maturingTitle.setOnClickListener(null)
+        unlinkedTitle.setOnClickListener(null)
         btnShowAll.setOnClickListener(null)
         btnFaucetClose.setOnClickListener(null)
+        unlinkButton.setOnClickListener(null)
         btnSecureClose.setOnClickListener(null)
         btnFaucetReceive.setOnClickListener(null)
         btnSecureReceive.setOnClickListener(null)

@@ -292,6 +292,16 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/walletFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_unlinkFragment"
+            app:destination="@id/unlinkFragment" />
+        <action
+            android:id="@+id/action_walletFragment_to_unlinkFragment2"
+            app:destination="@id/unlinkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -994,5 +1004,30 @@
             android:name="version"
             app:argType="string"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/unlinkFragment"
+        android:name="com.mw.beam.beamwallet.screens.unlink.UnlinkFragment"
+        android:label="UnlinkFragment" >
+        <action
+            android:id="@+id/action_unlinkFragment_to_unlinkConfirmationFragment"
+            app:destination="@id/unlinkConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/unlinkConfirmationFragment"
+        android:name="com.mw.beam.beamwallet.screens.unlink.UnlinkConfirmationFragment"
+        android:label="UnlinkConfirmationFragment" >
+        <argument
+            android:name="sendAmount"
+            app:argType="long"
+            android:defaultValue="0L" />
+        <argument
+            android:name="fee"
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
 </navigation>

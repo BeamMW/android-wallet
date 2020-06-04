@@ -47,8 +47,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
     private var categorySubscription: Disposable? = null
 
-
-
     override fun onDestroy() {
         categorySubscription?.dispose()
 
@@ -57,7 +55,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onViewCreated() {
         super.onViewCreated()
-
 
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
@@ -136,8 +133,22 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         view?.setupTagAction(repository.getAllTags().isEmpty())
+        view?.setUnlinked(state.isUnlinked)
 
         notifyPrivacyStateChange()
+    }
+
+    override fun onUnlinked(unlinked: Boolean) {
+        state.isUnlinked = unlinked
+
+        view?.setUnlinked(unlinked)
+
+        if (state.isUnlinked) {
+            view?.updateAvailable(state.walletStatus!!.unlinked)
+        }
+        else {
+            view?.updateAvailable(state.walletStatus!!.available)
+        }
     }
 
     override fun onSelectAddress(walletAddress: WalletAddress) {
@@ -162,7 +173,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
-        val availableAmount = state.walletStatus!!.available
+        //доделать
+
+        val availableAmount = if(state.isUnlinked) {
+            state.walletStatus!!.unlinked
+        }
+        else {
+            state.walletStatus!!.available
+        }
+
         val feeAmount = try {
             view?.getFee() ?: 0L
         } catch (exception: NumberFormatException) {
@@ -231,8 +250,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onEnterFee(rawFee: String?) {
-
-
         rawFee?.let {
             view?.setFee(it)
             onFeeChanged(it)
@@ -466,14 +483,26 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         super.initSubscriptions()
 
         state.walletStatus = AppManager.instance.getStatus()
-        view?.updateAvailable(state.walletStatus!!.available)
+
+        if (state.isUnlinked) {
+            view?.updateAvailable(state.walletStatus!!.unlinked)
+        }
+        else {
+            view?.updateAvailable(state.walletStatus!!.available)
+        }
+
         if (isFork()) {
             view?.setupMinFee(FORK_MIN_FEE)
         }
 
         walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
             state.walletStatus = AppManager.instance.getStatus()
-            view?.updateAvailable(state.walletStatus!!.available)
+            if (state.isUnlinked) {
+                view?.updateAvailable(state.walletStatus!!.unlinked)
+            }
+            else {
+                view?.updateAvailable(state.walletStatus!!.available)
+            }
         }
 
         AppManager.instance.getAllAddresses().forEach { address ->

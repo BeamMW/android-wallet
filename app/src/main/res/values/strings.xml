@@ -589,5 +589,18 @@ address or contact</string>
     <string name="notification">Notification</string>
     <string name="update_now">Update now</string>
     <string name="buy_transaction_failed_title">Transaction failed</string>
+    <string name="unlinked">Unlinked</string>
+
+    <string name="unlink">Unlink</string>
+    <string name="available_unlink">Unlink available</string>
+    <string name="unlinking_fee">Unlinking fee</string>
+    <string name="small_amount_unlink">Amount is too small. Minimal amount is</string>
+    <string name="remaining">Remaining</string>
+    <string name="amount_to_unlink">Amount to unlink</string>
+    <string name="unlink_notice">Please notice that unlinking funds may take up to few days to proceed.</string>
+    <string name="unlink_beam">Unlink BEAM</string>
+    <string name="unlinked_funds_only">Unlinked funds only</string>
+    <string name="add_all_unlinked">Add all unlinked</string>
+
 
 </resources>

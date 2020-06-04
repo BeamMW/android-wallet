@@ -22,13 +22,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 /**
@@ -87,10 +84,12 @@ interface SendContract {
         fun setupTagAction(isEmptyTags: Boolean)
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
+        fun setUnlinked(unlinked:Boolean)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNext()
+        fun onUnlinked(unlinked:Boolean)
         fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)

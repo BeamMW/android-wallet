@@ -14,31 +14,15 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.send
+package com.mw.beam.beamwallet.screens.unlink
 
-import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.Tag
 
 /**
  *  1/2/19.
  */
-class SendState {
-    var tags = mutableListOf<Tag>()
-    var isPastedText = false
-    var isNeedGenerateNewAddress = true
-    var wasAddressSaved: Boolean = false
-    var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
+class UnlinkState {
     var walletStatus: WalletStatus? = null
     var privacyMode = false
-    val addresses = HashMap<String, WalletAddress>()
-    var scannedAddress : String? = null
-    var scannedAmount: Double? = null
     var prevFee = 0L
-    var outgoingAddress: WalletAddress? = null
-    var generatedAddress: WalletAddress? = null
-    var expandAdvanced = false
-    var expandEditAddress = false
-    var isUnlinked = false
 }

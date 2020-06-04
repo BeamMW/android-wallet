@@ -86,6 +86,10 @@ class AppManager {
 
     }
 
+    fun remainingUnlink(amount:Long) : Long {
+        return walletStatus.unlinked - amount
+    }
+
     fun updateCurrentCurrency() {
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         currencies.forEach {
@@ -396,6 +400,8 @@ class AppManager {
 
         return null
     }
+
+
 
     private fun restoreTransactions(deleted: List<TxDescription>) {
         deleted.forEach {

@@ -29,19 +29,23 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
 
     var available: Long = 0
     var maturing: Long = 0
+    var unlinked: Long = 0
 
-    //tablayout
+    var tabs = mutableListOf<BalanceTab>()
+
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.wallet_balanse_item, container, false)
 
-        view.findViewById<TextView>(R.id.balance).text = when (BalanceTab.values()[position]) {
+        view.findViewById<TextView>(R.id.balance).text = when (tabs[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
+            BalanceTab.Unlinked -> unlinked
         }.convertToBeamString()
 
-        view.findViewById<TextView>(R.id.secondBalance).text = when (BalanceTab.values()[position]) {
+        view.findViewById<TextView>(R.id.secondBalance).text = when (tabs[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
+            BalanceTab.Unlinked -> unlinked
         }.convertToCurrencyString()
 
         container.addView(view)
@@ -61,11 +65,11 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
     }
 
     override fun getCount(): Int {
-        return if (maturing > 0) BalanceTab.values().size else 1
+        return tabs.size
     }
 
 }
 
 enum class BalanceTab {
-    Available, Maturing
+    Available, Maturing, Unlinked
 }

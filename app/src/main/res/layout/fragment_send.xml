@@ -365,15 +365,39 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/unlinkedOnlyTitle"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:text="@string/unlinked_funds_only"
+                    app:layout_constraintEnd_toStartOf="@id/btnChangeAddress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/advancedContainer" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/unlinkedSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="0"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:theme="@style/SCBSwitch"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/advancedContainer" />
+
+                <TextView
                     android:id="@+id/outgoingAddressTitle"
                     style="@style/common_subheader_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:textAllCaps="false"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/advancedContainer"
+                    app:layout_constraintTop_toBottomOf="@id/unlinkedOnlyTitle"
                     tools:text="OUTGOING ADDRESS (auto-generated)" />
 
                 <TextView
@@ -604,7 +628,7 @@
                         android:layout_marginEnd="@dimen/common_offset"
                         android:textColor="@color/sent_color"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.3"
+                        app:layout_constraintHorizontal_bias="0.32"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/feeTitle"
                         tools:text="10 GROTH" />
@@ -626,7 +650,7 @@
                     android:id="@+id/advancedGroup"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
+                    app:constraint_referenced_ids="unlinkedOnlyTitle,unlinkedSwitch,outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
 
 
                 <com.mw.beam.beamwallet.core.views.BeamButton
@@ -654,7 +678,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:background="@drawable/send_btn_change_background"
+                android:background="@color/colorClear"
                 android:paddingStart="@dimen/small_button_padding_horizontal"
                 android:paddingTop="@dimen/small_button_padding_vertical"
                 android:paddingEnd="@dimen/small_button_padding_horizontal"

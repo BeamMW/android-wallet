@@ -53,7 +53,7 @@ public class ZipManager {
         }
     }
 
-
+//getNotifications
     private static List<String> getListFiles(File file, List<String> files) {
         File[] dirs = file.listFiles();
         String name = "";

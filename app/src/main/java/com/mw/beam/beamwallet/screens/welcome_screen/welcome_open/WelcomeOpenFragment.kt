@@ -25,6 +25,7 @@ import androidx.core.os.CancellationSignal
 import androidx.navigation.fragment.findNavController
 import android.os.Handler
 import androidx.activity.OnBackPressedCallback
+import androidx.navigation.NavOptions
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -39,10 +40,14 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.Status
 import com.mw.beam.beamwallet.core.views.Type
 
 import kotlinx.android.synthetic.main.fragment_welcome_open.*
+import java.io.File
 
 /**
  *  10/19/18.
@@ -246,7 +251,8 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             findNavController().popBackStack()
         }
         else{
-            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+            showWallet()
+            //findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
         }
     }
     override fun changeWallet() {
@@ -255,6 +261,40 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
     override fun back() {
         findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeCreateFragment())
+    }
+
+    private fun showWallet() {
+        val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
+        val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
+
+        if (recoverFile.exists()) {
+            PreferencesManager.putString(PreferencesManager.KEY_TAG_DATA_RECOVER, "")
+            recoverFile.delete()
+        }
+
+        if (journalRecoverFile.exists()) {
+            journalRecoverFile.delete()
+        }
+
+
+        App.isAuthenticated = true
+
+        AppManager.instance.subscribeToUpdates()
+
+        App.self.clearLogs()
+
+        if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE,false)) {
+            App.self.startBackgroundService()
+        }
+
+        val navBuilder = NavOptions.Builder()
+        navBuilder.setEnterAnim(R.anim.fade_in)
+        navBuilder.setPopEnterAnim(R.anim.fade_in)
+        navBuilder.setExitAnim(R.anim.fade_out)
+        navBuilder.setPopExitAnim(R.anim.fade_out)
+
+        val navigationOptions = navBuilder.build()
+        findNavController().navigate(R.id.walletFragment, null, navigationOptions)
     }
 
     override fun showOpenWalletError() {

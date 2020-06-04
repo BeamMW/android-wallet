@@ -285,6 +285,19 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     }
 
+    override fun setUnlinked(unlinked: Boolean) {
+        if (unlinked) {
+            btnSendAll.textResId = R.string.add_all_unlinked
+            availableTitle.text = getString(R.string.available_unlink)
+            unlinkedSwitch.isChecked = unlinked
+        }
+        else{
+            btnSendAll.textResId = R.string.add_all
+            availableTitle.text = getString(R.string.total_available)
+            unlinkedSwitch.isChecked = unlinked
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun setupMinFee(fee: Int) {
         minFee = fee
@@ -351,6 +364,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         scanQR.setOnClickListener {
             presenter?.onScanQrPressed()
+        }
+
+        unlinkedSwitch.setOnClickListener {
+            presenter?.onUnlinked(unlinkedSwitch.isChecked)
         }
 
         addressName.addTextChangedListener(labelWatcher)
@@ -1001,6 +1018,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.setOnTouchListener(null)
         token.setOnClickListener(null)
         tagAction.setOnClickListener(null)
+        unlinkedSwitch.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {
