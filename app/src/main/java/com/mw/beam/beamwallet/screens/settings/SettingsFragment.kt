@@ -159,12 +159,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s3.toTypedArray())
                 items.add(s4.toTypedArray())
 
-//                if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
-//                {
-//                    var s5 = mutableListOf<SettingsItem>()
-//                    s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
-//                    items.add(s5.toTypedArray())
-//                }
+                if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
+                {
+                    var s5 = mutableListOf<SettingsItem>()
+                    s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
+                    items.add(s5.toTypedArray())
+                }
             }
 
             mode()== SettingsFragmentMode.General -> {
@@ -177,7 +177,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 var s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
+         //       s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
                 s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
@@ -187,7 +187,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.wallet_updates),null, SettingsFragmentMode.WalletUpdates, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.news),null, SettingsFragmentMode.News, switch = true))
-                s1.add(SettingsItem(null, getString(R.string.address_expiration),null, SettingsFragmentMode.AddressExpiration, switch = true))
+               // s1.add(SettingsItem(null, getString(R.string.address_expiration),null, SettingsFragmentMode.AddressExpiration, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.transaction_status),null, SettingsFragmentMode.TransactionStatus, switch = true))
                 items.add(s1.toTypedArray())
             }

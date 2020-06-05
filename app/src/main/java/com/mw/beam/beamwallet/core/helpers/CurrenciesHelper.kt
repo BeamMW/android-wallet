@@ -33,6 +33,11 @@ fun Double.convertToGroth() = Math.round(this * 100000000)
 
 fun Long.convertToCurrencyString(): String? {
     val current = AppManager.instance.currentExchangeRate()
+
+    if (current?.currency == Currency.Off) {
+        return null
+    }
+
     if (current!=null && this != 0L) {
         val value = current.amount.toDouble() / 100000000
         val beam = this.convertToBeam()
@@ -44,11 +49,26 @@ fun Long.convertToCurrencyString(): String? {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
     }
-   return null
+    else if (current==null || this == 0L) {
+        if (AppManager.instance.currentCurrency() == Currency.Usd) {
+            return  "-USD"
+        }
+        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
+            return  "-BTC"
+        }
+    }
+
+
+    return null
 }
 
 fun Long.convertToCurrencyGrothString(): String? {
     val current = AppManager.instance.currentExchangeRate()
+
+    if (current?.currency == Currency.Off) {
+        return null
+    }
+
     if (current!=null && this != 0L) {
         val value = current.amount.toDouble() / 100000000
         val beam = this.convertToBeam()
@@ -69,12 +89,18 @@ fun Long.convertToCurrencyGrothString(): String? {
             return resultString
         }
     }
+
     return null
 }
 
 
 fun Double.convertToCurrencyString(): String? {
     val current = AppManager.instance.currentExchangeRate()
+
+    if (current?.currency == Currency.Off) {
+        return null
+    }
+
     if (current!=null && this != 0.0) {
         val value = current.amount.toDouble() / 100000000
         val rate = value * this
@@ -85,5 +111,14 @@ fun Double.convertToCurrencyString(): String? {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
     }
+    else if (current==null || this == 0.0) {
+        if (AppManager.instance.currentCurrency() == Currency.Usd) {
+            return  "-USD"
+        }
+        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
+            return  "-BTC"
+        }
+    }
+
     return null
 }

@@ -116,10 +116,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 if (isDownloadProgress) {
 
                     var descriptionString = if (progressData.time != null) {
-                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
-                        "$downloadDescriptionString ${progressData.done}%, $estimate"
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
+                        "$downloadDescriptionString ${progressData.done}%. $estimate"
                     } else{
-                        "$downloadDescriptionString ${progressData.done}%"
+                        "$downloadDescriptionString ${progressData.done}%."
                     }
 
                     title.text = downloadTitleString
@@ -130,10 +130,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 }
                 else {
                     var descriptionString = if (progressData.time != null) {
-                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}"
-                        "$restoreDescriptionString ${countProgress(progressData)}%, $estimate"
+                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
+                        "$restoreDescriptionString ${countProgress(progressData)}%. $estimate"
                     } else{
-                        "$restoreDescriptionString ${countProgress(progressData)}%"
+                        "$restoreDescriptionString ${countProgress(progressData)}%."
                     }
 
                     title.text = restoreTitleString

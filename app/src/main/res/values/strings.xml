@@ -107,8 +107,8 @@
     <string name="welcome_progress_update_utxo_description">Scanning UTXO</string>
     <string name="welcome_progress_restore_description">Restored</string>
     <string name="welcome_progress_download_description">Downloaded</string>
-    <string name="welcome_progress_restore_description_full_top">Please wait for synchronization and do not close or minimize the application. \n Restoring the wallet may take a while.</string>
-    <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored,  transaction info is always private and never kept in the blockchain.</string>
+    <string name="welcome_progress_restore_description_full_top">Restoring the wallet may take a while.\n\nPlease wait till the node is fully synchronized with the blockchain, do not close or minimize the wallet app.</string>
+    <string name="welcome_progress_restore_description_full_bottom">Only the wallet balance (UTXO) can be restored, transaction info is always private and never kept on the blockchain.</string>
 
     <!--PasswordFragment-->
     <string name="pass_screen_description">Create password to access your wallet</string>
@@ -430,22 +430,22 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="use_faceid_ot_enter_your_password_to_confirm_transaction">Use Face recognition or enter your password to confirm transaction</string>
     <string name="address_copied_to_clipboard">Address copied to clipboard</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
-    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device</string>
-    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to specific trusted node (configured with your owner key) and the node will restore your funds</string>
-    <string name="restore_with_trusted_node">Restore with trusted node</string>
+    <string name="beam_wallet_will_download_the_blockchain_snapshot_from_the_cloud">Beam Wallet will download a snapshot of the blockchain and restore your funds on the device.</string>
+    <string name="beam_wallet_will_connect_to_specific_node_and_node_will_find_all_your_funds_in_a_blockchain">Beam Wallet will connect to your trusted node and it will restore your funds. The node must be configured with your owner key.</string>
+    <string name="restore_with_trusted_node">RESTORE WITH OWN NODE (advanced)</string>
     <string name="automatic_restore_recommended">AUTOMATIC RESTORE (recommended)</string>
-    <string name="enter_trusted_node_address">Enter trusted node address</string>
+    <string name="enter_trusted_node_address">Enter your trusted node IP address and port</string>
     <string name="ip_port">ip:port</string>
     <string name="owner_key">Owner key</string>
-    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Paste this code in Beam Wallet on your desktop to proceed restore from the node.</string>
+    <string name="paste_this_code_in_beam_wallet_on_your_desktop_to_proceed_restore_from_the_node">Сonfigure your wallet with your owner key, run the node to fully synchronize with the blockchain and click next.</string>
     <string name="privacy_mode">Privacy mode</string>
     <string name="gallery">Gallery</string>
     <string name="selectPickture">Select Picture</string>
     <string name="storage_permission_required_message">Please, grant storage permission for using your gallery</string>
     <string name="qr_code_cannot_be_recognized_please_try_another_picture">QR code cannot be recognized. Please try another picture.</string>
     <string name="welcome_progress_restore_networ_error_description">Failed network connection. Please try again after reconnect to network.</string>
-    <string name="automatic_restore_warning">Please make sure that you have not done any transactions (from any device) in the past hour. If you did, please wait for at least one hour after the last transaction before proceeding with Restore. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
-    <string name="node_restore_warning">Verify that your node is fully synchronised with the blockchain before starting the restore procedure. Otherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
+    <string name="automatic_restore_warning">Please make sure that you have not done any transactions in the past hour from any wallet with the same seed phrase.\n\nIf you did, please wait for at least one hour after the last transaction was completed before restoring the wallet.\n\nOtherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
+    <string name="node_restore_warning">Verify that your own node is fully synchonized with the blockchain before starting the restore procedure.\n\nOtherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="understand">I understand</string>
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
@@ -471,7 +471,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="empty_address_list_active">You have no active addresses</string>
     <string name="empty_address_list_expired">You have no expired addresses</string>
     <string name="empty_utxo_list_progress">You have no active UTXO</string>
-    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app">Once you\'ll paste the code, run your node on desktop and click next on mobile app.</string>
+    <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app"></string>
     <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
     <string name="connecting">Connecting...</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
@@ -589,5 +589,6 @@ address or contact</string>
     <string name="notification">Notification</string>
     <string name="update_now">Update now</string>
     <string name="buy_transaction_failed_title">Transaction failed</string>
+    <string name="off">Off</string>
 
 </resources>

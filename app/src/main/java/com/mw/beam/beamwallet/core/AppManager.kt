@@ -30,6 +30,7 @@ class AppManager {
     private var utxos = mutableListOf<Utxo>()
     private var notifications = mutableListOf<Notification>()
     private var sentNotifications = mutableListOf<String>()
+    var ignoreNotifications = mutableListOf<String>()
 
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
@@ -93,6 +94,11 @@ class AppManager {
                 currentRate = it
             }
         }
+    }
+
+    fun currentCurrency(): Currency {
+        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+        return Currency.fromValue(value.toInt())
     }
 
     fun currentExchangeRate(): ExchangeRate? {
@@ -832,6 +838,10 @@ class AppManager {
                     }
 
                     it.notification.isSent = sentNotifications.contains(it.notification.id)
+
+                    if(!it.notification.isSent) {
+                        it.notification.isSent = ignoreNotifications.contains((it.notification.objId))
+                    }
 
                     val index = notifications.indexOfFirst {item->
                         item.id == it.notification.id

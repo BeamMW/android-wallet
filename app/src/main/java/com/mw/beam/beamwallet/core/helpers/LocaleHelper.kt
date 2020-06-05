@@ -50,12 +50,11 @@ object LocaleHelper {
     fun getCurrentLanguage(): SupportedLanguage {
         val l = supportedLanguages.firstOrNull { it.languageCode == languageCode }
                 ?: englishLanguage
-        var m = l.nativeName
         return l
     }
 
     fun loadLocale() {
-        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: ""
+      //  languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: ""
         val isSupportedSavedLanguage = supportedLanguages.any { it.languageCode == languageCode }
 
         if (!isSupportedSavedLanguage) {

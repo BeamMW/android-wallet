@@ -17,6 +17,7 @@ package com.mw.beam.beamwallet.core.listeners
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager

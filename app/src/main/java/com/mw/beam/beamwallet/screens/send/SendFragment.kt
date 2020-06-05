@@ -641,7 +641,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.layoutParams = params
 
         val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
-        usedFee.text = getAmount().convertToCurrencyString() + " " + feeString
+        val second = getAmount().convertToCurrencyString()
+        if(second!=null) {
+            usedFee.text = "$second $feeString"
+        }
+        else {
+            usedFee.text = feeString
+        }
     }
 
     override fun updateFeeTransactionVisibility() {

@@ -61,6 +61,7 @@ import android.text.SpannableStringBuilder
 import android.graphics.Color
 import android.content.res.ColorStateList
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.entities.Currency
 
 
 /**
@@ -103,7 +104,16 @@ else{
             toolbarLayout.hasStatus = true
 
             amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
-            secondAvailableSum.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
+
+            val current = AppManager.instance.currentCurrency()
+
+            if(isEnablePrivacyMode || current == Currency.Off) {
+                secondAvailableSum.visibility = View.GONE
+            }
+            else {
+                secondAvailableSum.visibility = View.VISIBLE
+            }
+
 
             detailsArrowView.rotation = 180f
             proofArrowView.rotation = 180f
@@ -253,7 +263,14 @@ else{
         amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
         amountLabel.setTextColor(txDescription.amountColor)
 
-        secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
+        val second = txDescription.amount.convertToCurrencyString()
+
+        if (second == null) {
+            secondAvailableSum.visibility = View.GONE
+        }
+        else {
+            secondAvailableSum.text = second
+        }
 
         statusLabel.setTextColor(txDescription.statusColor)
         val status = txDescription.getStatusString(context!!).trim()
