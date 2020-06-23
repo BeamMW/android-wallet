@@ -166,10 +166,8 @@ class NotificationsAdapter(private val context: Context,
     }
 
     fun setPrivacyMode(isEnable: Boolean) {
-        if (privacyMode != isEnable) {
-            privacyMode = isEnable
-            notifyDataSetChanged()
-        }
+        privacyMode = isEnable
+        notifyDataSetChanged()
     }
 
     interface OnItemClickListener {

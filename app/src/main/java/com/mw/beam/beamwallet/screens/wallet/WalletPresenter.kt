@@ -16,10 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.app.Application
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.OnboardManager
@@ -28,6 +30,7 @@ import com.mw.beam.beamwallet.core.helpers.ChangeAction
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
+import org.jetbrains.anko.runOnUiThread
 
 
 /**
@@ -39,6 +42,9 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
     private lateinit var faucetGeneratedSubscription: Disposable
+    private lateinit var subOnCurrenciesSubscription: Disposable
+
+
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -215,6 +221,14 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
 
             view?.onFaucetAddressGenerated(link)
         }
+
+        subOnCurrenciesSubscription = AppManager.instance.subOnCurrenciesChanged.subscribe() {
+            App.self.runOnUiThread {
+                view?.configWalletStatus(AppManager.instance.getStatus(),
+                        !state.shouldExpandAvailable,
+                        !state.shouldExpandInProgress, state.privacyMode)
+            }
+        }
     }
 
     override fun onSecure() {
@@ -226,7 +240,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, faucetGeneratedSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, txStatusSubscription, faucetGeneratedSubscription, subOnCurrenciesSubscription)
 
     override fun hasBackArrow(): Boolean? = null
     override fun hasStatus(): Boolean = true

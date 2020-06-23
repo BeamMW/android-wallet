@@ -37,8 +37,8 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 29
-        versionCode 243
-        versionName "5.0"
+        versionCode 256
+        versionName "5.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -215,13 +215,13 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
     implementation "com.google.code.gson:gson:$ver_gson"
     implementation 'androidx.core:core-ktx:1.0.1'
-    implementation 'me.relex:circleindicator:2.1.4'
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
     implementation 'com.karumi:dexter:6.0.0'
     implementation "androidx.tonyodev.fetch2:xfetch2:3.1.4"
     implementation 'androidx.biometric:biometric:1.0.1'
     implementation 'com.android.support:multidex:1.0.0'
     implementation 'com.samigehi:loadingview:1.1'
+    implementation 'me.relex:circleindicator:2.1.4'
 
     implementation "com.mikepenz:materialdrawer:7.0.0-rc07"
     implementation "com.android.support:support-annotations:28.0.0"

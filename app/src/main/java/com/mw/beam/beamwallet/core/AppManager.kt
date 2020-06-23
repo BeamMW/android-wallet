@@ -49,6 +49,7 @@ class AppManager {
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -88,11 +89,17 @@ class AppManager {
     }
 
     fun updateCurrentCurrency() {
+        var found = false
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         currencies.forEach {
             if (it.unit == value.toInt()) {
+                found = true
                 currentRate = it
             }
+        }
+
+        if (!found) {
+            currentRate = null
         }
     }
 
@@ -503,6 +510,16 @@ class AppManager {
         wallet?.markNotificationAsRead(id)
     }
 
+    fun readAllNotification() {
+        val list = notifications.toMutableList()
+
+        list.forEach {
+            if (!it.isRead) {
+                readNotification(it.id)
+            }
+        }
+    }
+
     fun readNotificationByObject(id:String) {
         notifications.forEach {
             if(it.objId == id) {
@@ -514,6 +531,23 @@ class AppManager {
 
     fun deleteNotification(id:String) {
         wallet?.deleteNotification(id)
+    }
+
+    fun deleteAllNotificationByObject(id: String) {
+        notifications.forEach {
+            if (it.objId == id) {
+                deleteNotification(it.id)
+            }
+            return;
+        }
+    }
+
+    fun deleteAllNotificationTransactions() {
+        notifications.forEach {
+            if (it.type == NotificationType.Transaction) {
+                deleteNotification(it.id)
+            }
+        }
     }
 
     fun deleteAllNotifications(list: List<String>) {
@@ -550,7 +584,26 @@ class AppManager {
     }
 
     fun getNotifications() : List<Notification> {
-        return notifications.map { it }.toList()
+        var results = notifications.map { it }.toList()
+        var lists = mutableListOf<Notification>()
+
+        results.forEach {
+            if (it.type == NotificationType.Transaction) {
+                val tr = getTransactionById(it.objId)
+                if (tr != null) {
+                    lists.add(it)
+                }
+            }
+            else {
+                lists.add(it)
+            }
+        }
+
+        lists.sortBy {
+            it.createdTime
+        }
+
+        return lists
     }
 
     //MARK: - Updates
@@ -810,6 +863,8 @@ class AppManager {
                         currentRate = rate
                     }
                 }
+
+                subOnCurrenciesChanged.onNext(0)
             }
 
             WalletListener.subNotificationChanged.subscribe() {
@@ -873,10 +928,10 @@ class AppManager {
 
 
             wallet?.switchOnOffExchangeRates(true)
-            wallet?.switchOnOffNotifications(0, true)
-            wallet?.switchOnOffNotifications(1, true)
+            wallet?.switchOnOffNotifications(0, false)
+            wallet?.switchOnOffNotifications(1, false)
             wallet?.switchOnOffNotifications(2, true)
-            wallet?.switchOnOffNotifications(3, true)
+            wallet?.switchOnOffNotifications(3, false)
             wallet?.switchOnOffNotifications(4, true)
             wallet?.switchOnOffNotifications(5, true)
 

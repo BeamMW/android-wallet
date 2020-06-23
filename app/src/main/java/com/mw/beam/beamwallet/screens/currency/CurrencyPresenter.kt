@@ -38,9 +38,9 @@ class CurrencyPresenter(view: CurrencyContract.View?, repository: CurrencyContra
         offRate.currency = Currency.Off
 
         var currencies = mutableListOf<ExchangeRate>() //repository.getCurrencies().toMutableList()
+        currencies.add(offRate)
         currencies.add(usdRate)
         currencies.add(btcRate)
-        currencies.add(offRate)
 
         view?.init(currencies, repository.getCurrentCurrency())
     }

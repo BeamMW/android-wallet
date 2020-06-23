@@ -578,21 +578,47 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginTop="10dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
                         tools:text="1 GROTH" />
+
+                    <TextView
+                        android:id="@+id/secondMinFeeValue"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="14sp"
+                        android:layout_marginTop="24dp"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/feeSeekBar"
+                        tools:text="1234 USD" />
 
                     <TextView
                         android:id="@+id/maxFeeValue"
                         style="@style/common_text_big_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/feeSeekBar"
                         tools:text="10000000 GROTH" />
+
+                    <TextView
+                        android:id="@+id/secondMaxFeeValue"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textSize="14sp"
+                        android:layout_marginTop="24dp"
+                        android:visibility="visible"
+                        app:layout_constraintEnd_toEndOf="@+id/maxFeeValue"
+                        app:layout_constraintTop_toBottomOf="@+id/feeSeekBar"
+                        tools:text="1234 USD" />
+
 
                     <TextView
                         android:id="@+id/feeProgressValue"

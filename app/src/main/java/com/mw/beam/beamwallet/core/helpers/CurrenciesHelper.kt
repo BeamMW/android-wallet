@@ -89,6 +89,14 @@ fun Long.convertToCurrencyGrothString(): String? {
             return resultString
         }
     }
+    else if (current==null || this == 0L) {
+        if (AppManager.instance.currentCurrency() == Currency.Usd) {
+            return  "-USD"
+        }
+        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
+            return  "-BTC"
+        }
+    }
 
     return null
 }

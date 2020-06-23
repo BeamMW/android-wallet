@@ -45,7 +45,6 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     private var selectedNotifications = mutableListOf<String>()
 
     private var mode = Mode.NONE
-    private var menuPosition = 0
 
     private lateinit var adapter: NotificationsAdapter
 
@@ -210,14 +209,12 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
     override fun configNotifications(notifications: List<NotificationItem>, isEnablePrivacyMode: Boolean) {
         if(notificationsListView != null) {
-            notificationsListView.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
-            btnClearAll.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
+           // notificationsListView.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
+            btnClearAll.visibility = if (notifications.isEmpty()) View.INVISIBLE else View.VISIBLE
             emptyLayout.visibility = if (notifications.isEmpty()) View.VISIBLE else View.GONE
-            if (notifications.isNotEmpty()) {
-                adapter.setPrivacyMode(isEnablePrivacyMode)
-                adapter.data = notifications
-                adapter.notifyDataSetChanged()
-            }
+            adapter.setPrivacyMode(isEnablePrivacyMode)
+            adapter.data = notifications
+            adapter.notifyDataSetChanged()
         }
     }
 
@@ -276,6 +273,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
+        presenter?.repository?.getNotifications()?.let { presenter?.state?.privacyMode?.let { it1 -> configNotifications(it, it1) } }
         adapter.setPrivacyMode(isEnable)
     }
 

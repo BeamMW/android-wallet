@@ -29,7 +29,7 @@ import org.jetbrains.anko.runOnUiThread
 /**
  *  2/28/19.
  */
-class NotificationsPresenter(currentView: NotifcationsContract.View, currentRepository: NotifcationsContract.Repository, private val state: NotificationsState)
+class NotificationsPresenter(currentView: NotifcationsContract.View, currentRepository: NotifcationsContract.Repository, val state: NotificationsState)
     : BasePresenter<NotifcationsContract.View, NotifcationsContract.Repository>(currentView, currentRepository),
         NotifcationsContract.Presenter {
 

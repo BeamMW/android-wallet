@@ -16,9 +16,13 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.app.Application
+import android.os.Handler
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.DownloadCalculator
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
@@ -26,6 +30,9 @@ import com.mw.beam.beamwallet.core.helpers.*
 import io.reactivex.disposables.Disposable
 import java.io.File
 import com.mw.beam.beamwallet.core.RestoreManager
+import org.jetbrains.anko.runOnUiThread
+import java.util.*
+import kotlin.concurrent.schedule
 
 /**
  *  1/24/19.
@@ -39,6 +46,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     var isAlreadyDownloaded = false
 
     lateinit var file:File
+    private var recoveryPresented = false
 
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeProgressUpdatedSubscription: Disposable
@@ -148,8 +156,21 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         onRecoveryLiveData.postValue {
                             view?.updateProgress(data, state.mode)
 
+                            val progress = data.done.toDouble() / data.total.toFloat()
+
                             if (data.done == data.total) {
-                                showWallet()
+                                if (!recoveryPresented) {
+                                    recoveryPresented = true
+                                    showWallet()
+                                }
+                            }
+                            else if (progress >= 0.99 && !recoveryPresented) {
+                                recoveryPresented = true
+                                Timer().schedule(4000) {
+                                    App.self.runOnUiThread {
+                                        showWallet()
+                                    }
+                                }
                             }
                         }
                     }

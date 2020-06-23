@@ -186,7 +186,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             mode() == SettingsFragmentMode.Notifications -> {
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.wallet_updates),null, SettingsFragmentMode.WalletUpdates, switch = true))
-                s1.add(SettingsItem(null, getString(R.string.news),null, SettingsFragmentMode.News, switch = true))
+               // s1.add(SettingsItem(null, getString(R.string.news),null, SettingsFragmentMode.News, switch = true))
                // s1.add(SettingsItem(null, getString(R.string.address_expiration),null, SettingsFragmentMode.AddressExpiration, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.transaction_status),null, SettingsFragmentMode.TransactionStatus, switch = true))
                 items.add(s1.toTypedArray())
@@ -1077,6 +1077,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     override fun onPermissionGranted(response: PermissionGrantedResponse?) {
                         val outputStream: FileOutputStream
                         try {
+                            var dir2 =  Environment.getDownloadCacheDirectory().getPath()
                             val file2 = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
                             outputStream = FileOutputStream(file2)
                             outputStream.write(content.toByteArray())

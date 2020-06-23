@@ -472,7 +472,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="empty_address_list_expired">You have no expired addresses</string>
     <string name="empty_utxo_list_progress">You have no active UTXO</string>
     <string name="once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app"></string>
-    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Node isn’t connectable. Try connect wallet to different node or use automatic restore.</string>
+    <string name="node_isn_t_connectable_try_connect_wallet_to_different_node_or_use_automatic_restore">Could not connect to the node. Try a different node address or use an automatic restore.</string>
     <string name="connecting">Connecting...</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
 address or contact</string>
@@ -487,7 +487,7 @@ address or contact</string>
 
     <string name="m">mins</string>
     <string name="s">sec</string>
-    <string name="estimted_time">Estimated time</string>
+    <string name="estimted_time">Estimated time:</string>
     <string-array name="receive_expires_periods">
         <item>In 24 hours</item>
         <item>Never</item>

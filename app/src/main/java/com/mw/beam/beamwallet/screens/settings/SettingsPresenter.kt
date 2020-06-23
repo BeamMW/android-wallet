@@ -282,7 +282,12 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (clearTransactions) {
             state.transactions.forEach {
                 repository.deleteTransaction(it)
+                AppManager.instance.deleteAllNotificationByObject(it.id)
             }
+        }
+
+        if (clearTransactions) {
+            AppManager.instance.deleteAllNotificationTransactions()
         }
     }
 

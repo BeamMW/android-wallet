@@ -84,6 +84,8 @@ import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.views.*
+import kotlinx.android.synthetic.main.fragment_receive.*
+import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
 import org.jetbrains.anko.withAlpha
 
 /**
@@ -283,6 +285,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             false
         })
 
+        secondMinFeeValue.text = minFee.toLong().convertToCurrencyGrothString()
+        secondMaxFeeValue.text = maxFee.toLong().convertToCurrencyGrothString()
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -292,6 +297,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeSeekBar.max = maxFee - minFee
 
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
+        secondMinFeeValue.text = minFee.toLong().convertToCurrencyGrothString()
     }
 
     override fun showMinFeeError() {
@@ -493,6 +499,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 val rawFee = feeEditText.text?.toString()
                 val fee = rawFee?.toLongOrNull() ?: 0
                 secondAvailableSum.text = fee.convertToCurrencyGrothString()
+
+                secondAvailableSum.text = fee.convertToCurrencyGrothString()
+                secondMaxFeeValue.text = maxFee.toLong().convertToCurrencyGrothString()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -507,6 +516,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
                 if(fee > presenter!!.MAX_FEE) {
                     maxFee = fee.toInt()
+                    secondMaxFeeValue.text = maxFee.toLong().convertToCurrencyGrothString()
 
                     presenter!!.MAX_FEE = maxFee
 
