@@ -27,6 +27,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.core.content.ContextCompat
+import com.mw.beam.beamwallet.base_screen.BaseActivity
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 
 /**
  *  12/10/18.
@@ -47,6 +54,7 @@ class BeamToolbar : LinearLayout {
     lateinit var statusIcon: ImageView
     lateinit var progressBar: ProgressBar
     lateinit var centerTitleView: TextView
+    lateinit var leftTitleView: TextView
     private lateinit var statusLayout: ConstraintLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
@@ -62,11 +70,6 @@ class BeamToolbar : LinearLayout {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-//        val asyncLayoutInflater = AsyncLayoutInflater(context!!)
-//        asyncLayoutInflater.inflate( R.layout.toolbar, this) { view, _, parent ->
-//            addView(view)
-//        }
-
         inflate(context, R.layout.toolbar, this)
         toolbar = this.findViewById(R.id.toolbar)
         status = this.findViewById(R.id.connectionStatus)
@@ -74,6 +77,7 @@ class BeamToolbar : LinearLayout {
         statusLayout = this.findViewById(R.id.statusLayout)
         progressBar = this.findViewById(R.id.progress)
         centerTitleView = this.findViewById(R.id.centerTitle)
+        leftTitleView = this.findViewById(R.id.leftTitle)
 
         this.orientation = VERTICAL
 
@@ -91,5 +95,63 @@ class BeamToolbar : LinearLayout {
         status.text = status.text.toString().toLowerCase()
 
         toolbar.setNavigationIcon(R.drawable.ic_back)
+
+        configureStatus(AppManager.instance.getNetworkStatus())
+    }
+
+     fun configureStatus(networkStatus: NetworkStatus) {
+        if (AppManager.instance.isConnecting) {
+            progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+            status.setTextColor(context.getColor(R.color.category_orange))
+
+            progressBar.visibility = View.VISIBLE
+            statusIcon.visibility = View.INVISIBLE
+            status.text = context.getString(R.string.connecting).toLowerCase()
+        }
+        else{
+            when (networkStatus) {
+                NetworkStatus.ONLINE -> {
+                    handleStatus(true)
+                }
+                NetworkStatus.OFFLINE -> {
+                    handleStatus(false)
+                }
+                NetworkStatus.UPDATING -> {
+                    status.setTextColor(context.getColor(R.color.colorAccent))
+                    progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.colorAccent), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    progressBar.visibility = View.VISIBLE
+                    statusIcon.visibility = View.INVISIBLE
+                    status.text = context.getString(R.string.updating).toLowerCase()
+                }
+            }
+        }
+    }
+
+    private fun handleStatus(isOnline: Boolean) {
+        progressBar.visibility = View.INVISIBLE
+        statusIcon.visibility = View.VISIBLE
+
+        if(App.isDarkMode) {
+            status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
+        }
+        else{
+            status.setTextColor(context.getColor(R.color.common_text_dark_color))
+        }
+
+        if (isOnline) {
+            if (AppManager.instance.currencies.count() == 0 && AppManager.instance.currentCurrency() != Currency.Off) {
+                val name = AppManager.instance.currentCurrency().shortName()
+                status.text = context.getString(R.string.exchange_not_available, name)
+                statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
+            }
+            else {
+                statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
+                status.text = context.getString(R.string.online).toLowerCase()
+            }
+
+        } else {
+            statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
+            status.text = String.format(context.getString(R.string.common_status_error).toLowerCase(), AppConfig.NODE_ADDRESS)
+        }
     }
 }

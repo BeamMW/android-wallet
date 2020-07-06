@@ -11,7 +11,8 @@ enum class Currency(val value: Int) {
     Beam(0),
     Bitcoin(1),
     Litecoin(3),
-    Usd(4);
+    Usd(4),
+    Off(-1);
 
     companion object {
         private val map: HashMap<Int, Currency> = HashMap()
@@ -28,11 +29,30 @@ enum class Currency(val value: Int) {
     }
 
     fun name(context:Context): String {
-        return if(this == Bitcoin) {
-            context.getString(R.string.btc)
+        return when {
+            this == Bitcoin -> {
+                context.getString(R.string.btc)
+            }
+            this == Off -> {
+                context.getString(R.string.off)
+            }
+            else -> {
+                context.getString(R.string.usd)
+            }
         }
-        else {
-            context.getString(R.string.usd)
+    }
+
+    fun shortName(): String {
+        return when {
+            this == Bitcoin -> {
+                "BTC"
+            }
+            this == Off -> {
+                ""
+            }
+            else -> {
+                "USD"
+            }
         }
     }
 }

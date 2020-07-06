@@ -22,7 +22,6 @@ import com.mw.beam.beamwallet.core.helpers.WelcomeMode
  *  2/5/19.
  */
 class WelcomeProgressState {
-    //TODO decide what should be by default (arguments == null), when all modes will be available and when all modes will have progress screen
     var mode : WelcomeMode = WelcomeMode.CREATE
     var password = ""
     var seed : Array<String>? = null

@@ -40,7 +40,7 @@ class CurrencyAdapter(private val currencies: List<ExchangeRate>, private val on
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currency = currencies[position]
 
-        holder.selected = selectedCurrency.value == currency.unit
+        holder.selected = selectedCurrency.value == currency.currency.value
         holder.name = currency.currency.name(App.self)
         holder.itemView.setOnClickListener { onSelected(currency.currency) }
     }

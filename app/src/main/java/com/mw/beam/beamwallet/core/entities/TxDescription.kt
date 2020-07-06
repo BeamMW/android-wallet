@@ -151,7 +151,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     fun statusImage():Drawable?  {
         if (selfTx) return when {
             this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-            this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+            this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
             this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
             else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
         }
@@ -159,7 +159,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         {
             return when {
                 this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
-                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
                 this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
                 else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
             }
@@ -168,7 +168,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         {
             return when {
                 this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired_new)
+                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
                 this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
                 else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
             }

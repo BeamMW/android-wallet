@@ -49,7 +49,8 @@ class NotificationItem  {
                 var address = if (transaction.sender == TxSender.RECEIVED) transaction.peerId else transaction.myId
 
                 if (transaction.sender == TxSender.RECEIVED) {
-                    if ((transaction.status == TxStatus.Pending || transaction.status == TxStatus.Registered) && transaction.status != TxStatus.Completed) {
+                    if ((transaction.status == TxStatus.Pending || transaction.status == TxStatus.Registered
+                                    || transaction.status == TxStatus.InProgress) && transaction.status != TxStatus.Completed) {
                         icon = R.drawable.ic_icon_notifictions_received
                         name =  App.self.applicationContext.getString(R.string.notification_receive_content_title)
                         val string = App.self.applicationContext.getString(R.string.transaction_receiving_notif_body)
@@ -79,7 +80,11 @@ class NotificationItem  {
                 }
                 else {
                     if (transaction.status == TxStatus.Cancelled || transaction.status == TxStatus.Failed) {
-                        icon = R.drawable.ic_icon_notifictions_failed
+                        icon = if (transaction.sender == TxSender.RECEIVED) {
+                            R.drawable.ic_icon_notifictions_failed_copy
+                        } else {
+                            R.drawable.ic_icon_notifictions_failed
+                        }
                         name =  App.self.applicationContext.getString(R.string.buy_transaction_failed_title)
 
                         val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body_failed)

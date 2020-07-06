@@ -85,8 +85,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.walletID != state.outgoingAddress?.walletID) {
-                AppManager.instance.lastGeneratedAddress = it.walletID
-
                 state.tags.clear()
                 state.isNeedGenerateNewAddress = false
                 state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID

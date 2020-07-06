@@ -70,12 +70,14 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
 
     override fun onStart() {
         super.onStart()
+
         onBackPressedCallback.isEnabled = true
 
         btnBack.visibility = if (presenter?.hasBackArrow() == true) View.VISIBLE else View.GONE
     }
 
     override fun setupLanguageButton(currentLanguage: LocaleHelper.SupportedLanguage) {
+        btnChangeLanguage.visibility = View.GONE
         btnChangeLanguage.text = currentLanguage.languageCode.toUpperCase()
     }
 

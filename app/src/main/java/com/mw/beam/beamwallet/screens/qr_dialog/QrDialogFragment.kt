@@ -31,10 +31,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.QrHelper
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
+import com.mw.beam.beamwallet.core.helpers.*
 import kotlinx.android.synthetic.main.dialog_qr_code.*
 import java.io.File
 
@@ -54,11 +51,20 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun getAmount(): Long = args.amount
 
+    override fun getReceiveFromWallet(): Boolean = args.receiveFromWallet
+
+
     @SuppressLint("SetTextI18n")
     override fun init(walletAddress: WalletAddress, amount: Long) {
         hideKeyboard()
 
-        val receiveToken = walletAddress.walletID
+        val receiveToken = if(getReceiveFromWallet()) {
+            walletAddress.token.trimAddress()
+        }
+        else {
+            walletAddress.walletID.trimAddress()
+        }
+
         tokenView.text = receiveToken
 
         val qrImage: Bitmap?

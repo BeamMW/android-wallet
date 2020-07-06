@@ -18,6 +18,8 @@ package com.mw.beam.beamwallet.screens.currency
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
+import com.mw.beam.beamwallet.core.entities.dto.ExchangeRateDTO
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 
 class CurrencyPresenter(view: CurrencyContract.View?, repository: CurrencyContract.Repository)
@@ -25,7 +27,21 @@ class CurrencyPresenter(view: CurrencyContract.View?, repository: CurrencyContra
 
     override fun onViewCreated() {
         super.onViewCreated()
-        val currencies = repository.getCurrencies()
+
+        val usdRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
+        usdRate.currency = Currency.Usd
+
+        val btcRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
+        btcRate.currency = Currency.Bitcoin
+
+        val offRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
+        offRate.currency = Currency.Off
+
+        var currencies = mutableListOf<ExchangeRate>() //repository.getCurrencies().toMutableList()
+        currencies.add(offRate)
+        currencies.add(usdRate)
+        currencies.add(btcRate)
+
         view?.init(currencies, repository.getCurrentCurrency())
     }
 

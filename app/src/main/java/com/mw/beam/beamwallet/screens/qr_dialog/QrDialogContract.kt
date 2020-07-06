@@ -28,6 +28,7 @@ interface QrDialogContract {
     interface View: MvpView {
         fun getWalletAddress(): WalletAddress
         fun getAmount(): Long
+        fun getReceiveFromWallet(): Boolean
         fun init(walletAddress: WalletAddress, amount: Long)
         fun shareQR(file: File)
     }

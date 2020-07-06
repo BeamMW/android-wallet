@@ -129,9 +129,10 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState)
 
         setupMenu(savedInstanceState)
-       // Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
-      //  setupCrashHandler()
+      //  Fabric.with(this, Crashlytics(), CrashlyticsNdk())
+
+        setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
@@ -150,7 +151,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-       // setupCrashHandler()
+        setupCrashHandler()
        // Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
         subscribeToUpdates()
@@ -342,7 +343,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
        menuItems =  mutableListOf(
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notifications, getString(R.string.notifications)),
+                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
                 NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
 
@@ -351,6 +352,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         navItemsAdapter = NavItemsAdapter(applicationContext, menuItems.toTypedArray(), object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
+                val old = navItemsAdapter.selectedItem
+
                 if (navItemsAdapter.selectedItem != navItem.id) {
                     val destinationFragment = when (navItem.id) {
                         NavItem.ID.WALLET -> R.id.walletFragment
@@ -360,6 +363,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                         NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
                         else -> 0
                     }
+
+                    if (old == NavItem.ID.NOTIFICATIONS) {
+                        AppManager.instance.readAllNotification()
+                        reloadNotifications();
+                    }
+
                     val navBuilder = NavOptions.Builder()
                     val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
                     findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
@@ -520,7 +529,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         menuItems =  mutableListOf(
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notifications, getString(R.string.notifications)),
+                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
                 NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
 
@@ -581,11 +590,13 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             if(notification!=null) {
                 val privacy = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
                 val item = NotificationItem(notification, privacy)
-                val view = self.findViewById<View>(android.R.id.content)
-                val banner = NotificationBanner.make(view, self, item) { notificationId, objectId, type ->
-                   openNotification(notificationId, objectId, type)
+                if(item.icon!=null) {
+                    val view = self.findViewById<View>(android.R.id.content)
+                    val banner = NotificationBanner.make(view, self, item) { notificationId, objectId, type ->
+                        openNotification(notificationId, objectId, type)
+                    }
+                    banner.show()
                 }
-                banner.show()
             }
         }
 

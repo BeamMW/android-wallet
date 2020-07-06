@@ -101,28 +101,38 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/secondAvailableSum"
-                        style="@style/common_text_big_dark"
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:gravity="center"
-                        android:textSize="14sp"
-                        android:visibility="visible"
-                        tools:text="1234 USD" />
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/statusLabel"
-                        style="@style/common_text_big_light"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/roboto_italic"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:textSize="16sp"
-                        tools:text="@string/available" />
+                        <TextView
+                            android:id="@+id/secondAvailableSum"
+                            style="@style/common_text_big_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:layout_gravity="center"
+                            android:textAlignment="center"
+                            android:textSize="14sp"
+                            android:visibility="visible"
+                            tools:text="-USD" />
+
+                        <TextView
+                            android:id="@+id/statusLabel"
+                            style="@style/common_text_big_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:fontFamily="@font/roboto_italic"
+                            android:layout_gravity="center"
+                            android:paddingTop="5dp"
+                            android:textSize="16sp"
+                            tools:text="@string/available" />
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

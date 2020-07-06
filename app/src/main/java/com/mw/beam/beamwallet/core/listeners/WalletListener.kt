@@ -17,6 +17,7 @@ package com.mw.beam.beamwallet.core.listeners
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
@@ -189,13 +190,44 @@ object WalletListener {
     fun onNewVersionNotification(action: Int, notificationInfo: NotificationDTO, content: VersionInfoDTO) {
         if(content.application == 1) {
             val versionName: String = BuildConfig.VERSION_NAME
-            val versionReceivedName: String =  content.versionMajor.toString() + "." + content.versionMinor.toString()
 
-            if (versionReceivedName.toDouble() > versionName.toDouble()) {
+            val major = content.versionMajor.toInt()
+            val minor = content.versionMinor.toInt()
+            val revision = content.versionRevision.toInt()
+
+            var currentMajor = 0
+            var currentMinor = 0
+            var currentRevision = 0
+
+            val array = versionName.split(".")
+            if(array.count() == 3) {
+                currentMajor = array[0].toInt()
+                currentMinor = array[1].toInt()
+                currentRevision = array[2].toInt()
+            }
+            else if(array.count() == 2) {
+                currentMajor = array[0].toInt()
+                currentMinor = array[1].toInt()
+            }
+            else {
+                currentMajor = versionName.toInt()
+            }
+
+            var isUP = false
+
+            if (currentMajor < major) {
+                isUP = true
+            } else if (currentMajor === major && currentMinor < minor) {
+                isUP = true
+            } else if (currentMajor === major && currentMinor === minor && currentRevision < revision) {
+                isUP = true
+            }
+
+            if (isUP) {
                 val notification = Notification(
                         NotificationType.Version,
                         notificationInfo.id,
-                        "v." + content.versionMajor.toString() + "." + content.versionMinor.toString(),
+                        "v" + content.versionMajor.toString() + "." + content.versionMinor.toString()  + "." + content.versionRevision.toString(),
                         notificationInfo.state == 1,
                         false, notificationInfo.createTime,
                         "")

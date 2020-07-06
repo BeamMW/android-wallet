@@ -20,8 +20,6 @@ import kotlin.collections.HashMap
 class AppManager {
     var wallet: Wallet? = null
 
-    var lastGeneratedAddress:String? = null
-
     private var handler:android.os.Handler? = null
 
     private var contacts = mutableListOf<WalletAddress>()
@@ -30,6 +28,7 @@ class AppManager {
     private var utxos = mutableListOf<Utxo>()
     private var notifications = mutableListOf<Notification>()
     private var sentNotifications = mutableListOf<String>()
+    var ignoreNotifications = mutableListOf<String>()
 
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
@@ -48,6 +47,7 @@ class AppManager {
     var subOnConnectingChanged: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -67,11 +67,11 @@ class AppManager {
     }
 
     init {
-        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
-        if(!jsonString.isNullOrEmpty()) {
-            val gson = Gson()
-            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
-        }
+//        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
+//        if(!jsonString.isNullOrEmpty()) {
+//            val gson = Gson()
+//            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
+//        }
 
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         if(value == 0L) {
@@ -91,12 +91,23 @@ class AppManager {
     }
 
     fun updateCurrentCurrency() {
+        var found = false
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         currencies.forEach {
             if (it.unit == value.toInt()) {
+                found = true
                 currentRate = it
             }
         }
+
+        if (!found) {
+            currentRate = null
+        }
+    }
+
+    fun currentCurrency(): Currency {
+        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+        return Currency.fromValue(value.toInt())
     }
 
     fun currentExchangeRate(): ExchangeRate? {
@@ -503,6 +514,16 @@ class AppManager {
         wallet?.markNotificationAsRead(id)
     }
 
+    fun readAllNotification() {
+        val list = notifications.toMutableList()
+
+        list.forEach {
+            if (!it.isRead) {
+                readNotification(it.id)
+            }
+        }
+    }
+
     fun readNotificationByObject(id:String) {
         notifications.forEach {
             if(it.objId == id) {
@@ -514,6 +535,23 @@ class AppManager {
 
     fun deleteNotification(id:String) {
         wallet?.deleteNotification(id)
+    }
+
+    fun deleteAllNotificationByObject(id: String) {
+        notifications.forEach {
+            if (it.objId == id) {
+                deleteNotification(it.id)
+            }
+            return;
+        }
+    }
+
+    fun deleteAllNotificationTransactions() {
+        notifications.forEach {
+            if (it.type == NotificationType.Transaction) {
+                deleteNotification(it.id)
+            }
+        }
     }
 
     fun deleteAllNotifications(list: List<String>) {
@@ -550,7 +588,26 @@ class AppManager {
     }
 
     fun getNotifications() : List<Notification> {
-        return notifications.map { it }.toList()
+        var results = notifications.map { it }.toList()
+        var lists = mutableListOf<Notification>()
+
+        results.forEach {
+            if (it.type == NotificationType.Transaction) {
+                val tr = getTransactionById(it.objId)
+                if (tr != null) {
+                    lists.add(it)
+                }
+            }
+            else {
+                lists.add(it)
+            }
+        }
+
+        lists.sortBy {
+            it.createdTime
+        }
+
+        return lists
     }
 
     //MARK: - Updates
@@ -789,6 +846,8 @@ class AppManager {
             }
 
             WalletListener.subOnExchangeRates.subscribe() {
+                val oldCount = currencies.count()
+
                 it?.forEach { item ->
                     val index1 = currencies.indexOfFirst {old->
                         old.unit == item.unit
@@ -804,12 +863,19 @@ class AppManager {
                 val jsonString = gson.toJson(currencies)
                 PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
 
+
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
                 currencies.forEach {rate ->
                     if (rate.unit == value.toInt()) {
                         currentRate = rate
                     }
                 }
+
+                if(oldCount == 0){
+                    subOnNetworkStatusChanged.onNext(0)
+                }
+
+                subOnCurrenciesChanged.onNext(0)
             }
 
             WalletListener.subNotificationChanged.subscribe() {
@@ -838,6 +904,10 @@ class AppManager {
                     }
 
                     it.notification.isSent = sentNotifications.contains(it.notification.id)
+
+                    if(!it.notification.isSent) {
+                        it.notification.isSent = ignoreNotifications.contains((it.notification.objId))
+                    }
 
                     val index = notifications.indexOfFirst {item->
                         item.id == it.notification.id
@@ -869,10 +939,10 @@ class AppManager {
 
 
             wallet?.switchOnOffExchangeRates(true)
-            wallet?.switchOnOffNotifications(0, true)
-            wallet?.switchOnOffNotifications(1, true)
+            wallet?.switchOnOffNotifications(0, false)
+            wallet?.switchOnOffNotifications(1, false)
             wallet?.switchOnOffNotifications(2, true)
-            wallet?.switchOnOffNotifications(3, true)
+            wallet?.switchOnOffNotifications(3, false)
             wallet?.switchOnOffNotifications(4, true)
             wallet?.switchOnOffNotifications(5, true)
 

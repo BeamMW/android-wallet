@@ -78,7 +78,8 @@ class BackgroundService : JobService() {
 
                     val txDescription = data.tx?.firstOrNull()
 
-                    if(txDescription?.status == TxStatus.Pending || txDescription?.status == TxStatus.Registered) {
+                    if(txDescription?.status == TxStatus.Pending || txDescription?.status == TxStatus.Registered
+                            || txDescription?.status == TxStatus.InProgress) {
                         if (txDescription != null && txDescription.sender == TxSender.RECEIVED) {
 
                             val txId = txDescription.id

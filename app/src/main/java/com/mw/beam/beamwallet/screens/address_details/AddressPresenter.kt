@@ -109,10 +109,12 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
             if (it == true && view?.getAddress()?.isContact == false) {
                 state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
                 state.address?.let { it1 -> view?.init(it1) }
+                state.address?.walletID?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
             else if (it == false && view?.getAddress()?.isContact == true) {
                 state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
                 state.address?.let { it1 -> view?.init(it1) }
+                state.address?.walletID?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
         }
     }

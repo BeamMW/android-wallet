@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.address_edit
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
@@ -46,6 +47,10 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
                 addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Never;
             }
 
+            if(addressExpiration == WalletAddressDTO.WalletAddressExpirationStatus.Expired) {
+                AppManager.instance.ignoreNotifications.add(addr)
+            }
+
             wallet?.updateAddress(addr, name, addressExpiration.ordinal)
         }
     }
@@ -62,6 +67,10 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
                 address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
                 address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
                 else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
+            }
+
+            if(addressExpiration == WalletAddressDTO.WalletAddressExpirationStatus.Expired) {
+                AppManager.instance.ignoreNotifications.add(address.walletID)
             }
 
             wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)

@@ -32,17 +32,17 @@
 
     <TextView
         android:id="@+id/unreadTextView"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginStart="45dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/circle"
         android:fontFamily="@font/roboto_medium"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
         android:textAlignment="center"
         android:textColor="@color/n_color"
-        android:textSize="7sp"
+        android:textSize="9sp"
         app:layout_constraintBottom_toBottomOf="@+id/icon"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="9" />

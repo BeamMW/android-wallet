@@ -176,7 +176,14 @@ else{
             }
             else -> {
                 receiving.text = receivingAmount.convertToBeamWithSign(false)
-                receivingSecondBalance.text = "+" + receivingAmount.convertToCurrencyString()
+                val amount = receivingAmount.convertToCurrencyString()
+                if (amount == null) {
+                    receivingSecondBalance.text = amount
+                }
+                else {
+                    receivingSecondBalance.text = "+$amount"
+
+                }
                 receiving.requestLayout()
                 receiving.refreshDrawableState()
                 receivingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
@@ -187,7 +194,16 @@ else{
             0L -> sendingGroup.visibility = View.GONE
             else -> {
                 sending.text = sendingAmount.convertToBeamWithSign(true)
-                sendingSecondBalance.text = "-" + receivingAmount.convertToCurrencyString()
+
+                val amount = sendingAmount.convertToCurrencyString()
+                if (amount == null) {
+                    sendingSecondBalance.text = amount
+                }
+                else {
+                    sendingSecondBalance.text = "-$amount"
+
+                }
+
                 sendingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
             }
         }

@@ -62,10 +62,12 @@ object TrashManager {
             addresses.forEach {
                 TagHelper.changeTagsForAddress(it.walletID, null)
                 AppManager.instance.wallet?.deleteAddress(it.walletID)
+                AppManager.instance.deleteAllNotificationByObject(it.walletID)
             }
 
             transactions.forEach {
                 AppManager.instance.wallet?.deleteTx(it.id)
+                AppManager.instance.deleteAllNotificationByObject(it.id)
             }
 
             notifyChanged(TrashManager.ActionType.Removed, this)
@@ -75,8 +77,15 @@ object TrashManager {
     }
 
     fun restore(id: String) {
-        actions[id]?.let { notifyChanged(TrashManager.ActionType.Restored, it) }
+        val tr = actions[id]?.transactions
+        actions[id]?.let {
+            notifyChanged(TrashManager.ActionType.Restored, it)
+        }
         actions.remove(id)
+
+        if(tr != null && tr.count() > 0) {
+            AppManager.instance.subOnNotificationsChanged.onNext(0)
+        }
     }
 
     private fun notifyChanged(type: ActionType, data: ActionData) {

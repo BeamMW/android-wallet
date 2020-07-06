@@ -36,6 +36,7 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val own: Long = source.own
     val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
     var isContact = own == 0L
+    var token = source.token
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label

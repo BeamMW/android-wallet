@@ -42,11 +42,21 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
             BalanceTab.Unlinked -> unlinked
         }.convertToBeamString()
 
-        view.findViewById<TextView>(R.id.secondBalance).text = when (tabs[position]) {
+
+        val second = when (BalanceTab.values()[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
             BalanceTab.Unlinked -> unlinked
         }.convertToCurrencyString()
+
+        view.findViewById<TextView>(R.id.secondBalance).text = second
+
+        if (second == null) {
+            view.findViewById<TextView>(R.id.secondBalance).visibility = View.GONE
+        }
+        else {
+            view.findViewById<TextView>(R.id.secondBalance).visibility = View.VISIBLE
+        }
 
         container.addView(view)
         return view
