@@ -312,6 +312,11 @@ else{
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
+        if(!txDescription.identity.isNullOrEmpty()) {
+            walletIdLayout.visibility = View.VISIBLE
+            walletIdLabel.text = txDescription.identity
+        }
+
 //        val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
 //        btnOpenInBlockExplorer.visibility = externalLinkVisibility
 

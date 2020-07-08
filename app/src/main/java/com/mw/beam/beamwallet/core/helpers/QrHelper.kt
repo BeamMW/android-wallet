@@ -50,7 +50,7 @@ object QrHelper {
 
     fun isNewQrVersion(text: String) = text.startsWith(BEAM_QR_PREFIX)
 
-    fun isValidAddress(address: String) = address == address.replace(tokenRegex, "") && address.isNotBlank() && address.length <= MAX_TOKEN_LENGTH && address.length >= MIN_TOKEN_LENGTH
+  //  fun isValidAddress(address: String) = address == address.replace(tokenRegex, "") && address.isNotBlank() && address.length <= MAX_TOKEN_LENGTH && address.length >= MIN_TOKEN_LENGTH
 
     fun getScannedAddress(text: String): String {
         return if (text.startsWith(BEAM_QR_PREFIX)) {

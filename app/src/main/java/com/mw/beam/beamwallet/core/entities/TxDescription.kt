@@ -47,6 +47,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val kernelId: String = source.kernelId
     val selfTx: Boolean = source.selfTx
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
+    val identity: String? = source.identity
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)

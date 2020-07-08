@@ -476,6 +476,39 @@
                         tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
                 </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/walletIdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.2"
+                    android:padding="3dp"
+                    android:text="@string/wallet_id"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/walletIdLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="3dp"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textIsSelectable="true"
+                    android:textSize="14sp"
+                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+
+            </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/kernelLayout"
                     android:layout_width="match_parent"

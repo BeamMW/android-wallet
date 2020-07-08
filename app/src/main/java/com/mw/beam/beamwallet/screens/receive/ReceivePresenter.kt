@@ -63,13 +63,15 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             }
         }
         else {
-            AppActivity.self.runOnUiThread {
-                val dto = AppManager.instance.wallet?.generateToken()
-                if (dto!=null) {
-                    val token = WalletAddress(dto)
-                    initViewAddress(token)
-                }
+            val dto = AppManager.instance.wallet?.generateToken()
+            if (dto!=null) {
+                val token = WalletAddress(dto)
+                initViewAddress(token)
             }
+
+//            AppActivity.self.runOnUiThread {
+//
+//            }
         }
 
     }

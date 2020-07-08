@@ -34,13 +34,23 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
     override fun getToolbarTitle(): String? = null
     override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(arguments!!).token
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, R.color.received_color)
+        return if(ShowTokenFragmentArgs.fromBundle(arguments!!).receive) {
+            ContextCompat.getColor(context!!, R.color.received_color)
+        }
+        else {
+            ContextCompat.getColor(context!!, R.color.sent_color)
+        }
     }
 
     override fun init(token: String) {
         toolbarLayout.hasStatus = true
 
         tokenView.text = token
+
+        val isReceive = ShowTokenFragmentArgs.fromBundle(arguments!!).receive
+        if (!isReceive) {
+            gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
+        }
 
         (activity as BaseActivity<*>).supportActionBar?.title = getString(R.string.show_token)
     }

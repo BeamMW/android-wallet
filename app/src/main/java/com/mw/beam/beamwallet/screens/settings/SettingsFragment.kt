@@ -173,7 +173,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
-                s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
+              //  s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
                 s1.add(SettingsItem(null, getString(R.string.show_amounts),null, SettingsFragmentMode.Currency))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 

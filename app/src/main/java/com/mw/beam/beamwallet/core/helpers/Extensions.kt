@@ -22,7 +22,7 @@ fun String.trimAddress(): String {
         this
     } else {
         val start = this.substring(0, 6)
-        val end = this.substring(this.length-6, this.length)
+        val end = this.substring(this.length-7, this.length)
         "$start...$end"
     }
 }

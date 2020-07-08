@@ -23,7 +23,6 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
@@ -83,8 +82,8 @@ import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.views.*
-import kotlinx.android.synthetic.main.fragment_receive.*
 import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
 import org.jetbrains.anko.withAlpha
 
@@ -96,22 +95,39 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private lateinit var pagerAdapter: AddressesPagerAdapter
     private var minFee = 0
     private var maxFee = 0
-    private var isFirstEditExanpd = true
-    private var isFirstAdvExanpd = true
+    private var isFirstEditExpand = true
+    private var isFirstAdvExpand = true
+    private var address = ""
+    private var isPaste = false
+    private var ignoreWatcher = false
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
+            isPaste = true
+            ignoreWatcher = true
+            token.setTypeface(null,Typeface.NORMAL)
             presenter?.onPaste()
         }
 
         override fun afterTextChanged(rawToken: Editable?) {
-            presenter?.onTokenChanged(rawToken.toString())
+            if (!ignoreWatcher) {
+                showTokenButton.visibility = View.GONE
+                presenter?.onTokenChanged(rawToken.toString())
 
-            if(token.text.toString().isEmpty()) {
-                token.setTypeface(null,Typeface.ITALIC)
+                if(token.text.toString().isEmpty()) {
+                    token.setTypeface(null,Typeface.ITALIC)
+                }
+                else {
+                    token.setTypeface(null,Typeface.NORMAL)
+                }
             }
-            else {
-                token.setTypeface(null,Typeface.NORMAL)
+
+            if(isPaste) {
+                isPaste = false
+                onTrimAddress()
+            }
+            else if (!ignoreWatcher) {
+                address = token.toString()
             }
 
             Handler().postDelayed({ contentScrollView?.smoothScrollTo(0, 0) }, 50)
@@ -200,7 +216,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         0.0
     }
 
-    override fun getToken(): String = token.text.toString()
+    override fun getToken(): String = address
     override fun getComment(): String? = comment.text.toString()
     override fun getFee(): Long {
         val progress = feeSeekBar.progress.toLong() + minFee.toLong()
@@ -212,7 +228,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun init(defaultFee: Int, max: Int) {
         maxFee = max
 
-        if(token.text.toString().isEmpty()) {
+        if(address.isEmpty()) {
             token.setTypeface(null,Typeface.ITALIC)
         }
         else {
@@ -260,6 +276,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         pagerAdapter = AddressesPagerAdapter(context!!, object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
+                isPaste = true
                 presenter?.onSelectAddress(item)
             }
         },null, { presenter?.repository?.getAddressTags(it) ?: listOf() }, AddressPagerType.SMALL)
@@ -376,6 +393,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onUnlinked(unlinkedSwitch.isChecked)
         }
 
+        showTokenButton.setOnClickListener {
+            presenter?.showTokenFragmentPressed()
+        }
+
         addressName.addTextChangedListener(labelWatcher)
 
         amount.addTextChangedListener(amountWatcher)
@@ -401,7 +422,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             } else {
                 handleAddressSuggestions(null)
 
-                if (!QrHelper.isValidAddress(getToken())) {
+                if (!AppManager.instance.isValidAddress(getToken())) {
                     setAddressError()
                 }
             }
@@ -450,6 +471,22 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         else{
             addressContainer.setBackgroundColor(context!!.getColor(R.color.colorPrimary).withAlpha(95))
         }
+    }
+
+    override fun onTrimAddress() {
+        ignoreWatcher = true
+        val enteredAddress = token.text.toString()
+        if(AppManager.instance.isValidAddress(enteredAddress)) {
+            address = enteredAddress
+            val trim = enteredAddress.trimAddress()
+            token.setText(trim)
+            token.setSelection(token.text?.length ?: 0)
+            showTokenButton.visibility = View.VISIBLE
+        }
+        else {
+            showTokenButton.visibility = View.GONE
+        }
+        ignoreWatcher = false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -688,7 +725,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         var hasErrors = false
         clearErrors()
 
-        if (!QrHelper.isValidAddress(getToken())) {
+        if (!AppManager.instance.isValidAddress(getToken())) {
             hasErrors = true
             setAddressError()
             contentScrollView?.smoothScrollTo(0, 0)
@@ -743,8 +780,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
-        if (isFirstAdvExanpd) {
-            isFirstAdvExanpd = false
+        if (isFirstAdvExpand) {
+            isFirstAdvExpand = false
             animateDropDownIcon(btnExpandAdvanced, expand)
             advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
         }
@@ -762,8 +799,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun handleExpandEditAddress(expand: Boolean) {
-        if (isFirstEditExanpd) {
-            isFirstEditExanpd = false
+        if (isFirstEditExpand) {
+            isFirstEditExpand = false
             animateDropDownIcon(btnExpandEditAddress, expand)
             editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
         }
@@ -834,6 +871,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToEditCategoryFragment())
     }
 
+    override fun showTokenFragment() {
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToShowTokenFragment(address, false))
+    }
+
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
         val angleFrom = if (shouldExpand) 360f else 180f
         val angleTo = if (shouldExpand) 180f else 360f
@@ -867,8 +908,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setAmount(amount: Double) {
         this.amount.setText(amount.convertToBeamString())
         this.amount.setSelection(this.amount.text?.length ?: 0)
-
-
     }
 
     override fun setComment(comment: String) {
@@ -926,6 +965,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun setAddressError() {
         tokenError.visibility = View.VISIBLE
+        showTokenButton.visibility = View.GONE
 
         contactCategory.visibility = View.GONE
         contactIcon.visibility = View.GONE
@@ -944,28 +984,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contactCategory.text = tags.createSpannableString(context!!)
     }
 
-    private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
-    private val foregroundEndColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
-
-    override fun changeTokenColor(validToken: Boolean) {
-        val length = token.text.toString().length
-        val spannable = token.text
-
-        if (validToken) {
-            spannable?.setSpan(foregroundStartColorSpan, 0, if (length < 7) length else 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-            spannable?.setSpan(foregroundEndColorSpan, if (length - 6 < 0) 0 else length - 6, length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        } else {
-            spannable?.removeSpan(foregroundStartColorSpan)
-            spannable?.removeSpan(foregroundEndColorSpan)
-        }
-
-        if(length == 0) {
-            token.setTypeface(null,Typeface.ITALIC)
-        }
-        else {
-            token.setTypeface(null,Typeface.NORMAL)
-        }
-    }
 
     override fun clearAddressError() {
         tokenError.visibility = View.INVISIBLE
@@ -1035,6 +1053,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         token.setOnClickListener(null)
         tagAction.setOnClickListener(null)
         unlinkedSwitch.setOnClickListener(null)
+        showTokenButton.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {

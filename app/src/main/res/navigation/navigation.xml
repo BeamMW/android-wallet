@@ -524,6 +524,13 @@
             <argument android:defaultValue="@null"
                 android:name="categoryId" />
         </action>
+        <action
+            android:id="@+id/action_sendFragment_to_showTokenFragment"
+            app:destination="@id/showTokenFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
@@ -1044,5 +1051,9 @@
         <argument
             android:name="token"
             app:argType="string" />
+        <argument
+            android:name="receive"
+            app:argType="boolean"
+            android:defaultValue="true" />
     </fragment>
 </navigation>

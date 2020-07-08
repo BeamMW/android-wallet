@@ -26,9 +26,14 @@ class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
 
             val address = AppManager.instance.getAddress(token)
-            val name= address?.label
+            val name = address?.label
 
-            wallet?.sendMoney(outgoingAddress, token, comment ?: "", amount, fee)
+            if (wallet?.isToken(token) == true) {
+                wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee)
+            }
+            else {
+                wallet?.sendMoney(outgoingAddress, token, comment ?: "", amount, fee)
+            }
 
             if(address!=null && name!=null) {
                 val dto = address.toDTO()

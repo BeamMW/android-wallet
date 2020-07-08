@@ -36,8 +36,8 @@ interface SendContract {
     interface View : MvpView {
         fun getAmount(): Double
         fun getFee(): Long
-        fun getToken(): String
         fun getComment(): String?
+        fun getToken(): String
         fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)
         fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
         fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
@@ -76,7 +76,6 @@ interface SendContract {
         fun showFeeDialog()
         fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>)
-        fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
         fun requestFocusToAmount()
         fun showMinFeeError()
@@ -85,6 +84,8 @@ interface SendContract {
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
         fun setUnlinked(unlinked:Boolean)
+        fun onTrimAddress()
+        fun showTokenFragment()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -98,6 +99,7 @@ interface SendContract {
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
         fun onChangePrivacyModePressed()
+        fun showTokenFragmentPressed()
         fun onPrivacyModeActivated()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater)
         fun onCancelDialog()

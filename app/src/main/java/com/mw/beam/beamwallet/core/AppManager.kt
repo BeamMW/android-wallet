@@ -244,6 +244,13 @@ class AppManager {
 
     //MARK: - Addresses
 
+    fun isValidAddress(address: String): Boolean {
+        if(address.isNullOrEmpty()) {
+            return false
+        }
+        return wallet!!.isAddress(address) || wallet!!.isToken(address)
+    }
+
     fun getAllAddresses() : List<WalletAddress> {
         var result = mutableListOf<WalletAddress>()
         result.addAll(contacts)

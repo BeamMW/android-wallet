@@ -170,6 +170,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
+    override fun showTokenFragmentPressed() {
+        view?.showTokenFragment()
+    }
+
     override fun onSendAllPressed() {
         //доделать
 
@@ -244,7 +248,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     private fun isValidToken(token: String): Boolean {
-        return QrHelper.isValidAddress(token)
+        return AppManager.instance.isValidAddress(token)
     }
 
     override fun onEnterFee(rawFee: String?) {
@@ -326,7 +330,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (text == null) return
 
         val scannedAddress = QrHelper.getScannedAddress(text)
-        val isValidAddress = QrHelper.isValidAddress(scannedAddress)
+        val isValidAddress = AppManager.instance.isValidAddress(scannedAddress)
 
         if (isValidAddress) {
             state.scannedAddress = scannedAddress
@@ -380,7 +384,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onTokenChanged(rawToken: String?, searchAddress: Boolean) {
         val validToken = isValidToken(rawToken ?: "")
-        view?.changeTokenColor(validToken)
+     //   view?.changeTokenColor(validToken)
 
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {

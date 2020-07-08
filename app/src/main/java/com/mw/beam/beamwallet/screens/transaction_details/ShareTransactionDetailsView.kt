@@ -10,6 +10,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.share_transaction_detail_layout.view.*
 
 class ShareTransactionDetailsView : FrameLayout {
@@ -91,6 +92,11 @@ class ShareTransactionDetailsView : FrameLayout {
         if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed
                 || txDescription.kernelId.contains("000000000")) {
             kernelLayout.visibility = View.GONE
+        }
+
+        if(!txDescription.identity.isNullOrEmpty()) {
+            walletIdLayout.visibility = View.VISIBLE
+            walletIdLabel.text = txDescription.identity
         }
 
         refreshDrawableState()
