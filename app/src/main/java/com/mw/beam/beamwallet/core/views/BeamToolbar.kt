@@ -100,7 +100,19 @@ class BeamToolbar : LinearLayout {
     }
 
      fun configureStatus(networkStatus: NetworkStatus) {
-        if (AppManager.instance.isConnecting) {
+         if(networkStatus == NetworkStatus.RECONNECT) {
+             if(App.isDarkMode) {
+                 status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
+             }
+             else{
+                 status.setTextColor(context.getColor(R.color.common_text_dark_color))
+             }
+             progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
+             progressBar.visibility = View.VISIBLE
+             statusIcon.visibility = View.INVISIBLE
+             status.text = context.getString(R.string.reconnect).toLowerCase()
+         }
+        else if (AppManager.instance.isConnecting) {
             progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
             status.setTextColor(context.getColor(R.color.category_orange))
 

@@ -32,7 +32,7 @@ enum class WelcomeMode {
 }
 
 enum class NetworkStatus {
-    ONLINE, OFFLINE, UPDATING
+    ONLINE, OFFLINE, UPDATING, RECONNECT
 }
 
 enum class Status(val value: Int) {

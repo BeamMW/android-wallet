@@ -32,6 +32,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     private var nodeConnectionSubscription: Disposable? = null
     private var nodeConnectingSubscription: Disposable? = null
+    private var nodeReconnectionSubscription: Disposable? = null
 
     private var isActivityStopped = false
 
@@ -59,6 +60,9 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             }
             if (nodeConnectingSubscription != null) {
                 add(nodeConnectingSubscription!!)
+            }
+            if (nodeReconnectionSubscription != null) {
+                add(nodeReconnectionSubscription!!)
             }
         }
 
@@ -104,6 +108,10 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
         nodeConnectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe() {
             view?.configStatus(AppManager.instance.getNetworkStatus())
+        }
+
+        nodeReconnectionSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
+            view?.configStatus(NetworkStatus.RECONNECT)
         }
     }
 

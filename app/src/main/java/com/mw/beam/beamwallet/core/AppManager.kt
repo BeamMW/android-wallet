@@ -48,10 +48,14 @@ class AppManager {
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnOnNetworkStartReconnecting: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
     var isResotred = false
+
+    private var reconnectAttempts = 0
+    private var reconnectNodes = mutableListOf<String>()
 
     companion object {
         private var INSTANCE: AppManager? = null
@@ -85,6 +89,54 @@ class AppManager {
         }
 
     }
+
+    private fun reconnect(): Boolean {
+        val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
+
+        if (random && reconnectAttempts < 2) {
+            subOnOnNetworkStartReconnecting.onNext(0)
+
+            reconnectAttempts += 1
+            reconnectNodes.add(AppConfig.NODE_ADDRESS);
+
+            val node = chooseRandomNodeWithoutNodes()
+
+            if(node.isNotEmpty()) {
+                AppConfig.NODE_ADDRESS = node
+                instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+                return true
+            }
+        }
+
+        return false
+    }
+
+    private fun chooseRandomNodeWithoutNodes(): String {
+        val peers = Api.getDefaultPeers()
+
+        val array = mutableListOf<String>()
+
+        peers.forEach { random ->
+            var found = false
+
+            array.forEach { node ->
+                if(random == node) {
+                    found = true;
+                }
+            }
+
+            if(!found) {
+                array.add(random)
+            }
+        }
+
+        if(array.count() > 0 ) {
+            return array[0]
+        }
+
+        return ""
+    }
+
 
     fun remainingUnlink(amount:Long) : Long {
         return walletStatus.unlinked - amount
@@ -843,8 +895,19 @@ class AppManager {
             }
 
             WalletListener.subOnNodeConnectionFailed.subscribe(){
-                networkStatus = NetworkStatus.OFFLINE
-                subOnNetworkStatusChanged.onNext(0)
+                if (it == NodeConnectionError.CONNECTION_HOST_UNREACHED || it == NodeConnectionError.NODE_PROTOCOL_BASE
+                        || it == NodeConnectionError.CONNECTION_BASE || it == NodeConnectionError.CONNECTION_REFUSED
+                        || it == NodeConnectionError.NODE_PROTOCOL_INCOMPATIBLE) {
+                    val reconnect = reconnect()
+                    if (!reconnect) {
+                        networkStatus = NetworkStatus.OFFLINE
+                        subOnNetworkStatusChanged.onNext(0)
+                    }
+                }
+                else {
+                    networkStatus = NetworkStatus.OFFLINE
+                    subOnNetworkStatusChanged.onNext(0)
+                }
             }
 
             WalletListener.subOnSyncProgressUpdated.subscribe(){
