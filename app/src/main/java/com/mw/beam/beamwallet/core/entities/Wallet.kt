@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.core.entities
 
 import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
+import com.mw.beam.beamwallet.core.entities.dto.TransactionParametersDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
@@ -57,8 +58,9 @@ data class Wallet(val _this: Long) {
     external fun markNotificationAsRead(id : String)
     external fun deleteNotification(id : String)
 
-    external fun generateToken(): WalletAddressDTO
+    external fun generateToken(maxPrivacy: Boolean, nonInteractive: Boolean, isPermanentAddress: Boolean, amount: Long, walletId: String, ownId: Long): String
     external fun isToken(token: String): Boolean
     external fun isAddress(address: String): Boolean
     external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
+    external fun getTransactionParameters(token: String): TransactionParametersDTO
 }

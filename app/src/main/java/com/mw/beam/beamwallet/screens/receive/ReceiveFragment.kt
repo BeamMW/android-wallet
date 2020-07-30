@@ -16,19 +16,18 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import android.R.attr.spacing
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
 import android.text.TextWatcher
+import android.text.style.ScaleXSpan
 import android.transition.TransitionManager
-import android.util.Log
-import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -44,15 +43,10 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
-import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
-import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import kotlinx.android.synthetic.main.fragment_receive.*
 import org.jetbrains.anko.withAlpha
 
@@ -62,6 +56,8 @@ import org.jetbrains.anko.withAlpha
  */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private val copyTag = "ADDRESS"
+    private var token_1 = ""
+    private var token_2 = ""
 
     private val amountWatcher: com.mw.beam.beamwallet.core.watchers.TextWatcher = object : com.mw.beam.beamwallet.core.watchers.TextWatcher {
         override fun afterTextChanged(token: Editable?) {
@@ -77,6 +73,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             else {
                 secondAvailableSum.visibility = View.GONE
             }
+            presenter?.updateToken()
         }
     }
 
@@ -86,7 +83,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onBackPressed()
         }
     }
-
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive
     override fun getToolbarTitle(): String? = getString(R.string.receive)
@@ -132,37 +128,44 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         return ContextCompat.getColor(context!!, R.color.received_color)
     }
 
-    override fun initAddress(walletAddress: WalletAddress, expire: ReceivePresenter.ExpireOptions, receive: ReceivePresenter.ReceiveOptions){
+    @SuppressLint("SetTextI18n")
+    override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions, expire: ReceivePresenter.TokenExpireOptions){
         comment.setText(walletAddress.label)
+
+        tokenTitle_1.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
+        tokenValue_1.text = walletAddress.token.trimAddress()
+        token_1 = walletAddress.token
+
+        switchButton.textResId = R.string.switch_to_permanent
 
         val value = ScreenHelper.dpToPx(context, 15)
 
-        if(receive == ReceivePresenter.ReceiveOptions.POOL) {
-            token.text = walletAddress.walletID.trimAddress()
+        if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            receiveDescription.text = resources.getString(R.string.receive_description)
 
-            poolButton.setPaddingRelative(value,0,value,0)
-            walletButton.setPaddingRelative(0,0,0,0)
+            regularButton.setPaddingRelative(value,0,value,0)
+            maxPrivacyButton.setPaddingRelative(0,0,0,0)
 
-            poolButton.setTextColor(resources.getColor(R.color.accent, null))
-            walletButton.setTextColor(resources.getColor(android.R.color.white, null))
+            regularButton.setTextColor(resources.getColor(R.color.accent, null))
+            maxPrivacyButton.setTextColor(resources.getColor(android.R.color.white, null))
 
-            poolButton.setBackgroundResource(R.drawable.accent_btn_background)
-            walletButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
+            maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
         else {
-            token.text = walletAddress.token.trimAddress()
+            receiveDescription.text = resources.getString(R.string.receive_notice_max_privacy)
 
-            walletButton.setPaddingRelative(value,0,value,0)
-            poolButton.setPaddingRelative(0,0,0,0)
+            maxPrivacyButton.setPaddingRelative(value,0,value,0)
+            regularButton.setPaddingRelative(0,0,0,0)
 
-            walletButton.setTextColor(resources.getColor(R.color.accent, null))
-            poolButton.setTextColor(resources.getColor(android.R.color.white, null))
+            maxPrivacyButton.setTextColor(resources.getColor(R.color.accent, null))
+            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
 
-            walletButton.setBackgroundResource(R.drawable.accent_btn_background)
-            poolButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+            maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
+            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
 
-        if(expire == ReceivePresenter.ExpireOptions.ONETIME) {
+        if(expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
             oneTimeButton.setPaddingRelative(value,0,value,0)
             permanentButton.setPaddingRelative(0,0,0,0)
 
@@ -181,6 +184,72 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             permanentButton.setBackgroundResource(R.drawable.accent_btn_background)
             oneTimeButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+        }
+
+        if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR && expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
+            tokenGroup_2.visibility = View.GONE
+            tokenGroup_3.visibility = View.VISIBLE
+            switchButton.visibility = View.VISIBLE
+
+            qrCodeButton_2.visibility = View.GONE
+
+            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
+            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
+        }
+        else if(transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY && expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
+            tokenValue_2.text = walletAddress.offlineToken.trimAddress()
+            token_2 = walletAddress.offlineToken
+
+            tokenGroup_2.visibility = View.VISIBLE
+            tokenGroup_3.visibility = View.VISIBLE
+            switchButton.visibility = View.VISIBLE
+
+            qrCodeButton_2.visibility = View.GONE
+
+            tokenTitle_2.text = resources.getString(R.string.offline_token).toUpperCase()+ " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
+
+            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
+        }
+        else if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR && expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
+            switchButton.visibility = View.GONE
+            tokenValue_2.text = walletAddress.walletID.trimAddress()
+            token_2 = walletAddress.walletID
+
+            qrCodeButton_2.visibility = View.VISIBLE
+
+            tokenGroup_2.visibility = View.VISIBLE
+            tokenGroup_3.visibility = View.GONE
+
+            tokenTitle_2.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
+            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
+        }
+        else if(transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY && expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
+            tokenValue_2.text = walletAddress.offlineToken.trimAddress()
+            token_2 = walletAddress.offlineToken
+
+            qrCodeButton_2.visibility = View.GONE
+
+            tokenGroup_2.visibility = View.VISIBLE
+            tokenGroup_3.visibility = View.VISIBLE
+            switchButton.visibility = View.VISIBLE
+
+            tokenTitle_2.text = resources.getString(R.string.offline_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
+
+            tokenValue_3.text = resources.getString(R.string.for_pool_regular)
+
+            switchButton.textResId = R.string.switch_to_regular
+
+        }
+
+        if (expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
+            editAddressCard.visibility = View.VISIBLE
+            tokenValue_3.setPaddingRelative(0,0,0,0)
+        }
+        else {
+            editAddressCard.visibility = View.GONE
+            tokenValue_3.setPaddingRelative(0,0,0,value)
         }
     }
 
@@ -211,8 +280,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
 
     override fun addListeners() {
-        btnShareToken.setOnClickListener { presenter?.onShareTokenPressed() }
-        btnShowQR.setOnClickListener { presenter?.onShowQrPressed() }
+        btnShareToken.setOnClickListener {
+            presenter?.onShareTokenPressed()
+        }
 
         advancedContainer.setOnClickListener {
             presenter?.onAdvancedPressed()
@@ -230,12 +300,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onPermanentPressed()
         }
 
-        walletButton.setOnClickListener {
-            presenter?.onWalletPressed()
+        regularButton.setOnClickListener {
+            presenter?.onRegularPressed()
         }
 
-        poolButton.setOnClickListener {
-            presenter?.onPoolPressed()
+        maxPrivacyButton.setOnClickListener {
+            presenter?.onMaxPrivacyPressed()
         }
 
         amount.setOnFocusChangeListener { _, hasFocus ->
@@ -249,12 +319,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.addTextChangedListener(amountWatcher)
 
-        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onLongPress(e: MotionEvent) {
-                presenter?.onAddressLongPressed()
-            }
-        })
-
         tagAction.setOnClickListener {
             presenter?.onTagActionPressed()
         }
@@ -262,8 +326,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         tags.setOnClickListener {
             presenter?.onTagActionPressed()
         }
-
-        token.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
 
         comment.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
@@ -273,8 +335,24 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             }
         })
 
-        showTokenButton.setOnClickListener {
-            presenter?.onTokenPressed()
+        showTokenButton_1.setOnClickListener {
+            presenter?.onTokenPressed(token_1)
+        }
+
+        showTokenButton_2.setOnClickListener {
+            presenter?.onTokenPressed(token_2)
+        }
+
+        qrCodeButton_1.setOnClickListener {
+            presenter?.onShowQrPressed(token_1)
+        }
+
+        qrCodeButton_2.setOnClickListener {
+            presenter?.onShowQrPressed(token_2)
+        }
+
+        switchButton.setOnClickListener {
+            presenter?.onSwitchPressed()
         }
     }
 
@@ -306,11 +384,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getLifecycleOwner(): LifecycleOwner = this
 
-    @SuppressLint("InflateParams")
-    override fun showQR(walletAddress: WalletAddress, amount: Long?) {
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(walletAddress,
-                amount ?: 0,
-                presenter?.receive == ReceivePresenter.ReceiveOptions.WALLET))
+    override fun showQR(receiveToken: String) {
+        val address = presenter?.state?.address
+        if (address!=null) {
+            findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(address,
+                    0,
+                    false,
+                    receiveToken))
+        }
     }
 
     override fun getComment(): String? = comment.text?.toString()
@@ -346,6 +427,35 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             tagList.adapter = tagAdapter
 
             tagAdapter.setSelectedTags(selectedTags)
+
+            btnBottomSheetClose.setOnClickListener {
+                dismiss()
+            }
+            show()
+        }
+    }
+
+    override fun showShareDialog(option1:String, option2:String) {
+        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+            val view = LayoutInflater.from(context).inflate(R.layout.share_bottom_sheet, null)
+            setContentView(view)
+
+            val shareView1 = view.findViewById<TextView>(R.id.shareView1)
+            val shareView2 = view.findViewById<TextView>(R.id.shareView2)
+            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
+
+            shareView1.text = option1
+            shareView2.text = option2
+
+            shareView1.setOnClickListener {
+                dismiss()
+                shareToken(token_1)
+            }
+
+            shareView2.setOnClickListener {
+                dismiss()
+                shareToken(token_2)
+            }
 
             btnBottomSheetClose.setOnClickListener {
                 dismiss()
@@ -406,19 +516,23 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun clearListeners() {
         btnShareToken.setOnClickListener(null)
-        btnShowQR.setOnClickListener(null)
         advancedContainer.setOnClickListener(null)
         editAddressContainer.setOnClickListener(null)
-        token.setOnTouchListener(null)
         tagAction.setOnTouchListener(null)
         amount.removeTextChangedListener(amountWatcher)
-        showTokenButton.setOnClickListener(null)
         amount.onFocusChangeListener = null
+
+        showTokenButton_1.setOnClickListener(null)
+        showTokenButton_2.setOnClickListener(null)
+        switchButton.setOnClickListener(null)
+
+        qrCodeButton_1.setOnClickListener(null)
+        qrCodeButton_2.setOnClickListener(null)
 
         oneTimeButton.setOnClickListener(null)
         permanentButton.setOnClickListener(null)
-        walletButton.setOnClickListener(null)
-        poolButton.setOnClickListener(null)
+        maxPrivacyButton.setOnClickListener(null)
+        regularButton.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

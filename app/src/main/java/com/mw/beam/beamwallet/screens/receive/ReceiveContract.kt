@@ -31,9 +31,9 @@ import io.reactivex.subjects.Subject
 interface ReceiveContract {
     interface View : MvpView {
         fun init()
-        fun initAddress(walletAddress: WalletAddress, expire: ReceivePresenter.ExpireOptions, receive: ReceivePresenter.ReceiveOptions)
+        fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions, expire: ReceivePresenter.TokenExpireOptions)
         fun getComment() : String?
-        fun showQR(walletAddress: WalletAddress, amount: Long?)
+        fun showQR(receiveToken: String)
         fun shareToken(receiveToken: String)
         fun close()
         fun getAmountFromArguments(): Long
@@ -53,12 +53,13 @@ interface ReceiveContract {
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
         fun showShowToken(receiveToken: String)
+        fun showShareDialog(option1:String, option2:String)
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onShareTokenPressed()
-        fun onShowQrPressed()
-        fun onTokenPressed()
+        fun onShowQrPressed(receiveToken: String)
+        fun onTokenPressed(receiveToken: String)
         fun onAdvancedPressed()
         fun onEditAddressPressed()
         fun onSaveAddressPressed()
@@ -69,13 +70,16 @@ interface ReceiveContract {
         fun onCreateNewTagPressed()
         fun onPermanentPressed()
         fun onOneTimePressed()
-        fun onWalletPressed()
-        fun onPoolPressed()
+        fun onRegularPressed()
+        fun onMaxPrivacyPressed()
+        fun onSwitchPressed()
+        fun updateToken()
     }
 
     interface Repository : MvpRepository {
         fun saveAddress(address: WalletAddress, tags: List<Tag>)
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
+        fun generateNewAddress(): Subject<WalletAddress>
     }
 }

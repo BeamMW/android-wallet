@@ -614,5 +614,26 @@ address or contact</string>
     <string name="share_token">Share token</string>
     <string name="token">Token</string>
     <string name="reconnect">Reconnecting to another random node…</string>
-
+    <string name="max_privacy_title">Max privacy</string>
+    <string name="max_privacy_text">Transaction is slower, fees are higher.</string>
+    <string name="max">Max</string>
+    <string name="max_privacy_requested_title">Receiver requested Max privacy</string>
+    <string name="max_privacy_request_title">Request Max privacy transaction</string>
+    <string name="max_privacy_request_text">Transaction is slower, receiver pays fees.</string>
+    <string name="offline_transaction">Offline transaction</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="perm_out_address_title">Permanent outgoing address</string>
+    <string name="perm_out_address_text">This address will be used for sending to specific receiver token.</string>
+    <string name="perm_token">Permanent token.</string>
+    <string name="token_type">Token type</string>
+    <string name="token_expiration">Token expiration</string>
+    <string name="online_token">Online token</string>
+    <string name="offline_token">Offline token</string>
+    <string name="for_wallet">For wallet</string>
+    <string name="for_pool">For exchange or mining pool</string>
+    <string name="for_pool_permanent">Exchanges or mining pools support only permanent token now.</string>
+    <string name="for_pool_regular">Exchanges or mining pools support only regular transaction now.</string>
+    <string name="receive_notice_max_privacy">To spend the received Max privacy coins the min transaction fee will be 1200000 GROTH.\n\nFor the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
+    <string name="switch_to_permanent">Switch to permanent</string>
+    <string name="switch_to_regular">Switch to regular</string>
 </resources>

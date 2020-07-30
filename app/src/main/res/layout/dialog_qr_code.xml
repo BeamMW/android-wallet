@@ -116,6 +116,7 @@
 
                 <TextView
                     style="@style/common_text_big_light"
+                    android:id="@+id/infoLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/receive_common_qr_offset"

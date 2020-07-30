@@ -84,6 +84,9 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         super.onStart()
 
         onBackPressedCallback.isEnabled = true
+
+        pass.setText("1")
+      //  presenter?.onOpenWallet()
     }
 
     override fun onStop() {

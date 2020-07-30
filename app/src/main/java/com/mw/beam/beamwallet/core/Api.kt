@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.Handler
 import com.mw.beam.beamwallet.R
 import android.util.Log
+import com.mw.beam.beamwallet.core.entities.dto.TransactionParametersDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 

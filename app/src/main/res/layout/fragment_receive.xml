@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
@@ -13,7 +13,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
     <ScrollView
         android:id="@+id/mainScroll"
         android:layout_width="match_parent"
@@ -23,13 +22,11 @@
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:filterTouchesWhenObscured="true">
-
             <EditText
                 android:id="@+id/txComment"
                 style="@style/common_text_big_light"
@@ -45,7 +42,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txCommentTitle"
                 tools:ignore="Autofill,LabelFor,TextFields" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,20 +50,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/receiveDescription">
-
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/btnShowQR"
-                    android:layout_width="@dimen/wallet_button_width"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@drawable/primary_button"
-                    app:button_icon="@drawable/ic_btn_qr"
-                    app:button_text="@string/show_qr"
-                    app:button_text_color="@color/common_text_color">
-
-                </com.mw.beam.beamwallet.core.views.BeamButton>
-
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnShareToken"
                     android:layout_width="@dimen/wallet_button_width"
@@ -78,13 +60,12 @@
                     app:button_icon="@drawable/ic_share"
                     app:button_text="@string/share_token"
                     app:lower_case="true" />
-
             </LinearLayout>
 
             <TextView
                 android:id="@+id/receiveDescription"
                 style="@style/common_text_big_light"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/receive_token_description_margin_top"
@@ -95,21 +76,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/advancedCard" />
-
             <TextView
                 android:id="@+id/txCommentTitle"
-                style="@style/common_subheader_dark"
+                android:fontFamily="@font/roboto_bold"
+                android:textSize="12sp"
+                android:textColor="?attr/subHeaderTextColor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAllCaps="true"
                 android:text="@string/transaction_comment"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/addressGroup" />
-
-
             <View
                 android:id="@+id/txCommentDivider"
                 android:layout_width="0dp"
@@ -118,8 +99,6 @@
                 app:layout_constraintEnd_toEndOf="@id/txComment"
                 app:layout_constraintStart_toStartOf="@id/txComment"
                 app:layout_constraintTop_toBottomOf="@id/txComment" />
-
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addressGroup"
                 android:layout_width="match_parent"
@@ -129,10 +108,29 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/tokenGroup_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="tokenTitle_1,tokenValue_1,buttonsLayout_1" />
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/tokenGroup_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="tokenTitle_2,tokenValue_2,buttonsLayout_2" />
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/tokenGroup_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="tokenTitle_3,tokenValue_3" />
                 <TextView
-                    android:id="@+id/generalTitle"
-                    style="@style/common_subheader_dark"
+                    android:id="@+id/transactionTypeTitle"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
@@ -141,10 +139,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/general" />
-
+                    android:text="@string/transaction_type" />
                 <Button
-                    android:id="@+id/oneTimeButton"
+                    android:id="@+id/regularButton"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
@@ -153,14 +150,13 @@
                     android:fontFamily="@font/roboto_bold"
                     android:padding="0dp"
                     android:paddingStart="0dp"
-                    android:text="@string/one_time"
+                    android:text="@string/regular"
                     android:textColor="@android:color/white"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/generalTitle" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
                 <Button
-                    android:id="@+id/permanentButton"
+                    android:id="@+id/maxPrivacyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
@@ -171,26 +167,27 @@
                     android:paddingEnd="15dp"
                     android:textSize="14sp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@string/permanent"
+                    android:text="@string/max_privacy_title"
                     android:textColor="@color/accent"
-                    app:layout_constraintStart_toEndOf="@+id/oneTimeButton"
-                    app:layout_constraintTop_toBottomOf="@+id/generalTitle" />
+                    app:layout_constraintStart_toEndOf="@+id/regularButton"
+                    app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
 
                 <TextView
-                    android:id="@+id/receiveFromTitle"
-                    style="@style/common_subheader_dark"
+                    android:id="@+id/tokenExpireTitle"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/receive_from"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/token_expiration"
                     android:textAllCaps="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/permanentButton" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/maxPrivacyButton" />
                 <Button
-                    android:id="@+id/walletButton"
+                    android:id="@+id/oneTimeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
@@ -200,14 +197,13 @@
                     android:padding="0dp"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
-                    android:text="@string/wallet"
+                    android:text="@string/one_time"
                     android:textColor="@color/accent"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/receiveFromTitle" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
                 <Button
-                    android:id="@+id/poolButton"
+                    android:id="@+id/permanentButton"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"
@@ -218,26 +214,27 @@
                     android:paddingEnd="0dp"
                     android:textSize="14sp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="@string/pool"
+                    android:text="@string/permanent"
                     android:textColor="@android:color/white"
-                    app:layout_constraintStart_toEndOf="@+id/walletButton"
-                    app:layout_constraintTop_toBottomOf="@+id/receiveFromTitle" />
+                    app:layout_constraintStart_toEndOf="@+id/oneTimeButton"
+                    app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
 
                 <TextView
-                    android:id="@+id/tokenTitle"
-                    style="@style/common_subheader_dark"
+                    android:id="@+id/tokenTitle_1"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/transaction_token"
-                    android:textAllCaps="true"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/online_token"
+                    android:textAllCaps="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/poolButton" />
-
+                    app:layout_constraintTop_toBottomOf="@+id/permanentButton" />
                 <TextView
-                    android:id="@+id/token"
+                    android:id="@+id/tokenValue_1"
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -245,18 +242,148 @@
                     android:layout_marginTop="@dimen/send_receive_common_margin"
                     android:maxLines="1"
                     android:layout_marginEnd="@dimen/common_offset"
-                    app:layout_constraintEnd_toStartOf="@id/showTokenButton"
+                    app:layout_constraintEnd_toStartOf="@id/buttonsLayout_1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tokenTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tokenTitle_1"
                     tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
 
+                <LinearLayout
+                    android:id="@+id/buttonsLayout_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    app:layout_constraintBottom_toBottomOf="@id/tokenValue_1"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.mw.beam.beamwallet.core.views.BeamButton
+                        android:id="@+id/showTokenButton_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        app:button_text="@string/show_token"
+                        app:button_text_color="@color/received_color"
+                        app:lower_case="true"
+                        app:text_padding_enabled="false" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:id="@+id/qrCodeButton_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_scan_qr"/>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tokenTitle_2"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/offline_token"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tokenValue_1" />
+                <TextView
+                    android:id="@+id/tokenValue_2"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="@dimen/send_receive_common_margin"
+                    android:maxLines="1"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    app:layout_constraintEnd_toStartOf="@id/buttonsLayout_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tokenTitle_2"
+                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+
+                <LinearLayout
+                    android:id="@+id/buttonsLayout_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    app:layout_constraintBottom_toBottomOf="@id/tokenValue_2"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.mw.beam.beamwallet.core.views.BeamButton
+                        android:id="@+id/showTokenButton_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        app:button_text="@string/show_token"
+                        app:button_text_color="@color/received_color"
+                        app:lower_case="true"
+                        app:text_padding_enabled="false" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:id="@+id/qrCodeButton_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/ic_scan_qr"/>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tokenTitle_3"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/offline_token"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tokenValue_2" />
+                <TextView
+                    android:id="@+id/tokenValue_3"
+                    style="@style/common_text_small_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="@dimen/send_receive_common_margin"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:fontFamily="@font/roboto_italic"
+                    android:textSize="14sp"
+                    android:text="@string/for_pool_permanent"
+                    app:layout_constraintEnd_toStartOf="@id/switchButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tokenTitle_3" />
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:id="@+id/switchButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/common_offset"
+                    android:background="@android:color/transparent"
+                    app:button_text="@string/switch_to_permanent"
+                    app:button_text_color="@color/colorAccent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tokenValue_3"
+                    app:lower_case="true"
+                    app:text_padding_enabled="false" />
+                <!--                edit-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/editAddressCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/receive_common_margin"
-                    app:layout_constraintTop_toBottomOf="@id/token">
-
+                    app:layout_constraintTop_toBottomOf="@id/tokenValue_3">
                     <EditText
                         android:id="@+id/comment"
                         style="@style/common_text_big_light"
@@ -273,7 +400,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/commentTitle"
                         tools:ignore="Autofill,LabelFor,TextFields" />
-
                     <ImageView
                         android:id="@+id/tagAction"
                         android:layout_width="wrap_content"
@@ -293,6 +419,7 @@
                         android:id="@+id/editAddressContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:foreground="?android:attr/selectableItemBackground"
                         android:orientation="horizontal"
                         android:paddingTop="@dimen/receive_card_padding"
@@ -324,31 +451,33 @@
                             app:layout_constraintStart_toEndOf="@id/editAddressTitle"
                             app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
                     </LinearLayout>
-
                     <TextView
                         android:id="@+id/commentTitle"
-                        style="@style/common_subheader_dark"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="12sp"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="@dimen/common_offset"
+                        android:textAllCaps="true"
                         android:text="@string/name"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/editAddressContainer" />
-
-
                     <TextView
                         android:id="@+id/categoryTitle"
-                        style="@style/common_subheader_dark"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textSize="12sp"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="@dimen/edit_address_element_offset"
                         android:text="@string/tag"
+                        android:textAllCaps="true"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/comment" />
-
                     <TextView
                         android:id="@+id/tags"
                         style="@style/common_text_big_light"
@@ -361,7 +490,6 @@
                         app:layout_constraintStart_toStartOf="@id/categoryTitle"
                         app:layout_constraintTop_toBottomOf="@id/categoryTitle"
                         tools:text="Salary, Payments" />
-
                     <View
                         android:id="@+id/commentDivider"
                         android:layout_width="0dp"
@@ -370,7 +498,6 @@
                         app:layout_constraintEnd_toEndOf="@id/comment"
                         app:layout_constraintStart_toStartOf="@id/comment"
                         app:layout_constraintTop_toBottomOf="@id/comment" />
-
                     <androidx.constraintlayout.widget.Group
                         android:id="@+id/editAddressGroup"
                         android:layout_width="wrap_content"
@@ -379,23 +506,7 @@
                         app:constraint_referenced_ids="commentDivider,tags,tagAction,categoryTitle,commentTitle,comment"
                         tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <com.mw.beam.beamwallet.core.views.BeamButton
-                    android:id="@+id/showTokenButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:background="@android:color/transparent"
-                    app:button_icon="@drawable/ic_show_token"
-                    app:button_text="@string/show_token"
-                    app:button_text_color="@color/received_color"
-                    app:layout_constraintBottom_toBottomOf="@id/token"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:lower_case="true"
-                    app:text_padding_enabled="false" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/advancedCard"
                 android:layout_width="match_parent"
@@ -405,7 +516,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txCommentDivider">
-
                 <EditText
                     android:id="@+id/amount"
                     android:layout_width="0dp"
@@ -424,7 +534,6 @@
                     app:layout_constraintTop_toBottomOf="@id/amountTitle"
                     tools:hint="0"
                     tools:ignore="Autofill,LabelFor" />
-
                 <TextView
                     android:id="@+id/secondAvailableSum"
                     style="@style/common_text_big_dark"
@@ -439,8 +548,6 @@
                     app:layout_constraintStart_toStartOf="@+id/amount"
                     app:layout_constraintTop_toBottomOf="@+id/amount"
                     tools:text="1234 USD" />
-
-
                 <LinearLayout
                     android:id="@+id/advancedContainer"
                     android:layout_width="match_parent"
@@ -452,7 +559,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
-
                     <TextView
                         android:id="@+id/advancedTitle"
                         style="@style/common_subheader_light"
@@ -465,7 +571,6 @@
                         android:textSize="@dimen/common_text_small_size"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
                     <View
                         android:id="@+id/btnExpandAdvanced"
                         android:layout_width="@dimen/wallet_expandable_icon_size"
@@ -476,10 +581,11 @@
                         app:layout_constraintStart_toEndOf="@id/advancedTitle"
                         app:layout_constraintTop_toTopOf="@id/advancedTitle" />
                 </LinearLayout>
-
                 <TextView
                     android:id="@+id/amountTitle"
-                    style="@style/common_subheader_dark"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="12sp"
+                    android:textColor="?attr/subHeaderTextColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
@@ -489,7 +595,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/advancedContainer"
                     tools:text="@string/request_an_amount" />
-
                 <TextView
                     android:id="@+id/currency"
                     style="@style/common_subheader_light"
@@ -501,7 +606,6 @@
                     android:textSize="@dimen/send_currency_text_size"
                     app:layout_constraintBottom_toBottomOf="@id/amount"
                     app:layout_constraintEnd_toEndOf="parent" />
-
                 <View
                     android:id="@+id/amountDivider"
                     android:layout_width="0dp"
@@ -510,7 +614,6 @@
                     app:layout_constraintEnd_toEndOf="@id/amount"
                     app:layout_constraintStart_toStartOf="@id/amount"
                     app:layout_constraintTop_toBottomOf="@id/amount" />
-
                 <View
                     android:id="@+id/emptySpaceDivider"
                     android:layout_width="0dp"
@@ -521,7 +624,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/amountDivider" />
-
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/advancedGroup"
                     android:layout_width="wrap_content"
@@ -532,7 +634,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
     <com.mw.beam.beamwallet.core.views.BeamToolbar
 
         android:id="@+id/toolbarLayout"
@@ -540,5 +641,4 @@
         android:layout_height="wrap_content"
         app:centerTitle="true"
         app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,21 +14,19 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.receive
+package com.mw.beam.beamwallet.core.entities.dto
 
-import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
 /**
  *  1/4/19.
  */
-class ReceiveState {
-    var address: WalletAddress? = null
-    var generatedAddress: WalletAddress? = null
-    var wasAddressSaved: Boolean = false
-    var expandEditAddress = false
-    var expandAdvanced = false
-    var isNeedGenerateAddress = true
-    var tags = mutableListOf<Tag>()
+@Parcelize
+data class TransactionParametersDTO(val address: String,
+                                    val identity: String,
+                                    val isPermanentAddress: Boolean,
+                                    val isOffline: Boolean,
+                                    var isMaxPrivacy: Boolean,
+                                    val amount: Long) : Parcelable {
 }

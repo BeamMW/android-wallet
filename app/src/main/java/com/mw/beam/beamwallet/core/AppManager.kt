@@ -6,6 +6,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
@@ -257,6 +259,10 @@ class AppManager {
     }
 
     fun getStatus():WalletStatus {
+        if(walletStatus == null) {
+            return WalletStatus(WalletStatusDTO(0,0,0,0,0,0,0,0,0,0,
+                    SystemStateDTO("",0)))
+        }
         return walletStatus
     }
 
@@ -694,6 +700,7 @@ class AppManager {
         wallet?.getUtxosStatus()
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
+        wallet?.getExchangeRates()
     }
 
     fun createAddressForFaucet() {

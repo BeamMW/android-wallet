@@ -16,12 +16,15 @@
 
 package com.mw.beam.beamwallet.screens.show_token
 
-import android.view.GestureDetector
-import android.view.MotionEvent
+import android.annotation.SuppressLint
+import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 
 import kotlinx.android.synthetic.main.fragment_receive_show_token.*
 import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
@@ -42,33 +45,73 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun init(token: String) {
         toolbarLayout.hasStatus = true
 
-        tokenView.text = token
+        if(AppManager.instance.wallet?.isToken(token) == true) {
+            val params = AppManager.instance.wallet?.getTransactionParameters(token)
+            if(params != null) {
+                if(params.amount > 0) {
+                    amountLayout.visibility = View.VISIBLE
+                    amountValue.text = """${params.amount.convertToBeamString()} BEAM"""
+                }
+
+                tokenTypeLayout.visibility = View.VISIBLE
+                transactionTypeLayout.visibility = View.VISIBLE
+                addressLayout.visibility = View.VISIBLE
+
+                if(params.isPermanentAddress) {
+                    tokenTypeValue.text = getString(R.string.permanent)
+                }
+                else {
+                    tokenTypeValue.text = getString(R.string.one_time)
+                }
+
+                if(params.isMaxPrivacy && !params.isOffline) {
+                    transactionTypeValue.text = getString(R.string.max_privacy_title)
+                }
+                else if(params.isMaxPrivacy && params.isOffline) {
+                    transactionTypeValue.text = """${getString(R.string.max_privacy_title)} (${getString(R.string.offline_token).toLowerCase()})"""
+                }
+                else {
+                    transactionTypeValue.text = getString(R.string.regular)
+                }
+
+                addressValue.text = params.address
+
+                if(params.identity.isNotEmpty()) {
+                    identityLayout.visibility = View.VISIBLE
+                    identityValue.text = params.identity
+                }
+            }
+        }
+
+        tokenValue.text = token
 
         val isReceive = ShowTokenFragmentArgs.fromBundle(arguments!!).receive
         if (!isReceive) {
             gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
+        }
+        else {
+            btnShare.visibility = View.VISIBLE
         }
 
         (activity as BaseActivity<*>).supportActionBar?.title = getString(R.string.show_token)
     }
 
     override fun addListeners() {
-        val gestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onLongPress(e: MotionEvent) {
-                presenter?.onCopyToken()
-            }
-        })
-
-        tokenView.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+        btnShare.setOnClickListener {
+            presenter?.onCopyToken()
+        }
     }
 
     override fun copyToClipboard(content: String?, tag: String) {
         super.copyToClipboard(content, tag)
 
         showSnackBar(getString(R.string.address_copied_to_clipboard))
+
+        findNavController().popBackStack()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -76,6 +119,6 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
     }
 
     override fun clearListeners() {
-        tokenView.setOnTouchListener(null)
+        btnShare.setOnClickListener(null)
     }
 }

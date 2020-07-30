@@ -6,7 +6,6 @@
     android:id="@+id/mainConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <View
         android:id="@+id/gradientView"
         android:layout_width="match_parent"
@@ -30,30 +29,160 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:filterTouchesWhenObscured="true">
-
-            <TextView
-                android:id="@+id/tokenViewTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/transaction_token"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tokenView"
-                style="@style/common_text_big_light"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mainLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tokenViewTitle" />
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/amountLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/amountTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/amount" />
+                    <TextView
+                        android:id="@+id/amountValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/tokenTypeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tokenTypeTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/token_type" />
+                    <TextView
+                        android:id="@+id/tokenTypeValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/transactionTypeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/transactionTypeTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transaction_type" />
+                    <TextView
+                        android:id="@+id/transactionTypeValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/addressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/addressTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/address" />
+                    <TextView
+                        android:id="@+id/addressValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:visibility="gone"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/identityLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/identityTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/identity" />
+                    <TextView
+                        android:id="@+id/identityValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:id="@+id/tokenLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tokenTitle"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/transaction_token" />
+                    <TextView
+                        android:id="@+id/tokenValue"
+                        style="@style/common_text_big_light"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.mw.beam.beamwallet.core.views.BeamButton
+                    android:visibility="gone"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/btnShare"
+                    android:layout_width="@dimen/wallet_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
+                    android:background="@drawable/receive_button"
+                    app:button_icon="@drawable/ic_btn_copy_dark"
+                    app:button_text="@string/copy" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
     <com.mw.beam.beamwallet.core.views.BeamToolbar

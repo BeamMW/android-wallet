@@ -16,36 +16,42 @@
 
 package com.mw.beam.beamwallet.screens.receive
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.subscribeIf
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
+import io.reactivex.subjects.Subject
 
 /**
  *  11/13/18.
  */
-class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, private val state: ReceiveState)
+class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
         ReceiveContract.Presenter {
 
-    enum class ReceiveOptions(val value: Int) {
-        WALLET(0), POOL(1)
+    enum class TransactionTypeOptions(val value: Int) {
+        REGULAR(0), MAX_PRIVACY(1)
     }
 
-    enum class ExpireOptions(val value: Long) {
+    enum class TokenExpireOptions(val value: Long) {
         ONETIME(86400), PERMANENT(0)
     }
 
     private var categorySubscription: Disposable? = null
+    private lateinit var walletIdSubscription: Disposable
 
-    var expire = ExpireOptions.PERMANENT
-    var receive = ReceiveOptions.WALLET
+    var expire = TokenExpireOptions.ONETIME
+    var transaction = TransactionTypeOptions.REGULAR
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -55,6 +61,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         val address = view?.getWalletAddressFromArguments()
 
         if(address!=null) {
+            state.isNeedGenerateAddress = false
+
+            updateToken()
+
             initViewAddress(address)
 
             val amount = view?.getAmountFromArguments()
@@ -62,18 +72,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 view?.setAmount(amount.convertToBeam())
             }
         }
-        else {
-            val dto = AppManager.instance.wallet?.generateToken()
-            if (dto!=null) {
-                val token = WalletAddress(dto)
-                initViewAddress(token)
-            }
-
-//            AppActivity.self.runOnUiThread {
-//
-//            }
+        else if(state.address != null) {
+            initViewAddress(state?.address)
         }
-
     }
 
     override fun onDestroy() {
@@ -103,7 +104,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
 
         state.address?.let {
-            view?.initAddress(it, expire, receive)
+            view?.initAddress(it, transaction, expire)
 
             if (state.tags.count() != 0 ) {
                 view?.setTags(state.tags)
@@ -150,13 +151,18 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onShareTokenPressed() {
-        if (state.address != null) {
-            saveAddress()
-            if (receive == ReceiveOptions.POOL) {
-                view?.shareToken(state.address!!.walletID)
-            } else {
-                view?.shareToken(state.address!!.token)
-            }
+        if (transaction == TransactionTypeOptions.REGULAR && expire == TokenExpireOptions.ONETIME) {
+            view?.shareToken(state.address!!.token)
+        }
+        else if ((transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.ONETIME) || (transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.PERMANENT)) {
+            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            val option2 = App.self.resources.getString(R.string.offline_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            view?.showShareDialog(option1, option2)
+        }
+        else if (transaction == TransactionTypeOptions.REGULAR && expire == TokenExpireOptions.PERMANENT) {
+            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            val option2 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
+            view?.showShareDialog(option1, option2)
         }
     }
 
@@ -171,13 +177,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         view?.handleExpandEditAddress(state.expandEditAddress)
     }
 
-    override fun onShowQrPressed() {
-        saveAddress()
-        state.address?.let { address ->
-            view?.showQR(address, view?.getAmount()?.convertToGroth())
-        }
+    override fun onShowQrPressed(receiveToken: String) {
+        view?.showQR(receiveToken)
     }
-
 
     override fun onTagActionPressed() {
         if (repository.getAllTags().isEmpty()) {
@@ -208,13 +210,24 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        if (categorySubscription==null)
+        if (categorySubscription == null)
         {
             categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
                 if (it!=null) {
                     state.tags.clear()
                     state.tags.add(it)
                 }
+            }
+        }
+
+        walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateAddress) {
+            if (state.address == null) {
+                state.address = it
+                state.generatedAddress = it
+                updateToken()
+                initViewAddress(state.address)
+                view?.setTags(repository.getAddressTags(it.walletID))
+                state.isNeedGenerateAddress = false
             }
         }
     }
@@ -226,14 +239,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         view?.setTags(tags)
     }
 
-    override fun onTokenPressed() {
-        if (state.address != null) {
-            if (receive == ReceiveOptions.POOL) {
-                view?.showShowToken(state.address!!.walletID)
-            } else {
-                view?.showShowToken(state.address!!.token)
-            }
-        }
+    override fun onTokenPressed(receiveToken: String) {
+        view?.showShowToken(receiveToken)
+
     }
 
     private fun saveAddress() {
@@ -258,24 +266,64 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onPermanentPressed() {
-        expire = ExpireOptions.PERMANENT
+        expire = TokenExpireOptions.PERMANENT
+        state.address?.duration = expire.value
+        updateToken()
+        saveAddress()
         initViewAddress(state?.address)
     }
 
     override fun onOneTimePressed() {
-        expire = ExpireOptions.ONETIME
+        expire = TokenExpireOptions.ONETIME
+        state.address?.duration = expire.value
+        updateToken()
+        saveAddress()
         initViewAddress(state?.address)
     }
 
-    override fun onWalletPressed() {
-        receive = ReceiveOptions.WALLET
+    override fun onMaxPrivacyPressed() {
+        transaction = TransactionTypeOptions.MAX_PRIVACY
+        updateToken()
         initViewAddress(state?.address)
     }
 
-    override fun onPoolPressed() {
-        receive = ReceiveOptions.POOL
+    override fun onRegularPressed() {
+        transaction = TransactionTypeOptions.REGULAR
+        updateToken()
         initViewAddress(state?.address)
+    }
+
+    override fun onSwitchPressed() {
+        transaction = TransactionTypeOptions.REGULAR
+        expire = TokenExpireOptions.PERMANENT
+        state.address?.duration = expire.value
+        saveAddress()
+        updateToken()
+        initViewAddress(state?.address)
+    }
+
+    override fun updateToken() {
+        if(state?.address != null) {
+            var amount = view?.getAmount()?.convertToGroth()
+            if(amount == null) {
+                amount = 0L
+            }
+
+            state?.address?.token = AppManager.instance.wallet?.generateToken(transaction == TransactionTypeOptions.MAX_PRIVACY,
+                    false,
+                    expire == TokenExpireOptions.PERMANENT,
+                    amount, state!!.address!!.walletID,
+                    state!!.address!!.own)!!
+            state?.address?.offlineToken = AppManager.instance.wallet?.generateToken(transaction == TransactionTypeOptions.MAX_PRIVACY,
+                    true,
+                    expire == TokenExpireOptions.PERMANENT,
+                    amount,
+                    state!!.address!!.walletID,
+                    state!!.address!!.own)!!
+        }
     }
 
     override fun hasStatus(): Boolean = true
+
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletIdSubscription)
 }

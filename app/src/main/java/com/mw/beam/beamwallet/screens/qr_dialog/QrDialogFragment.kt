@@ -53,44 +53,73 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun getReceiveFromWallet(): Boolean = args.receiveFromWallet
 
+    override fun getToken(): String? = args.token
+
 
     @SuppressLint("SetTextI18n")
     override fun init(walletAddress: WalletAddress, amount: Long) {
         hideKeyboard()
 
-        val receiveToken = if(getReceiveFromWallet()) {
-            walletAddress.token.trimAddress()
-        }
-        else {
-            walletAddress.walletID.trimAddress()
-        }
-
-        tokenView.text = receiveToken
-
+        val token = getToken()
         val qrImage: Bitmap?
 
-        try {
-            val metrics = DisplayMetrics()
-            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-            val logicalDensity = metrics.density
-            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+        if(token != null) {
+            tokenTitle.visibility = View.GONE
+            tokenView.visibility = View.GONE
+            amountTitle.visibility = View.GONE
+            amountView.visibility = View.GONE
+            secondAvailableSum.visibility = View.GONE
+            infoLabel.text = resources.getString(R.string.receive_description)
 
-            qrImage = QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount.convertToBeam()), px, px,
-                    ContextCompat.getColor(context!!, R.color.common_text_color),
-                    ContextCompat.getColor(context!!, R.color.colorPrimary))
+            try {
+                val metrics = DisplayMetrics()
+                activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
+                val logicalDensity = metrics.density
+                val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
-            qrView.setImageBitmap(qrImage)
-        } catch (e: Exception) {
-            return
+                qrImage = QrHelper.textToImage(QrHelper.createQrString(token, null), px, px,
+                        ContextCompat.getColor(context!!, R.color.common_text_color),
+                        ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+                qrView.setImageBitmap(qrImage)
+            } catch (e: Exception) {
+                return
+            }
         }
+        else {
+            val receiveToken = if(getReceiveFromWallet()) {
+                walletAddress.token.trimAddress()
+            }
+            else {
+                walletAddress.walletID.trimAddress()
+            }
 
-        val amountVisibility = if (amount > 0) View.VISIBLE else View.GONE
-        amountTitle.visibility = amountVisibility
-        amountView.visibility = amountVisibility
-        secondAvailableSum.visibility = amountVisibility
+            tokenView.text = receiveToken
 
-        amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
-        secondAvailableSum.text = amount.convertToCurrencyString()
+            try {
+                val metrics = DisplayMetrics()
+                activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
+                val logicalDensity = metrics.density
+                val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+
+                qrImage = QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount.convertToBeam()), px, px,
+                        ContextCompat.getColor(context!!, R.color.common_text_color),
+                        ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+                qrView.setImageBitmap(qrImage)
+            } catch (e: Exception) {
+                return
+            }
+
+            val amountVisibility = if (amount > 0) View.VISIBLE else View.GONE
+            amountTitle.visibility = amountVisibility
+            amountView.visibility = amountVisibility
+            secondAvailableSum.visibility = amountVisibility
+
+            amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
+            secondAvailableSum.text = amount.convertToCurrencyString()
+
+        }
 
         btnShare.setOnClickListener { presenter?.onSharePressed(qrImage!!) }
         close.setOnClickListener { findNavController().popBackStack() }
@@ -110,8 +139,6 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
         }
         findNavController().popBackStack()
     }
-
-
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return QrDialogPresenter(this, QrDialogRepository(), QrDialogState())
