@@ -103,6 +103,59 @@
                 tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
             <TextView
+                android:id="@+id/transactionTypeTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/transaction_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/outgoingAddress" />
+
+            <TextView
+                android:id="@+id/transactionType"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transactionTypeTitle"
+                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+
+            <TextView
+                android:id="@+id/tokenTypeTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/token_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/transactionType" />
+
+            <TextView
+                android:id="@+id/tokenType"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tokenTypeTitle"
+                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+
+
+            <TextView
                 android:id="@+id/amountToSendTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="0dp"
@@ -113,7 +166,7 @@
                 android:text="@string/amount_to_send"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/outgoingAddress" />
+                app:layout_constraintTop_toBottomOf="@id/tokenType" />
 
             <TextView
                 android:id="@+id/amountToSend"

@@ -242,7 +242,7 @@
     <string name="request_an_amount">Request an amount</string>
     <string name="optional">Optional</string>
     <string name="name">Name</string>
-    <string name="edit_address">Edit address</string>
+    <string name="edit_address">Edit token</string>
     <string name="edit_contact">Edit contact</string>
     <string name="advanced">Advanced</string>
     <string name="send_token_description">Input or scan the recipient’s address</string>
@@ -270,6 +270,7 @@
     <string name="transaction_comment">Transaction comment</string>
     <string name="wont_be_shared">won’t be shared</string>
     <string name="outgoing_address">Outgoing address</string>
+    <string name="outgoing_token">Outgoing token</string>
     <string name="my_addresses">My addresses</string>
     <string name="no_matching_address_found">No matching address found</string>
     <string name="local_comment_not_shared">Local comment, won’t be shared</string>
@@ -621,6 +622,7 @@ address or contact</string>
     <string name="max_privacy_request_title">Request Max privacy transaction</string>
     <string name="max_privacy_request_text">Transaction is slower, receiver pays fees.</string>
     <string name="offline_transaction">Offline transaction</string>
+    <string name="offline_transactions">Offline transactions</string>
     <string name="transaction_type">Transaction type</string>
     <string name="perm_out_address_title">Permanent outgoing address</string>
     <string name="perm_out_address_text">This address will be used for sending to specific receiver token.</string>
@@ -636,4 +638,13 @@ address or contact</string>
     <string name="receive_notice_max_privacy">To spend the received Max privacy coins the min transaction fee will be 1200000 GROTH.\n\nFor the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="switch_to_permanent">Switch to permanent</string>
     <string name="switch_to_regular">Switch to regular</string>
+    <string name="one_time_expire_text">One-time use token (expire in 2 hours after succesfull transaction).</string>
+    <string name="transaction_info">Transaction info</string>
+    <string name="offline_token_type">Offline</string>
+    <string name="online_token_type">Online</string>
+    <string name="max_privacy_disabled_node">Connect to integrated or own node to enable sending max privacy transactions</string>
+    <string name="address_not_supported_max_privacy">This type of address does not support max privacy transactions</string>
+    <string name="cant_sent_max_to_my_address">Can not sent max privacy transaction to own address</string>
+    <string name="offline">Offline</string>
+
 </resources>

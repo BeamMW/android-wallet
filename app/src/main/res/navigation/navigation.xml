@@ -798,6 +798,14 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <argument
+            android:name="maxPrivacy"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="isOffline"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_qr_code"

@@ -22,18 +22,13 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
-    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
+    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
 
             val address = AppManager.instance.getAddress(token)
             val name = address?.label
 
-            if (wallet?.isToken(token) == true) {
-                wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee)
-            }
-            else {
-                wallet?.sendMoney(outgoingAddress, token, comment ?: "", amount, fee)
-            }
+            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee, maxPrivacy)
 
             if(address!=null && name!=null) {
                 val dto = address.toDTO()

@@ -312,13 +312,13 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             state?.address?.token = AppManager.instance.wallet?.generateToken(transaction == TransactionTypeOptions.MAX_PRIVACY,
                     false,
                     expire == TokenExpireOptions.PERMANENT,
-                    amount, state!!.address!!.walletID,
+                    amount, state!!.address!!.walletID, state!!.address!!.identity,
                     state!!.address!!.own)!!
             state?.address?.offlineToken = AppManager.instance.wallet?.generateToken(transaction == TransactionTypeOptions.MAX_PRIVACY,
                     true,
                     expire == TokenExpireOptions.PERMANENT,
                     amount,
-                    state!!.address!!.walletID,
+                    state!!.address!!.walletID, state!!.address!!.identity,
                     state!!.address!!.own)!!
         }
     }

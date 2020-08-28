@@ -38,6 +38,7 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     var isContact = own == 0L
     var token = ""
     var offlineToken = ""
+    val identity = source.identity
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label

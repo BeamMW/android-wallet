@@ -43,6 +43,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.TagAdapter
@@ -250,6 +251,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         else {
             editAddressCard.visibility = View.GONE
             tokenValue_3.setPaddingRelative(0,0,0,value)
+        }
+
+        if(!AppManager.instance.isOwnNode()) {
+            notAvailableLabel.visibility = View.VISIBLE
+            maxPrivacyButton.isEnabled = false
+            maxPrivacyButton.alpha = 0.2f
         }
     }
 

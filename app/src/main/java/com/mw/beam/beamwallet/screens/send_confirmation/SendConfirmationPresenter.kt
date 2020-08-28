@@ -29,13 +29,14 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         super.onViewCreated()
         view?.apply {
             state.token = getAddress()
+            state.maxPrivacy = getMaxPrivacy()
             state.outgoingAddress = getOutgoingAddress()
             state.amount = getAmount()
+            state.isOffline = getOffline()
             state.fee = getFee()
             state.comment = getComment()
 
-
-            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee)
+            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, state.maxPrivacy, state.isOffline)
         }
     }
 
@@ -53,7 +54,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     private fun send() {
         if (state.contact == null) {
-            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
+            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee, maxPrivacy) }
             view?.showSaveAddressFragment(state.token)
         } else {
             showWallet()
@@ -82,10 +83,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
-        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee) }
+        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee, maxPrivacy) }
         view?.showWallet()
     }
-
-
-
 }

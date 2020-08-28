@@ -81,6 +81,7 @@ object WalletListener {
     var subOnDataImported: Subject<Boolean> = PublishSubject.create<Boolean>().toSerialized()
     var subOnExchangeRates: Subject<List<ExchangeRate>?> = BehaviorSubject.create<List<ExchangeRate>?>().toSerialized()
     var subNotificationChanged: Subject<OnNotificationDataWithAction> = BehaviorSubject.create<OnNotificationDataWithAction>().toSerialized()
+    var subOnGetOfflinePaymentCount: Subject<Int> = PublishSubject.create<Int>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -292,6 +293,12 @@ object WalletListener {
         if(rates!=null) {
             subOnExchangeRates.onNext(rates.map { ExchangeRate(it)})
         }
+    }
+
+    @JvmStatic
+    fun onGetAddress(offlinePayments: Int) {
+        subOnGetOfflinePaymentCount.onNext(offlinePayments)
+        LogUtils.logResponse(offlinePayments, "onGetAddress")
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

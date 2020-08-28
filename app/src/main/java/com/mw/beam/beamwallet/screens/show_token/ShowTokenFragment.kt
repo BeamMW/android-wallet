@@ -45,12 +45,17 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         }
     }
 
+    override fun setCount(count: Int) {
+        countTokenLayout.visibility = View.VISIBLE
+        countTokenValue.text = getString(R.string.offline) + ": " +  count.toString() + "/" + AppManager.instance.maxOfflineCount.toString()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun init(token: String) {
         toolbarLayout.hasStatus = true
 
         if(AppManager.instance.wallet?.isToken(token) == true) {
-            val params = AppManager.instance.wallet?.getTransactionParameters(token)
+            val params = AppManager.instance.wallet?.getTransactionParameters(token, true)
             if(params != null) {
                 if(params.amount > 0) {
                     amountLayout.visibility = View.VISIBLE
@@ -72,7 +77,7 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                     transactionTypeValue.text = getString(R.string.max_privacy_title)
                 }
                 else if(params.isMaxPrivacy && params.isOffline) {
-                    transactionTypeValue.text = """${getString(R.string.max_privacy_title)} (${getString(R.string.offline_token).toLowerCase()})"""
+                    transactionTypeValue.text = """${getString(R.string.max_privacy_title)}, ${getString(R.string.offline).toLowerCase()}"""
                 }
                 else {
                     transactionTypeValue.text = getString(R.string.regular)

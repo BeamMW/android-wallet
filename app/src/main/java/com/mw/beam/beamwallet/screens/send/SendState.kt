@@ -40,5 +40,7 @@ class SendState {
     var generatedAddress: WalletAddress? = null
     var expandAdvanced = false
     var expandEditAddress = false
-    var isUnlinked = false
+    var isMaxPrivacy = false
+    var isMaxPrivacyRequested = false
+    var maxPrivacyCount = -1
 }

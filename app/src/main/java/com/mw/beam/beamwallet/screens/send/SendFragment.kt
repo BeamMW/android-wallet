@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -76,14 +77,15 @@ import kotlinx.android.synthetic.main.fragment_send.btnExpandEditAddress
 import kotlinx.android.synthetic.main.fragment_send.comment
 import kotlinx.android.synthetic.main.fragment_send.editAddressContainer
 import kotlinx.android.synthetic.main.fragment_send.editAddressGroup
-import kotlinx.android.synthetic.main.fragment_send.expiresOnSpinner
 import kotlinx.android.synthetic.main.fragment_send.tagAction
 import kotlinx.android.synthetic.main.fragment_send.tags
 import kotlinx.android.synthetic.main.fragment_send.token
 import android.graphics.Typeface
+import android.util.Log
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.views.*
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
 import org.jetbrains.anko.withAlpha
 
@@ -103,13 +105,26 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
+            Log.e("TEXT", "onPaste")
+
             isPaste = true
             ignoreWatcher = true
             token.setTypeface(null,Typeface.NORMAL)
             presenter?.onPaste()
+            checkAvialble()
         }
 
         override fun afterTextChanged(rawToken: Editable?) {
+            Log.e("TEXT", "afterTextChanged")
+
+            if(presenter?.state?.isMaxPrivacyRequested == true) {
+                presenter?.state?.isMaxPrivacyRequested = false
+                presenter?.state?.isMaxPrivacy = false
+                setMaxPrivacyRequested(false)
+                setMaxPrivacy(false)
+            }
+
+
             if (!ignoreWatcher) {
                 showTokenButton.visibility = View.GONE
                 presenter?.onTokenChanged(rawToken.toString())
@@ -124,7 +139,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             if(isPaste) {
                 isPaste = false
+                val enteredAddress = token.text.toString()
                 onTrimAddress()
+                presenter?.onTokenChanged(enteredAddress)
+                handleAddressSuggestions(null)
+                requestFocusToAmount()
             }
             else if (!ignoreWatcher) {
                 address = token.toString()
@@ -164,15 +183,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
-    private val expireListener = object : OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            presenter?.onExpirePeriodChanged(when (position) {
-                ExpirePeriod.DAY.ordinal -> ExpirePeriod.DAY
-                else -> ExpirePeriod.NEVER
-            })
-        }
-    }
-
     private val onFeeChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             val p = progress + minFee
@@ -197,6 +207,28 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private fun isOpenSearchView(): Boolean {
         return searchContainer?.height ?: 0 > 0
+    }
+
+    private fun checkAvialble() {
+        if (AppManager.instance.wallet?.isToken(address) == false && AppManager.instance.isValidAddress(address)) {
+            maxPrivacySwitch.isEnabled = false
+            maxPrivacySwitch.alpha = 0.2f
+            maxPrivacySwitch.isChecked = false
+            maxPrivacySwitch.visibility = View.VISIBLE
+            maxPrivacyDescription.text = getString(R.string.address_not_supported_max_privacy)
+            maxPrivacyDescription.visibility = View.VISIBLE
+        }
+        else {
+            maxPrivacyDescription.text = getString(R.string.max_privacy_text)
+            if (maxPrivacySwitch.isChecked) {
+                maxPrivacyDescription.visibility = View.VISIBLE
+            }
+            else {
+                maxPrivacyDescription.visibility = View.GONE
+            }
+            maxPrivacySwitch.isEnabled = true
+            maxPrivacySwitch.alpha = 1.0f
+        }
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_send
@@ -252,25 +284,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeSeekBar.progress = 0
         updateFeeValue(defaultFee)
 
-        val strings = context!!.getResources().getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context!!, R.layout.receive_expire_spinner_item,strings) {
-            override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
-
-                val view = View.inflate(context,R.layout.receive_expire_spinner_item,null)
-                val textView = view.findViewById(R.id.expireLabelPickerID) as TextView
-                textView.text = strings[position]
-                if(position == expiresOnSpinner.selectedItemPosition) {
-                    textView.setTextColor(resources.getColor(R.color.colorAccent))
-                }
-                view.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-                return view
-
-            }
-        }
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        expiresOnSpinner.setSelection(0)
-        expiresOnSpinner.adapter = adapter
-
         ViewCompat.requestApplyInsets(contentScrollView)
         contentScrollView.smoothScrollTo(0, 0)
 
@@ -307,17 +320,56 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     }
 
-    override fun setUnlinked(unlinked: Boolean) {
-        if (unlinked) {
-            btnSendAll.textResId = R.string.add_all_unlinked
-            availableTitle.text = getString(R.string.available_unlink)
-            unlinkedSwitch.isChecked = unlinked
+    override fun setMaxPrivacy(value: Boolean) {
+        if(maxPrivacySwitch.isChecked != value) {
+            maxPrivacySwitch.isChecked = value
+
+            if (value) {
+                maxPrivacyDescription.visibility = View.VISIBLE
+            }
+            else{
+                maxPrivacyDescription.visibility = View.GONE
+            }
+
+            if(!getToken().isNullOrEmpty()) {
+                hasErrors(presenter?.state?.walletStatus?.available ?: 0, presenter?.state?.privacyMode ?: false)
+            }
+        }
+    }
+
+    override fun setMaxPrivacyRequested(value: Boolean) {
+        if (value) {
+            maxPrivacySwitch.visibility = View.GONE
+            maxPrivacyTitle.text = getString(R.string.max_privacy_requested_title)
         }
         else{
-            btnSendAll.textResId = R.string.add_all
-            availableTitle.text = getString(R.string.total_available)
-            unlinkedSwitch.isChecked = unlinked
+            maxPrivacySwitch.visibility = View.VISIBLE
+            maxPrivacyTitle.text = getString(R.string.max_privacy_title)
         }
+    }
+
+    override fun updateMaxPrivacyCount(count: Int) {
+        AppActivity.self.runOnUiThread {
+            if(maxPrivacySwitch!=null) {
+                if (count != -1 && maxPrivacySwitch.visibility == View.GONE && maxPrivacyTitle.text == getString(R.string.max_privacy_requested_title)) {
+                    val text = getString(R.string.max_privacy_requested_title) + ".\n" + getString(R.string.offline_transactions) + ": " +
+                            count + "/" + AppManager.instance.maxOfflineCount
+                    maxPrivacyTitle.text = text
+                }
+            }
+        }
+    }
+
+    override fun setupMaxFee(max: Int, min:Int) {
+        maxFee = max
+        minFee = min
+        feeSeekBar.max = maxFee - minFee
+
+        minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
+        secondMinFeeValue.text = minFee.toLong().convertToCurrencyGrothString()
+
+        secondMaxFeeValue.text = maxFee.toLong().convertToCurrencyGrothString()
+        maxFeeValue.text = "$maxFee ${getString(R.string.currency_groth).toUpperCase()}"
     }
 
     @SuppressLint("SetTextI18n")
@@ -339,7 +391,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun requestFocusToAmount() {
-        amount.requestFocus()
+        if(!amount.isFocused) {
+            amount.requestFocus()
+            showKeyboard()
+        }
     }
 
     override fun getStatusBarColor(): Int {
@@ -389,8 +444,17 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
-        unlinkedSwitch.setOnClickListener {
-            presenter?.onUnlinked(unlinkedSwitch.isChecked)
+        maxPrivacySwitch.setOnClickListener {
+            presenter?.onMaxPrivacy(maxPrivacySwitch.isChecked)
+            hasErrors(presenter?.state?.walletStatus?.available ?: 0, presenter?.state?.privacyMode ?: false)
+        }
+
+        permanentOutSwitch.setOnClickListener {
+            presenter?.onExpirePeriodChanged(when (permanentOutSwitch.isChecked) {
+                true -> ExpirePeriod.NEVER
+                else -> ExpirePeriod.DAY
+            })
+
         }
 
         showTokenButton.setOnClickListener {
@@ -423,7 +487,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 handleAddressSuggestions(null)
 
                 if (!AppManager.instance.isValidAddress(getToken())) {
-                    setAddressError()
+                    setAddressError(getString(R.string.invalid_address))
+                }
+                else if(AppManager.instance.isToken(getToken())) {
+                    val params = AppManager.instance.wallet!!.getTransactionParameters(getToken(), false)
+                    if(AppManager.instance.isMyAddress(params.address) && maxPrivacySwitch.isChecked) {
+                        setAddressError(getString(R.string.cant_sent_max_to_my_address))
+                        contentScrollView?.smoothScrollTo(0, 0)
+                    }
                 }
             }
         }
@@ -435,8 +506,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         comment.addTextChangedListener(commentWatcher)
 
         feeSeekBar.setOnSeekBarChangeListener(onFeeChangeListener)
-
-        expiresOnSpinner.onItemSelectedListener = expireListener
 
         advancedContainer.setOnClickListener {
             presenter?.onAdvancedPressed()
@@ -524,11 +593,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     private fun calculateDefaultMargin(): Int {
-        var offset = 0
-        if (contactIcon.visibility == View.GONE) {
-            offset = 20
-        }
-        return addressContainer.height - offset
+//        var offset = 60
+//        if (contactName.visibility == View.VISIBLE) {
+//            offset = 120
+//        }
+        return ScreenHelper.dpToPx(context, 110) //addressContainer.height - offset
     }
 
     @SuppressLint("InflateParams", "StringFormatInvalid")
@@ -603,7 +672,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        presenter?.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents)
+        presenter?.onScannedQR(IntentIntegrator.parseActivityResult(resultCode, data).contents, true)
     }
 
     override fun isPermissionGranted(): Boolean {
@@ -724,11 +793,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
         var hasErrors = false
         clearErrors()
+        clearAddressError()
 
         if (!AppManager.instance.isValidAddress(getToken())) {
             hasErrors = true
-            setAddressError()
+            setAddressError(getString(R.string.invalid_address))
             contentScrollView?.smoothScrollTo(0, 0)
+        }
+        else if(AppManager.instance.isToken(getToken())) {
+            val params = AppManager.instance.wallet!!.getTransactionParameters(getToken(), false)
+            if(AppManager.instance.isMyAddress(params.address) && maxPrivacySwitch.isChecked) {
+                hasErrors = true
+                setAddressError(getString(R.string.cant_sent_max_to_my_address))
+                contentScrollView?.smoothScrollTo(0, 0)
+            }
         }
 
         if (hasAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
@@ -771,12 +849,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun configOutgoingAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
-        outgoingAddressTitle.text = "${getString(R.string.outgoing_address).toUpperCase()}${if (isGenerated) " (${getString(R.string.auto_generated).toLowerCase()})" else ""}"
+        outgoingAddressTitle.text = "${getString(R.string.outgoing_token).toUpperCase()}${if (isGenerated) " (${getString(R.string.auto_generated).toLowerCase()})" else ""}"
         outgoingAddress.text = walletAddress.walletID
 
         addressName.setText(walletAddress.label)
 
-        expiresOnSpinner.setSelection(if (walletAddress.duration == 0L) ExpirePeriod.NEVER.ordinal else ExpirePeriod.DAY.ordinal)
+        permanentOutSwitch.isChecked = walletAddress.duration == 0L
     }
 
     override fun handleExpandAdvanced(expand: Boolean) {
@@ -897,11 +975,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setAddress(address: String) {
         token.setText(address)
         token.setSelection(token.text?.length ?: 0)
+
         if(token.text.toString().isEmpty()) {
             token.setTypeface(null,Typeface.ITALIC)
         }
         else {
             token.setTypeface(null,Typeface.NORMAL)
+        }
+
+        if(!address.contains("...")) {
+            onTrimAddress()
         }
     }
 
@@ -963,13 +1046,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun setAddressError() {
+    private fun setAddressError(error: String) {
         tokenError.visibility = View.VISIBLE
+        tokenError.text = error
         showTokenButton.visibility = View.GONE
 
         contactCategory.visibility = View.GONE
         contactIcon.visibility = View.GONE
         contactName.visibility = View.GONE
+
+        val value = ScreenHelper.dpToPx(context, 16)
+
+        val params = maxPrivacyTitle.layoutParams as ConstraintLayout.LayoutParams
+        params.setMargins(value,value + value + value, value, 0)
+        maxPrivacyTitle.layoutParams = params
     }
 
     override fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>) {
@@ -982,11 +1072,42 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         contactCategory.text = tags.createSpannableString(context!!)
+        contactName.setTypeface(null,Typeface.NORMAL)
+
+        if (walletAddress == null) {
+            val token = getToken()
+            if(contactName.visibility == View.GONE) {
+                if(!token.isNullOrEmpty() && AppManager.instance.isValidAddress(token)) {
+                    presenter?.onScannedQR(token, false)
+                    var params = AppManager.instance.wallet?.getTransactionParameters(token, true)
+                    if(params!=null) {
+                        contactName.visibility = View.VISIBLE
+                        contactName.setTypeface(null,Typeface.ITALIC)
+                        contactIcon.visibility = View.GONE
+
+                        if(params.isPermanentAddress) {
+                            contactName.text = getString(R.string.perm_token)
+                        }
+                        else {
+                            contactName.text = getString(R.string.one_time_expire_text)
+                        }
+                    }
+                }
+            }
+        }
+
+        checkAvialble()
     }
 
 
     override fun clearAddressError() {
         tokenError.visibility = View.INVISIBLE
+
+        val value = ScreenHelper.dpToPx(context, 16)
+
+        val params = maxPrivacyTitle.layoutParams as ConstraintLayout.LayoutParams
+        params.setMargins(value,value, value, 0)
+        maxPrivacyTitle.layoutParams = params
     }
 
     override fun clearToken(clearedToken: String?) {
@@ -1018,8 +1139,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         updateFeeValue(feeSeekBar.progress+minFee, clearAmountFocus)
     }
 
-    override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment))
+    override fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean) {
+        var isOffline = false
+        val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
+        if(params?.isOffline == true) {
+            isOffline = true
+        }
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, maxPrivacy, isOffline))
     }
 
     @SuppressLint("SetTextI18n")
@@ -1052,8 +1178,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.setOnTouchListener(null)
         token.setOnClickListener(null)
         tagAction.setOnClickListener(null)
-        unlinkedSwitch.setOnClickListener(null)
+        maxPrivacySwitch.setOnClickListener(null)
         showTokenButton.setOnClickListener(null)
+        permanentOutSwitch.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {

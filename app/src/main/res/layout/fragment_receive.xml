@@ -173,6 +173,22 @@
                     app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
 
                 <TextView
+                    android:id="@+id/notAvailableLabel"
+                    style="@style/common_text_small_dark"
+                    android:visibility="gone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="@dimen/send_receive_common_margin"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/max_privacy_disabled_node"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/maxPrivacyButton" />
+
+                <TextView
                     android:id="@+id/tokenExpireTitle"
                     android:fontFamily="@font/roboto_bold"
                     android:textSize="12sp"
@@ -185,7 +201,7 @@
                     android:textAllCaps="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/maxPrivacyButton" />
+                    app:layout_constraintTop_toBottomOf="@+id/notAvailableLabel" />
                 <Button
                     android:id="@+id/oneTimeButton"
                     android:layout_width="wrap_content"

@@ -35,7 +35,8 @@ class AppManager {
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
 
-    private lateinit var walletStatus:WalletStatus
+    private var walletStatus:WalletStatus = WalletStatus(WalletStatusDTO(0,0,0,0,0,0,0,0,0,0,
+            SystemStateDTO("",0)))
 
     private var networkStatus = NetworkStatus.ONLINE
     private var isSubscribe = false
@@ -51,6 +52,7 @@ class AppManager {
     var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnOnNetworkStartReconnecting: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnGetOfflinePayments: Subject<Int?> = PublishSubject.create<Int?>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -58,6 +60,8 @@ class AppManager {
 
     private var reconnectAttempts = 0
     private var reconnectNodes = mutableListOf<String>()
+
+    var maxOfflineCount = 10
 
     companion object {
         private var INSTANCE: AppManager? = null
@@ -111,6 +115,17 @@ class AppManager {
         }
 
         return false
+    }
+
+    fun isOwnNode():Boolean {
+        val peers = Api.getDefaultPeers()
+        peers.forEach {
+            if (it == AppConfig.NODE_ADDRESS) {
+                return false
+            }
+        }
+
+        return true;
     }
 
     private fun chooseRandomNodeWithoutNodes(): String {
@@ -259,10 +274,6 @@ class AppManager {
     }
 
     fun getStatus():WalletStatus {
-        if(walletStatus == null) {
-            return WalletStatus(WalletStatusDTO(0,0,0,0,0,0,0,0,0,0,
-                    SystemStateDTO("",0)))
-        }
         return walletStatus
     }
 
@@ -301,6 +312,9 @@ class AppManager {
     }
 
     //MARK: - Addresses
+    fun isToken(address: String): Boolean {
+        return wallet!!.isToken(address)
+    }
 
     fun isValidAddress(address: String): Boolean {
         if(address.isNullOrEmpty()) {
@@ -322,6 +336,15 @@ class AppManager {
 
     fun getMyAddresses() : List<WalletAddress> {
         return addresses.map { it }.toList()
+    }
+
+    fun isMyAddress(address: String): Boolean {
+        addresses.forEach {
+            if (it.walletID == address) {
+                return true
+            }
+        }
+        return false
     }
 
     fun getAddressByName(name:String?) : WalletAddress? {
@@ -767,6 +790,10 @@ class AppManager {
                 }
 
                 subOnAddressesChanged.onNext(it.own)
+            }
+
+            WalletListener.subOnGetOfflinePaymentCount.subscribe() {
+                subOnGetOfflinePayments.onNext(it)
             }
 
             WalletListener.obsOnTxStatus.subscribe(){

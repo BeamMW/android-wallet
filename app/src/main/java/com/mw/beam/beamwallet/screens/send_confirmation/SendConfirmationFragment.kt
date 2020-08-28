@@ -57,14 +57,15 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getAmount(): Long = args.sendAmount
     override fun getFee(): Long = args.fee
     override fun getComment(): String? = args.comment
+    override fun getMaxPrivacy(): Boolean = args.maxPrivacy
+    override fun getOffline(): Boolean = args.isOffline
 
     @SuppressLint("SetTextI18n")
-    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long) {
+    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, maxPrivacy: Boolean, isOffline: Boolean) {
         sendTo.text = address
 
         val length = address.length
         val spannable = SpannableStringBuilder.valueOf(address)
-
 
         spannable.setSpan(foregroundStartColorSpan, 0, if (length < 7) length else 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
         spannable.setSpan(foregroundEndColorSpan, if (length - 6 < 0) 0 else length - 6, length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
@@ -75,6 +76,20 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         secondAvailableSum.text = amount.convertToCurrencyString()
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
+
+        if (maxPrivacy) {
+            transactionType.text = getString(R.string.max_privacy_title)
+        }
+        else {
+            transactionType.text = getString(R.string.regular)
+        }
+
+        if(isOffline) {
+            tokenType.text = getString(R.string.offline_token_type)
+        }
+        else {
+            tokenType.text = getString(R.string.online_token_type)
+        }
     }
 
     override fun getStatusBarColor(): Int {
@@ -123,8 +138,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         changeUtxo.text = "${changedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
     }
 
-    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress))
+    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy:Boolean) {
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress, maxPrivacy))
     }
 
     override fun showSaveAddressFragment(address: String) {
