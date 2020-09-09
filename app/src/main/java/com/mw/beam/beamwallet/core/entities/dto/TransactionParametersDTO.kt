@@ -28,5 +28,7 @@ data class TransactionParametersDTO(val address: String,
                                     val isPermanentAddress: Boolean,
                                     val isOffline: Boolean,
                                     var isMaxPrivacy: Boolean,
-                                    val amount: Long) : Parcelable {
+                                    val amount: Long,
+                                    var versionError: Boolean,
+                                    var version: String) : Parcelable {
 }

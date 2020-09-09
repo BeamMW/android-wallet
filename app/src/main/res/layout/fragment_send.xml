@@ -372,6 +372,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/maxPrivacyTitle"
                     tools:visibility="visible" />
 
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/maxPrivacyGroup"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:constraint_referenced_ids="maxPrivacyTitle,maxPrivacyDescription,maxPrivacySwitch" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -740,6 +747,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
+
 
 
                 <com.mw.beam.beamwallet.core.views.BeamButton

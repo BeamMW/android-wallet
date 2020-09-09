@@ -85,7 +85,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
         onBackPressedCallback.isEnabled = true
 
-        pass.setText("1")
+       // pass.setText("1")
       //  presenter?.onOpenWallet()
     }
 

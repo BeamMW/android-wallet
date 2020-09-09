@@ -23,6 +23,7 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
  *  10/1/18.
@@ -103,15 +104,21 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view?.configStatus(AppManager.instance.getNetworkStatus())
 
         nodeConnectionSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe(){
-            view?.configStatus(AppManager.instance.getNetworkStatus())
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(AppManager.instance.getNetworkStatus())
+            }
         }
 
         nodeConnectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe() {
-            view?.configStatus(AppManager.instance.getNetworkStatus())
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(AppManager.instance.getNetworkStatus())
+            }
         }
 
         nodeReconnectionSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
-            view?.configStatus(NetworkStatus.RECONNECT)
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(NetworkStatus.RECONNECT)
+            }
         }
     }
 
