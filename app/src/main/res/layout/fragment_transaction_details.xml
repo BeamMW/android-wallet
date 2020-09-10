@@ -88,17 +88,6 @@
                             android:textSize="20sp"
                             tools:text="190.2020" />
 
-                        <ImageView
-                            android:id="@+id/currencyIcon"
-                            android:layout_width="12dp"
-                            android:layout_height="19dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="3dp"
-                            android:contentDescription="@null"
-                            app:layout_constraintStart_toEndOf="@id/amount"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/currency_beam" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -482,9 +471,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:orientation="vertical">
 
                 <TextView
+                    tools:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
@@ -496,6 +487,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    tools:visibility="visible"
                     android:id="@+id/walletIdLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

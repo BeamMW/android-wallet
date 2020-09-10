@@ -16,8 +16,6 @@
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableEnd="@drawable/currency_beam_small"
-        android:drawablePadding="5dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="start"
         android:textColor="#FFFFFF"

@@ -207,7 +207,7 @@ else{
                     utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
                 }
 
-                utxoView.utxoAmount.text = utxo.amount.convertToBeamString()
+                utxoView.utxoAmount.text = utxo.amount.convertToBeamString() + " BEAM"
 
                 utxosList.addView(utxoView)
             }
@@ -253,14 +253,10 @@ else{
 
     @SuppressLint("SetTextI18n")
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
-        when (txDescription.sender) {
-            TxSender.RECEIVED -> currencyIcon.setImageResource(R.drawable.currency_beam_receive)
-            TxSender.SENT -> currencyIcon.setImageResource(R.drawable.currency_beam_send)
-        }
 
         dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
 
-        amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value)
+        amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value) + " BEAM"
         amountLabel.setTextColor(txDescription.amountColor)
 
         val second = txDescription.amount.convertToCurrencyString()
@@ -314,6 +310,8 @@ else{
 
         if(!txDescription.identity.isNullOrEmpty()) {
             walletIdLayout.visibility = View.VISIBLE
+            walletIdLayout.isEnabled = false
+            walletIdLabel.isEnabled = false
             walletIdLabel.text = txDescription.identity
         }
 

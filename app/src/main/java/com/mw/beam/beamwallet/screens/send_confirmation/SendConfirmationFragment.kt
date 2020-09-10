@@ -30,10 +30,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
@@ -75,6 +72,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         this.outgoingAddress.text = outgoingAddress
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         secondAvailableSum.text = amount.convertToCurrencyString()
+        secondAvailableFeeSum.text = fee.convertToCurrencyGrothString()
+
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
 
         if (maxPrivacy) {
@@ -133,9 +132,15 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         totalUtxo.visibility = View.VISIBLE
         changeUtxoTitle.visibility = View.VISIBLE
         changeUtxo.visibility = View.VISIBLE
+        secondAvailableUTXOSum.visibility = View.VISIBLE
+        secondAvailableChangeSum.visibility = View.VISIBLE
 
         totalUtxo.text = "${usedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         changeUtxo.text = "${changedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+
+        secondAvailableUTXOSum.text = usedUtxo.convertToCurrencyString()
+        secondAvailableChangeSum.text = changedUtxo.convertToCurrencyString()
+
     }
 
     override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy:Boolean) {

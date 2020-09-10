@@ -88,6 +88,7 @@
                             android:layout_marginStart="5dp"
                             android:layout_marginTop="3dp"
                             android:contentDescription="@null"
+                            android:visibility="gone"
                             app:layout_constraintStart_toEndOf="@id/amount"
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/currency_beam" />

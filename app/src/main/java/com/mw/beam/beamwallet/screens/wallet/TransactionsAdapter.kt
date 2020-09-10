@@ -45,6 +45,7 @@ import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 
 
 class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
@@ -141,17 +142,31 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             icon.setImageDrawable(transaction.statusImage())
 
-            currency.setImageDrawable(transaction.currencyImage)
-
-            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
+            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value) + " BEAM"
             sum.setTextColor(transaction.amountColor)
 
             status.setTextColor(transaction.statusColor)
             status.text = transaction.getStatusString(context)
 
+            if(sumSecondBalance!=null)
+            {
+                val amount = transaction.amount.convertToCurrencyString()
+                if (amount == null) {
+                    sumSecondBalance.text = amount
+                }
+                else {
+                    if (transaction.sender.value) {
+                        sumSecondBalance.text = "-$amount"
+                    }
+                    else{
+                        sumSecondBalance.text = "+$amount"
+                    }
+                }
+            }
+
+
             val amountVisibility = if (privacyMode) View.GONE else View.VISIBLE
             sum.visibility = amountVisibility
-            currency.visibility = amountVisibility
 
             if (cellMode == Mode.SEARCH) {
                 searchResultContainer.removeAllViews()

@@ -92,7 +92,7 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
             }
 
-            amount.text = utxo.amount.convertToBeamString()
+            amount.text = utxo.amount.convertToBeamString() + " BEAM"
 
             if (utxo.transactionComment != null && utxo.transactionDate != null)
             {

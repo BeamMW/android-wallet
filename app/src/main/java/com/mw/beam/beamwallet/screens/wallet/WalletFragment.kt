@@ -175,7 +175,7 @@ else{
                 receivingGroup.visibility = View.GONE
             }
             else -> {
-                receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receiving.text = receivingAmount.convertToBeamWithSign(false) + " BEAM"
                 val amount = receivingAmount.convertToCurrencyString()
                 if (amount == null) {
                     receivingSecondBalance.text = amount
@@ -193,7 +193,7 @@ else{
         when (sendingAmount) {
             0L -> sendingGroup.visibility = View.GONE
             else -> {
-                sending.text = sendingAmount.convertToBeamWithSign(true)
+                sending.text = sendingAmount.convertToBeamWithSign(true) + " BEAM"
 
                 val amount = sendingAmount.convertToCurrencyString()
                 if (amount == null) {

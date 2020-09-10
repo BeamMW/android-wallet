@@ -99,7 +99,7 @@ class AppManager {
     private fun reconnect(): Boolean {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
 
-        if (random && reconnectAttempts < 2) {
+        if (random) {
             subOnOnNetworkStartReconnecting.onNext(0)
 
             reconnectAttempts += 1
@@ -929,16 +929,8 @@ class AppManager {
             }
 
             WalletListener.subOnNodeConnectionFailed.subscribe(){
-                if (it == NodeConnectionError.CONNECTION_HOST_UNREACHED || it == NodeConnectionError.NODE_PROTOCOL_BASE
-                        || it == NodeConnectionError.CONNECTION_BASE || it == NodeConnectionError.CONNECTION_REFUSED
-                        || it == NodeConnectionError.NODE_PROTOCOL_INCOMPATIBLE) {
-                    val reconnect = reconnect()
-                    if (!reconnect) {
-                        networkStatus = NetworkStatus.OFFLINE
-                        subOnNetworkStatusChanged.onNext(0)
-                    }
-                }
-                else {
+                val reconnect = reconnect()
+                if (!reconnect) {
                     networkStatus = NetworkStatus.OFFLINE
                     subOnNetworkStatusChanged.onNext(0)
                 }
@@ -963,9 +955,9 @@ class AppManager {
                     }
                 }
 
-                val gson = Gson()
-                val jsonString = gson.toJson(currencies)
-                PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
+              //  val gson = Gson()
+              //  val jsonString = gson.toJson(currencies)
+              //  PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
 
 
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)

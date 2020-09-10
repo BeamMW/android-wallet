@@ -40,7 +40,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
             BalanceTab.Unlinked -> unlinked
-        }.convertToBeamString()
+        }.convertToBeamString() + " BEAM"
 
 
         val second = when (BalanceTab.values()[position]) {

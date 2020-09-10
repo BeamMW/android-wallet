@@ -110,52 +110,66 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="sum"
-        tools:ignore="RtlSymmetry" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="sum,sumSecondBalance"
+            tools:ignore="RtlSymmetry"
+            tools:layout_editor_absoluteX="271dp" />
 
-    <TextView
-        android:id="@+id/sum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:paddingStart="@dimen/wallet_currency_padding"
-        android:paddingEnd="@dimen/wallet_currency_padding"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/status"
-        app:layout_constraintEnd_toStartOf="@id/currency"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="123.12" />
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingStart="@dimen/wallet_currency_padding"
+            android:paddingEnd="@dimen/wallet_currency_padding"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@id/status"
+            app:layout_constraintEnd_toStartOf="@id/currency"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="123.12" />
 
-    <ImageView
-        android:id="@+id/currency"
-        style="@style/common_currency_style"
-        android:layout_width="12dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="6dp"
-        android:contentDescription="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/currency_beam" />
+        <TextView
+            android:id="@+id/sumSecondBalance"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="2dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/date"
+            app:layout_constraintTop_toBottomOf="@+id/sum"
+            tools:text="1234 USD" />
 
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_italic"
-        android:paddingTop="@dimen/transaction_status_padding_top"
-        android:paddingEnd="@dimen/wallet_currency_padding"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/message"
-        app:layout_constraintTop_toBottomOf="@id/message"
-        tools:text="@string/sending_to_own_address" />
+        <ImageView
+            android:id="@+id/currency"
+            style="@style/common_currency_style"
+            android:layout_width="12dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="6dp"
+            android:contentDescription="@null"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/currency_beam" />
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_italic"
+            android:paddingTop="@dimen/transaction_status_padding_top"
+            android:paddingEnd="@dimen/wallet_currency_padding"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/message"
+            app:layout_constraintTop_toBottomOf="@id/message"
+            tools:text="@string/sending_to_own_address" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

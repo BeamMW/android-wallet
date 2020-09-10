@@ -77,7 +77,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         idLabel.text = utxo.stringId
 
-        amountLabel.text = utxo.amount.convertToBeamString()
+        amountLabel.text = utxo.amount.convertToBeamString() + " BEAM"
 
         val status = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)

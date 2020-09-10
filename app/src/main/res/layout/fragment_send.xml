@@ -205,10 +205,11 @@
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="?attr/cardBackground"
                 android:paddingBottom="@dimen/common_offset"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="79dp">
 
                 <ImageView
                     android:id="@+id/scanQR"
@@ -227,9 +228,9 @@
                     android:id="@+id/contactIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingRight="10dp"
                     android:layout_marginTop="7dp"
                     android:contentDescription="@null"
+                    android:paddingRight="10dp"
                     android:src="@drawable/ic_contact"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@id/token"
@@ -239,16 +240,19 @@
                 <TextView
                     android:id="@+id/tokenError"
                     style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
                     android:text="@string/invalid_address"
+                    android:textAlignment="textStart"
                     android:textColor="@color/common_error_color"
                     android:visibility="invisible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:visibility="gone" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tokenDivider"
+                    app:layout_constraintTop_toBottomOf="@+id/contactCategory"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tokenTitle"
@@ -312,10 +316,10 @@
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/search_by_address_tag_or_name"
+                    android:maxLines="1"
                     app:layout_constraintEnd_toStartOf="@+id/showTokenButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tokenTitle"
-                    android:maxLines="1"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 
                 <Button
@@ -326,23 +330,23 @@
                     android:layout_marginBottom="3dp"
                     android:background="@android:color/transparent"
                     android:padding="0dp"
-                    android:visibility="gone"
                     android:text="@string/show_token"
                     android:textColor="@color/send_selector"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toTopOf="@+id/tokenDivider"
                     app:layout_constraintEnd_toStartOf="@+id/scanQR" />
 
                 <TextView
                     android:id="@+id/maxPrivacyTitle"
                     style="@style/common_text_big_light"
-                    android:paddingTop="5dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
+                    android:paddingTop="5dp"
                     android:text="@string/max_privacy_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/contactCategory" />
+                    app:layout_constraintTop_toBottomOf="@+id/newVersionTextView" />
 
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/maxPrivacySwitch"
@@ -362,7 +366,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
                     android:fontFamily="@font/roboto_italic"
                     android:text="@string/max_privacy_text"
                     android:textSize="14sp"
@@ -372,13 +375,31 @@
                     app:layout_constraintTop_toBottomOf="@+id/maxPrivacyTitle"
                     tools:visibility="visible" />
 
+                <TextView
+                    android:id="@+id/newVersionTextView"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/max_privacy_text"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tokenError"
+                    tools:visibility="visible" />
+
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/maxPrivacyGroup"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    app:constraint_referenced_ids="maxPrivacyTitle,maxPrivacyDescription,maxPrivacySwitch" />
+                    app:constraint_referenced_ids="maxPrivacyTitle,maxPrivacyDescription,maxPrivacySwitch"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -364,6 +364,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
                     if(params.amount > 0) {
                         state.scannedAmount = params.amount.convertToBeam()
+                        state.scannedAmount?.let { view?.setAmount(it) }
                     }
                 }
             }
