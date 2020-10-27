@@ -103,6 +103,20 @@
                 tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
             <TextView
+                android:id="@+id/outgoingAddressExpiration"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/roboto_italic"
+                android:textSize="14sp"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/outgoingAddress"
+                android:text="@string/one_time" />
+
+            <TextView
                 android:id="@+id/transactionTypeTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="0dp"
@@ -113,7 +127,7 @@
                 android:text="@string/transaction_type"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/outgoingAddress" />
+                app:layout_constraintTop_toBottomOf="@id/outgoingAddressExpiration" />
 
             <TextView
                 android:id="@+id/transactionType"
@@ -129,20 +143,20 @@
                 tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
             <TextView
-                android:id="@+id/tokenTypeTitle"
+                android:id="@+id/remainingTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/token_type"
+                android:text="@string/transactions_remaining"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/transactionType" />
 
             <TextView
-                android:id="@+id/tokenType"
+                android:id="@+id/remainingValue"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -151,8 +165,8 @@
                 android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tokenTypeTitle"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+                app:layout_constraintTop_toBottomOf="@id/remainingTitle"
+                tools:text="0" />
 
 
             <TextView
@@ -166,7 +180,7 @@
                 android:text="@string/amount_to_send"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tokenType" />
+                app:layout_constraintTop_toBottomOf="@id/remainingValue" />
 
             <TextView
                 android:id="@+id/amountToSend"

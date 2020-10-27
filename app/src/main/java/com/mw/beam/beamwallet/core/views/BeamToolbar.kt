@@ -28,12 +28,15 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginRight
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
+import com.mw.beam.beamwallet.core.helpers.ScreenHelper
+import kotlinx.android.synthetic.main.fragment_receive.*
 
 /**
  *  12/10/18.
@@ -48,6 +51,18 @@ class BeamToolbar : LinearLayout {
         set(value) {
             field = value
             centerTitleView.visibility = if (field) View.VISIBLE else View.GONE
+        }
+    var hasOffset: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                val value = ScreenHelper.dpToPx(context, 200)
+                status.setPaddingRelative(0,0,value,0)
+            }
+            else {
+                val value = ScreenHelper.dpToPx(context, 30)
+                status.setPaddingRelative(0,0,value,0)
+            }
         }
     lateinit var toolbar: Toolbar
     lateinit var status: TextView
@@ -163,7 +178,7 @@ class BeamToolbar : LinearLayout {
 
         } else {
             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
-            status.text = String.format(context.getString(R.string.common_status_error).toLowerCase(), AppConfig.NODE_ADDRESS)
+            status.text = (context.getString(R.string.common_status_error).toLowerCase() + ": " + AppConfig.NODE_ADDRESS)
         }
     }
 }

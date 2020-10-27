@@ -52,6 +52,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     var expire = TokenExpireOptions.ONETIME
     var transaction = TransactionTypeOptions.REGULAR
+    var isSkipSave = false
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -61,11 +62,13 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         val address = view?.getWalletAddressFromArguments()
 
         if(address!=null) {
+            isSkipSave = true
+            state.wasAddressSaved = true
+            state.address = address
             state.isNeedGenerateAddress = false
+            initViewAddress(address)
 
             updateToken()
-
-            initViewAddress(address)
 
             val amount = view?.getAmountFromArguments()
             if (amount != null && amount > 0) {
@@ -131,18 +134,23 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     private fun requestSaveAddress(nextStep: () -> Unit) {
-        if (isAddressInfoChanged() && !state.wasAddressSaved) {
-            view?.showSaveChangesDialog(nextStep)
-        }
-        else if (!state.wasAddressSaved) {
-            view?.showSaveAddressDialog(nextStep)
-        }
-        else if (isAddressInfoChanged()) {
-            view?.showSaveChangesDialog(nextStep)
+        if (isSkipSave) {
+            nextStep()
         }
         else {
-            saveAddress()
-            nextStep()
+            if (isAddressInfoChanged() && !state.wasAddressSaved) {
+                view?.showSaveChangesDialog(nextStep)
+            }
+            else if (!state.wasAddressSaved) {
+                view?.showSaveAddressDialog(nextStep)
+            }
+//            else if (isAddressInfoChanged()) {
+//                view?.showSaveChangesDialog(nextStep)
+//            }
+            else {
+                saveAddress()
+                nextStep()
+            }
         }
     }
 
@@ -155,13 +163,14 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.shareToken(state.address!!.token)
         }
         else if ((transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.ONETIME) || (transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.PERMANENT)) {
-            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            val option2 = App.self.resources.getString(R.string.offline_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            view?.showShareDialog(option1, option2)
+//            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+//            val option2 = App.self.resources.getString(R.string.offline_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+//            view?.showShareDialog(option1, option2)
+            view?.shareToken(state.address!!.offlineToken)
         }
         else if (transaction == TransactionTypeOptions.REGULAR && expire == TokenExpireOptions.PERMANENT) {
-            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            val option2 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
+            val option1 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            val option2 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
             view?.showShareDialog(option1, option2)
         }
     }
@@ -320,6 +329,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                     amount,
                     state!!.address!!.walletID, state!!.address!!.identity,
                     state!!.address!!.own)!!
+
+            view?.updateTokens(state?.address!!)
         }
     }
 

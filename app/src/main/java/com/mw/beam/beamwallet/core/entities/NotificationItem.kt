@@ -69,13 +69,25 @@ class NotificationItem  {
                         detail = string
                     }
                     else {
-                        icon = R.drawable.ic_icon_notifictions_received
-                        name =  App.self.applicationContext.getString(R.string.transaction_received)
-                        val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body)
-                                .replace("(value)", beam)
-                                .replace("(address)", address)
-                                .replace("  ", " ")
-                        detail = string
+                        if (transaction.isMaxPrivacy || transaction.isOffline)
+                        {
+                            icon = R.drawable.ic_notifictions_received_offline
+                            name =  App.self.applicationContext.getString(R.string.transaction_received_from_offline)
+                            val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body)
+                                    .replace("(value)", beam)
+                                    .replace("(address)", "shielded pool")
+                                    .replace("  ", " ")
+                            detail = string
+                        }
+                        else {
+                            icon = R.drawable.ic_icon_notifictions_received
+                            name =  App.self.applicationContext.getString(R.string.transaction_received)
+                            val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body)
+                                    .replace("(value)", beam)
+                                    .replace("(address)", address)
+                                    .replace("  ", " ")
+                            detail = string
+                        }
                     }
                 }
                 else {
@@ -95,13 +107,33 @@ class NotificationItem  {
                         detail = string
                     }
                     else {
-                        icon = R.drawable.ic_icon_notifictions_sent
-                        name =  App.self.applicationContext.getString(R.string.transaction_sent)
-                        val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
-                                .replace("(value)", beam)
-                                .replace("(address)", address)
-                                .replace("  ", " ")
-                        detail = string
+                        if (transaction.isOffline || transaction.isMaxPrivacy) {
+
+                            val a = AppManager.instance.getAddress(transaction.myId)
+                            if (a != null && a?.isContact == false) {
+                                address = transaction.peerId
+                            }
+                            else {
+                                address = transaction.myId
+                            }
+
+                            icon = R.drawable.ic_notifictions_send_offline
+                            name =  App.self.applicationContext.getString(R.string.transaction_send_from_offline)
+                            val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
+                                    .replace("(value)", beam)
+                                    .replace("(address)", address)
+                                    .replace("  ", " ")
+                            detail = string
+                        }
+                        else {
+                            icon = R.drawable.ic_icon_notifictions_sent
+                            name =  App.self.applicationContext.getString(R.string.transaction_sent)
+                            val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
+                                    .replace("(value)", beam)
+                                    .replace("(address)", address)
+                                    .replace("  ", " ")
+                            detail = string
+                        }
                     }
                 }
 

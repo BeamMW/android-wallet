@@ -78,6 +78,7 @@ interface SettingsContract {
         fun setAllowTransaction(allow: Boolean)
         fun setAllowWalletUpdates(allow: Boolean)
         fun setAllowAddressExpiration(allow: Boolean)
+        fun onReconnected()
     }
 
     interface Presenter : MvpPresenter<View> {

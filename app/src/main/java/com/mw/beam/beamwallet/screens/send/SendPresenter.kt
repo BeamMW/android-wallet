@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +27,9 @@ import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.subscribeIf
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
 /**
@@ -40,11 +43,15 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     var MAX_FEE = 2000
     var DEFAULT_FEE = 100
     val MAX_FEE_LENGTH = 15
+    var change = 0L
+    var inputShield = 0L
+    var isAllPressed = false
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
     private lateinit var offlineCountSubscription: Disposable
+    private lateinit var feeSubscription: Disposable
 
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
     private var categorySubscription: Disposable? = null
@@ -68,10 +75,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val amount = view?.getAmountFromArguments()?.convertToBeam() ?: 0.0
             view?.setAddress(address)
             onTokenChanged(address)
-            view?.setAmount(amount)
-            view?.hideKeyboard()
 
             if (amount>0) {
+                view?.setAmount(amount)
+                view?.hideKeyboard()
+
                 val availableAmount = AppManager.instance.getStatus().available
                 val feeAmount = try {
                     view?.getFee() ?: 0L
@@ -81,6 +89,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
                 view?.hasAmountError(view?.getAmount()?.convertToGroth()
                         ?: 0, feeAmount, availableAmount, state.privacyMode)
+            }
+            else {
+                view?.requestFocusToAmount()
             }
         }
 
@@ -93,6 +104,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 setAddress(it, !state.wasAddressSaved)
             }
         })
+
     }
 
     override fun onAddressChanged(walletAddress: WalletAddress) {
@@ -142,6 +154,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.setMaxPrivacyRequested(state.isMaxPrivacyRequested)
 
         notifyPrivacyStateChange()
+
+        requestFee()
     }
 
     override fun onMaxPrivacy(value: Boolean) {
@@ -149,7 +163,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         if(value) {
             MAX_FEE = 12000000
-            FORK_MIN_FEE = 1200000
+            FORK_MIN_FEE = 1000100
             DEFAULT_FEE = FORK_MIN_FEE
         }
         else {
@@ -166,6 +180,42 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.isMaxPrivacy = value
         view?.setMaxPrivacy(state.isMaxPrivacy)
         view?.setMaxPrivacyRequested(state.isMaxPrivacyRequested)
+        requestFee()
+    }
+
+    override fun requestFee() {
+       // if (AppManager.instance.getStatus().shielded > 0) {
+            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+            val fee = view?.getFee() ?: 0L
+            val isMaxPrivacy = state.isMaxPrivacy || state.isMaxPrivacyRequested
+            val defaultMinFeeForMaxPrivacy = 1000100L
+
+//            val sFee = if (isMaxPrivacy && fee > defaultMinFeeForMaxPrivacy) {
+//                fee - defaultMinFeeForMaxPrivacy
+//            }
+//            else {
+//                fee
+//            }
+
+            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(enteredAmount + fee, 0L, isMaxPrivacy)
+       // }
+    }
+
+    private fun onFeeDidCalculated(fee: Long) {
+        Log.e("FEE", fee.toString())
+        if (FORK_MIN_FEE != fee.toInt()) {
+            FORK_MIN_FEE = fee.toInt()
+            if (fee < 300) {
+                MAX_FEE = 2000
+            }
+            else {
+                MAX_FEE = fee.toInt() * 2
+            }
+            DEFAULT_FEE = FORK_MIN_FEE
+
+            view?.setupMaxFee(MAX_FEE, FORK_MIN_FEE)
+            onEnterFee(DEFAULT_FEE.toString())
+        }
     }
 
     override fun onSelectAddress(walletAddress: WalletAddress) {
@@ -194,6 +244,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
+        isAllPressed = true
+
         val availableAmount = state.walletStatus!!.available
 
         val feeAmount = try {
@@ -318,7 +370,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             val comment = view?.getCommentOutgoingAddress()
 
+            var categories = mutableListOf<String>()
+
+            for (t in state.tags) {
+                categories.add(t.id)
+            }
+
+            var ids = categories.joinToString(";")
+
             state.outgoingAddress!!.label = comment ?: ""
+            state.outgoingAddress!!.category = ids
             repository.saveTagsForAddress(state.outgoingAddress!!.walletID, state.tags)
 
             if (state.wasAddressSaved) {
@@ -367,6 +428,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                         state.scannedAmount?.let { view?.setAmount(it) }
                     }
                 }
+            }
+            else {
+                state.isMaxPrivacy = false
+                state.isMaxPrivacyRequested = false
+                state.maxPrivacyCount = -1
             }
 
             val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
@@ -466,6 +532,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             clearErrors()
             updateFeeTransactionVisibility()
         }
+        requestFee()
     }
 
     override fun onAmountUnfocused() {
@@ -490,13 +557,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         view?.clearErrors()
 
-        val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+        var enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
         val availableAmount = state.walletStatus!!.available
         val maxEnterAmount = availableAmount - feeAmount
         when {
             enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
-                setAmount(availableAmount, feeAmount)
-                view?.hasAmountError(maxEnterAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
+                if(isAllPressed) {
+                    enteredAmount = availableAmount - feeAmount
+                    setAmount(availableAmount, feeAmount)
+                }
+                view?.hasAmountError(enteredAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
                 view?.updateFeeTransactionVisibility()
             }
             else -> view?.updateFeeTransactionVisibility()
@@ -524,6 +594,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         if (isFork()) {
             view?.setupMinFee(FORK_MIN_FEE)
+        }
+
+        feeSubscription = WalletListener.subOnFeeCalculated.subscribe {
+            AppActivity.self.runOnUiThread {
+                inputShield = it.shieldedInputsFee
+                change = it.change
+                onFeeDidCalculated(it.fee)
+            }
         }
 
         walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
@@ -582,7 +660,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription, feeSubscription)
 
     override fun hasStatus(): Boolean = true
 }

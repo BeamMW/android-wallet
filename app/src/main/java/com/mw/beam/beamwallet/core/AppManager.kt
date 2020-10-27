@@ -28,6 +28,7 @@ class AppManager {
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
     private var utxos = mutableListOf<Utxo>()
+    private var shieldedUtxos = mutableListOf<Utxo>()
     private var notifications = mutableListOf<Notification>()
     private var sentNotifications = mutableListOf<String>()
     var ignoreNotifications = mutableListOf<String>()
@@ -53,6 +54,7 @@ class AppManager {
     var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnOnNetworkStartReconnecting: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
     var subOnGetOfflinePayments: Subject<Int?> = PublishSubject.create<Int?>().toSerialized()
+    var subOnBeamGameGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -100,8 +102,6 @@ class AppManager {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
 
         if (random) {
-            subOnOnNetworkStartReconnecting.onNext(0)
-
             reconnectAttempts += 1
             reconnectNodes.add(AppConfig.NODE_ADDRESS);
 
@@ -109,7 +109,11 @@ class AppManager {
 
             if(node.isNotEmpty()) {
                 AppConfig.NODE_ADDRESS = node
+
+                subOnOnNetworkStartReconnecting.onNext(0)
+
                 instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+
                 return true
             }
         }
@@ -117,15 +121,8 @@ class AppManager {
         return false
     }
 
-    fun isOwnNode():Boolean {
-        val peers = Api.getDefaultPeers()
-        peers.forEach {
-            if (it == AppConfig.NODE_ADDRESS) {
-                return false
-            }
-        }
-
-        return true;
+    fun isOwnNode(): Boolean {
+        return wallet?.isConnectionTrusted() == true
     }
 
     private fun chooseRandomNodeWithoutNodes(): String {
@@ -198,11 +195,11 @@ class AppManager {
         addresses.clear()
         transactions.clear()
         utxos.clear()
+        shieldedUtxos.clear()
         notifications.clear()
     }
 
     fun removeWallet() {
-
         TagHelper.clear()
 
         isSubscribe = false
@@ -218,6 +215,7 @@ class AppManager {
         transactions.clear()
         notifications.clear()
         utxos.clear()
+        shieldedUtxos.clear()
 
         PreferencesManager.clear()
 
@@ -248,6 +246,10 @@ class AppManager {
                 }
             }
         }
+
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false);
+        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
+        AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
     }
 
     fun importData(data:String) {
@@ -297,7 +299,7 @@ class AppManager {
     }
 
     fun getUtxoByID(id:String?): Utxo? {
-        utxos.forEach {
+        getUtxos().forEach {
             if (it.stringId == id)
             {
                 return it
@@ -308,7 +310,10 @@ class AppManager {
     }
 
     fun getUtxos() : List<Utxo> {
-        return utxos
+        var result = mutableListOf<Utxo>()
+        result.addAll(utxos)
+        result.addAll(shieldedUtxos)
+        return result
     }
 
     //MARK: - Addresses
@@ -475,7 +480,7 @@ class AppManager {
     fun getUTXOByTransaction(tx:TxDescription) : List<Utxo> {
         var result = mutableListOf<Utxo>()
 
-        utxos.forEach {
+        getUtxos().forEach {
             if (it.createTxId == tx.id)
             {
                 result.add(it)
@@ -536,6 +541,12 @@ class AppManager {
                 item1.id == item2.id
             }
         }
+
+        deleted.forEach { item2 ->
+            shieldedUtxos.removeAll {item1 ->
+                item1.id == item2.id
+            }
+        }
     }
 
     private fun updateUtxo(updated: List<Utxo>) {
@@ -545,6 +556,15 @@ class AppManager {
             }
             if (index != -1) {
                 utxos[index] = item2
+            }
+        }
+
+        updated.forEach { item2 ->
+            val index = shieldedUtxos.indexOfFirst {
+                it.id == item2.id
+            }
+            if (index != -1) {
+                shieldedUtxos[index] = item2
             }
         }
     }
@@ -726,6 +746,29 @@ class AppManager {
         wallet?.getExchangeRates()
     }
 
+    fun createAddressForBeamGame() {
+        val address = getAddressByName("Beam runner")
+
+        if (address == null || address.isExpired)
+        {
+            newAddressSubscription = WalletListener.subOnGeneratedNewAddress.subscribe(){
+                newAddressSubscription?.dispose()
+                newAddressSubscription = null
+
+                it.label = "Beam runner"
+                it.duration = 0L
+                wallet?.saveAddress(it.toDTO(), true)
+
+                subOnBeamGameGenerated.onNext(it.walletID)
+            }
+
+            wallet?.generateNewAddress()
+        }
+        else{
+            subOnBeamGameGenerated.onNext(address.walletID)
+        }
+    }
+
     fun createAddressForFaucet() {
         val address = getAddressByName("Beam community faucet")
 
@@ -747,7 +790,6 @@ class AppManager {
         else{
             subOnFaucedGenerated.onNext(address.walletID)
         }
-
     }
 
     @SuppressLint("CheckResult")
@@ -824,6 +866,29 @@ class AppManager {
             WalletListener.subOnAllUtxoChanged.subscribe(){
                 utxos.clear()
                 utxos.addAll(it)
+                subOnUtxosChanged.onNext(0)
+            }
+
+            WalletListener.obsOnShieldedUtxos.subscribe {
+                if (it.utxo != null) {
+                    it.utxo.forEach {u->
+                        u.keyType = UtxoKeyType.Shielded
+                    }
+                }
+                if (it.action == ChangeAction.REMOVED && it.utxo != null) {
+                    deleteUtxo(it.utxo)
+                }
+                else if (it.action == ChangeAction.ADDED && it.utxo != null) {
+                    shieldedUtxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.RESET && it.utxo != null) {
+                    shieldedUtxos.clear()
+                    shieldedUtxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.UPDATED && it.utxo != null) {
+                    updateUtxo(it.utxo)
+                }
+
                 subOnUtxosChanged.onNext(0)
             }
 
@@ -909,6 +974,11 @@ class AppManager {
             WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
                 networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
 
+                if (it)
+                {
+                    isOwnNode()
+                }
+
                 if (isConnecting)
                 {
                     val delay = if (it) 1000L else 3000L
@@ -920,11 +990,25 @@ class AppManager {
                         isConnecting = false
                         subOnNetworkStatusChanged.onNext(0)
                     }, delay)
+
+                    if (!it) {
+                        val reconnect = reconnect()
+                        if (!reconnect) {
+                            networkStatus = NetworkStatus.OFFLINE
+                            subOnNetworkStatusChanged.onNext(0)
+                        }
+                    }
                 }
-                else {
+                else if (!it && !isConnecting) {
                     isConnecting = false
 
                     subOnNetworkStatusChanged.onNext(0)
+
+                    val reconnect = reconnect()
+                    if (!reconnect) {
+                        networkStatus = NetworkStatus.OFFLINE
+                        subOnNetworkStatusChanged.onNext(0)
+                    }
                 }
             }
 

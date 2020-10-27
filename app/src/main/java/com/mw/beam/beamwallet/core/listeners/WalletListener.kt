@@ -25,6 +25,7 @@ import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -56,6 +57,7 @@ object WalletListener {
         it
     }
 
+    var obsOnShieldedUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
     var obsOnUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
 //    var obsOnAddresses: Subject<OnAddressesDataWithAction> = BehaviorSubject.create<OnAddressesDataWithAction>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
@@ -82,6 +84,7 @@ object WalletListener {
     var subOnExchangeRates: Subject<List<ExchangeRate>?> = BehaviorSubject.create<List<ExchangeRate>?>().toSerialized()
     var subNotificationChanged: Subject<OnNotificationDataWithAction> = BehaviorSubject.create<OnNotificationDataWithAction>().toSerialized()
     var subOnGetOfflinePaymentCount: Subject<Int> = PublishSubject.create<Int>().toSerialized()
+    var subOnFeeCalculated: Subject<FeeChange> = PublishSubject.create<FeeChange>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -107,6 +110,9 @@ object WalletListener {
 
     @JvmStatic
     fun onAllUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllUtxoChanged")
+
+    @JvmStatic
+    fun onAllShieldedUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnShieldedUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllShieldedUtxoChanged")
 
     @JvmStatic
     fun onAllUtxoChanged(utxos: Array<UtxoDTO>?) : Unit {
@@ -172,6 +178,13 @@ object WalletListener {
             uiHandler.post {
                 subOnImportRecoveryProgress.onNext(OnSyncProgressData(current, 100, time))
             }
+        }
+    }
+
+    @JvmStatic
+    fun onPostFunctionToClientContext(isOk: Boolean) {
+        if(AppActivity.self != null) {
+            AppManager.instance.wallet?.callMyMethod()
         }
     }
 
@@ -299,6 +312,17 @@ object WalletListener {
     fun onGetAddress(offlinePayments: Int) {
         subOnGetOfflinePaymentCount.onNext(offlinePayments)
         LogUtils.logResponse(offlinePayments, "onGetAddress")
+    }
+
+    @JvmStatic
+    fun onShieldedCoinsSelectionCalculated(fee: Long, change: Long, shieldedInputsFee: Long) {
+        subOnFeeCalculated.onNext(FeeChange(fee, change, shieldedInputsFee))
+        LogUtils.logResponse(fee, "onFeeCalculated")
+    }
+
+    @JvmStatic
+    fun onNeedExtractShieldedCoins(value: Boolean) {
+        LogUtils.logResponse(value, "onNeedExtractShieldedCoins")
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

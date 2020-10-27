@@ -17,8 +17,17 @@
 package com.mw.beam.beamwallet.screens.show_token
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.view.ContextMenu
+import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 
 import com.mw.beam.beamwallet.R
@@ -34,25 +43,31 @@ import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
  */
 class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive_show_token
-    override fun getToolbarTitle(): String? = null
-    override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(arguments!!).token
+    override fun getToolbarTitle(): String? = getString(R.string.show_token)
+    override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(requireArguments()).token
     override fun getStatusBarColor(): Int {
-        return if(ShowTokenFragmentArgs.fromBundle(arguments!!).receive) {
-            ContextCompat.getColor(context!!, R.color.received_color)
+        return if(ShowTokenFragmentArgs.fromBundle(requireArguments()).receive) {
+            ContextCompat.getColor(requireContext(), R.color.received_color)
         }
         else {
-            ContextCompat.getColor(context!!, R.color.sent_color)
+            ContextCompat.getColor(requireContext(), R.color.sent_color)
         }
     }
 
     override fun setCount(count: Int) {
         countTokenLayout.visibility = View.VISIBLE
-        countTokenValue.text = getString(R.string.offline) + ": " +  count.toString() + "/" + AppManager.instance.maxOfflineCount.toString()
+        countTokenValue.text = getString(R.string.offline) + " (" +  count.toString() + ")"
     }
 
     @SuppressLint("SetTextI18n")
     override fun init(token: String) {
         toolbarLayout.hasStatus = true
+
+        registerForContextMenu(addressLayout)
+        registerForContextMenu(identityLayout)
+        registerForContextMenu(tokenLayout)
+
+        val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
 
         if(AppManager.instance.wallet?.isToken(token) == true) {
             val params = AppManager.instance.wallet?.getTransactionParameters(token, true)
@@ -64,7 +79,6 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
                 tokenTypeLayout.visibility = View.VISIBLE
                 transactionTypeLayout.visibility = View.VISIBLE
-                addressLayout.visibility = View.VISIBLE
 
                 if(params.isPermanentAddress) {
                     tokenTypeValue.text = getString(R.string.permanent)
@@ -74,13 +88,18 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                 }
 
                 if(params.isMaxPrivacy && !params.isOffline) {
+                    addressLayout.visibility = View.GONE
+                    countTokenLayout.visibility = View.VISIBLE
+                    countTokenValue.text = getString(R.string.online)
                     transactionTypeValue.text = getString(R.string.max_privacy_title)
                 }
                 else if(params.isMaxPrivacy && params.isOffline) {
-                    transactionTypeValue.text = """${getString(R.string.max_privacy_title)}, ${getString(R.string.offline).toLowerCase()}"""
+                    addressLayout.visibility = View.GONE
+                    transactionTypeValue.text = getString(R.string.max_privacy_title)
                 }
                 else {
                     transactionTypeValue.text = getString(R.string.regular)
+                    addressLayout.visibility = View.VISIBLE
                 }
 
                 addressValue.text = params.address
@@ -91,10 +110,39 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                 }
             }
         }
+        else {
+            transactionTypeLayout.visibility = View.VISIBLE
+            transactionTypeValue.text = resources.getString(R.string.regular)
+            tokenTitle.text = resources.getString(R.string.sbbs_address)
+
+            if (isReceive)
+            {
+                tokenTypeLayout.visibility = View.VISIBLE
+
+                val address = AppManager.instance.getAddress(token)
+                if(address == null) {
+                    val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
+
+                    if(params?.isPermanentAddress == true) {
+                        tokenTypeValue.text = getString(R.string.permanent)
+                    }
+                    else {
+                        tokenTypeValue.text = getString(R.string.one_time)
+                    }
+                }
+                else {
+                    if(address.duration == 0L) {
+                        tokenTypeValue.text = getString(R.string.permanent)
+                    }
+                    else {
+                        tokenTypeValue.text = getString(R.string.one_time)
+                    }
+                }
+            }
+        }
 
         tokenValue.text = token
 
-        val isReceive = ShowTokenFragmentArgs.fromBundle(arguments!!).receive
         if (!isReceive) {
             gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
         }
@@ -102,21 +150,23 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             btnShare.visibility = View.VISIBLE
         }
 
-        (activity as BaseActivity<*>).supportActionBar?.title = getString(R.string.show_token)
+       // (activity as BaseActivity<*>).supportActionBar?.title = getString(R.string.show_token)
     }
 
     override fun addListeners() {
         btnShare.setOnClickListener {
             presenter?.onCopyToken()
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+            val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
+            if (isReceive) {
+                setFragmentResult("FragmentB_REQUEST_KEY", bundleOf("data" to "button clicked"))
+            }
+            findNavController().popBackStack()
         }
     }
 
     override fun copyToClipboard(content: String?, tag: String) {
         super.copyToClipboard(content, tag)
-
-        showSnackBar(getString(R.string.address_copied_to_clipboard))
-
-        findNavController().popBackStack()
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -125,5 +175,60 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
     override fun clearListeners() {
         btnShare.setOnClickListener(null)
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val copy = SpannableStringBuilder()
+        copy.append(getString(R.string.copy))
+        copy.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, copy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        val share = SpannableStringBuilder()
+        share.append(getString(R.string.share))
+        share.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, share.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        menu.add(0, v.id, 0, copy)
+        menu.add(0, v.id, 0, share)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == addressLayout.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
+                copyToClipboard(addressValue.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            } else {
+                shareText(addressValue.text.toString())
+            }
+        } else if (item.itemId == identityLayout.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
+                copyToClipboard(identityValue.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            } else {
+                shareText(identityValue.text.toString())
+            }
+        } else if (item.itemId == tokenLayout.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
+                copyToClipboard(tokenValue.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            } else {
+                shareText(tokenValue.text.toString())
+            }
+        }
+
+        return super.onContextItemSelected(item)
+    }
+
+    private fun shareText(text: String) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+
+        startActivity(Intent.createChooser(intent, getString(R.string.common_share_title)))
     }
 }

@@ -38,11 +38,13 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     var isContact = own == 0L
     var token = ""
     var offlineToken = ""
-    val identity = source.identity
+    var identity = source.identity
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
+        this.category = this@WalletAddress.category
+        this.identity = this@WalletAddress.identity
     }
 
     fun splitCategories() : MutableList<String>  {

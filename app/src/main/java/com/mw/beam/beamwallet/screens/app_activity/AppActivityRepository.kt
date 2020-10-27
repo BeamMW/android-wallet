@@ -25,18 +25,31 @@ class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
 
-            val address = AppManager.instance.getAddress(token)
+            var sender = outgoingAddress
+            var receiver = token
+
+            if (AppManager.instance.wallet?.isToken(outgoingAddress) == true) {
+                var params = AppManager.instance.wallet!!.getTransactionParameters(outgoingAddress, false)
+                sender = params.address
+            }
+
+            if (AppManager.instance.wallet?.isToken(token) == true) {
+                var params = AppManager.instance.wallet!!.getTransactionParameters(token, false)
+                receiver = params.address
+            }
+
+            val address = AppManager.instance.getAddress(receiver)
             val name = address?.label
 
-            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee, maxPrivacy)
+            wallet?.sendTransaction(sender, token, comment ?: "", amount, fee, maxPrivacy)
 
-            if(address!=null && name!=null) {
+            if(address!=null && !name.isNullOrEmpty()) {
                 val dto = address.toDTO()
                 dto.label = name
                 wallet?.saveAddress(dto, address.isContact)
             }
 
-            removeSenContact(token)
+            removeSenContact(receiver)
         }
     }
 

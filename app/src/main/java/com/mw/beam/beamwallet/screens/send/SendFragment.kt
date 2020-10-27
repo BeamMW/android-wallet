@@ -18,10 +18,10 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -29,10 +29,15 @@ import android.os.Handler
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputFilter
+import android.text.InputType
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.*
-import android.widget.*
+import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
+import android.widget.ScrollView
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
@@ -50,8 +55,12 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.views.*
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.core.watchers.InputFilterMinMax
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
@@ -59,34 +68,15 @@ import com.mw.beam.beamwallet.screens.addresses.AddressPagerType
 import com.mw.beam.beamwallet.screens.addresses.AddressesAdapter
 import com.mw.beam.beamwallet.screens.addresses.AddressesPagerAdapter
 import com.mw.beam.beamwallet.screens.addresses.Tab
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
-import android.text.InputType
-import android.view.inputmethod.EditorInfo
-import kotlinx.android.synthetic.main.fragment_send.advancedContainer
-import kotlinx.android.synthetic.main.fragment_send.advancedGroup
-import kotlinx.android.synthetic.main.fragment_send.amount
-import kotlinx.android.synthetic.main.fragment_send.btnChangeAddress
-import kotlinx.android.synthetic.main.fragment_send.btnExpandAdvanced
-import kotlinx.android.synthetic.main.fragment_send.btnExpandEditAddress
-import kotlinx.android.synthetic.main.fragment_send.comment
-import kotlinx.android.synthetic.main.fragment_send.editAddressContainer
-import kotlinx.android.synthetic.main.fragment_send.editAddressGroup
-import kotlinx.android.synthetic.main.fragment_send.tagAction
-import kotlinx.android.synthetic.main.fragment_send.tags
-import kotlinx.android.synthetic.main.fragment_send.token
-import android.graphics.Typeface
-import android.util.Log
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.views.*
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import kotlinx.android.synthetic.main.dialog_qr_code.*
-import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
 import org.jetbrains.anko.withAlpha
+import java.text.DecimalFormatSymbols
+import java.text.NumberFormat
+import java.util.*
 
 /**
  *  11/13/18.
@@ -104,8 +94,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
-            Log.e("TEXT", "onPaste")
-
             isPaste = true
             ignoreWatcher = true
             token.setTypeface(null,Typeface.NORMAL)
@@ -114,15 +102,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         override fun afterTextChanged(rawToken: Editable?) {
-            Log.e("TEXT", "afterTextChanged")
-
             if(presenter?.state?.isMaxPrivacyRequested == true) {
                 presenter?.state?.isMaxPrivacyRequested = false
                 presenter?.state?.isMaxPrivacy = false
                 setMaxPrivacyRequested(false)
                 setMaxPrivacy(false)
             }
-
 
             if (!ignoreWatcher) {
                 showTokenButton.visibility = View.GONE
@@ -186,7 +171,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             val p = progress + minFee
             presenter?.onFeeChanged(p.toString())
-            updateFeeValue(p)
+            updateFeeValue(p, false)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -209,36 +194,23 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     private fun checkAvailable() {
-        if (AppManager.instance.wallet?.isToken(address) == false /*&& AppManager.instance.isValidAddress(address)*/) {
-            maxPrivacyGroup.visibility = View.GONE
-//            maxPrivacySwitch.isEnabled = false
-//            maxPrivacySwitch.alpha = 0.2f
-//            maxPrivacySwitch.isChecked = false
-//            maxPrivacySwitch.visibility = View.VISIBLE
-//            maxPrivacyDescription.text = getString(R.string.address_not_supported_max_privacy)
-//            maxPrivacyDescription.visibility = View.VISIBLE
-        }
-        else {
-            maxPrivacyGroup.visibility = View.VISIBLE
-            maxPrivacyDescription.text = getString(R.string.max_privacy_text)
-            if (maxPrivacySwitch.isChecked) {
-                maxPrivacyDescription.visibility = View.VISIBLE
-            }
-            else {
-                maxPrivacyDescription.visibility = View.GONE
-            }
-        }
+//        if (AppManager.instance.wallet?.isToken(address) == false /*&& AppManager.instance.isValidAddress(address)*/) {
+//            maxPrivacyGroup.visibility = View.GONE
+//        }
+//        else {
+//            maxPrivacyGroup.visibility = View.VISIBLE
+//        }
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_send
     override fun getToolbarTitle(): String? = getString(R.string.send)
 
     override fun getAddressFromArguments(): String? {
-        return SendFragmentArgs.fromBundle(arguments!!).address
+        return SendFragmentArgs.fromBundle(requireArguments()).address
     }
 
     override fun getAmountFromArguments(): Long {
-        return SendFragmentArgs.fromBundle(arguments!!).amount
+        return SendFragmentArgs.fromBundle(requireArguments()).amount
     }
 
     override fun getAmount(): Double = try {
@@ -286,7 +258,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         ViewCompat.requestApplyInsets(contentScrollView)
         contentScrollView.smoothScrollTo(0, 0)
 
-        pagerAdapter = AddressesPagerAdapter(context!!, object : AddressesAdapter.OnItemClickListener {
+        pagerAdapter = AddressesPagerAdapter(requireContext(), object : AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
                 isPaste = true
                 presenter?.onSelectAddress(item)
@@ -323,30 +295,32 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if(maxPrivacySwitch.isChecked != value) {
             maxPrivacySwitch.isChecked = value
 
-            if (value) {
-                maxPrivacyDescription.visibility = View.VISIBLE
-            }
-            else{
-                maxPrivacyDescription.visibility = View.GONE
-            }
-
             if(!getToken().isNullOrEmpty()) {
                 hasErrors(presenter?.state?.walletStatus?.available ?: 0, presenter?.state?.privacyMode ?: false)
             }
+        }
+
+        if(value)
+        {
+            permanentOutSwitch.isChecked = true
+            presenter?.onExpirePeriodChanged(ExpirePeriod.NEVER)
+            permanentOutText.text =  getString(R.string.perm_out_address_text)
         }
     }
 
     override fun setMaxPrivacyRequested(value: Boolean) {
         AppActivity.self.runOnUiThread {
             if (value) {
-                maxPrivacySwitch.visibility = View.GONE
                 maxPrivacySwitch.alpha = 0f
-                maxPrivacyTitle.text = getString(R.string.max_privacy_requested_title)
+                maxPrivacySwitch.visibility = View.GONE
+                maxPrivacyTitle.visibility = View.VISIBLE
+                maxPrivacyTitle.text = getString(R.string.max_privacy_title)
             }
             else{
-                maxPrivacySwitch.visibility = View.VISIBLE
-                maxPrivacyTitle.text = getString(R.string.max_privacy_title)
                 maxPrivacySwitch.alpha = 1f
+                maxPrivacySwitch.visibility = View.GONE //View.VISIBLE
+                maxPrivacyTitle.text = ""
+                maxPrivacyTitle.visibility = View.GONE
             }
         }
     }
@@ -354,10 +328,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun updateMaxPrivacyCount(count: Int) {
         AppActivity.self.runOnUiThread {
             if(maxPrivacySwitch!=null) {
-                if (count != -1 && maxPrivacySwitch.alpha == 0f && maxPrivacyTitle.text == getString(R.string.max_privacy_requested_title)) {
-                    val text = getString(R.string.max_privacy_requested_title) + ".\n" + getString(R.string.offline_transactions) + ": " +
-                            count + "/" + AppManager.instance.maxOfflineCount
+                //maxPrivacyTitle.text == getString(R.string.max_privacy_requested_title)
+                if (count != -1 && maxPrivacySwitch.alpha == 0f) {
+//                    val text = getString(R.string.max_privacy_requested_title) + ".\n" + getString(R.string.offline_remaining) + ": " +
+//                            count
+                    val text = getString(R.string.offline_remaining) + ": " +
+                            count
                     maxPrivacyTitle.text = text
+                    maxPrivacyTitle.visibility = View.VISIBLE
+                    btnNext.isEnabled = count != 0
                 }
             }
         }
@@ -366,6 +345,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     override fun setupMaxFee(max: Int, min:Int) {
         maxFee = max
         minFee = min
+
         feeSeekBar.max = maxFee - minFee
 
         minFeeValue.text = "$minFee ${getString(R.string.currency_groth).toUpperCase()}"
@@ -401,7 +381,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, R.color.sent_color)
+        return ContextCompat.getColor(requireContext(), R.color.sent_color)
     }
 
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
@@ -500,6 +480,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.onTokenChanged(token.text.toString())
             } else {
                 handleAddressSuggestions(null)
+                clearAddressError()
 
                 if (!AppManager.instance.isValidAddress(getToken())) {
                     setAddressError(getString(R.string.invalid_address))
@@ -511,7 +492,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         contentScrollView?.smoothScrollTo(0, 0)
                     }
                     else if(params.versionError) {
-                        setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.\n\n")
+                        setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.")
                         contentScrollView?.smoothScrollTo(0, 0)
                     }
                 }
@@ -554,10 +535,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.setOnTouchListener { _, _ -> isOpenSearchView() }
 
         if(App.isDarkMode) {
-            addressContainer.setBackgroundColor(context!!.getColor(R.color.colorPrimary_dark).withAlpha(95))
+            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
         }
         else{
-            addressContainer.setBackgroundColor(context!!.getColor(R.color.colorPrimary).withAlpha(95))
+            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
         }
     }
 
@@ -571,7 +552,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             token.setSelection(token.text?.length ?: 0)
             showTokenButton.visibility = View.VISIBLE
         }
-        else {
+        else if(!enteredAddress.contains("...")) {
             showTokenButton.visibility = View.GONE
         }
         ignoreWatcher = false
@@ -579,11 +560,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
     }
 
     override fun onStart() {
         super.onStart()
+
+        token.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
 
         onBackPressedCallback.isEnabled = true
 
@@ -616,7 +599,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //        if (contactName.visibility == View.VISIBLE) {
 //            offset = 120
 //        }
-        return ScreenHelper.dpToPx(context, 110) //addressContainer.height - offset
+        return ScreenHelper.dpToPx(context, 120) //addressContainer.height - offset
     }
 
     @SuppressLint("InflateParams", "StringFormatInvalid")
@@ -672,14 +655,26 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 dialog?.dismiss()
             }
             else {
+                val nf: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
+                nf.isGroupingUsed = true
+
+                val s = nf.format(minFee)
+
                 val feeErrorTextView = view.findViewById<TextView>(R.id.feeError)
-                feeErrorTextView?.text = getString(R.string.min_fee_error, minFee.toString())
+                if(minFee == 100) {
+                    feeErrorTextView?.text = getString(R.string.min_100_groth, s)
+                }
+                else {
+                    feeErrorTextView?.text = getString(R.string.min_fee_error, s)
+                }
+
+
                 feeErrorTextView.visibility = View.VISIBLE
                 secondAvailableSum.visibility = View.GONE
             }
         }
 
-        dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+        dialog = AlertDialog.Builder(requireContext()).setView(view).show().apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
@@ -780,9 +775,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     private fun updateFeeValue(progress: Int, clearAmountFocus: Boolean = true) {
-        if (clearAmountFocus) {
-            amount.clearFocus()
-        }
+//        if (clearAmountFocus) {
+//            amount.clearFocus()
+//        }
 
         val params = feeProgressValue.layoutParams as ConstraintLayout.LayoutParams
         params.horizontalBias = if (progress < 0) 0f else progress.toFloat() / feeSeekBar.max
@@ -820,6 +815,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             contentScrollView?.smoothScrollTo(0, 0)
         }
         else if(AppManager.instance.isToken(getToken())) {
+            hasErrors = false
+            clearAddressError()
+
             val params = AppManager.instance.wallet!!.getTransactionParameters(getToken(), false)
 
             if(AppManager.instance.isMyAddress(params.address) && maxPrivacySwitch.isChecked) {
@@ -829,9 +827,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
             else if(params.versionError) {
                 hasErrors = false
-                setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.\n\n")
+                setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.")
                 contentScrollView?.smoothScrollTo(0, 0)
             }
+        }
+        else {
+            hasErrors = false
+            clearAddressError()
+            contentScrollView?.smoothScrollTo(0, 0)
         }
 
         if (hasAmountError(getAmount().convertToGroth(), getFee(), availableAmount, isEnablePrivacyMode)) {
@@ -933,13 +936,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             tags.text = getString(R.string.none)
         }
         else{
-            tags.text = currentTags.createSpannableString(context!!)
+            tags.text = currentTags.createSpannableString(requireContext())
         }
     }
 
     override fun setupTagAction(isEmptyTags: Boolean) {
         val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(context!!, resId)
+        val drawable = ContextCompat.getDrawable(requireContext(), resId)
         tagAction.setImageDrawable(drawable)
     }
 
@@ -955,7 +958,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("InflateParams")
     override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
             setContentView(view)
 
@@ -1122,7 +1125,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
         }
 
-        contactCategory.text = tags.createSpannableString(context!!)
+        contactCategory.text = tags.createSpannableString(requireContext())
         contactName.setTypeface(null,Typeface.NORMAL)
 
         if (walletAddress == null) {
@@ -1131,13 +1134,19 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 checkAddress(token)
             }
         }
+        else {
+            showTokenButton.visibility = View.VISIBLE
+        }
 
         checkAvailable()
     }
 
     private fun checkAddress(token: String) {
         if(!token.isNullOrEmpty() && AppManager.instance.isValidAddress(token)) {
+            clearAddressError()
+
             presenter?.onScannedQR(token, false)
+
             var params = AppManager.instance.wallet?.getTransactionParameters(token, true)
             if(params!=null) {
                 if(AppManager.instance.isMyAddress(params.address) && maxPrivacySwitch.isChecked) {
@@ -1154,11 +1163,16 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     contactName.visibility = View.VISIBLE
                     contactName.setTypeface(null,Typeface.ITALIC)
                     contactIcon.visibility = View.GONE
-                    contactName.text = getString(R.string.one_time_expire_text)
+                    if(AppManager.instance.isToken(token)) {
+                        contactName.text = getString(R.string.one_time_expire_text)
+                    }
+                    else {
+                        contactName.text = getString(R.string.address_not_supported_max_privacy)
+                    }
                 }
 
                 if(params.versionError) {
-                    setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.\n\n")
+                    setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.")
                     contentScrollView?.smoothScrollTo(0, 0)
                 }
             }
@@ -1166,7 +1180,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun clearAddressError() {
-        tokenError.visibility = View.INVISIBLE
+        tokenError.visibility = View.GONE
 
 //        val value = ScreenHelper.dpToPx(context, 16)
 //        val params = maxPrivacyTitle.layoutParams as ConstraintLayout.LayoutParams
@@ -1186,7 +1200,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         amountError.visibility = View.GONE
-        amount.setTextColor(ContextCompat.getColor(context!!, R.color.sent_color))
+        amount.setTextColor(ContextCompat.getColor(requireContext(), R.color.sent_color))
         amount.isStateNormal = true
         updateFeeTransactionVisibility()
     }
@@ -1204,7 +1218,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun updateFeeViews(clearAmountFocus: Boolean) {
-        amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.sent_color))
+        amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.sent_color))
         updateFeeValue(feeSeekBar.progress+minFee, clearAmountFocus)
     }
 
@@ -1214,7 +1228,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if(params?.isOffline == true) {
             isOffline = true
         }
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, maxPrivacy, isOffline))
+        var remainingCount = -1
+        if(presenter?.state?.maxPrivacyCount != null) {
+            remainingCount = presenter?.state?.maxPrivacyCount!!
+        }
+        val change = presenter!!.change
+        val inputShield = presenter!!.inputShield
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, maxPrivacy, isOffline, remainingCount, change, inputShield))
     }
 
     @SuppressLint("SetTextI18n")
@@ -1255,7 +1275,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private fun configAmountError(errorString: String) {
         amountError.visibility = View.VISIBLE
         amountError.text = errorString
-        amount.setTextColor(ContextCompat.getColorStateList(context!!, R.color.text_color_selector))
+        amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.text_color_selector))
         amount.isStateError = true
         updateFeeTransactionVisibility()
     }

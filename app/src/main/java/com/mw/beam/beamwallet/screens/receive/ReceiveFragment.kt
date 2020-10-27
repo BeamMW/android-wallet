@@ -32,6 +32,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +49,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_receive.*
 import org.jetbrains.anko.withAlpha
 
@@ -89,11 +91,11 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun getToolbarTitle(): String? = getString(R.string.receive)
 
     override fun getAmountFromArguments(): Long {
-        return ReceiveFragmentArgs.fromBundle(arguments!!).amount
+        return ReceiveFragmentArgs.fromBundle(requireArguments()).amount
     }
 
     override fun getWalletAddressFromArguments(): WalletAddress? {
-        return ReceiveFragmentArgs.fromBundle(arguments!!).walletAddress
+        return ReceiveFragmentArgs.fromBundle(requireArguments()).walletAddress
     }
 
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
@@ -115,18 +117,28 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun init() {
 
         amount.filters = arrayOf(AmountFilter())
-        amountTitle.text = "${getString(R.string.request_an_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
+        amountTitle.text = "${getString(R.string.amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
 
         if(App.isDarkMode) {
-            addressGroup.setBackgroundColor(context!!.getColor(R.color.colorPrimary_dark).withAlpha(95))
+            addressGroup.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
         }
         else {
-            addressGroup.setBackgroundColor(context!!.getColor(R.color.colorPrimary).withAlpha(95))
+            addressGroup.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
         }
 }
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, R.color.received_color)
+        return ContextCompat.getColor(requireContext(), R.color.received_color)
+    }
+
+    override fun updateTokens(walletAddress: WalletAddress) {
+        if (tokenValue_1!=null) {
+            tokenValue_1.text = walletAddress.token.trimAddress()
+            token_1 = walletAddress.token
+
+            tokenValue_2.text = walletAddress.offlineToken.trimAddress()
+            token_2 = walletAddress.offlineToken
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -136,8 +148,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         tokenTitle_1.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
         tokenValue_1.text = walletAddress.token.trimAddress()
         token_1 = walletAddress.token
-
-        switchButton.textResId = R.string.switch_to_permanent
 
         val value = ScreenHelper.dpToPx(context, 15)
 
@@ -190,12 +200,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR && expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
             tokenGroup_2.visibility = View.GONE
             tokenGroup_3.visibility = View.VISIBLE
-            switchButton.visibility = View.VISIBLE
+            tokenGroup_1.visibility = View.VISIBLE
 
             qrCodeButton_2.visibility = View.GONE
-
-            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
         }
         else if(transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY && expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
             tokenValue_2.text = walletAddress.offlineToken.trimAddress()
@@ -203,17 +210,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             tokenGroup_2.visibility = View.VISIBLE
             tokenGroup_3.visibility = View.VISIBLE
-            switchButton.visibility = View.VISIBLE
+            tokenGroup_1.visibility = View.VISIBLE
 
             qrCodeButton_2.visibility = View.GONE
 
             tokenTitle_2.text = resources.getString(R.string.offline_token).toUpperCase()+ " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-
-            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
         }
         else if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR && expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
-            switchButton.visibility = View.GONE
             tokenValue_2.text = walletAddress.walletID.trimAddress()
             token_2 = walletAddress.walletID
 
@@ -221,9 +224,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             tokenGroup_2.visibility = View.VISIBLE
             tokenGroup_3.visibility = View.GONE
+            tokenGroup_1.visibility = View.VISIBLE
 
             tokenTitle_2.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-            tokenValue_3.text = resources.getString(R.string.for_pool_permanent)
         }
         else if(transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY && expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
             tokenValue_2.text = walletAddress.offlineToken.trimAddress()
@@ -231,32 +234,53 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             qrCodeButton_2.visibility = View.GONE
 
+            tokenGroup_1.visibility = View.GONE
             tokenGroup_2.visibility = View.VISIBLE
-            tokenGroup_3.visibility = View.VISIBLE
-            switchButton.visibility = View.VISIBLE
+            tokenGroup_3.visibility = View.GONE
 
             tokenTitle_2.text = resources.getString(R.string.offline_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            tokenTitle_3.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-
-            tokenValue_3.text = resources.getString(R.string.for_pool_regular)
-
-            switchButton.textResId = R.string.switch_to_regular
-
         }
 
         if (expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
             editAddressCard.visibility = View.VISIBLE
-            tokenValue_3.setPaddingRelative(0,0,0,0)
         }
         else {
             editAddressCard.visibility = View.GONE
-            tokenValue_3.setPaddingRelative(0,0,0,value)
         }
 
-        if(!AppManager.instance.isOwnNode()) {
-            notAvailableLabel.visibility = View.VISIBLE
-            maxPrivacyButton.isEnabled = false
-            maxPrivacyButton.alpha = 0.2f
+        AppActivity.self.runOnUiThread {
+            if(!AppManager.instance.isOwnNode()) {
+                notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
+                notAvailableLabel.setTypeface(null, android.graphics.Typeface.NORMAL)
+                notAvailableLabel.visibility = View.VISIBLE
+
+                maxPrivacyButton.isEnabled = false
+                maxPrivacyButton.alpha = 0.2f
+
+                tokenExpireTitle.visibility = View.VISIBLE
+                permanentButton.visibility = View.VISIBLE
+                oneTimeButton.visibility = View.VISIBLE
+            }
+            else if (transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY) {
+                notAvailableLabel.text = getString(R.string.max_privacy_text)
+                notAvailableLabel.setTypeface(null, android.graphics.Typeface.ITALIC)
+                notAvailableLabel.visibility = View.VISIBLE
+
+                if(expire != ReceivePresenter.TokenExpireOptions.PERMANENT) {
+                    presenter?.onPermanentPressed()
+                }
+
+                tokenExpireTitle.visibility = View.GONE
+                permanentButton.visibility = View.GONE
+                oneTimeButton.visibility = View.GONE
+            }
+            else {
+                tokenExpireTitle.visibility = View.VISIBLE
+                permanentButton.visibility = View.VISIBLE
+                oneTimeButton.visibility = View.VISIBLE
+
+                notAvailableLabel.visibility = View.GONE
+            }
         }
     }
 
@@ -357,15 +381,17 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         qrCodeButton_2.setOnClickListener {
             presenter?.onShowQrPressed(token_2)
         }
-
-        switchButton.setOnClickListener {
-            presenter?.onSwitchPressed()
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
+
+        // Step 1. Listen for fragment results
+        setFragmentResultListener("FragmentB_REQUEST_KEY") { key, bundle ->
+            presenter?.state?.wasAddressSaved = true
+        }
     }
 
     override fun onStart() {
@@ -385,6 +411,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun shareToken(receiveToken: String) {
+        presenter?.state?.wasAddressSaved = true
         shareText(getString(R.string.common_share_title), receiveToken, activity)
     }
 
@@ -394,6 +421,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun showQR(receiveToken: String) {
         val address = presenter?.state?.address
         if (address!=null) {
+            presenter?.state?.wasAddressSaved = true
             findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(address,
                     0,
                     false,
@@ -405,7 +433,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun setupTagAction(isEmptyTags: Boolean) {
         val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(context!!, resId)
+        val drawable = ContextCompat.getDrawable(requireContext(), resId)
         tagAction.setImageDrawable(drawable)
     }
 
@@ -421,7 +449,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("InflateParams")
     override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
             setContentView(view)
 
@@ -443,7 +471,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun showShareDialog(option1:String, option2:String) {
-        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.share_bottom_sheet, null)
             setContentView(view)
 
@@ -477,7 +505,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             this.tags.text = getString(R.string.none)
         }
         else{
-            this.tags.text = tags.createSpannableString(context!!)
+            this.tags.text = tags.createSpannableString(requireContext())
         }
     }
 
@@ -531,7 +559,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         showTokenButton_1.setOnClickListener(null)
         showTokenButton_2.setOnClickListener(null)
-        switchButton.setOnClickListener(null)
 
         qrCodeButton_1.setOnClickListener(null)
         qrCodeButton_2.setOnClickListener(null)

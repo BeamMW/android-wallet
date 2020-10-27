@@ -97,6 +97,7 @@ interface SendContract {
         fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
+        fun requestFee()
         fun onAmountUnfocused()
         fun onScannedQR(text: String?, requestFocus: Boolean)
         fun onScanQrPressed()

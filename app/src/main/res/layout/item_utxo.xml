@@ -13,7 +13,7 @@
     android:paddingBottom="10dp">
 
     <TextView
-        android:id="@+id/amount"
+        android:id="@+id/amountLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_medium"
@@ -26,7 +26,7 @@
         tools:text="10" />
 
     <TextView
-        android:id="@+id/status"
+        android:id="@+id/statusLabel"
         style="@style/common_text_small_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,8 +34,8 @@
         android:textAlignment="textEnd"
         android:textSize="14sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/amountLabel"
+        app:layout_constraintTop_toBottomOf="@+id/amountLabel"
         tools:text="@string/unavailable" />
 
     <TextView
@@ -43,54 +43,30 @@
         style="@style/common_text_small_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:fontFamily="@font/roboto_italic"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/roboto_regular"
         android:maxLines="1"
         android:textAlignment="textEnd"
         android:textColor="?attr/subHeaderTextColor"
         android:textSize="14sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/status"
+        app:layout_constraintStart_toEndOf="@+id/statusLabel"
+        app:layout_constraintTop_toTopOf="@+id/statusLabel"
         tools:text="@string/unavailable" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/commentLayout"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/typeLabel"
+        style="@style/common_text_small_light"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toStartOf="@+id/dateLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/amount">
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/amountLabel"
+        tools:text="@string/unavailable" />
 
-        <ImageView
-            android:id="@+id/commentIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:contentDescription="@string/transaction_comment"
-            android:tint="?attr/subHeaderTextColor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_icn_comment" />
-
-        <TextView
-            android:id="@+id/commentLabel"
-            style="@style/common_text_small_light"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/roboto_italic"
-            android:maxLines="1"
-            android:textColor="?attr/subHeaderTextColor"
-            android:textSize="14sp"
-            android:textStyle="italic"
-            app:layout_constraintStart_toEndOf="@+id/commentIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/unavailable" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,10 +17,9 @@
 package com.mw.beam.beamwallet.screens.send_confirmation
 
 import android.annotation.SuppressLint
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
+
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 
@@ -29,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
@@ -36,14 +36,16 @@ import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
+import kotlinx.android.synthetic.main.fragment_send_confirmation.contactCategory
+import kotlinx.android.synthetic.main.fragment_send_confirmation.contactName
+import kotlinx.android.synthetic.main.fragment_send_confirmation.outgoingAddress
+import kotlinx.android.synthetic.main.fragment_send_confirmation.secondAvailableSum
+import kotlinx.android.synthetic.main.fragment_send_confirmation.toolbarLayout
 
 class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private val args: SendConfirmationFragmentArgs by lazy {
-        SendConfirmationFragmentArgs.fromBundle(arguments!!)
+        SendConfirmationFragmentArgs.fromBundle(requireArguments())
     }
-
-    private val foregroundStartColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
-    private val foregroundEndColorSpan by lazy { ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)) }
 
     override fun getToolbarTitle(): String? = getString(R.string.confirmation)
 
@@ -56,23 +58,28 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getComment(): String? = args.comment
     override fun getMaxPrivacy(): Boolean = args.maxPrivacy
     override fun getOffline(): Boolean = args.isOffline
+    override fun getRemaining(): Int = args.remaining
+    override fun getChange(): Long = args.change
+    override fun getShieldedInputsFee(): Long = args.shieldedInputsFee
 
     @SuppressLint("SetTextI18n")
     override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, maxPrivacy: Boolean, isOffline: Boolean) {
-        sendTo.text = address
 
-        val length = address.length
-        val spannable = SpannableStringBuilder.valueOf(address)
-
-        spannable.setSpan(foregroundStartColorSpan, 0, if (length < 7) length else 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-        spannable.setSpan(foregroundEndColorSpan, if (length - 6 < 0) 0 else length - 6, length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-
-        sendTo.text = spannable
+        sendTo.text = address.trimAddress()
 
         this.outgoingAddress.text = outgoingAddress
+
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         secondAvailableSum.text = amount.convertToCurrencyString()
         secondAvailableFeeSum.text = fee.convertToCurrencyGrothString()
+
+        if(secondAvailableSum.text.isNullOrEmpty()) {
+            secondAvailableSum.visibility = View.GONE
+        }
+
+        if(secondAvailableFeeSum.text.isNullOrEmpty()) {
+            secondAvailableFeeSum.visibility = View.GONE
+        }
 
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
 
@@ -83,16 +90,41 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
             transactionType.text = getString(R.string.regular)
         }
 
-        if(isOffline) {
-            tokenType.text = getString(R.string.offline_token_type)
+        if(getRemaining() >= 0) {
+            remainingValue.text = getRemaining().toString()
         }
         else {
-            tokenType.text = getString(R.string.online_token_type)
+            val paramsTitle = remainingTitle.layoutParams as ConstraintLayout.LayoutParams
+            paramsTitle.topMargin = 0
+
+            val paramsValue = remainingValue.layoutParams as ConstraintLayout.LayoutParams
+            paramsValue.topMargin = 0
+
+            remainingTitle.layoutParams = paramsTitle
+            remainingValue.layoutParams = paramsValue
+
+            remainingTitle.visibility = View.GONE
+            remainingValue.visibility = View.GONE
+        }
+
+        val outAddres = AppManager.instance.getAddress(outgoingAddress)
+        if (outAddres != null && outAddres.duration == 0L) {
+            outgoingAddressExpiration.text = getString(R.string.permanent)
+        }
+
+        if(maxPrivacy) {
+            description.visibility = View.GONE
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        toolbarLayout.hasStatus = true
+    }
+
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, R.color.sent_color)
+        return ContextCompat.getColor(requireContext(), R.color.sent_color)
     }
 
     override fun configureContact(walletAddress: WalletAddress, tags: List<Tag>) {
@@ -103,7 +135,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
         if (tags.isNotEmpty()) {
             contactCategory.visibility = View.VISIBLE
-            contactCategory.text = tags.createSpannableString(context!!)
+            contactCategory.text = tags.createSpannableString(requireContext())
         }
     }
 
@@ -141,6 +173,13 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         secondAvailableUTXOSum.text = usedUtxo.convertToCurrencyString()
         secondAvailableChangeSum.text = changedUtxo.convertToCurrencyString()
 
+        if(secondAvailableUTXOSum.text.isNullOrEmpty()) {
+            secondAvailableUTXOSum.visibility = View.GONE
+        }
+
+        if(secondAvailableChangeSum.text.isNullOrEmpty()) {
+            secondAvailableChangeSum.visibility = View.GONE
+        }
     }
 
     override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy:Boolean) {

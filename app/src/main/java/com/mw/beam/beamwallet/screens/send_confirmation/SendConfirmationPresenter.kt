@@ -17,7 +17,10 @@
 package com.mw.beam.beamwallet.screens.send_confirmation
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
+import com.mw.beam.beamwallet.core.listeners.WalletListener
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
 class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository: SendConfirmationContract.Repository, private val state: SendConfirmationState)
@@ -54,7 +57,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     private fun send() {
         if (state.contact == null) {
-            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee, maxPrivacy) }
+            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, maxPrivacy) }
             view?.showSaveAddressFragment(state.token)
         } else {
             showWallet()
@@ -67,7 +70,14 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 state.addresses[address.walletID] = address
             }
 
-            val findAddress = state.addresses.values.find { it.walletID == state.token }
+            var finder = state.token
+
+            if (AppManager.instance.wallet?.isToken(state.token) == true) {
+                var params = AppManager.instance.wallet!!.getTransactionParameters(state.token, false)
+                finder = params.address
+            }
+
+            val findAddress = state.addresses.values.find { it.walletID == finder }
             if (findAddress != null) {
                 state.contact = findAddress
                 view?.configureContact(findAddress, repository.getAddressTags(findAddress.walletID))
@@ -75,15 +85,53 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         }
 
         val totalSendAmount = state.amount + state.fee
-        changeSubscription = repository.calcChange(totalSendAmount).subscribe {
-            view?.configUtxoInfo((it + totalSendAmount).convertToBeam(), it.convertToBeam())
+
+        if (AppManager.instance.getStatus().shielded == 0L) {
+            changeSubscription = repository.calcChange(totalSendAmount).subscribe {
+                view?.configUtxoInfo((totalSendAmount).convertToBeam(), it.convertToBeam())
+            }
+        }
+        else {
+            if (view?.getChange() == null)
+            {
+                view?.configUtxoInfo((totalSendAmount).convertToBeam(), 0L.convertToBeam())
+            }
+            else {
+                view?.configUtxoInfo((totalSendAmount).convertToBeam(), view!!.getChange().convertToBeam())
+            }
+
+            changeSubscription = WalletListener.subOnFeeCalculated.subscribe {
+                AppActivity.self.runOnUiThread {
+                    var change = it.change
+                    if (state.maxPrivacy) {
+                        change += it.shieldedInputsFee
+                    }
+                    state.shieldedInputsFee = it.shieldedInputsFee
+
+                    val left = AppManager.instance.getStatus().available - totalSendAmount
+                    if (left < change) {
+                        change = 0L
+                    }
+                    view?.configUtxoInfo((totalSendAmount).convertToBeam(), change.convertToBeam())
+                }
+            }
+
+//            val defaultMinFeeForMaxPrivacy = 1000100L
+//            val fee = if (state.maxPrivacy && state.fee > defaultMinFeeForMaxPrivacy) {
+//                state.fee - defaultMinFeeForMaxPrivacy
+//            }
+//            else {
+//                state.fee
+//            }
+
+            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(state.amount, state.fee, state.maxPrivacy)
         }
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
-        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee, maxPrivacy) }
+        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, maxPrivacy) }
         view?.showWallet()
     }
 }

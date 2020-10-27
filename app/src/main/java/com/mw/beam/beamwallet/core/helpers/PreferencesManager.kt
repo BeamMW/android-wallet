@@ -66,6 +66,10 @@ object PreferencesManager {
     const val KEY_NEWS = "KEY_NEWS"
     const val KEY_ADDRESS_EXPIRATION = "KEY_ADDRESS_EXPIRATION"
 
+    const val KEY_TRANSACTIONS = "KEY_TRANSACTIONS"
+    const val KEY_NOTIFICATIONS = "KEY_NOTIFICATIONS"
+    const val KEY_WALLET_STATUS = "KEY_WALLET_STATUS"
+    const val KEY_ADDRESSES = "KEY_ADDRESSES"
 
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)

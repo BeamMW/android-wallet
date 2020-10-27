@@ -29,7 +29,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
 
     var available: Long = 0
     var maturing: Long = 0
-    var unlinked: Long = 0
+    var shielded: Long = 0
 
     var tabs = mutableListOf<BalanceTab>()
 
@@ -39,14 +39,14 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
         view.findViewById<TextView>(R.id.balance).text = when (tabs[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
-            BalanceTab.Unlinked -> unlinked
+            BalanceTab.Shielded -> shielded
         }.convertToBeamString() + " BEAM"
 
 
         val second = when (BalanceTab.values()[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
-            BalanceTab.Unlinked -> unlinked
+            BalanceTab.Shielded -> shielded
         }.convertToCurrencyString()
 
         view.findViewById<TextView>(R.id.secondBalance).text = second
@@ -81,5 +81,5 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
 }
 
 enum class BalanceTab {
-    Available, Maturing, Unlinked
+    Available, Maturing, Shielded
 }

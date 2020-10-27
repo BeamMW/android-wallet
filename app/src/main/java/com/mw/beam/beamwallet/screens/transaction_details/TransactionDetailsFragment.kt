@@ -62,6 +62,9 @@ import android.graphics.Color
 import android.content.res.ColorStateList
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.Currency
+import kotlinx.android.synthetic.main.fragment_receive_show_token.*
+import kotlinx.android.synthetic.main.fragment_transaction_details.mainConstraintLayout
+import kotlinx.android.synthetic.main.item_transaction.*
 
 
 /**
@@ -75,12 +78,12 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
     override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
-    override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(arguments!!).txId
+    override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).txId
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     var downX: Float = 0f
@@ -144,6 +147,7 @@ else{
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
             menu?.findItem(R.id.repeat)?.isVisible = isSend && TxStatus.InProgress != txStatus && txStatus != TxStatus.Registered
+                    && transaction.isMaxPrivacy == false && transaction.isOffline == false
         }
     }
 
@@ -153,10 +157,9 @@ else{
             R.id.cancel -> presenter?.onCancelTransaction()
             R.id.delete -> presenter?.onDeleteTransaction()
             R.id.share -> {
-                share_transaction_details = ShareTransactionDetailsView(context!!)
+                share_transaction_details = ShareTransactionDetailsView(requireContext())
 
                 if (share_transaction_details != null) {
-
                     share_transaction_details?.configGeneralTransactionInfo(presenter?.state?.txDescription)
                     share_transaction_details?.layoutParams = ViewGroup.LayoutParams(ScreenHelper.dpToPx(context, 420),
                             ViewGroup.LayoutParams.WRAP_CONTENT)
@@ -201,7 +204,7 @@ else{
                     else{
                         R.color.common_text_dark_color
                     }
-                    utxoView.utxoIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, colorRes))
+                    utxoView.utxoIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), colorRes))
                 }
                 else{
                     utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
@@ -216,6 +219,8 @@ else{
 
     override fun updatePaymentProof(paymentProof: PaymentProof) {
         if (proofLayout.visibility == View.VISIBLE)
+            return
+        else if(paymentProof.rawProof.isNullOrEmpty())
             return
 
         proofLabel.text = paymentProof.rawProof
@@ -245,10 +250,10 @@ else{
         val endTags = TagHelper.getTagsForAddress(endAddress.text.toString())
 
         startAddressCategory.visibility = if (startTags.isEmpty()) View.GONE else View.VISIBLE
-        startAddressCategory.text = startTags.createSpannableString(context!!)
+        startAddressCategory.text = startTags.createSpannableString(requireContext())
 
         endAddressCategory.visibility = if (endTags.isEmpty()) View.GONE else View.VISIBLE
-        endAddressCategory.text = endTags.createSpannableString(context!!)
+        endAddressCategory.text = endTags.createSpannableString(requireContext())
     }
 
     @SuppressLint("SetTextI18n")
@@ -269,16 +274,23 @@ else{
         }
 
         statusLabel.setTextColor(txDescription.statusColor)
-        val status = txDescription.getStatusString(context!!).trim()
+        val status = txDescription.getStatusString(requireContext()).trim()
 
-        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED) {
-            btnOpenInBlockExplorer.visibility = View.INVISIBLE
+        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED
+                || kernelLabel.text.startsWith("0000000")) {
+            btnOpenInBlockExplorer.visibility = View.GONE
         }
 
         val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
         statusLabel.text = upperString
 
         transactionStatusIcon.setImageDrawable(txDescription.statusImage())
+
+
+        if (txDescription.status == TxStatus.Failed) {
+            transactionStatusIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.common_error_color))
+        }
+
 
         val drawable = shape.background as GradientDrawable
         drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor)
@@ -308,21 +320,33 @@ else{
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
-        if(!txDescription.identity.isNullOrEmpty()) {
-            walletIdLayout.visibility = View.VISIBLE
-            walletIdLayout.isEnabled = false
-            walletIdLabel.isEnabled = false
-            walletIdLabel.text = txDescription.identity
+        if(startAddress.text.startsWith("1000000")) {
+            startAddress.text = getString(R.string.shielded_pool)
         }
 
-//        val externalLinkVisibility = if (isValidKernelId(txDescription.kernelId)) View.VISIBLE else View.GONE
-//        btnOpenInBlockExplorer.visibility = externalLinkVisibility
+        if(endAddress.text.startsWith("1000000")) {
+            endAddress.text = getString(R.string.shielded_pool)
+        }
+
+        if(!txDescription.identity.isNullOrEmpty() && txDescription.identity != "0") {
+            walletIdLayout.visibility = View.VISIBLE
+            walletIdLabel.text = txDescription.identity
+        }
 
         if (txDescription.message.isNotEmpty()) {
             commentLabel.text = txDescription.message
             commentLayout.visibility = View.VISIBLE
         } else {
             commentLayout.visibility = View.GONE
+        }
+
+        if (txDescription.fee <= 0L) {
+            feeLayout.visibility = View.GONE
+        }
+
+        if (kernelLabel.text.startsWith("0000000")) {
+            kernelLayout.visibility = View.GONE
+            btnOpenInBlockExplorer.visibility = View.GONE
         }
     }
 
@@ -364,6 +388,7 @@ else{
         registerForContextMenu(idLabel)
         registerForContextMenu(proofLabel)
         registerForContextMenu(kernelLabel)
+        registerForContextMenu(walletIdLabel)
 
 //        var listener = View.OnTouchListener(function = {view, motionEvent ->
 //
@@ -461,6 +486,15 @@ else{
                 shareText(kernelLabel.text.toString())
             }
         }
+        else if (item.itemId == walletIdLabel.id) {
+            if (item.title.toString() == getString(R.string.copy)) {
+                copyToClipboard(walletIdLabel.text.toString(), "")
+                showSnackBar(getString(R.string.copied_to_clipboard))
+            } else {
+                shareText(walletIdLabel.text.toString())
+            }
+        }
+
 
         return super.onContextItemSelected(item)
     }
@@ -524,7 +558,7 @@ else{
 
     override fun shareTransactionDetails(file: File?) {
         if (file != null) {
-            val uri = FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, file)
+            val uri = FileProvider.getUriForFile(requireContext(), AppConfig.AUTHORITY, file)
 
             context?.apply {
                 val intent = Intent().apply {
@@ -564,14 +598,36 @@ else{
         dateLayout.visibility = contentVisibility
         senderLayout.visibility = contentVisibility
         receiverLayout.visibility = contentVisibility
-        feeLayout.visibility = contentVisibility
         idLayout.visibility = contentVisibility
-        kernelLayout.visibility = contentVisibility
+        identityLayout.visibility = contentVisibility
 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
         } else {
-            commentLayout.visibility = contentVisibility
+            commentLayout.visibility = View.GONE
+        }
+
+        if (presenter?.state?.txDescription?.fee ?: 0 <= 0L) {
+            feeLayout.visibility = View.GONE
+        }
+        else {
+            feeLayout.visibility = contentVisibility
+        }
+
+        if (presenter?.state?.txDescription?.identity.isNullOrEmpty()) {
+            walletIdLayout.visibility = View.GONE
+        }
+        else {
+            walletIdLayout.visibility = contentVisibility
+        }
+
+        if (kernelLabel.text.startsWith("0000000")) {
+            kernelLayout.visibility = View.GONE
+            btnOpenInBlockExplorer.visibility = View.GONE
+        }
+        else {
+            kernelLayout.visibility = contentVisibility
+            btnOpenInBlockExplorer.visibility = contentVisibility
         }
     }
 
@@ -610,7 +666,7 @@ else{
     }
 
     override fun copyDetails() {
-        val clipboardManager =  context!!.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 
         var startAddressTitle = ""
         var endAddressTitle = ""

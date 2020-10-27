@@ -191,10 +191,11 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idLayout">
+                app:layout_constraintTop_toBottomOf="@+id/idLayout"
+                tools:visibility="visible">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -229,11 +230,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical"
-                android:paddingBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idLayout">
+                app:layout_constraintTop_toBottomOf="@+id/walletIdLayout">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -335,23 +337,12 @@
                     app:layout_constraintTop_toTopOf="@+id/amount"
                     tools:src="@drawable/ic_sending_share_transaction_details" />
 
-                <ImageView
-                    android:id="@+id/txCurrency"
-                    android:layout_width="16dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="@null"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/amount"
-                    tools:src="@drawable/currency_beam_send" />
-
                 <TextView
                     android:id="@+id/amount"
                     style="@style/share_transaction_details_amount"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="5dp"
-                    app:layout_constraintEnd_toStartOf="@id/txCurrency"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/confirming_state_text"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="0.123"
@@ -367,8 +358,8 @@
                     android:textSize="14sp"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/txCurrency"
-                    app:layout_constraintTop_toBottomOf="@+id/txCurrency"
+                    app:layout_constraintEnd_toEndOf="@+id/amount"
+                    app:layout_constraintTop_toBottomOf="@+id/amount"
                     tools:text="1234 USD" />
 
 

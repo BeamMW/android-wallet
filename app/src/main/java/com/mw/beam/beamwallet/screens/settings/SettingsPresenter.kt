@@ -42,6 +42,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     private lateinit var faucetGeneratedSubscription: Disposable
     private lateinit var exportDataSubscription: Disposable
     private lateinit var importDataSubscription: Disposable
+    private lateinit var reconnectedSubscription: Disposable
     private var excludeExportParameters: Array<String> = arrayOf()
 
     private var exportType = ExportType.SAVE
@@ -56,6 +57,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun initSubscriptions() {
         super.initSubscriptions()
+
+        reconnectedSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
+            view?.onReconnected()
+        }
 
         faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
             val link =  when (BuildConfig.FLAVOR) {
@@ -405,5 +410,5 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription)
 }

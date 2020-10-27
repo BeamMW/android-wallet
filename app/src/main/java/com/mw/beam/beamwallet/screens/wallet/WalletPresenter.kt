@@ -163,7 +163,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.shouldExpandAvailable = !state.shouldExpandAvailable
         view?.handleExpandAvailable(state.shouldExpandAvailable)
 
-        view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing ?: 0, state.walletStatus?.unlinked ?: 0
+        view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing ?: 0, state.walletStatus?.shielded ?: 0
                 , !state.shouldExpandAvailable, state.privacyMode)
     }
 

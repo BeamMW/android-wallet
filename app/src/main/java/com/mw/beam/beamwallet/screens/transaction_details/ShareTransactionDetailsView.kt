@@ -9,8 +9,8 @@ import android.widget.FrameLayout
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager.getString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.share_transaction_detail_layout.view.*
 
 class ShareTransactionDetailsView : FrameLayout {
@@ -30,16 +30,10 @@ class ShareTransactionDetailsView : FrameLayout {
     fun configGeneralTransactionInfo(txDescription: TxDescription?) {
         if (txDescription == null) return
 
-        when (txDescription.sender) {
-            TxSender.RECEIVED -> txCurrency.setImageResource(R.drawable.currency_beam_receive)
-            TxSender.SENT -> txCurrency.setImageResource(R.drawable.currency_beam_send)
-        }
-
         val isPrivacyModeEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
 
         if(isPrivacyModeEnabled) {
             statusLayoutCenter.visibility = View.VISIBLE
-            txCurrency.visibility = View.GONE
             amount.visibility = View.GONE
             secondAvailableSum.visibility = View.GONE
             imageView.visibility = View.GONE
@@ -52,7 +46,7 @@ class ShareTransactionDetailsView : FrameLayout {
         confirming_state_text.text = txDescription.getStatusString(context).capitalize()
         confirming_state_textCenter.text = txDescription.getStatusString(context).capitalize()
 
-        amount.text = txDescription.amount.convertToBeamString()
+        amount.text = txDescription.amount.convertToBeamString() + " BEAM"
         secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
 
         if (txDescription.sender.value) {
@@ -89,14 +83,27 @@ class ShareTransactionDetailsView : FrameLayout {
 
         amount.setTextColor(txDescription.amountColor)
 
-        if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed
-                || txDescription.kernelId.contains("000000000")) {
-            kernelLayout.visibility = View.GONE
-        }
-
         if(!txDescription.identity.isNullOrEmpty()) {
             walletIdLayout.visibility = View.VISIBLE
             walletIdLabel.text = txDescription.identity
+        }
+
+        if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed
+                || txDescription.kernelId.startsWith("000000000")) {
+            kernelLayout.visibility = View.GONE
+        }
+
+        if(txDescription.fee <= 0L) {
+            feeLayout.visibility = View.GONE
+        }
+
+
+        if(startAddress.text.startsWith("1000000")) {
+            startAddress.text = context.getString(R.string.shielded_pool)
+        }
+
+        if(endAddress.text.startsWith("1000000")) {
+            endAddress.text = context.getString(R.string.shielded_pool)
         }
 
         refreshDrawableState()

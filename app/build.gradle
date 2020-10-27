@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'  // Google Services plugin
 
 buildscript {
     repositories {
         maven { url 'https://maven.google.com' }
-        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
@@ -16,7 +16,7 @@ buildscript {
 
         // We recommend changing it to the latest version from our changelog:
         // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
-        classpath "io.fabric.tools:gradle:$ver_fabric_gradle"
+
     }
 }
 
@@ -32,13 +32,13 @@ android {
 
 
     }
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
-        targetSdkVersion 29
-        versionCode 259
-        versionName "5.1"
+        targetSdkVersion 30
+        versionCode 308
+        versionName "5.1.41"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -124,12 +124,8 @@ android.applicationVariants.all { variant ->
 }
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
 }
 
-crashlytics {
-    enableNdk true
-}
 
 tasks.whenTaskAdded { task ->
     if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
@@ -229,26 +225,19 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
     implementation 'jp.wasabeef:blurry:3.0.0'
 
-    testImplementation "junit:junit:$ver_junit"
-    testImplementation "org.powermock:powermock-module-junit4:$ver_powermock"
-    testImplementation "org.powermock:powermock-module-junit4-rule:$ver_powermock"
-    testImplementation "org.powermock:powermock-api-mockito:$ver_powermock"
-    testImplementation "org.powermock:powermock-classloading-xstream:$ver_powermock"
+    implementation group: 'com.squareup.okhttp', name: 'okhttp', version: '2.7.2'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha04'
 
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
 
-    androidTestImplementation "androidx.test:runner:$ver_test_runner"
-    androidTestImplementation "androidx.test:rules:$ver_test_rules"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$ver_espresso"
-    androidTestImplementation "androidx.test.espresso:espresso-web:$ver_espresso"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$ver_espresso"
-    androidTestImplementation "com.agoda.kakao:kakao:$ver_kakao"
-
-    implementation("com.crashlytics.sdk.android:crashlytics-ndk:$ver_crashlytics_ndk") {
-        transitive = true
-    }
-    implementation("com.crashlytics.sdk.android:crashlytics:$ver_crashlytics") {
-        transitive = true
-    }
+    // Declare the dependencies for the Crashlytics and Analytics libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 apply plugin: 'com.google.gms.google-services'

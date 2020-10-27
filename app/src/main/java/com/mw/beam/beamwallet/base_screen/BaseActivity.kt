@@ -85,12 +85,12 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         toolbar.leftTitleView.text = ""
 
         if (toolbar.centerTitle) {
-           // toolbar.leftTitleView.text = ""
             supportActionBar?.title = ""
+            toolbar.leftTitleView.text = ""
             toolbar.centerTitleView.text = title?.toUpperCase()
         } else {
-            supportActionBar?.title = title
-           // toolbar.leftTitleView.text = title
+            supportActionBar?.title = ""
+            toolbar.leftTitleView.text = title
             toolbar.centerTitleView.text = ""
         }
 

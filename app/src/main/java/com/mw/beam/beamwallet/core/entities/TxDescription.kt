@@ -95,49 +95,62 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
     }.toLowerCase() + " "
 
-    fun getStatusString(context: Context) : String = when (status) {
-        TxStatus.Pending -> context.getString(R.string.pending)
-        TxStatus.InProgress -> {
-            when (sender) {
-                TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
-                TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
-            }
+    fun getStatusString(context: Context) : String {
+      var  status = when (status) {
+          TxStatus.Pending -> context.getString(R.string.pending)
+          TxStatus.InProgress -> {
+              when (sender) {
+                  TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
+                  TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
+              }
+          }
+          TxStatus.Registered -> {
+              when {
+                  TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
+                  TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
+                  TxSender.SENT == sender -> context.getString(R.string.in_progress)
+                  else -> ""
+              }
+          }
+          TxStatus.Completed -> {
+              if (selfTx) {
+                  context.getString(R.string.sent_to_own_address)
+              } else {
+                  when (sender) {
+                      TxSender.RECEIVED -> context.getString(R.string.received)
+                      TxSender.SENT -> context.getString(R.string.sent)
+                  }
+              }
+          }
+          TxStatus.Cancelled -> context.getString(R.string.cancelled)
+          TxStatus.Failed -> {
+              when (failureReason) {
+                  TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
+                  else -> context.getString(R.string.failed)
+              }
+          }
+      }.toLowerCase()
+
+        if(isOffline || isMaxPrivacy)
+        {
+            status = status + " (" + context.getString(R.string.offline).toLowerCase() + ")"
         }
-        TxStatus.Registered -> {
-            when {
-                TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
-                TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
-                TxSender.SENT == sender -> context.getString(R.string.in_progress)
-                else -> ""
-            }
-        }
-        TxStatus.Completed -> {
-            if (selfTx) {
-                context.getString(R.string.sent_to_own_address)
-            } else {
-                when (sender) {
-                    TxSender.RECEIVED -> context.getString(R.string.received)
-                    TxSender.SENT -> context.getString(R.string.sent)
-                }
-            }
-        }
-        TxStatus.Cancelled -> context.getString(R.string.cancelled)
-        TxStatus.Failed -> {
-            when (failureReason) {
-                TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
-                else -> context.getString(R.string.failed)
-            }
-        }
-    }.toLowerCase() + " "
+
+      return "$status "
+    }
 
     val amountColor = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
         TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
     }
 
-    val statusColor = if (TxStatus.Failed == status || TxStatus.Cancelled == status) {
+    val statusColor = if (TxStatus.Cancelled == status) {
         ContextCompat.getColor(App.self, R.color.failed_status_color)
-    } else if (selfTx) {
+    }
+    else if (TxStatus.Failed == status) {
+        ContextCompat.getColor(App.self, R.color.common_error_color)
+    }
+    else if (selfTx) {
         ContextCompat.getColor(App.self, R.color.common_text_color)
     } else {
         when (sender) {
@@ -155,7 +168,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         if (isMaxPrivacy) {
             if (sender == TxSender.RECEIVED)
             {
-                if(isOffline) {
+                if(isOffline || isMaxPrivacy) {
                     return when {
                         this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
                         this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
@@ -174,7 +187,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             }
             else if (sender == TxSender.SENT)
             {
-                if(isOffline) {
+                if(isOffline || isMaxPrivacy) {
                     return when {
                         this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
                         this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)

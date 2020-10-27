@@ -78,7 +78,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun init(mode: WelcomeMode) {
         AppManager.instance.removeOldValues()
 
-        presenter?.repository?.setContext(context!!)
+        presenter?.repository?.setContext(requireContext())
 
         when (mode) {
             WelcomeMode.OPEN -> title.text = openTitleString
@@ -291,16 +291,18 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {
-        description.text = descriptionString
-        description.visibility = View.VISIBLE
+        if(description != null) {
+            description.text = descriptionString
+            description.visibility = View.VISIBLE
 
-        if (progress.progress == 0 && currentProgress == 100) {
-            ObjectAnimator.ofInt(progress, "progress", 100)
-                    .setDuration(500)
-                    .start()
-        }
-        else{
-            progress.progress = currentProgress
+            if (progress.progress == 0 && currentProgress == 100) {
+                ObjectAnimator.ofInt(progress, "progress", 100)
+                        .setDuration(500)
+                        .start()
+            }
+            else{
+                progress.progress = currentProgress
+            }
         }
     }
 

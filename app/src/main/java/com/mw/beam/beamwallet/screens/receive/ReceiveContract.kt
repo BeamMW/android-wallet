@@ -54,6 +54,7 @@ interface ReceiveContract {
         fun setTags(tags: List<Tag>)
         fun showShowToken(receiveToken: String)
         fun showShareDialog(option1:String, option2:String)
+        fun updateTokens(walletAddress: WalletAddress)
     }
 
     interface Presenter : MvpPresenter<View> {

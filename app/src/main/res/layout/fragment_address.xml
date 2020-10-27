@@ -90,6 +90,36 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/identityLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/identity"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/identityLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="3dp"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        tools:text="2 Jan 2019     |     3:46 PM (GMT +3)" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/expirationLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

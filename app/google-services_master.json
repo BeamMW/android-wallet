@@ -8,42 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:275726352179:android:931e599081ff8f691e4846",
-        "android_client_info": {
-          "package_name": "com.mw.beam.beamwallet"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "275726352179-08s71io76osf3ucvsfrg2j79cmp90c75.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDbD3tSTrb138PoybzQv0Sc3u6MgSUr7RQ"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "275726352179-vqc19p43nss4nk9uvaldb9f9hjstaqg2.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "275726352179-0c7g08ocs5ng933ut4v297o406u7q6e2.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.mw.beam.beamwalletiOSTestNet"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:275726352179:android:1e6a2f31ae80fb6b1e4846",
         "android_client_info": {
           "package_name": "com.mw.beam.beamwallet.mainnet"
@@ -80,9 +44,45 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:275726352179:android:43926c5acc3fa1001e4846",
+        "mobilesdk_app_id": "1:275726352179:android:1d1863080d92203c1e4846",
         "android_client_info": {
           "package_name": "com.mw.beam.beamwallet.masternet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275726352179-08s71io76osf3ucvsfrg2j79cmp90c75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbD3tSTrb138PoybzQv0Sc3u6MgSUr7RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275726352179-vqc19p43nss4nk9uvaldb9f9hjstaqg2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "275726352179-0c7g08ocs5ng933ut4v297o406u7q6e2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mw.beam.beamwalletiOSTestNet"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275726352179:android:9c982d2c877991de1e4846",
+        "android_client_info": {
+          "package_name": "com.mw.beam.beamwallet.testnet"
         }
       },
       "oauth_client": [

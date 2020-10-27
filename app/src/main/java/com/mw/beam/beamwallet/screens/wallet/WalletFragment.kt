@@ -95,7 +95,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(selectedColor)
                 }
-                BalanceTab.Unlinked -> {
+                BalanceTab.Shielded -> {
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(unselectedColor)
                     unlinkedTitle.setTextColor(selectedColor)
@@ -114,24 +114,29 @@ else{
     override fun getToolbarTitle(): String? = getString(R.string.wallet)
 
     override fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, walletStatus.maturing, walletStatus.unlinked, expandBalanceCard, isEnablePrivacyMode)
+        configAvailable(walletStatus.available, walletStatus.maturing, walletStatus.shielded, expandBalanceCard, isEnablePrivacyMode)
         configInProgress(walletStatus.receiving, walletStatus.sending, expandInProgressCard, isEnablePrivacyMode)
     }
 
-    override fun configAvailable(availableAmount: Long, maturingAmount: Long, unlinkedAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+    override fun configAvailable(availableAmount: Long, maturingAmount: Long, shieldedAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+        val bmShieldedAmount = 0L
         balanceViewPager.adapter = balancePagerAdapter
         indicator.setViewPager(balanceViewPager)
+
         balancePagerAdapter.available = availableAmount
         balancePagerAdapter.maturing = maturingAmount
-        balancePagerAdapter.unlinked = unlinkedAmount
+        balancePagerAdapter.shielded = bmShieldedAmount //shieldedAmount
         balancePagerAdapter.tabs = mutableListOf<BalanceTab>()
+
         balancePagerAdapter.tabs.add(BalanceTab.Available)
+
         if (maturingAmount > 0) {
             balancePagerAdapter.tabs.add(BalanceTab.Maturing)
         }
-        if (unlinkedAmount > 0) {
-            balancePagerAdapter.tabs.add(BalanceTab.Unlinked)
-        }
+
+//        if (shieldedAmount > 0) {
+//            balancePagerAdapter.tabs.add(BalanceTab.Shielded)
+//        }
 
         balancePagerAdapter.notifyDataSetChanged()
 
@@ -141,10 +146,10 @@ else{
             balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
         }
 
-        indicator.visibility = if (maturingAmount > 0 || unlinkedAmount > 0) contentVisibility else View.GONE
+        indicator.visibility = if (maturingAmount > 0 || bmShieldedAmount > 0) contentVisibility else View.GONE
         maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
-        unlinkedTitle.visibility = if (unlinkedAmount > 0) View.VISIBLE else View.GONE
-        unlinkButton.visibility = if (unlinkedAmount > 0 && expandCard) View.VISIBLE else View.GONE
+        unlinkedTitle.visibility = if (bmShieldedAmount > 0) View.VISIBLE else View.GONE
+        unlinkButton.visibility = View.GONE
 
         //TODO:: for test
 //        if (availableAmount > 0) {
@@ -305,7 +310,7 @@ else{
         }
 
         unlinkedTitle.setOnClickListener {
-            balanceViewPager.setCurrentItem(BalanceTab.Unlinked.ordinal, true)
+            balanceViewPager.setCurrentItem(BalanceTab.Shielded.ordinal, true)
         }
 
         unlinkButton.setOnClickListener {

@@ -37,7 +37,7 @@ interface WalletContract {
         fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean)
         fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean)
         fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean)
-        fun configAvailable(availableAmount: Long, maturingAmount: Long, unlinkedAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean)
+        fun configAvailable(availableAmount: Long, maturingAmount: Long, shieldedAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean)
         fun showTransactionDetails(txId: String)
         fun showReceiveScreen()
         fun showSendScreen()

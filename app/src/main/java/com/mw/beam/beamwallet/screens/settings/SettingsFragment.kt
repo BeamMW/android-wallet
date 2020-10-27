@@ -229,6 +229,15 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolbarLayout.centerTitle = mode() == SettingsFragmentMode.All
+
+        appVersionTitle.addDoubleDots()
+        appVersionValue.text = BuildConfig.VERSION_NAME
+
+        onBackPressedCallback.isEnabled = true
+
+        initToolbar(getToolbarTitle(), hasBackArrow = mode() != SettingsFragmentMode.All, hasStatus = true)
+
         if(mode() == SettingsFragmentMode.All) {
             requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
 
@@ -237,18 +246,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             toolbar.setNavigationOnClickListener {
                 (activity as? AppActivity)?.openMenu()
             }
-        }
-        else{
-            toolbarLayout.centerTitle = false
-        }
-
-        appVersionTitle.addDoubleDots()
-        appVersionValue.text = BuildConfig.VERSION_NAME
-
-        onBackPressedCallback.isEnabled = true
-
-        if(mode() != SettingsFragmentMode.All) {
-            toolbar.title = getToolbarTitle()
         }
     }
 
@@ -466,6 +463,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    override fun onReconnected() {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.ConnectNode) {
+                    item.spannable = createNodeSpannableString()
+                }
+            }
+        }
+    }
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false

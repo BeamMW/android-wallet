@@ -70,6 +70,14 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         view?.showEditAddressScreen(state.address ?: return)
     }
 
+    override fun onReceiveAddress() {
+        view?.receiveAddress(state.address ?: return)
+    }
+
+    override fun onSendAddress() {
+        view?.sendAddress(state.address ?: return)
+    }
+
     override fun onAddressWasEdited() {
         view?.finishScreen()
     }

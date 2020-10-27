@@ -28,4 +28,5 @@ class SendConfirmationState {
     var comment: String? = null
     var amount: Long = 0
     var fee: Long = 0
+    var shieldedInputsFee: Long = 0
 }

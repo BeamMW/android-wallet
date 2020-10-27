@@ -55,21 +55,36 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun getToken(): String? = args.token
 
+    override fun getIsOldDesign(): Boolean = args.isOldDesign
 
     @SuppressLint("SetTextI18n")
     override fun init(walletAddress: WalletAddress, amount: Long) {
         hideKeyboard()
 
-        val token = getToken()
+        var token = getToken()
         val qrImage: Bitmap?
 
         if(token != null) {
-            tokenTitle.visibility = View.GONE
-            tokenView.visibility = View.GONE
-            amountTitle.visibility = View.GONE
-            amountView.visibility = View.GONE
-            secondAvailableSum.visibility = View.GONE
-            infoLabel.text = resources.getString(R.string.receive_description)
+            if(token == "null" && getIsOldDesign()) {
+                token = walletAddress.walletID
+            }
+           if (!getIsOldDesign()) {
+               tokenTitle.visibility = View.GONE
+               tokenView.visibility = View.GONE
+               amountTitle.visibility = View.GONE
+               amountView.visibility = View.GONE
+               secondAvailableSum.visibility = View.GONE
+               infoLabel.text = resources.getString(R.string.receive_description)
+           }
+            else {
+               amountTitle.visibility = View.GONE
+               amountView.visibility = View.GONE
+               secondAvailableSum.visibility = View.GONE
+
+
+               tokenView.text = token
+               infoLabel.text = resources.getString(R.string.receive_description_qr)
+           }
 
             try {
                 val metrics = DisplayMetrics()
@@ -118,7 +133,6 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
             amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
             secondAvailableSum.text = amount.convertToCurrencyString()
-
         }
 
         btnShare.setOnClickListener { presenter?.onSharePressed(qrImage!!) }

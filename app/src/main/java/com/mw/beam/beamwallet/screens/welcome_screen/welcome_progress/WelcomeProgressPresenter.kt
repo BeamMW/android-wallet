@@ -226,8 +226,26 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
 
         if(isTrustedNodeRestor || (randomNode && trustedNode)) {
-            view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
-            showWallet()
+            view?.updateProgress(OnSyncProgressData(1, 4), state.mode)
+
+            Timer().schedule(2000) {
+                App.self.runOnUiThread {
+                    view?.updateProgress(OnSyncProgressData(2, 4), state.mode)
+                }
+            }
+
+            Timer().schedule(3000) {
+                App.self.runOnUiThread {
+                    view?.updateProgress(OnSyncProgressData(3, 4), state.mode)
+                }
+            }
+
+            Timer().schedule(4000) {
+                App.self.runOnUiThread {
+                    view?.updateProgress(OnSyncProgressData(4, 4), state.mode)
+                    showWallet()
+                }
+            }
         }
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {

@@ -158,7 +158,7 @@
                     style="@style/common_subheader_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/address" />
+                    android:text="@string/sbbs_address" />
 
                 <TextView
                     android:id="@+id/addressValue"
@@ -209,7 +209,7 @@
                     style="@style/common_subheader_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/transaction_token" />
+                    android:text="@string/address" />
 
                 <TextView
                     android:id="@+id/tokenValue"
@@ -229,6 +229,7 @@
                 android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
                 android:background="@drawable/receive_button"
                 android:visibility="gone"
+                app:lower_case="true"
                 app:button_icon="@drawable/ic_btn_copy_dark"
                 app:button_text="@string/copy" />
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -238,7 +239,7 @@
         android:id="@+id/toolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:centerTitle="true"
+        app:centerTitle="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

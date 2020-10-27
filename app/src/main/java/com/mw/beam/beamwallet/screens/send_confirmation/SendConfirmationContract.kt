@@ -30,9 +30,12 @@ interface SendConfirmationContract {
         fun getOutgoingAddress(): String
         fun getAmount(): Long
         fun getFee(): Long
+        fun getChange(): Long
+        fun getShieldedInputsFee(): Long
         fun getComment(): String?
         fun getMaxPrivacy(): Boolean
         fun getOffline(): Boolean
+        fun getRemaining(): Int
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, maxPrivacy: Boolean, isOffline: Boolean)
         fun configureContact(walletAddress: WalletAddress, tags: List<Tag>)
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)

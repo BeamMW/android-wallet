@@ -106,43 +106,6 @@ class AddressesAdapter(private val context: Context,
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
             }
 
-            val dateTextView = itemView.findViewById<TextView>(R.id.date)
-            val expireDateVisibility = if (address.isContact) View.GONE else View.VISIBLE
-            dateTextView.visibility = expireDateVisibility
-            expireStateIcon?.visibility = expireDateVisibility
-
-            if (!address.isContact) {
-                val expireStateString: String
-                val iconId: Int
-                when {
-                    address.isExpired -> {
-                        val dateString = CalendarUtils.fromTimestamp(address.createTime + address.duration)
-
-                        expireStateString = "${context.getString(R.string.expired).toLowerCase()} $dateString"
-                        iconId = R.drawable.ic_expired
-                    }
-                    address.duration == 0L -> {
-                        expireStateString = context.getString(R.string.never_expires).toLowerCase()
-                        iconId = R.drawable.ic_infinity
-                    }
-
-                    else -> {
-                        val calendar = CalendarUtils.calendarFromTimestamp(address.createTime + address.duration)
-                        val currentDate = Calendar.getInstance()
-                        val timeDiff = calendar.timeInMillis - currentDate.timeInMillis
-
-                        val hours = TimeUnit.MILLISECONDS.toHours(timeDiff)
-                        val minutes = TimeUnit.MILLISECONDS.toMinutes(timeDiff) - hours * 60
-
-                        expireStateString = context.getString(R.string.expires_in, hours.toString(), minutes.toString()).toLowerCase()
-                        iconId = R.drawable.ic_exp
-                    }
-                }
-
-                dateTextView.text = expireStateString
-                expireStateIcon?.setImageDrawable(ContextCompat.getDrawable(context, iconId))
-            }
-
             val category = itemView.findViewById<TextView>(R.id.tag)
 
             category.visibility = if (findTags.isNullOrEmpty()) View.GONE else View.VISIBLE

@@ -109,7 +109,7 @@ enum class UtxoStatus(val value: Int) {
 enum class UtxoKeyType(val value: String) {
     Commission("fees"), Coinbase("mine"), Regular("norm"), Change("chng"),
     Kernel("kern"), Kernel2("kerM"), Identity("iden"),
-    ChildKey("SubK"), Bbs("BbsM"), Decoy("dcoy"), Treasury("tres");
+    ChildKey("SubK"), Bbs("BbsM"), Decoy("dcoy"), Treasury("tres"), Shielded("shielded");
 
     companion object {
         private val map: HashMap<String, UtxoKeyType> = HashMap()
