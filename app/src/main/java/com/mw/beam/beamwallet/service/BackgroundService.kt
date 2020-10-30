@@ -141,6 +141,10 @@ class BackgroundService : JobService() {
             return false
         }
 
+        if(!repository.isInit()) {
+            return false
+        }
+
         val password = repository.getPassword()
 
         if (password.isNullOrBlank()) {

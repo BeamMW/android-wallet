@@ -131,16 +131,18 @@ class AppManager {
         val array = mutableListOf<String>()
 
         peers.forEach { random ->
-            var found = false
+            if(!random.contains("shanghai")) {
+                var found = false
 
-            array.forEach { node ->
-                if(random == node) {
-                    found = true;
+                array.forEach { node ->
+                    if(random == node) {
+                        found = true;
+                    }
                 }
-            }
 
-            if(!found) {
-                array.add(random)
+                if(!found) {
+                    array.add(random)
+                }
             }
         }
 
@@ -249,7 +251,18 @@ class AppManager {
 
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false);
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
-        AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+        AppConfig.NODE_ADDRESS = randomNode()
+    }
+
+    fun randomNode(): String {
+        val nodes = Api.getDefaultPeers();
+        var result = mutableListOf<String>();
+        nodes.forEach {
+            if(!it.contains("shanghai")) {
+                result.add(it)
+            }
+        }
+        return result.random()
     }
 
     fun importData(data:String) {

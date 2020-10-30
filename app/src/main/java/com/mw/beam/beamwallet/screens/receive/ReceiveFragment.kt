@@ -19,14 +19,15 @@ package com.mw.beam.beamwallet.screens.receive
 import android.R.attr.spacing
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.TextWatcher
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.text.style.ScaleXSpan
 import android.transition.TransitionManager
+import android.view.ContextMenu
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -51,6 +52,8 @@ import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_receive.*
+import kotlinx.android.synthetic.main.fragment_receive.secondAvailableSum
+import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import org.jetbrains.anko.withAlpha
 
 
@@ -381,6 +384,21 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         qrCodeButton_2.setOnClickListener {
             presenter?.onShowQrPressed(token_2)
         }
+
+//        tokenValue_1.setOnLongClickListener {
+//            copyToClipboard(token_1, "")
+//            showSnackBar(getString(R.string.address_copied_to_clipboard))
+//            return@setOnLongClickListener true
+//        }
+//
+//        tokenValue_2.setOnLongClickListener {
+//            copyToClipboard(token_2, "")
+//            showSnackBar(getString(R.string.address_copied_to_clipboard))
+//            return@setOnLongClickListener true
+//        }
+
+        registerForContextMenu(tokenValue_1)
+        registerForContextMenu(tokenValue_2)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -554,6 +572,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         advancedContainer.setOnClickListener(null)
         editAddressContainer.setOnClickListener(null)
         tagAction.setOnTouchListener(null)
+        tokenValue_1.setOnClickListener(null)
+        tokenValue_2.setOnClickListener(null)
+
         amount.removeTextChangedListener(amountWatcher)
         amount.onFocusChangeListener = null
 
@@ -571,5 +592,32 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return ReceivePresenter(this, ReceiveRepository(), ReceiveState())
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        val copy = SpannableStringBuilder()
+        copy.append(getString(R.string.copy))
+        copy.setSpan(ForegroundColorSpan(Color.WHITE),
+                0, copy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        menu.add(0, v.id, 0, copy)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+
+        if (item.itemId == tokenValue_1.id) {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(token_1, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }  else if (item.itemId == tokenValue_2.id) {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(token_2, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+
+        return super.onContextItemSelected(item)
     }
 }

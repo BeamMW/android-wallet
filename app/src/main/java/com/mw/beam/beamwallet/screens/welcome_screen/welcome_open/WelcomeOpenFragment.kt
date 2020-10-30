@@ -249,13 +249,13 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
 
             (activity as? AppActivity)?.enableLeftMenu(true)
 
-            LockScreenManager.restartTimer(activity!!.applicationContext)
+            LockScreenManager.restartTimer(requireActivity().applicationContext)
 
             findNavController().popBackStack()
         }
         else{
-            showWallet()
-            //findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
+            //showWallet()
+            findNavController().navigate(WelcomeOpenFragmentDirections.actionWelcomeOpenFragmentToWelcomeProgressFragment(pass, WelcomeMode.OPEN.name, null))
         }
     }
     override fun changeWallet() {

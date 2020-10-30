@@ -53,7 +53,7 @@ open class BaseRepository : MvpRepository {
             if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
                 AppConfig.NODE_ADDRESS = nodeAddress
             } else {
-                AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+                AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
             }
 
             if (PreferencesManager.getString(PreferencesManager.KEY_PASSWORD) != pass) {

@@ -698,15 +698,33 @@ else{
             endAddress = transaction.myId
         }
 
+        if(startAddress.startsWith("100000")) {
+            startAddress = "Shielded pool";
+        }
+        if(endAddress.startsWith("100000")) {
+            endAddress = "Shielded pool";
+        }
 
-        val txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
+        var txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
                 "${getString(R.string.status)}: ${statusLabel.text}\n" +
                 "${getString(R.string.amount)}: ${amountLabel.text}\n" +
                 startAddressTitle + ": " + startAddress + "\n" +
-                endAddressTitle + ": " + endAddress + "\n" +
-                "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n" +
-                "${getString(R.string.transaction_id)}: ${idLabel.text}\n" +
-                "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
+                endAddressTitle + ": " + endAddress + "\n"
+
+
+        if(feeLabel.text.startsWith("0")) {
+
+        }
+        else {
+            txDetails += "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n"
+        }
+
+        txDetails += "${getString(R.string.transaction_id)}: ${idLabel.text}\n"
+
+        if(!kernelLabel.text.startsWith("0000")) {
+            txDetails += "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
+        }
+
 
         val clip = ClipData.newPlainText("label", txDetails)
         clipboardManager?.setPrimaryClip(clip)

@@ -45,12 +45,12 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
     override fun getToolbarTitle(): String? = getString(if (addressDetails?.isContact == true) R.string.contact_details else R.string.address_details)
-    override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
+    override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(requireArguments()).walletAddress
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     var addressId = ""
@@ -118,7 +118,7 @@ else{
 
     private fun initTransactionsList() {
         if (adapter == null) {
-            adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
+            adapter = TransactionsAdapter(requireContext(),null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
                 presenter?.onTransactionPressed(it)
             }
             adapter?.reverseColors = true
@@ -146,7 +146,7 @@ else{
         }
 
         val expirationVisibility = if (address.isContact) View.GONE else View.VISIBLE
-        expirationLayout.visibility = expirationVisibility
+       // expirationLayout.visibility = expirationVisibility
 
         if (address.identity.isNullOrEmpty() || address.identity == "0") {
             identityLayout.visibility = View.GONE
@@ -160,7 +160,7 @@ else{
     override fun configureTags(findTag: List<Tag>) {
         val categoryVisibility = if (findTag.isEmpty()) View.GONE else View.VISIBLE
         tagsLayout.visibility = categoryVisibility
-        tagsLabel.text = findTag.createSpannableString(context!!)
+        tagsLabel.text = findTag.createSpannableString(requireContext())
     }
 
     @SuppressLint("InflateParams")
