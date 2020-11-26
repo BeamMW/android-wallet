@@ -97,7 +97,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     var oldItemsCount = -1
 
     override fun mode(): SettingsFragmentMode {
-        return SettingsFragmentArgs.fromBundle(arguments!!).mode
+        return SettingsFragmentArgs.fromBundle(requireArguments()).mode
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
@@ -115,6 +115,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    //shareDb
     private var isShareLogs = false
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
@@ -172,7 +173,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
-                s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
+              //  s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
                 s1.add(SettingsItem(null, getString(R.string.show_amounts),null, SettingsFragmentMode.Currency))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
@@ -209,6 +210,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             }
             mode() == SettingsFragmentMode.Utilities -> {
                 var s1 = mutableListOf<SettingsItem>()
+                s1.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
@@ -221,33 +223,26 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         addItems()
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if(mode() == SettingsFragmentMode.All) {
-            requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
-
-            (activity as? AppActivity)?.enableLeftMenu(true)
-            toolbar.setNavigationIcon(R.drawable.ic_menu)
-            toolbar.setNavigationOnClickListener {
-                (activity as? AppActivity)?.openMenu()
-            }
-        }
-        else{
-            toolbarLayout.centerTitle = false
-        }
+        toolbarLayout.centerTitle = mode() == SettingsFragmentMode.All
 
         appVersionTitle.addDoubleDots()
         appVersionValue.text = BuildConfig.VERSION_NAME
 
         onBackPressedCallback.isEnabled = true
 
-        if(mode() != SettingsFragmentMode.All) {
-            toolbar.title = getToolbarTitle()
+        initToolbar(getToolbarTitle(), hasBackArrow = mode() != SettingsFragmentMode.All, hasStatus = true)
+
+        if(mode() == SettingsFragmentMode.All) {
+            requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
+
+            (activity as? AppActivity)?.enableLeftMenu(true)
+            toolbar.setNavigationIcon(R.drawable.ic_menu)
+            toolbar.setNavigationOnClickListener {
+                (activity as? AppActivity)?.openMenu()
+            }
         }
     }
 
@@ -263,13 +258,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     ScreenHelper.dpToPx(context, 10),
                     ScreenHelper.dpToPx(context, 10))
 
-            val section = LinearLayout(context!!)
+            val section = LinearLayout(requireContext())
             section.orientation = LinearLayout.VERTICAL
-            section.background = context!!.getDrawable(R.drawable.wallet_state_card_backgroud)
+            section.background = requireContext().getDrawable(R.drawable.wallet_state_card_backgroud)
             section.layoutParams = param
 
             for ((index, item) in subItems.withIndex()) {
-                val item = SettingsItemView(context!!).apply {
+                val item = SettingsItemView(requireContext()).apply {
                     text = item.text
                     detail = item.detail
                     iconResId = item.icon
@@ -280,8 +275,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 if(item.mode == SettingsFragmentMode.RemoveWallet)
                 {
-                    item.textLabel.setTextColor(ContextCompat.getColor(context!!, R.color.remove))
-                    item.iconView.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.remove))
+                    item.textLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.remove))
+                    item.iconView.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.remove))
                 }
 
                 item.setOnClickListener {
@@ -377,25 +372,23 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         (activity as? AppActivity)?.changeTheme()
                         (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
 
-                        val ft = fragmentManager!!.beginTransaction()
+                        val ft = requireFragmentManager().beginTransaction()
                         ft.detach(this).attach(this).commit()
                     }
                     else  if (item.mode == SettingsFragmentMode.ShareDB) {
-                        doAsync {
-                            ZipManager.zip(AppConfig.DB_PATH, AppConfig.ZIP_PATH);
-
-                            uiThread {
-                                val subject = ""
-                                val shareIntent = Intent()
-                                shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
-                                shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-                                shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
-                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                shareIntent.type = AppConfig.SHARE_TYPE
-                                shareIntent.action = Intent.ACTION_SEND;
-                                startActivity(shareIntent)
-                            }
-                        }
+                        ZipManager.zip(AppConfig.DB_PATH, AppConfig.ZIP_PATH);
+                        val subject = ""
+                        val shareIntent = Intent()
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(requireContext(), AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        shareIntent.type = AppConfig.SHARE_TYPE
+                        shareIntent.action = Intent.ACTION_SEND;
+                        startActivity(shareIntent)
+                    }
+                    else if (item.mode == SettingsFragmentMode.ShowPublicOfflineAddress) {
+                        presenter?.onShowPublicOfflineAddressPressed()
                     }
                 }
 
@@ -470,6 +463,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    override fun onReconnected() {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.ConnectNode) {
+                    item.spannable = createNodeSpannableString()
+                }
+            }
+        }
+    }
 
     override fun onStop() {
         onBackPressedCallback.isEnabled = false
@@ -483,10 +486,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
     }
     else{
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
     override fun setLogSettings(days: Long) {
@@ -511,7 +514,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
                 if (item.mode == SettingsFragmentMode.Currency) {
-                    item.detail = currency.name(context!!)
+                    item.detail = currency.name(requireContext())
                 }
             }
         }
@@ -678,7 +681,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         var s1 = mutableListOf<SettingsItem>()
 
         for (tag in allTag){
-            s1.add(SettingsItem(null, "",null, SettingsFragmentMode.ShowTag, switch = null, spannable = tag.spannableName(context!!)))
+            s1.add(SettingsItem(null, "",null, SettingsFragmentMode.ShowTag, switch = null, spannable = tag.spannableName(requireContext())))
         }
 
         var s2 = mutableListOf<SettingsItem>()
@@ -706,7 +709,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         {
             isShareLogs = true
 
-            val dialog = LoadingDialog.get(activity!!).show()
+            val dialog = LoadingDialog.get(requireActivity()).show()
 
             doAsync {
                 ZipManager.zip(AppConfig.LOG_PATH, AppConfig.ZIP_PATH);
@@ -727,7 +730,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     }
 
                     val shareIntent = Intent()
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(requireContext(), AppConfig.AUTHORITY, File (AppConfig.ZIP_PATH)))
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
                     shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(AppConfig.SUPPORT_EMAIL))
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -935,6 +938,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
         val clearData = arrayListOf<String>()
 
@@ -991,7 +995,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter?.onExportWithExclude(excludeParameters.toTypedArray())
         }
 
-        dialog = AlertDialog.Builder(context!!).setView(viewExportOptions).show().apply {
+        dialog = AlertDialog.Builder(requireContext()).setView(viewExportOptions).show().apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
@@ -1016,7 +1020,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             presenter?.onExportSave()
         }
 
-        dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+        dialog = AlertDialog.Builder(requireContext()).setView(view).show().apply {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
     }
@@ -1164,6 +1168,22 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     btnCancelText = getString(R.string.cancel))
         }
 
+    }
+
+    override fun showPublicOfflineAddress() {
+        if(AppManager.instance.isOwnNode()) {
+            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPublicOfflineAddressFragment())
+        }
+        else {
+            showAlert(message = getString(R.string.connect_node_offline_public),
+                    btnConfirmText = getString(R.string.ok),
+                    onConfirm = {
+                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.OwnerKey))
+                    },
+                    title = getString(R.string.show_public_offline),
+                    btnCancelText = null,
+                    onCancel = {  })
+        }
     }
 
     override fun walletRemoved() {

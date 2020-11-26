@@ -22,16 +22,19 @@ import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
  *  10/9/18.
  */
 data class WalletStatus(private val source: WalletStatusDTO) {
-    val available: Long = source.available
+    val available: Long = source.available + source.shielded
     val receiving: Long = source.receiving
     val sending: Long = source.sending
     val maturing: Long = source.maturing
+    val shielded: Long = source.shielded
+    val maxPrivacy: Long = source.maxPrivacy
+
     val updateLastTime: Long = source.updateLastTime
     val updateDone: Int = source.updateDone
     val updateTotal: Int = source.updateTotal
     val system: SystemState = SystemState(source.system)
 
     override fun toString(): String {
-        return "available=$available receiving=$receiving sending=$sending maturing=$maturing updateLastTime=$updateLastTime updateDone=$updateDone updateTotal=$updateTotal system=$system"
+        return "available=$available receiving=$receiving sending=$sending maturing=$maturing maxPrivacy=$maxPrivacy shielded=$shielded  updateLastTime=$updateLastTime updateDone=$updateDone updateTotal=$updateTotal system=$system"
     }
 }

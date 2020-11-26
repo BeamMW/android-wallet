@@ -293,6 +293,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/secureLayout">
 
+                    <ImageView
+                        android:id="@+id/unlinkButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="7dp"
+                        android:contentDescription="@null"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="3dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/availableTitleContainer"
+                        app:srcCompat="@drawable/ic_unlink" />
+
                     <LinearLayout
                         android:id="@+id/availableTitleContainer"
                         android:layout_width="match_parent"
@@ -326,6 +340,19 @@
                             app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="RtlSymmetry" />
 
+                        <TextView
+                            android:id="@+id/maxPrivacyAddressTitle"
+                            style="@style/common_subheader_dark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="15dp"
+                            android:text="@string/max_privacy"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="RtlSymmetry" />
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="@dimen/wallet_expandable_icon_size"
@@ -346,8 +373,9 @@
                         android:id="@+id/balanceViewPager"
                         android:layout_width="0dp"
                         android:layout_height="78dp"
+                        android:layout_marginEnd="8dp"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/unlinkButton"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/availableTitleContainer" />
 
@@ -431,8 +459,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/wallet_card_text_padding_start"
                         android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                        android:drawableRight="@drawable/currency_send_main_screen"
-                        android:drawablePadding="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/send_selector"
                         android:textSize="@dimen/wallet_sum_text_size"
@@ -463,8 +489,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/wallet_card_text_padding_start"
                         android:layout_marginTop="20dp"
-                        android:drawableRight="@drawable/currency_receive_main_screen"
-                        android:drawablePadding="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textAlignment="viewStart"
                         android:textColor="@color/received_color"

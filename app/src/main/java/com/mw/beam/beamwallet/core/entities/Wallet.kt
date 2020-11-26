@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.core.entities
 
 import com.mw.beam.beamwallet.core.entities.dto.PaymentInfoDTO
+import com.mw.beam.beamwallet.core.entities.dto.TransactionParametersDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 
 /**
@@ -28,13 +29,14 @@ data class Wallet(val _this: Long) {
     external fun getUtxosStatus()
     external fun syncWithNode()
     external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
+    external fun calcShieldedCoinSelectionInfo(amount: Long, fee: Long, isShielded: Boolean)
+
+    //-(void):(double)amount fee:(double)fee isShielded:(BOOL) isShielded result:(FeecalculatedBlock _Nonnull )block;
     external fun calcChange(amount: Long)
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
 
-   // @Deprecated("Need usage 'updateAddress'")
-   // external fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
     external fun updateAddress(addr: String, name: String, addressExpirationEnum: Int)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)
@@ -58,4 +60,19 @@ data class Wallet(val _this: Long) {
     external fun getNotifications()
     external fun markNotificationAsRead(id : String)
     external fun deleteNotification(id : String)
+
+    external fun generateRegularAddress(isPermanentAddress: Boolean, amount: Long, walletId: String): String
+    external fun generateOfflineAddress(amount: Long, walletId: String): String
+    external fun generateMaxPrivacyAddress(amount: Long, walletId: String)
+
+    external fun isToken(token: String): Boolean
+    external fun isAddress(address: String): Boolean
+    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
+    external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
+
+    external fun isConnectionTrusted(): Boolean
+
+    external fun callMyMethod()
+
+    external fun getPublicAddress()
 }

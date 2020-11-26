@@ -36,10 +36,16 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val own: Long = source.own
     val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
     var isContact = own == 0L
+    var tokenOnline = ""
+    var tokenOffline = ""
+    var tokenMaxPrivacy = ""
+    var identity = source.identity
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
+        this.category = this@WalletAddress.category
+        this.identity = this@WalletAddress.identity
     }
 
     fun splitCategories() : MutableList<String>  {

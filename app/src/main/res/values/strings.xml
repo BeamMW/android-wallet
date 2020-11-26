@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Beam Wallet</string>
     <string name="redirect" translatable="false">open.mainnet.app</string>
-    <string name="common_logo_text">Scalable confidential cryptocurrency</string>
+    <string name="common_logo_text">Confidential, fast, easy to use</string>
     <string name="common_testnet">Testnet</string>
     <string name="common_masternet">Masternet</string>
     <string name="done">Done</string>
     <string name="common_error">Oops, something went wrong…</string>
     <string name="online">Online</string>
     <string name="updating">Updating</string>
-    <string name="common_status_error">Cannot connect to node</string>
+    <string name="common_status_error">Cannot connect to</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
@@ -17,7 +17,7 @@
     <string name="change_address">Change</string>
     <string name="change_address_title">Change address</string>
     <string name="change_utxo_type">Change</string>
-    <string name="change_description">Change (will be locked till the transaction will succeed or expire)</string>
+    <string name="change_description">CHANGE (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">OK</string>
     <string name="undo">Undo</string>
     <string name="next">Next</string>
@@ -194,6 +194,8 @@
     <string name="time">Time</string>
     <string name="id">ID</string>
     <string name="treasure">Treasure</string>
+    <string name="shielded">Shielded</string>
+    <string name="maturity">Maturity</string>
 
 
 
@@ -277,6 +279,7 @@
     <string name="address_already_exist_1">This address already exists</string>
     <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <string name="settings_report">Report a problem</string>
+    <string name="receive_description_qr">Show this QR code to the sender or send it over an external secure channel.</string>
 
     <!--SettingsFragment-->
     <string name="settings_change_pass">Change wallet password</string>
@@ -414,7 +417,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
-    <string name="min_fee_error">The minimum fee is %1$s GROTH</string>
+    <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
+    <string name="min_fee_error_max_privacy">Сoins were automatically selected to maximize privacy and minimal transaction fee of 1,000,100 GROTH.</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
     <string name="delete_all_transactions_related_to_this_contact">Delete all transactions related to this contact</string>
@@ -502,7 +506,7 @@ address or contact</string>
 
     <string name="complete_verification">Complete verification</string>
     <string name="complete_wallet_verification">Complete wallet verification</string>
-    <string name="complete_seed_verification">Complete seed verification</string>
+    <string name="complete_seed_verification">Verify seed phrase</string>
     <string name="seed_verification">Seed Verification</string>
     <string name="i_will_later">I will do it later</string>
     <string name="faucet_text">See the wallet in action. Get a very small amount of Beams from the community faucet.</string>
@@ -589,6 +593,84 @@ address or contact</string>
     <string name="notification">Notification</string>
     <string name="update_now">Update now</string>
     <string name="buy_transaction_failed_title">Transaction failed</string>
+    <string name="unlinked">Unlinked</string>
+    <string name="unlink">Unlink</string>
+    <string name="available_unlink">Unlink available</string>
+    <string name="unlinking_fee">Unlinking fee</string>
+    <string name="small_amount_unlink">Amount is too small. Minimal amount is</string>
+    <string name="remaining">Remaining</string>
+    <string name="amount_to_unlink">Amount to unlink</string>
+    <string name="unlink_notice">Please notice that unlinking funds may take up to few days to proceed.</string>
+    <string name="unlink_beam">Unlink BEAM</string>
+    <string name="unlinked_funds_only">Unlinked funds only</string>
+    <string name="add_all_unlinked">Add all unlinked</string>
     <string name="off">Off</string>
+    <string name="exchange_not_available">online (exchange rate to %1$s wasn’t received)</string>
+
+    <string name="wallet_id">Identity</string>
+    <string name="show_token">More details</string>
+    <string name="transaction_token">Transaction address</string>
+    <string name="general">General</string>
+    <string name="one_time">One-time use</string>
+    <string name="permanent">Permanent</string>
+    <string name="edit_token">Edit address</string>
+    <string name="receive_from">Receive from</string>
+    <string name="pool">Exchange or mining pool</string>
+    <string name="share_token">Share address</string>
+    <string name="token">Address</string>
+    <string name="reconnect">Reconnecting to another random node…</string>
+    <string name="max_privacy_title">Offline</string>
+    <string name="max_privacy_text">The receiver pays fees.</string>
+    <string name="max_privacy_text_2">The receiver pays fees.</string>
+    <string name="max">Max</string>
+    <string name="max_privacy_requested_title"></string>
+    <string name="max_privacy_request_title">Request Offline transaction</string>
+    <string name="max_privacy_request_text">The receiver pays fees.</string>
+    <string name="offline_transaction">Offline transaction</string>
+    <string name="transaction_type">Transaction type</string>
+    <string name="perm_out_address_title">Permanent outgoing address</string>
+    <string name="perm_out_address_text">This address will be used for sending to specific receiver address.</string>
+    <string name="perm_token">Permanent address.</string>
+    <string name="token_type">Address type</string>
+    <string name="token_expiration">Address expiration</string>
+    <string name="online_token">Online address</string>
+    <string name="offline_token">Offline address</string>
+    <string name="for_wallet">For wallet</string>
+    <string name="for_pool">For exchange or mining pool</string>
+    <string name="for_pool_permanent">Exchanges or mining pools support only permanent address now.</string>
+    <string name="for_pool_regular">Exchanges or mining pools support only regular transaction now.</string>
+    <string name="switch_to_permanent">Switch to permanent</string>
+    <string name="switch_to_regular">Switch to regular</string>
+    <string name="one_time_expire_text">One-time use address (expire in 12 hours after succesfull transaction).</string>
+    <string name="transaction_info">Transaction info</string>
+    <string name="offline_token_type">Offline</string>
+    <string name="online_token_type">Online</string>
+    <string name="max_privacy_disabled_node">Connect to integrated or own node to enable sending Offline transactions</string>
+    <string name="address_not_supported_max_privacy">This type of address does not support offline transactions</string>
+    <string name="cant_sent_max_to_my_address">Can not sent Offline transaction to own address</string>
+    <string name="offline">Offline</string>
+    <string name="offline_transactions">Offline transactions</string>
+    <string name="outgoing_token">Outgoing addresses</string>
+    <string name="address_expire_after_2h">Address will expire in 12 hours after succesfull transaction</string>
+    <string name="sbbs_address">SBBS address</string>
+    <string name="offline_remaining">Offline transactions remaining</string>
+    <string name="transactions_remaining">Transactions remaining</string>
+    <string name="withdraw">Withdraw</string>
+    <string name="shielded_pool">Shielded pool</string>
+    <string name="transaction_received_from_offline">Transaction received from offline</string>
+    <string name="transaction_send_from_offline">Transaction sent to offline</string>
+    <string name="min_100_groth">The minimum fee is 100 GROTH</string>
+    <string name="max_privacy">Max privacy</string>
+    <string name="public_offline">Public offline</string>
+    <string name="show_public_offline">Show public offline address</string>
+    <string name="public_offline_address">Public offline address</string>
+    <string name="public_offline_address_hint">Publishing this address will allow you to be identified</string>
+    <string name="connect_node_offline_public">Connect to integrated or own node to enable receiving public offline transactions</string>
+    <string name="online_address_for_wallet">Online address (for wallet)</string>
+    <string name="online_token_for_pool">Online address (for exchange or mining pool)</string>
+    <string name="supports_payment">Supports XX payments.</string>
+    <string name="max_privacy_address">Max privacy address</string>
+    <string name="receive_notice_max_privacy">Min transaction fee to send Max privacy coins is ~0.01 BEAM.</string>
 
 </resources>
+

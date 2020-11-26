@@ -33,7 +33,7 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     val amount: Long = source.amount
     val status: UtxoStatus = UtxoStatus.fromValue(source.status)
     val maturity: Long = source.maturity
-    val keyType: UtxoKeyType = UtxoKeyType.fromValue(source.keyType.convertToString())
+    var keyType: UtxoKeyType = UtxoKeyType.fromValue(source.keyType.convertToString())
     val confirmHeight: Long = source.confirmHeight
     val createTxId: String? = source.createTxId
     val spentTxId: String? = source.spentTxId

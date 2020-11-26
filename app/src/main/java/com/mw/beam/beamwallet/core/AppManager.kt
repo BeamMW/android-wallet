@@ -6,6 +6,8 @@ import android.util.Log
 import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.core.utils.CalendarUtils.calendarFromTimestamp
@@ -20,14 +22,13 @@ import kotlin.collections.HashMap
 class AppManager {
     var wallet: Wallet? = null
 
-    var lastGeneratedAddress:String? = null
-
     private var handler:android.os.Handler? = null
 
     private var contacts = mutableListOf<WalletAddress>()
     private var addresses = mutableListOf<WalletAddress>()
     private var transactions = mutableListOf<TxDescription>()
     private var utxos = mutableListOf<Utxo>()
+    private var shieldedUtxos = mutableListOf<Utxo>()
     private var notifications = mutableListOf<Notification>()
     private var sentNotifications = mutableListOf<String>()
     var ignoreNotifications = mutableListOf<String>()
@@ -35,7 +36,10 @@ class AppManager {
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
 
-    private lateinit var walletStatus:WalletStatus
+    private var walletStatus:WalletStatus =
+            WalletStatus(WalletStatusDTO(0,0,
+                    0,0,0,0,0,0,0,
+                    SystemStateDTO("",0)))
 
     private var networkStatus = NetworkStatus.ONLINE
     private var isSubscribe = false
@@ -50,10 +54,21 @@ class AppManager {
     var subOnFaucedGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnNotificationsChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
     var subOnCurrenciesChanged: Subject<Any> = PublishSubject.create<Any>().toSerialized()
+    var subOnOnNetworkStartReconnecting: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()
+    var subOnGetOfflinePayments: Subject<Int?> = PublishSubject.create<Int?>().toSerialized()
+    var subOnBeamGameGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+
 
     private var newAddressSubscription: Disposable? = null
 
     var isResotred = false
+
+    private var reconnectAttempts = 0
+    private var reconnectNodes = mutableListOf<String>()
+
+    var maxOfflineCount = 10
 
     companion object {
         private var INSTANCE: AppManager? = null
@@ -69,11 +84,11 @@ class AppManager {
     }
 
     init {
-        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
-        if(!jsonString.isNullOrEmpty()) {
-            val gson = Gson()
-            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
-        }
+//        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
+//        if(!jsonString.isNullOrEmpty()) {
+//            val gson = Gson()
+//            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
+//        }
 
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         if(value == 0L) {
@@ -86,6 +101,62 @@ class AppManager {
             }
         }
 
+    }
+
+    private fun reconnect(): Boolean {
+        val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
+
+        if (random) {
+            reconnectAttempts += 1
+            reconnectNodes.add(AppConfig.NODE_ADDRESS);
+
+            val node = chooseRandomNodeWithoutNodes()
+
+            if(node.isNotEmpty()) {
+                AppConfig.NODE_ADDRESS = node
+
+                subOnOnNetworkStartReconnecting.onNext(0)
+
+                instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+
+                return true
+            }
+        }
+
+        return false
+    }
+
+    fun isOwnNode(): Boolean {
+        return true
+        //return wallet?.isConnectionTrusted() == true
+    }
+
+    private fun chooseRandomNodeWithoutNodes(): String {
+        val peers = Api.getDefaultPeers()
+
+        val array = mutableListOf<String>()
+
+        peers.forEach { random ->
+            if(!random.contains("shanghai")) {
+                var found = false
+
+                array.forEach { node ->
+                    if(random == node) {
+                        found = true;
+                    }
+                }
+
+                if(!found) {
+                    array.add(random)
+                }
+            }
+        }
+
+        if(array.count() > 0 ) {
+            return array[0]
+        }
+
+        return ""
     }
 
     fun updateCurrentCurrency() {
@@ -127,11 +198,11 @@ class AppManager {
         addresses.clear()
         transactions.clear()
         utxos.clear()
+        shieldedUtxos.clear()
         notifications.clear()
     }
 
     fun removeWallet() {
-
         TagHelper.clear()
 
         isSubscribe = false
@@ -147,6 +218,7 @@ class AppManager {
         transactions.clear()
         notifications.clear()
         utxos.clear()
+        shieldedUtxos.clear()
 
         PreferencesManager.clear()
 
@@ -177,6 +249,21 @@ class AppManager {
                 }
             }
         }
+
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false);
+        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
+        AppConfig.NODE_ADDRESS = randomNode()
+    }
+
+    fun randomNode(): String {
+        val nodes = Api.getDefaultPeers();
+        var result = mutableListOf<String>();
+        nodes.forEach {
+            if(!it.contains("shanghai")) {
+                result.add(it)
+            }
+        }
+        return result.random()
     }
 
     fun importData(data:String) {
@@ -226,7 +313,7 @@ class AppManager {
     }
 
     fun getUtxoByID(id:String?): Utxo? {
-        utxos.forEach {
+        getUtxos().forEach {
             if (it.stringId == id)
             {
                 return it
@@ -237,10 +324,23 @@ class AppManager {
     }
 
     fun getUtxos() : List<Utxo> {
-        return utxos
+        var result = mutableListOf<Utxo>()
+        result.addAll(utxos)
+        result.addAll(shieldedUtxos)
+        return result
     }
 
     //MARK: - Addresses
+    fun isToken(address: String): Boolean {
+        return wallet!!.isToken(address)
+    }
+
+    fun isValidAddress(address: String): Boolean {
+        if(address.isNullOrEmpty()) {
+            return false
+        }
+        return wallet!!.isAddress(address) || wallet!!.isToken(address)
+    }
 
     fun getAllAddresses() : List<WalletAddress> {
         var result = mutableListOf<WalletAddress>()
@@ -255,6 +355,15 @@ class AppManager {
 
     fun getMyAddresses() : List<WalletAddress> {
         return addresses.map { it }.toList()
+    }
+
+    fun isMyAddress(address: String): Boolean {
+        addresses.forEach {
+            if (it.walletID == address) {
+                return true
+            }
+        }
+        return false
     }
 
     fun getAddressByName(name:String?) : WalletAddress? {
@@ -385,7 +494,7 @@ class AppManager {
     fun getUTXOByTransaction(tx:TxDescription) : List<Utxo> {
         var result = mutableListOf<Utxo>()
 
-        utxos.forEach {
+        getUtxos().forEach {
             if (it.createTxId == tx.id)
             {
                 result.add(it)
@@ -409,6 +518,8 @@ class AppManager {
 
         return null
     }
+
+
 
     private fun restoreTransactions(deleted: List<TxDescription>) {
         deleted.forEach {
@@ -444,6 +555,12 @@ class AppManager {
                 item1.id == item2.id
             }
         }
+
+        deleted.forEach { item2 ->
+            shieldedUtxos.removeAll {item1 ->
+                item1.id == item2.id
+            }
+        }
     }
 
     private fun updateUtxo(updated: List<Utxo>) {
@@ -453,6 +570,15 @@ class AppManager {
             }
             if (index != -1) {
                 utxos[index] = item2
+            }
+        }
+
+        updated.forEach { item2 ->
+            val index = shieldedUtxos.indexOfFirst {
+                it.id == item2.id
+            }
+            if (index != -1) {
+                shieldedUtxos[index] = item2
             }
         }
     }
@@ -631,6 +757,30 @@ class AppManager {
         wallet?.getUtxosStatus()
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
+        wallet?.getExchangeRates()
+    }
+
+    fun createAddressForBeamGame() {
+        val address = getAddressByName("Beam runner")
+
+        if (address == null || address.isExpired)
+        {
+            newAddressSubscription = WalletListener.subOnGeneratedNewAddress.subscribe(){
+                newAddressSubscription?.dispose()
+                newAddressSubscription = null
+
+                it.label = "Beam runner"
+                it.duration = 0L
+                wallet?.saveAddress(it.toDTO(), true)
+
+                subOnBeamGameGenerated.onNext(it.walletID)
+            }
+
+            wallet?.generateNewAddress()
+        }
+        else{
+            subOnBeamGameGenerated.onNext(address.walletID)
+        }
     }
 
     fun createAddressForFaucet() {
@@ -654,7 +804,10 @@ class AppManager {
         else{
             subOnFaucedGenerated.onNext(address.walletID)
         }
+    }
 
+    fun getPublicAddress() {
+        wallet?.getPublicAddress()
     }
 
     @SuppressLint("CheckResult")
@@ -699,6 +852,10 @@ class AppManager {
                 subOnAddressesChanged.onNext(it.own)
             }
 
+            WalletListener.subOnGetOfflinePaymentCount.subscribe() {
+                subOnGetOfflinePayments.onNext(it)
+            }
+
             WalletListener.obsOnTxStatus.subscribe(){
 
                 if (it.action == ChangeAction.REMOVED && it.tx != null) {
@@ -727,6 +884,29 @@ class AppManager {
             WalletListener.subOnAllUtxoChanged.subscribe(){
                 utxos.clear()
                 utxos.addAll(it)
+                subOnUtxosChanged.onNext(0)
+            }
+
+            WalletListener.obsOnShieldedUtxos.subscribe {
+                if (it.utxo != null) {
+                    it.utxo.forEach {u->
+                        u.keyType = UtxoKeyType.Shielded
+                    }
+                }
+                if (it.action == ChangeAction.REMOVED && it.utxo != null) {
+                    deleteUtxo(it.utxo)
+                }
+                else if (it.action == ChangeAction.ADDED && it.utxo != null) {
+                    shieldedUtxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.RESET && it.utxo != null) {
+                    shieldedUtxos.clear()
+                    shieldedUtxos.addAll(it.utxo)
+                }
+                else if (it.action == ChangeAction.UPDATED && it.utxo != null) {
+                    updateUtxo(it.utxo)
+                }
+
                 subOnUtxosChanged.onNext(0)
             }
 
@@ -799,7 +979,6 @@ class AppManager {
                 }
 
                 subOnAddressesChanged?.onNext(true)
-
             }
 
             WalletListener.subOnStatus.subscribe(){
@@ -808,9 +987,21 @@ class AppManager {
                 subOnStatusChanged.onNext(0)
             }
 
+            WalletListener.subOnPublicAddress.subscribe() {
+                subOnPublicAddress?.onNext(it)
+            }
+
+            WalletListener.subOnMaxPrivacyAddress.subscribe() {
+                subOnMaxPrivacyAddress?.onNext(it)
+            }
 
             WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
                 networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
+
+                if (it)
+                {
+                    isOwnNode()
+                }
 
                 if (isConnecting)
                 {
@@ -823,17 +1014,34 @@ class AppManager {
                         isConnecting = false
                         subOnNetworkStatusChanged.onNext(0)
                     }, delay)
+
+                    if (!it) {
+                        val reconnect = reconnect()
+                        if (!reconnect) {
+                            networkStatus = NetworkStatus.OFFLINE
+                            subOnNetworkStatusChanged.onNext(0)
+                        }
+                    }
                 }
-                else {
+                else if (!it && !isConnecting) {
                     isConnecting = false
 
                     subOnNetworkStatusChanged.onNext(0)
+
+                    val reconnect = reconnect()
+                    if (!reconnect) {
+                        networkStatus = NetworkStatus.OFFLINE
+                        subOnNetworkStatusChanged.onNext(0)
+                    }
                 }
             }
 
             WalletListener.subOnNodeConnectionFailed.subscribe(){
-                networkStatus = NetworkStatus.OFFLINE
-                subOnNetworkStatusChanged.onNext(0)
+                val reconnect = reconnect()
+                if (!reconnect) {
+                    networkStatus = NetworkStatus.OFFLINE
+                    subOnNetworkStatusChanged.onNext(0)
+                }
             }
 
             WalletListener.subOnSyncProgressUpdated.subscribe(){
@@ -842,6 +1050,8 @@ class AppManager {
             }
 
             WalletListener.subOnExchangeRates.subscribe() {
+                val oldCount = currencies.count()
+
                 it?.forEach { item ->
                     val index1 = currencies.indexOfFirst {old->
                         old.unit == item.unit
@@ -853,15 +1063,20 @@ class AppManager {
                     }
                 }
 
-                val gson = Gson()
-                val jsonString = gson.toJson(currencies)
-                PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
+              //  val gson = Gson()
+              //  val jsonString = gson.toJson(currencies)
+              //  PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
+
 
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
                 currencies.forEach {rate ->
                     if (rate.unit == value.toInt()) {
                         currentRate = rate
                     }
+                }
+
+                if(oldCount == 0){
+                    subOnNetworkStatusChanged.onNext(0)
                 }
 
                 subOnCurrenciesChanged.onNext(0)

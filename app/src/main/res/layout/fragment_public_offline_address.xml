@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:id="@+id/qrView"
+            android:layout_width="@dimen/receive_qr_size"
+            android:layout_height="@dimen/receive_qr_size"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorPrimary"
+            android:contentDescription="@null" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/addressLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="30dp"
+            android:paddingBottom="10dp"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/common_subheader_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/address" />
+
+            <TextView
+                android:id="@+id/addressValue"
+                style="@style/common_text_big_light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+
+            <TextView
+                style="@style/common_subheader_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/roboto_italic"
+                android:letterSpacing="0"
+                android:text="@string/public_offline_address_hint"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnShare"
+            android:layout_width="@dimen/wallet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/primary_button"
+            android:visibility="visible"
+            app:button_icon="@drawable/share_qr_white"
+            app:button_text="@string/share_qr"
+            app:button_text_color="@android:color/white" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnCopy"
+            android:layout_width="@dimen/wallet_button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/accept_button"
+            android:visibility="visible"
+            app:button_icon="@drawable/ic_btn_copy_dark"
+            app:button_text="@string/copy_address"
+            app:lower_case="true" />
+    </LinearLayout>
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTitle="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+    </com.mw.beam.beamwallet.core.views.BeamToolbar>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,17 +31,14 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.QrHelper
-import com.mw.beam.beamwallet.core.helpers.convertToBeam
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
+import com.mw.beam.beamwallet.core.helpers.*
 import kotlinx.android.synthetic.main.dialog_qr_code.*
 import java.io.File
 
 class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContract.View {
 
     companion object {
-        private const val QR_SIZE = 160.0
+        const val QR_SIZE = 160.0
     }
 
     private val args by lazy {
@@ -54,44 +51,98 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun getAmount(): Long = args.amount
 
+    override fun getReceiveFromWallet(): Boolean = args.receiveFromWallet
+
+    override fun getToken(): String? = args.token
+
+    override fun getIsOldDesign(): Boolean = args.isOldDesign
+
     @SuppressLint("SetTextI18n")
     override fun init(walletAddress: WalletAddress, amount: Long) {
         hideKeyboard()
 
-        val receiveToken = walletAddress.walletID
-        tokenView.text = receiveToken
-
+        var token = getToken()
         val qrImage: Bitmap?
 
-        try {
-            val metrics = DisplayMetrics()
-            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-            val logicalDensity = metrics.density
-            val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+        if(token != null) {
+            if(token == "null" && getIsOldDesign()) {
+                token = walletAddress.walletID
+            }
+           if (!getIsOldDesign()) {
+               tokenTitle.visibility = View.GONE
+               tokenView.visibility = View.GONE
+               amountTitle.visibility = View.GONE
+               amountView.visibility = View.GONE
+               secondAvailableSum.visibility = View.GONE
+               infoLabel.text = resources.getString(R.string.receive_description)
+           }
+            else {
+               amountTitle.visibility = View.GONE
+               amountView.visibility = View.GONE
+               secondAvailableSum.visibility = View.GONE
 
-            qrImage = QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount.convertToBeam()), px, px,
-                    ContextCompat.getColor(context!!, R.color.common_text_color),
-                    ContextCompat.getColor(context!!, R.color.colorPrimary))
 
-            qrView.setImageBitmap(qrImage)
-        } catch (e: Exception) {
-            return
+               tokenView.text = token
+               infoLabel.text = resources.getString(R.string.receive_description_qr)
+           }
+
+            try {
+                val metrics = DisplayMetrics()
+                activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
+                val logicalDensity = metrics.density
+                val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+
+                qrImage = QrHelper.textToImage(QrHelper.createQrString(token, null), px, px,
+                        ContextCompat.getColor(requireContext(), R.color.common_text_color),
+                        ContextCompat.getColor(requireContext(), R.color.colorPrimary))
+
+                qrView.setImageBitmap(qrImage)
+            } catch (e: Exception) {
+                return
+            }
         }
+        else {
+            //TODO: token!
+            val receiveToken = if(getReceiveFromWallet()) {
+                "TODO:!"
+                //walletAddress.token.trimAddress()
+            }
+            else {
+                walletAddress.walletID.trimAddress()
+            }
 
-        val amountVisibility = if (amount > 0) View.VISIBLE else View.GONE
-        amountTitle.visibility = amountVisibility
-        amountView.visibility = amountVisibility
-        secondAvailableSum.visibility = amountVisibility
+            tokenView.text = receiveToken
 
-        amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
-        secondAvailableSum.text = amount.convertToCurrencyString()
+            try {
+                val metrics = DisplayMetrics()
+                activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
+                val logicalDensity = metrics.density
+                val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
+
+                qrImage = QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount.convertToBeam()), px, px,
+                        ContextCompat.getColor(context!!, R.color.common_text_color),
+                        ContextCompat.getColor(context!!, R.color.colorPrimary))
+
+                qrView.setImageBitmap(qrImage)
+            } catch (e: Exception) {
+                return
+            }
+
+            val amountVisibility = if (amount > 0) View.VISIBLE else View.GONE
+            amountTitle.visibility = amountVisibility
+            amountView.visibility = amountVisibility
+            secondAvailableSum.visibility = amountVisibility
+
+            amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
+            secondAvailableSum.text = amount.convertToCurrencyString()
+        }
 
         btnShare.setOnClickListener { presenter?.onSharePressed(qrImage!!) }
         close.setOnClickListener { findNavController().popBackStack() }
     }
 
     override fun shareQR(file: File) {
-        val uri = FileProvider.getUriForFile(context!!, AppConfig.AUTHORITY, file)
+        val uri = FileProvider.getUriForFile(requireContext(), AppConfig.AUTHORITY, file)
 
         context?.apply {
             val intent = Intent().apply {
@@ -104,8 +155,6 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
         }
         findNavController().popBackStack()
     }
-
-
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return QrDialogPresenter(this, QrDialogRepository(), QrDialogState())

@@ -163,8 +163,8 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.shouldExpandAvailable = !state.shouldExpandAvailable
         view?.handleExpandAvailable(state.shouldExpandAvailable)
 
-        view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing
-                ?: 0, !state.shouldExpandAvailable, state.privacyMode)
+        view?.configAvailable(state.walletStatus?.available ?: 0, state.walletStatus?.maturing ?: 0, state.walletStatus?.maxPrivacy ?: 0
+                , !state.shouldExpandAvailable, state.privacyMode)
     }
 
     override fun onExpandInProgressPressed() {

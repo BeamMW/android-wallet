@@ -14,18 +14,12 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.core.entities.dto
+package com.mw.beam.beamwallet.screens.public_offline_address
+
 
 /**
- *  1/4/19.
+ *  3/4/19.
  */
-class WalletStatusDTO(val available: Long,
-                      val receiving: Long,
-                      val sending: Long,
-                      val maturing: Long,
-                      val shielded: Long,
-                      val maxPrivacy: Long,
-                      val updateLastTime: Long,
-                      val updateDone: Int,
-                      val updateTotal: Int,
-                      val system: SystemStateDTO)
+class PublicOfflineAddressState {
+    var token:String? = null
+}

@@ -37,4 +37,8 @@ data class TxDescriptionDTO(var id: String,
                             var status: Int,
                             var kernelId: String,
                             var selfTx : Boolean,
-                            var failureReason : Int) : Parcelable
+                            var failureReason : Int,
+                            var identity: String?,
+                            var isPublicOffline : Boolean,
+                            var isMaxPrivacy: Boolean,
+                            var isShielded: Boolean) : Parcelable

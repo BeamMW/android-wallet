@@ -47,6 +47,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val kernelId: String = source.kernelId
     val selfTx: Boolean = source.selfTx
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
+    val identity: String? = source.identity
+    val isShielded = source.isShielded
+    val isMaxPrivacy = source.isMaxPrivacy
+    val isPublicOffline = source.isPublicOffline
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
@@ -92,49 +96,69 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
     }.toLowerCase() + " "
 
-    fun getStatusString(context: Context) : String = when (status) {
-        TxStatus.Pending -> context.getString(R.string.pending)
-        TxStatus.InProgress -> {
-            when (sender) {
-                TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
-                TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
+    fun getStatusString(context: Context) : String {
+      var  status = when (status) {
+          TxStatus.Pending -> context.getString(R.string.pending)
+          TxStatus.InProgress -> {
+              when (sender) {
+                  TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
+                  TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
+              }
+          }
+          TxStatus.Registered -> {
+              when {
+                  TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
+                  TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
+                  TxSender.SENT == sender -> context.getString(R.string.in_progress)
+                  else -> ""
+              }
+          }
+          TxStatus.Completed -> {
+              if (selfTx) {
+                  context.getString(R.string.sent_to_own_address)
+              } else {
+                  when (sender) {
+                      TxSender.RECEIVED -> context.getString(R.string.received)
+                      TxSender.SENT -> context.getString(R.string.sent)
+                  }
+              }
+          }
+          TxStatus.Cancelled -> context.getString(R.string.cancelled)
+          TxStatus.Failed -> {
+              when (failureReason) {
+                  TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
+                  else -> context.getString(R.string.failed)
+              }
+          }
+      }.toLowerCase()
+
+        when {
+            isPublicOffline -> {
+                status = status + " (" + context.getString(R.string.public_offline).toLowerCase() + ")"
+            }
+            isMaxPrivacy -> {
+                status = status + " (" + context.getString(R.string.max_privacy).toLowerCase() + ")"
+            }
+            isShielded -> {
+                status = status + " (" + context.getString(R.string.offline).toLowerCase() + ")"
             }
         }
-        TxStatus.Registered -> {
-            when {
-                TxSender.RECEIVED == sender -> context.getString(R.string.in_progress)
-                TxSender.SENT == sender && selfTx -> context.getString(R.string.sending_to_own_address)
-                TxSender.SENT == sender -> context.getString(R.string.in_progress)
-                else -> ""
-            }
-        }
-        TxStatus.Completed -> {
-            if (selfTx) {
-                context.getString(R.string.sent_to_own_address)
-            } else {
-                when (sender) {
-                    TxSender.RECEIVED -> context.getString(R.string.received)
-                    TxSender.SENT -> context.getString(R.string.sent)
-                }
-            }
-        }
-        TxStatus.Cancelled -> context.getString(R.string.cancelled)
-        TxStatus.Failed -> {
-            when (failureReason) {
-                TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
-                else -> context.getString(R.string.failed)
-            }
-        }
-    }.toLowerCase() + " "
+
+      return "$status "
+    }
 
     val amountColor = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
         TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
     }
 
-    val statusColor = if (TxStatus.Failed == status || TxStatus.Cancelled == status) {
+    val statusColor = if (TxStatus.Cancelled == status) {
         ContextCompat.getColor(App.self, R.color.failed_status_color)
-    } else if (selfTx) {
+    }
+    else if (TxStatus.Failed == status) {
+        ContextCompat.getColor(App.self, R.color.common_error_color)
+    }
+    else if (selfTx) {
         ContextCompat.getColor(App.self, R.color.common_text_color)
     } else {
         when (sender) {
@@ -149,28 +173,70 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     }
 
     fun statusImage():Drawable?  {
-        if (selfTx) return when {
-            this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-            this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
-            this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
-            else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
-        }
-        else if (sender == TxSender.RECEIVED)
-        {
-            return when {
-                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
-                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
-                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
-                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
+        if (isMaxPrivacy || isPublicOffline || isShielded) {
+            if (sender == TxSender.RECEIVED)
+            {
+                if(isPublicOffline || isShielded) {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_offline)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_offline)
+                    }
+                }
+                else  {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_online)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_online)
+                    }
+                }
+            }
+            else if (sender == TxSender.SENT)
+            {
+                if(isPublicOffline || isShielded) {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_max_offline)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_offline)
+                    }
+                }
+                else {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_max_online)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_online)
+                    }
+                }
             }
         }
-        else if (sender == TxSender.SENT)
-        {
-            return when {
-                this.status == TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-                this.status == TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
-                this.status == TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
-                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+        else {
+            if (selfTx) return when (this.status) {
+                TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+                TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
+                TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
+                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
+            }
+            else if (sender == TxSender.RECEIVED)
+            {
+                return when (this.status) {
+                    TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
+                    TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
+                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
+                    else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
+                }
+            }
+            else if (sender == TxSender.SENT)
+            {
+                return when (this.status) {
+                    TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+                    TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
+                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
+                    else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+                }
             }
         }
 

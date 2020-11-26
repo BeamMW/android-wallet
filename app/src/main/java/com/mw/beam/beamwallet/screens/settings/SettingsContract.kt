@@ -78,6 +78,8 @@ interface SettingsContract {
         fun setAllowTransaction(allow: Boolean)
         fun setAllowWalletUpdates(allow: Boolean)
         fun setAllowAddressExpiration(allow: Boolean)
+        fun onReconnected()
+        fun showPublicOfflineAddress()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -120,6 +122,7 @@ interface SettingsContract {
         fun onChangeAllowTransactionStatus(allow: Boolean)
         fun onChangeAllowWalletUpdates(allow: Boolean)
         fun onChangeAllowAddressExpiration(allow: Boolean)
+        fun onShowPublicOfflineAddressPressed()
     }
 
     interface Repository : MvpRepository {

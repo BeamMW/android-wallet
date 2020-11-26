@@ -138,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="@dimen/send_available_margin_top"
-                android:text="@string/total_available"
+                android:text="@string/available"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/amountError" />
 
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:text="@string/transaction_comment"
+                android:text="@string/comment"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/secondAvailableSum" />
 
@@ -205,17 +205,20 @@
                 android:id="@+id/addressContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="?attr/cardBackground"
                 android:paddingBottom="@dimen/common_offset"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="79dp">
 
                 <ImageView
                     android:id="@+id/scanQR"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
                     android:layout_marginEnd="@dimen/common_offset"
                     android:contentDescription="@null"
+                    android:paddingTop="8dp"
                     app:layout_constraintBottom_toBottomOf="@id/token"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/token"
@@ -225,27 +228,49 @@
                     android:id="@+id/contactIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
+                    android:layout_marginTop="2dp"
                     android:contentDescription="@null"
+                    android:paddingRight="10dp"
                     android:src="@drawable/ic_contact"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="@id/token"
-                    app:layout_constraintTop_toBottomOf="@id/token"
+                    app:layout_constraintTop_toTopOf="@+id/contactName"
                     tools:visibility="visible" />
+
 
                 <TextView
                     android:id="@+id/tokenError"
                     style="@style/common_text_big_light"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/invalid_address"
+                    android:textAlignment="textStart"
                     android:textColor="@color/common_error_color"
-                    android:visibility="invisible"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/token"
-                    tools:visibility="gone" />
+                    app:layout_constraintTop_toBottomOf="@+id/contactCategory"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/newVersionTextView"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="16dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="@string/max_privacy_text"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tokenDivider"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/tokenTitle"
@@ -254,25 +279,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
                     android:layout_marginTop="@dimen/send_token_title_margin_top"
-                    android:text="@string/send_to"
+                    android:text="@string/transaction_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="RtlSymmetry" />
+
 
                 <TextView
                     android:id="@+id/contactName"
                     style="@style/common_text_big_dark"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="@dimen/common_margin"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="@dimen/common_offset"
-                    android:ellipsize="middle"
-                    android:singleLine="true"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/contactIcon"
-                    app:layout_constraintTop_toBottomOf="@id/token"
+                    app:layout_constraintTop_toBottomOf="@+id/newVersionTextView"
                     tools:text="Sara Scholz"
                     tools:visibility="visible" />
 
@@ -281,7 +304,6 @@
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="@dimen/common_margin"
                     android:ellipsize="middle"
                     android:singleLine="true"
@@ -298,7 +320,7 @@
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="@color/divider_color"
-                    app:layout_constraintEnd_toEndOf="@id/token"
+                    app:layout_constraintEnd_toEndOf="@+id/showTokenButton"
                     app:layout_constraintStart_toStartOf="@id/token"
                     app:layout_constraintTop_toBottomOf="@id/token" />
 
@@ -308,14 +330,68 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginEnd="@dimen/common_offset"
+                    android:layout_marginEnd="16dp"
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
                     android:hint="@string/search_by_address_tag_or_name"
-                    app:layout_constraintEnd_toStartOf="@id/scanQR"
+                    android:maxLines="1"
+                    android:inputType="textNoSuggestions"
+                    app:layout_constraintEnd_toStartOf="@+id/showTokenButton"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tokenTitle"
                     tools:ignore="Autofill,LabelFor,TextFields" />
+
+                <Button
+                    android:id="@+id/showTokenButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@android:color/transparent"
+                    android:paddingTop="5dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="0dp"
+                    android:text="@string/show_token"
+                    android:textColor="@color/send_selector"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/tokenDivider"
+                    app:layout_constraintEnd_toStartOf="@+id/scanQR"
+                    app:layout_constraintTop_toTopOf="@+id/scanQR"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/maxPrivacyAddressTitle"
+                    style="@style/common_text_big_light"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tokenError" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/maxPrivacySwitch"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="0"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:theme="@style/SCBSwitch"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/maxPrivacyAddressTitle" />
+
+
+<!--                <androidx.constraintlayout.widget.Group-->
+<!--                    android:id="@+id/maxPrivacyGroup"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:visibility="gone"-->
+<!--                    app:constraint_referenced_ids="maxPrivacyTitle,maxPrivacySwitch"-->
+<!--                    tools:visibility="visible" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -362,7 +438,12 @@
                         android:contentDescription="@null"
                         app:layout_constraintStart_toEndOf="@id/advancedTitle"
                         app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+
+
+
+
                 </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/outgoingAddressTitle"
@@ -370,7 +451,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
                     android:textAllCaps="false"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/advancedContainer"
@@ -460,18 +540,46 @@
                             app:layout_constraintTop_toTopOf="@id/editAddressTitle" />
                     </LinearLayout>
 
-                    <Spinner
-                        android:id="@+id/expiresOnSpinner"
-                        style="@style/Widget.AppCompat.Spinner.Underlined"
+                    <TextView
+                        android:id="@+id/permanentOutTitle"
+                        style="@style/common_text_big_light"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginTop="@dimen/receive_common_margin"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginEnd="@dimen/common_offset"
-                        android:backgroundTint="@color/divider_color"
+                        android:text="@string/perm_out_address_title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/expiresTitle" />
+
+                    <TextView
+                        android:id="@+id/permanentOutText"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/roboto_italic"
+                        android:text="@string/perm_out_address_text"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@+id/permanentOutSwitch"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/permanentOutTitle" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/permanentOutSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_weight="0"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:theme="@style/SCBSwitch"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/expiresTitle" />
 
                     <TextView
                         android:id="@+id/addressNameTitle"
@@ -492,8 +600,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="@dimen/receive_title_margin_top"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:text="@string/expires"
+                        android:text="@string/type"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/addressName" />
 
@@ -507,7 +614,7 @@
                         android:layout_marginEnd="@dimen/common_offset"
                         android:text="@string/tag"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/expiresOnSpinner" />
+                        app:layout_constraintTop_toBottomOf="@id/permanentOutText" />
 
                     <TextView
                         android:id="@+id/tags"
@@ -535,7 +642,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="addressNameTitle,addressName,expiresTitle,tags,tagAction,categoryTitle,expiresOnSpinner,commentDivider"
+                        app:constraint_referenced_ids="addressNameTitle,addressName,expiresTitle,tags,tagAction,categoryTitle,permanentOutSwitch,permanentOutTitle,permanentOutText,commentDivider"
                         tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -630,7 +737,7 @@
                         android:layout_marginEnd="@dimen/common_offset"
                         android:textColor="@color/sent_color"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.3"
+                        app:layout_constraintHorizontal_bias="0.32"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/feeTitle"
                         tools:text="10 GROTH" />
@@ -655,12 +762,12 @@
                     app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
 
 
+
                 <com.mw.beam.beamwallet.core.views.BeamButton
                     android:id="@+id/btnChangeAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:background="@drawable/send_btn_change_background"
+                    android:background="@color/colorClear"
                     android:paddingStart="@dimen/small_button_padding_horizontal"
                     android:paddingTop="@dimen/small_button_padding_vertical"
                     android:paddingEnd="@dimen/small_button_padding_horizontal"
@@ -679,8 +786,7 @@
                 android:id="@+id/btnSendAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:background="@drawable/send_btn_change_background"
+                android:background="@color/colorClear"
                 android:paddingStart="@dimen/small_button_padding_horizontal"
                 android:paddingTop="@dimen/small_button_padding_vertical"
                 android:paddingEnd="@dimen/small_button_padding_horizontal"

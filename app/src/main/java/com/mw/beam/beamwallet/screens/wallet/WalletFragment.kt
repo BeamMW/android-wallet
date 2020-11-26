@@ -45,7 +45,6 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
-import com.mw.beam.beamwallet.core.views.NotificationBanner
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
@@ -56,6 +55,7 @@ import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     private lateinit var adapter: TransactionsAdapter
     private lateinit var balancePagerAdapter: BalancePagerAdapter
+    private var selectedSection = BalanceTab.Available
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -75,51 +75,79 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             val selectedColor = if (App.isDarkMode) {
-                ContextCompat.getColor(context!!, R.color.common_text_dark_color_dark)
+                ContextCompat.getColor(requireContext(), R.color.common_text_dark_color_dark)
             } else{
-                ContextCompat.getColor(context!!, R.color.common_text_dark_color)
+                ContextCompat.getColor(requireContext(), R.color.common_text_dark_color)
             }
 
-            val unselectedColor = ContextCompat.getColor(context!!, R.color.unselect_balance_tab_text_color)
+            selectedSection = balancePagerAdapter.tabs[position]
 
-            when (BalanceTab.values()[position]) {
+            val unselectedColor = ContextCompat.getColor(requireContext(), R.color.unselect_balance_tab_text_color)
+            when (selectedSection) {
                 BalanceTab.Available -> {
+                    maxPrivacyAddressTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(selectedColor)
                     maturingTitle.setTextColor(unselectedColor)
                 }
                 BalanceTab.Maturing -> {
+                    maxPrivacyAddressTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(selectedColor)
+                }
+                BalanceTab.MaxPrivacy -> {
+                    availableTitle.setTextColor(unselectedColor)
+                    maturingTitle.setTextColor(unselectedColor)
+                    maxPrivacyAddressTitle.setTextColor(selectedColor)
                 }
             }
         }
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
     override fun getToolbarTitle(): String? = getString(R.string.wallet)
 
     override fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, walletStatus.maturing, expandBalanceCard, isEnablePrivacyMode)
+        configAvailable(walletStatus.available, walletStatus.maturing, walletStatus.maxPrivacy, expandBalanceCard, isEnablePrivacyMode)
         configInProgress(walletStatus.receiving, walletStatus.sending, expandInProgressCard, isEnablePrivacyMode)
     }
 
-    override fun configAvailable(availableAmount: Long, maturingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
+    override fun configAvailable(availableAmount: Long, maturingAmount: Long, maxPrivacyAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
         balanceViewPager.adapter = balancePagerAdapter
         indicator.setViewPager(balanceViewPager)
+
         balancePagerAdapter.available = availableAmount
         balancePagerAdapter.maturing = maturingAmount
+        balancePagerAdapter.maxPrivacy = maxPrivacyAmount
+        balancePagerAdapter.tabs = mutableListOf<BalanceTab>()
+
+        balancePagerAdapter.tabs.add(BalanceTab.Available)
+
+        if (maturingAmount > 0) {
+            balancePagerAdapter.tabs.add(BalanceTab.Maturing)
+        }
+
+        if (maxPrivacyAmount > 0) {
+            balancePagerAdapter.tabs.add(BalanceTab.MaxPrivacy)
+        }
+
         balancePagerAdapter.notifyDataSetChanged()
 
         val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
-        indicator.visibility = if (maturingAmount > 0 ) contentVisibility else View.GONE
+        if (contentVisibility == View.VISIBLE) {
+            balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
+        }
+
+        indicator.visibility = if (maturingAmount > 0 || maxPrivacyAmount > 0) contentVisibility else View.GONE
         maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
+        maxPrivacyAddressTitle.visibility = if (maxPrivacyAmount > 0) View.VISIBLE else View.GONE
+        unlinkButton.visibility = View.GONE
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
@@ -140,7 +168,7 @@ else{
                 receivingGroup.visibility = View.GONE
             }
             else -> {
-                receiving.text = receivingAmount.convertToBeamWithSign(false)
+                receiving.text = receivingAmount.convertToBeamWithSign(false) + " BEAM"
                 val amount = receivingAmount.convertToCurrencyString()
                 if (amount == null) {
                     receivingSecondBalance.text = amount
@@ -158,7 +186,7 @@ else{
         when (sendingAmount) {
             0L -> sendingGroup.visibility = View.GONE
             else -> {
-                sending.text = sendingAmount.convertToBeamWithSign(true)
+                sending.text = sendingAmount.convertToBeamWithSign(true) + " BEAM"
 
                 val amount = sendingAmount.convertToCurrencyString()
                 if (amount == null) {
@@ -204,17 +232,17 @@ else{
             (activity as? AppActivity)?.openMenu()
         }
 
-        balancePagerAdapter = BalancePagerAdapter(context!!)
+        balancePagerAdapter = BalancePagerAdapter(requireContext())
         balanceViewPager.adapter = balancePagerAdapter
         indicator.setViewPager(balanceViewPager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
-        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
@@ -267,6 +295,14 @@ else{
 
         maturingTitle.setOnClickListener {
             balanceViewPager.setCurrentItem(BalanceTab.Maturing.ordinal, true)
+        }
+
+        maxPrivacyAddressTitle.setOnClickListener {
+            balanceViewPager.setCurrentItem(BalanceTab.MaxPrivacy.ordinal, true)
+        }
+
+        unlinkButton.setOnClickListener {
+            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToUnlinkFragment2())
         }
 
         balanceViewPager.addOnPageChangeListener(onPageSelectedListener)
@@ -348,6 +384,7 @@ else{
 
         val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
+        unlinkButton.visibility = contentVisibility
         indicator.visibility = contentVisibility
     }
 
@@ -467,8 +504,10 @@ else{
         inProgressTitleContainer.setOnClickListener(null)
         availableTitle.setOnClickListener(null)
         maturingTitle.setOnClickListener(null)
+        maxPrivacyAddressTitle.setOnClickListener(null)
         btnShowAll.setOnClickListener(null)
         btnFaucetClose.setOnClickListener(null)
+        unlinkButton.setOnClickListener(null)
         btnSecureClose.setOnClickListener(null)
         btnFaucetReceive.setOnClickListener(null)
         btnSecureReceive.setOnClickListener(null)
