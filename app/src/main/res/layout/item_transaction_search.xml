@@ -45,7 +45,7 @@
             android:gravity="start"
             android:paddingTop="@dimen/transaction_date_padding"
             app:layout_constraintBottom_toTopOf="@id/commentTextView"
-            app:layout_constraintEnd_toEndOf="@id/currency"
+            app:layout_constraintEnd_toEndOf="@id/currency2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/icon"
             app:layout_constraintTop_toBottomOf="@id/status"
@@ -73,7 +73,7 @@
             android:layout_marginTop="8dp"
             android:visibility="gone"
             android:layout_marginStart="10dp"
-            app:layout_constraintEnd_toEndOf="@id/currency"
+            app:layout_constraintEnd_toEndOf="@id/currency2"
             app:layout_constraintStart_toEndOf="@id/commentIcon"
             app:layout_constraintTop_toBottomOf="@id/date"
             tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
@@ -86,7 +86,7 @@
             tools:visibility="visible"
             app:layout_constraintTop_toBottomOf="@id/commentTextView"
             app:layout_constraintStart_toStartOf="@id/message"
-            app:layout_constraintEnd_toEndOf="@id/currency"
+            app:layout_constraintEnd_toEndOf="@id/currency2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
 
@@ -96,31 +96,46 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="sum"
-            tools:ignore="RtlSymmetry" />
+            app:constraint_referenced_ids="sum,sumSecondBalance"
+            tools:ignore="RtlSymmetry"
+            tools:layout_editor_absoluteX="317dp"
+            tools:layout_editor_absoluteY="13dp" />
 
         <TextView
             android:id="@+id/sum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
             android:fontFamily="@font/roboto_medium"
             android:gravity="center"
             android:paddingStart="@dimen/wallet_currency_padding"
             android:paddingEnd="@dimen/wallet_currency_padding"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@id/status"
-            app:layout_constraintEnd_toStartOf="@id/currency"
+            app:layout_constraintEnd_toStartOf="@id/currency2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="123.12" />
 
+        <TextView
+            android:id="@+id/sumSecondBalance"
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@+id/status"
+            app:layout_constraintTop_toBottomOf="@+id/sum"
+            tools:text="1234 USD" />
+
         <ImageView
-            android:id="@+id/currency"
+            android:id="@+id/currency2"
             style="@style/common_currency_style"
             android:layout_width="12dp"
             android:layout_height="18dp"
             android:layout_marginTop="6dp"
             android:contentDescription="@null"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/currency_beam" />
@@ -129,6 +144,7 @@
             android:id="@+id/status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
             android:fontFamily="@font/roboto_italic"
             android:paddingTop="@dimen/transaction_status_padding_top"
             android:paddingEnd="@dimen/wallet_currency_padding"

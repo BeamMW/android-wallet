@@ -34,13 +34,6 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
         }
     }
 
-    override fun updateAddress(address: WalletAddress, tags: List<Tag>) {
-        getResult("updateAddress") {
-            val isNever = address.duration == 0L
-          //  wallet?.saveAddressChanges(address.walletID, address.label, isNever, makeActive = !isNever, makeExpired = false)
-        }
-    }
-
     override fun saveAddress(address: WalletAddress, tags: List<Tag>) {
         getResult("saveAddressChanges") {
 
@@ -65,9 +58,5 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
     override fun getAllTags(): List<Tag> {
         return TagHelper.getAllTags()
-    }
-
-    override fun saveTagsForAddress(address: String, tags: List<Tag>) {
-        TagHelper.changeTagsForAddress(address, tags)
     }
 }

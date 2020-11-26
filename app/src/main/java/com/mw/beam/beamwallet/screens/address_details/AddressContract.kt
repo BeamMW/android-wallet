@@ -46,6 +46,9 @@ interface AddressContract {
         fun showDeleteAddressDialog()
         fun configureTags(findTag: List<Tag>)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
+        fun sendAddress(walletAddress: WalletAddress)
+        fun receiveAddress(walletAddress: WalletAddress)
+
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -57,6 +60,8 @@ interface AddressContract {
         fun onConfirmDeleteAddress(withTransactions: Boolean)
         fun onMenuCreate(menu: Menu?)
         fun onTransactionPressed(txDescription: TxDescription)
+        fun onSendAddress()
+        fun onReceiveAddress()
     }
 
     interface Repository : MvpRepository {

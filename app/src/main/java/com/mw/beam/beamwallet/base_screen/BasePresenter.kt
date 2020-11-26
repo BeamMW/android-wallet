@@ -23,6 +23,7 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 /**
  *  10/1/18.
@@ -32,6 +33,7 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
 
     private var nodeConnectionSubscription: Disposable? = null
     private var nodeConnectingSubscription: Disposable? = null
+    private var nodeReconnectionSubscription: Disposable? = null
 
     private var isActivityStopped = false
 
@@ -59,6 +61,9 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
             }
             if (nodeConnectingSubscription != null) {
                 add(nodeConnectingSubscription!!)
+            }
+            if (nodeReconnectionSubscription != null) {
+                add(nodeReconnectionSubscription!!)
             }
         }
 
@@ -99,11 +104,21 @@ abstract class BasePresenter<T : MvpView, R : MvpRepository>(var view: T?, var r
         view?.configStatus(AppManager.instance.getNetworkStatus())
 
         nodeConnectionSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe(){
-            view?.configStatus(AppManager.instance.getNetworkStatus())
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(AppManager.instance.getNetworkStatus())
+            }
         }
 
         nodeConnectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe() {
-            view?.configStatus(AppManager.instance.getNetworkStatus())
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(AppManager.instance.getNetworkStatus())
+            }
+        }
+
+        nodeReconnectionSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
+            AppActivity.self.runOnUiThread {
+                view?.configStatus(NetworkStatus.RECONNECT)
+            }
         }
     }
 

@@ -47,6 +47,12 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        toolbarLayout.hasStatus = true
+    }
+
     override fun getAddress(): String {
         return address.text?.toString() ?: ""
     }

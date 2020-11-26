@@ -34,10 +34,9 @@ fun Double.convertToGroth() = Math.round(this * 100000000)
 fun Long.convertToCurrencyString(): String? {
     val current = AppManager.instance.currentExchangeRate()
 
-    if (current?.currency == Currency.Off) {
+    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
         return null
     }
-
     if (current!=null && this != 0L) {
         val value = current.amount.toDouble() / 100000000
         val beam = this.convertToBeam()
@@ -65,7 +64,7 @@ fun Long.convertToCurrencyString(): String? {
 fun Long.convertToCurrencyGrothString(): String? {
     val current = AppManager.instance.currentExchangeRate()
 
-    if (current?.currency == Currency.Off) {
+    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
         return null
     }
 
@@ -105,7 +104,7 @@ fun Long.convertToCurrencyGrothString(): String? {
 fun Double.convertToCurrencyString(): String? {
     val current = AppManager.instance.currentExchangeRate()
 
-    if (current?.currency == Currency.Off) {
+    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
         return null
     }
 

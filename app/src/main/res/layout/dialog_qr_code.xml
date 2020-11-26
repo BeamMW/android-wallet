@@ -35,8 +35,9 @@
                 android:layout_marginStart="@dimen/receive_common_qr_offset"
                 android:layout_marginTop="@dimen/receive_common_qr_offset"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
-                android:text="@string/address"
+                android:text="@string/token"
                 android:textAllCaps="true"
+                android:maxLines="1"
                 app:layout_constraintBottom_toTopOf="@id/tokenView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,7 @@
                 android:layout_marginStart="@dimen/receive_common_qr_offset"
                 android:layout_marginTop="@dimen/send_receive_common_margin"
                 android:layout_marginEnd="@dimen/receive_common_qr_offset"
+                android:maxLines="3"
                 app:layout_constraintBottom_toTopOf="@id/amountTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +116,7 @@
 
                 <TextView
                     style="@style/common_text_big_light"
+                    android:id="@+id/infoLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/receive_common_qr_offset"

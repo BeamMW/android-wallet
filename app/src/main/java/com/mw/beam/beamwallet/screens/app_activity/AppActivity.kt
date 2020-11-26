@@ -28,11 +28,6 @@ import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
-import io.fabric.sdk.android.Fabric
-import com.crashlytics.android.answers.Answers
-import com.crashlytics.android.answers.CustomEvent
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.ndk.CrashlyticsNdk
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -56,6 +51,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.AppManager
 import com.elvishew.xlog.XLog.json
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.JsonElement
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
@@ -70,6 +66,7 @@ import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragmen
 import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragmentArgs
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragment
+import com.mw.beam.beamwallet.screens.withdrawGame.WithdrawGameFragment
 import kotlinx.android.synthetic.main.activity_app.*
 import java.util.*
 import kotlin.concurrent.schedule
@@ -79,6 +76,9 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     companion object {
         lateinit var self: AppActivity
+
+        var withdrawAmount = 0
+        var withdrawUserId = ""
 
         const val IMPORT_FILE_REQUEST = 1024
         const val SHARE_CODE_REQUEST = 1025
@@ -132,7 +132,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
       //  Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
-        setupCrashHandler()
+       // setupCrashHandler()
         subscribeToUpdates()
 
         shortCut = intent.action;
@@ -151,7 +151,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         super.onCreate(savedInstanceState, persistentState)
 
         setupMenu(savedInstanceState)
-        setupCrashHandler()
+      //  setupCrashHandler()
        // Fabric.with(this, Crashlytics(), CrashlyticsNdk())
 
         subscribeToUpdates()
@@ -194,7 +194,14 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     fun checkShortCut() {
-        if(App.isAuthenticated && shortCut!=null)
+        if(App.isAuthenticated && withdrawAmount > 0)
+        {
+            findNavController(R.id.nav_host).navigate(R.id.withdrawGameFragment, null, navOptions {
+                popUpTo(R.id.walletFragment) {}
+                anim(buildTransitionAnimation())
+            })
+        }
+        else if(App.isAuthenticated && shortCut!=null)
         {
             if(shortCut == BUY_ID) {
                 val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
@@ -452,12 +459,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
         if (lastException?.message != null) {
             showAlert(getString(R.string.crash_message), getString(R.string.crash_negative), {
-                Fabric.with(this, Crashlytics(), CrashlyticsNdk())
-
-                Crashlytics.logException(lastException)
-
-                Answers.getInstance().logCustom(CustomEvent("CRASH").
-                        putCustomAttribute("message", lastException.message))
+                FirebaseCrashlytics.getInstance().recordException(lastException);
             },
                     getString(R.string.crash_title),
                     getString(R.string.crash_positive), {})

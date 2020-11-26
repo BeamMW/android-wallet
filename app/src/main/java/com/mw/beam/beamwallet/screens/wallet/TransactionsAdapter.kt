@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -31,20 +32,18 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.TxSender
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
-import com.mw.beam.beamwallet.core.helpers.selector
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
-import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
-import androidx.recyclerview.widget.RecyclerView
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
 
 
 class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
@@ -141,17 +140,39 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             icon.setImageDrawable(transaction.statusImage())
 
-            currency.setImageDrawable(transaction.currencyImage)
+            if (transaction.status == TxStatus.Failed) {
+                icon.imageTintList = ColorStateList.valueOf(context.getColor(R.color.common_error_color))
+            }
+            else {
+                icon.imageTintList = null
+            }
 
-            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value)
+            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value) + " BEAM"
             sum.setTextColor(transaction.amountColor)
 
             status.setTextColor(transaction.statusColor)
             status.text = transaction.getStatusString(context)
 
+            if(sumSecondBalance!=null)
+            {
+                val amount = transaction.amount.convertToCurrencyString()
+                if (amount == null) {
+                    sumSecondBalance.text = amount
+                }
+                else {
+                    if (transaction.sender.value) {
+                        sumSecondBalance.text = "-$amount"
+                    }
+                    else{
+                        sumSecondBalance.text = "+$amount"
+                    }
+                }
+            }
+
+
             val amountVisibility = if (privacyMode) View.GONE else View.VISIBLE
             sum.visibility = amountVisibility
-            currency.visibility = amountVisibility
+            sumSecondBalance.visibility = amountVisibility
 
             if (cellMode == Mode.SEARCH) {
                 searchResultContainer.removeAllViews()

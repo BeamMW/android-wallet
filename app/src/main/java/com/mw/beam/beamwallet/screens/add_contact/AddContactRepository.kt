@@ -23,7 +23,8 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
                 categories.add(t.id)
             }
             var ids = categories.joinToString(";")
-            wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0), false)
+
+            wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0, ""), false)
            // TagHelper.changeTagsForAddress(address, tags, name)
         }
     }

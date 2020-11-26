@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sendRootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:filterTouchesWhenObscured="true">
+
+    <View
+        android:id="@+id/view9"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_gradient_size"
+        android:alpha="1"
+        android:background="@drawable/send_toolbar_gradient"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.mw.beam.beamwallet.core.views.BeamToolbar
+
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:centerTitle="true"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/mainWithLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4">
+
+        <TextView
+            style="@style/common_subheader_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:text="@string/amount" />
+
+        <TextView
+            android:id="@+id/availableSum"
+            style="@style/common_text_big_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:textColor="@color/sent_color"
+            android:textSize="@dimen/send_available_sum_text_size"
+            tools:text="2345.28273 BEAM" />
+
+        <TextView
+            style="@style/common_text_big_dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingTop="40dp"
+            android:paddingRight="20dp"
+            android:text="Please confirm the withdrawal.\nStay online until funds arrive.\n\nTHE TRANSACTION WILL BE SENT WITHIN 5 MINUTES."
+            android:textSize="@dimen/send_available_sum_text_size" />
+
+        <com.mw.beam.beamwallet.core.views.BeamButton
+            android:id="@+id/btnNext"
+            android:layout_width="@dimen/send_transfer_btn_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/send_btn_next_background"
+            app:button_icon="@drawable/ic_btn_next_pink"
+            app:button_text="@string/withdraw"
+            app:button_text_color="@color/sent_color"
+            app:lower_case="true" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view9"
+        app:srcCompat="@drawable/girl" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

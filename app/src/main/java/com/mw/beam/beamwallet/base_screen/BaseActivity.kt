@@ -40,6 +40,7 @@ import com.mw.beam.beamwallet.core.helpers.*
 import androidx.core.content.ContextCompat.startActivity
 import android.content.ComponentName
 import android.content.pm.PackageManager
+import com.mw.beam.beamwallet.core.entities.Currency
 
 
 /**
@@ -81,12 +82,16 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
         setSupportActionBar(toolbar.toolbar)
 
+        toolbar.leftTitleView.text = ""
 
         if (toolbar.centerTitle) {
             supportActionBar?.title = ""
+            toolbar.leftTitleView.text = ""
             toolbar.centerTitleView.text = title?.toUpperCase()
         } else {
-            supportActionBar?.title = title
+            supportActionBar?.title = ""
+            toolbar.leftTitleView.text = title
+            toolbar.centerTitleView.text = ""
         }
 
         toolbar.hasStatus = hasStatus
@@ -128,32 +133,7 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun configStatus(networkStatus: NetworkStatus) {
         val toolbarLayout = this.findViewById<BeamToolbar>(R.id.toolbarLayout) ?: return
-
-        if (AppManager.instance.isConnecting) {
-            toolbarLayout.progressBar.indeterminateDrawable.setColorFilter(getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
-            toolbarLayout.status.setTextColor(getColor(R.color.category_orange))
-
-            toolbarLayout.progressBar.visibility = View.VISIBLE
-            toolbarLayout.statusIcon.visibility = View.INVISIBLE
-            toolbarLayout.status.text = getString(R.string.connecting).toLowerCase()
-        }
-        else{
-            when (networkStatus) {
-                NetworkStatus.ONLINE -> {
-                    handleStatus(true, toolbarLayout)
-                }
-                NetworkStatus.OFFLINE -> {
-                    handleStatus(false, toolbarLayout)
-                }
-                NetworkStatus.UPDATING -> {
-                    toolbarLayout.status.setTextColor(getColor(R.color.colorAccent))
-                    toolbarLayout.progressBar.indeterminateDrawable.setColorFilter(getColor(R.color.colorAccent), android.graphics.PorterDuff.Mode.MULTIPLY);
-                    toolbarLayout.progressBar.visibility = View.VISIBLE
-                    toolbarLayout.statusIcon.visibility = View.INVISIBLE
-                    toolbarLayout.status.text = getString(R.string.updating).toLowerCase()
-                }
-            }
-        }
+        toolbarLayout.configureStatus(networkStatus)
     }
 
     override fun vibrate(length: Long) {
@@ -327,25 +307,5 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
     override fun openExternalLink(link: String) {
         delegate.openExternalLink(this, link)
-    }
-
-    private fun handleStatus(isOnline: Boolean, toolbarLayout: BeamToolbar) {
-        toolbarLayout.progressBar.visibility = View.INVISIBLE
-        toolbarLayout.statusIcon.visibility = View.VISIBLE
-
-        if(App.isDarkMode) {
-            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color_dark))
-        }
-        else{
-            toolbarLayout.status.setTextColor(getColor(R.color.common_text_dark_color))
-        }
-
-        if (isOnline) {
-            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_connected))
-            toolbarLayout.status.text = getString(R.string.online).toLowerCase()
-        } else {
-            toolbarLayout.statusIcon.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.status_error))
-            toolbarLayout.status.text = String.format(getString(R.string.common_status_error).toLowerCase(), AppConfig.NODE_ADDRESS)
-        }
     }
 }

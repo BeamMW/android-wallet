@@ -23,7 +23,10 @@ class SendConfirmationState {
     val addresses = HashMap<String, WalletAddress>()
     var outgoingAddress: String = ""
     var token: String = ""
+    var maxPrivacy = false
+    var isOffline = false
     var comment: String? = null
     var amount: Long = 0
     var fee: Long = 0
+    var shieldedInputsFee: Long = 0
 }

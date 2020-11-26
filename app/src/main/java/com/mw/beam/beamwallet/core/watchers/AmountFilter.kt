@@ -27,6 +27,9 @@ class AmountFilter : InputFilter {
 
     override fun filter(source: CharSequence, start: Int, end: Int, dest: Spanned, dstart: Int, dend: Int): CharSequence? {
         if (source.isNotEmpty()) {
+            if(source == "." && start ==0 && end == 1 && dstart == 0 && dend == 0) {
+                return "0."
+            }
             return if (!regExp.containsMatchIn(dest.toString().substring(0 until dstart) + source + dest.substring(dend until dest.length))) {
                 ""
             } else {

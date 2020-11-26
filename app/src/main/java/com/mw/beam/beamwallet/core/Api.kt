@@ -16,17 +16,7 @@
 
 package com.mw.beam.beamwallet.core
 
-import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.entities.Wallet
-import io.reactivex.subjects.PublishSubject
-import java.io.File
-import android.content.Context.DOWNLOAD_SERVICE
-import android.app.DownloadManager
-import android.net.Uri
-import android.os.Handler
-import com.mw.beam.beamwallet.R
-import android.util.Log
 
 
 /**
@@ -50,4 +40,5 @@ object Api {
     external fun closeWallet()
     external fun isWalletRunning(): Boolean
     external fun getDefaultPeers(): Array<String>
+    external fun getLibVersion(): String
 }

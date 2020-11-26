@@ -49,6 +49,9 @@ import androidx.fragment.app.Fragment
 /**
  *  10/1/18.
  */
+
+//initLogger
+
 class App : Application() {
 
     var subOnStatusResume: Subject<Any?> = PublishSubject.create<Any?>().toSerialized()

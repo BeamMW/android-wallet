@@ -44,29 +44,34 @@ class AddressFragment : BaseFragment<AddressPresenter>(), AddressContract.View {
     private var adapter: TransactionsAdapter? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_address
-    override fun getToolbarTitle(): String? = null
-    override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(arguments!!).walletAddress
+    override fun getToolbarTitle(): String? = getString(if (addressDetails?.isContact == true) R.string.contact_details else R.string.address_details)
+    override fun getAddress(): WalletAddress = AddressFragmentArgs.fromBundle(requireArguments()).walletAddress
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     var addressId = ""
+    var addressDetails: WalletAddress? = null
+    var isContact = false
 
     override fun init(address: WalletAddress) {
         toolbarLayout.hasStatus = true
 
+        addressDetails = address
         addressId = address.walletID
-
-        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.contact_details else R.string.address_details)
 
         configAddressDetails(address)
 
         initTransactionsList()
 
         setHasOptionsMenu(true)
+
+        if(addressDetails?.isContact == true) {
+            initToolbar(getString(R.string.contact_details), hasBackArrow = true, hasStatus = true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -75,6 +80,19 @@ else{
     }
 
     override fun configMenuItems(menu: Menu?, address: WalletAddress) {
+        if (isContact) {
+            menu?.findItem(R.id.send)?.isVisible = true
+            menu?.findItem(R.id.receive)?.isVisible = false
+        }
+        else if (!isContact && !address.isExpired) {
+            menu?.findItem(R.id.send)?.isVisible = false
+            menu?.findItem(R.id.receive)?.isVisible = true
+        }
+        else {
+            menu?.findItem(R.id.receive)?.isVisible = false
+            menu?.findItem(R.id.send)?.isVisible = false
+        }
+
         menu?.findItem(R.id.delete)?.isVisible = false
         menu?.findItem(R.id.showQR)?.isVisible = address.isContact || !address.isExpired
     }
@@ -85,6 +103,8 @@ else{
             R.id.copy -> presenter?.onCopyAddress()
             R.id.edit -> presenter?.onEditAddress()
             R.id.delete -> presenter?.onDeleteAddress()
+            R.id.send -> presenter?.onSendAddress()
+            R.id.receive -> presenter?.onReceiveAddress()
         }
 
         return true
@@ -98,7 +118,7 @@ else{
 
     private fun initTransactionsList() {
         if (adapter == null) {
-            adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
+            adapter = TransactionsAdapter(requireContext(),null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
                 presenter?.onTransactionPressed(it)
             }
             adapter?.reverseColors = true
@@ -119,30 +139,47 @@ else{
         idLabel.text = address.walletID
         expirationLabel.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
         nameLabel.text = address.label
+        isContact = address.isContact
 
         if (nameLabel.text.isNullOrEmpty()) {
             nameLabel.text = getString(R.string.no_name)
         }
 
         val expirationVisibility = if (address.isContact) View.GONE else View.VISIBLE
-        expirationLayout.visibility = expirationVisibility
+       // expirationLayout.visibility = expirationVisibility
+
+        if (address.identity.isNullOrEmpty() || address.identity == "0") {
+            identityLayout.visibility = View.GONE
+        }
+        else {
+            identityLayout.visibility = View.VISIBLE
+            identityLabel.text = address.identity
+        }
     }
 
     override fun configureTags(findTag: List<Tag>) {
         val categoryVisibility = if (findTag.isEmpty()) View.GONE else View.VISIBLE
         tagsLayout.visibility = categoryVisibility
-        tagsLabel.text = findTag.createSpannableString(context!!)
+        tagsLabel.text = findTag.createSpannableString(requireContext())
     }
 
     @SuppressLint("InflateParams")
     override fun showQR(walletAddress: WalletAddress) {
-        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToQrDialogFragment(walletAddress))
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToQrDialogFragment(walletAddress, isOldDesign = true))
     }
 
     override fun showDeleteSnackBar(walletAddress: WalletAddress) {
         showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
                 onDismiss = { TrashManager.remove(walletAddress.walletID) },
                 onUndo = { TrashManager.restore(walletAddress.walletID) })
+    }
+
+    override fun sendAddress(walletAddress: WalletAddress) {
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToSendFragment(walletAddress.walletID))
+    }
+
+    override fun receiveAddress(walletAddress: WalletAddress) {
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToReceiveFragment(0L, walletAddress))
     }
 
     override fun showDeleteAddressDialog() {

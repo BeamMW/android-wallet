@@ -8,6 +8,16 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
+                android:id="@+id/send"
+                android:icon="@drawable/ic_icon_send_address"
+                android:title="@string/send"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/receive"
+                android:icon="@drawable/ic_icon_received_address"
+                android:title="@string/receive"
+                app:showAsAction="never" />
+            <item
                 android:id="@+id/copy"
                 android:icon="@drawable/address_copy"
                 android:title="@string/copy"

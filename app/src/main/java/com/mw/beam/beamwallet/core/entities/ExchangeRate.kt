@@ -41,6 +41,20 @@ enum class Currency(val value: Int) {
             }
         }
     }
+
+    fun shortName(): String {
+        return when {
+            this == Bitcoin -> {
+                "BTC"
+            }
+            this == Off -> {
+                ""
+            }
+            else -> {
+                "USD"
+            }
+        }
+    }
 }
 
 @Parcelize

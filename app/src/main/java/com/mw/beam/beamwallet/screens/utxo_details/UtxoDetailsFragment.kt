@@ -77,7 +77,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         idLabel.text = utxo.stringId
 
-        amountLabel.text = utxo.amount.convertToBeamString()
+        amountLabel.text = utxo.amount.convertToBeamString() + " BEAM"
 
         val status = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
@@ -92,6 +92,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         val receivedColor = ContextCompat.getColor(context!!, R.color.received_color)
         val sentColor = ContextCompat.getColor(context!!, R.color.sent_color)
         val commonStatusColor = ContextCompat.getColor(context!!, R.color.common_text_color)
+        val accentColor = ContextCompat.getColor(context!!, R.color.accent)
 
         if (utxo.status == UtxoStatus.Maturing) {
             val available = getString(R.string.maturing)
@@ -114,7 +115,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
                         0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                 UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
                         0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                UtxoStatus.Available, UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
                         0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             }
 
@@ -124,12 +125,13 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             statusLabel.text = status
             statusLabel.setTextColor(when (utxo.status) {
                 UtxoStatus.Incoming -> receivedColor
+                UtxoStatus.Available -> accentColor
                 UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
-                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Available, UtxoStatus.Unavailable -> commonStatusColor
+                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable -> commonStatusColor
             })
         }
 
-            typeLabel.text = when (utxo.keyType) {
+        typeLabel.text = when (utxo.keyType) {
             UtxoKeyType.Commission -> getString(R.string.commission)
             UtxoKeyType.Coinbase -> getString(R.string.coinbase)
             UtxoKeyType.Regular -> getString(R.string.regular)
@@ -141,6 +143,15 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoKeyType.Bbs -> getString(R.string.bbs)
             UtxoKeyType.Decoy -> getString(R.string.decoy)
             UtxoKeyType.Treasury -> getString(R.string.treasure)
+            UtxoKeyType.Shielded -> getString(R.string.shielded)
+        }
+
+        if (utxo.maturity > 0) {
+            maturingLayout.visibility = View.VISIBLE
+            maturingLabel.text = utxo.maturity.toString()
+        }
+        else {
+            maturingLayout.visibility = View.GONE
         }
     }
 

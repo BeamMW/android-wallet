@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.service
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -27,6 +28,10 @@ import io.reactivex.subjects.Subject
 class BackgroundServiceRepository: BaseRepository() {
     fun isWalletRunning(): Boolean {
         return Api.isWalletRunning()
+    }
+
+    fun isInit():Boolean {
+        return Api.isWalletInitialized(AppConfig.DB_PATH)
     }
 
     fun getPassword(): String? {

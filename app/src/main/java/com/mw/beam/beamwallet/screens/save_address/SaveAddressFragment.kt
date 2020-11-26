@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.createSpannableString
+import com.mw.beam.beamwallet.core.helpers.trimAddress
 import com.mw.beam.beamwallet.core.views.TagAdapter
 import kotlinx.android.synthetic.main.fragment_save_address.*
 
@@ -43,7 +44,7 @@ class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressCont
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_save_address
 
     override fun init(address: String) {
-        this.address.text = address
+        this.address.text = address.trimAddress()
     }
 
     override fun addListeners() {

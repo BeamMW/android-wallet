@@ -16,3 +16,13 @@ fun Int.toTimeFormat(context: Context?): String {
         else -> String.format("%d %s", seconds, context?.getString(R.string.s))
     }
 }
+
+fun String.trimAddress(): String {
+    return if(this.length <= 12) {
+        this
+    } else {
+        val start = this.substring(0, 6)
+        val end = this.substring(this.length-7, this.length)
+        "$start...$end"
+    }
+}

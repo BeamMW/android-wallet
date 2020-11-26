@@ -22,13 +22,10 @@ import androidx.lifecycle.LifecycleOwner
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
 /**
@@ -39,8 +36,8 @@ interface SendContract {
     interface View : MvpView {
         fun getAmount(): Double
         fun getFee(): Long
-        fun getToken(): String
         fun getComment(): String?
+        fun getToken(): String
         fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)
         fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
         fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean
@@ -48,7 +45,8 @@ interface SendContract {
         fun clearErrors()
         fun clearToken(clearedToken: String?)
         fun init(defaultFee: Int, max: Int)
-        fun setAddressError()
+        fun updateMaxPrivacyCount(count: Int)
+       // fun setAddressError()
         fun clearAddressError()
         fun showCantSendToExpiredError()
         fun showCantPasteError()
@@ -65,7 +63,7 @@ interface SendContract {
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
-        fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
+        fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
@@ -79,26 +77,33 @@ interface SendContract {
         fun showFeeDialog()
         fun showAddNewCategory()
         fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>)
-        fun changeTokenColor(validToken: Boolean)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
         fun requestFocusToAmount()
         fun showMinFeeError()
         fun setupMinFee(fee: Int)
+        fun setupMaxFee(max: Int, min:Int)
         fun setupTagAction(isEmptyTags: Boolean)
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
+        fun setMaxPrivacy(value:Boolean)
+        fun setMaxPrivacyRequested(value:Boolean)
+        fun onTrimAddress()
+        fun showTokenFragment()
     }
 
     interface Presenter : MvpPresenter<View> {
         fun onNext()
+        fun onMaxPrivacy(value:Boolean)
         fun onTokenChanged(rawToken: String?, searchAddress: Boolean = true)
         fun onAmountChanged()
         fun onFeeChanged(rawFee: String?)
+        fun requestFee()
         fun onAmountUnfocused()
-        fun onScannedQR(text: String?)
+        fun onScannedQR(text: String?, requestFocus: Boolean)
         fun onScanQrPressed()
         fun onRequestPermissionsResult(result: PermissionStatus)
         fun onChangePrivacyModePressed()
+        fun showTokenFragmentPressed()
         fun onPrivacyModeActivated()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater)
         fun onCancelDialog()

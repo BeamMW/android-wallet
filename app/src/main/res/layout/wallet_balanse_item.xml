@@ -20,8 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/wallet_available_sum_margin_top"
-        android:drawableRight="@drawable/currency_available_main_screen"
-        android:drawablePadding="5dp"
         android:fontFamily="@font/roboto_regular"
         android:paddingStart="@dimen/wallet_card_text_padding_start"
         android:paddingEnd="@dimen/wallet_card_text_padding_end"

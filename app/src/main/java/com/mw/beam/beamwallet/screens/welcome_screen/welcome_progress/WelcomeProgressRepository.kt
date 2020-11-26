@@ -112,7 +112,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
             if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
                 AppConfig.NODE_ADDRESS = nodeAddress
             } else {
-                AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+                AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
             }
 
             AppManager.instance.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, seed)

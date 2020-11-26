@@ -278,8 +278,10 @@ object TagHelper {
 
                 var ids = categories.joinToString(";")
 
+                address.category = ids
+
                 var dto = address.toDTO()
-                dto.category = ids
+
                 if(name!=null) {
                     dto.label = name
                 }
@@ -293,8 +295,10 @@ object TagHelper {
         var address = AppManager.instance.getAddress(id)
         if(address!=null) {
             var dto = address.toDTO()
-            dto.category = ""
-            AppManager.instance.wallet?.saveAddress(dto, address.isContact)
+            if (dto.category.isNotEmpty()) {
+                dto.category = ""
+                AppManager.instance.wallet?.saveAddress(dto, address.isContact)
+            }
         }
     }
 

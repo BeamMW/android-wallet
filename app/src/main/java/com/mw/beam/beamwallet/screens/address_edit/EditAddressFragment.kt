@@ -90,7 +90,7 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
         }
     }
 
-    override fun getToolbarTitle(): String? { return null }
+    override fun getToolbarTitle(): String? { return getString(R.string.edit_address) }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
     override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
@@ -110,9 +110,8 @@ else{
 
         nameLabel.setText(address.label)
 
-        (activity as BaseActivity<*>).supportActionBar?.title = getString(if (address.isContact) R.string.edit_contact else R.string.edit_address)
-
         if (address.isContact) {
+            initToolbar(getString(R.string.edit_contact), hasBackArrow = true, hasStatus = true)
             expireLayout.visibility = View.GONE
         }
         else{

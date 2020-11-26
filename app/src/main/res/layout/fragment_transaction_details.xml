@@ -88,17 +88,6 @@
                             android:textSize="20sp"
                             tools:text="190.2020" />
 
-                        <ImageView
-                            android:id="@+id/currencyIcon"
-                            android:layout_width="12dp"
-                            android:layout_height="19dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="3dp"
-                            android:contentDescription="@null"
-                            app:layout_constraintStart_toEndOf="@id/amount"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/currency_beam" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -475,6 +464,42 @@
                         android:textSize="14sp"
                         tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
                 </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/walletIdLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:orientation="vertical">
+
+                <TextView
+                    tools:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.2"
+                    android:padding="3dp"
+                    android:text="@string/wallet_id"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    tools:visibility="visible"
+                    android:id="@+id/walletIdLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="3dp"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textIsSelectable="true"
+                    android:textSize="14sp"
+                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+
+            </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/kernelLayout"

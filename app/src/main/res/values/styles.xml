@@ -147,6 +147,12 @@
         <item name="android:letterSpacing">0.2</item>
     </style>
 
+    <style name="toolbar_left_title_text">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">@color/common_text_color</item>
+        <item name="android:textSize">@dimen/common_toolbar_text_size</item>
+    </style>
+
     <style name="common_text_big_dark_dark">
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/common_text_dark_color</item>

@@ -14,6 +14,7 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
             app:titleTextAppearance="@style/ToolbarTheme"
             app:popupTheme="@style/PopupMenu" />
+
         <TextView
             android:id="@+id/centerTitle"
             style="@style/toolbar_center_title_text"
@@ -22,6 +23,17 @@
             android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/leftTitle"
+            style="@style/toolbar_left_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="55dp"
+            android:paddingRight="55dp"
+            android:layout_marginBottom="1dp"
+            tools:text="Left title" />
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +49,7 @@
             android:layout_marginStart="@dimen/toolbar_status_start_offset"
             android:layout_marginTop="2dp"
             android:contentDescription="@null"
-            android:src="@drawable/status_connected"
+            android:src="@drawable/green_status"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +58,7 @@
             android:layout_width="@dimen/toolbar_progress_size"
             android:layout_height="@dimen/toolbar_progress_size"
             android:layout_marginStart="@dimen/toolbar_status_start_offset"
-            android:layout_marginEnd="@dimen/toolbar_status_offset"
+            android:layout_marginTop="2dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/statusIcon"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +68,11 @@
             android:id="@+id/connectionStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="2dp"
+            android:maxLines="3"
             android:fontFamily="sans-serif-regular"
             android:paddingEnd="@dimen/toolbar_padding_end"
-            android:text="@string/online"
             android:textColor="?attr/subHeaderTextColor"
             android:textSize="@dimen/toolbar_status_text_size"
             app:layout_constraintStart_toEndOf="@id/statusIcon"

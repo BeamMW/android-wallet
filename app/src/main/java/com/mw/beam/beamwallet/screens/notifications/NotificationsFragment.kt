@@ -61,10 +61,10 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
-        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
@@ -87,6 +87,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
         toolbar.setNavigationOnClickListener {
             (activity as? AppActivity)?.openMenu()
         }
+
     }
 
     private fun initNotificationsList() {
@@ -200,8 +201,8 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)  }  else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)  }
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)  }  else{
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)  }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return  NotificationsPresenter(this, NotificationsRepository(), NotificationsState())
@@ -212,6 +213,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
            // notificationsListView.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
             btnClearAll.visibility = if (notifications.isEmpty()) View.INVISIBLE else View.VISIBLE
             emptyLayout.visibility = if (notifications.isEmpty()) View.VISIBLE else View.GONE
+            toolbarLayout.hasOffset = !notifications.isEmpty()
             adapter.setPrivacyMode(isEnablePrivacyMode)
             adapter.data = notifications
             adapter.notifyDataSetChanged()

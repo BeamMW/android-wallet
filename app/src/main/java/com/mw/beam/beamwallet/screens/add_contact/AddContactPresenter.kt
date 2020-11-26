@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.QrHelper
@@ -59,7 +60,7 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         val address = view?.getAddress() ?: ""
         val name = view?.getName() ?: ""
 
-        if (QrHelper.isValidAddress(address)) {
+        if (AppManager.instance.isValidAddress(address)) {
             val oldAddress = AppManager.instance.getAddress(address)
             if (oldAddress!=null) {
                 view?.showTokenError(oldAddress)
@@ -81,7 +82,7 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
         val address = view?.getAddress() ?: ""
         val name = view?.getName() ?: ""
 
-        if (QrHelper.isValidAddress(address)) {
+        if (AppManager.instance.isValidAddress(address)) {
             if (state.addresses.containsKey(address)) {
                 view?.showTokenError(state.addresses[address])
             }
@@ -98,7 +99,7 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
 
         val scannedAddress = QrHelper.getScannedAddress(text)
 
-        if (QrHelper.isValidAddress(scannedAddress)) {
+        if (AppManager.instance.isValidAddress(scannedAddress)) {
             view?.setAddress(scannedAddress)
         } else {
             view?.vibrate(100)

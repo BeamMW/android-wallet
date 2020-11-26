@@ -44,9 +44,16 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
 
     override fun onSavePressed() {
         view?.apply {
-            val address = WalletAddress(WalletAddressDTO(state.address, getName(), "", System.currentTimeMillis(), 0, 0))
+            var saved = state.address
+            var identity = ""
+            if (AppManager.instance.wallet?.isToken(state.address) == true) {
+                var params = AppManager.instance.wallet?.getTransactionParameters(saved, false)
+                saved = params!!.address
+                identity = params!!.identity
+            }
+            val address = WalletAddress(WalletAddressDTO(saved, getName(), "", System.currentTimeMillis(), 0, 0, identity))
             if(state.tags.count() > 0) {
-                repository.saveTagsForAddress(state.address, state.tags)
+                repository.saveTagsForAddress(saved, state.tags)
             }
             repository.saveAddress(address, false)
             close()
@@ -71,7 +78,7 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
     }
 
     override fun onCancelPressed() {
-        val address = WalletAddress(WalletAddressDTO(state.address,"deleted","",0L,0L,0L))
+        val address = WalletAddress(WalletAddressDTO(state.address,"deleted","",0L,0L,0L, ""))
 
         TrashManager.add(state.address, address)
 

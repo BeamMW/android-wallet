@@ -326,6 +326,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                 val titleLabel = dialog.findViewById<TextView>(R.id.clearDialogTitle)
                 val msgLabel = dialog.findViewById<TextView>(R.id.deleteAllTransactionsTitle)
+                val confirm =  dialog.findViewById<TextView>(R.id.btnConfirm)
+
+                confirm.setText(R.string.delete)
 
                 if (contact?.isContact == true)
                 {
