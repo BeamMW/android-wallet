@@ -53,7 +53,7 @@ interface ReceiveContract {
         fun showCreateTagDialog()
         fun setTags(tags: List<Tag>)
         fun showShowToken(receiveToken: String)
-        fun showShareDialog(option1:String, option2:String)
+        fun showShareDialog(option1:String, option2:String, option3: String)
         fun updateTokens(walletAddress: WalletAddress)
     }
 

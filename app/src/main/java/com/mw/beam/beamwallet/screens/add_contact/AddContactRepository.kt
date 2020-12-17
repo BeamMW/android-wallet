@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.screens.add_contact
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
@@ -17,6 +18,13 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
 
     override fun saveContact(address: String, name: String, tags: List<Tag>) {
         getResult("saveContact") {
+            var identity = ""
+
+            if(AppManager.instance.wallet?.isToken(address) == true)
+            {
+                val params = AppManager.instance.wallet?.getTransactionParameters(address, false)
+                identity = params?.identity ?: ""
+            }
 
             var categories = mutableListOf<String>()
             for (t in tags) {
@@ -24,8 +32,7 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
             }
             var ids = categories.joinToString(";")
 
-            wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0, ""), false)
-           // TagHelper.changeTagsForAddress(address, tags, name)
+            wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0, identity, address), false)
         }
     }
 

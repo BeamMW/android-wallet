@@ -196,6 +196,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, SettingsFragmentMode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
                 items.add(s1.toTypedArray())
+
+                toolbarLayout.changeNodeButton.alpha = 0f
+                toolbarLayout.changeNodeButton.visibility = View.GONE
+                toolbarLayout.changeNodeButton.isEnabled = false
             }
             mode() == SettingsFragmentMode.Privacy -> {
                 var s1 = mutableListOf<SettingsItem>()
@@ -228,8 +232,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         toolbarLayout.centerTitle = mode() == SettingsFragmentMode.All
 
-        appVersionTitle.addDoubleDots()
-        appVersionValue.text = BuildConfig.VERSION_NAME
+        appVersionTitle.text = ""
+        appVersionValue.text = "v " + BuildConfig.VERSION_NAME
 
         onBackPressedCallback.isEnabled = true
 

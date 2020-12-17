@@ -41,4 +41,9 @@ data class TxDescriptionDTO(var id: String,
                             var identity: String?,
                             var isPublicOffline : Boolean,
                             var isMaxPrivacy: Boolean,
-                            var isShielded: Boolean) : Parcelable
+                            var isShielded: Boolean,
+                            var token: String,
+                            var senderIdentity: String,
+                            var receiverIdentity: String,
+                            var receiverAddress: String,
+                            var senderAddress: String) : Parcelable

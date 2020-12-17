@@ -119,7 +119,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun init() {
 
         amount.filters = arrayOf(AmountFilter())
-        amountTitle.text = "${getString(R.string.amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
+        amountTitle.text = "${getString(R.string.requested_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
+        supportsPaymentValue.text = getString(R.string.supports_payment).replace("XX", "10")
 
         if(App.isDarkMode) {
             addressGroup.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
@@ -151,7 +152,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions, expire: ReceivePresenter.TokenExpireOptions){
         comment.setText(walletAddress.label)
 
-        onlineAddressTitle.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
+        //onlineAddressTitle
+        tokenExpireTitle.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
         onlineAddressPoolsTitle.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
         offlineAddressTitle.text = resources.getString(R.string.offline_token).toUpperCase()
         maxPrivacyAddressTitle.text = resources.getString(R.string.max_privacy_address).toUpperCase()
@@ -170,10 +172,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             regularButton.setBackgroundResource(R.drawable.accent_btn_background)
             maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
 
-            maxPrivacyGroup.visibility = View.GONE
-            tokensGroup.visibility = View.VISIBLE
-            offlineGroup.visibility = View.VISIBLE
-            expireButtonsGroup.visibility = View.VISIBLE
+            maxPrivacyAddressLayout.visibility = View.GONE
+            tokenExpirationtionLayout.visibility = View.VISIBLE
+            onlineAddressPoolLayout.visibility = View.VISIBLE
+            offlineAddressLayout.visibility = View.VISIBLE
         }
         else {
             receiveDescription.text = resources.getString(R.string.receive_notice_max_privacy)
@@ -187,10 +189,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
             regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
 
-            maxPrivacyGroup.visibility = View.VISIBLE
-            tokensGroup.visibility = View.GONE
-            offlineGroup.visibility = View.GONE
-            expireButtonsGroup.visibility = View.GONE
+            maxPrivacyAddressLayout.visibility = View.VISIBLE
+            tokenExpirationtionLayout.visibility = View.GONE
+            onlineAddressPoolLayout.visibility = View.GONE
+            offlineAddressLayout.visibility = View.GONE
         }
 
         if(expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
@@ -214,13 +216,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             oneTimeButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
 
-        if (expire == ReceivePresenter.TokenExpireOptions.PERMANENT) {
-            editAddressCard.visibility = View.VISIBLE
-        }
-        else {
-            editAddressCard.visibility = View.GONE
-        }
-
         AppActivity.self.runOnUiThread {
             if(!AppManager.instance.isOwnNode()) {
                 notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
@@ -229,7 +224,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 maxPrivacyButton.isEnabled = false
                 maxPrivacyButton.alpha = 0.2f
 
-                offlineGroup.visibility = View.GONE
+                offlineAddressLayout.visibility = View.GONE
             }
         }
     }
@@ -291,10 +286,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                amount.hint = "0"
                 showKeyboard()
-            } else {
-                amount.hint = ""
             }
         }
 
@@ -317,35 +309,59 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         })
 
         showOnlineButton.setOnClickListener {
-          //  presenter?.onTokenPressed(token_1)
+            presenter?.onTokenPressed(onlineAddress)
         }
 
         showPoolButton.setOnClickListener {
-          //  presenter?.onTokenPressed(token_2)
+            presenter?.onTokenPressed(sbbsAddress)
+        }
+
+        showOfflineButton.setOnClickListener {
+            presenter?.onTokenPressed(offlineAddress)
+        }
+
+        showMaxPrivacyButton.setOnClickListener {
+            presenter?.onTokenPressed(maxPrivacyAddress)
         }
 
         qrCodeOnlineButton.setOnClickListener {
-          //  presenter?.onShowQrPressed(token_1)
+            presenter?.onShowQrPressed(onlineAddress)
         }
 
         qrCodePoolButton.setOnClickListener {
-        //    presenter?.onShowQrPressed(token_2)
+            presenter?.onShowQrPressed(sbbsAddress)
         }
 
-//        tokenValue_1.setOnLongClickListener {
-//            copyToClipboard(token_1, "")
-//            showSnackBar(getString(R.string.address_copied_to_clipboard))
-//            return@setOnLongClickListener true
-//        }
-//
-//        tokenValue_2.setOnLongClickListener {
-//            copyToClipboard(token_2, "")
-//            showSnackBar(getString(R.string.address_copied_to_clipboard))
-//            return@setOnLongClickListener true
-//        }
+        qrCodeMaxPrivacyButton.setOnClickListener {
+            presenter?.onShowQrPressed(maxPrivacyAddress)
+        }
 
-        registerForContextMenu(onlineAddressValue)
-        registerForContextMenu(onlineAddressPoolsValue)
+        copyOnlineButton.setOnClickListener {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(onlineAddress, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        copyPoolButton.setOnClickListener {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(sbbsAddress, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        copyOfflineButton.setOnClickListener {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(offlineAddress, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        copyMaxPrivacyButton.setOnClickListener {
+            presenter?.state?.wasAddressSaved = true
+            copyToClipboard(maxPrivacyAddress, "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+//        registerForContextMenu(onlineAddressValue)
+//        registerForContextMenu(onlineAddressPoolsValue)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -435,26 +451,39 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
     }
 
-    override fun showShareDialog(option1:String, option2:String) {
+    override fun showShareDialog(option1:String, option2:String, option3:String) {
         BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.share_bottom_sheet, null)
             setContentView(view)
 
             val shareView1 = view.findViewById<TextView>(R.id.shareView1)
             val shareView2 = view.findViewById<TextView>(R.id.shareView2)
+            val shareView3 = view.findViewById<TextView>(R.id.shareView3)
             val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
 
             shareView1.text = option1
             shareView2.text = option2
+            shareView3.text = option3
+
+            AppActivity.self.runOnUiThread {
+                if(!AppManager.instance.isOwnNode()) {
+                    shareView3.visibility = View.GONE
+                }
+            }
 
             shareView1.setOnClickListener {
                 dismiss()
-              //  shareToken(token_1)
+                shareToken(onlineAddress)
             }
 
             shareView2.setOnClickListener {
                 dismiss()
-              //  shareToken(token_2)
+                shareToken(sbbsAddress)
+            }
+
+            shareView3.setOnClickListener {
+                dismiss()
+                shareToken(offlineAddress)
             }
 
             btnBottomSheetClose.setOnClickListener {
@@ -480,7 +509,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 message = getString(R.string.receive_save_address_message),
                 btnConfirmText = getString(R.string.save),
                 btnCancelText = getString(R.string.dont_save),
-                onCancel = { nextStep() },
+                onCancel = {
+                    presenter?.state?.address?.walletID?.let { AppManager.instance.wallet?.deleteAddress(it) }
+                    nextStep()
+                },
                 onConfirm = {
                     presenter?.onSaveAddressPressed()
                     nextStep()
@@ -494,7 +526,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 message = getString(R.string.receive_save_changes_message),
                 btnConfirmText = getString(R.string.save),
                 btnCancelText = getString(R.string.dont_save),
-                onCancel = { nextStep() },
+                onCancel = { nextStep()
+                           },
                 onConfirm = {
                     presenter?.onSaveAddressPressed()
                     nextStep()

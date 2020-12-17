@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.send_confirmation
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
@@ -32,14 +33,13 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
         super.onViewCreated()
         view?.apply {
             state.token = getAddress()
-            state.maxPrivacy = getMaxPrivacy()
+            state.addressType = getAddressType()
             state.outgoingAddress = getOutgoingAddress()
             state.amount = getAmount()
-            state.isOffline = getOffline()
             state.fee = getFee()
             state.comment = getComment()
 
-            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, state.maxPrivacy, state.isOffline)
+            init(state.token, state.outgoingAddress, state.amount.convertToBeam(), state.fee, state.addressType)
         }
     }
 
@@ -57,7 +57,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     private fun send() {
         if (state.contact == null) {
-            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, maxPrivacy) }
+            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee) }
             view?.showSaveAddressFragment(state.token)
         } else {
             showWallet()
@@ -65,12 +65,13 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     }
 
     override fun initSubscriptions() {
-        addressesSubscription = repository.getAddresses().subscribe {
-            it.addresses?.forEach { address ->
+        addressesSubscription = repository.getAddresses().subscribe { data ->
+            data.addresses?.forEach { address ->
                 state.addresses[address.walletID] = address
             }
 
             var finder = state.token
+            var out = state.outgoingAddress
 
             if (AppManager.instance.wallet?.isToken(state.token) == true) {
                 var params = AppManager.instance.wallet!!.getTransactionParameters(state.token, false)
@@ -81,6 +82,12 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             if (findAddress != null) {
                 state.contact = findAddress
                 view?.configureContact(findAddress, repository.getAddressTags(findAddress.walletID))
+            }
+
+            val outAddress = state.addresses.values.find { it.walletID == out }
+            if (outAddress != null) {
+                state.contact = findAddress
+                view?.configureOutAddress(outAddress, repository.getAddressTags(outAddress.walletID))
             }
         }
 
@@ -100,10 +107,14 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 view?.configUtxoInfo((totalSendAmount).convertToBeam(), view!!.getChange().convertToBeam())
             }
 
+            val isShielded = (state.getEnumAddressType() == BMAddressType.BMAddressTypeShielded || state.getEnumAddressType()  == BMAddressType.BMAddressTypeOfflinePublic ||
+                    state.getEnumAddressType()  == BMAddressType.BMAddressTypeMaxPrivacy)
+
             changeSubscription = WalletListener.subOnFeeCalculated.subscribe {
                 AppActivity.self.runOnUiThread {
                     var change = it.change
-                    if (state.maxPrivacy) {
+
+                    if (isShielded) {
                         change += it.shieldedInputsFee
                     }
                     state.shieldedInputsFee = it.shieldedInputsFee
@@ -116,22 +127,14 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 }
             }
 
-//            val defaultMinFeeForMaxPrivacy = 1000100L
-//            val fee = if (state.maxPrivacy && state.fee > defaultMinFeeForMaxPrivacy) {
-//                state.fee - defaultMinFeeForMaxPrivacy
-//            }
-//            else {
-//                state.fee
-//            }
-
-            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(state.amount, state.fee, state.maxPrivacy)
+            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(state.amount, state.fee, isShielded)
         }
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
-        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, maxPrivacy) }
+        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee) }
         view?.showWallet()
     }
 }

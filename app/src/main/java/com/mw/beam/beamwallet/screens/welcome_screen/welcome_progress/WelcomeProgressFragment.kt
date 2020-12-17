@@ -39,6 +39,9 @@ import com.mw.beam.beamwallet.core.helpers.toTimeFormat
 import java.io.File
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import java.util.*
+import kotlin.concurrent.timerTask
 
 /**
  *  1/24/19.
@@ -63,6 +66,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_progress
     override fun getToolbarTitle(): String? = ""
+    private var timer: Timer? = null
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -94,6 +98,19 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             }
         }
 
+        if(mode == WelcomeMode.OPEN) {
+            timer?.cancel()
+            timer = null
+
+            timer = Timer()
+            timer?.schedule(timerTask {
+                if(!App.isAuthenticated) {
+                    AppActivity.self.runOnUiThread {
+                        showWallet()
+                    }
+                }
+            }, 2000)
+        }
     }
 
     override fun addListeners() {
@@ -154,7 +171,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
-        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        appVersion.text = "v " + BuildConfig.VERSION_NAME
     }
 
     override fun onStart() {
@@ -253,6 +270,9 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        timer?.cancel()
+        timer = null
+
         val recoverFile = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME_RECOVER)
         val journalRecoverFile = File(AppConfig.DB_PATH, AppConfig.NODE_JOURNAL_FILE_NAME_RECOVER)
 

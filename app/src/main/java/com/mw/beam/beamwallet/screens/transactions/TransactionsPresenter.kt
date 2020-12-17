@@ -30,8 +30,11 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
 
     private lateinit var txStatusSubscription: Disposable
+    private lateinit var exportCSVSubscription: Disposable
+
     var removedTransactions = mutableListOf<String>()
     var isAllSelected = false
+    var isShare = false
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -85,27 +88,13 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
     }
 
     override fun onExportSave() {
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(TransactionFields.HEAD_LINE)
-
-        getTransactions().forEach {
-            stringBuilder.append(TransactionFields.formatTransaction(it))
-        }
-
-        view?.exportSave(stringBuilder.toString())
+        isShare = false
+        AppManager.instance.wallet?.exportTxHistoryToCsv()
     }
 
     override fun onExportShare() {
-        val file = repository.getTransactionsFile()
-        val stringBuilder = StringBuilder()
-        stringBuilder.append(TransactionFields.HEAD_LINE)
-
-        getTransactions().forEach {
-            stringBuilder.append(TransactionFields.formatTransaction(it))
-        }
-        file.writeBytes(stringBuilder.toString().toByteArray())
-
-        view?.exportShare(file)
+        isShare = true
+        AppManager.instance.wallet?.exportTxHistoryToCsv()
     }
 
     override fun onDeleteTransactionsPressed() {
@@ -148,12 +137,23 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
             view?.configTransactions(getTransactions())
         }
+
+        txStatusSubscription = AppManager.instance.subOnExportToCSV.subscribe {
+            if (!isShare) {
+                view?.exportSave(it)
+            }
+            else {
+                val file = repository.getTransactionsFile()
+                file.writeBytes(it.toByteArray())
+                view?.exportShare(file)
+            }
+        }
     }
 
     override fun onModeChanged(mode: TransactionsFragment.Mode) {
         view?.changeMode(mode)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(txStatusSubscription, txStatusSubscription)
 
 }

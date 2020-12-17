@@ -114,6 +114,37 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/addressTypeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:visibility="visible"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:letterSpacing="0.2"
+                    android:padding="3dp"
+                    android:text="@string/address_type"
+                    android:textAllCaps="true"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/addressTypeLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="3dp"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    tools:text="0.765 GROTH" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/feeLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

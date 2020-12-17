@@ -51,6 +51,11 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val isShielded = source.isShielded
     val isMaxPrivacy = source.isMaxPrivacy
     val isPublicOffline = source.isPublicOffline
+    val token = source.token
+    val senderIdentity = source.senderIdentity
+    val receiverIdentity = source.receiverIdentity
+    val receiverAddress = source.receiverAddress
+    val senderAddress = source.senderAddress
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
@@ -59,6 +64,21 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     override fun toString(): String {
         return "\n\nTxDescription(\n id=$id\n amount=$amount\n fee=$fee\n status=${status.name}\n kernelId=$kernelId\n change=$change\n minHeight=$minHeight\n " +
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
+    }
+
+    fun getAddressType(context: Context): String {
+        return when {
+            isPublicOffline -> {
+                context.getString(R.string.public_offline)
+            }
+            isMaxPrivacy -> {
+                context.getString(R.string.max_privacy)
+            }
+            isShielded -> {
+                context.getString(R.string.offline)
+            }
+            else -> context.getString(R.string.regular)
+        }
     }
 
     fun getStatusStringWithoutLocalizable() : String = when (status) {

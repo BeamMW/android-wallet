@@ -14,12 +14,25 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.app_activity
+package com.mw.beam.beamwallet.screens.choose_currency
 
-import java.util.*
+import com.mw.beam.beamwallet.base_screen.MvpPresenter
+import com.mw.beam.beamwallet.base_screen.MvpRepository
+import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
 
-data class PendingSendInfo(val token: String, val comment: String?, val amount: Long, val fee: Long, val outgoingAddress: String) {
-    val id by lazy {
-        UUID.randomUUID().toString()
+interface ChooseCurrencyContract {
+
+    interface View: MvpView {
+        fun init(currencies: List<ExchangeRate>)
+        fun changeCurrency(currency: Currency)
+    }
+
+    interface Presenter: MvpPresenter<View> {
+        fun onSelectCurrency(currency: Currency)
+    }
+
+    interface Repository: MvpRepository {
     }
 }

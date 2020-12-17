@@ -74,10 +74,10 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
         super.onViewCreated(view, savedInstanceState)
 
         if (LockScreenManager.isShowedLockScreen) {
-            requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+            requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
         }
 
-        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        appVersion.text = "v " + BuildConfig.VERSION_NAME
     }
 
     override fun onStart() {

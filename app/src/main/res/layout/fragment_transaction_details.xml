@@ -222,7 +222,6 @@
                         tools:text="12 Jun 2018   |   3:46 PM" />
                 </LinearLayout>
 
-
                 <LinearLayout
                     android:id="@+id/senderLayout"
                     android:layout_width="match_parent"
@@ -301,6 +300,38 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/senderIdentityLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/sender_identity"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/senderIdentityLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="3dp"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        tools:text="0.765 GROTH" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/receiverLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -373,6 +404,69 @@
                         android:textSize="14sp"
                         tools:text="Categories" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/receiverIdentityLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/receiver_identity"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/receiverIdentityLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="3dp"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        tools:text="0.765 GROTH" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/addressTypeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:visibility="visible"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
+                        android:padding="3dp"
+                        android:text="@string/address_type"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/addressTypeLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:padding="3dp"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        tools:text="0.765 GROTH" />
                 </LinearLayout>
 
                 <LinearLayout

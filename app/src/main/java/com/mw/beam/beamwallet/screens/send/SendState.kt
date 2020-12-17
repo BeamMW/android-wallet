@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
@@ -40,7 +41,6 @@ class SendState {
     var generatedAddress: WalletAddress? = null
     var expandAdvanced = false
     var expandEditAddress = false
-    var isMaxPrivacy = false
-    var isMaxPrivacyRequested = false
     var maxPrivacyCount = -1
+    var addressType = BMAddressType.BMAddressTypeUnknown
 }

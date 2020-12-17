@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_create.*
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create
     override fun getToolbarTitle(): String? = ""
-    override fun hasBackArrow(): Boolean = WelcomeCreateFragmentArgs.fromBundle(arguments!!).hasBackArrow
+    override fun hasBackArrow(): Boolean = WelcomeCreateFragmentArgs.fromBundle(requireArguments()).hasBackArrow
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -64,8 +64,8 @@ class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCre
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
-        appVersion.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
+        appVersion.text = "v " + BuildConfig.VERSION_NAME
     }
 
     override fun onStart() {

@@ -319,6 +319,7 @@ else{
         feeLabel.text = txDescription.fee.toString() + " GROTH"
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
+        addressTypeLabel.text = txDescription.getAddressType(requireContext())
 
         if(startAddress.text.startsWith("1000000")) {
             startAddress.text = getString(R.string.shielded_pool)
@@ -344,7 +345,7 @@ else{
             feeLayout.visibility = View.GONE
         }
 
-        if (kernelLabel.text.startsWith("0000000")) {
+        if (kernelLabel.text.startsWith("0000000") || kernelLabel.text.isEmpty()) {
             kernelLayout.visibility = View.GONE
             btnOpenInBlockExplorer.visibility = View.GONE
         }

@@ -25,6 +25,8 @@ import com.mikepenz.fastadapter.dsl.genericFastAdapter
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
+import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -46,6 +48,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     var change = 0L
     var inputShield = 0L
     var isAllPressed = false
+    var currency = Currency.Beam
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
@@ -145,13 +148,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         view?.setupTagAction(repository.getAllTags().isEmpty())
-        view?.setMaxPrivacy(state.isMaxPrivacy)
-
-        if(!state.isMaxPrivacy) {
-            state.isMaxPrivacyRequested = false
-        }
-
-        view?.setMaxPrivacyRequested(state.isMaxPrivacyRequested)
 
         notifyPrivacyStateChange()
 
@@ -177,39 +173,24 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             onEnterFee(DEFAULT_FEE.toString())
         }
 
-        state.isMaxPrivacy = value
-        view?.setMaxPrivacy(state.isMaxPrivacy)
-        view?.setMaxPrivacyRequested(state.isMaxPrivacyRequested)
         requestFee()
     }
 
     override fun requestFee() {
-       // if (AppManager.instance.getStatus().shielded > 0) {
-            val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
-            val fee = view?.getFee() ?: 0L
-            val isMaxPrivacy = state.isMaxPrivacy || state.isMaxPrivacyRequested
-            val defaultMinFeeForMaxPrivacy = 1000100L
-
-//            val sFee = if (isMaxPrivacy && fee > defaultMinFeeForMaxPrivacy) {
-//                fee - defaultMinFeeForMaxPrivacy
-//            }
-//            else {
-//                fee
-//            }
-
-            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(enteredAmount + fee, 0L, isMaxPrivacy)
-       // }
+        val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
+        val fee = view?.getFee() ?: 0L
+        val isShielded = (state.addressType == BMAddressType.BMAddressTypeShielded || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
+                state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
+        AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(enteredAmount + fee, 0L, isShielded)
     }
 
     private fun onFeeDidCalculated(fee: Long) {
-        Log.e("FEE", fee.toString())
         if (FORK_MIN_FEE != fee.toInt()) {
             FORK_MIN_FEE = fee.toInt()
-            if (fee < 300) {
-                MAX_FEE = 2000
-            }
-            else {
-                MAX_FEE = fee.toInt() * 2
+            MAX_FEE = if (fee < 300) {
+                2000
+            } else {
+                fee.toInt() * 2
             }
             DEFAULT_FEE = FORK_MIN_FEE
 
@@ -305,7 +286,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     view?.showCantSendToExpiredError()
                 } else if (state.outgoingAddress != null) {
                     saveAddress()
-                    view?.showConfirmTransaction(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee, state.isMaxPrivacy)
+                    view?.showConfirmTransaction(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee)
                 }
             }
         }
@@ -418,20 +399,22 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if(AppManager.instance.wallet?.isToken(scannedAddress) == true) {
                 val params = AppManager.instance.wallet?.getTransactionParameters(scannedAddress, true)
                 if(params!=null) {
-                    if(params.isMaxPrivacy) {
-                        state.isMaxPrivacyRequested = true
+                    state.addressType = params.getAddressType()
+                    val isShielded = (state.addressType == BMAddressType.BMAddressTypeShielded || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
+                            state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
+                    if(isShielded) {
                         onMaxPrivacy(true)
                     }
-
                     if(params.amount > 0) {
                         state.scannedAmount = params.amount.convertToBeam()
                         state.scannedAmount?.let { view?.setAmount(it) }
                     }
                 }
+                else {
+                    state.addressType = BMAddressType.BMAddressTypeUnknown
+                }
             }
             else {
-                state.isMaxPrivacy = false
-                state.isMaxPrivacyRequested = false
                 state.maxPrivacyCount = -1
             }
 
@@ -528,11 +511,25 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onAmountChanged() {
-        view?.apply {
-            clearErrors()
-            updateFeeTransactionVisibility()
+        val amount = view?.getAmount()
+        if(amount != null && amount > 0) {
+            view?.apply {
+                updateFeeTransactionVisibility()
+            }
+            requestFee()
+
+            if (amount != null) {
+                if(amount <= 0.0) {
+                    view?.clearErrors()
+                }
+            }
+            else {
+                view?.clearErrors()
+            }
         }
-        requestFee()
+        else {
+            view?.clearErrors()
+        }
     }
 
     override fun onAmountUnfocused() {
@@ -601,6 +598,29 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 inputShield = it.shieldedInputsFee
                 change = it.change
                 onFeeDidCalculated(it.fee)
+
+                val amount = view?.getAmount()
+                if (amount != null) {
+                    if(amount > 0.0) {
+                        val availableAmount = AppManager.instance.getStatus().available
+                        val feeAmount = try {
+                            view?.getFee() ?: 0L
+                        } catch (exception: NumberFormatException) {
+                            0L
+                        }
+
+                        val error = view?.hasAmountError(amount.convertToGroth(), feeAmount, availableAmount, state.privacyMode)
+                        if (!error!!) {
+                            view?.clearErrors()
+                        }
+                    }
+                    else {
+                        view?.clearErrors()
+                    }
+                }
+                else {
+                    view?.clearErrors()
+                }
             }
         }
 

@@ -36,6 +36,9 @@ enum class Currency(val value: Int) {
             this == Off -> {
                 context.getString(R.string.off)
             }
+            this == Beam -> {
+                "BEAM"
+            }
             else -> {
                 context.getString(R.string.usd)
             }
@@ -49,6 +52,9 @@ enum class Currency(val value: Int) {
             }
             this == Off -> {
                 ""
+            }
+            this == Beam -> {
+                "BEAM"
             }
             else -> {
                 "USD"

@@ -70,9 +70,7 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
     }
 
     override fun requestProof(txId: String) {
-        getResult("requestProof") {
-            wallet?.getPaymentInfo(txId)
-        }
+        wallet?.getPaymentInfo(txId)
     }
 
     override fun getAddressTags(address: String): List<Tag> {

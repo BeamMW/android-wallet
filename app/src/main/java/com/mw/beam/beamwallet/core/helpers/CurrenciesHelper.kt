@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.core.helpers
 
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Currency
+import kotlinx.android.synthetic.main.fragment_send.*
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
@@ -100,6 +101,16 @@ fun Long.convertToCurrencyGrothString(): String? {
     return null
 }
 
+fun Double.convertToCurrencyString(currency: Currency?): String? {
+    if(currency == Currency.Beam) {
+        return convertToCurrencyString()
+    }
+    val entered = this
+    val current = AppManager.instance.getCurrencyById(currency)
+    val value = current?.amount?.toDouble()?.div(100000000)
+    val rate = (entered)/value!!
+    return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BEAM"
+}
 
 fun Double.convertToCurrencyString(): String? {
     val current = AppManager.instance.currentExchangeRate()

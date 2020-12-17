@@ -14,12 +14,14 @@
  * // limitations under the License.
  */
 
-package com.mw.beam.beamwallet.screens.app_activity
+package com.mw.beam.beamwallet.screens.choose_currency
 
-import java.util.*
+import com.mw.beam.beamwallet.base_screen.BaseRepository
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.Currency
+import com.mw.beam.beamwallet.core.entities.ExchangeRate
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
-data class PendingSendInfo(val token: String, val comment: String?, val amount: Long, val fee: Long, val outgoingAddress: String) {
-    val id by lazy {
-        UUID.randomUUID().toString()
-    }
+class ChooseCurrencyRepository: BaseRepository(), ChooseCurrencyContract.Repository {
+
 }

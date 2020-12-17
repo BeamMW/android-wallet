@@ -17,18 +17,35 @@
 package com.mw.beam.beamwallet.core.entities
 
 import android.os.Parcelable
+import com.google.android.gms.common.stats.StatsEvent
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.core.utils.isBefore
-import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
  *  19.11.18.
  */
+
+enum class BMAddressType(val value: Int) {
+    BMAddressTypeRegular(0),
+    BMAddressTypeMaxPrivacy(1),
+    BMAddressTypeShielded(2),
+    BMAddressTypeOfflinePublic(3),
+    BMAddressTypeRegularPermanent(4),
+    BMAddressTypeUnknown(5);
+
+    companion object {
+        private val types = values().associateBy { it.value }
+        fun findByValue(value: Int) = types[value]
+    }
+}
+
+
 @Parcelize
 class WalletAddress(var source: WalletAddressDTO) : Parcelable {
-    val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
+    private val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
+
     var label: String = source.label
     var category: String = source.category
     val createTime: Long = source.createTime
@@ -40,12 +57,21 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     var tokenOffline = ""
     var tokenMaxPrivacy = ""
     var identity = source.identity
+    var address = source.address
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
         this.category = this@WalletAddress.category
         this.identity = this@WalletAddress.identity
+        this.address = this@WalletAddress.address
+    }
+
+    fun getWalletID(): String {
+        if(walletID.isNullOrEmpty()) {
+            return address
+        }
+        return walletID
     }
 
     fun splitCategories() : MutableList<String>  {

@@ -33,11 +33,13 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
         override fun afterTextChanged(s: Editable?) {
             presenter?.onTokenChanged()
             if (!s.isNullOrBlank()) {
-                val validAddress = s.replace(QrHelper.tokenRegex, "")
+                if(s.contains(QrHelper.BEAM_URI_PREFIX)) {
+                    val validAddress = s.replace(QrHelper.tokenRegex, "")
 
-                if (validAddress != s.toString()) {
-                    address.setText("")
-                    address.append(validAddress)
+                    if (validAddress != s.toString()) {
+                        address.setText("")
+                        address.append(validAddress)
+                    }
                 }
             }
         }
@@ -66,10 +68,10 @@ class AddContactFragment : BaseFragment<AddContactPresenter>(), AddContactContra
     override fun getToolbarTitle(): String? = getString(R.string.add_contact)
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     override fun addListeners() {
@@ -128,7 +130,7 @@ else{
 
     override fun setupTagAction(isEmptyTags: Boolean) {
         val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(context!!, resId)
+        val drawable = ContextCompat.getDrawable(requireContext(), resId)
         tagAction.setImageDrawable(drawable)
     }
 
@@ -144,7 +146,7 @@ else{
 
     @SuppressLint("InflateParams")
     override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
+        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
             val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
             setContentView(view)
 
@@ -168,7 +170,7 @@ else{
 
     override fun setTags(tags: List<Tag>) {
         if (tags.count() > 0) {
-            this.tags.text = tags.createSpannableString(context!!)
+            this.tags.text = tags.createSpannableString(requireContext())
         }
         else{
             this.tags.text = getString(R.string.none)
@@ -201,7 +203,7 @@ else{
     override fun getAddressFromArguments(): String? {
         if (arguments!=null)
         {
-            return AddContactFragmentArgs.fromBundle(arguments!!).address
+            return AddContactFragmentArgs.fromBundle(requireArguments()).address
         }
 
         return null

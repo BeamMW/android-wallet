@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
@@ -56,18 +57,17 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getAmount(): Long = args.sendAmount
     override fun getFee(): Long = args.fee
     override fun getComment(): String? = args.comment
-    override fun getMaxPrivacy(): Boolean = args.maxPrivacy
-    override fun getOffline(): Boolean = args.isOffline
+    override fun getAddressType(): Int = args.addressType
     override fun getRemaining(): Int = args.remaining
     override fun getChange(): Long = args.change
     override fun getShieldedInputsFee(): Long = args.shieldedInputsFee
 
     @SuppressLint("SetTextI18n")
-    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, maxPrivacy: Boolean, isOffline: Boolean) {
+    override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int) {
 
         sendTo.text = address.trimAddress()
 
-        this.outgoingAddress.text = outgoingAddress
+        this.outgoingAddress.text = outgoingAddress.trimAddress()
 
         amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         secondAvailableSum.text = amount.convertToCurrencyString()
@@ -83,37 +83,26 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
 
-        if (maxPrivacy) {
-            transactionType.text = getString(R.string.max_privacy_title)
+        val type = BMAddressType.findByValue(addressType)
+
+        if (type == BMAddressType.BMAddressTypeMaxPrivacy) {
+            transactionType.text = getString(R.string.max_privacy)
+        }
+        else if (type == BMAddressType.BMAddressTypeRegular) {
+            transactionType.text = getString(R.string.regular)
+        }
+        else if (type == BMAddressType.BMAddressTypeOfflinePublic) {
+            transactionType.text = getString(R.string.public_offline)
+        }
+        else if (type == BMAddressType.BMAddressTypeRegularPermanent) {
+            transactionType.text = getString(R.string.regular) + ". " + getString(R.string.permanent)
+        }
+        else if (type == BMAddressType.BMAddressTypeShielded) {
+            val left = getString(R.string.payments_left).toLowerCase().replace("xx.","")
+            transactionType.text = getString(R.string.offline) + ", " + left  + getRemaining()
         }
         else {
             transactionType.text = getString(R.string.regular)
-        }
-
-        if(getRemaining() >= 0) {
-            remainingValue.text = getRemaining().toString()
-        }
-        else {
-            val paramsTitle = remainingTitle.layoutParams as ConstraintLayout.LayoutParams
-            paramsTitle.topMargin = 0
-
-            val paramsValue = remainingValue.layoutParams as ConstraintLayout.LayoutParams
-            paramsValue.topMargin = 0
-
-            remainingTitle.layoutParams = paramsTitle
-            remainingValue.layoutParams = paramsValue
-
-            remainingTitle.visibility = View.GONE
-            remainingValue.visibility = View.GONE
-        }
-
-        val outAddres = AppManager.instance.getAddress(outgoingAddress)
-        if (outAddres != null && outAddres.duration == 0L) {
-            outgoingAddressExpiration.text = getString(R.string.permanent)
-        }
-
-        if(maxPrivacy) {
-            description.visibility = View.GONE
         }
     }
 
@@ -125,6 +114,18 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     override fun getStatusBarColor(): Int {
         return ContextCompat.getColor(requireContext(), R.color.sent_color)
+    }
+
+    override fun configureOutAddress(walletAddress: WalletAddress, tags: List<Tag>) {
+        if (!walletAddress.label.isBlank()) {
+            outgoingAddressName.visibility = View.VISIBLE
+            outgoingAddressName.text = walletAddress.label
+        }
+
+        if (tags.isNotEmpty()) {
+            outgoingAddressCategory.visibility = View.VISIBLE
+            outgoingAddressCategory.text = tags.createSpannableString(requireContext())
+        }
     }
 
     override fun configureContact(walletAddress: WalletAddress, tags: List<Tag>) {
@@ -182,8 +183,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         }
     }
 
-    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy:Boolean) {
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress, maxPrivacy))
+    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress))
     }
 
     override fun showSaveAddressFragment(address: String) {

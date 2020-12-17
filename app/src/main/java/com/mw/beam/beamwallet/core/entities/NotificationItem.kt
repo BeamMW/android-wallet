@@ -69,8 +69,16 @@ class NotificationItem  {
                         detail = string
                     }
                     else {
-                        //TODO: change status
-                        if (transaction.isMaxPrivacy || transaction.isShielded || transaction.isPublicOffline)
+                        if(transaction.isMaxPrivacy) {
+                            icon = R.drawable.ic_notifictions_received_max_privacy
+                            name =  App.self.applicationContext.getString(R.string.transaction_received)
+                            val string = App.self.applicationContext.getString(R.string.transaction_received_max_privacy_notif_body)
+                                    .replace("(value)", beam)
+                                    .replace("(address)", transaction.myId)
+                                    .replace("  ", " ")
+                            detail = string
+                        }
+                        else if (transaction.isShielded || transaction.isPublicOffline)
                         {
                             icon = R.drawable.ic_notifictions_received_offline
                             name =  App.self.applicationContext.getString(R.string.transaction_received_from_offline)
@@ -96,7 +104,12 @@ class NotificationItem  {
                         icon = if (transaction.sender == TxSender.RECEIVED) {
                             R.drawable.ic_icon_notifictions_failed_copy
                         } else {
-                            R.drawable.ic_icon_notifictions_failed
+                            if (transaction.isMaxPrivacy) {
+                                R.drawable.ic_notifictions_failed_sent_max_privacy
+                            }
+                            else {
+                                R.drawable.ic_icon_notifictions_failed
+                            }
                         }
                         name =  App.self.applicationContext.getString(R.string.buy_transaction_failed_title)
 
@@ -108,19 +121,28 @@ class NotificationItem  {
                         detail = string
                     }
                     else {
-                        //TODO: change status
                         if (transaction.isMaxPrivacy || transaction.isShielded || transaction.isPublicOffline) {
 
                             val a = AppManager.instance.getAddress(transaction.myId)
-                            if (a != null && a?.isContact == false) {
-                                address = transaction.peerId
-                            }
-                            else {
-                                address = transaction.myId
+                            address = if (a != null && !a?.isContact) {
+                                transaction.peerId
+                            } else {
+                                transaction.myId
                             }
 
-                            icon = R.drawable.ic_notifictions_send_offline
-                            name =  App.self.applicationContext.getString(R.string.transaction_send_from_offline)
+                            if(address.isEmpty()) {
+                                address = transaction.receiverAddress
+                            }
+
+                            if(transaction.isMaxPrivacy) {
+                                name =  App.self.applicationContext.getString(R.string.transaction_sent)
+                                icon = R.drawable.ic_notifictions_send_max_privacy
+                            }
+                            else {
+                                icon = R.drawable.ic_notifictions_send_offline
+                                name =  App.self.applicationContext.getString(R.string.transaction_send_from_offline)
+                            }
+
                             val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", address)
@@ -128,6 +150,7 @@ class NotificationItem  {
                             detail = string
                         }
                         else {
+                            address = transaction.peerId
                             icon = R.drawable.ic_icon_notifictions_sent
                             name =  App.self.applicationContext.getString(R.string.transaction_sent)
                             val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)

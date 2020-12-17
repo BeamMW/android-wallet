@@ -49,6 +49,8 @@ class ShareTransactionDetailsView : FrameLayout {
         amount.text = txDescription.amount.convertToBeamString() + " BEAM"
         secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
 
+        addressTypeLabel.text = txDescription.getAddressType(context)
+
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {
                 startAddress.text = txDescription.myId
@@ -89,7 +91,7 @@ class ShareTransactionDetailsView : FrameLayout {
         }
 
         if (txDescription.status == TxStatus.Cancelled || txDescription.status == TxStatus.Failed
-                || txDescription.kernelId.startsWith("000000000")) {
+                || txDescription.kernelId.startsWith("000000000") || txDescription.kernelId.isEmpty()) {
             kernelLayout.visibility = View.GONE
         }
 

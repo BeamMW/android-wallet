@@ -43,7 +43,7 @@ import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
  */
 class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive_show_token
-    override fun getToolbarTitle(): String? = getString(R.string.show_token)
+    override fun getToolbarTitle(): String? = getString(R.string.address_details)
     override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(requireArguments()).token
     override fun getStatusBarColor(): Int {
         return if(ShowTokenFragmentArgs.fromBundle(requireArguments()).receive) {
@@ -56,7 +56,7 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
     override fun setCount(count: Int) {
         countTokenLayout.visibility = View.VISIBLE
-        countTokenValue.text = getString(R.string.offline) + " (" +  count.toString() + ")"
+        countTokenValue.text = count.toString()
     }
 
     @SuppressLint("SetTextI18n")
@@ -87,7 +87,22 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                     tokenTypeValue.text = getString(R.string.one_time)
                 }
 
-                if(params.isMaxPrivacy && !params.isOffline) {
+                if(params.isMaxPrivacy) {
+                    transactionTypeValue.text = getString(R.string.max_privacy)
+                    tokenTypeLayout.visibility = View.GONE
+                    addressLayout.visibility = View.GONE
+                }
+                else if(params.isOffline) {
+                    transactionTypeValue.text = getString(R.string.max_privacy_title)
+                    tokenTypeLayout.visibility = View.GONE
+                    addressLayout.visibility = View.VISIBLE
+                }
+                else if(params.isPublicOffline) {
+                    transactionTypeValue.text = getString(R.string.public_offline)
+                    tokenTypeLayout.visibility = View.GONE
+                    addressLayout.visibility = View.GONE
+                }
+                else if(params.isMaxPrivacy && !params.isOffline) {
                     addressLayout.visibility = View.GONE
                     countTokenLayout.visibility = View.VISIBLE
                     countTokenValue.text = getString(R.string.online)
@@ -112,7 +127,7 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         }
         else {
             transactionTypeLayout.visibility = View.VISIBLE
-            transactionTypeValue.text = resources.getString(R.string.regular)
+            transactionTypeValue.text = resources.getString(R.string.regular) + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
             tokenTitle.text = resources.getString(R.string.sbbs_address)
 
             if (isReceive)

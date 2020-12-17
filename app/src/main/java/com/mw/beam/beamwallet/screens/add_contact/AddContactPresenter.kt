@@ -80,7 +80,6 @@ class AddContactPresenter(view: AddContactContract.View?, repository: AddContact
 
     override fun checkAddress() {
         val address = view?.getAddress() ?: ""
-        val name = view?.getName() ?: ""
 
         if (AppManager.instance.isValidAddress(address)) {
             if (state.addresses.containsKey(address)) {

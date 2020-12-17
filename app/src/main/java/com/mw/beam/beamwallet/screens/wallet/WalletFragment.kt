@@ -43,6 +43,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 import com.mw.beam.beamwallet.core.views.gone
@@ -532,6 +533,10 @@ else{
         onBackPressedCallback.isEnabled = true
 
         (activity as? AppActivity)?.checkShortCut()
+
+        if(AppManager.instance.getNetworkStatus() == NetworkStatus.OFFLINE) {
+            AppManager.instance.setNetworkStatus(false)
+        }
     }
 
     override fun onStop() {

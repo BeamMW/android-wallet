@@ -17,12 +17,15 @@
 package com.mw.beam.beamwallet.core.views
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.mw.beam.beamwallet.R
 import kotlinx.android.synthetic.main.common_button.view.*
+
 
 /**
  *  10/22/18.
@@ -49,6 +52,7 @@ class BeamButton : LinearLayout {
                 text.setTextColor(ContextCompat.getColor(context, field))
             }
         }
+
 
     private var isLowerCase = false
 
@@ -85,12 +89,18 @@ class BeamButton : LinearLayout {
             textColorResId = a.getResourceId(R.styleable.BeamButton_button_text_color, Integer.MIN_VALUE)
 
             if (!a.getBoolean(R.styleable.BeamButton_text_padding_enabled, true)) {
-                text.setPadding(text.paddingLeft, 0, text.paddingRight,0)
+                text.setPadding(text.paddingLeft, 0, text.paddingRight, 0)
             }
 
             isLowerCase = a.getBoolean(R.styleable.BeamButton_lower_case, false)
             if (isLowerCase) {
                 text.text = text.text.toString().toLowerCase()
+            }
+
+            val font = a.getInt(R.styleable.BeamButton_fonts, -1)
+            if(font > 0) {
+                val typeFace = ResourcesCompat.getFont(context, R.font.roboto_regular)
+                text.typeface = typeFace
             }
         }
     }

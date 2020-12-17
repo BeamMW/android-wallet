@@ -538,6 +538,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_sendFragment_to_chooseCurrencyFragment"
+            app:destination="@id/chooseCurrencyFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/transactionDetailsFragment"
@@ -819,13 +826,8 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
         <argument
-            android:name="maxPrivacy"
-            app:argType="boolean"
-            android:defaultValue="false" />
-        <argument
-            android:name="isOffline"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:name="addressType"
+            app:argType="integer" />
         <argument
             android:name="remaining"
             app:argType="integer"
@@ -1114,4 +1116,13 @@
         android:id="@+id/publicOfflineAddressFragment"
         android:name="com.mw.beam.beamwallet.screens.public_offline_address.PublicOfflineAddressFragment"
         android:label="PublicOfflineAddressFragment" />
+    <fragment
+        android:id="@+id/chooseCurrencyFragment"
+        android:name="com.mw.beam.beamwallet.screens.choose_currency.ChooseCurrencyFragment"
+        android:label="ChooseCurrencyFragment" >
+        <argument
+            android:name="selectedCurrency"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

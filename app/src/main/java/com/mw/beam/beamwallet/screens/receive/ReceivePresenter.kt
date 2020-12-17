@@ -80,6 +80,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
         else if(state.address != null) {
             initViewAddress(state?.address)
+            view?.updateTokens(state?.address!!)
         }
     }
 
@@ -162,20 +163,15 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun onShareTokenPressed() {
-//        if (transaction == TransactionTypeOptions.REGULAR && expire == TokenExpireOptions.ONETIME) {
-//            view?.shareToken(state.address!!.token)
-//        }
-//        else if ((transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.ONETIME) || (transaction == TransactionTypeOptions.MAX_PRIVACY && expire == TokenExpireOptions.PERMANENT)) {
-////            val option1 = App.self.resources.getString(R.string.online_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-////            val option2 = App.self.resources.getString(R.string.offline_token) + "(" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-////            view?.showShareDialog(option1, option2)
-//            view?.shareToken(state.address!!.offlineToken)
-//        }
-//        else if (transaction == TransactionTypeOptions.REGULAR && expire == TokenExpireOptions.PERMANENT) {
-//            val option1 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-//            val option2 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
-//            view?.showShareDialog(option1, option2)
-//        }
+        if (transaction == TransactionTypeOptions.MAX_PRIVACY) {
+            view?.shareToken(state.address!!.tokenMaxPrivacy)
+        }
+        else {
+            val option1 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            val option2 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
+            val option3 = App.self.resources.getString(R.string.offline_token)
+            view?.showShareDialog(option1, option2, option3)
+        }
     }
 
 
@@ -323,9 +319,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     override fun updateToken() {
-        Timer("SettingUp", false).schedule(1500) {
-            requestAddresses()
-        }
+        requestAddresses()
     }
 
     private fun requestAddresses() {
@@ -336,13 +330,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             }
             state?.address?.tokenOnline = AppManager.instance.wallet?.generateRegularAddress(expire == TokenExpireOptions.PERMANENT, amount, state!!.address!!.walletID)!!
             state?.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(amount, state!!.address!!.walletID)!!
-            state?.address?.tokenMaxPrivacy = "max privacy"
-            if(AppManager.instance.isOwnNode()) {
-             //   AppManager.instance.wallet?.generateMaxPrivacyAddress(amount, state!!.address!!.walletID)
-            }
+            AppManager.instance.wallet?.generateMaxPrivacyAddress(amount, state!!.address!!.walletID)
 
             view?.updateTokens(state?.address!!)
         }
+
     }
 
     override fun hasStatus(): Boolean = true

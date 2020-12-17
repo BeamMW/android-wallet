@@ -275,7 +275,6 @@
     <string name="outgoing_address">Outgoing address</string>
     <string name="my_addresses">My addresses</string>
     <string name="no_matching_address_found">No matching address found</string>
-    <string name="local_comment_not_shared">Local comment, won’t be shared</string>
     <string name="address_already_exist_1">This address already exists</string>
     <string name="address_already_exist_2">You can\'t save your address. This address already exists</string>
     <string name="settings_report">Report a problem</string>
@@ -416,7 +415,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
-    <string name="search_by_address_tag_or_name">Search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="min_fee_error_max_privacy">Сoins were automatically selected to maximize privacy and minimal transaction fee of 1,000,100 GROTH.</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -575,6 +574,7 @@ address or contact</string>
     <string name="new_notifications_text">Please click to open details</string>
     <string name="transaction_received_notif_body">You received (value) BEAM from (address)</string>
     <string name="transaction_receiving_notif_body">You receiving (value) BEAM from (address)</string>
+    <string name="transaction_received_max_privacy_notif_body">You received (value) BEAM to (address)</string>
     <string name="transaction_sent_notif_body">You sent (value) BEAM to (address)</string>
     <string name="address_expired_notif">1 address expired</string>
     <string name="addresses_expired_notif">(count) addresses expired</string>
@@ -645,12 +645,11 @@ address or contact</string>
     <string name="transaction_info">Transaction info</string>
     <string name="offline_token_type">Offline</string>
     <string name="online_token_type">Online</string>
-    <string name="max_privacy_disabled_node">Connect to integrated or own node to enable sending Offline transactions</string>
+    <string name="max_privacy_disabled_node">Connect to integrated or own node to enable receiving max privacy and offline transactions</string>
     <string name="address_not_supported_max_privacy">This type of address does not support offline transactions</string>
     <string name="cant_sent_max_to_my_address">Can not sent Offline transaction to own address</string>
     <string name="offline">Offline</string>
     <string name="offline_transactions">Offline transactions</string>
-    <string name="outgoing_token">Outgoing addresses</string>
     <string name="address_expire_after_2h">Address will expire in 12 hours after succesfull transaction</string>
     <string name="sbbs_address">SBBS address</string>
     <string name="offline_remaining">Offline transactions remaining</string>
@@ -670,7 +669,16 @@ address or contact</string>
     <string name="online_token_for_pool">Online address (for exchange or mining pool)</string>
     <string name="supports_payment">Supports XX payments.</string>
     <string name="max_privacy_address">Max privacy address</string>
-    <string name="receive_notice_max_privacy">Min transaction fee to send Max privacy coins is ~0.01 BEAM.</string>
+    <string name="receive_notice_max_privacy">Max privacy transaction can last\nat most 72 hours.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
+    <string name="local_comment">Comments are local and won’t be shared</string>
+    <string name="address_type">Address type</string>
+    <string name="payments">Payments</string>
+    <string name="zero">0</string>
+    <string name="payments_left">Payments left: XX.</string>
+    <string name="locked_till">(locked till the transaction\nwill succeed or expire)</string>
+    <string name="sender_identity">Sender identity</string>
+    <string name="receiver_identity">Receiver identity</string>
+    <string name="choose_currency">Choose currency</string>
 
 </resources>
 

@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.core.entities.dto
 
 import android.os.Parcelable
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -33,4 +34,23 @@ data class TransactionParametersDTO(val address: String,
                                     val amount: Long,
                                     var versionError: Boolean,
                                     var version: String) : Parcelable {
+
+    fun getAddressType(): BMAddressType {
+        return when {
+            isMaxPrivacy -> {
+                BMAddressType.BMAddressTypeMaxPrivacy;
+            }
+            isPublicOffline -> {
+                BMAddressType.BMAddressTypeOfflinePublic;
+            }
+            isOffline -> {
+                BMAddressType.BMAddressTypeShielded;
+            }
+            isPermanentAddress -> {
+                BMAddressType.BMAddressTypeRegularPermanent;
+            }
+            else -> BMAddressType.BMAddressTypeRegular
+        }
+    }
 }
+

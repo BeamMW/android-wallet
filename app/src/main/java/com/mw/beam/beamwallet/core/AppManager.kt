@@ -41,7 +41,7 @@ class AppManager {
                     0,0,0,0,0,0,0,
                     SystemStateDTO("",0)))
 
-    private var networkStatus = NetworkStatus.ONLINE
+    private var networkStatus = NetworkStatus.OFFLINE
     private var isSubscribe = false
     var isConnecting = false
 
@@ -59,6 +59,7 @@ class AppManager {
     var subOnBeamGameGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnExportToCSV: Subject<String> = PublishSubject.create<String>().toSerialized()
 
 
     private var newAddressSubscription: Disposable? = null
@@ -103,7 +104,20 @@ class AppManager {
 
     }
 
-    private fun reconnect(): Boolean {
+    fun isCurrenciesAvailable(): Boolean {
+        return currencies.size > 0
+    }
+
+    fun getCurrencyById(value: Currency?): ExchangeRate? {
+        currencies.forEach {
+            if (it.unit == value?.value) {
+                return it
+            }
+        }
+        return null
+    }
+
+    fun reconnect(): Boolean {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
 
         if (random) {
@@ -127,8 +141,7 @@ class AppManager {
     }
 
     fun isOwnNode(): Boolean {
-        return true
-        //return wallet?.isConnectionTrusted() == true
+        return wallet?.isConnectionTrusted() == true
     }
 
     private fun chooseRandomNodeWithoutNodes(): String {
@@ -810,6 +823,47 @@ class AppManager {
         wallet?.getPublicAddress()
     }
 
+    fun setNetworkStatus(it: Boolean) {
+        networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
+
+        if (it)
+        {
+            isOwnNode()
+        }
+
+        if (isConnecting)
+        {
+            val delay = if (it) 1000L else 3000L
+            handler?.removeCallbacksAndMessages(null);
+            handler = null
+
+            handler = android.os.Handler()
+            handler?.postDelayed({
+                isConnecting = false
+                subOnNetworkStatusChanged.onNext(0)
+            }, delay)
+
+            if (!it) {
+                val reconnect = reconnect()
+                if (!reconnect) {
+                    networkStatus = NetworkStatus.OFFLINE
+                    subOnNetworkStatusChanged.onNext(0)
+                }
+            }
+        }
+        else if (!it && !isConnecting) {
+            isConnecting = false
+
+            subOnNetworkStatusChanged.onNext(0)
+
+            val reconnect = reconnect()
+            if (!reconnect) {
+                networkStatus = NetworkStatus.OFFLINE
+                subOnNetworkStatusChanged.onNext(0)
+            }
+        }
+    }
+
     @SuppressLint("CheckResult")
     fun subscribeToUpdates() {
         if (!isSubscribe)
@@ -996,44 +1050,7 @@ class AppManager {
             }
 
             WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
-                networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
-
-                if (it)
-                {
-                    isOwnNode()
-                }
-
-                if (isConnecting)
-                {
-                    val delay = if (it) 1000L else 3000L
-                    handler?.removeCallbacksAndMessages(null);
-                    handler = null
-
-                    handler = android.os.Handler()
-                    handler?.postDelayed({
-                        isConnecting = false
-                        subOnNetworkStatusChanged.onNext(0)
-                    }, delay)
-
-                    if (!it) {
-                        val reconnect = reconnect()
-                        if (!reconnect) {
-                            networkStatus = NetworkStatus.OFFLINE
-                            subOnNetworkStatusChanged.onNext(0)
-                        }
-                    }
-                }
-                else if (!it && !isConnecting) {
-                    isConnecting = false
-
-                    subOnNetworkStatusChanged.onNext(0)
-
-                    val reconnect = reconnect()
-                    if (!reconnect) {
-                        networkStatus = NetworkStatus.OFFLINE
-                        subOnNetworkStatusChanged.onNext(0)
-                    }
-                }
+                setNetworkStatus(it)
             }
 
             WalletListener.subOnNodeConnectionFailed.subscribe(){
@@ -1141,6 +1158,10 @@ class AppManager {
 
             }
 
+            WalletListener.suboOExportTxHistoryToCsv.subscribe(){
+                subOnExportToCSV.onNext(it)
+            }
+
 
             wallet?.switchOnOffExchangeRates(true)
             wallet?.switchOnOffNotifications(0, false)
@@ -1157,10 +1178,6 @@ class AppManager {
             wallet?.getTransactions()
             wallet?.getExchangeRates()
             wallet?.getNotifications()
-
-            Handler().postDelayed({
-                TagHelper.fixLegacyFormat()
-            }, 2000)
         }
     }
 }

@@ -28,7 +28,7 @@ data class Wallet(val _this: Long) {
     external fun getTransactions()
     external fun getUtxosStatus()
     external fun syncWithNode()
-    external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
+  //  external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
     external fun calcShieldedCoinSelectionInfo(amount: Long, fee: Long, isShielded: Boolean)
 
     //-(void):(double)amount fee:(double)fee isShielded:(BOOL) isShielded result:(FeecalculatedBlock _Nonnull )block;
@@ -71,8 +71,7 @@ data class Wallet(val _this: Long) {
     external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
 
     external fun isConnectionTrusted(): Boolean
-
     external fun callMyMethod()
-
     external fun getPublicAddress()
+    external fun exportTxHistoryToCsv()
 }

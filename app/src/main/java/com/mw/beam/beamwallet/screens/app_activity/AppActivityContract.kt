@@ -34,7 +34,7 @@ interface AppActivityContract {
     }
 
     interface Repository: MvpRepository {
-        fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean)
+        fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun cancelSendMoney(token: String)
     }
 }

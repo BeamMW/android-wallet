@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -33,6 +34,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
 
     var tabs = mutableListOf<BalanceTab>()
 
+    @SuppressLint("SetTextI18n", "CutPasteId")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.wallet_balanse_item, container, false)
 
@@ -43,7 +45,7 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
         }.convertToBeamString() + " BEAM"
 
 
-        val second = when (BalanceTab.values()[position]) {
+        val second = when (tabs[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
             BalanceTab.MaxPrivacy -> maxPrivacy

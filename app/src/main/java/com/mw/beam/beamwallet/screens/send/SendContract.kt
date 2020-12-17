@@ -63,7 +63,7 @@ interface SendContract {
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater, isEnablePrivacyMode: Boolean)
-        fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, maxPrivacy: Boolean)
+        fun showConfirmTransaction(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
         fun getAddressFromArguments(): String?
         fun getAmountFromArguments(): Long
         fun showChangeAddressFragment(generatedAddress: WalletAddress?)
@@ -85,8 +85,6 @@ interface SendContract {
         fun setupTagAction(isEmptyTags: Boolean)
         fun showTagsDialog(selectedTags: List<Tag>)
         fun showCreateTagDialog()
-        fun setMaxPrivacy(value:Boolean)
-        fun setMaxPrivacyRequested(value:Boolean)
         fun onTrimAddress()
         fun showTokenFragment()
     }

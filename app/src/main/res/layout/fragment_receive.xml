@@ -39,6 +39,8 @@
                 android:imeOptions="actionDone"
                 android:inputType="text|textCapSentences"
                 android:singleLine="true"
+                android:hint="@string/local_comment"
+                android:textColorHint="@color/common_hint_text_color"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txCommentTitle"
                 tools:ignore="Autofill,LabelFor,TextFields" />
@@ -106,442 +108,507 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:background="?attr/cardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/maxPrivacyAddressValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
+                <FrameLayout
+                    android:id="@+id/transactionTypeLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:maxLines="1"
-                    app:layout_constraintEnd_toStartOf="@+id/maxPrivacyButtonsLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/maxPrivacyAddressTitle"
-                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
-
-                <LinearLayout
-                    android:id="@+id/maxPrivacyButtonsLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/maxPrivacyAddressValue"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/copyMaxPrivacyButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_btn_copy"
-                        android:padding="5dp" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/qrCodeMaxPrivacyButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_scan_qr"
-                        android:padding="5dp" />
-
-                    <com.mw.beam.beamwallet.core.views.BeamButton
-                        android:id="@+id/showMaxPrivacyButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        app:button_text="@string/show_token"
-                        app:button_text_color="@color/received_color"
-                        android:layout_weight="1"
-                        app:lower_case="true"
-                        app:text_padding_enabled="false" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/supportsPaymentValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="@font/roboto_italic"
-                    android:text="@string/supports_payment"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
+                    android:background="?attr/cardBackground"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/offlineAddressValue" />
-
-                <TextView
-                    android:id="@+id/offlineAddressValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:maxLines="1"
-                    app:layout_constraintEnd_toStartOf="@+id/offlineButtonsPoolLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/offlineAddressTitle"
-                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
-
-                <TextView
-                    android:id="@+id/offlineAddressTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/offline_token"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onlineAddressPoolsValue" />
-
-                <TextView
-                    android:id="@+id/maxPrivacyAddressTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/max_privacy_address"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/supportsPaymentValue" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/offlineGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="offlineButtonsPoolLayout,offlineAddressValue,offlineAddressTitle, supportsPaymentValue"/>
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/expireButtonsGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="oneTimeButton,permanentButton,tokenExpireTitle"/>
-
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/tokensGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="onlineAddressPoolsTitle,onlineAddressPoolsValue,onlineButtonsPoolLayout, onlineAddressTitle,onlineAddressValue,onlineButtonsLayout" />
-
-                <androidx.constraintlayout.widget.Group
-                    android:id="@+id/maxPrivacyGroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    app:constraint_referenced_ids="maxPrivacyAddressTitle,maxPrivacyAddressValue,maxPrivacyButtonsLayout"/>
-
-                <TextView
-                    android:id="@+id/transactionTypeTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginTop="20dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/transaction_type"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
+                    android:paddingBottom="20dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/transactionTypeTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/transaction_type"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/subHeaderTextColor"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <Button
+                            android:id="@+id/regularButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@android:color/transparent"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="0dp"
+                            android:paddingStart="0dp"
+                            android:text="@string/regular"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
+
+                        <Button
+                            android:id="@+id/maxPrivacyButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="32dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/accent_btn_background"
+                            android:fontFamily="@font/roboto_bold"
+                            android:padding="0dp"
+                            android:paddingStart="15dp"
+                            android:paddingEnd="15dp"
+                            android:text="@string/max_privacy"
+                            android:textColor="@color/accent"
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toEndOf="@+id/regularButton"
+                            app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
+
+                        <TextView
+                            android:id="@+id/notAvailableLabel"
+                            style="@style/common_text_small_dark"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:layout_marginTop="@dimen/send_receive_common_margin"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/max_privacy_disabled_node"
+                            android:textSize="14sp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/maxPrivacyButton" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/tokenExpirationtionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/cardBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/transactionTypeLayout"
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="20dp">
 
-                <Button
-                    android:id="@+id/regularButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:fontFamily="@font/roboto_bold"
-                    android:padding="0dp"
-                    android:paddingStart="0dp"
-                    android:text="@string/regular"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/maxPrivacyButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/accent_btn_background"
-                    android:fontFamily="@font/roboto_bold"
-                    android:padding="0dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:text="@string/max_privacy"
-                    android:textColor="@color/accent"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/regularButton"
-                    app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
-
-                <TextView
-                    android:id="@+id/notAvailableLabel"
-                    style="@style/common_text_small_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="@dimen/send_receive_common_margin"
-                    android:layout_marginEnd="16dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/max_privacy_disabled_node"
-                    android:textSize="14sp"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/maxPrivacyButton" />
-
-                <TextView
-                    android:id="@+id/tokenExpireTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/token_expiration"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/notAvailableLabel" />
-
-                <Button
-                    android:id="@+id/oneTimeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/accent_btn_background"
-                    android:fontFamily="@font/roboto_bold"
-                    android:padding="0dp"
-                    android:paddingStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:text="@string/one_time"
-                    android:textColor="@color/accent"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
-
-                <Button
-                    android:id="@+id/permanentButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:fontFamily="@font/roboto_bold"
-                    android:padding="0dp"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:text="@string/permanent"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toEndOf="@+id/oneTimeButton"
-                    app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
-
-                <TextView
-                    android:id="@+id/onlineAddressTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/online_address_for_wallet"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/permanentButton" />
-
-                <TextView
-                    android:id="@+id/onlineAddressValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="@dimen/send_receive_common_margin"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:maxLines="1"
-                    app:layout_constraintEnd_toStartOf="@id/onlineButtonsLayout"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onlineAddressTitle"
-                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
-
-                <LinearLayout
-                    android:id="@+id/onlineButtonsLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/onlineAddressValue"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/copyOnlineButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_btn_copy"
-                        android:padding="5dp" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/qrCodeOnlineButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/ic_scan_qr"
-                        android:padding="5dp" />
-
-                    <com.mw.beam.beamwallet.core.views.BeamButton
-                        android:id="@+id/showOnlineButton"
+                    <TextView
+                        android:id="@+id/tokenExpireTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/token_expiration"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/oneTimeButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/accent_btn_background"
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="0dp"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:text="@string/one_time"
+                        android:textColor="@color/accent"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
+
+                    <Button
+                        android:id="@+id/permanentButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
                         android:background="@android:color/transparent"
-                        app:button_text="@string/show_token"
-                        app:button_text_color="@color/received_color"
-                        app:lower_case="true"
-                        android:layout_weight="1"
-                        app:text_padding_enabled="false" />
+                        android:fontFamily="@font/roboto_bold"
+                        android:padding="0dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:text="@string/permanent"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@+id/oneTimeButton"
+                        app:layout_constraintTop_toBottomOf="@+id/tokenExpireTitle" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/onlineAddressValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="16dp"
+                        android:maxLines="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/permanentButton"
+                        tools:text="ox0123...0921234" />
+
+                    <LinearLayout
+                        android:id="@+id/onlineButtonsLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/onlineAddressValue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/onlineAddressValue">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/copyOnlineButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/ic_btn_copy"
+                            android:padding="5dp" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/qrCodeOnlineButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/ic_scan_qr"
+                            android:padding="5dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <com.mw.beam.beamwallet.core.views.BeamButton
+                            android:id="@+id/showOnlineButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:button_text="@string/show_token"
+                            app:button_text_color="@color/received_color"
+                            app:fonts="1"
+                            app:lower_case="true"
+                            app:text_padding_enabled="false" />
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </FrameLayout>
 
 
-                <TextView
-                    android:id="@+id/onlineAddressPoolsTitle"
-                    android:layout_width="0dp"
+                <FrameLayout
+                    android:id="@+id/onlineAddressPoolLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="30dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@string/online_token_for_pool"
-                    android:textAllCaps="false"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:textSize="12sp"
+                    android:background="?attr/cardBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/onlineAddressValue" />
+                    app:layout_constraintTop_toBottomOf="@+id/tokenExpirationtionLayout"
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="20dp">
 
-                <TextView
-                    android:id="@+id/onlineAddressPoolsValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/onlineAddressPoolsTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/online_token_for_pool"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/onlineAddressPoolsValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="@dimen/send_receive_common_margin"
+                        android:maxLines="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/onlineAddressPoolsTitle"
+                        tools:text="ox0123...0921234" />
+
+                    <LinearLayout
+                        android:id="@+id/onlineButtonsPoolLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/onlineAddressPoolsValue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/onlineAddressPoolsValue">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/copyPoolButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/ic_btn_copy"
+                            android:padding="5dp" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/qrCodePoolButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/ic_scan_qr"
+                            android:padding="5dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"/>
+
+                        <com.mw.beam.beamwallet.core.views.BeamButton
+                            android:id="@+id/showPoolButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:button_text="@string/show_token"
+                            app:button_text_color="@color/received_color"
+                            app:fonts="1"
+                            app:lower_case="true"
+                            app:text_padding_enabled="false" />
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/offlineAddressLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_offset"
-                    android:layout_marginTop="@dimen/send_receive_common_margin"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:maxLines="1"
-                    app:layout_constraintEnd_toStartOf="@id/onlineButtonsPoolLayout"
+                    android:background="?attr/cardBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onlineAddressPoolsTitle"
-                    tools:text="8jdu7wsdjkflk39902mnsdnkbkjadavfd39nas7877qwbnkbkjadavfd39n3o9bdy" />
+                    app:layout_constraintTop_toBottomOf="@+id/onlineAddressPoolLayout"
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="20dp">
 
-                <LinearLayout
-                    android:id="@+id/onlineButtonsPoolLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@id/onlineAddressPoolsValue"
-                    app:layout_constraintEnd_toEndOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/copyPoolButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_btn_copy"
-                        android:padding="5dp" />
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/qrCodePoolButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/ic_scan_qr"
-                        android:padding="5dp" />
-
-                    <com.mw.beam.beamwallet.core.views.BeamButton
-                        android:id="@+id/showPoolButton"
+                    <TextView
+                        android:id="@+id/offlineAddressTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        app:button_text="@string/show_token"
-                        app:button_text_color="@color/received_color"
-                        app:lower_case="true"
-                        android:layout_weight="1"
-                        app:text_padding_enabled="false" />
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/offline_token"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/offlineButtonsPoolLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="@+id/offlineAddressValue"
-                    app:layout_constraintEnd_toEndOf="parent">
-
-                    <androidx.appcompat.widget.AppCompatImageButton
-                        android:id="@+id/copyOfflineButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:background="@drawable/ic_btn_copy"
-                        android:padding="5dp" />
-
-                    <com.mw.beam.beamwallet.core.views.BeamButton
-                        android:id="@+id/showOfflineButton"
+                    <TextView
+                        android:id="@+id/offlineAddressValue"
+                        style="@style/common_text_big_light"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
-                        app:button_text="@string/show_token"
-                        app:button_text_color="@color/received_color"
-                        app:lower_case="true"
-                        android:layout_weight="1"
-                        app:text_padding_enabled="false" />
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="10dp"
+                        android:maxLines="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/offlineAddressTitle"
+                        tools:text="ox0123...0921234" />
 
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/supportsPaymentValue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/roboto_italic"
+                        android:text="@string/supports_payment"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/offlineAddressValue" />
 
-                <!--                edit-->
+                    <LinearLayout
+                        android:id="@+id/offlineButtonsPoolLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@+id/offlineAddressValue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/offlineAddressValue">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/copyOfflineButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/ic_btn_copy"
+                            android:padding="5dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <com.mw.beam.beamwallet.core.views.BeamButton
+                            android:id="@+id/showOfflineButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:button_text="@string/show_token"
+                            app:button_text_color="@color/received_color"
+                            app:fonts="1"
+                            app:lower_case="true"
+                            app:text_padding_enabled="false" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/maxPrivacyAddressLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/cardBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/offlineAddressLayout"
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/maxPrivacyAddressValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="10dp"
+                        android:maxLines="1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/maxPrivacyAddressTitle"
+                        tools:text="0212...120111" />
+
+                    <LinearLayout
+                        android:id="@+id/maxPrivacyButtonsLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/maxPrivacyAddressValue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/maxPrivacyAddressValue">
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/copyMaxPrivacyButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/ic_btn_copy"
+                            android:padding="5dp" />
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                            android:id="@+id/qrCodeMaxPrivacyButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/ic_scan_qr"
+                            android:padding="5dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1" />
+
+                        <com.mw.beam.beamwallet.core.views.BeamButton
+                            android:id="@+id/showMaxPrivacyButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            app:button_text="@string/show_token"
+                            app:button_text_color="@color/received_color"
+                            app:fonts="1"
+                            app:lower_case="true"
+                            app:text_padding_enabled="false" />
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/maxPrivacyAddressTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/max_privacy_address"
+                        android:textAllCaps="false"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                </FrameLayout>
+
+                <!--edit-->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/editAddressCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="?attr/cardBackground"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/frameLayout">
@@ -676,13 +743,13 @@
 
                 <FrameLayout
                     android:id="@+id/frameLayout"
-                    android:layout_width="409dp"
+                    android:layout_width="0dp"
                     android:layout_height="16dp"
                     android:layout_marginStart="1dp"
                     android:layout_marginEnd="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/maxPrivacyButtonsLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/maxPrivacyAddressLayout">
 
                 </FrameLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -705,6 +772,7 @@
                     android:background="@drawable/edit_text_selector"
                     android:backgroundTint="@android:color/transparent"
                     android:inputType="numberDecimal"
+                    android:hint="@string/zero"
                     android:textColor="@color/received_color"
                     android:textColorHint="@color/common_hint_text_color"
                     android:textSize="@dimen/receive_amount_text_size"

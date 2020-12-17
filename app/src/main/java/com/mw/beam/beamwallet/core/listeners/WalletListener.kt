@@ -87,6 +87,9 @@ object WalletListener {
     var subOnFeeCalculated: Subject<FeeChange> = PublishSubject.create<FeeChange>().toSerialized()
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
+
+
 
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
@@ -337,6 +340,12 @@ object WalletListener {
     fun onMaxPrivacyAddress(value: String) {
         LogUtils.logResponse(value, "onMaxPrivacyAddress")
         subOnMaxPrivacyAddress.onNext(value)
+    }
+
+    @JvmStatic
+    fun onExportTxHistoryToCsv(value: String) {
+        LogUtils.logResponse(value, "onExportTxHistoryToCsv")
+        suboOExportTxHistoryToCsv.onNext(value)
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

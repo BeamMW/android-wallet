@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send_confirmation
 
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 
 class SendConfirmationState {
@@ -23,10 +24,29 @@ class SendConfirmationState {
     val addresses = HashMap<String, WalletAddress>()
     var outgoingAddress: String = ""
     var token: String = ""
-    var maxPrivacy = false
-    var isOffline = false
     var comment: String? = null
     var amount: Long = 0
     var fee: Long = 0
+    var addressType = 0
     var shieldedInputsFee: Long = 0
+
+    fun getEnumAddressType(): BMAddressType {
+        if (addressType == 0){
+            return BMAddressType.BMAddressTypeRegular
+        }
+        else if (addressType == 1){
+            return BMAddressType.BMAddressTypeMaxPrivacy
+        }
+        else if (addressType == 2){
+            return BMAddressType.BMAddressTypeShielded
+        }
+        else if (addressType == 3){
+            return BMAddressType.BMAddressTypeOfflinePublic
+        }
+        else if (addressType == 4){
+            return BMAddressType.BMAddressTypeRegularPermanent
+        }
+        return BMAddressType.BMAddressTypeUnknown
+
+    }
 }

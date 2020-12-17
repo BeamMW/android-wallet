@@ -29,7 +29,8 @@ data class WalletAddressDTO(val walletID: String,
                             val createTime: Long,
                             var duration: Long,
                             val own: Long,
-                            var identity: String) : Parcelable {
+                            var identity: String,
+                            var address: String) : Parcelable {
     
     enum class WalletAddressExpirationStatus {
         Expired,

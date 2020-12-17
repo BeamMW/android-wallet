@@ -29,13 +29,21 @@ import com.mw.beam.beamwallet.R
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginRight
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragmentArgs
+import com.mw.beam.beamwallet.screens.settings.SettingsFragmentArgs
+import com.mw.beam.beamwallet.screens.settings.SettingsFragmentMode
 import kotlinx.android.synthetic.main.fragment_receive.*
 
 /**
@@ -57,6 +65,7 @@ class BeamToolbar : LinearLayout {
             field = value
             if (value) {
                 val value = ScreenHelper.dpToPx(context, 200)
+                changeNodeButton.visibility = View.GONE
                 status.setPaddingRelative(0,0,value,0)
             }
             else {
@@ -70,6 +79,7 @@ class BeamToolbar : LinearLayout {
     lateinit var progressBar: ProgressBar
     lateinit var centerTitleView: TextView
     lateinit var leftTitleView: TextView
+    lateinit var changeNodeButton: TextView
     private lateinit var statusLayout: ConstraintLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
@@ -93,6 +103,8 @@ class BeamToolbar : LinearLayout {
         progressBar = this.findViewById(R.id.progress)
         centerTitleView = this.findViewById(R.id.centerTitle)
         leftTitleView = this.findViewById(R.id.leftTitle)
+        changeNodeButton = this.findViewById(R.id.changeNodeButton)
+        changeNodeButton.visibility = View.GONE
 
         this.orientation = VERTICAL
 
@@ -108,13 +120,26 @@ class BeamToolbar : LinearLayout {
         }
 
         status.text = status.text.toString().toLowerCase()
+        changeNodeButton.text = changeNodeButton.text.toString().toLowerCase()
 
         toolbar.setNavigationIcon(R.drawable.ic_back)
 
         configureStatus(AppManager.instance.getNetworkStatus())
+
+        changeNodeButton.setOnClickListener {
+            val destinationFragment = R.id.settingsFragment
+            val navBuilder = NavOptions.Builder()
+            val modeArg = SettingsFragmentArgs(SettingsFragmentMode.Node)
+
+            val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+
+            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, modeArg.toBundle(), navigationOptions)
+        }
     }
 
      fun configureStatus(networkStatus: NetworkStatus) {
+         changeNodeButton.visibility = View.GONE
+
          if(networkStatus == NetworkStatus.RECONNECT) {
              if(App.isDarkMode) {
                  status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
@@ -157,6 +182,7 @@ class BeamToolbar : LinearLayout {
     private fun handleStatus(isOnline: Boolean) {
         progressBar.visibility = View.INVISIBLE
         statusIcon.visibility = View.VISIBLE
+        changeNodeButton.visibility = View.GONE
 
         if(App.isDarkMode) {
             status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
@@ -177,6 +203,10 @@ class BeamToolbar : LinearLayout {
             }
 
         } else {
+            val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+            if(!random && !hasOffset) {
+                changeNodeButton.visibility = View.VISIBLE
+            }
             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
             status.text = (context.getString(R.string.common_status_error).toLowerCase() + ": " + AppConfig.NODE_ADDRESS)
         }

@@ -26,9 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/send_to"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,12 +35,12 @@
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sendToTitle"
+                app:layout_constraintStart_toEndOf="@+id/sendToTitle"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
             <TextView
@@ -53,6 +51,7 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:visibility="gone"
                 tools:visibility="visible"
+                android:textAlignment="textEnd"
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -68,6 +67,7 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:visibility="gone"
                 tools:visibility="visible"
+                android:textAlignment="textEnd"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -83,9 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/outgoing_address"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/contactCategory" />
 
@@ -94,27 +92,42 @@
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:textAlignment="textEnd"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/outgoingAddressTitle"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+                app:layout_constraintStart_toEndOf="@+id/outgoingAddressTitle"
+                app:layout_constraintTop_toTopOf="@+id/outgoingAddressTitle"
+                tools:text="123311" />
 
             <TextView
-                android:id="@+id/outgoingAddressExpiration"
+                android:id="@+id/outgoingAddressName"
                 style="@style/common_text_big_dark"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="3dp"
-                android:fontFamily="@font/roboto_italic"
-                android:textSize="14sp"
-                android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="textEnd"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/outgoingAddress"
-                android:text="@string/one_time" />
+                tools:text="Name"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/outgoingAddressCategory"
+                style="@style/common_text_big_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/outgoingAddressName"
+                tools:text="Salary"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/transactionTypeTitle"
@@ -123,50 +136,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/transaction_type"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/address_type"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/outgoingAddressExpiration" />
+                app:layout_constraintTop_toBottomOf="@+id/outgoingAddressCategory" />
 
             <TextView
                 android:id="@+id/transactionType"
                 style="@style/common_text_big_light"
+                android:textAlignment="textEnd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transactionTypeTitle"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
-
-            <TextView
-                android:id="@+id/remainingTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/transactions_remaining"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/transactionType" />
-
-            <TextView
-                android:id="@+id/remainingValue"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/remainingTitle"
-                tools:text="0" />
+                app:layout_constraintStart_toEndOf="@+id/transactionTypeTitle"
+                app:layout_constraintTop_toTopOf="@+id/transactionTypeTitle"
+                tools:text="Offline, payments left: 9" />
 
 
             <TextView
@@ -176,24 +161,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/amount_to_send"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/remainingValue" />
+                app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
 
             <TextView
                 android:id="@+id/amountToSend"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
                 android:textColor="@color/sent_color"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/amountToSendTitle"
+                app:layout_constraintStart_toEndOf="@+id/amountToSendTitle"
+                app:layout_constraintTop_toTopOf="@+id/amountToSendTitle"
                 tools:text="2133.78927292 BEAM" />
 
             <TextView
@@ -201,12 +184,12 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="14sp"
                 android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/amountToSend"
                 tools:text="1234 USD" />
 
@@ -218,9 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/transaction_fee"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/secondAvailableSum" />
 
@@ -229,13 +210,13 @@
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
                 android:textColor="@color/sent_color"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/feeTitle"
+                app:layout_constraintStart_toEndOf="@+id/feeTitle"
+                app:layout_constraintTop_toTopOf="@+id/feeTitle"
                 tools:text="10000 GROTH" />
 
             <TextView
@@ -243,12 +224,12 @@
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="14sp"
                 android:visibility="visible"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fee"
                 tools:text="1234 USD" />
 
@@ -256,45 +237,44 @@
                 android:id="@+id/totalUtxoTitle"
                 style="@style/common_subheader_dark"
                 android:layout_width="0dp"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
                 android:text="@string/total_utxo_value"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secondAvailableFeeSum" />
+                app:layout_constraintTop_toBottomOf="@id/secondAvailableFeeSum"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/totalUtxo"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/totalUtxoTitle"
-                tools:text="2144 BEAM" />
+                app:layout_constraintStart_toEndOf="@+id/totalUtxoTitle"
+                app:layout_constraintTop_toTopOf="@+id/totalUtxoTitle"
+                tools:text="2144 BEAM"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/secondAvailableUTXOSum"
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/totalUtxo"
-                tools:text="1234 USD" />
+                tools:text="1234 USD"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/changeUtxoTitle"
@@ -303,13 +283,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:text="@string/change_description"
-                android:textAllCaps="false"
+                android:text="@string/change_address"
+                android:textAllCaps="true"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/secondAvailableUTXOSum"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/changeUtxoSubTitle"
+                style="@style/common_subheader_dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="100dp"
+                android:fontFamily="@font/roboto_italic"
+                android:letterSpacing="0"
+                android:text="@string/locked_till"
+                android:textAllCaps="false"
+                android:visibility="visible"
+                app:layout_constraintEnd_toStartOf="@+id/secondAvailableChangeSum"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/changeUtxoTitle"
                 tools:visibility="visible" />
 
             <TextView
@@ -317,60 +313,61 @@
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                tools:visibility="visible"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:visibility="gone"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/changeUtxoTitle"
-                tools:text="2144 BEAM" />
+                app:layout_constraintStart_toEndOf="@+id/changeUtxoTitle"
+                app:layout_constraintTop_toTopOf="@+id/changeUtxoTitle"
+                tools:text="2144 BEAM"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/secondAvailableChangeSum"
                 style="@style/common_text_big_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="3dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/roboto_regular"
                 android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/changeUtxo"
-                tools:text="1234 USD" />
+                tools:text="1234 USD"
+                tools:visibility="visible" />
 
             <TextView
+                android:id="@+id/description"
+                style="@style/common_text_big_light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_offset"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="@dimen/common_offset"
+                android:text="@string/confirmation_send_description"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/secondAvailableChangeSum"
-                style="@style/common_text_big_light"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:layout_marginTop="20dp"
-                android:textStyle="italic"
-                android:textAlignment="center"
-                android:id="@+id/description"
-                android:text="@string/confirmation_send_description"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content" />
-
+                app:layout_constraintTop_toBottomOf="@id/secondAvailableChangeSum" />
 
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnSend"
                 android:layout_width="@dimen/send_transfer_btn_width"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/send_btn_margin"
-                android:layout_marginBottom="@dimen/send_btn_margin"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/send_button"
                 app:button_icon="@drawable/ic_btn_send"
                 app:button_text="@string/send"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/description"
+                app:layout_constraintTop_toBottomOf="@id/changeUtxoSubTitle"
                 app:layout_constraintVertical_bias="1"
                 app:lower_case="true" />
 
