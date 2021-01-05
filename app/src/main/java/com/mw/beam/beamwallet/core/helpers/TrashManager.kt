@@ -40,7 +40,7 @@ object TrashManager {
         val addresses = HashMap<String, WalletAddress>()
         actions.values.forEach {
             it.transactions.forEach { transaction -> txDescriptions[transaction.id] = transaction }
-            it.addresses.forEach { address -> addresses[address.walletID] = address }
+            it.addresses.forEach { address -> addresses[address.id] = address }
         }
 
         return ActionData(txDescriptions.values.toList(), addresses.values.toList())
@@ -60,9 +60,13 @@ object TrashManager {
     fun remove(id: String) {
         actions[id]?.apply {
             addresses.forEach {
-                TagHelper.changeTagsForAddress(it.walletID, null)
-                AppManager.instance.wallet?.deleteAddress(it.walletID)
-                AppManager.instance.deleteAllNotificationByObject(it.walletID)
+                TagHelper.changeTagsForAddress(it.id, null)
+                AppManager.instance.wallet?.deleteAddress(it.id)
+                AppManager.instance.deleteAllNotificationByObject(it.id)
+
+                if (it.getOriginalId.isEmpty() && it.isContact) {
+                    AppManager.instance.setIgnoreAddress(it.id)
+                }
             }
 
             transactions.forEach {

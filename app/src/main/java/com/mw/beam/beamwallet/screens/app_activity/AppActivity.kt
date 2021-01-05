@@ -615,6 +615,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                     val navBuilder = NavOptions.Builder()
                     val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
                     findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
+                    selectItem(NavItem.ID.NOTIFICATIONS)
                 }
             }
             else {

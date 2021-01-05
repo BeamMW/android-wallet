@@ -178,7 +178,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 var s2 = mutableListOf<SettingsItem>()
-         //       s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
+                s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
                 s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
@@ -205,6 +205,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, SettingsFragmentMode.AskPassword, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, SettingsFragmentMode.FingerPrint, switch = true))
+                s1.add(SettingsItem(null, getString(R.string.max_privacy_lock_time),null, SettingsFragmentMode.MaxPrivacyLimit))
+
                 if (OnboardManager.instance.isSkipedSeed()) {
                     s1.add(SettingsItem(null, getString(R.string.complete_seed_verification),null, SettingsFragmentMode.Verification))
                 }
@@ -295,7 +297,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
-                    } else if (item.mode == SettingsFragmentMode.Logs) {
+                    }
+                    else if (item.mode == SettingsFragmentMode.MaxPrivacyLimit) {
+                        presenter?.onShowMaxPrivacySettings()
+                    }
+                    else if (item.mode == SettingsFragmentMode.Logs) {
                         presenter?.onLogsPressed()
                     }
                     else if (item.mode == SettingsFragmentMode.Currency) {
@@ -854,6 +860,34 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     @SuppressLint("InflateParams")
+    override fun showMaxPrivacySettingsDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_max_privacy_settings, null)
+
+            val time = AppManager.instance?.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L
+            val valuesArray = resources.getIntArray(R.array.max_privacy_values)
+
+            valuesArray.forEach { millisInt ->
+                val value = millisInt.toLong()
+
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+
+                (button as RadioButton).apply {
+                    text = getMaxPrivacyStringValue(value)
+                    isChecked = value == time
+                    setOnClickListener { presenter?.onChangeMaxPrivacySettings(value) }
+                }
+
+                view.radioGroupLockSettings.addView(button)
+            }
+
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
+    @SuppressLint("InflateParams")
     override fun showNodeAddressDialog(nodeAddress: String?) {
 
         this.passwordDialog = PasswordConfirmDialog.newInstance(PasswordConfirmDialog.Mode.ChangeNode, {
@@ -1052,6 +1086,29 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+
+    private fun getMaxPrivacyStringValue(hours: Long): String {
+        when (hours) {
+            24L -> {
+                return getString(R.string.h24)
+            }
+            36L -> {
+                return getString(R.string.h36)
+            }
+            48L -> {
+                return getString(R.string.h48)
+            }
+            60L -> {
+                return getString(R.string.h60)
+            }
+            72L -> {
+                return getString(R.string.h72)
+            }
+            else -> return getString(R.string.no_limit)
+        }
+    }
+
+
     override fun updateLockScreenValue(millis: Long) {
         for (view in mainLayout.children) {
             for (group in (view as LinearLayout).children) {
@@ -1069,6 +1126,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var item = group as SettingsItemView
                 if (item.mode == SettingsFragmentMode.AskPassword) {
                     item.switch = isConfirm
+                }
+            }
+        }
+    }
+
+    override fun updateMaxPrivacyValue(hours: Long) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.MaxPrivacyLimit) {
+                    item.detail = getMaxPrivacyStringValue(hours)
                 }
             }
         }

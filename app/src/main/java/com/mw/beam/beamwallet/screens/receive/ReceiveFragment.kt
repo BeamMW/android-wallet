@@ -138,8 +138,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         onlineAddressValue.text = walletAddress.tokenOnline.trimAddress()
         onlineAddress = walletAddress.tokenOnline
 
-        onlineAddressPoolsValue.text = walletAddress.walletID.trimAddress()
-        sbbsAddress = walletAddress.walletID
+        onlineAddressPoolsValue.text = walletAddress.id.trimAddress()
+        sbbsAddress = walletAddress.id
 
         offlineAddressValue.text = walletAddress.tokenOffline.trimAddress()
         offlineAddress = walletAddress.tokenOffline
@@ -510,7 +510,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 btnConfirmText = getString(R.string.save),
                 btnCancelText = getString(R.string.dont_save),
                 onCancel = {
-                    presenter?.state?.address?.walletID?.let { AppManager.instance.wallet?.deleteAddress(it) }
+                    presenter?.state?.address?.id?.let { AppManager.instance.wallet?.deleteAddress(it) }
                     nextStep()
                 },
                 onConfirm = {
@@ -526,7 +526,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 message = getString(R.string.receive_save_changes_message),
                 btnConfirmText = getString(R.string.save),
                 btnCancelText = getString(R.string.dont_save),
-                onCancel = { nextStep()
+                onCancel = {
+                    presenter?.state?.address?.id?.let { AppManager.instance.wallet?.deleteAddress(it) }
+                    nextStep()
                            },
                 onConfirm = {
                     presenter?.onSaveAddressPressed()

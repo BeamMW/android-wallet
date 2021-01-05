@@ -39,7 +39,7 @@ class AddressesRepository : BaseRepository(), AddressesContract.Repository {
 
     override fun deleteAddress(walletAddress: WalletAddress, withTransactions: List<TxDescription>) {
         getResult("deleteAddress") {
-            TrashManager.add(walletAddress.walletID, TrashManager.ActionData(withTransactions, listOf(walletAddress)))
+            TrashManager.add(walletAddress.id, TrashManager.ActionData(withTransactions, listOf(walletAddress)))
         }
     }
 

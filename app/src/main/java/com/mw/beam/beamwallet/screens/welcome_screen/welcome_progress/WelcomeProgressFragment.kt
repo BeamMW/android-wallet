@@ -98,7 +98,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             }
         }
 
-        if(mode == WelcomeMode.OPEN) {
+        if(mode == WelcomeMode.OPEN || mode == WelcomeMode.CREATE) {
             timer?.cancel()
             timer = null
 

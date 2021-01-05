@@ -24,52 +24,11 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
-
-            var sender = outgoingAddress
-            var receiver = token
-
-            if (AppManager.instance.wallet?.isToken(outgoingAddress) == true) {
-                var params = AppManager.instance.wallet!!.getTransactionParameters(outgoingAddress, false)
-                sender = params.address
-            }
-
-            if (AppManager.instance.wallet?.isToken(token) == true) {
-                var params = AppManager.instance.wallet!!.getTransactionParameters(token, false)
-                receiver = params.address
-            }
-
-            val address = AppManager.instance.getAddress(receiver)
-            val name = address?.label
-
-            wallet?.sendTransaction(sender, token, comment ?: "", amount, fee)
-
-            if(address!=null && !name.isNullOrEmpty()) {
-                val dto = address.toDTO()
-                dto.label = name
-                wallet?.saveAddress(dto, address.isContact)
-            }
-
-            removeSenContact(receiver)
+            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee)
         }
     }
 
     override fun cancelSendMoney(token: String) {
-       removeSenContact(token)
-    }
-
-    private fun removeSenContact(token:String) {
-        android.os.Handler().postDelayed({
-            var address:WalletAddress? = null
-            TrashManager.getAllData().addresses.forEach {
-                if (it.walletID == token)
-                {
-                    address = it
-                }
-            }
-
-            if (address!=null) {
-                TrashManager.remove(token)
-            }
-        }, 1000)
+        AppManager.instance.lastSendindAddress = ""
     }
 }

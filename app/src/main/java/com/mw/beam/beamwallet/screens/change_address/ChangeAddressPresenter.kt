@@ -93,8 +93,8 @@ class ChangeAddressPresenter(view: ChangeAddressContract.View?, repository: Chan
         
         val newItems = state.getAddresses().filter {
             it.label.trim().toLowerCase().contains(searchText) ||
-                    it.walletID.trim().toLowerCase().startsWith(searchText) ||
-                    repository.getAddressTags(it.walletID).any { tag ->  tag.name.toLowerCase().contains(searchText) }
+                    it.id.trim().toLowerCase().startsWith(searchText) ||
+                    repository.getAddressTags(it.id).any { tag ->  tag.name.toLowerCase().contains(searchText) }
         }
 
         view?.updateList(newItems)

@@ -221,21 +221,21 @@ class AddressesPagerAdapter(val context: Context,
 
         if (item != null) {
             for (i in 0 until activeAdapter.itemCount) {
-                if (activeAdapter.item(i).walletID == item) {
+                if (activeAdapter.item(i).id == item) {
                     activeAdapter.notifyItemChanged(i)
                     break
                 }
             }
 
             for (i in 0 until expiredAdapter.itemCount) {
-                if (expiredAdapter.item(i).walletID == item) {
+                if (expiredAdapter.item(i).id == item) {
                     expiredAdapter.notifyItemChanged(i)
                     break
                 }
             }
 
             for (i in 0 until contactsAdapter.itemCount) {
-                if (contactsAdapter.item(i).walletID == item) {
+                if (contactsAdapter.item(i).id == item) {
                     contactsAdapter.notifyItemChanged(i)
                     break
                 }

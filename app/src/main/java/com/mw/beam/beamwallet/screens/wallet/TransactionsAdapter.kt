@@ -180,7 +180,7 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
                 searchString?.let { search ->
 
-                    val txAddresses = AppManager.instance.getAllAddresses()?.filter { it.walletID == transaction.myId || it.walletID == transaction.peerId }
+                    val txAddresses = AppManager.instance.getAllAddresses()?.filter { it.id == transaction.myId || it.id == transaction.peerId }
 
                     val findAddresses = txAddresses.filter { it.label.toLowerCase().contains(search.toLowerCase()) }
 

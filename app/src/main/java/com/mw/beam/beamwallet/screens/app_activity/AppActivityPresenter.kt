@@ -21,6 +21,7 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.removeDatabase
 import android.util.Log
+import com.mw.beam.beamwallet.core.AppManager
 
 class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActivityContract.Repository) : BasePresenter<AppActivityContract.View, AppActivityContract.Repository>(view, repository), AppActivityContract.Presenter {
 
@@ -54,6 +55,8 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     }
 
     override fun onPendingSend(info: PendingSendInfo) {
+        AppManager.instance.lastSendindAddress = info.token
+
         view?.startNewSnackbar({ repository.cancelSendMoney(info.token) }, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee) })
     }
 }

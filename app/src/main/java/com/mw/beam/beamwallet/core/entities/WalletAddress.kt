@@ -65,14 +65,21 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
         this.category = this@WalletAddress.category
         this.identity = this@WalletAddress.identity
         this.address = this@WalletAddress.address
+      //  this.walletID = this@WalletAddress.address
     }
 
-    fun getWalletID(): String {
-        if(walletID.isNullOrEmpty()) {
+    private fun getWalletID(): String {
+        if(walletID.isEmpty()) {
             return address
         }
         return walletID
     }
+
+    var getOriginalId: String = ""
+        get() = this.walletID
+
+    var id: String = ""
+        get() = this.getWalletID()
 
     fun splitCategories() : MutableList<String>  {
         return category.split(";").toMutableList()

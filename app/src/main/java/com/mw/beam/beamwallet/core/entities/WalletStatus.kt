@@ -27,7 +27,7 @@ data class WalletStatus(private val source: WalletStatusDTO) {
     val sending: Long = source.sending
     val maturing: Long = source.maturing
     val shielded: Long = source.shielded
-    val maxPrivacy: Long = source.shielded//source.maxPrivacy
+    val maxPrivacy: Long = source.maxPrivacy
 
     val updateLastTime: Long = source.updateLastTime
     val updateDone: Int = source.updateDone

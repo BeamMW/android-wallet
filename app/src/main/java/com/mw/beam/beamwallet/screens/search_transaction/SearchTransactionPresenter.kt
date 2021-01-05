@@ -71,7 +71,7 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
     }
 
     private fun findWalletAddress(txDescription: TxDescription, searchText: String): Boolean {
-        return state.getAddresses().filter { it.walletID == txDescription.myId || it.walletID == txDescription.peerId }
+        return state.getAddresses().filter { it.id == txDescription.myId || it.id == txDescription.peerId }
                 .any { it.label.toLowerCase().contains(searchText) }
     }
 

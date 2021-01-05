@@ -302,6 +302,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_walletFragment_to_maxPrivacyDetailFragment"
+            app:destination="@id/maxPrivacyDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -1125,4 +1132,8 @@
             app:argType="integer"
             android:defaultValue="0" />
     </fragment>
+    <fragment
+        android:id="@+id/maxPrivacyDetailFragment"
+        android:name="com.mw.beam.beamwallet.screens.max_privacy_details.MaxPrivacyDetailFragment"
+        android:label="MaxPrivacyDetailFragment" />
 </navigation>

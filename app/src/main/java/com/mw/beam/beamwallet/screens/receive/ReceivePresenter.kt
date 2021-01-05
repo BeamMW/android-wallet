@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.receive
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -56,6 +58,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     var expire = TokenExpireOptions.ONETIME
     var transaction = TransactionTypeOptions.REGULAR
     var isSkipSave = false
+    var oldAmount = 0L
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -102,7 +105,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onAddressLongPressed() {
         saveAddress()
         view?.vibrate(100)
-        view?.copyAddress(state.address?.walletID ?: "")
+        view?.copyAddress(state.address?.id ?: "")
     }
 
     private fun initViewAddress(address: WalletAddress?) {
@@ -117,7 +120,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 view?.setTags(state.tags)
             }
             else{
-                view?.setTags(repository.getAddressTags(it.walletID))
+                view?.setTags(repository.getAddressTags(it.id))
             }
         }
 
@@ -198,7 +201,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     }
 
     private fun isAddressInfoChanged(): Boolean {
-        val savedTags = state.address?.walletID?.let { repository.getAddressTags(it) }
+        val savedTags = state.address?.id?.let { repository.getAddressTags(it) }
 
         if (state.address?.label != view?.getComment()) {
             return true
@@ -230,17 +233,25 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateAddress) {
             if (state.address == null) {
-                AppManager.instance.wallet?.saveAddress(it.toDTO(), true)
-
-                state.address = it
-                state.generatedAddress = it
-                updateToken()
-                initViewAddress(state.address)
-                view?.setTags(repository.getAddressTags(it.walletID))
                 state.isNeedGenerateAddress = false
+
+                it.duration = 0L
+
+                AppManager.instance.wallet?.saveAddress(it.toDTO(), true)
+                //AppManager.instance.wallet?.updateAddress(it.getOriginalId, it.label, WalletAddressDTO.WalletAddressExpirationStatus.Expired.ordinal)
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    state.address = it
+                    state.generatedAddress = it
+
+                    updateToken()
+
+                    initViewAddress(state.address)
+
+                    view?.setTags(repository.getAddressTags(it.id))
+                }, 100)
             }
         }
-
 
         maxAddressSubscription = AppManager.instance.subOnMaxPrivacyAddress.subscribe {
             state.address?.tokenMaxPrivacy = it
@@ -269,7 +280,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
             view?.getTxComment()?.let {
                 if (it.isNotBlank()) {
-                    ReceiveTxCommentHelper.saveCommentToAddress(address.walletID, it)
+                    ReceiveTxCommentHelper.saveCommentToAddress(address.id, it)
                 }
             }
 
@@ -328,9 +339,19 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             if(amount == null) {
                 amount = 0L
             }
-            state?.address?.tokenOnline = AppManager.instance.wallet?.generateRegularAddress(expire == TokenExpireOptions.PERMANENT, amount, state!!.address!!.walletID)!!
-            state?.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(amount, state!!.address!!.walletID)!!
-            AppManager.instance.wallet?.generateMaxPrivacyAddress(amount, state!!.address!!.walletID)
+
+            val isNew = oldAmount != amount
+            oldAmount = amount
+
+            state?.address?.tokenOnline = AppManager.instance.wallet?.generateRegularAddress(expire == TokenExpireOptions.PERMANENT, amount, state!!.address!!.id)!!
+
+            if (state?.address?.tokenOffline.isNullOrEmpty() || isNew) {
+                state?.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(amount, state!!.address!!.id)!!
+            }
+
+            if(transaction == TransactionTypeOptions.MAX_PRIVACY) {
+                AppManager.instance.wallet?.generateMaxPrivacyAddress(amount, state!!.address!!.id)
+            }
 
             view?.updateTokens(state?.address!!)
         }

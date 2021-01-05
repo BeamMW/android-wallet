@@ -32,6 +32,7 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
             }
             var ids = categories.joinToString(";")
 
+            AppManager.instance.removeIgnoredAddress(address)
             wallet?.saveAddress(WalletAddressDTO(address, name, ids, System.currentTimeMillis(), 0, 0, identity, address), false)
         }
     }

@@ -214,8 +214,8 @@ else{
 
     override fun showDeleteSnackBar(walletAddress: WalletAddress) {
         showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
-                onDismiss = { TrashManager.remove(walletAddress.walletID) },
-                onUndo = { TrashManager.restore(walletAddress.walletID) })
+                onDismiss = { TrashManager.remove(walletAddress.id) },
+                onUndo = { TrashManager.restore(walletAddress.id) })
     }
 
     override fun showDeleteAddressDialog(transactionAlert:Boolean) {

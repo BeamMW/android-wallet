@@ -47,6 +47,7 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
             var dto = address.toDTO()
             dto.category = ids
+            dto.duration = 0L
 
             wallet?.saveAddress(dto, true)
         }

@@ -35,6 +35,6 @@ class EditAddressState {
     lateinit var chosenPeriod: ExpirePeriod
 
     fun getTransactions():List<TxDescription> {
-        return AppManager.instance.getTransactionsByAddress(address?.walletID)
+        return AppManager.instance.getTransactionsByAddress(address?.id)
     }
 }

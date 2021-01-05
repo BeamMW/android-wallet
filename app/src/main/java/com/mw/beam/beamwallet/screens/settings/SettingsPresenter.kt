@@ -128,6 +128,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
         }
         else if (view?.mode() == SettingsFragmentMode.Privacy) {
+            view?.updateMaxPrivacyValue(AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L)
             updateFingerprintValue()
             updateConfirmTransactionValue()
         }
@@ -191,6 +192,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showLockScreenSettingsDialog()
     }
 
+    override fun onShowMaxPrivacySettings() {
+        view?.showMaxPrivacySettingsDialog()
+    }
+
     override fun onChangeLockSettings(millis: Long) {
         repository.saveLockSettings(millis)
 
@@ -198,6 +203,13 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             updateLockScreenValue(repository.getLockScreenValue())
             closeDialog()
         }
+    }
+
+    override fun onChangeMaxPrivacySettings(value: Long) {
+        AppManager.instance.wallet?.setMaxPrivacyLockTimeLimitHours(value)
+        AppManager?.instance?.wallet?.getMaxPrivacyLockTimeLimitHoursAsync()
+        view?.updateMaxPrivacyValue(value)
+        view?.closeDialog()
     }
 
     override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
@@ -277,11 +289,11 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         if (clearAddresses) {
-            state.addresses.forEach { repository.deleteAddress(it.walletID) }
+            state.addresses.forEach { repository.deleteAddress(it.id) }
         }
 
         if (clearContacts) {
-            state.contacts.forEach { repository.deleteAddress(it.walletID) }
+            state.contacts.forEach { repository.deleteAddress(it.id) }
         }
 
         if (clearTransactions) {

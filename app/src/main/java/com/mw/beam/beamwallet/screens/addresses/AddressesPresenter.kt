@@ -106,7 +106,7 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
     override fun onConfirmDeleteAddresses(withTransactions: Boolean, addresses: List<String>) {
         for (i in 0 until addresses.count()) {
             val id = addresses[i]
-            val address = state?.addresses?.find { it.walletID == id }
+            val address = state?.addresses?.find { it.id == id }
             if (address != null) {
                 repository.deleteAddress(address, if (withTransactions) state?.getTransactions(id) else listOf())
             }

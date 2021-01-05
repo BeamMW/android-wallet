@@ -1,9 +1,9 @@
 package com.mw.beam.beamwallet.core
 
 import android.annotation.SuppressLint
-import android.os.Handler
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
@@ -18,6 +18,7 @@ import io.reactivex.subjects.Subject
 import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
+
 
 class AppManager {
     var wallet: Wallet? = null
@@ -35,11 +36,12 @@ class AppManager {
 
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
+    var lastSendindAddress = ""
 
     private var walletStatus:WalletStatus =
-            WalletStatus(WalletStatusDTO(0,0,
-                    0,0,0,0,0,0,0,
-                    SystemStateDTO("",0)))
+            WalletStatus(WalletStatusDTO(0, 0,
+                    0, 0, 0, 0, 0, 0, 0,
+                    SystemStateDTO("", 0)))
 
     private var networkStatus = NetworkStatus.OFFLINE
     private var isSubscribe = false
@@ -117,6 +119,40 @@ class AppManager {
         return null
     }
 
+    private val gson = Gson()
+    private fun getIgnoredContacts(): List<String>  {
+        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
+
+        if (json.isNullOrBlank()) {
+            return arrayListOf<String>()
+        }
+
+        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
+        return gson.fromJson(json, token.type) as List<String>
+    }
+
+    fun setIgnoreAddress(id: String) {
+        if (id.isNotEmpty()) {
+            var strings = mutableListOf<String>()
+            strings.addAll(getIgnoredContacts())
+            if (!strings.contains(id)) {
+                strings.add(id)
+            }
+            PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+        }
+    }
+
+    fun removeIgnoredAddress(id: String) {
+        if (id.isNotEmpty()) {
+            var strings = mutableListOf<String>()
+            strings.addAll(getIgnoredContacts())
+            if (strings.contains(id)) {
+                strings.remove(id)
+                PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+            }
+        }
+    }
+
     fun reconnect(): Boolean {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
 
@@ -141,7 +177,7 @@ class AppManager {
     }
 
     fun isOwnNode(): Boolean {
-        return wallet?.isConnectionTrusted() == true
+        return true //wallet?.isConnectionTrusted() == true
     }
 
     private fun chooseRandomNodeWithoutNodes(): String {
@@ -264,7 +300,7 @@ class AppManager {
         }
 
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false);
-        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
+        PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, "")
         AppConfig.NODE_ADDRESS = randomNode()
     }
 
@@ -279,7 +315,7 @@ class AppManager {
         return result.random()
     }
 
-    fun importData(data:String) {
+    fun importData(data: String) {
         val json = Gson()
 
         val map = json.fromJson(data, HashMap::class.java)
@@ -308,7 +344,7 @@ class AppManager {
 
     //MARK: - UTXOS
 
-    fun getTransactionsByUTXO(utxo:Utxo?) : List<TxDescription> {
+    fun getTransactionsByUTXO(utxo: Utxo?) : List<TxDescription> {
         var result = mutableListOf<TxDescription>()
 
         transactions.forEach {
@@ -325,7 +361,7 @@ class AppManager {
         return result
     }
 
-    fun getUtxoByID(id:String?): Utxo? {
+    fun getUtxoByID(id: String?): Utxo? {
         getUtxos().forEach {
             if (it.stringId == id)
             {
@@ -372,14 +408,14 @@ class AppManager {
 
     fun isMyAddress(address: String): Boolean {
         addresses.forEach {
-            if (it.walletID == address) {
+            if (it.id == address) {
                 return true
             }
         }
         return false
     }
 
-    fun getAddressByName(name:String?) : WalletAddress? {
+    fun getAddressByName(name: String?) : WalletAddress? {
         contacts.forEach {
             if (it.label == name)
             {
@@ -397,16 +433,16 @@ class AppManager {
         return null
     }
 
-    fun getAddress(id:String?) : WalletAddress? {
+    fun getAddress(id: String?) : WalletAddress? {
         contacts.forEach {
-            if (it.walletID == id)
+            if (it.id == id)
             {
                 return it
             }
         }
 
         addresses.forEach {
-            if (it.walletID == id)
+            if (it.id == id)
             {
                 return it
             }
@@ -418,13 +454,13 @@ class AppManager {
     private fun deleteAddresses(deleted: List<WalletAddress>) {
         deleted.forEach { item2 ->
             if (item2.isContact)  {
-                contacts.removeAll {item1 ->
-                    item1.walletID == item2.walletID
+                contacts.removeAll { item1 ->
+                    item1.id == item2.id
                 }
             }
             else{
-                addresses.removeAll {item1 ->
-                    item1.walletID == item2.walletID
+                addresses.removeAll { item1 ->
+                    item1.id == item2.id
                 }
             }
         }
@@ -433,14 +469,14 @@ class AppManager {
     private fun restoreAddresses(deleted: List<WalletAddress>) {
         deleted.forEach {
             if (it.isContact) {
-                contacts.removeAll {item1 ->
-                    item1.walletID == it.walletID
+                contacts.removeAll { item1 ->
+                    item1.id == it.id
                 }
                 contacts.add(it)
             }
             else{
-                addresses.removeAll {item1 ->
-                    item1.walletID == it.walletID
+                addresses.removeAll { item1 ->
+                    item1.id == it.id
                 }
                 addresses.add(it)
             }
@@ -474,7 +510,7 @@ class AppManager {
         var result = mutableListOf<TxDescription>()
 
         transactions.forEach {
-            if (it.myId == id || it.peerId == id) {
+            if (it.myId == id || it.peerId == id || it.token == id) {
                 result.add(it)
             }
         }
@@ -486,13 +522,13 @@ class AppManager {
         var result = mutableListOf<TxDescription>()
 
         transactions.forEach {
-            if (it.myId == id || it.peerId == id) {
+            if (it.myId == id || it.peerId == id || it.token == id) {
                 result.add(it)
             }
         }
 
         TrashManager.getAllData().transactions.forEach() {
-            if (it.myId == id || it.peerId == id) {
+            if (it.myId == id || it.peerId == id  || it.token == id) {
                 result.add(it)
             }
         }
@@ -504,7 +540,7 @@ class AppManager {
         return transactions.map { it }.toList()
     }
 
-    fun getUTXOByTransaction(tx:TxDescription) : List<Utxo> {
+    fun getUTXOByTransaction(tx: TxDescription) : List<Utxo> {
         var result = mutableListOf<Utxo>()
 
         getUtxos().forEach {
@@ -521,7 +557,7 @@ class AppManager {
         return result
     }
 
-    fun getTransaction(id:String) : TxDescription? {
+    fun getTransaction(id: String) : TxDescription? {
         transactions.forEach {
             if (it.id == id)
             {
@@ -536,7 +572,7 @@ class AppManager {
 
     private fun restoreTransactions(deleted: List<TxDescription>) {
         deleted.forEach {
-            transactions.removeAll {item1 ->
+            transactions.removeAll { item1 ->
                 item1.id == it.id
             }
             transactions.add(it)
@@ -556,7 +592,7 @@ class AppManager {
 
     private fun deleteTransactions(deleted: List<TxDescription>) {
         deleted.forEach { item2 ->
-            transactions.removeAll {item1 ->
+            transactions.removeAll { item1 ->
                 item1.id == item2.id
             }
         }
@@ -564,13 +600,13 @@ class AppManager {
 
     private fun deleteUtxo(deleted: List<Utxo>) {
         deleted.forEach { item2 ->
-            utxos.removeAll {item1 ->
+            utxos.removeAll { item1 ->
                 item1.id == item2.id
             }
         }
 
         deleted.forEach { item2 ->
-            shieldedUtxos.removeAll {item1 ->
+            shieldedUtxos.removeAll { item1 ->
                 item1.id == item2.id
             }
         }
@@ -645,7 +681,7 @@ class AppManager {
         return true
     }
 
-    fun readNotification(id:String) {
+    fun readNotification(id: String) {
         wallet?.markNotificationAsRead(id)
     }
 
@@ -659,7 +695,7 @@ class AppManager {
         }
     }
 
-    fun readNotificationByObject(id:String) {
+    fun readNotificationByObject(id: String) {
         notifications.forEach {
             if(it.objId == id) {
                 readNotification(it.id)
@@ -668,7 +704,7 @@ class AppManager {
         }
     }
 
-    fun deleteNotification(id:String) {
+    fun deleteNotification(id: String) {
         wallet?.deleteNotification(id)
     }
 
@@ -692,7 +728,7 @@ class AppManager {
     fun deleteAllNotifications(list: List<String>) {
         list.forEach {
             deleteNotification(it)
-            notifications.removeAll {item ->
+            notifications.removeAll { item ->
                 item.id == it
             }
         }
@@ -759,10 +795,25 @@ class AppManager {
 
     fun unSubscribeToUpdates() {
         if (isSubscribe) {
-            Log.e("UN_SUBSCRIBE","UN_SUBSCRIBE")
+            Log.e("UN_SUBSCRIBE", "UN_SUBSCRIBE")
 
             isSubscribe = false
         }
+    }
+
+    fun canSendToMaxPrivacy(address: String): Boolean {
+
+        transactions.forEach {
+            if(it.token == address) {
+                return false
+            }
+        }
+
+        if(address == lastSendindAddress) {
+            return false
+        }
+
+        return true
     }
 
     fun updateAllData() {
@@ -786,13 +837,13 @@ class AppManager {
                 it.duration = 0L
                 wallet?.saveAddress(it.toDTO(), true)
 
-                subOnBeamGameGenerated.onNext(it.walletID)
+                subOnBeamGameGenerated.onNext(it.id)
             }
 
             wallet?.generateNewAddress()
         }
         else{
-            subOnBeamGameGenerated.onNext(address.walletID)
+            subOnBeamGameGenerated.onNext(address.id)
         }
     }
 
@@ -809,13 +860,13 @@ class AppManager {
                 it.duration = 0L
                 wallet?.saveAddress(it.toDTO(), true)
 
-                subOnFaucedGenerated.onNext(it.walletID)
+                subOnFaucedGenerated.onNext(it.id)
             }
 
             wallet?.generateNewAddress()
         }
         else{
-            subOnFaucedGenerated.onNext(address.walletID)
+            subOnFaucedGenerated.onNext(address.id)
         }
     }
 
@@ -868,7 +919,7 @@ class AppManager {
     fun subscribeToUpdates() {
         if (!isSubscribe)
         {
-            Log.e("SUBSCRIBE","SUBSCRIBE")
+            Log.e("SUBSCRIBE", "SUBSCRIBE")
 
             isSubscribe = true
 
@@ -898,7 +949,14 @@ class AppManager {
                 }
                 else if (!it.own) {
                     contacts.clear()
-                    if (it.addresses!=null) contacts.addAll(it.addresses)
+                    if (it.addresses!=null) {
+                        val ignored = getIgnoredContacts()
+                        it.addresses.forEach {address->
+                            if(!ignored.contains(address.address)) {
+                                contacts.add(address)
+                            }
+                        }
+                    }
 
                     deleteAddresses(TrashManager.getAllData().addresses)
                 }
@@ -928,7 +986,7 @@ class AppManager {
 
                 deleteTransactions(TrashManager.getAllData().transactions)
 
-                transactions.removeAll {item ->
+                transactions.removeAll { item ->
                     calendarFromTimestamp(item.createTime).get(Calendar.YEAR) == 1970
                 }
 
@@ -943,7 +1001,7 @@ class AppManager {
 
             WalletListener.obsOnShieldedUtxos.subscribe {
                 if (it.utxo != null) {
-                    it.utxo.forEach {u->
+                    it.utxo.forEach { u->
                         u.keyType = UtxoKeyType.Shielded
                     }
                 }
@@ -987,10 +1045,10 @@ class AppManager {
                     deleteAddresses(items.addresses)
                 }
                 else if (items.action == ChangeAction.ADDED && items.addresses != null)
-                    items.addresses.forEach {item->
+                    items.addresses.forEach { item->
                     if (item.isContact) {
                         val index1 = contacts.indexOfFirst {
-                            it.walletID == item.walletID
+                            it.id == item.id
                         }
                         if (index1 != -1) {
                             contacts[index1] = item
@@ -1000,7 +1058,7 @@ class AppManager {
                         }
                     } else{
                         val index2 = addresses.indexOfFirst {
-                            it.walletID == item.walletID
+                            it.id == item.id
                         }
                         if (index2 != -1) {
                             addresses[index2] = item
@@ -1017,14 +1075,14 @@ class AppManager {
                 else if (items.action == ChangeAction.UPDATED && items.addresses != null) {
                     items.addresses.forEach { item ->
                         val index1 = contacts.indexOfFirst {
-                            it.walletID == item.walletID
+                            it.id == item.id
                         }
                         if (index1 != -1) {
                             contacts[index1] = item
                         }
 
                         val index2 = addresses.indexOfFirst {
-                            it.walletID == item.walletID
+                            it.id == item.id
                         }
                         if (index2 != -1) {
                             addresses[index2] = item
@@ -1070,7 +1128,7 @@ class AppManager {
                 val oldCount = currencies.count()
 
                 it?.forEach { item ->
-                    val index1 = currencies.indexOfFirst {old->
+                    val index1 = currencies.indexOfFirst { old->
                         old.unit == item.unit
                     }
                     if (index1 != -1) {
@@ -1086,7 +1144,7 @@ class AppManager {
 
 
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-                currencies.forEach {rate ->
+                currencies.forEach { rate ->
                     if (rate.unit == value.toInt()) {
                         currentRate = rate
                     }
@@ -1101,7 +1159,7 @@ class AppManager {
 
             WalletListener.subNotificationChanged.subscribe() {
                 if (it.action == ChangeAction.REMOVED) {
-                    notifications.removeAll {item ->
+                    notifications.removeAll { item ->
                         item.id == it.notification.id
                     }
                 }
@@ -1130,7 +1188,7 @@ class AppManager {
                         it.notification.isSent = ignoreNotifications.contains((it.notification.objId))
                     }
 
-                    val index = notifications.indexOfFirst {item->
+                    val index = notifications.indexOfFirst { item->
                         item.id == it.notification.id
                     }
                     if (index != -1) {
@@ -1141,7 +1199,7 @@ class AppManager {
                     }
                 }
                 else {
-                    val index = notifications.indexOfFirst {item->
+                    val index = notifications.indexOfFirst { item->
                         item.id == it.notification.id
                     }
                     if (index != -1) {
@@ -1178,6 +1236,7 @@ class AppManager {
             wallet?.getTransactions()
             wallet?.getExchangeRates()
             wallet?.getNotifications()
+            wallet?.getMaxPrivacyLockTimeLimitHoursAsync()
         }
     }
 }

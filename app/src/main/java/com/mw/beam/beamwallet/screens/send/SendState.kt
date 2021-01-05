@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.WalletStatus
@@ -31,7 +32,7 @@ class SendState {
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
-    var walletStatus: WalletStatus? = null
+    var walletStatus: WalletStatus? = AppManager.instance.getStatus()
     var privacyMode = false
     val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null

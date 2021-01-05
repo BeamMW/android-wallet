@@ -74,4 +74,10 @@ data class Wallet(val _this: Long) {
     external fun callMyMethod()
     external fun getPublicAddress()
     external fun exportTxHistoryToCsv()
+
+    external fun getMaxPrivacyLockTimeLimitHoursAsync()
+    external fun getMaxPrivacyLockTimeLimitHours(): Long
+    external fun setMaxPrivacyLockTimeLimitHours(hours: Long)
+
+    external fun getMaturityHours(id: Long): Long
 }

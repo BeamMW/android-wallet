@@ -32,7 +32,7 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 
     override fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>) {
         getResult("deleteAddress") {
-            TrashManager.add(walletAddress.walletID, TrashManager.ActionData(txDescriptions, listOf(walletAddress)))
+            TrashManager.add(walletAddress.id, TrashManager.ActionData(txDescriptions, listOf(walletAddress)))
         }
     }
 
@@ -70,10 +70,10 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
             }
 
             if(addressExpiration == WalletAddressDTO.WalletAddressExpirationStatus.Expired) {
-                AppManager.instance.ignoreNotifications.add(address.walletID)
+                AppManager.instance.ignoreNotifications.add(address.id)
             }
 
-            wallet?.updateAddress(address.walletID, address.label, addressExpiration.ordinal)
+            wallet?.updateAddress(address.id, address.label, addressExpiration.ordinal)
         }
     }
 

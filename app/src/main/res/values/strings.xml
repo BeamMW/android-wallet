@@ -331,7 +331,7 @@
     <string name="expiration_date">Expiration date</string>
     <string name="tag">Tag</string>
     <string name="show_qr_code_short">Show QR</string>
-    <string name="expire_address_now">Expire addresss</string>
+    <string name="expire_address_now">Expire address</string>
 
     <!--EditAddressFragment-->
     <string name="active_address">Activate address</string>
@@ -679,6 +679,22 @@ address or contact</string>
     <string name="sender_identity">Sender identity</string>
     <string name="receiver_identity">Receiver identity</string>
     <string name="choose_currency">Choose currency</string>
+
+    <string name="max_privacy_lock_time">Max privacy lock time limit</string>
+    <string name="lock_time_limit">Lock time limit</string>
+    <string name="no_limit">No limit</string>
+    <string name="h24">24 hours</string>
+    <string name="h36">36 hours</string>
+    <string name="h48">48 hours</string>
+    <string name="h60">60 hours</string>
+    <string name="h72">72 hours</string>
+    <string name="last_unlock_time">Latest unlocked time</string>
+    <string name="sort_by">Sort by</string>
+    <string name="time_ear">Time: earliest to latest</string>
+    <string name="time_latest">Time: latest to earliest</string>
+    <string name="amount_small">Amount: smallest to largest</string>
+    <string name="amount_large">Amount: largest to smallest</string>
+    <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
 
 </resources>
 

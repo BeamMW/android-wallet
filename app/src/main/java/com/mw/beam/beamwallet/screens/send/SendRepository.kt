@@ -54,7 +54,7 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     override fun updateAddress(address: WalletAddress) {
         getResult("updateAddress") {
             val isNever = address.duration == 0L
-          //  wallet?.saveAddressChanges(address.walletID, address.label, isNever, makeActive = !isNever, makeExpired = false)
+          //  wallet?.saveAddressChanges(address.id, address.label, isNever, makeActive = !isNever, makeExpired = false)
         }
     }
 

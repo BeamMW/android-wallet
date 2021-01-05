@@ -43,7 +43,9 @@ interface SettingsContract {
         fun showFingerprintSettings(isFingerprintEnabled: Boolean)
         fun getContext(): Context?
         fun closeDialog()
+        fun showMaxPrivacySettingsDialog()
         fun updateLockScreenValue(millis: Long)
+        fun updateMaxPrivacyValue(hours: Long)
         fun updateConfirmTransactionValue(isConfirm: Boolean)
         fun showConfirmPasswordDialog(onConfirm: () -> Unit, onDismiss: () -> Unit)
         fun showNodeAddressDialog(nodeAddress: String?)
@@ -80,6 +82,7 @@ interface SettingsContract {
         fun setAllowAddressExpiration(allow: Boolean)
         fun onReconnected()
         fun showPublicOfflineAddress()
+
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -106,6 +109,7 @@ interface SettingsContract {
         fun onChangeLogSettings(days:Long)
         fun onLogsPressed()
         fun onSeedPressed()
+        fun onShowMaxPrivacySettings()
         fun onSeedVerificationPressed()
         fun onReceiveFaucet()
         fun generateFaucetAddress()
@@ -123,6 +127,7 @@ interface SettingsContract {
         fun onChangeAllowWalletUpdates(allow: Boolean)
         fun onChangeAllowAddressExpiration(allow: Boolean)
         fun onShowPublicOfflineAddressPressed()
+        fun onChangeMaxPrivacySettings(value: Long)
     }
 
     interface Repository : MvpRepository {

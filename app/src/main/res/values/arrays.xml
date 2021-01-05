@@ -6,4 +6,21 @@
         <item>30000</item>
         <item>60000</item>
     </integer-array>
+
+    <integer-array name="max_privacy_values">
+        <item>0</item>
+        <item>24</item>
+        <item>36</item>
+        <item>48</item>
+        <item>60</item>
+        <item>72</item>
+    </integer-array>
+
+    <integer-array name="max_privacy_sort_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
+
 </resources>

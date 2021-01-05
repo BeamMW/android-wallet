@@ -67,27 +67,22 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     override fun initSubscriptions() {
         addressesSubscription = repository.getAddresses().subscribe { data ->
             data.addresses?.forEach { address ->
-                state.addresses[address.walletID] = address
+                state.addresses[address.id] = address
             }
 
             var finder = state.token
             var out = state.outgoingAddress
 
-            if (AppManager.instance.wallet?.isToken(state.token) == true) {
-                var params = AppManager.instance.wallet!!.getTransactionParameters(state.token, false)
-                finder = params.address
-            }
-
-            val findAddress = state.addresses.values.find { it.walletID == finder }
+            val findAddress = AppManager.instance.getAddress(finder)
             if (findAddress != null) {
                 state.contact = findAddress
-                view?.configureContact(findAddress, repository.getAddressTags(findAddress.walletID))
+                view?.configureContact(findAddress, repository.getAddressTags(findAddress.id))
             }
 
-            val outAddress = state.addresses.values.find { it.walletID == out }
+            val outAddress =  AppManager.instance.getAddress(out)
+            //state.addresses.values.find { it.id == out || it.address == out}
             if (outAddress != null) {
-                state.contact = findAddress
-                view?.configureOutAddress(outAddress, repository.getAddressTags(outAddress.walletID))
+                view?.configureOutAddress(outAddress, repository.getAddressTags(outAddress.id))
             }
         }
 

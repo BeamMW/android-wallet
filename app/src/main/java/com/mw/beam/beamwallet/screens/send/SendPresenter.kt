@@ -16,14 +16,11 @@
 
 package com.mw.beam.beamwallet.screens.send
 
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.mikepenz.fastadapter.dsl.genericFastAdapter
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.Currency
@@ -53,7 +50,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
     private lateinit var walletIdSubscription: Disposable
-    private lateinit var offlineCountSubscription: Disposable
+    private var offlineCountSubscription: Disposable? = null
     private lateinit var feeSubscription: Disposable
 
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
@@ -93,17 +90,19 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 view?.hasAmountError(view?.getAmount()?.convertToGroth()
                         ?: 0, feeAmount, availableAmount, state.privacyMode)
             }
-            else {
-                view?.requestFocusToAmount()
-            }
+
+            onScannedQR(view?.getToken(), false)
+        }
+        else if (!view?.getToken().isNullOrEmpty()) {
+            onScannedQR(view?.getToken(), false)
         }
 
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
-            if (it.walletID != state.outgoingAddress?.walletID) {
+            if (it.id != state.outgoingAddress?.id) {
                 state.tags.clear()
                 state.isNeedGenerateNewAddress = false
-                state.wasAddressSaved = state.generatedAddress?.walletID != it.walletID
+                state.wasAddressSaved = state.generatedAddress?.id != it.id
                 setAddress(it, !state.wasAddressSaved)
             }
         })
@@ -200,7 +199,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSelectAddress(walletAddress: WalletAddress) {
-        view?.setAddress(walletAddress.walletID)
+        view?.setAddress(walletAddress.id)
         view?.handleAddressSuggestions(null)
         view?.requestFocusToAmount()
     }
@@ -282,11 +281,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 }
 
                 // we can't send money to own expired address
-                if (state.addresses.values.find { it.walletID == token && it.isExpired && !it.isContact } != null) {
+                if (state.addresses.values.find { it.id == token && it.isExpired && !it.isContact } != null) {
                     view?.showCantSendToExpiredError()
                 } else if (state.outgoingAddress != null) {
                     saveAddress()
-                    view?.showConfirmTransaction(state.outgoingAddress!!.walletID, token, comment, amount.convertToGroth(), fee)
+                    view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
                 }
             }
         }
@@ -297,9 +296,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onEnterFee(rawFee: String?) {
-        rawFee?.let {
-            view?.setFee(it)
-            onFeeChanged(it)
+        if(state.walletStatus != null) {
+            rawFee?.let {
+                view?.setFee(it)
+                onFeeChanged(it)
+            }
         }
     }
 
@@ -361,7 +362,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
             state.outgoingAddress!!.label = comment ?: ""
             state.outgoingAddress!!.category = ids
-            repository.saveTagsForAddress(state.outgoingAddress!!.walletID, state.tags)
+            repository.saveTagsForAddress(state.outgoingAddress!!.id, state.tags)
 
             if (state.wasAddressSaved) {
                 repository.updateAddress(state.outgoingAddress!!)
@@ -395,6 +396,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 state.scannedAmount = qrObject.amount
             }
 
+            subscribeToOfflineCount()
 
             if(AppManager.instance.wallet?.isToken(scannedAddress) == true) {
                 val params = AppManager.instance.wallet?.getTransactionParameters(scannedAddress, true)
@@ -466,8 +468,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
-            val address = state.addresses.values.firstOrNull { it.walletID == rawToken }
-            val category = address?.let { repository.getAddressTags(it.walletID) } ?: listOf()
+            val address = state.addresses.values.firstOrNull { it.id == rawToken }
+            val category = address?.let { repository.getAddressTags(it.id) } ?: listOf()
             view?.setSendContact(address, category)
         } else {
             view?.setSendContact(null, listOf())
@@ -499,9 +501,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val addresses = if (!rawToken.isNullOrBlank()) {
             val searchText = rawToken.trim().toLowerCase()
             state.addresses.values.filter {
-                (!it.isExpired || it.isContact) && (it.walletID.trim().toLowerCase().startsWith(searchText) ||
+                (!it.isExpired || it.isContact) && (it.id.trim().toLowerCase().startsWith(searchText) ||
                         it.label.trim().toLowerCase().contains(searchText) ||
-                        repository.getAddressTags(it.walletID).any { tag -> tag.name.trim().toLowerCase().contains(searchText) })
+                        repository.getAddressTags(it.id).any { tag -> tag.name.trim().toLowerCase().contains(searchText) })
             }
         } else {
             state.addresses.values.filter { !it.isExpired || it.isContact }
@@ -543,6 +545,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onFeeChanged(rawFee: String?) {
+        if(state.walletStatus == null) {
+            return
+        }
+
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
@@ -630,24 +636,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         AppManager.instance.getAllAddresses().forEach { address ->
-            state.addresses[address.walletID] = address
+            state.addresses[address.id] = address
         }
 
         addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
            AppManager.instance.getAllAddresses().forEach { address ->
-                state.addresses[address.walletID] = address
+                state.addresses[address.id] = address
             }
         }
 
-        offlineCountSubscription = AppManager.instance.subOnGetOfflinePayments.subscribe(){
-            if(it!=null) {
-                state.maxPrivacyCount = it
-            }
-            else {
-                state.maxPrivacyCount = -1
-            }
-            view?.updateMaxPrivacyCount(state.maxPrivacyCount)
-        }
+        subscribeToOfflineCount()
 
         walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateNewAddress) {
             state.generatedAddress = it
@@ -666,12 +664,26 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
     }
 
+    private fun subscribeToOfflineCount() {
+        if(offlineCountSubscription == null || offlineCountSubscription?.isDisposed == true) {
+            offlineCountSubscription = AppManager.instance.subOnGetOfflinePayments.subscribe(){
+                if(it!=null) {
+                    state.maxPrivacyCount = it
+                }
+                else {
+                    state.maxPrivacyCount = -1
+                }
+                view?.updateMaxPrivacyCount(state.maxPrivacyCount)
+            }
+        }
+    }
+
     private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
         state.outgoingAddress = walletAddress
 
         if (state.tags.count() == 0 )
         {
-            state.tags.addAll(repository.getAddressTags(walletAddress.walletID))
+            state.tags.addAll(repository.getAddressTags(walletAddress.id))
         }
 
         view?.configOutgoingAddress(walletAddress, isGenerated)
@@ -680,7 +692,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription, feeSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription!!, feeSubscription)
 
     override fun hasStatus(): Boolean = true
 }

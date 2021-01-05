@@ -26,16 +26,16 @@ class ChangeAddressState {
 
     fun updateAddresses(walletAddresses: List<WalletAddress>?) {
         walletAddresses?.forEach {
-            addresses[it.walletID] = it
+            addresses[it.id] = it
         }
     }
 
     fun deleteAddresses(walletAddresses: List<WalletAddress>?) {
-        walletAddresses?.forEach { addresses.remove(it.walletID) }
+        walletAddresses?.forEach { addresses.remove(it.id) }
     }
 
 
-    fun getAddresses() = ArrayList(addresses.apply { remove(generatedAddress?.walletID) }.values.toList()).apply {
+    fun getAddresses() = ArrayList(addresses.apply { remove(generatedAddress?.id) }.values.toList()).apply {
         generatedAddress?.let { add(0, it) }
     }
 

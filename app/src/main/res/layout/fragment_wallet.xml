@@ -293,19 +293,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/secureLayout">
 
-                    <ImageView
-                        android:id="@+id/unlinkButton"
+                    <TextView
+                        android:id="@+id/moreDetailsButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="7dp"
                         android:contentDescription="@null"
                         android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
                         android:paddingTop="10dp"
+                        android:paddingRight="3dp"
                         android:paddingBottom="10dp"
+                        android:text="@string/show_token"
+                        android:textAllCaps="false"
+                        android:textColor="@color/accent"
+                        android:visibility="gone"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/availableTitleContainer"
-                        app:srcCompat="@drawable/ic_unlink" />
+                        app:layout_constraintTop_toBottomOf="@+id/availableTitleContainer" />
 
                     <LinearLayout
                         android:id="@+id/availableTitleContainer"
@@ -375,7 +378,7 @@
                         android:layout_height="78dp"
                         android:layout_marginEnd="8dp"
                         android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/unlinkButton"
+                        app:layout_constraintEnd_toStartOf="@+id/moreDetailsButton"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/availableTitleContainer" />
 

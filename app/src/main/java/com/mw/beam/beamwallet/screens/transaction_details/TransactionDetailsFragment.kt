@@ -62,7 +62,7 @@ import android.graphics.Color
 import android.content.res.ColorStateList
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.Currency
-import kotlinx.android.synthetic.main.fragment_receive_show_token.*
+import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.fragment_transaction_details.mainConstraintLayout
 import kotlinx.android.synthetic.main.item_transaction.*
 
@@ -308,6 +308,10 @@ else{
 
                 startAddress.text = txDescription.peerId
                 endAddress.text = txDescription.myId
+
+                if (txDescription.peerId.isEmpty()) {
+                    startAddress.text = txDescription.token
+                }
             }
         } else {
             startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
@@ -321,11 +325,11 @@ else{
         kernelLabel.text = txDescription.kernelId
         addressTypeLabel.text = txDescription.getAddressType(requireContext())
 
-        if(startAddress.text.startsWith("1000000")) {
+        if(startAddress.text.startsWith("1000000") || startAddress.text.startsWith("ffffff")) {
             startAddress.text = getString(R.string.shielded_pool)
         }
 
-        if(endAddress.text.startsWith("1000000")) {
+        if(endAddress.text.startsWith("1000000") || endAddress.text.startsWith("ffffff")) {
             endAddress.text = getString(R.string.shielded_pool)
         }
 
@@ -600,7 +604,8 @@ else{
         senderLayout.visibility = contentVisibility
         receiverLayout.visibility = contentVisibility
         idLayout.visibility = contentVisibility
-        identityLayout.visibility = contentVisibility
+        addressTypeLayout.visibility = contentVisibility
+       // identityLayout.visibility = contentVisibility
 
         if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
             commentLayout.visibility = contentVisibility
@@ -690,6 +695,10 @@ else{
 
                 startAddress = transaction.peerId
                 endAddress = transaction.myId
+
+                if(startAddress.isEmpty()) {
+                    startAddress = transaction.token
+                }
             }
         }
         else {

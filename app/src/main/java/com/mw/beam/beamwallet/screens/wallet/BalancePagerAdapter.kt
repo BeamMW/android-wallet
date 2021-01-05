@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,12 +39,14 @@ class BalancePagerAdapter(val context: Context): androidx.viewpager.widget.Pager
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(container.context).inflate(R.layout.wallet_balanse_item, container, false)
 
+
         view.findViewById<TextView>(R.id.balance).text = when (tabs[position]) {
             BalanceTab.Available -> available
             BalanceTab.Maturing -> maturing
             BalanceTab.MaxPrivacy -> maxPrivacy
         }.convertToBeamString() + " BEAM"
 
+        Log.e("FIND", position.toString())
 
         val second = when (tabs[position]) {
             BalanceTab.Available -> available

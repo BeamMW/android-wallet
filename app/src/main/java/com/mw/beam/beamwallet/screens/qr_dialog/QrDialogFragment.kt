@@ -66,7 +66,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
         if(token != null) {
             if(token == "null" && getIsOldDesign()) {
-                token = walletAddress.walletID
+                token = walletAddress.id
             }
            if (!getIsOldDesign()) {
                tokenTitle.visibility = View.GONE
@@ -108,7 +108,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
                 //walletAddress.token.trimAddress()
             }
             else {
-                walletAddress.walletID.trimAddress()
+                walletAddress.id.trimAddress()
             }
 
             tokenView.text = receiveToken

@@ -59,7 +59,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         if (state.tempTags.count() == 0 && state.currentTags.count() == 0)
         {
-            val currentTags = repository.getAddressTags(state.address!!.walletID)
+            val currentTags = repository.getAddressTags(state.address!!.id)
 
             state.tempTags = currentTags
             state.currentTags = currentTags
@@ -198,27 +198,40 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         val address = state.address ?: return
         address.label = state.tempComment.trim()
 
-        repository.saveTagsForAddress(state.address!!.walletID, state.tempTags)
+        var categories = mutableListOf<String>()
+
+        for (t in state.tempTags) {
+            categories.add(t.id)
+        }
+
+        var ids = categories.joinToString(";")
+        if(categories.isNotEmpty()) {
+            address.category = ids
+        }
+        else {
+            address.category = ""
+        }
+
+        repository.saveTagsForAddress(state.address!!.id, state.tempTags)
 
         if (!address.isContact) {
             if (address.isExpired) {
                 if (state.shouldActivateNow) {
-                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
+                    repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
                 } else {
                     repository.updateAddress(address)
                 }
             } else {
                 if (state.shouldExpireNow) {
-                    repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = true, isNever = false)
+                    repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = false, makeExpired = true, isNever = false)
                 } else {
                     when {
-                        state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = false, makeExpired = false, isNever = true)
-                        state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddressChanges(addr = address.walletID, name = address.label, makeActive = true, makeExpired = false, isNever = false)
+                        state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = false, makeExpired = false, isNever = true)
+                        state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = true, makeExpired = false, isNever = false)
                     }
                 }
             }
         } else {
-
             repository.saveAddress(address, false)
         }
 

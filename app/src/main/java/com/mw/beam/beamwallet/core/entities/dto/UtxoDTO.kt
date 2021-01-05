@@ -30,4 +30,5 @@ data class UtxoDTO(val id: Long,
                    val keyType: Int,
                    val confirmHeight: Long,
                    val createTxId: String?,
-                   val spentTxId: String?) : Parcelable
+                   val spentTxId: String?,
+                   val txoID: Long) : Parcelable

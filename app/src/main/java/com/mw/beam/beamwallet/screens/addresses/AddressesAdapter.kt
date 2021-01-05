@@ -62,13 +62,13 @@ class AddressesAdapter(private val context: Context,
             clickListener.onItemClick(data[adapterPosition])
 
             if (mode == AddressesFragment.Mode.EDIT) {
-                if (selectedAddresses.contains(data[adapterPosition].walletID)) {
-                    selectedAddresses.remove(data[adapterPosition].walletID)
+                if (selectedAddresses.contains(data[adapterPosition].id)) {
+                    selectedAddresses.remove(data[adapterPosition].id)
                 } else {
-                    selectedAddresses.add(data[adapterPosition].walletID)
+                    selectedAddresses.add(data[adapterPosition].id)
                 }
 
-                checkBox.isChecked = selectedAddresses.contains(data[adapterPosition].walletID)
+                checkBox.isChecked = selectedAddresses.contains(data[adapterPosition].id)
             }
         }
 
@@ -83,10 +83,10 @@ class AddressesAdapter(private val context: Context,
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = data[position]
-        val findTags = tagProvider?.invoke(address.walletID)
+        val findTags = tagProvider?.invoke(address.id)
 
         holder.apply {
-            val isGeneratedAddress = address.walletID == generatedAddress?.walletID
+            val isGeneratedAddress = address.id == generatedAddress?.id
 
             val labelView = itemView.findViewById<TextView>(R.id.label)
             labelView.text = when {
@@ -97,7 +97,7 @@ class AddressesAdapter(private val context: Context,
 
             labelView.setTypeface(labelTypeface, Typeface.NORMAL)
 
-            itemView.findViewById<TextView>(R.id.addressId).text = address.walletID
+            itemView.findViewById<TextView>(R.id.addressId).text = address.id
 
             if (App.isDarkMode) {
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color_dark else R.color.colorClear)
@@ -114,10 +114,10 @@ class AddressesAdapter(private val context: Context,
 
             checkBox.setOnClickListener {
 
-                if (selectedAddresses.contains(data[adapterPosition].walletID)) {
-                    selectedAddresses.remove(data[adapterPosition].walletID)
+                if (selectedAddresses.contains(data[adapterPosition].id)) {
+                    selectedAddresses.remove(data[adapterPosition].id)
                 } else {
-                    selectedAddresses.add(data[adapterPosition].walletID)
+                    selectedAddresses.add(data[adapterPosition].id)
                 }
 
                 clickListener.onItemClick(address)
@@ -127,7 +127,7 @@ class AddressesAdapter(private val context: Context,
                 checkBox.isChecked = false
                 checkBox.visibility = View.GONE
             } else {
-                checkBox.isChecked = selectedAddresses.contains(address.walletID)
+                checkBox.isChecked = selectedAddresses.contains(address.id)
                 checkBox.visibility = View.VISIBLE
             }
         }

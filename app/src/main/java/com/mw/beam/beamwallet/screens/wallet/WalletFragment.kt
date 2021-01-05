@@ -89,18 +89,23 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
                     maxPrivacyAddressTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(selectedColor)
                     maturingTitle.setTextColor(unselectedColor)
+                    moreDetailsButton.visibility = View.GONE
                 }
                 BalanceTab.Maturing -> {
                     maxPrivacyAddressTitle.setTextColor(unselectedColor)
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(selectedColor)
+                    moreDetailsButton.visibility = View.GONE
                 }
                 BalanceTab.MaxPrivacy -> {
                     availableTitle.setTextColor(unselectedColor)
                     maturingTitle.setTextColor(unselectedColor)
                     maxPrivacyAddressTitle.setTextColor(selectedColor)
+                    moreDetailsButton.visibility = balanceViewPager.visibility
                 }
             }
+
+            balancePagerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -148,7 +153,7 @@ else{
         indicator.visibility = if (maturingAmount > 0 || maxPrivacyAmount > 0) contentVisibility else View.GONE
         maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
         maxPrivacyAddressTitle.visibility = if (maxPrivacyAmount > 0) View.VISIBLE else View.GONE
-        unlinkButton.visibility = View.GONE
+        moreDetailsButton.text = requireContext().getString(R.string.show_token).toLowerCase()
     }
 
     override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
@@ -302,8 +307,8 @@ else{
             balanceViewPager.setCurrentItem(BalanceTab.MaxPrivacy.ordinal, true)
         }
 
-        unlinkButton.setOnClickListener {
-            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToUnlinkFragment2())
+        moreDetailsButton.setOnClickListener {
+            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToMaxPrivacyDetailFragment())
         }
 
         balanceViewPager.addOnPageChangeListener(onPageSelectedListener)
@@ -385,8 +390,19 @@ else{
 
         val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
         balanceViewPager.visibility = contentVisibility
-        unlinkButton.visibility = contentVisibility
         indicator.visibility = contentVisibility
+
+        if(selectedSection == BalanceTab.MaxPrivacy) {
+            if(shouldExpandAvailable) {
+                moreDetailsButton.visibility = View.GONE
+            }
+            else {
+                moreDetailsButton.visibility = View.VISIBLE
+            }
+        }
+        else {
+            moreDetailsButton.visibility = View.GONE
+        }
     }
 
     override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
@@ -508,7 +524,7 @@ else{
         maxPrivacyAddressTitle.setOnClickListener(null)
         btnShowAll.setOnClickListener(null)
         btnFaucetClose.setOnClickListener(null)
-        unlinkButton.setOnClickListener(null)
+        moreDetailsButton.setOnClickListener(null)
         btnSecureClose.setOnClickListener(null)
         btnFaucetReceive.setOnClickListener(null)
         btnSecureReceive.setOnClickListener(null)

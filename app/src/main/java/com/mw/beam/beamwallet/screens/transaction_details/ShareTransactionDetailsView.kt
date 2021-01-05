@@ -11,6 +11,7 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager.getString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.share_transaction_detail_layout.view.*
 
 class ShareTransactionDetailsView : FrameLayout {
@@ -64,6 +65,10 @@ class ShareTransactionDetailsView : FrameLayout {
 
                 startAddress.text = txDescription.peerId
                 endAddress.text = txDescription.myId
+
+                if (txDescription.peerId.isEmpty()) {
+                    startAddress.text = txDescription.token
+                }
             }
         }
         else {
@@ -100,11 +105,11 @@ class ShareTransactionDetailsView : FrameLayout {
         }
 
 
-        if(startAddress.text.startsWith("1000000")) {
+        if(startAddress.text.startsWith("1000000") || startAddress.text.startsWith("ffffff")) {
             startAddress.text = context.getString(R.string.shielded_pool)
         }
 
-        if(endAddress.text.startsWith("1000000")) {
+        if(endAddress.text.startsWith("1000000") || endAddress.text.startsWith("ffffff")) {
             endAddress.text = context.getString(R.string.shielded_pool)
         }
 

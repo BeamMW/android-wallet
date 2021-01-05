@@ -73,13 +73,13 @@ object TagHelper {
                 for (id in ids) {
                     var address = AppManager.instance.getAddress(id)
                     if (address != null) {
-                        if (fixedAddresses[address.walletID] == null) {
-                            fixedAddresses[address.walletID] = tag.id
+                        if (fixedAddresses[address.id] == null) {
+                            fixedAddresses[address.id] = tag.id
                         } else {
-                            var categories = fixedAddresses[address.walletID]?.split(";")?.toMutableList()
+                            var categories = fixedAddresses[address.id]?.split(";")?.toMutableList()
                             if (categories != null) {
                                 categories.add(tag.id)
-                                fixedAddresses[address.walletID] = categories.joinToString(";")
+                                fixedAddresses[address.id] = categories.joinToString(";")
                             }
                         }
                     }

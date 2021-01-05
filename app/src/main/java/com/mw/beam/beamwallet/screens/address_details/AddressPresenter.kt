@@ -38,7 +38,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun onViewCreated() {
         super.onViewCreated()
 
-        state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+        state.address = AppManager.instance.getAddress(view?.getAddress()?.id)
 
         view?.init(state.address ?: return)
     }
@@ -47,7 +47,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
         super.onStart()
         notifyPrivacyStateChange()
 
-        view?.configureTags(repository.getAddressTags(state.address?.walletID ?: return))
+        view?.configureTags(repository.getAddressTags(state.address?.id ?: return))
     }
 
     private fun notifyPrivacyStateChange() {
@@ -59,7 +59,7 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onCopyAddress() {
-        view?.copyToClipboard(state.address?.walletID ?: return, COPY_TAG)
+        view?.copyToClipboard(state.address?.id ?: return, COPY_TAG)
     }
 
     override fun onMenuCreate(menu: Menu?) {
@@ -105,24 +105,24 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
+        state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.id))
         view?.configTransactions(state.getTransactions())
 
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
-            state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.walletID))
+            state.updateTransactions(AppManager.instance.getTransactionsByAddress(state.address?.id))
             view?.configTransactions(state.getTransactions())
         }
 
         addressSubscription = AppManager.instance.subOnAddressesChanged.subscribe {
             if (it == true && view?.getAddress()?.isContact == false) {
-                state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+                state.address = AppManager.instance.getAddress(view?.getAddress()?.id)
                 state.address?.let { it1 -> view?.init(it1) }
-                state.address?.walletID?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
+                state.address?.id?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
             else if (it == false && view?.getAddress()?.isContact == true) {
-                state.address = AppManager.instance.getAddress(view?.getAddress()?.walletID)
+                state.address = AppManager.instance.getAddress(view?.getAddress()?.id)
                 state.address?.let { it1 -> view?.init(it1) }
-                state.address?.walletID?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
+                state.address?.id?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
         }
     }

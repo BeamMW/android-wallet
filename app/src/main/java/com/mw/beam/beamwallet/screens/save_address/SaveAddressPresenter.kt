@@ -44,24 +44,29 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
 
     override fun onSavePressed() {
         view?.apply {
-            var saved = state.address
             var identity = ""
-            var token = ""
-            if (AppManager.instance.wallet?.isToken(state.address) == true) {
-                var params = AppManager.instance.wallet?.getTransactionParameters(saved, false)
-                saved = params!!.address
-                identity = params!!.identity
-                token = saved
+            var address = state.address
+
+            if(AppManager.instance.wallet?.isToken(address) == true)
+            {
+                val params = AppManager.instance.wallet?.getTransactionParameters(address, false)
+                identity = params?.identity ?: ""
             }
-            val address = WalletAddress(WalletAddressDTO(saved,
-                    getName(), "",
-                    System.currentTimeMillis(), 0, 0,
-                    identity,
-                    token))
+
             if(state.tags.count() > 0) {
-                repository.saveTagsForAddress(saved, state.tags)
+                repository.saveTagsForAddress(address, state.tags)
             }
-            repository.saveAddress(address, false)
+
+            var categories = mutableListOf<String>()
+            for (t in state.tags) {
+                categories.add(t.id)
+            }
+            var ids = categories.joinToString(";")
+
+            AppManager.instance.removeIgnoredAddress(address)
+
+            AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), ids, System.currentTimeMillis(), 0, 0, identity, address), false)
+
             close()
         }
     }

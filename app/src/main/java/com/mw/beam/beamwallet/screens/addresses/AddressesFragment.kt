@@ -102,10 +102,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                         if (mode == Mode.NONE) {
                             presenter?.onAddressPressed(item)
                         } else {
-                            if (selectedAddresses.contains(item.walletID)) {
-                                selectedAddresses.remove(item.walletID)
+                            if (selectedAddresses.contains(item.id)) {
+                                selectedAddresses.remove(item.id)
                             } else {
-                                selectedAddresses.add(item.walletID)
+                                selectedAddresses.add(item.id)
                             }
 
                             presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.addresses?.count()
@@ -120,9 +120,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             presenter?.onModeChanged(Mode.EDIT)
 
-                            selectedAddresses.add(item.walletID)
+                            selectedAddresses.add(item.id)
 
-                            pagerAdapter.changeSelectedItems(selectedAddresses, true, item.walletID)
+                            pagerAdapter.changeSelectedItems(selectedAddresses, true, item.id)
 
                             pagerAdapter.reloadData(mode)
 
@@ -272,7 +272,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     override fun didSelectAllAddresses(addresses: List<WalletAddress>) {
         selectedAddresses.clear()
         addresses.forEach {
-            selectedAddresses.add(it.walletID)
+            selectedAddresses.add(it.id)
         }
         pagerAdapter.changeSelectedItems(selectedAddresses, false, null)
         pagerAdapter.reloadData(mode)
@@ -294,7 +294,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun navigateToEditAddressScreen() {
         val id = selectedAddresses.first()
-        val address = presenter?.state?.addresses?.find { it.walletID == id }
+        val address = presenter?.state?.addresses?.find { it.id == id }
         if (address != null) {
             presenter?.onModeChanged(Mode.NONE)
             selectedAddresses.clear()

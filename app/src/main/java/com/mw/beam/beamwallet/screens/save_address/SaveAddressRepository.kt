@@ -27,12 +27,12 @@ class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
         getResult("updateAddress") {
             val dto = address.toDTO()
             val name = dto.label
-            val tmpaddress = AppManager.instance.getAddress(dto.walletID)
-            if(tmpaddress==null) {
+            val tmpAddress = AppManager.instance.getAddress(address.id)
+            if(tmpAddress==null) {
                 wallet?.saveAddress(dto, own)
             }
             else{
-                wallet?.updateAddress(dto.walletID,name,0)
+                wallet?.updateAddress(address.id ,name,0)
             }
         }
     }

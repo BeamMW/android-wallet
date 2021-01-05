@@ -293,4 +293,9 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     override fun openNewVersionFragment(value: String) {
         findNavController().navigate(NotificationsFragmentDirections.actionNotificationsFragmentToNewVersionFragment(value))
     }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
 }

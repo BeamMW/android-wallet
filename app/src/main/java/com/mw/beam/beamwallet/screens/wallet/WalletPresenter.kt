@@ -64,6 +64,11 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         val canReceive = OnboardManager.instance.canReceiveFaucet() && state.getTransactions().count() == 0
         view?.showFaucet(canReceive)
         view?.showSecure(OnboardManager.instance.canMakeSecure())
+
+        view?.configWalletStatus(AppManager.instance.getStatus(),
+                !state.shouldExpandAvailable,
+                !state.shouldExpandInProgress, state.privacyMode)
+
     }
 
     override fun onStart() {

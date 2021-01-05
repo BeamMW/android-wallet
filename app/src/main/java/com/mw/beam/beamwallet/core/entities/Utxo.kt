@@ -37,6 +37,9 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     val confirmHeight: Long = source.confirmHeight
     val createTxId: String? = source.createTxId
     val spentTxId: String? = source.spentTxId
+    var txoID: Long = source.txoID
+    var timeLeft: String? = null
+    var time: Long = 0L
 
     var transactionDate:Long? = null
     var transactionComment:String? = null

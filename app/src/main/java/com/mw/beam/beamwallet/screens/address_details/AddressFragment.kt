@@ -61,7 +61,7 @@ else{
         toolbarLayout.hasStatus = true
 
         addressDetails = address
-        addressId = address.walletID
+        addressId = address.id
 
         configAddressDetails(address)
 
@@ -136,7 +136,7 @@ else{
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        idLabel.text = address.walletID
+        idLabel.text = address.id
         expirationLabel.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
         nameLabel.text = address.label
         isContact = address.isContact
@@ -170,12 +170,12 @@ else{
 
     override fun showDeleteSnackBar(walletAddress: WalletAddress) {
         showSnackBar(getString(if (walletAddress.isContact) R.string.contact_deleted else R.string.address_deleted),
-                onDismiss = { TrashManager.remove(walletAddress.walletID) },
-                onUndo = { TrashManager.restore(walletAddress.walletID) })
+                onDismiss = { TrashManager.remove(walletAddress.id) },
+                onUndo = { TrashManager.restore(walletAddress.id) })
     }
 
     override fun sendAddress(walletAddress: WalletAddress) {
-        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToSendFragment(walletAddress.walletID))
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToSendFragment(walletAddress.id))
     }
 
     override fun receiveAddress(walletAddress: WalletAddress) {
