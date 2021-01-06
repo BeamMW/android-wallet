@@ -80,4 +80,6 @@ data class Wallet(val _this: Long) {
     external fun setMaxPrivacyLockTimeLimitHours(hours: Long)
 
     external fun getMaturityHours(id: Long): Long
+
+    external fun rescan()
 }

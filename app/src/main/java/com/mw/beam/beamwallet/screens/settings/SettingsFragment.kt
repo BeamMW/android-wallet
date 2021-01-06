@@ -218,6 +218,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+                s1.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
@@ -400,6 +401,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     else if (item.mode == SettingsFragmentMode.ShowPublicOfflineAddress) {
                         presenter?.onShowPublicOfflineAddressPressed()
                     }
+                    else if (item.mode == SettingsFragmentMode.Rescan) {
+                        presenter?.onRescanPressed()
+                    }
                 }
 
                 if (mode() == SettingsFragmentMode.Node) {
@@ -500,6 +504,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
     else{
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
+    }
+
+    override fun showRescanDialog() {
+        showAlert(
+                getString(R.string.rescan_text),
+                getString(R.string.rescan),
+                {
+                    AppManager.instance.wallet?.rescan()
+                },
+                getString(R.string.rescan),
+                getString(R.string.cancel)
+        )
     }
 
     override fun setLogSettings(days: Long) {

@@ -33,6 +33,7 @@ class AppManager {
     private var notifications = mutableListOf<Notification>()
     private var sentNotifications = mutableListOf<String>()
     var ignoreNotifications = mutableListOf<String>()
+    var syncProgressData = OnSyncProgressData(1, 1, 0)
 
     var currencies = mutableListOf<ExchangeRate>()
     private var currentRate: ExchangeRate? = null
@@ -1120,6 +1121,7 @@ class AppManager {
             }
 
             WalletListener.subOnSyncProgressUpdated.subscribe(){
+                syncProgressData = it
                 networkStatus = if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING
                 subOnNetworkStatusChanged.onNext(0)
             }

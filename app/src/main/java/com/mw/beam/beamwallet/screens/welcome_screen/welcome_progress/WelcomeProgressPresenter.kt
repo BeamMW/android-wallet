@@ -47,6 +47,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     lateinit var file:File
     private var recoveryPresented = false
+    private var isWaitingRestore = false
 
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeProgressUpdatedSubscription: Disposable
@@ -125,7 +126,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         view?.close()
                     } else {
                         onRecoveryLiveData.postValue {
-                            view?.updateProgress(it, state.mode, true)
+                            view?.updateProgress(it, state.mode, isDownloadProgress = true, isRestoreProgress = false)
                         }
 
                         if (it.done == it.total) {
@@ -154,23 +155,19 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             importRecoverySubscription = repository.getImportRecoveryState(state.password, state.seed?.joinToString(separator = ";", postfix = ";"), file)
                     .subscribe { data ->
                         onRecoveryLiveData.postValue {
-                            view?.updateProgress(data, state.mode)
+                            view?.updateProgress(data, state.mode,isDownloadProgress = false, isRestoreProgress = false)
 
                             val progress = data.done.toDouble() / data.total.toFloat()
 
                             if (data.done == data.total) {
                                 if (!recoveryPresented) {
                                     recoveryPresented = true
-                                    showWallet()
+                                    isWaitingRestore = true
                                 }
                             }
                             else if (progress >= 0.99 && !recoveryPresented) {
                                 recoveryPresented = true
-                                Timer().schedule(4000) {
-                                    App.self.runOnUiThread {
-                                        showWallet()
-                                    }
-                                }
+                                isWaitingRestore = true
                             }
                         }
                     }
@@ -184,7 +181,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             isDownloadProgress = true
         }
 
-        view?.updateProgress(OnSyncProgressData(0, 100), state.mode, isDownloadProgress)
+        view?.updateProgress(OnSyncProgressData(0, 100), state.mode, isDownloadProgress, false)
         if (state.mode != WelcomeMode.RESTORE_AUTOMATIC) {
             repository.closeWallet()
         } else {
@@ -226,23 +223,23 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
 
         if(isTrustedNodeRestor || (randomNode && trustedNode)) {
-            view?.updateProgress(OnSyncProgressData(1, 4), state.mode)
+            view?.updateProgress(OnSyncProgressData(1, 4), state.mode ,isDownloadProgress = false, isRestoreProgress = false)
 
             Timer().schedule(2000) {
                 App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(2, 4), state.mode)
+                    view?.updateProgress(OnSyncProgressData(2, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                 }
             }
 
             Timer().schedule(3000) {
                 App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(3, 4), state.mode)
+                    view?.updateProgress(OnSyncProgressData(3, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                 }
             }
 
             Timer().schedule(4000) {
                 App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(4, 4), state.mode)
+                    view?.updateProgress(OnSyncProgressData(4, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                     showWallet()
                 }
             }
@@ -252,19 +249,26 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
                 if (it.total == 0) {
-                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                     showWallet()
                 }
                 else {
-                    view?.updateProgress(it, state.mode)
+                    view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false)
 
                     if (it.done == it.total) {
                         showWallet()
                     }
                 }
             }
+            else if(WelcomeMode.RESTORE_AUTOMATIC == state.mode) {
+                view?.updateProgress(it, state.mode, isDownloadProgress = false, isRestoreProgress = true)
+                if (it.done == it.total && isWaitingRestore && recoveryPresented) {
+                    isWaitingRestore = false
+                    showWallet()
+                }
+            }
             else if (isNodeSyncFinished && it.total > 0) {
-                view?.updateProgress(it, state.mode, true)
+                view?.updateProgress(it, state.mode, isDownloadProgress = true, isRestoreProgress = false)
 
                 if (it.done == it.total) {
                     //sometimes lib notifies us few times about end of progress
@@ -280,7 +284,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 if (it.total == 0) {
 //                    finishNodeProgressSubscription()
                 } else {
-                    view?.updateProgress(it, state.mode)
+                    view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false)
 
                     if (it.done == it.total) {
                         finishNodeProgressSubscription()
@@ -292,7 +296,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             when (state.mode) {
                 WelcomeMode.OPEN -> {
-                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode)
+                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                     showWallet()
                 }
                 WelcomeMode.RESTORE -> {

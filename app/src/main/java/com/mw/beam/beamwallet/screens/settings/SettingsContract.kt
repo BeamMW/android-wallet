@@ -82,7 +82,7 @@ interface SettingsContract {
         fun setAllowAddressExpiration(allow: Boolean)
         fun onReconnected()
         fun showPublicOfflineAddress()
-
+        fun showRescanDialog()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -117,6 +117,7 @@ interface SettingsContract {
         fun onExportPressed()
         fun onExportWithExclude(list:Array<String>)
         fun onExportSave()
+        fun onRescanPressed()
         fun onExportShare()
         fun omImportPressed()
         fun onRemoveWalletPressed()

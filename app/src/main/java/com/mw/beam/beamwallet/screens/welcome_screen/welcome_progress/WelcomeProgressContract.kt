@@ -35,7 +35,7 @@ interface WelcomeProgressContract {
     interface View : MvpView {
         var enableOnBackPress: Boolean
         fun init(mode: WelcomeMode)
-        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean = false)
+        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean)
         fun getMode(): WelcomeMode?
         fun getIsTrustedRestore(): Boolean?
         fun getPassword(): String?

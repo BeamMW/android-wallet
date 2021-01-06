@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.views
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -137,6 +138,7 @@ class BeamToolbar : LinearLayout {
         }
     }
 
+     @SuppressLint("SetTextI18n")
      fun configureStatus(networkStatus: NetworkStatus) {
          changeNodeButton.visibility = View.GONE
 
@@ -170,10 +172,14 @@ class BeamToolbar : LinearLayout {
                 }
                 NetworkStatus.UPDATING -> {
                     status.setTextColor(context.getColor(R.color.colorAccent))
+
+                    val percent = (AppManager.instance.syncProgressData.done.toDouble()/AppManager.instance.syncProgressData.total.toDouble()) * 100.0
+
                     progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.colorAccent), android.graphics.PorterDuff.Mode.MULTIPLY);
                     progressBar.visibility = View.VISIBLE
                     statusIcon.visibility = View.INVISIBLE
-                    status.text = context.getString(R.string.updating).toLowerCase()
+                    status.text = context.getString(R.string.updating).toLowerCase() + " " + percent.toInt().toString() + "%"
+
                 }
             }
         }

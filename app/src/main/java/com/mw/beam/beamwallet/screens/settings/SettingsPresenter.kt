@@ -373,6 +373,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.showExportDialog()
     }
 
+    override fun onRescanPressed() {
+        view?.showRescanDialog()
+    }
+
     override fun onExportWithExclude(list: Array<String>) {
         excludeExportParameters = list
         view?.showExportSaveDialog()

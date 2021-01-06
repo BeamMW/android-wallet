@@ -33,6 +33,7 @@ import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_welcome_progress.*
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import androidx.navigation.NavOptions
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.toTimeFormat
@@ -123,7 +124,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         btnCancel.setOnClickListener(null)
     }
 
-    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean) {
+    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
         when (mode) {
             WelcomeMode.OPEN -> {
                 configProgress(countProgress(progressData),"$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
@@ -131,7 +132,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             WelcomeMode.RESTORE -> { }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
-
                     var descriptionString = if (progressData.time != null) {
                         val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
                         "$downloadDescriptionString ${progressData.done}%. $estimate"
@@ -144,6 +144,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     restoreFullDescription.visibility = View.GONE
 
                     configProgress(progressData.done,descriptionString)
+                }
+                else if(isRestoreProgress) {
+                    val percent = (progressData.done.toDouble()/progressData.total.toDouble()) * 100.0
+
+                    val descriptionString = getString(R.string.sync_with_node) + ": " + percent.toInt().toString() + "%"
+
+                    title.text = restoreTitleString
+                    restoreFullDescription.visibility = View.VISIBLE
+                    configProgress(countProgress(progressData), descriptionString)
                 }
                 else {
                     var descriptionString = if (progressData.time != null) {
@@ -168,6 +177,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         btnCancel.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)

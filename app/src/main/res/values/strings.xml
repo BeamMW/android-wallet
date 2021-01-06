@@ -695,6 +695,10 @@ address or contact</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="rescan">Rescan</string>
+    <string name="rescan_text">Rescan will sync transaction and UTXO data with the latest information on the blockchain. The process might take long time.\nAre you sure?</string>
+    <string name="sync_with_node">Synchronizing with node</string>
+
 
 </resources>
 
