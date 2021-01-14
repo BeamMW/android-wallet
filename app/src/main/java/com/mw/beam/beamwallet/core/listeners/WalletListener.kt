@@ -133,8 +133,11 @@ object WalletListener {
     @JvmStatic
     fun onAddresses(own: Boolean, addresses: Array<WalletAddressDTO>?) = returnResult(subOnAddresses, OnAddressesData(own, addresses?.map { WalletAddress(it) }), "onAddresses")
 
+
     @JvmStatic
-    fun onGeneratedNewAddress(addr: WalletAddressDTO) = returnResult(subOnGeneratedNewAddress, WalletAddress(addr), "onGeneratedNewAddress")
+    fun onGeneratedNewAddress(addr: WalletAddressDTO) {
+        subOnGeneratedNewAddress.onNext(WalletAddress(addr))
+    }
 
     @JvmStatic
     fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, "onNodeConnectedStatusChanged")
@@ -157,7 +160,6 @@ object WalletListener {
     @JvmStatic
     fun onNodeThreadFinished() {
         subOnNodeThreadFinished.onNext(DUMMY_OBJECT)
-        //returnResult(subOnNodeThreadFinished, DUMMY_OBJECT, "onNodeThreadFinished")
     }
 
     @JvmStatic

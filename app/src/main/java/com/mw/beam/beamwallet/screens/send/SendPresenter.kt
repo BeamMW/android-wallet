@@ -199,6 +199,13 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSelectAddress(walletAddress: WalletAddress) {
+        if(AppManager.instance.wallet?.isToken(walletAddress.address) == true) {
+            val params = AppManager.instance.wallet?.getTransactionParameters(walletAddress.address, false)
+            state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
+        }
+        else {
+            state.addressType = BMAddressType.BMAddressTypeRegular
+        }
         view?.setAddress(walletAddress.id)
         view?.handleAddressSuggestions(null)
         view?.requestFocusToAmount()

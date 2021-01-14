@@ -13,13 +13,12 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import kotlinx.android.synthetic.main.fragment_restore_trusted_node.*
-import android.webkit.URLUtil
 import android.util.Patterns
-import com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress.WelcomeProgressFragment
 
 class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), RestoreTrustedNodeContract.View {
 
     private var okString = ""
+    private var isAlreadyNavigated = false
 
     private val textWatcher = object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
@@ -132,12 +131,14 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun navigateToProgress() {
-        val fragment = WelcomeProgressFragment()
-        activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.nav_host, fragment)
-                ?.commit()
-
-//        findNavController().navigate(RestoreTrustedNodeFragmentDirections.actionRestoreTustedNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.OPEN.name, null, true))
+//        val fragment = WelcomeProgressFragment()
+//        activity?.supportFragmentManager?.beginTransaction()
+//                ?.replace(R.id.nav_host, fragment)
+//                ?.commit()
+        if (!isAlreadyNavigated) {
+            isAlreadyNavigated = true
+            findNavController().navigate(RestoreTrustedNodeFragmentDirections.actionRestoreTustedNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.OPEN.name, null, true))
+        }
     }
 
     override fun getNodeAddress(): String {

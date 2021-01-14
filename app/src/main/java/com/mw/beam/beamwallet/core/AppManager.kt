@@ -63,11 +63,12 @@ class AppManager {
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnExportToCSV: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnAddressCreated: Subject<WalletAddress> = PublishSubject.create<WalletAddress>().toSerialized()
 
 
     private var newAddressSubscription: Disposable? = null
 
-    var isResotred = false
+    var isRestored = false
 
     private var reconnectAttempts = 0
     private var reconnectNodes = mutableListOf<String>()
@@ -143,6 +144,11 @@ class AppManager {
         }
     }
 
+    fun isMaxPrivacyEnabled(): Boolean {
+        val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
+        return wallet?.isConnectionTrusted() == true || protocolEnabled
+    }
+
     fun removeIgnoredAddress(id: String) {
         if (id.isNotEmpty()) {
             var strings = mutableListOf<String>()
@@ -177,8 +183,8 @@ class AppManager {
         return false
     }
 
-    fun isOwnNode(): Boolean {
-        return true //wallet?.isConnectionTrusted() == true
+    private fun isOwnNode(): Boolean {
+        return wallet?.isConnectionTrusted() == true
     }
 
     private fun chooseRandomNodeWithoutNodes(): String {
@@ -256,7 +262,7 @@ class AppManager {
         TagHelper.clear()
 
         isSubscribe = false
-        isResotred = false
+        isRestored = false
 
         Api.closeWallet()
 
@@ -803,17 +809,6 @@ class AppManager {
     }
 
     fun canSendToMaxPrivacy(address: String): Boolean {
-
-        transactions.forEach {
-            if(it.token == address) {
-                return false
-            }
-        }
-
-        if(address == lastSendindAddress) {
-            return false
-        }
-
         return true
     }
 
@@ -839,6 +834,8 @@ class AppManager {
                 wallet?.saveAddress(it.toDTO(), true)
 
                 subOnBeamGameGenerated.onNext(it.id)
+
+                subscribeToNewAddress()
             }
 
             wallet?.generateNewAddress()
@@ -862,6 +859,8 @@ class AppManager {
                 wallet?.saveAddress(it.toDTO(), true)
 
                 subOnFaucedGenerated.onNext(it.id)
+
+                subscribeToNewAddress()
             }
 
             wallet?.generateNewAddress()
@@ -1222,6 +1221,13 @@ class AppManager {
                 subOnExportToCSV.onNext(it)
             }
 
+            subscribeToNewAddress()
+
+            val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
+
+            if(protocolEnabled) {
+               wallet?.enableBodyRequests(protocolEnabled)
+            }
 
             wallet?.switchOnOffExchangeRates(true)
             wallet?.switchOnOffNotifications(0, false)
@@ -1239,6 +1245,12 @@ class AppManager {
             wallet?.getExchangeRates()
             wallet?.getNotifications()
             wallet?.getMaxPrivacyLockTimeLimitHoursAsync()
+        }
+    }
+
+    private fun subscribeToNewAddress() {
+        WalletListener.subOnGeneratedNewAddress.subscribe(){
+            subOnAddressCreated.onNext(it)
         }
     }
 }

@@ -197,6 +197,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, SettingsFragmentMode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
                 items.add(s1.toTypedArray())
 
+                var s2 = mutableListOf<SettingsItem>()
+                s2.add(SettingsItem(null, getString(R.string.mobile_node_title),getString(R.string.mobile_node_text), SettingsFragmentMode.MobileNode, switch = true))
+                items.add(s2.toTypedArray())
+
                 toolbarLayout.changeNodeButton.alpha = 0f
                 toolbarLayout.changeNodeButton.visibility = View.GONE
                 toolbarLayout.changeNodeButton.isEnabled = false
@@ -350,6 +354,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeRunOnBackground(allow)
                     }
+                    else if (item.mode == SettingsFragmentMode.MobileNode) {
+                        val enabled = (it as androidx.appcompat.widget.SwitchCompat).isChecked
+                        presenter?.onEnableMobileNode(enabled)
+                    }
                     else if (item.mode == SettingsFragmentMode.AskPassword) {
                         val allow = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         presenter?.onChangeConfirmTransactionSettings(allow)
@@ -461,6 +469,18 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 if (item.mode == SettingsFragmentMode.ConnectNode) {
                     item.switch = runOnRandomNode
                     item.spannable = createNodeSpannableString()
+                }
+            }
+        }
+    }
+
+
+    override fun setMobileNodeEnabled(enabled: Boolean) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.MobileNode) {
+                    item.switch = enabled
                 }
             }
         }
@@ -1259,7 +1279,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showPublicOfflineAddress() {
-        if(AppManager.instance.isOwnNode()) {
+        if(AppManager.instance.isMaxPrivacyEnabled()) {
             findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPublicOfflineAddressFragment())
         }
         else {

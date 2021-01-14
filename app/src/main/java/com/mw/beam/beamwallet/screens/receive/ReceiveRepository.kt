@@ -28,12 +28,6 @@ import io.reactivex.subjects.Subject
  */
 class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
-    override fun generateNewAddress(): Subject<WalletAddress> {
-        return getResult(WalletListener.subOnGeneratedNewAddress, "generateNewAddress") {
-            wallet?.generateNewAddress()
-        }
-    }
-
     override fun saveAddress(address: WalletAddress, tags: List<Tag>) {
         getResult("saveAddressChanges") {
 

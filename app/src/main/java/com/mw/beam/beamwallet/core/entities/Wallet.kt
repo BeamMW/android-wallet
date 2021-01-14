@@ -82,4 +82,5 @@ data class Wallet(val _this: Long) {
     external fun getMaturityHours(id: Long): Long
 
     external fun rescan()
+    external fun enableBodyRequests(enable: Boolean)
 }

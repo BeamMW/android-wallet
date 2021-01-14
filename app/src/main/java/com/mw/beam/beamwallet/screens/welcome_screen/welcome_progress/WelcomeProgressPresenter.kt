@@ -16,9 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
-import android.app.Application
-import android.os.Handler
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -84,7 +81,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         state.password = view?.getPassword() ?: return
         state.seed = view?.getSeed()
 
-        AppManager.instance.isResotred = state.mode == WelcomeMode.RESTORE_AUTOMATIC
+        AppManager.instance.isRestored = state.mode == WelcomeMode.RESTORE_AUTOMATIC
     }
 
     override fun onStart() {
@@ -402,7 +399,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
 
-        AppManager.instance.isResotred = false
+        AppManager.instance.isRestored = false
 
         view?.navigateToCreateFragment()
     }

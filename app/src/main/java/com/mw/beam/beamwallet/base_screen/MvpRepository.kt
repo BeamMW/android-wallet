@@ -39,4 +39,6 @@ interface MvpRepository {
     fun isLockScreenEnabled(): Boolean
 
     fun isEnabledConnectToRandomNode(): Boolean
+
+    fun isMobileNodeEnabled(): Boolean
 }

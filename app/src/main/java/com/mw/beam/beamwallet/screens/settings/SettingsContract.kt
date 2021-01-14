@@ -35,6 +35,7 @@ interface SettingsContract {
         fun onNeedAddedViews()
         fun mode(): SettingsFragmentMode
         fun setRunOnRandomNode(runOnRandomNode: Boolean)
+        fun setMobileNodeEnabled(enabled: Boolean)
         fun setRunOnBackground(allow: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)
@@ -129,6 +130,7 @@ interface SettingsContract {
         fun onChangeAllowAddressExpiration(allow: Boolean)
         fun onShowPublicOfflineAddressPressed()
         fun onChangeMaxPrivacySettings(value: Long)
+        fun onEnableMobileNode(enable: Boolean);
     }
 
     interface Repository : MvpRepository {
@@ -163,6 +165,6 @@ interface SettingsContract {
         fun setAllowTransactions(allow: Boolean)
         fun setAllowNews(allow: Boolean)
         fun setAllowAddressExpiration(allow: Boolean)
-
+        fun setMobileNodeEnabled(enabled: Boolean)
     }
 }

@@ -645,7 +645,7 @@ address or contact</string>
     <string name="transaction_info">Transaction info</string>
     <string name="offline_token_type">Offline</string>
     <string name="online_token_type">Online</string>
-    <string name="max_privacy_disabled_node">Connect to integrated or own node to enable receiving max privacy and offline transactions</string>
+    <string name="max_privacy_disabled_node">Connect to own node or enable mobile node in the settings to enable receiving max privacy and offline transactions</string>
     <string name="address_not_supported_max_privacy">This type of address does not support offline transactions</string>
     <string name="cant_sent_max_to_my_address">Can not sent Offline transaction to own address</string>
     <string name="offline">Offline</string>
@@ -664,7 +664,7 @@ address or contact</string>
     <string name="show_public_offline">Show public offline address</string>
     <string name="public_offline_address">Public offline address</string>
     <string name="public_offline_address_hint">Publishing this address will allow you to be identified</string>
-    <string name="connect_node_offline_public">Connect to integrated or own node to enable receiving public offline transactions</string>
+    <string name="connect_node_offline_public">Connect to own node or enable mobile node in the settings to enable receiving public offline transactions</string>
     <string name="online_address_for_wallet">Online address (for wallet)</string>
     <string name="online_token_for_pool">Online address (for exchange or mining pool)</string>
     <string name="supports_payment">Supports XX payments.</string>
@@ -698,7 +698,8 @@ address or contact</string>
     <string name="rescan">Rescan</string>
     <string name="rescan_text">Rescan will sync transaction and UTXO data with the latest information on the blockchain. The process might take long time.\nAre you sure?</string>
     <string name="sync_with_node">Synchronizing with node</string>
-
+    <string name="mobile_node_title">Mobile node</string>
+    <string name="mobile_node_text">Allows to validate and sync with the blockchain</string>
 
 </resources>
 

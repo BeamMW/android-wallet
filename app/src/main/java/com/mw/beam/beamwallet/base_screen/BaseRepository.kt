@@ -87,6 +87,10 @@ open class BaseRepository : MvpRepository {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
     }
 
+    override fun isMobileNodeEnabled(): Boolean {
+        return PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, defValue = false)
+    }
+
     override fun closeWallet() {
         if (Api.isWalletRunning()) {
             getResult("closeWallet") {

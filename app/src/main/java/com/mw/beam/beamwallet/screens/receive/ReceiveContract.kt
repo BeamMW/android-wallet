@@ -81,6 +81,5 @@ interface ReceiveContract {
         fun saveAddress(address: WalletAddress, tags: List<Tag>)
         fun getAddressTags(address: String): List<Tag>
         fun getAllTags(): List<Tag>
-        fun generateNewAddress(): Subject<WalletAddress>
     }
 }

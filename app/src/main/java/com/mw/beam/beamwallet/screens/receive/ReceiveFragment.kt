@@ -217,7 +217,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         AppActivity.self.runOnUiThread {
-            if(!AppManager.instance.isOwnNode()) {
+            if(!AppManager.instance.isMaxPrivacyEnabled()) {
                 notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
                 notAvailableLabel.visibility = View.VISIBLE
 
@@ -466,7 +466,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             shareView3.text = option3
 
             AppActivity.self.runOnUiThread {
-                if(!AppManager.instance.isOwnNode()) {
+                if(!AppManager.instance.isMaxPrivacyEnabled()) {
                     shareView3.visibility = View.GONE
                 }
             }

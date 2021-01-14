@@ -16,31 +16,33 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.IdRes
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.OnSyncProgressData
-import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import kotlinx.android.synthetic.main.fragment_welcome_progress.*
-import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
-import androidx.navigation.NavOptions
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.helpers.toTimeFormat
-import java.io.File
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import kotlinx.android.synthetic.main.fragment_welcome_progress.*
+import java.io.File
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -68,6 +70,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_progress
     override fun getToolbarTitle(): String? = ""
     private var timer: Timer? = null
+    private var isShowWallet = false
 
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
@@ -105,7 +108,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
             timer = Timer()
             timer?.schedule(timerTask {
-                if(!App.isAuthenticated) {
+                if (!App.isAuthenticated) {
                     AppActivity.self.runOnUiThread {
                         showWallet()
                     }
@@ -127,15 +130,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                configProgress(countProgress(progressData),"$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
+                configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
             }
-            WelcomeMode.RESTORE -> { }
+            WelcomeMode.RESTORE -> {
+            }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
                     var descriptionString = if (progressData.time != null) {
                         val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
                         "$downloadDescriptionString ${progressData.done}%. $estimate"
-                    } else{
+                    } else {
                         "$downloadDescriptionString ${progressData.done}%."
                     }
 
@@ -143,22 +147,20 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
                     restoreFullDescription.visibility = View.GONE
 
-                    configProgress(progressData.done,descriptionString)
-                }
-                else if(isRestoreProgress) {
-                    val percent = (progressData.done.toDouble()/progressData.total.toDouble()) * 100.0
+                    configProgress(progressData.done, descriptionString)
+                } else if (isRestoreProgress) {
+                    val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
 
                     val descriptionString = getString(R.string.sync_with_node) + ": " + percent.toInt().toString() + "%"
 
                     title.text = restoreTitleString
                     restoreFullDescription.visibility = View.VISIBLE
                     configProgress(countProgress(progressData), descriptionString)
-                }
-                else {
+                } else {
                     var descriptionString = if (progressData.time != null) {
                         val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
                         "$restoreDescriptionString ${countProgress(progressData)}%. $estimate"
-                    } else{
+                    } else {
                         "$restoreDescriptionString ${countProgress(progressData)}%."
                     }
 
@@ -169,7 +171,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     configProgress(countProgress(progressData), descriptionString)
                 }
             }
-            WelcomeMode.CREATE -> { }
+            WelcomeMode.CREATE -> {
+            }
         }
     }
 
@@ -254,10 +257,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun navigateToCreateFragment() {
         if (isRecoverDataBaseExists()) {
-            findNavController().popBackStack(R.id.welcomeOpenFragment,false)
+            findNavController().popBackStack(R.id.welcomeOpenFragment, false)
         }
         else{
-            findNavController().popBackStack(R.id.welcomeCreateFragment,false)
+            findNavController().popBackStack(R.id.welcomeCreateFragment, false)
         }
     }
 
@@ -280,6 +283,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        if (isShowWallet && !App.isAuthenticated ) {
+            return
+        }
+        else if (App.isAuthenticated ) {
+            return
+        }
+
+        isShowWallet = true
+
         timer?.cancel()
         timer = null
 
@@ -302,22 +314,42 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
         App.self.clearLogs()
 
-       // App.self.startBackgroundService()
+        if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE, false)) {
+            App.self.startBackgroundService()
+        }
 
-        android.os.Handler().postDelayed({
-            if(PreferencesManager.getBoolean(PreferencesManager.KEY_BACKGROUND_MODE,false)) {
-                App.self.startBackgroundService()
+        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+
+
+//        val navBuilder = NavOptions.Builder()
+//        navBuilder.setEnterAnim(R.anim.fade_in)
+//        navBuilder.setPopEnterAnim(R.anim.fade_in)
+//        navBuilder.setExitAnim(R.anim.fade_out)
+//        navBuilder.setPopExitAnim(R.anim.fade_out)
+//
+//        clearBackStack()
+//        clearAllFragments()
+//        findNavController().navigate(R.id.walletFragment, null, navBuilder.build())
+    }
+
+    fun clearBackStack() {
+        val fragmentManager = activity?.supportFragmentManager
+        if(fragmentManager != null) {
+            if (fragmentManager?.backStackEntryCount > 0) {
+                val first: FragmentManager.BackStackEntry = fragmentManager.getBackStackEntryAt(0)
+                fragmentManager.popBackStack(first.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             }
+        }
+    }
 
-            val navBuilder = NavOptions.Builder()
-            navBuilder.setEnterAnim(R.anim.fade_in)
-            navBuilder.setPopEnterAnim(R.anim.fade_in)
-            navBuilder.setExitAnim(R.anim.fade_out)
-            navBuilder.setPopExitAnim(R.anim.fade_out)
-
-            val navigationOptions = navBuilder.build()
-            findNavController().navigate(R.id.walletFragment, null, navigationOptions)
-        }, 600)
+    fun clearAllFragments() {
+        if(activity?.supportFragmentManager != null) {
+            for (fragment in requireActivity().supportFragmentManager.fragments) {
+                if (fragment != null) {
+                    requireActivity().supportFragmentManager.beginTransaction().remove(fragment).commit()
+                }
+            }
+        }
     }
 
     private fun configProgress(currentProgress: Int, descriptionString: String) {

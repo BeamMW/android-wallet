@@ -95,7 +95,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
             transactionType.text = getString(R.string.public_offline)
         }
         else if (type == BMAddressType.BMAddressTypeRegularPermanent) {
-            transactionType.text = getString(R.string.regular) + ". " + getString(R.string.permanent)
+            transactionType.text = getString(R.string.regular) + ", " + getString(R.string.permanent).toLowerCase()
         }
         else if (type == BMAddressType.BMAddressTypeShielded) {
             val left = getString(R.string.payments_left).toLowerCase().replace("xx.","")

@@ -20,11 +20,9 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.doAsync
-import kotlin.concurrent.thread
 import org.jetbrains.anko.uiThread
 
 
@@ -91,7 +89,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        if(AppManager.instance.isResotred) {
+        if(AppManager.instance.isRestored) {
             AppManager.instance.requestUTXO()
         }
 

@@ -135,7 +135,7 @@
                             android:layout_marginStart="@dimen/common_offset"
                             android:layout_marginTop="15dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@string/transaction_type"
+                            android:text="@string/address_type"
                             android:textAllCaps="true"
                             android:textColor="?attr/subHeaderTextColor"
                             android:textSize="12sp"

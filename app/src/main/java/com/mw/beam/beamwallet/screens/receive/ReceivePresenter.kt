@@ -170,9 +170,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.shareToken(state.address!!.tokenMaxPrivacy)
         }
         else {
-            val option1 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
-            val option2 = App.self.resources.getString(R.string.online_token) + " (" + App.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
-            val option3 = App.self.resources.getString(R.string.offline_token)
+            val option1 = AppActivity.self.getString(R.string.online_token) + " (" + AppActivity.self.resources.getString(R.string.for_wallet).toLowerCase() + ")"
+            val option2 = AppActivity.self.resources.getString(R.string.online_token) + " (" + AppActivity.self.resources.getString(R.string.for_pool).toLowerCase() + ")"
+            val option3 = AppActivity.self.resources.getString(R.string.offline_token)
             view?.showShareDialog(option1, option2, option3)
         }
     }
@@ -231,19 +231,16 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             }
         }
 
-        walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateAddress) {
+        walletIdSubscription = AppManager.instance.subOnAddressCreated.subscribe {
             if (state.address == null) {
                 state.isNeedGenerateAddress = false
+                state.address = it
 
                 it.duration = 0L
 
                 AppManager.instance.wallet?.saveAddress(it.toDTO(), true)
-                //AppManager.instance.wallet?.updateAddress(it.getOriginalId, it.label, WalletAddressDTO.WalletAddressExpirationStatus.Expired.ordinal)
 
                 Handler(Looper.getMainLooper()).postDelayed({
-                    state.address = it
-                    state.generatedAddress = it
-
                     updateToken()
 
                     initViewAddress(state.address)
@@ -252,6 +249,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 }, 100)
             }
         }
+
+        if (state.address == null) {
+            AppManager.instance.wallet?.generateNewAddress()
+        }
+
 
         maxAddressSubscription = AppManager.instance.subOnMaxPrivacyAddress.subscribe {
             state.address?.tokenMaxPrivacy = it

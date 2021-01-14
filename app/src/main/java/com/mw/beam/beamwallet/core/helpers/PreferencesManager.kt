@@ -72,6 +72,8 @@ object PreferencesManager {
     const val KEY_WALLET_STATUS = "KEY_WALLET_STATUS"
     const val KEY_ADDRESSES = "KEY_ADDRESSES"
 
+    const val KEY_MOBILE_PROTOCOL = "KEY_MOBILE_PROTOCOL"
+
     fun putString(key: String, value: String) = preferenceStore.edit().putString(key, value).apply()
     fun getString(key: String): String? = preferenceStore.getString(key, null)
     fun putBoolean(key: String, value: Boolean) = preferenceStore.edit().putBoolean(key, value).apply()
@@ -95,5 +97,6 @@ object PreferencesManager {
         putBoolean(KEY_TRANSACTIONS_STATUS,true)
         putBoolean(KEY_NEWS,true)
         putBoolean(KEY_ADDRESS_EXPIRATION,true)
+        putBoolean(KEY_MOBILE_PROTOCOL,false)
     }
 }

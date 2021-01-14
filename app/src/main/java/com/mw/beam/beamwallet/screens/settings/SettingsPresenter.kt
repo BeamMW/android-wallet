@@ -126,6 +126,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
         else if (view?.mode() == SettingsFragmentMode.Node) {
             view?.setRunOnRandomNode(repository.isEnabledConnectToRandomNode())
+            view?.setMobileNodeEnabled(repository.isMobileNodeEnabled())
         }
         else if (view?.mode() == SettingsFragmentMode.Privacy) {
             view?.updateMaxPrivacyValue(AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L)
@@ -194,6 +195,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onShowMaxPrivacySettings() {
         view?.showMaxPrivacySettingsDialog()
+    }
+
+    override fun onEnableMobileNode(enable: Boolean) {
+        repository.setMobileNodeEnabled(enable)
     }
 
     override fun onChangeLockSettings(millis: Long) {

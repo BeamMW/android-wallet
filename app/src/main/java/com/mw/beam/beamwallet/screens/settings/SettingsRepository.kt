@@ -110,6 +110,11 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
         return AppConfig.NODE_ADDRESS
     }
 
+    override fun setMobileNodeEnabled(enabled: Boolean) {
+        PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, enabled)
+        AppManager.instance.wallet?.enableBodyRequests(enabled)
+    }
+
     override fun isAllowOpenExternalLink(): Boolean {
         return PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
     }
