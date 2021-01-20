@@ -133,8 +133,8 @@ class AppManager {
         return gson.fromJson(json, token.type) as List<String>
     }
 
-    fun setIgnoreAddress(id: String) {
-        if (id.isNotEmpty()) {
+    fun setIgnoreAddress(id: String?) {
+        if (!id.isNullOrEmpty()) {
             var strings = mutableListOf<String>()
             strings.addAll(getIgnoredContacts())
             if (!strings.contains(id)) {
@@ -812,6 +812,16 @@ class AppManager {
         return true
     }
 
+    fun checkConnection() {
+        if (networkStatus == NetworkStatus.OFFLINE) {
+            val reconnect = reconnect()
+            if (!reconnect) {
+                networkStatus = NetworkStatus.OFFLINE
+                subOnNetworkStatusChanged.onNext(0)
+            }
+        }
+    }
+
     fun updateAllData() {
         wallet?.getWalletStatus()
         wallet?.getUtxosStatus()
@@ -952,7 +962,7 @@ class AppManager {
                     if (it.addresses!=null) {
                         val ignored = getIgnoredContacts()
                         it.addresses.forEach {address->
-                            if(!ignored.contains(address.address)) {
+                            if(!ignored.contains(address.address) && !ignored.contains(address.id)) {
                                 contacts.add(address)
                             }
                         }

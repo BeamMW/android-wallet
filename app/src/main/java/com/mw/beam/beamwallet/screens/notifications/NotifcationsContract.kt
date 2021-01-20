@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.notifications
 
+import android.content.Context
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
@@ -33,7 +34,8 @@ interface NotifcationsContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun openTransactionFragment(id:String)
         fun openAddressFragment(id:String)
-        fun openNewVersionFragment(value: String);
+        fun openNewVersionFragment(value: String)
+        fun getMainContext():Context
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -44,10 +46,11 @@ interface NotifcationsContract {
         fun onOpenNotification(notification: NotificationItem)
         fun deleteAllNotifications()
         fun deleteNotifications(list: List<String>)
+        fun getNotifications(context: Context)
     }
 
     interface Repository : MvpRepository {
-        fun getNotifications(): List<NotificationItem>
+        fun getNotifications(context: Context): List<NotificationItem>
         fun isNeedConfirmEnablePrivacyMode(): Boolean
     }
 }

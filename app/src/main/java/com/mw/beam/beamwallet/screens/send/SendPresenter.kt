@@ -502,6 +502,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 //            state.isMaxPrivacyRequested = false
 //            view?.setMaxPrivacyRequested(false)
 //        }
+
+        if(!rawToken.isNullOrEmpty() && AppManager.instance.isValidAddress(rawToken)) {
+            val params = AppManager.instance.wallet?.getTransactionParameters(rawToken, false)
+            state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
+        }
     }
 
     private fun updateSuggestions(rawToken: String?, changeSuggestionsVisibility: Boolean) {

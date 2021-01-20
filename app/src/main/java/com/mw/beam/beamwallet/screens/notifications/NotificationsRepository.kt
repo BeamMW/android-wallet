@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.notifications
 
+import android.content.Context
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.App
@@ -26,7 +27,7 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 class NotificationsRepository : BaseRepository(), NotifcationsContract.Repository {
 
-    override fun getNotifications(): List<NotificationItem> {
+    override fun getNotifications(context: Context): List<NotificationItem> {
         val notifications =  AppManager.instance.getNotifications()
         val unread = mutableListOf<NotificationItem>()
         val read = mutableListOf<NotificationItem>()
@@ -35,10 +36,10 @@ class NotificationsRepository : BaseRepository(), NotifcationsContract.Repositor
 
         notifications.forEach {
             if (it.isRead) {
-                read.add(NotificationItem(it, privacy))
+                read.add(NotificationItem(it, privacy, context))
             }
             else {
-                unread.add(NotificationItem(it, privacy))
+                unread.add(NotificationItem(it, privacy, context))
             }
         }
         read.sortByDescending { it.date  }
@@ -46,7 +47,7 @@ class NotificationsRepository : BaseRepository(), NotifcationsContract.Repositor
 
         result.addAll(unread)
         if(read.count() > 0) {
-            read.add(0, NotificationItem(App.self.resources.getString(R.string.read)))
+            read.add(0, NotificationItem(context.getString(R.string.read)))
         }
         result.addAll(read)
 

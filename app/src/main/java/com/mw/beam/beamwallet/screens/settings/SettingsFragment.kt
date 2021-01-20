@@ -1286,7 +1286,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             showAlert(message = getString(R.string.connect_node_offline_public),
                     btnConfirmText = getString(R.string.ok),
                     onConfirm = {
-                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToDoubleAuthorizationFragment(DoubleAuthorizationFragmentMode.OwnerKey))
                     },
                     title = getString(R.string.show_public_offline),
                     btnCancelText = null,

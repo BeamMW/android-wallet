@@ -176,7 +176,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         ContextCompat.getColor(App.self, R.color.failed_status_color)
     }
     else if (TxStatus.Failed == status) {
-        ContextCompat.getColor(App.self, R.color.common_error_color)
+        when (failureReason) {
+            TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getColor(App.self, R.color.failed_status_color)
+            else -> ContextCompat.getColor(App.self, R.color.common_error_color)
+        }
     }
     else if (selfTx) {
         ContextCompat.getColor(App.self, R.color.common_text_color)
@@ -234,28 +237,42 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             }
         }
         else {
-            if (selfTx) return when (this.status) {
-                TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-                TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
-                TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
-                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
-            }
-            else if (sender == TxSender.RECEIVED)
-            {
-                return when (this.status) {
-                    TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
-                    TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
-                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
-                    else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
-                }
-            }
-            else if (sender == TxSender.SENT)
-            {
-                return when (this.status) {
+            when {
+                selfTx -> return when (this.status) {
                     TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
-                    TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
-                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
-                    else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+                    TxStatus.Failed -> {
+                        when (failureReason) {
+                            TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired)
+                            else -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
+                        }
+                    }
+                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
+                    else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
+                }
+                sender == TxSender.RECEIVED -> {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled_new)
+                        TxStatus.Failed -> {
+                            when (failureReason) {
+                                TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired)
+                                else ->  ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
+                            }
+                        }
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
+                    }
+                }
+                sender == TxSender.SENT -> {
+                    return when (this.status) {
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_new)
+                        TxStatus.Failed ->
+                        when (failureReason) {
+                            TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired)
+                            else ->  ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
+                        }
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
+                    }
                 }
             }
         }

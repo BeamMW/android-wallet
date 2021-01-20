@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.notifications
 
+import android.content.Context
 import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -46,13 +47,23 @@ class NotificationsPresenter(currentView: NotifcationsContract.View, currentRepo
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        view?.configNotifications(repository.getNotifications(), state.privacyMode)
+        val context = view?.getMainContext()
+        if(context != null) {
+            view?.configNotifications(repository.getNotifications(context), state.privacyMode)
+        }
 
         notificationsSubscription = AppManager.instance.subOnNotificationsChanged.subscribe {
             App.self.runOnUiThread {
-                view?.configNotifications(repository.getNotifications(), state.privacyMode)
+                val context = view?.getMainContext()
+                if(context != null) {
+                    view?.configNotifications(repository.getNotifications(context), state.privacyMode)
+                }
             }
         }
+    }
+
+    override fun getNotifications(context: Context) {
+        view?.configNotifications(repository.getNotifications(context), state.privacyMode)
     }
 
     override fun deleteAllNotifications() {

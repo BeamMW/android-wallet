@@ -85,6 +85,7 @@ class App : Application() {
                 subOnStatusResume.onNext(0)
 
                 if (isAuthenticated) {
+                    AppManager.instance.checkConnection()
                     AppManager.instance.updateAllData()
                 }
             }

@@ -26,6 +26,7 @@ import io.reactivex.disposables.Disposable
 import java.net.URI
 import com.google.gson.Gson
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 
 /**
@@ -63,13 +64,15 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
-            val link =  when (BuildConfig.FLAVOR) {
-                AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
-                AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
-                else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=app://open.master.app"
-            }
+            AppActivity.self.runOnUiThread {
+                val link =  when (BuildConfig.FLAVOR) {
+                    AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
+                    AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
+                    else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=app://open.master.app"
+                }
 
-            view?.onFaucetAddressGenerated(link)
+                view?.onFaucetAddressGenerated(link)
+            }
         }
 
         exportDataSubscription = WalletListener.subOnDataExported.subscribe {
@@ -298,7 +301,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         }
 
         if (clearContacts) {
-            state.contacts.forEach { repository.deleteAddress(it.id) }
+            state.contacts.forEach {
+                AppManager.instance.setIgnoreAddress(it.id)
+                repository.deleteAddress(it.id) }
         }
 
         if (clearTransactions) {
@@ -311,6 +316,8 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         if (clearTransactions) {
             AppManager.instance.deleteAllNotificationTransactions()
         }
+
+        AppManager.instance.wallet?.getAddresses(false)
     }
 
     override fun onChangeRunOnRandomNode(isEnabled: Boolean) {

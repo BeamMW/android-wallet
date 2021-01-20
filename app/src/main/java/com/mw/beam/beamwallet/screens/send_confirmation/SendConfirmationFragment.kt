@@ -62,6 +62,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getChange(): Long = args.change
     override fun getShieldedInputsFee(): Long = args.shieldedInputsFee
 
+    private var typeAddress = BMAddressType.BMAddressTypeRegular
+
     @SuppressLint("SetTextI18n")
     override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int) {
 
@@ -83,21 +85,21 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
         this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
 
-        val type = BMAddressType.findByValue(addressType)
+        typeAddress = BMAddressType.findByValue(addressType) ?: BMAddressType.BMAddressTypeRegular
 
-        if (type == BMAddressType.BMAddressTypeMaxPrivacy) {
+        if (typeAddress == BMAddressType.BMAddressTypeMaxPrivacy) {
             transactionType.text = getString(R.string.max_privacy)
         }
-        else if (type == BMAddressType.BMAddressTypeRegular) {
+        else if (typeAddress == BMAddressType.BMAddressTypeRegular) {
             transactionType.text = getString(R.string.regular)
         }
-        else if (type == BMAddressType.BMAddressTypeOfflinePublic) {
+        else if (typeAddress == BMAddressType.BMAddressTypeOfflinePublic) {
             transactionType.text = getString(R.string.public_offline)
         }
-        else if (type == BMAddressType.BMAddressTypeRegularPermanent) {
+        else if (typeAddress == BMAddressType.BMAddressTypeRegularPermanent) {
             transactionType.text = getString(R.string.regular) + ", " + getString(R.string.permanent).toLowerCase()
         }
-        else if (type == BMAddressType.BMAddressTypeShielded) {
+        else if (typeAddress == BMAddressType.BMAddressTypeShielded) {
             val left = getString(R.string.payments_left).toLowerCase().replace("xx.","")
             transactionType.text = getString(R.string.offline) + ", " + left  + getRemaining()
         }
@@ -184,7 +186,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress))
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded))
     }
 
     override fun showSaveAddressFragment(address: String) {

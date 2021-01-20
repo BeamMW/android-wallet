@@ -67,7 +67,7 @@ data class Wallet(val _this: Long) {
 
     external fun isToken(token: String): Boolean
     external fun isAddress(address: String): Boolean
-    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
+    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean)
     external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
 
     external fun isConnectionTrusted(): Boolean

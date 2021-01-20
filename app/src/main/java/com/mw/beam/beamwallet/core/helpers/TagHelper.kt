@@ -17,29 +17,22 @@
 package com.mw.beam.beamwallet.core.helpers
 
 import android.content.Context
-import android.graphics.Typeface
+import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import java.util.*
-import java.util.regex.Pattern
-import kotlin.Comparator
-import kotlin.collections.HashMap
-import kotlin.collections.mutableMapOf as mutableMapOf1
 import java.text.Collator
-
-
+import java.util.*
+import kotlin.collections.HashMap
 
 
 object TagHelper {
@@ -61,7 +54,7 @@ object TagHelper {
     }
 
     fun fixLegacyFormat() {
-        if(!PreferencesManager.getBoolean(PreferencesManager.KEY_TAG_DATA_LEGACY,false)) {
+        if(!PreferencesManager.getBoolean(PreferencesManager.KEY_TAG_DATA_LEGACY, false)) {
             var tags = getAllTags().toMutableList()
 
             var fixedAddresses = HashMap<String, String>()
@@ -106,14 +99,16 @@ object TagHelper {
 
             saveTagData()
 
-            PreferencesManager.putBoolean(PreferencesManager.KEY_TAG_DATA_LEGACY,true)
+            PreferencesManager.putBoolean(PreferencesManager.KEY_TAG_DATA_LEGACY, true)
         }
     }
 
     fun getAllTags() = tagData.getAllTags().values.toList()
 
-    fun getAllTagsSorted(tags : List<Tag>): List<Tag> {
-
+    fun getAllTagsSorted(tags: List<Tag>): List<Tag> {
+        if (android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.O_MR1){
+            return tags
+        }
         var alphabets = mutableListOf<String>()
         var digits = mutableListOf<String>()
         var charters = mutableListOf<String>()
@@ -141,11 +136,11 @@ object TagHelper {
 
         val collator = Collator.getInstance(Locale.ENGLISH)
 
-        var sortedAlphaBetsHash = kotlin.collections.mutableMapOf<String,MutableList<Tag>>()
+        var sortedAlphaBetsHash = kotlin.collections.mutableMapOf<String, MutableList<Tag>>()
 
         var sortedAlphaBets = alphabets.sorted()
 
-        Collections.sort(sortedAlphaBets,collator)
+        Collections.sort(sortedAlphaBets, collator)
 
         sortedAlphaBets.forEach {
             val lower = it.toLowerCase()
@@ -262,7 +257,7 @@ object TagHelper {
         return listOf()
     }
 
-    fun changeTagsForAddress(id: String, tagList: List<Tag>?, name:String? = null) {
+    fun changeTagsForAddress(id: String, tagList: List<Tag>?, name: String? = null) {
         if (tagList.isNullOrEmpty()) {
             removeAddressFromAllTags(id)
         } else {

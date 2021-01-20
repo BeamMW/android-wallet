@@ -288,9 +288,8 @@ else{
 
 
         if (txDescription.status == TxStatus.Failed) {
-            transactionStatusIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.common_error_color))
+            transactionStatusIcon.imageTintList = ColorStateList.valueOf(txDescription.statusColor)
         }
-
 
         val drawable = shape.background as GradientDrawable
         drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor)

@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.notifications
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
@@ -76,6 +77,10 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
         }
     }
 
+    override fun getMainContext(): Context {
+        return requireContext()
+    }
+
     override fun init() {
         setHasOptionsMenu(true)
         setMenuVisibility(true)
@@ -126,6 +131,8 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
         notificationsListView.layoutManager = LinearLayoutManager(context)
         notificationsListView.adapter = adapter
+
+        presenter?.getNotifications(requireContext())
     }
 
     private fun cancelSelectedNotifications() {
@@ -275,7 +282,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
 
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
-        presenter?.repository?.getNotifications()?.let { presenter?.state?.privacyMode?.let { it1 -> configNotifications(it, it1) } }
+        presenter?.repository?.getNotifications(requireContext())?.let { presenter?.state?.privacyMode?.let { it1 -> configNotifications(it, it1) } }
         adapter.setPrivacyMode(isEnable)
     }
 

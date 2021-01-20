@@ -141,7 +141,7 @@ class TransactionsAdapter(private val context: Context, private val longListener
             icon.setImageDrawable(transaction.statusImage())
 
             if (transaction.status == TxStatus.Failed) {
-                icon.imageTintList = ColorStateList.valueOf(context.getColor(R.color.common_error_color))
+                icon.imageTintList = ColorStateList.valueOf(transaction.statusColor)
             }
             else {
                 icon.imageTintList = null

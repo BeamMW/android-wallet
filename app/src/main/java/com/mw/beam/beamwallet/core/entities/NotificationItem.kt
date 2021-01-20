@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.core.entities
 
+import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
@@ -9,6 +10,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import java.util.regex.Pattern
 
 class NotificationItem  {
@@ -30,16 +32,18 @@ class NotificationItem  {
         this.name = name
     }
 
-     constructor(notification: Notification, hideAmount:Boolean) {
+    constructor(notification: Notification, hideAmount:Boolean, context: Context?) {
         nId = notification.id
         pId = notification.objId
         isRead = notification.isRead
         type = notification.type
         date = notification.createdTime
 
+        val cntx = context ?: App.self.applicationContext
+
         if(type == NotificationType.Version) {
             icon = R.drawable.ic_icon_notifictions_update
-            name = App.self.applicationContext.getString(R.string.new_version_available_title)
+            name = cntx.getString(R.string.new_version_available_title)
             name = name?.replace("(version)", pId)
         }
         else if(type == NotificationType.Transaction) {
@@ -52,8 +56,8 @@ class NotificationItem  {
                     if ((transaction.status == TxStatus.Pending || transaction.status == TxStatus.Registered
                                     || transaction.status == TxStatus.InProgress) && transaction.status != TxStatus.Completed) {
                         icon = R.drawable.ic_icon_notifictions_received
-                        name =  App.self.applicationContext.getString(R.string.notification_receive_content_title)
-                        val string = App.self.applicationContext.getString(R.string.transaction_receiving_notif_body)
+                        name =  cntx.getString(R.string.notification_receive_content_title)
+                        val string = cntx.getString(R.string.transaction_receiving_notif_body)
                                 .replace("(value)", beam)
                                 .replace("(address)", address)
                                 .replace("  ", " ")
@@ -61,8 +65,8 @@ class NotificationItem  {
                     }
                     else if (transaction.status == TxStatus.Cancelled || transaction.status == TxStatus.Failed) {
                         icon = R.drawable.ic_icon_notifictions_failed
-                        name =  App.self.applicationContext.getString(R.string.buy_transaction_failed_title)
-                        val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body_failed)
+                        name =  cntx.getString(R.string.buy_transaction_failed_title)
+                        val string = cntx.getString(R.string.transaction_received_notif_body_failed)
                                 .replace("(value)", beam)
                                 .replace("(address)", address)
                                 .replace("  ", " ")
@@ -71,8 +75,8 @@ class NotificationItem  {
                     else {
                         if(transaction.isMaxPrivacy) {
                             icon = R.drawable.ic_notifictions_received_max_privacy
-                            name =  App.self.applicationContext.getString(R.string.transaction_received)
-                            val string = App.self.applicationContext.getString(R.string.transaction_received_max_privacy_notif_body)
+                            name =  cntx.getString(R.string.transaction_received)
+                            val string = cntx.getString(R.string.transaction_received_max_privacy_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", transaction.myId)
                                     .replace("  ", " ")
@@ -81,8 +85,8 @@ class NotificationItem  {
                         else if (transaction.isShielded || transaction.isPublicOffline)
                         {
                             icon = R.drawable.ic_notifictions_received_offline
-                            name =  App.self.applicationContext.getString(R.string.transaction_received_from_offline)
-                            val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body)
+                            name =  cntx.getString(R.string.transaction_received_from_offline)
+                            val string = cntx.getString(R.string.transaction_received_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", "shielded pool")
                                     .replace("  ", " ")
@@ -90,8 +94,8 @@ class NotificationItem  {
                         }
                         else {
                             icon = R.drawable.ic_icon_notifictions_received
-                            name =  App.self.applicationContext.getString(R.string.transaction_received)
-                            val string = App.self.applicationContext.getString(R.string.transaction_received_notif_body)
+                            name =  cntx.getString(R.string.transaction_received)
+                            val string = cntx.getString(R.string.transaction_received_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", address)
                                     .replace("  ", " ")
@@ -111,9 +115,9 @@ class NotificationItem  {
                                 R.drawable.ic_icon_notifictions_failed
                             }
                         }
-                        name =  App.self.applicationContext.getString(R.string.buy_transaction_failed_title)
+                        name =  cntx.getString(R.string.buy_transaction_failed_title)
 
-                        val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body_failed)
+                        val string = cntx.getString(R.string.transaction_sent_notif_body_failed)
                                 .replace("(value)", beam)
                                 .replace("(address)", address)
                                 .replace("  ", " ")
@@ -135,15 +139,15 @@ class NotificationItem  {
                             }
 
                             if(transaction.isMaxPrivacy) {
-                                name =  App.self.applicationContext.getString(R.string.transaction_sent)
+                                name =  cntx.getString(R.string.transaction_sent)
                                 icon = R.drawable.ic_notifictions_send_max_privacy
                             }
                             else {
                                 icon = R.drawable.ic_notifictions_send_offline
-                                name =  App.self.applicationContext.getString(R.string.transaction_send_from_offline)
+                                name =  cntx.getString(R.string.transaction_send_from_offline)
                             }
 
-                            val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
+                            val string = cntx.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", address)
                                     .replace("  ", " ")
@@ -152,8 +156,8 @@ class NotificationItem  {
                         else {
                             address = transaction.peerId
                             icon = R.drawable.ic_icon_notifictions_sent
-                            name =  App.self.applicationContext.getString(R.string.transaction_sent)
-                            val string = App.self.applicationContext.getString(R.string.transaction_sent_notif_body)
+                            name =  cntx.getString(R.string.transaction_sent)
+                            val string = cntx.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", beam)
                                     .replace("(address)", address)
                                     .replace("  ", " ")
@@ -185,7 +189,7 @@ class NotificationItem  {
         }
         else if(type == NotificationType.Address) {
             icon = R.drawable.ic_icon_notifictions_expired
-            name =  App.self.applicationContext.getString(R.string.address_expired)
+            name =  cntx.getString(R.string.address_expired)
             detail = pId
             val address = AppManager.instance.getAddress(pId)
 
