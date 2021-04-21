@@ -122,7 +122,7 @@ interface SendContract {
     }
 
     interface Repository : MvpRepository {
-        fun generateNewAddress() : Subject<WalletAddress>
+        fun generateNewAddress()
         fun onCantSendToExpired(): Subject<Any>
         fun checkAddress(address: String?): Boolean
         fun isConfirmTransactionEnabled(): Boolean

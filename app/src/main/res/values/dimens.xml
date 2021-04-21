@@ -101,7 +101,7 @@
     <dimen name="wallet_available_sum_margin_top">10dp</dimen>
     <dimen name="wallet_currency_padding">3dp</dimen>
     <dimen name="wallet_button_text_size">14sp</dimen>
-    <dimen name="wallet_button_width">155dp</dimen>
+    <dimen name="wallet_button_width">180dp</dimen>
     <dimen name="wallet_button_margin_top">10dp</dimen>
     <dimen name="wallet_available_margin_top">20dp</dimen>
     <dimen name="wallet_in_progress_margin_top">9dp</dimen>

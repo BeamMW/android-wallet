@@ -33,6 +33,7 @@ import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 
 import kotlinx.android.synthetic.main.fragment_receive_show_token.*
@@ -43,7 +44,7 @@ import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
  */
 class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive_show_token
-    override fun getToolbarTitle(): String? = getString(R.string.address_details)
+    override fun getToolbarTitle(): String = getString(R.string.address_details)
     override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(requireArguments()).token
     override fun getStatusBarColor(): Int {
         return if(ShowTokenFragmentArgs.fromBundle(requireArguments()).receive) {
@@ -54,70 +55,45 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         }
     }
 
-    override fun setCount(count: Int) {
-        countTokenLayout.visibility = View.VISIBLE
-        countTokenValue.text = count.toString()
-    }
-
     @SuppressLint("SetTextI18n")
     override fun init(token: String) {
         toolbarLayout.hasStatus = true
 
         registerForContextMenu(addressLayout)
         registerForContextMenu(identityLayout)
-        registerForContextMenu(tokenLayout)
+       // registerForContextMenu(tokenLayout)
 
         val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
 
         if(AppManager.instance.wallet?.isToken(token) == true) {
-            val params = AppManager.instance.wallet?.getTransactionParameters(token, true)
+            val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
             if(params != null) {
                 if(params.amount > 0) {
                     amountLayout.visibility = View.VISIBLE
                     amountValue.text = """${params.amount.convertToBeamString()} BEAM"""
                 }
 
-                tokenTypeLayout.visibility = View.VISIBLE
                 transactionTypeLayout.visibility = View.VISIBLE
 
-                if(params.isPermanentAddress) {
-                    tokenTypeValue.text = getString(R.string.permanent)
+                if (params.address.isEmpty()) {
+                    addressLayout.visibility = View.GONE
                 }
                 else {
-                    tokenTypeValue.text = getString(R.string.one_time)
+                    addressLayout.visibility = View.VISIBLE
+                    addressValue.text = params.address
                 }
 
-                if(params.isMaxPrivacy) {
-                    transactionTypeValue.text = getString(R.string.max_privacy)
-                    tokenTypeLayout.visibility = View.GONE
-                    addressLayout.visibility = View.GONE
+                when {
+                    params.getAddressType() == BMAddressType.BMAddressTypeMaxPrivacy -> {
+                        transactionTypeValue.text = getString(R.string.max_privacy)
+                    }
+                    params.getAddressType() == BMAddressType.BMAddressTypeOfflinePublic -> {
+                        transactionTypeValue.text = getString(R.string.public_offline)
+                    }
+                    else -> {
+                        transactionTypeValue.text = getString(R.string.regular)
+                    }
                 }
-                else if(params.isOffline) {
-                    transactionTypeValue.text = getString(R.string.max_privacy_title)
-                    tokenTypeLayout.visibility = View.GONE
-                    addressLayout.visibility = View.VISIBLE
-                }
-                else if(params.isPublicOffline) {
-                    transactionTypeValue.text = getString(R.string.public_offline)
-                    tokenTypeLayout.visibility = View.GONE
-                    addressLayout.visibility = View.GONE
-                }
-                else if(params.isMaxPrivacy && !params.isOffline) {
-                    addressLayout.visibility = View.GONE
-                    countTokenLayout.visibility = View.VISIBLE
-                    countTokenValue.text = getString(R.string.online)
-                    transactionTypeValue.text = getString(R.string.max_privacy_title)
-                }
-                else if(params.isMaxPrivacy && params.isOffline) {
-                    addressLayout.visibility = View.GONE
-                    transactionTypeValue.text = getString(R.string.max_privacy_title)
-                }
-                else {
-                    transactionTypeValue.text = getString(R.string.regular)
-                    addressLayout.visibility = View.VISIBLE
-                }
-
-                addressValue.text = params.address
 
                 if(params.identity.isNotEmpty()) {
                     identityLayout.visibility = View.VISIBLE
@@ -126,34 +102,8 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             }
         }
         else {
+            transactionTypeValue.text = getString(R.string.regular)
             transactionTypeLayout.visibility = View.VISIBLE
-            transactionTypeValue.text = resources.getString(R.string.regular) + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-            tokenTitle.text = resources.getString(R.string.sbbs_address)
-
-            if (isReceive)
-            {
-                tokenTypeLayout.visibility = View.VISIBLE
-
-                val address = AppManager.instance.getAddress(token)
-                if(address == null) {
-                    val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
-
-                    if(params?.isPermanentAddress == true) {
-                        tokenTypeValue.text = getString(R.string.permanent)
-                    }
-                    else {
-                        tokenTypeValue.text = getString(R.string.one_time)
-                    }
-                }
-                else {
-                    if(address.duration == 0L) {
-                        tokenTypeValue.text = getString(R.string.permanent)
-                    }
-                    else {
-                        tokenTypeValue.text = getString(R.string.one_time)
-                    }
-                }
-            }
         }
 
         tokenValue.text = token
@@ -161,11 +111,6 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         if (!isReceive) {
             gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
         }
-        else {
-            btnShare.visibility = View.VISIBLE
-        }
-
-       // (activity as BaseActivity<*>).supportActionBar?.title = getString(R.string.show_token)
     }
 
     override fun addListeners() {
@@ -178,10 +123,15 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             }
             findNavController().popBackStack()
         }
-    }
 
-    override fun copyToClipboard(content: String?, tag: String) {
-        super.copyToClipboard(content, tag)
+        btnCopy.setOnClickListener {
+            presenter?.onCopyToken()
+            val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
+            if (isReceive) {
+                setFragmentResult("FragmentB_REQUEST_KEY", bundleOf("data" to "button clicked"))
+            }
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

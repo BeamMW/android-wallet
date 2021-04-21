@@ -38,11 +38,11 @@ import java.io.File
 class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContract.View {
 
     companion object {
-        const val QR_SIZE = 160.0
+        const val QR_SIZE = 250.0
     }
 
     private val args by lazy {
-        QrDialogFragmentArgs.fromBundle(arguments!!)
+        QrDialogFragmentArgs.fromBundle(requireArguments())
     }
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.dialog_qr_code
@@ -74,7 +74,13 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
                amountTitle.visibility = View.GONE
                amountView.visibility = View.GONE
                secondAvailableSum.visibility = View.GONE
-               infoLabel.text = resources.getString(R.string.receive_description)
+
+               if (args.isMaxPrivacy) {
+                   infoLabel.text = resources.getString(R.string.receive_notice_max_privacy)
+               }
+               else {
+                    infoLabel.text = resources.getString(R.string.receive_description)
+               }
            }
             else {
                amountTitle.visibility = View.GONE
@@ -120,8 +126,8 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
                 val px = Math.ceil(QR_SIZE * logicalDensity).toInt()
 
                 qrImage = QrHelper.textToImage(QrHelper.createQrString(receiveToken, amount.convertToBeam()), px, px,
-                        ContextCompat.getColor(context!!, R.color.common_text_color),
-                        ContextCompat.getColor(context!!, R.color.colorPrimary))
+                        ContextCompat.getColor(requireContext(), R.color.common_text_color),
+                        ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
                 qrView.setImageBitmap(qrImage)
             } catch (e: Exception) {

@@ -59,7 +59,6 @@ object WalletListener {
 
     var obsOnShieldedUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
     var obsOnUtxos: Subject<OnUTXOData> = BehaviorSubject.create<OnUTXOData>().toSerialized()
-//    var obsOnAddresses: Subject<OnAddressesDataWithAction> = BehaviorSubject.create<OnAddressesDataWithAction>().toSerialized()
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
 
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
@@ -89,8 +88,6 @@ object WalletListener {
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
 
-
-
     @JvmStatic
     fun onStatus(status: WalletStatusDTO) : Unit {
         if (App.isAuthenticated) {
@@ -114,7 +111,7 @@ object WalletListener {
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
 
     @JvmStatic
-    fun onAllUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllUtxoChanged")
+    fun onNormalUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllUtxoChanged")
 
     @JvmStatic
     fun onAllShieldedUtxoChanged(action: Int, utxos: Array<UtxoDTO>?) = returnResult(obsOnShieldedUtxos, OnUTXOData(ChangeAction.fromValue(action), utxos?.map { Utxo(it) }), "onAllShieldedUtxoChanged")
@@ -136,7 +133,9 @@ object WalletListener {
 
     @JvmStatic
     fun onGeneratedNewAddress(addr: WalletAddressDTO) {
-        subOnGeneratedNewAddress.onNext(WalletAddress(addr))
+        AppActivity.self.runOnUiThread {
+            subOnGeneratedNewAddress.onNext(WalletAddress(addr))
+        }
     }
 
     @JvmStatic
@@ -238,9 +237,9 @@ object WalletListener {
 
             if (currentMajor < major) {
                 isUP = true
-            } else if (currentMajor === major && currentMinor < minor) {
+            } else if (currentMajor == major && currentMinor < minor) {
                 isUP = true
-            } else if (currentMajor === major && currentMinor === minor && currentRevision < revision) {
+            } else if (currentMajor == major && currentMinor == minor && currentRevision < revision) {
                 isUP = true
             }
 
@@ -311,7 +310,17 @@ object WalletListener {
     fun onExchangeRates(rates: Array<ExchangeRateDTO>?) {
         LogUtils.logResponse(rates, "onExchangeRates")
         if(rates!=null) {
-            subOnExchangeRates.onNext(rates.map { ExchangeRate(it)})
+            val result = arrayListOf<ExchangeRate>()
+            rates.forEach {
+               if(it != null) {
+                   if(it.currency == 1 || it.currency == 2) {
+                       result.add(ExchangeRate(it))
+                   }
+               }
+            }
+            if (result.size > 0){
+                subOnExchangeRates.onNext(result)
+            }
         }
     }
 
@@ -322,7 +331,7 @@ object WalletListener {
     }
 
     @JvmStatic
-    fun onShieldedCoinsSelectionCalculated(fee: Long, change: Long, shieldedInputsFee: Long) {
+    fun onCoinsSelectionCalculated(fee: Long, change: Long, shieldedInputsFee: Long) {
         subOnFeeCalculated.onNext(FeeChange(fee, change, shieldedInputsFee))
         LogUtils.logResponse(fee, "onFeeCalculated")
     }

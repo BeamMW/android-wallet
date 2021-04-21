@@ -89,18 +89,6 @@
                     android:layout_marginTop="25dp"
                     android:orientation="vertical">
 
-                    <Spinner
-                        android:id="@+id/expireList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="1dp"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginRight="1dp"
-                        android:padding="3dp"
-                        android:text=""
-                        android:textSize="14sp"
-                        tools:text="24 hours" />
-
                     <TextView
                         android:id="@+id/expireTitleLabel"
                         android:layout_width="match_parent"
@@ -112,6 +100,18 @@
                         android:textAllCaps="true"
                         android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
+
+                    <Spinner
+                        android:id="@+id/expireList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginRight="1dp"
+                        android:padding="3dp"
+                        android:text=""
+                        android:textSize="14sp"
+                        tools:text="24 hours" />
 
                     <TextView
                         android:id="@+id/expireLabel"
@@ -136,7 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -188,7 +189,7 @@
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnCancel"
-                android:layout_width="@dimen/wallet_button_width"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:background="@drawable/primary_button"
@@ -202,7 +203,7 @@
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnSave"
-                android:layout_width="@dimen/wallet_button_width"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 app:button_icon="@drawable/ic_btn_save"
                 app:button_text="@string/save"

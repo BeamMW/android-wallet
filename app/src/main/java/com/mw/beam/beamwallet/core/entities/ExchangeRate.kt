@@ -9,9 +9,8 @@ import kotlinx.android.parcel.Parcelize
 
 enum class Currency(val value: Int) {
     Beam(0),
-    Bitcoin(1),
-    Litecoin(3),
-    Usd(4),
+    Bitcoin(2),
+    Usd(1),
     Off(-1);
 
     companion object {
@@ -65,7 +64,7 @@ enum class Currency(val value: Int) {
 
 @Parcelize
 data class ExchangeRate(private val source: ExchangeRateDTO) : Parcelable {
-    var currency:Currency = Currency.fromValue(source.unit)
+    var currency:Currency = Currency.fromValue(source.currency)
     var unit = source.unit
     var amount = source.amount
 }

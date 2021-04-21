@@ -124,8 +124,12 @@ else{
     }
 
     override fun configAvailable(availableAmount: Long, maturingAmount: Long, maxPrivacyAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
-        balanceViewPager.adapter = balancePagerAdapter
-        indicator.setViewPager(balanceViewPager)
+       if (balanceViewPager != null) {
+           balanceViewPager.adapter = balancePagerAdapter
+           if(indicator != null) {
+               indicator.setViewPager(balanceViewPager)
+           }
+       }
 
         balancePagerAdapter.available = availableAmount
         balancePagerAdapter.maturing = maturingAmount
@@ -145,12 +149,17 @@ else{
         balancePagerAdapter.notifyDataSetChanged()
 
         val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
-        balanceViewPager.visibility = contentVisibility
-        if (contentVisibility == View.VISIBLE) {
-            balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
+
+        if (balanceViewPager != null) {
+            balanceViewPager.visibility = contentVisibility
+            if (contentVisibility == View.VISIBLE) {
+                balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
+            }
         }
 
-        indicator.visibility = if (maturingAmount > 0 || maxPrivacyAmount > 0) contentVisibility else View.GONE
+        if(indicator != null) {
+            indicator.visibility = if (maturingAmount > 0 || maxPrivacyAmount > 0) contentVisibility else View.GONE
+        }
         maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
         maxPrivacyAddressTitle.visibility = if (maxPrivacyAmount > 0) View.VISIBLE else View.GONE
         moreDetailsButton.text = requireContext().getString(R.string.show_token).toLowerCase()
@@ -239,8 +248,12 @@ else{
         }
 
         balancePagerAdapter = BalancePagerAdapter(requireContext())
-        balanceViewPager.adapter = balancePagerAdapter
-        indicator.setViewPager(balanceViewPager)
+        if (balanceViewPager != null) {
+           balanceViewPager.adapter = balancePagerAdapter
+           if(indicator != null) {
+               indicator.setViewPager(balanceViewPager)
+           }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -389,8 +402,14 @@ else{
         beginTransition()
 
         val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
-        balanceViewPager.visibility = contentVisibility
-        indicator.visibility = contentVisibility
+
+        if (balanceViewPager != null) {
+            balanceViewPager.visibility = contentVisibility
+        }
+
+        if (indicator != null) {
+            indicator.visibility = contentVisibility
+        }
 
         if(selectedSection == BalanceTab.MaxPrivacy) {
             if(shouldExpandAvailable) {

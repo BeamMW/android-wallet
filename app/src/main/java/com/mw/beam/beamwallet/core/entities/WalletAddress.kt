@@ -53,7 +53,6 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val own: Long = source.own
     val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
     var isContact = own == 0L
-    var tokenOnline = ""
     var tokenOffline = ""
     var tokenMaxPrivacy = ""
     var identity = source.identity
@@ -65,7 +64,6 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
         this.category = this@WalletAddress.category
         this.identity = this@WalletAddress.identity
         this.address = this@WalletAddress.address
-      //  this.walletID = this@WalletAddress.address
     }
 
     private fun getWalletID(): String {
@@ -75,10 +73,10 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
         return walletID
     }
 
-    var getOriginalId: String = ""
+    val getOriginalId: String
         get() = this.walletID
 
-    var id: String = ""
+    val id: String
         get() = this.getWalletID()
 
     fun splitCategories() : MutableList<String>  {

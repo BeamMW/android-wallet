@@ -26,12 +26,10 @@ import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 data class Wallet(val _this: Long) {
     external fun getWalletStatus()
     external fun getTransactions()
-    external fun getUtxosStatus()
+    external fun getAllUtxosStatus()
     external fun syncWithNode()
-  //  external fun sendMoney(sender: String, receiver: String, comment: String?, amount: Long, fee: Long)
     external fun calcShieldedCoinSelectionInfo(amount: Long, fee: Long, isShielded: Boolean)
 
-    //-(void):(double)amount fee:(double)fee isShielded:(BOOL) isShielded result:(FeecalculatedBlock _Nonnull )block;
     external fun calcChange(amount: Long)
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()

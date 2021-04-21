@@ -45,10 +45,8 @@ class SendRepository : BaseRepository(), SendContract.Repository {
         return getResult(WalletListener.subOnCantSendToExpired, "onCantSendToExpired")
     }
 
-    override fun generateNewAddress(): Subject<WalletAddress> {
-        return getResult(WalletListener.subOnGeneratedNewAddress, "generateNewAddress") {
-            wallet?.generateNewAddress()
-        }
+    override fun generateNewAddress() {
+        wallet?.generateNewAddress()
     }
 
     override fun updateAddress(address: WalletAddress) {

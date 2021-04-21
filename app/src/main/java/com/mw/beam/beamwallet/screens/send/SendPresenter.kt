@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.send
 
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
@@ -659,10 +661,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         subscribeToOfflineCount()
 
-        walletIdSubscription = repository.generateNewAddress().subscribeIf(state.isNeedGenerateNewAddress) {
+        walletIdSubscription = AppManager.instance.subOnAddressCreated.subscribe {
             state.generatedAddress = it
             setAddress(it, true)
             state.isNeedGenerateNewAddress = false
+        }
+
+        if (state.isNeedGenerateNewAddress) {
+            repository.generateNewAddress()
         }
 
         if (categorySubscription==null)

@@ -26,6 +26,7 @@ import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.utils.LogUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
+import java.io.IOException
 
 /**
  *  10/1/18.
@@ -48,39 +49,47 @@ open class BaseRepository : MvpRepository {
     override fun openWallet(pass: String?): Status {
         var result = Status.STATUS_ERROR
 
-        if (!pass.isNullOrBlank()) {
-            val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
-            if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
-                AppConfig.NODE_ADDRESS = nodeAddress
-            } else {
-                AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
-            }
-
-            if (PreferencesManager.getString(PreferencesManager.KEY_PASSWORD) != pass) {
-                LogUtils.logResponse(result, "openWallet")
-                return result
-            }
-
-            if (!Api.isWalletRunning()) {
-                try {
-                    AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
-                }
-                catch(e:Exception) {
-                    return  Status.STATUS_ERROR
+        try {
+            if (!pass.isNullOrBlank()) {
+                val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+                if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
+                    AppConfig.NODE_ADDRESS = nodeAddress
+                } else {
+                    AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
                 }
 
-                if (wallet != null) {
-                    PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                if (PreferencesManager.getString(PreferencesManager.KEY_PASSWORD) != pass) {
+                    LogUtils.logResponse(result, "openWallet")
+                    return result
+                }
+
+                if (!Api.isWalletRunning()) {
+                    try {
+                        AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                    }
+                    catch(e:Exception) {
+                        return  Status.STATUS_ERROR
+                    }
+
+                    if (wallet != null) {
+                        PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
+                        result = Status.STATUS_OK
+                    }
+                }
+                else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
                     result = Status.STATUS_OK
                 }
             }
-            else if (AppManager.instance.wallet?.checkWalletPassword(pass) == true) {
-                result = Status.STATUS_OK
-            }
-        }
 
-        LogUtils.logResponse(result, "openWallet")
-        return result
+            LogUtils.logResponse(result, "openWallet")
+            return result
+        }
+        catch (e: java.lang.Exception) {
+            return result
+        }
+        catch (e: IOException) {
+            return result
+        }
     }
 
     override fun isEnabledConnectToRandomNode(): Boolean {

@@ -26,8 +26,6 @@ import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 class ReceiveState {
     var address: WalletAddress? = null
     var wasAddressSaved: Boolean = false
-    var expandEditAddress = false
-    var expandAdvanced = false
-    var isNeedGenerateAddress = true
-    var tags = mutableListOf<Tag>()
+    var expandAmount = false
+    var expandComment = false
 }

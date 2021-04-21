@@ -123,7 +123,10 @@
                     android:layout_marginTop="@dimen/receive_qr_token_description_margin_top"
                     android:layout_marginEnd="@dimen/receive_common_qr_offset"
                     android:layout_marginBottom="@dimen/receive_qr_token_description_margin_top"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:textStyle="italic"
                     android:gravity="center"
+                    android:textSize="13sp"
                     android:text="@string/receive_description" />
             </LinearLayout>
 
@@ -133,7 +136,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/receive_btn_margin_bottom"
                 android:background="@drawable/receive_button"
-                app:button_icon="@drawable/ic_share"
+                app:button_icon="@drawable/ic_icon_export_new"
                 app:button_text="@string/share_qr"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

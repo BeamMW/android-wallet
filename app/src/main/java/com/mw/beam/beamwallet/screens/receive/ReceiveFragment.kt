@@ -18,25 +18,16 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.os.Bundle
 import android.text.*
-import android.text.style.ForegroundColorSpan
 import android.transition.TransitionManager
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetDialog
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -46,42 +37,27 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+
 import kotlinx.android.synthetic.main.fragment_receive.*
-import kotlinx.android.synthetic.main.fragment_receive.secondAvailableSum
+
 import org.jetbrains.anko.withAlpha
 
-
-/**
- *  11/13/18.
- */
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
+
     private val copyTag = "ADDRESS"
-    private var onlineAddress = ""
     private var sbbsAddress = ""
     private var offlineAddress = ""
     private var maxPrivacyAddress = ""
 
     private val amountWatcher: com.mw.beam.beamwallet.core.watchers.TextWatcher = object : com.mw.beam.beamwallet.core.watchers.TextWatcher {
         override fun afterTextChanged(token: Editable?) {
-            if(getAmount() != null) {
-                if (getAmount()!! > 0) {
-                    secondAvailableSum.visibility = View.VISIBLE
-                    secondAvailableSum.text = getAmount()!!.convertToCurrencyString()
-                }
-                else {
-                    secondAvailableSum.visibility = View.GONE
-                }
-            }
-            else {
-                secondAvailableSum.visibility = View.GONE
-            }
+            val amount = getAmount() ?: 0.0
+            secondAvailableSum.text = amount.convertToCurrencyString()
             presenter?.updateToken()
         }
     }
-
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -90,7 +66,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive
-    override fun getToolbarTitle(): String? = getString(R.string.receive)
+    override fun getToolbarTitle(): String = getString(R.string.receive)
 
     override fun getAmountFromArguments(): Long {
         return ReceiveFragmentArgs.fromBundle(requireArguments()).amount
@@ -101,16 +77,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
+
     override fun setAmount(newAmount: Double) {
         amount.setText(newAmount.convertToBeamString())
         secondAvailableSum.text = newAmount.convertToCurrencyString()
-        if (newAmount > 0) {
-            secondAvailableSum.visibility = View.VISIBLE
-        }
-        else {
-            secondAvailableSum.visibility = View.GONE
-        }
     }
+
     override fun getTxComment(): String? {
         return txComment?.text?.toString()
     }
@@ -118,45 +90,28 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     @SuppressLint("SetTextI18n")
     override fun init() {
 
+        secondAvailableSum.text = (getAmount() ?: 0.0).convertToCurrencyString()
+
         amount.filters = arrayOf(AmountFilter())
         amountTitle.text = "${getString(R.string.requested_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
-        supportsPaymentValue.text = getString(R.string.supports_payment).replace("XX", "10")
+    }
 
-        if(App.isDarkMode) {
-            addressGroup.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
-        }
-        else {
-            addressGroup.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
-        }
-}
 
     override fun getStatusBarColor(): Int {
         return ContextCompat.getColor(requireContext(), R.color.received_color)
     }
 
-    override fun updateTokens(walletAddress: WalletAddress) {
-        onlineAddressValue.text = walletAddress.tokenOnline.trimAddress()
-        onlineAddress = walletAddress.tokenOnline
+    override fun updateTokens(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions) {
+        addressLabel.text = walletAddress.id.trimAddress()
 
-        onlineAddressPoolsValue.text = walletAddress.id.trimAddress()
         sbbsAddress = walletAddress.id
-
-        offlineAddressValue.text = walletAddress.tokenOffline.trimAddress()
         offlineAddress = walletAddress.tokenOffline
-
-        maxPrivacyAddressValue.text = walletAddress.tokenMaxPrivacy.trimAddress()
         maxPrivacyAddress = walletAddress.tokenMaxPrivacy
     }
 
     @SuppressLint("SetTextI18n")
-    override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions, expire: ReceivePresenter.TokenExpireOptions){
-        comment.setText(walletAddress.label)
-
-        //onlineAddressTitle
-        tokenExpireTitle.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_wallet).toLowerCase() + ")"
-        onlineAddressPoolsTitle.text = resources.getString(R.string.online_token).toUpperCase() + " (" + resources.getString(R.string.for_pool).toLowerCase() + ")"
-        offlineAddressTitle.text = resources.getString(R.string.offline_token).toUpperCase()
-        maxPrivacyAddressTitle.text = resources.getString(R.string.max_privacy_address).toUpperCase()
+    override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions){
+        nameComment.setText(walletAddress.label)
 
         val value = ScreenHelper.dpToPx(context, 15)
 
@@ -171,11 +126,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             regularButton.setBackgroundResource(R.drawable.accent_btn_background)
             maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
-
-            maxPrivacyAddressLayout.visibility = View.GONE
-            tokenExpirationtionLayout.visibility = View.VISIBLE
-            onlineAddressPoolLayout.visibility = View.VISIBLE
-            offlineAddressLayout.visibility = View.VISIBLE
         }
         else {
             receiveDescription.text = resources.getString(R.string.receive_notice_max_privacy)
@@ -188,32 +138,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
             maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
             regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
-
-            maxPrivacyAddressLayout.visibility = View.VISIBLE
-            tokenExpirationtionLayout.visibility = View.GONE
-            onlineAddressPoolLayout.visibility = View.GONE
-            offlineAddressLayout.visibility = View.GONE
-        }
-
-        if(expire == ReceivePresenter.TokenExpireOptions.ONETIME) {
-            oneTimeButton.setPaddingRelative(value,0,value,0)
-            permanentButton.setPaddingRelative(0,0,0,0)
-
-            oneTimeButton.setTextColor(resources.getColor(R.color.accent, null))
-            permanentButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            oneTimeButton.setBackgroundResource(R.drawable.accent_btn_background)
-            permanentButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
-        }
-        else {
-            permanentButton.setPaddingRelative(value,0,value,0)
-            oneTimeButton.setPaddingRelative(0,0,0,0)
-
-            permanentButton.setTextColor(resources.getColor(R.color.accent, null))
-            oneTimeButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            permanentButton.setBackgroundResource(R.drawable.accent_btn_background)
-            oneTimeButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
 
         AppActivity.self.runOnUiThread {
@@ -223,27 +147,34 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
                 maxPrivacyButton.isEnabled = false
                 maxPrivacyButton.alpha = 0.2f
-
-                offlineAddressLayout.visibility = View.GONE
             }
         }
     }
 
-    override fun copyAddress(address: String) {
-        copyToClipboard(address, copyTag)
-        showSnackBar(getString(R.string.address_copied_to_clipboard))
+    override fun handleExpandAmount(expand: Boolean) {
+        animateDropDownIcon(btnExpandAmount, expand)
+        TransitionManager.beginDelayedTransition(contentLayout)
+        amountGroup.visibility = if (expand) View.VISIBLE else View.GONE
+
+        if (expand) {
+            amountContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,0)
+        }
+        else {
+            amountContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,ScreenHelper.dpToPx(context, 20))
+        }
     }
 
-    override fun handleExpandAdvanced(expand: Boolean) {
-        animateDropDownIcon(btnExpandAdvanced, expand)
+    override fun handleExpandComment(expand: Boolean) {
+        animateDropDownIcon(btnExpandComment, expand)
         TransitionManager.beginDelayedTransition(contentLayout)
-        advancedGroup.visibility = if (expand) View.VISIBLE else View.GONE
-    }
+        txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
-    override fun handleExpandEditAddress(expand: Boolean) {
-        animateDropDownIcon(btnExpandEditAddress, expand)
-        TransitionManager.beginDelayedTransition(contentLayout)
-        editAddressGroup.visibility = if (expand) View.VISIBLE else View.GONE
+        if (expand) {
+            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,0)
+        }
+        else {
+            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,ScreenHelper.dpToPx(context, 20))
+        }
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
@@ -254,26 +185,23 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         anim.start()
     }
 
+    override fun copyToken(receiveToken: String) {
+        presenter?.state?.wasAddressSaved = true
+        copyToClipboard(receiveToken, copyTag)
+        showSnackBar(getString(R.string.address_copied_to_clipboard))
+    }
 
     override fun addListeners() {
         btnShareToken.setOnClickListener {
             presenter?.onShareTokenPressed()
         }
 
-        advancedContainer.setOnClickListener {
-            presenter?.onAdvancedPressed()
+        txCommentContainer.setOnClickListener {
+            presenter?.onCommentPressed()
         }
 
-        editAddressContainer.setOnClickListener {
-            presenter?.onEditAddressPressed()
-        }
-
-        oneTimeButton.setOnClickListener {
-            presenter?.onOneTimePressed()
-        }
-
-        permanentButton.setOnClickListener {
-            presenter?.onPermanentPressed()
+        amountContainer.setOnClickListener {
+            presenter?.onAmountPressed()
         }
 
         regularButton.setOnClickListener {
@@ -292,76 +220,25 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.addTextChangedListener(amountWatcher)
 
-        tagAction.setOnClickListener {
-            presenter?.onTagActionPressed()
-        }
-
-        tags.setOnClickListener {
-            presenter?.onTagActionPressed()
-        }
-
-        comment.addTextChangedListener(object : TextWatcher {
+        nameComment.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                presenter?.setAddressName(comment.text.toString())
+                presenter?.setAddressName(nameComment.text.toString())
             }
         })
 
-        showOnlineButton.setOnClickListener {
-            presenter?.onTokenPressed(onlineAddress)
+        showDetailButton.setOnClickListener {
+            presenter?.onTokenPressed()
         }
 
-        showPoolButton.setOnClickListener {
-            presenter?.onTokenPressed(sbbsAddress)
+        qrCodeButton.setOnClickListener {
+            presenter?.onShowQrPressed()
         }
 
-        showOfflineButton.setOnClickListener {
-            presenter?.onTokenPressed(offlineAddress)
+        copyButton.setOnClickListener {
+            presenter?.onCopyPressed()
         }
-
-        showMaxPrivacyButton.setOnClickListener {
-            presenter?.onTokenPressed(maxPrivacyAddress)
-        }
-
-        qrCodeOnlineButton.setOnClickListener {
-            presenter?.onShowQrPressed(onlineAddress)
-        }
-
-        qrCodePoolButton.setOnClickListener {
-            presenter?.onShowQrPressed(sbbsAddress)
-        }
-
-        qrCodeMaxPrivacyButton.setOnClickListener {
-            presenter?.onShowQrPressed(maxPrivacyAddress)
-        }
-
-        copyOnlineButton.setOnClickListener {
-            presenter?.state?.wasAddressSaved = true
-            copyToClipboard(onlineAddress, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }
-
-        copyPoolButton.setOnClickListener {
-            presenter?.state?.wasAddressSaved = true
-            copyToClipboard(sbbsAddress, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }
-
-        copyOfflineButton.setOnClickListener {
-            presenter?.state?.wasAddressSaved = true
-            copyToClipboard(offlineAddress, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }
-
-        copyMaxPrivacyButton.setOnClickListener {
-            presenter?.state?.wasAddressSaved = true
-            copyToClipboard(maxPrivacyAddress, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }
-
-//        registerForContextMenu(onlineAddressValue)
-//        registerForContextMenu(onlineAddressPoolsValue)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -369,9 +246,15 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
-        // Step 1. Listen for fragment results
         setFragmentResultListener("FragmentB_REQUEST_KEY") { key, bundle ->
             presenter?.state?.wasAddressSaved = true
+        }
+
+        if(App.isDarkMode) {
+            nameLayout.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
+        }
+        else{
+            nameLayout.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
         }
     }
 
@@ -396,7 +279,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         shareText(getString(R.string.common_share_title), receiveToken, activity)
     }
 
-
     override fun getLifecycleOwner(): LifecycleOwner = this
 
     override fun showQR(receiveToken: String) {
@@ -406,102 +288,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(address,
                     0,
                     false,
-                    receiveToken))
+                    receiveToken,
+                    false,
+                    presenter?.transaction == ReceivePresenter.TransactionTypeOptions.MAX_PRIVACY))
         }
     }
 
-    override fun getComment(): String? = comment.text?.toString()
-
-    override fun setupTagAction(isEmptyTags: Boolean) {
-        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(requireContext(), resId)
-        tagAction.setImageDrawable(drawable)
-    }
-
-    override fun showCreateTagDialog() {
-        showAlert(
-                getString(R.string.dialog_empty_tags_message),
-                getString(R.string.create_tag),
-                { presenter?.onCreateNewTagPressed() },
-                getString(R.string.tag_list_is_empty),
-                getString(R.string.cancel)
-        )
-    }
-
-    @SuppressLint("InflateParams")
-    override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
-            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
-            setContentView(view)
-
-            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
-
-            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
-            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
-
-            tagList.layoutManager = LinearLayoutManager(context)
-            tagList.adapter = tagAdapter
-
-            tagAdapter.setSelectedTags(selectedTags)
-
-            btnBottomSheetClose.setOnClickListener {
-                dismiss()
-            }
-            show()
-        }
-    }
-
-    override fun showShareDialog(option1:String, option2:String, option3:String) {
-        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
-            val view = LayoutInflater.from(context).inflate(R.layout.share_bottom_sheet, null)
-            setContentView(view)
-
-            val shareView1 = view.findViewById<TextView>(R.id.shareView1)
-            val shareView2 = view.findViewById<TextView>(R.id.shareView2)
-            val shareView3 = view.findViewById<TextView>(R.id.shareView3)
-            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
-
-            shareView1.text = option1
-            shareView2.text = option2
-            shareView3.text = option3
-
-            AppActivity.self.runOnUiThread {
-                if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                    shareView3.visibility = View.GONE
-                }
-            }
-
-            shareView1.setOnClickListener {
-                dismiss()
-                shareToken(onlineAddress)
-            }
-
-            shareView2.setOnClickListener {
-                dismiss()
-                shareToken(sbbsAddress)
-            }
-
-            shareView3.setOnClickListener {
-                dismiss()
-                shareToken(offlineAddress)
-            }
-
-            btnBottomSheetClose.setOnClickListener {
-                dismiss()
-            }
-
-            show()
-        }
-    }
-
-    override fun setTags(tags: List<Tag>) {
-        if (tags.count() == 0) {
-            this.tags.text = getString(R.string.none)
-        }
-        else{
-            this.tags.text = tags.createSpannableString(requireContext())
-        }
-    }
+    override fun getComment(): String? = nameComment.text?.toString()
 
     override fun showSaveAddressDialog(nextStep: () -> Unit) {
         showAlert(
@@ -537,10 +330,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         )
     }
 
-    override fun showAddNewCategory() {
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToEditCategoryFragment())
-    }
-
     override fun showShowToken(receiveToken: String) {
         findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToShowTokenFragment(receiveToken))
     }
@@ -551,55 +340,15 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun clearListeners() {
         btnShareToken.setOnClickListener(null)
-        advancedContainer.setOnClickListener(null)
-        editAddressContainer.setOnClickListener(null)
-        tagAction.setOnTouchListener(null)
-        onlineAddressValue.setOnClickListener(null)
-        onlineAddressPoolsValue.setOnClickListener(null)
 
         amount.removeTextChangedListener(amountWatcher)
         amount.onFocusChangeListener = null
 
-        showOnlineButton.setOnClickListener(null)
-        showPoolButton.setOnClickListener(null)
-
-        qrCodeOnlineButton.setOnClickListener(null)
-        qrCodePoolButton.setOnClickListener(null)
-
-        oneTimeButton.setOnClickListener(null)
-        permanentButton.setOnClickListener(null)
         maxPrivacyButton.setOnClickListener(null)
         regularButton.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return ReceivePresenter(this, ReceiveRepository(), ReceiveState())
-    }
-
-    override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-
-        val copy = SpannableStringBuilder()
-        copy.append(getString(R.string.copy))
-        copy.setSpan(ForegroundColorSpan(Color.WHITE),
-                0, copy.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        menu.add(0, v.id, 0, copy)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-
-        if (item.itemId == onlineAddressValue.id) {
-            presenter?.state?.wasAddressSaved = true
-           // copyToClipboard(token_1, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }  else if (item.itemId == onlineAddressPoolsValue.id) {
-            presenter?.state?.wasAddressSaved = true
-          //  copyToClipboard(token_2, "")
-            showSnackBar(getString(R.string.address_copied_to_clipboard))
-        }
-
-
-        return super.onContextItemSelected(item)
     }
 }

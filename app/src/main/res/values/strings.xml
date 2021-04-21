@@ -229,6 +229,7 @@
     <string name="delete_address_text">This address will be deleted from your wallet.</string>
     <string name="delete_contacts_text">These contacts will be deleted from your wallet.</string>
     <string name="delete_contact_text">This contact will be deleted from your wallet.</string>
+    <string name="copy_close">Copy and close</string>
 
     <!--ReceiveFragment-->
     <string name="swap">Swap</string>
@@ -668,8 +669,8 @@ address or contact</string>
     <string name="online_address_for_wallet">Online address (for wallet)</string>
     <string name="online_token_for_pool">Online address (for exchange or mining pool)</string>
     <string name="supports_payment">Supports XX payments.</string>
-    <string name="max_privacy_address">Max privacy address</string>
-    <string name="receive_notice_max_privacy">Max privacy transaction can last\nat most 72 hours.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
+    <string name="max_privacy_address">Max Privacy address</string>
+    <string name="receive_notice_max_privacy">Max Privacy transaction can last up to 2 days.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">Address type</string>
     <string name="payments">Payments</string>
@@ -700,6 +701,10 @@ address or contact</string>
     <string name="sync_with_node">Synchronizing with node</string>
     <string name="mobile_node_title">Mobile node</string>
     <string name="mobile_node_text">Allows to validate and sync with the blockchain</string>
+    <string name="new_address">New address</string>
+    <string name="requested_amount_optional">Requested amount (optional)</string>
+    <string name="receive_contact_placholder">Name the new address or search existing contact</string>
+    <string name="search_or_paste">Search by name or paste address</string>
 
 </resources>
 

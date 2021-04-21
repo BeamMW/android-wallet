@@ -16,12 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.show_token
 
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.WalletAddress
 
-/**
- *  3/4/19.
- */
 class ShowTokenState {
     var token:String? = null
 }

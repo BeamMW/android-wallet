@@ -85,13 +85,16 @@ class App : Application() {
                 subOnStatusResume.onNext(0)
 
                 if (isAuthenticated) {
-                    AppManager.instance.checkConnection()
+                    AppManager.instance.checkConnection(true)
                     AppManager.instance.updateAllData()
                 }
             }
 
             @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
             fun onPause(){
+                if (isAuthenticated) {
+                    AppManager.instance.checkConnection(false)
+                }
                 isForeground = false
                 LockScreenManager.inactiveDate = System.currentTimeMillis()
             }

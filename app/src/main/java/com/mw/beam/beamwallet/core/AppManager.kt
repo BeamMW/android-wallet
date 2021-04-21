@@ -65,15 +65,12 @@ class AppManager {
     var subOnExportToCSV: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnAddressCreated: Subject<WalletAddress> = PublishSubject.create<WalletAddress>().toSerialized()
 
-
     private var newAddressSubscription: Disposable? = null
 
     var isRestored = false
 
     private var reconnectAttempts = 0
     private var reconnectNodes = mutableListOf<String>()
-
-    var maxOfflineCount = 10
 
     companion object {
         private var INSTANCE: AppManager? = null
@@ -89,19 +86,13 @@ class AppManager {
     }
 
     init {
-//        val jsonString = PreferencesManager.getString(PreferencesManager.KEY_CURRENCY_RECOVER)
-//        if(!jsonString.isNullOrEmpty()) {
-//            val gson = Gson()
-//            currencies = gson.fromJson(jsonString, Array<ExchangeRate>::class.java).toMutableList()
-//        }
-
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         if(value == 0L) {
             PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
         }
 
         currencies.forEach {
-            if (it.unit == value.toInt()) {
+            if (it.currency.value == value.toInt()) {
                 currentRate = it
             }
         }
@@ -114,7 +105,7 @@ class AppManager {
 
     fun getCurrencyById(value: Currency?): ExchangeRate? {
         currencies.forEach {
-            if (it.unit == value?.value) {
+            if (it.currency.value == value?.value) {
                 return it
             }
         }
@@ -146,7 +137,7 @@ class AppManager {
 
     fun isMaxPrivacyEnabled(): Boolean {
         val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
-        return wallet?.isConnectionTrusted() == true || protocolEnabled
+        return true //wallet?.isConnectionTrusted() == true || protocolEnabled
     }
 
     fun removeIgnoredAddress(id: String) {
@@ -219,7 +210,7 @@ class AppManager {
         var found = false
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         currencies.forEach {
-            if (it.unit == value.toInt()) {
+            if (it.currency.value == value.toInt()) {
                 found = true
                 currentRate = it
             }
@@ -241,7 +232,7 @@ class AppManager {
 
     fun reload() {
         wallet?.getWalletStatus()
-        wallet?.getUtxosStatus()
+        wallet?.getAllUtxosStatus()
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
         wallet?.getTransactions()
@@ -380,7 +371,7 @@ class AppManager {
     }
 
     fun getUtxos() : List<Utxo> {
-        var result = mutableListOf<Utxo>()
+        val result = mutableListOf<Utxo>()
         result.addAll(utxos)
         result.addAll(shieldedUtxos)
         return result
@@ -514,7 +505,7 @@ class AppManager {
     }
 
     fun getTransactionsByAddress(id: String?) : List<TxDescription> {
-        var result = mutableListOf<TxDescription>()
+        val result = mutableListOf<TxDescription>()
 
         transactions.forEach {
             if (it.myId == id || it.peerId == id || it.token == id) {
@@ -797,7 +788,7 @@ class AppManager {
     }
 
     fun requestUTXO() {
-        wallet?.getUtxosStatus()
+        wallet?.getAllUtxosStatus()
     }
 
     fun unSubscribeToUpdates() {
@@ -812,8 +803,11 @@ class AppManager {
         return true
     }
 
-    fun checkConnection() {
-        if (networkStatus == NetworkStatus.OFFLINE) {
+    var ignoreNetworkStatus = false
+    fun checkConnection(resume: Boolean) {
+        ignoreNetworkStatus = !resume
+
+        if (networkStatus == NetworkStatus.OFFLINE && resume) {
             val reconnect = reconnect()
             if (!reconnect) {
                 networkStatus = NetworkStatus.OFFLINE
@@ -824,7 +818,7 @@ class AppManager {
 
     fun updateAllData() {
         wallet?.getWalletStatus()
-        wallet?.getUtxosStatus()
+        wallet?.getAllUtxosStatus()
         wallet?.getAddresses(true)
         wallet?.getAddresses(false)
         wallet?.getExchangeRates()
@@ -1140,7 +1134,7 @@ class AppManager {
 
                 it?.forEach { item ->
                     val index1 = currencies.indexOfFirst { old->
-                        old.unit == item.unit
+                        old.currency.value == item.currency.value
                     }
                     if (index1 != -1) {
                         currencies[index1] = item
@@ -1156,7 +1150,7 @@ class AppManager {
 
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
                 currencies.forEach { rate ->
-                    if (rate.unit == value.toInt()) {
+                    if (rate.currency.value == value.toInt()) {
                         currentRate = rate
                     }
                 }
@@ -1248,7 +1242,7 @@ class AppManager {
             wallet?.switchOnOffNotifications(5, true)
 
             wallet?.getWalletStatus()
-            wallet?.getUtxosStatus()
+            wallet?.getAllUtxosStatus()
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
             wallet?.getTransactions()
@@ -1258,6 +1252,7 @@ class AppManager {
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun subscribeToNewAddress() {
         WalletListener.subOnGeneratedNewAddress.subscribe(){
             subOnAddressCreated.onNext(it)

@@ -129,12 +129,12 @@ fun Double.convertToCurrencyString(): String? {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
     }
-    else if (current==null || this == 0.0) {
+    else if (this == 0.0) {
         if (AppManager.instance.currentCurrency() == Currency.Usd) {
-            return  "-USD"
+            return  "0 USD"
         }
         else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
-            return  "-BTC"
+            return  "0 BTC"
         }
     }
 

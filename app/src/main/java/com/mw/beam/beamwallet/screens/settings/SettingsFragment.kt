@@ -145,8 +145,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, SettingsFragmentMode.Privacy))
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, SettingsFragmentMode.Utilities))
 
-                var s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, SettingsFragmentMode.Tags))
+           //     var s2 = mutableListOf<SettingsItem>()
+           //     s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, SettingsFragmentMode.Tags))
 
                 var s3 = mutableListOf<SettingsItem>()
                 s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, SettingsFragmentMode.Rate))
@@ -156,7 +156,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
 
                 items.add(s1.toTypedArray())
-                items.add(s2.toTypedArray())
+              //  items.add(s2.toTypedArray())
                 items.add(s3.toTypedArray())
                 items.add(s4.toTypedArray())
 

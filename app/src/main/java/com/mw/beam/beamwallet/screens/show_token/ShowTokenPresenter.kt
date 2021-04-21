@@ -17,31 +17,13 @@
 package com.mw.beam.beamwallet.screens.show_token
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.AppManager
-import io.reactivex.disposables.Disposable
 
-/**
- *  3/4/19.
- */
 class ShowTokenPresenter(currentView: ShowTokenContract.View, currentRepository: ShowTokenContract.Repository, private val state: ShowTokenState)
     : BasePresenter<ShowTokenContract.View, ShowTokenContract.Repository>(currentView, currentRepository),
         ShowTokenContract.Presenter {
 
-    private val COPY_TAG = "ADDRESS"
-    private lateinit var offlineCountSubscription: Disposable
-
-    override fun onViewCreated() {
-        super.onViewCreated()
-    }
-
     override fun initSubscriptions() {
         super.initSubscriptions()
-
-        offlineCountSubscription = AppManager.instance.subOnGetOfflinePayments.subscribe(){
-            if(it!=null) {
-                view?.setCount(it)
-            }
-        }
 
         state.token = view?.getToken()
 
@@ -49,9 +31,6 @@ class ShowTokenPresenter(currentView: ShowTokenContract.View, currentRepository:
     }
 
     override fun onCopyToken() {
-        view?.copyToClipboard(state.token ?: return, COPY_TAG)
+        view?.copyToClipboard(state.token ?: return, "ADDRESS")
     }
-
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(offlineCountSubscription)
-
 }

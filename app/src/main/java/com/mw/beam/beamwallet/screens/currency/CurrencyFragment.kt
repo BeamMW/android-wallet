@@ -35,7 +35,7 @@ class CurrencyFragment: BaseFragment<CurrencyPresenter>(), CurrencyContract.View
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_currency
 
-    override fun getToolbarTitle(): String? = getString(R.string.second_currency)
+    override fun getToolbarTitle(): String = getString(R.string.second_currency)
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
     }

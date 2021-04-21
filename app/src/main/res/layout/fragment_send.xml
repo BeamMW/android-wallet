@@ -391,6 +391,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:background="?attr/cardBackground"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/comment">
@@ -428,8 +429,6 @@
                         android:contentDescription="@null"
                         app:layout_constraintStart_toEndOf="@id/advancedTitle"
                         app:layout_constraintTop_toTopOf="@id/advancedTitle" />
-
-
 
 
                 </LinearLayout>
@@ -685,9 +684,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="14sp"
-                        android:layout_marginTop="24dp"
                         android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/feeSeekBar"
@@ -708,9 +707,9 @@
                         style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="14sp"
-                        android:layout_marginTop="24dp"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="@+id/maxFeeValue"
                         app:layout_constraintTop_toBottomOf="@+id/feeSeekBar"
@@ -750,7 +749,6 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:constraint_referenced_ids="outgoingAddressTitle,feeContainer,outgoingAddress,editAddressCard,btnChangeAddress" />
-
 
 
                 <com.mw.beam.beamwallet.core.views.BeamButton

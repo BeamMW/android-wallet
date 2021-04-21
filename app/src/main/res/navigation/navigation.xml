@@ -867,6 +867,10 @@
             android:name="isOldDesign"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="isMaxPrivacy"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </dialog>
     <fragment
         android:id="@+id/saveAddressFragment"

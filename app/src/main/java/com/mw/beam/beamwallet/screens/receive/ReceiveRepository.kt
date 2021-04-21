@@ -28,30 +28,11 @@ import io.reactivex.subjects.Subject
  */
 class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
 
-    override fun saveAddress(address: WalletAddress, tags: List<Tag>) {
+    override fun saveAddress(address: WalletAddress) {
         getResult("saveAddressChanges") {
-
-            var categories = mutableListOf<String>()
-
-            for (t in tags) {
-                categories.add(t.id)
-            }
-
-            var ids = categories.joinToString(";")
-
-            var dto = address.toDTO()
-            dto.category = ids
+            val dto = address.toDTO()
             dto.duration = 0L
-
             wallet?.saveAddress(dto, true)
         }
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
-    }
-
-    override fun getAllTags(): List<Tag> {
-        return TagHelper.getAllTags()
     }
 }

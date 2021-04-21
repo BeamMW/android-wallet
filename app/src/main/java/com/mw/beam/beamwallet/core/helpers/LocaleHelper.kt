@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
 import com.mw.beam.beamwallet.core.AppConfig
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -98,22 +99,29 @@ object LocaleHelper {
     }
 
     fun getSortedLanguages(languages: List<SupportedLanguage>): List<SupportedLanguage> {
-        val sorted = languages.sortedWith(compareBy { it.englishName })
-        val sortedLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
-        val otherLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
+        try {
+            val sorted = languages.sortedWith(compareBy { it.englishName })
+            val sortedLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
+            val otherLanguages: ArrayList<SupportedLanguage> = ArrayList(sorted.size)
 
-        for (language in sorted) {
-            var currentLanguageCode = language.languageCode
-            if (currentLanguageCode == enLanguageCode) {
-                sortedLanguages.add(0, language)
-            } else if (currentLanguageCode == systemLocale.language) {
-                sortedLanguages.add(1, language)
-            } else if (currentLanguageCode != enLanguageCode && currentLanguageCode != systemLocale.language) {
-                otherLanguages.add(language)
+            for (language in sorted) {
+                var currentLanguageCode = language.languageCode
+                if (currentLanguageCode == enLanguageCode) {
+                    sortedLanguages.add(0, language)
+                } else if (currentLanguageCode == systemLocale.language) {
+                    sortedLanguages.add(1, language)
+                } else if (currentLanguageCode != enLanguageCode && currentLanguageCode != systemLocale.language) {
+                    otherLanguages.add(language)
+                }
             }
+            sortedLanguages.addAll(otherLanguages)
+            return sortedLanguages
+        } catch (e: NullPointerException) {
+            return languages
         }
-        sortedLanguages.addAll(otherLanguages)
-        return sortedLanguages
+        catch (e: Exception) {
+            return languages
+        }
     }
 
     private fun getSystemLocale(): Locale {

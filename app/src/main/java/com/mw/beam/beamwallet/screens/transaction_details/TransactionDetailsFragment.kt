@@ -649,11 +649,6 @@ else{
         })
     }
 
-    override fun onResume() {
-        super.onResume()
-        dateLabel.text = CalendarUtils.fromTimestamp(oldTransaction?.createTime!!)
-    }
-
     override fun showCancelAlert() {
         showAlert(message = getString(R.string.cancell_transaction_warning_message),
                 title = getString(R.string.cancel_transaction),

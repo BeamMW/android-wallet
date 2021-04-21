@@ -140,6 +140,9 @@ class BeamToolbar : LinearLayout {
 
      @SuppressLint("SetTextI18n")
      fun configureStatus(networkStatus: NetworkStatus) {
+         if(AppManager.instance.ignoreNetworkStatus) {
+             return
+         }
          changeNodeButton.visibility = View.GONE
 
          if(networkStatus == NetworkStatus.RECONNECT) {

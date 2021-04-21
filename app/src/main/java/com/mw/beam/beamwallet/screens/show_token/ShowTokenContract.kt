@@ -36,7 +36,6 @@ interface ShowTokenContract {
     interface View : MvpView {
         fun getToken(): String
         fun init(token: String)
-        fun setCount(count: Int)
     }
 
     interface Presenter : MvpPresenter<View> {

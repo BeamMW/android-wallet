@@ -32,6 +32,8 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     private val VIBRATION_LENGTH: Long = 100
     private var isOpenedWallet = false
     private var isRestore = false
+    private var isBiometricSuccess = false
+    private var isOpen = false
 
     override fun onStart() {
         super.onStart()
@@ -119,16 +121,20 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     }
 
     override fun onBiometricSucceeded() {
-        if (LockScreenManager.isShowedLockScreen) {
-            if (repository.checkPass(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))) {
-                view?.openWallet(view?.getPass() ?: return)
+        if (!isBiometricSuccess) {
+            isBiometricSuccess = true
+
+            if (LockScreenManager.isShowedLockScreen) {
+                if (repository.checkPass(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))) {
+                    view?.openWallet(view?.getPass() ?: return)
+                }
+                else{
+                    view?.showOpenWalletError()
+                }
             }
             else{
-                view?.showOpenWalletError()
+                openWallet(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))
             }
-        }
-        else{
-            openWallet(PreferencesManager.getString(PreferencesManager.KEY_PASSWORD))
         }
     }
 
@@ -144,11 +150,15 @@ class WelcomeOpenPresenter(currentView: WelcomeOpenContract.View, currentReposit
     override fun hasBackArrow(): Boolean? = false
 
     private fun openWallet(pass: String?) {
-        if (Status.STATUS_OK == repository.openWallet(pass)) {
-            isOpenedWallet = true
-            view?.openWallet(view?.getPass() ?: return)
-        } else {
-            view?.showOpenWalletError()
+        if (!isOpen) {
+            isOpen = true
+            if (Status.STATUS_OK == repository.openWallet(pass)) {
+                isOpenedWallet = true
+                view?.openWallet(view?.getPass() ?: return)
+            } else {
+                isOpen = false
+                view?.showOpenWalletError()
+            }
         }
     }
 }
