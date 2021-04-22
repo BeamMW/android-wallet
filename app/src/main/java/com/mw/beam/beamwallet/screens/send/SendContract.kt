@@ -36,6 +36,7 @@ interface SendContract {
     interface View : MvpView {
         fun getAmount(): Double
         fun getFee(): Long
+        fun isOffline(): Boolean
         fun getComment(): String?
         fun getToken(): String
         fun updateUI(defaultFee: Int, isEnablePrivacyMode: Boolean)

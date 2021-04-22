@@ -332,7 +332,7 @@ object WalletListener {
 
     @JvmStatic
     fun onCoinsSelectionCalculated(fee: Long, change: Long, shieldedInputsFee: Long) {
-        subOnFeeCalculated.onNext(FeeChange(fee, change, shieldedInputsFee))
+        subOnFeeCalculated.onNext(FeeChange(shieldedInputsFee, change, 0L))
         LogUtils.logResponse(fee, "onFeeCalculated")
     }
 

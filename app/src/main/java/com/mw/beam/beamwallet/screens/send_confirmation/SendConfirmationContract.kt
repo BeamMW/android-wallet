@@ -35,12 +35,13 @@ interface SendConfirmationContract {
         fun getComment(): String?
         fun getAddressType(): Int
         fun getRemaining(): Int
+        fun getIsOffline(): Boolean
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int)
         fun configureContact(walletAddress: WalletAddress, tags: List<Tag>)
         fun configureOutAddress(walletAddress: WalletAddress, tags: List<Tag>)
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
         fun showSaveAddressFragment(address: String)
-        fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long)
+        fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, isOffline:Boolean?)
         fun showWallet()
         fun showConfirmDialog()
     }

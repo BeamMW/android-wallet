@@ -90,7 +90,7 @@
                     style="@style/common_subheader_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/address_type" />
+                    android:text="@string/transaction_type" />
 
                 <TextView
                     android:id="@+id/transactionTypeValue"

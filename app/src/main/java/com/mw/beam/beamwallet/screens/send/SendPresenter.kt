@@ -180,7 +180,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun requestFee() {
         val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
         val fee = view?.getFee() ?: 0L
-        val isShielded = (state.addressType == BMAddressType.BMAddressTypeShielded || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
+        val isShielded = (view?.isOffline() == true || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
                 state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
         AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(enteredAmount + fee, 0L, isShielded)
     }

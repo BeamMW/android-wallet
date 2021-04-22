@@ -109,6 +109,7 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         tokenValue.text = token
 
         if (!isReceive) {
+            btnShare.background = resources.getDrawable(R.drawable.send_button, null)
             gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
         }
     }

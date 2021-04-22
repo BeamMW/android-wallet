@@ -102,11 +102,16 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun updateTokens(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions) {
-        addressLabel.text = walletAddress.id.trimAddress()
-
         sbbsAddress = walletAddress.id
         offlineAddress = walletAddress.tokenOffline
         maxPrivacyAddress = walletAddress.tokenMaxPrivacy
+
+        if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            addressLabel.text = walletAddress.tokenOffline.trimAddress()
+        }
+        else {
+            addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
+        }
     }
 
     @SuppressLint("SetTextI18n")

@@ -113,43 +113,43 @@ class AppManager {
     }
 
     private val gson = Gson()
-    private fun getIgnoredContacts(): List<String>  {
-        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
-
-        if (json.isNullOrBlank()) {
-            return arrayListOf<String>()
-        }
-
-        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
-        return gson.fromJson(json, token.type) as List<String>
-    }
-
-    fun setIgnoreAddress(id: String?) {
-        if (!id.isNullOrEmpty()) {
-            var strings = mutableListOf<String>()
-            strings.addAll(getIgnoredContacts())
-            if (!strings.contains(id)) {
-                strings.add(id)
-            }
-            PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
-        }
-    }
+//    private fun getIgnoredContacts(): List<String>  {
+//        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
+//
+//        if (json.isNullOrBlank()) {
+//            return arrayListOf<String>()
+//        }
+//
+//        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
+//        return gson.fromJson(json, token.type) as List<String>
+//    }
+//
+//    fun setIgnoreAddress(id: String?) {
+//        if (!id.isNullOrEmpty()) {
+//            var strings = mutableListOf<String>()
+//            strings.addAll(getIgnoredContacts())
+//            if (!strings.contains(id)) {
+//                strings.add(id)
+//            }
+//            PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+//        }
+//    }
 
     fun isMaxPrivacyEnabled(): Boolean {
         val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
-        return true //wallet?.isConnectionTrusted() == true || protocolEnabled
+        return wallet?.isConnectionTrusted() == true || protocolEnabled
     }
 
-    fun removeIgnoredAddress(id: String) {
-        if (id.isNotEmpty()) {
-            var strings = mutableListOf<String>()
-            strings.addAll(getIgnoredContacts())
-            if (strings.contains(id)) {
-                strings.remove(id)
-                PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
-            }
-        }
-    }
+//    fun removeIgnoredAddress(id: String) {
+//        if (id.isNotEmpty()) {
+//            var strings = mutableListOf<String>()
+//            strings.addAll(getIgnoredContacts())
+//            if (strings.contains(id)) {
+//                strings.remove(id)
+//                PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+//            }
+//        }
+//    }
 
     fun reconnect(): Boolean {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
@@ -383,7 +383,7 @@ class AppManager {
     }
 
     fun isValidAddress(address: String): Boolean {
-        if(address.isNullOrEmpty()) {
+        if(address.isEmpty()) {
             return false
         }
         return wallet!!.isAddress(address) || wallet!!.isToken(address)
@@ -433,14 +433,14 @@ class AppManager {
 
     fun getAddress(id: String?) : WalletAddress? {
         contacts.forEach {
-            if (it.id == id)
+            if (it.id == id || it.getOriginalId == id)
             {
                 return it
             }
         }
 
         addresses.forEach {
-            if (it.id == id)
+            if (it.id == id || it.getOriginalId == id)
             {
                 return it
             }
@@ -954,11 +954,9 @@ class AppManager {
                 else if (!it.own) {
                     contacts.clear()
                     if (it.addresses!=null) {
-                        val ignored = getIgnoredContacts()
+                       // val ignored = getIgnoredContacts()
                         it.addresses.forEach {address->
-                            if(!ignored.contains(address.address) && !ignored.contains(address.id)) {
-                                contacts.add(address)
-                            }
+                            contacts.add(address)
                         }
                     }
 

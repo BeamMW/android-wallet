@@ -43,6 +43,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.marginTop
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
@@ -74,20 +75,18 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressCallback
 import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
-import kotlinx.android.synthetic.main.fragment_receive.*
+
 import kotlinx.android.synthetic.main.fragment_send.*
-import kotlinx.android.synthetic.main.fragment_send.advancedContainer
-import kotlinx.android.synthetic.main.fragment_send.advancedGroup
 import kotlinx.android.synthetic.main.fragment_send.amount
-import kotlinx.android.synthetic.main.fragment_send.btnExpandAdvanced
-import kotlinx.android.synthetic.main.fragment_send.btnExpandEditAddress
-import kotlinx.android.synthetic.main.fragment_send.comment
-import kotlinx.android.synthetic.main.fragment_send.editAddressContainer
-import kotlinx.android.synthetic.main.fragment_send.editAddressGroup
+import kotlinx.android.synthetic.main.fragment_send.btnExpandComment
+import kotlinx.android.synthetic.main.fragment_send.contentLayout
+import kotlinx.android.synthetic.main.fragment_send.regularButton
 import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
-import kotlinx.android.synthetic.main.fragment_send.tagAction
-import kotlinx.android.synthetic.main.fragment_send.tags
-import kotlinx.android.synthetic.main.item_utxo.*
+import kotlinx.android.synthetic.main.fragment_send.transactionTypeLayout
+import kotlinx.android.synthetic.main.fragment_send.txComment
+import kotlinx.android.synthetic.main.fragment_send.txCommentContainer
+import kotlinx.android.synthetic.main.fragment_send.txCommentGroup
+
 import org.jetbrains.anko.withAlpha
 import java.text.NumberFormat
 import java.util.*
@@ -105,6 +104,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var address = ""
     private var isPaste = false
     private var ignoreWatcher = false
+    private var isVisibleComment = false
+    private var isOffline = false
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -117,6 +118,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         override fun afterTextChanged(rawToken: Editable?) {
             if (!ignoreWatcher) {
                 showTokenButton.visibility = View.GONE
+                tokenDivider.setPadding(0, 0,ScreenHelper.dpToPx(context, 20),0)
                 presenter?.onTokenChanged(rawToken.toString())
 
                 if(token.text.toString().isEmpty()) {
@@ -157,11 +159,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val commentWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            if(comment.text.toString().isEmpty()) {
-                comment.setTypeface(null,Typeface.ITALIC)
+            if(txComment.text.toString().isEmpty()) {
+                txComment.setTypeface(null,Typeface.ITALIC)
             }
             else {
-                comment.setTypeface(null,Typeface.NORMAL)
+                txComment.setTypeface(null,Typeface.NORMAL)
             }
         }
     }
@@ -233,14 +235,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun getToken(): String = address
-    override fun getComment(): String? = comment.text.toString()
+    override fun getComment(): String? = txComment.text.toString()
     override fun getFee(): Long {
         val progress = feeSeekBar.progress.toLong() + minFee.toLong()
         return if (progress < 0) 0 else progress
     }
 
+    override fun isOffline(): Boolean {
+        if(transactionTypeLayout.visibility == View.VISIBLE && isOffline) {
+            return true
+        }
+        return false
+    }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun init(defaultFee: Int, max: Int) {
         maxFee = max
 
@@ -251,11 +259,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             token.setTypeface(null,Typeface.NORMAL)
         }
 
-        if(comment.text.toString().isEmpty()) {
-            comment.setTypeface(null,Typeface.ITALIC)
+        if(txComment.text.toString().isEmpty()) {
+            txComment.setTypeface(null,Typeface.ITALIC)
         }
         else {
-            comment.setTypeface(null,Typeface.NORMAL)
+            txComment.setTypeface(null,Typeface.NORMAL)
         }
 
         setHasOptionsMenu(true)
@@ -302,20 +310,54 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         secondMinFeeValue.text = minFee.toLong().convertToCurrencyGrothString()
         secondMaxFeeValue.text = maxFee.toLong().convertToCurrencyGrothString()
 
+        handleExpandComment(isVisibleComment)
+
+        setSegmentButtons()
+
+        offlineButton.setOnClickListener {
+            isOffline = true
+            setSegmentButtons()
+            presenter?.requestFee()
+        }
+
+        regularButton.setOnClickListener {
+            isOffline = false
+            setSegmentButtons()
+            presenter?.requestFee()
+        }
+    }
+
+    private fun setSegmentButtons() {
+        val value = ScreenHelper.dpToPx(context, 15)
+
+        if(!isOffline) {
+            sendDescription.text = resources.getString(R.string.confirmation_send_description)
+
+            regularButton.setPaddingRelative(value,0,value,0)
+            offlineButton.setPaddingRelative(0,0,0,0)
+
+            regularButton.setTextColor(resources.getColor(R.color.accent, null))
+            offlineButton.setTextColor(resources.getColor(android.R.color.white, null))
+
+            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
+            offlineButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+        }
+        else {
+            sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
+
+            offlineButton.setPaddingRelative(value,0,value,0)
+            regularButton.setPaddingRelative(0,0,0,0)
+
+            offlineButton.setTextColor(resources.getColor(R.color.accent, null))
+            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
+
+            offlineButton.setBackgroundResource(R.drawable.accent_btn_background)
+            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+        }
     }
 
     override fun updateMaxPrivacyCount(count: Int) {
-        AppActivity.self.runOnUiThread {
-            if(addressTypeLabel!=null) {
-                if (count != -1 ) {
-                    var text = getString(R.string.offline_token) + ". " + getString(R.string.payments_left)
-                    text = text.replace("XX", count.toString())
-                    addressTypeLabel.text = text
-                    addressTypeLabel.visibility = View.VISIBLE
-                    btnNext.isEnabled = count != 0
-                }
-            }
-        }
+
     }
 
     override fun setupMaxFee(max: Int, min:Int) {
@@ -403,6 +445,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
+        txCommentContainer.setOnClickListener {
+            isVisibleComment = !isVisibleComment
+            handleExpandComment(isVisibleComment)
+        }
 
         permanentOutSwitch.setOnClickListener {
             presenter?.onExpirePeriodChanged(when (permanentOutSwitch.isChecked) {
@@ -418,7 +464,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
         }
 
-        showTokenButton.text = getString(R.string.show_token).toLowerCase()
+        showTokenButton.text = getString(R.string.address_details).toLowerCase()
         showTokenButton.setOnClickListener {
             presenter?.showTokenFragmentPressed()
         }
@@ -462,7 +508,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onTokenChanged(token.text.toString())
         }
 
-        comment.addTextChangedListener(commentWatcher)
+        txComment.addTextChangedListener(commentWatcher)
 
         feeSeekBar.setOnSeekBarChangeListener(onFeeChangeListener)
 
@@ -493,12 +539,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
         contentScrollView.setOnTouchListener { _, _ -> isOpenSearchView() }
 
-        if(App.isDarkMode) {
-            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
-        }
-        else{
-            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
-        }
+//        if(App.isDarkMode) {
+//            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
+//        }
+//        else{
+//            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
+//        }
 
         if(AppManager.instance.isCurrenciesAvailable()) {
             currencyButton.setOnClickListener {
@@ -518,11 +564,27 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             token.setText(trim)
             token.setSelection(token.text?.length ?: 0)
             showTokenButton.visibility = View.VISIBLE
+            tokenDivider.setPadding(0,0,0,0)
         }
         else if(!enteredAddress.contains("...")) {
             showTokenButton.visibility = View.GONE
+            tokenDivider.setPadding(0, 0,ScreenHelper.dpToPx(context, 20),0)
         }
         ignoreWatcher = false
+        setAddressType(this.address)
+    }
+
+    fun handleExpandComment(expand: Boolean) {
+        animateDropDownIcon(btnExpandComment, expand)
+        TransitionManager.beginDelayedTransition(contentLayout)
+        txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
+
+        if (expand) {
+            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,0)
+        }
+        else {
+            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,ScreenHelper.dpToPx(context, 20))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -808,21 +870,23 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
+     //   val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
         val second = getRealAmount().convertToCurrencyString(presenter?.currency)
-        if(second!=null) {
-            usedFee.text = "$second $feeString"
-        }
-        else {
-            usedFee.text = feeString
+        when {
+            getRealAmount() <= 0 -> {
+                usedFee.text = "$second"
+            }
+            second!=null -> {
+                usedFee.text = "$second"
+            }
         }
     }
 
     override fun updateFeeTransactionVisibility() {
-        usedFee.visibility = if ((getAmount() > 0.0) && amountError.visibility == View.GONE) View.VISIBLE else View.GONE
-        if (usedFee.visibility == View.VISIBLE) {
+//        usedFee.visibility = if ((getAmount() > 0.0) && amountError.visibility == View.GONE) View.VISIBLE else View.GONE
+//        if (usedFee.visibility == View.VISIBLE) {
             updateFeeValue(feeSeekBar.progress+minFee, false)
-        }
+//        }
     }
 
     override fun hasErrors(availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
@@ -1043,6 +1107,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if(!address.contains("...")) {
             onTrimAddress()
         }
+        else {
+            setAddressType(this.address)
+        }
     }
 
     override fun setAmount(amount: Double) {
@@ -1051,13 +1118,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun setComment(comment: String) {
-        this.comment.setText(comment)
-        this.comment.setSelection(this.comment.text?.length ?: 0)
-        if(this.comment.text.toString().isEmpty()) {
-            this.comment.setTypeface(null,Typeface.ITALIC)
+        this.txComment.setText(comment)
+        this.txComment.setSelection(this.txComment.text?.length ?: 0)
+        if(this.txComment.text.toString().isEmpty()) {
+            this.txComment.setTypeface(null,Typeface.ITALIC)
         }
         else {
-            this.comment.setTypeface(null,Typeface.NORMAL)
+            this.txComment.setTypeface(null,Typeface.NORMAL)
         }
     }
 
@@ -1106,6 +1173,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             newVersionTextView.text = error
             newVersionTextView.visibility = View.VISIBLE
             showTokenButton.visibility = View.VISIBLE
+            tokenDivider.setPadding(0,0,0,0)
         }
         else {
             tokenError.visibility = View.VISIBLE
@@ -1114,9 +1182,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
             if(error.contains("by newer Beam library") || error.contains("Can not sent max privacy")) {
                 showTokenButton.visibility = View.VISIBLE
+                tokenDivider.setPadding(0,0,0,0)
             }
             else {
                 showTokenButton.visibility = View.GONE
+                tokenDivider.setPadding(0, 0,ScreenHelper.dpToPx(context, 20),0)
             }
         }
 
@@ -1142,6 +1212,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
         else {
             showTokenButton.visibility = View.VISIBLE
+            tokenDivider.setPadding(0,0,0,0)
         }
     }
 
@@ -1183,7 +1254,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         configPrivacyStatus(isEnablePrivacyMode)
 
         amount.text = null
-        comment.text = null
+        txComment.text = null
 
         feeSeekBar.progress = defaultFee - minFee
 
@@ -1204,8 +1275,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         val change = presenter!!.change
         val inputShield = presenter!!.inputShield
         val addressType = presenter?.state?.addressType?.ordinal ?: 0
-
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, addressType, remainingCount, change, inputShield))
+        var isOfflineTransaction = false
+        if(transactionTypeLayout.visibility == View.VISIBLE && isOffline) {
+            isOfflineTransaction = true
+        }
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, addressType, remainingCount, change, inputShield, isOfflineTransaction))
     }
 
     @SuppressLint("SetTextI18n")
@@ -1224,7 +1298,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         btnNext.setOnClickListener(null)
         btnSendAll.setOnClickListener(null)
         token.removeListener(tokenWatcher)
-        comment.removeTextChangedListener(commentWatcher)
+        txComment.removeTextChangedListener(commentWatcher)
         addressName.removeTextChangedListener(tokenWatcher)
         amount.removeTextChangedListener(amountWatcher)
         amount.filters = emptyArray()
@@ -1261,34 +1335,32 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return SendPresenter(this, SendRepository(), SendState())
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setAddressType(token: String) {
-        var params = AppManager.instance.wallet?.getTransactionParameters(token, true)
+        var params = AppManager.instance.wallet?.getTransactionParameters(token, false)
         if(params!=null) {
 
             when (params.getAddressType()) {
                 BMAddressType.BMAddressTypeMaxPrivacy -> {
-                    addressTypeLabel.text = getString(R.string.max_privacy_address)
-                }
-                BMAddressType.BMAddressTypeRegularPermanent -> {
-                    addressTypeLabel.text = getString(R.string.perm_token)
-                }
-                BMAddressType.BMAddressTypeShielded -> {
-                    addressTypeLabel.text = getString(R.string.offline_token)
+                    transactionTypeLayout.visibility = View.GONE
+                    addressTypeLabel.text = getString(R.string.max_privacy_address) + "."
                 }
                 BMAddressType.BMAddressTypeOfflinePublic -> {
-                    addressTypeLabel.text = getString(R.string.public_offline_address)
+                    transactionTypeLayout.visibility = View.GONE
+                    addressTypeLabel.text = getString(R.string.public_offline_address) + "."
                 }
                 else -> {
-                    addressTypeLabel.text = getString(R.string.one_time_expire_text)
+                    if (params.isShielded) {
+                        transactionTypeLayout.visibility = View.VISIBLE
+                    }
+                    else {
+                        transactionTypeLayout.visibility = View.GONE
+                    }
+                    addressTypeLabel.text = getString(R.string.regular_address) + "."
                 }
             }
 
-            if(AppManager.instance.wallet?.isToken(address) == true) {
-                addressTypeLabel.visibility = View.VISIBLE
-            }
-            else {
-                addressTypeLabel.visibility = View.GONE
-            }
+            addressTypeLabel.visibility = View.VISIBLE
 
             if(params.versionError) {
                 setAddressError("This address generated by newer Beam library version ${params.version}. Your version is: ${Api.getLibVersion()}. Please, check for updates.")
@@ -1296,7 +1368,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             }
         }
         else {
+            transactionTypeLayout.visibility = View.GONE
             addressTypeLabel.visibility = View.GONE
         }
     }
 }
+

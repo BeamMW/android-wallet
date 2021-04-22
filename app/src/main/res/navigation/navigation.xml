@@ -841,6 +841,10 @@
             android:name="shieldedInputsFee"
             app:argType="long"
             android:defaultValue="0L" />
+        <argument
+            android:name="isOffline"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <dialog
         tools:layout="@layout/dialog_qr_code"

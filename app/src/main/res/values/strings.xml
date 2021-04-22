@@ -416,7 +416,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
-    <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
+    <string name="search_by_address_tag_or_name">Paste address or search by address or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="min_fee_error_max_privacy">Сoins were automatically selected to maximize privacy and minimal transaction fee of 1,000,100 GROTH.</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -453,6 +453,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="understand">I understand</string>
     <string name="downloading_blockchain_info">Downloading blockchain info</string>
     <string name="add_all">Add all</string>
+    <string name="add_max">Add max</string>
     <string name="my_active_addresses">My active addresses</string>
     <string name="tag_list_is_empty">Tag list is empty</string>
     <string name="dialog_empty_tags_message">You don’t have any tags yet. Do you want to create a tag now?</string>
@@ -705,6 +706,7 @@ address or contact</string>
     <string name="requested_amount_optional">Requested amount (optional)</string>
     <string name="receive_contact_placholder">Name the new address or search existing contact</string>
     <string name="search_or_paste">Search by name or paste address</string>
+    <string name="regular_address">Regular address</string>
 
 </resources>
 

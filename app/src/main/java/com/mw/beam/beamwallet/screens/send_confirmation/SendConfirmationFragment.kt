@@ -48,7 +48,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         SendConfirmationFragmentArgs.fromBundle(requireArguments())
     }
 
-    override fun getToolbarTitle(): String? = getString(R.string.confirmation)
+    override fun getToolbarTitle(): String = getString(R.string.confirmation)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_send_confirmation
 
@@ -61,6 +61,10 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getRemaining(): Int = args.remaining
     override fun getChange(): Long = args.change
     override fun getShieldedInputsFee(): Long = args.shieldedInputsFee
+
+    override fun getIsOffline(): Boolean {
+        return args.isOffline
+    }
 
     private var typeAddress = BMAddressType.BMAddressTypeRegular
 
@@ -83,28 +87,29 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
             secondAvailableFeeSum.visibility = View.GONE
         }
 
-        this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
+       // this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
+        this.fee.text = "${fee.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
 
         typeAddress = BMAddressType.findByValue(addressType) ?: BMAddressType.BMAddressTypeRegular
 
-        if (typeAddress == BMAddressType.BMAddressTypeMaxPrivacy) {
-            transactionType.text = getString(R.string.max_privacy)
-        }
-        else if (typeAddress == BMAddressType.BMAddressTypeRegular) {
-            transactionType.text = getString(R.string.regular)
-        }
-        else if (typeAddress == BMAddressType.BMAddressTypeOfflinePublic) {
-            transactionType.text = getString(R.string.public_offline)
-        }
-        else if (typeAddress == BMAddressType.BMAddressTypeRegularPermanent) {
-            transactionType.text = getString(R.string.regular) + ", " + getString(R.string.permanent).toLowerCase()
-        }
-        else if (typeAddress == BMAddressType.BMAddressTypeShielded) {
-            val left = getString(R.string.payments_left).toLowerCase().replace("xx.","")
-            transactionType.text = getString(R.string.offline) + ", " + left  + getRemaining()
+        if (args.isOffline) {
+            transactionType.text = getString(R.string.offline)
         }
         else {
-            transactionType.text = getString(R.string.regular)
+            when (typeAddress) {
+                BMAddressType.BMAddressTypeMaxPrivacy -> {
+                    transactionType.text = getString(R.string.max_privacy)
+                }
+                BMAddressType.BMAddressTypeRegular -> {
+                    transactionType.text = getString(R.string.regular)
+                }
+                BMAddressType.BMAddressTypeOfflinePublic -> {
+                    transactionType.text = getString(R.string.public_offline)
+                }
+                else -> {
+                    transactionType.text = getString(R.string.regular)
+                }
+            }
         }
     }
 
@@ -163,21 +168,23 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     @SuppressLint("SetTextI18n")
     override fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double) {
-        totalUtxoTitle.visibility = View.VISIBLE
-        totalUtxo.visibility = View.VISIBLE
+        val left = AppManager.instance.getStatus().available.convertToBeam() - usedUtxo
+
+        remainingTitle.visibility = View.VISIBLE
+        remaining.visibility = View.VISIBLE
         changeUtxoTitle.visibility = View.VISIBLE
         changeUtxo.visibility = View.VISIBLE
-        secondAvailableUTXOSum.visibility = View.VISIBLE
+        secondRemainingSum.visibility = View.VISIBLE
         secondAvailableChangeSum.visibility = View.VISIBLE
 
-        totalUtxo.text = "${usedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+        remaining.text = "${left.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         changeUtxo.text = "${changedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
 
-        secondAvailableUTXOSum.text = usedUtxo.convertToCurrencyString()
+        secondRemainingSum.text = left.convertToCurrencyString()
         secondAvailableChangeSum.text = changedUtxo.convertToCurrencyString()
 
-        if(secondAvailableUTXOSum.text.isNullOrEmpty()) {
-            secondAvailableUTXOSum.visibility = View.GONE
+        if(secondRemainingSum.text.isNullOrEmpty()) {
+            secondRemainingSum.visibility = View.GONE
         }
 
         if(secondAvailableChangeSum.text.isNullOrEmpty()) {
@@ -185,8 +192,17 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         }
     }
 
-    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long) {
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded))
+    override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, isOffline:Boolean?) {
+        var toSend = token
+        val isToken = AppManager.instance.wallet?.isToken(toSend)
+        val params = AppManager.instance.wallet?.getTransactionParameters(toSend, false)
+        if (params != null && isToken == true) {
+            if(!params.isMaxPrivacy && !params.isPublicOffline && isOffline == false) {
+                toSend = params.address
+            }
+        }
+
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(toSend, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded))
     }
 
     override fun showSaveAddressFragment(address: String) {

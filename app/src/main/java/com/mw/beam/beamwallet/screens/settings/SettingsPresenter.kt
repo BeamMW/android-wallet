@@ -215,7 +215,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun onChangeMaxPrivacySettings(value: Long) {
         AppManager.instance.wallet?.setMaxPrivacyLockTimeLimitHours(value)
-        AppManager?.instance?.wallet?.getMaxPrivacyLockTimeLimitHoursAsync()
+        AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHoursAsync()
         view?.updateMaxPrivacyValue(value)
         view?.closeDialog()
     }
@@ -302,7 +302,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         if (clearContacts) {
             state.contacts.forEach {
-                AppManager.instance.setIgnoreAddress(it.id)
+              //  AppManager.instance.setIgnoreAddress(it.id)
                 repository.deleteAddress(it.id) }
         }
 

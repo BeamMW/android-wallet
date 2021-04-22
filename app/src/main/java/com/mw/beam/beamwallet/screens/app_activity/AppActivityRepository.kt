@@ -24,13 +24,13 @@ import com.mw.beam.beamwallet.core.helpers.TrashManager
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
-            if(AppManager.instance.isToken(token)) {
-                val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
-                AppManager.instance.setIgnoreAddress(params?.address)
-            }
-            else  {
-                AppManager.instance.removeIgnoredAddress(token)
-            }
+//            if(AppManager.instance.isToken(token)) {
+//                val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
+//                AppManager.instance.setIgnoreAddress(params?.address)
+//            }
+//            else  {
+//                AppManager.instance.removeIgnoredAddress(token)
+//            }
             wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee, true)
         }
     }

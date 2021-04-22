@@ -37,7 +37,13 @@ data class TransactionParametersDTO(val address: String,
                                     var addressType: Int) : Parcelable {
 
     fun getAddressType(): BMAddressType {
-        return BMAddressType.findByValue(addressType) ?: BMAddressType.BMAddressTypeRegular
+        if (isPublicOffline) {
+            return BMAddressType.BMAddressTypeOfflinePublic
+        }
+        else if (isMaxPrivacy) {
+            return BMAddressType.BMAddressTypeMaxPrivacy
+        }
+        return BMAddressType.BMAddressTypeRegular
     }
 }
 

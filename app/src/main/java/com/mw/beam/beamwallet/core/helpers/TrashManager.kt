@@ -63,10 +63,9 @@ object TrashManager {
                 TagHelper.changeTagsForAddress(it.id, null)
                 AppManager.instance.wallet?.deleteAddress(it.id)
                 AppManager.instance.deleteAllNotificationByObject(it.id)
-
-                if (it.getOriginalId.isEmpty() && it.isContact) {
-                    AppManager.instance.setIgnoreAddress(it.id)
-                }
+//                if (it.getOriginalId.isEmpty() && it.isContact) {
+//                    AppManager.instance.setIgnoreAddress(it.id)
+//                }
             }
 
             transactions.forEach {

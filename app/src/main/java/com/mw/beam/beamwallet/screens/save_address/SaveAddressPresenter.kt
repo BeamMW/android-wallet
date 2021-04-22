@@ -57,13 +57,13 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
                 repository.saveTagsForAddress(address, state.tags)
             }
 
-            var categories = mutableListOf<String>()
+            val categories = mutableListOf<String>()
             for (t in state.tags) {
                 categories.add(t.id)
             }
-            var ids = categories.joinToString(";")
+            val ids = categories.joinToString(";")
 
-            AppManager.instance.removeIgnoredAddress(address)
+           // AppManager.instance.removeIgnoredAddress(address)
 
             AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), ids, System.currentTimeMillis(), 0, 0, identity, address), false)
 

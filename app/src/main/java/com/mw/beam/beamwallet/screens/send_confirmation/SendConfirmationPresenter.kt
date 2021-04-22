@@ -57,7 +57,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
 
     private fun send() {
         if (state.contact == null) {
-            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee) }
+            state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, view?.getIsOffline()) }
             view?.showSaveAddressFragment(state.token)
         } else {
             showWallet()
@@ -102,7 +102,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 view?.configUtxoInfo((totalSendAmount).convertToBeam(), view!!.getChange().convertToBeam())
             }
 
-            val isShielded = (state.getEnumAddressType() == BMAddressType.BMAddressTypeShielded || state.getEnumAddressType()  == BMAddressType.BMAddressTypeOfflinePublic ||
+            val isShielded = (view?.getIsOffline() == true || state.getEnumAddressType()  == BMAddressType.BMAddressTypeOfflinePublic ||
                     state.getEnumAddressType()  == BMAddressType.BMAddressTypeMaxPrivacy)
 
             changeSubscription = WalletListener.subOnFeeCalculated.subscribe {
@@ -129,7 +129,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
-        state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee) }
+        state.apply { view?.delaySend(outgoingAddress, state.token, comment, amount, fee - shieldedInputsFee, view?.getIsOffline()) }
         view?.showWallet()
     }
 }
