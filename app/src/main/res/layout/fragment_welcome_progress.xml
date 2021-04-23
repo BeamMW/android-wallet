@@ -77,6 +77,7 @@
             app:layout_constraintTop_toBottomOf="@id/progress"
             app:layout_constraintVertical_bias="0">
             <TextView
+                android:id="@+id/restoreFullDescriptionText1"
                 style="@style/common_header_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,6 +89,7 @@
                 android:textColor="@color/common_text_dark_color"
                 android:textStyle="italic" />
             <TextView
+                android:id="@+id/restoreFullDescriptionText2"
                 style="@style/common_header_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

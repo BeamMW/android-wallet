@@ -154,6 +154,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 maxPrivacyButton.alpha = 0.2f
             }
         }
+
+        if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            addressLabel.text = walletAddress.tokenOffline.trimAddress()
+        }
+        else {
+            addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
+        }
     }
 
     override fun handleExpandAmount(expand: Boolean) {

@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.trimAddress
 
 /**
  *  3/4/19.
@@ -136,7 +137,7 @@ else{
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        idLabel.text = address.id
+        idLabel.text = address.id.trimAddress()
         expirationLabel.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
         nameLabel.text = address.label
         isContact = address.isContact

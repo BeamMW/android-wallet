@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -84,11 +85,21 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
-        AppManager.instance.removeOldValues()
+        if(mode != WelcomeMode.MOBILE_CONNECT) {
+            AppManager.instance.removeOldValues()
+        }
 
         presenter?.repository?.setContext(requireContext())
 
         when (mode) {
+            WelcomeMode.MOBILE_CONNECT -> {
+                title.text = getString(R.string.connect_to_mobilenode)
+                btnCancel.visibility = View.VISIBLE
+                appVersion.visibility = View.GONE
+                restoreFullDescription.visibility = View.VISIBLE
+                restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
+                restoreFullDescriptionText2.visibility = View.GONE
+            }
             WelcomeMode.OPEN -> title.text = openTitleString
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = downloadTitleString
@@ -119,7 +130,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun addListeners() {
         btnCancel.setOnClickListener {
-            presenter?.onBackPressed()
+            if(getMode() == WelcomeMode.MOBILE_CONNECT) {
+                findNavController().popBackStack()
+            }
+            else {
+                presenter?.onBackPressed()
+            }
         }
     }
 
@@ -131,6 +147,11 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         when (mode) {
             WelcomeMode.OPEN -> {
                 configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
+            }
+            WelcomeMode.MOBILE_CONNECT -> {
+                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
+                configProgress(countProgress(progressData), descriptionString)
             }
             WelcomeMode.RESTORE -> {
             }
@@ -283,6 +304,19 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        if(!isShowWallet && getMode() == WelcomeMode.MOBILE_CONNECT && App.isAuthenticated) {
+            isShowWallet = true
+
+            timer?.cancel()
+            timer = null
+
+            Handler().postDelayed({
+                AppActivity.self.runOnUiThread {
+                    showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
+                    findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+                }
+            }, 1000)
+        }
         if (isShowWallet && !App.isAuthenticated ) {
             return
         }
@@ -319,7 +353,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         }
 
         findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
-
 
 //        val navBuilder = NavOptions.Builder()
 //        navBuilder.setEnterAnim(R.anim.fade_in)

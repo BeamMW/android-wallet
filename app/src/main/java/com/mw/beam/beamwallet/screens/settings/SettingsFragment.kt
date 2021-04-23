@@ -297,9 +297,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         it.parent as SettingsItemView
                     }
 
-                    if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Node || item.mode == SettingsFragmentMode.Privacy
+                    if(item.mode == SettingsFragmentMode.Node) {
+                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodeFragment())
+                    }
+                    else if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Privacy
                             || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags || item.mode == SettingsFragmentMode.Notifications) {
-                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
+                                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
                     }

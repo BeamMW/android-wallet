@@ -44,12 +44,7 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
                     if (num==null) {
                         allOK = false
                     }
-                    else if (num in 1..65535){
-                        allOK = true
-                    }
-                    else{
-                        allOK = false
-                    }
+                    else allOK = num in 1..65535
                 }
             }
 
@@ -88,7 +83,7 @@ class RestoreTrustedNodeFragment : BaseFragment<RestoreTrustedNodePresenter>(), 
     }
 
     override fun showError() {
-        if (getNodeAddress().isNullOrEmpty() || !validateUrl()) {
+        if (getNodeAddress().isEmpty() || !validateUrl()) {
             errorText.textAlignment = View.TEXT_ALIGNMENT_VIEW_START
             errorText.text = getString(R.string.settings_dialog_node_error)
         }

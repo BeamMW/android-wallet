@@ -7,6 +7,7 @@
     <string name="done">Done</string>
     <string name="common_error">Oops, something went wrong…</string>
     <string name="online">Online</string>
+    <string name="online_mobile_node">Online: mobile node</string>
     <string name="updating">Updating</string>
     <string name="common_status_error">Cannot connect to</string>
     <string name="open">Open</string>
@@ -707,6 +708,22 @@ address or contact</string>
     <string name="receive_contact_placholder">Name the new address or search existing contact</string>
     <string name="search_or_paste">Search by name or paste address</string>
     <string name="regular_address">Regular address</string>
+
+    <string name="random_node_title">Random node</string>
+    <string name="fast_sync">Fast sync</string>
+    <string name="random_node_text">For those who don’t have any other Beam wallet.</string>
+    <string name="slow_sync">Slow sync</string>
+    <string name="mobile_node_hint">For those who want to sync the balance across multiple Beam wallets.</string>
+    <string name="own_node_title">Own node</string>
+    <string name="fast_secure_advance">Fast and secure, advanced</string>
+    <string name="own_node_text">For those who run a node configured with the wallet’s Owner Key.</string>
+    <string name="connect_to_mobilenode">Connecting to Mobile node</string>
+    <string name="syncing_with_blockchain">Syncing  with blockchain</string>
+    <string name="please_no_lock">Please do not lock your phone and do not close the wallet.</string>
+    <string name="wallet_connected_to_mobile_node">Wallet connected to Mobile node</string>
+    <string name="connect">Connect</string>
+    <string name="node_ip_hint">12.123.123:1234</string>
+
 
 </resources>
 

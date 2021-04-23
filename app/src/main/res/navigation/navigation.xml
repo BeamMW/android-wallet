@@ -401,6 +401,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_nodeFragment"
+            app:destination="@id/nodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -1138,4 +1145,16 @@
         android:id="@+id/maxPrivacyDetailFragment"
         android:name="com.mw.beam.beamwallet.screens.max_privacy_details.MaxPrivacyDetailFragment"
         android:label="MaxPrivacyDetailFragment" />
+    <fragment
+        android:id="@+id/nodeFragment"
+        android:name="com.mw.beam.beamwallet.screens.node.NodeFragment"
+        android:label="NodeFragment" >
+        <action
+            android:id="@+id/action_nodeFragment_to_welcomeProgressFragment"
+            app:destination="@id/welcomeProgressFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

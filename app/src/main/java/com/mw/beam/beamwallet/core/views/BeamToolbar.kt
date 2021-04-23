@@ -29,6 +29,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.R
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.marginRight
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
@@ -128,13 +129,20 @@ class BeamToolbar : LinearLayout {
         configureStatus(AppManager.instance.getNetworkStatus())
 
         changeNodeButton.setOnClickListener {
-            val destinationFragment = R.id.settingsFragment
+            val destinationFragment = R.id.nodeFragment
             val navBuilder = NavOptions.Builder()
-            val modeArg = SettingsFragmentArgs(SettingsFragmentMode.Node)
 
             val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
 
-            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, modeArg.toBundle(), navigationOptions)
+            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf(), navigationOptions)
+
+//            val destinationFragment = R.id.nodeFragment
+//            val navBuilder = NavOptions.Builder()
+//            val modeArg = SettingsFragmentArgs(SettingsFragmentMode.Node)
+//
+//            val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+//
+//            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, modeArg.toBundle(), navigationOptions)
         }
     }
 
@@ -207,8 +215,23 @@ class BeamToolbar : LinearLayout {
                 statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
             }
             else {
-                statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                status.text = context.getString(R.string.online).toLowerCase()
+                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+                val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+
+                when {
+                    mobile -> {
+                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
+                        status.text = context.getString(R.string.online_mobile_node).toLowerCase()
+                    }
+                    random -> {
+                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
+                        status.text = context.getString(R.string.online).toLowerCase()
+                    }
+                    else -> {
+                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
+                        status.text = context.getString(R.string.online).toLowerCase()
+                    }
+                }
             }
 
         } else {
