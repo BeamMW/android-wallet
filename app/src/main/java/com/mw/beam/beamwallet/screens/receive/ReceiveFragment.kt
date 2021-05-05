@@ -27,7 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-
+import com.addisonelliott.segmentedbutton.SegmentedButtonGroup.OnPositionChangedListener
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -39,10 +39,9 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-
 import kotlinx.android.synthetic.main.fragment_receive.*
-
 import org.jetbrains.anko.withAlpha
+
 
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
@@ -123,26 +122,26 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
             receiveDescription.text = resources.getString(R.string.receive_description)
 
-            regularButton.setPaddingRelative(value,0,value,0)
-            maxPrivacyButton.setPaddingRelative(0,0,0,0)
-
-            regularButton.setTextColor(resources.getColor(R.color.accent, null))
-            maxPrivacyButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
-            maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+//            regularButton.setPaddingRelative(value,0,value,0)
+//            maxPrivacyButton.setPaddingRelative(0,0,0,0)
+//
+//            regularButton.setTextColor(resources.getColor(R.color.accent, null))
+//            maxPrivacyButton.setTextColor(resources.getColor(android.R.color.white, null))
+//
+//            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
+//            maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
         else {
             receiveDescription.text = resources.getString(R.string.receive_notice_max_privacy)
 
-            maxPrivacyButton.setPaddingRelative(value,0,value,0)
-            regularButton.setPaddingRelative(0,0,0,0)
-
-            maxPrivacyButton.setTextColor(resources.getColor(R.color.accent, null))
-            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
-            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+//            maxPrivacyButton.setPaddingRelative(value,0,value,0)
+//            regularButton.setPaddingRelative(0,0,0,0)
+//
+//            maxPrivacyButton.setTextColor(resources.getColor(R.color.accent, null))
+//            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
+//
+//            maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
+//            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
 
         AppActivity.self.runOnUiThread {
@@ -150,8 +149,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
                 notAvailableLabel.visibility = View.VISIBLE
 
+                buttonGroupDraggable.isEnabled = false
                 maxPrivacyButton.isEnabled = false
-                maxPrivacyButton.alpha = 0.2f
+                maxPrivacyButton.textColor = resources.getColor(R.color.white_01, null)
             }
         }
 
@@ -169,10 +169,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         amountGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         if (expand) {
-            amountContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,0)
+            amountContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, 0)
         }
         else {
-            amountContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,ScreenHelper.dpToPx(context, 20))
+            amountContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, ScreenHelper.dpToPx(context, 20))
         }
     }
 
@@ -182,10 +182,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         if (expand) {
-            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,0)
+            txCommentContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, 0)
         }
         else {
-            txCommentContainer.setPadding(0,ScreenHelper.dpToPx(context, 20),0,ScreenHelper.dpToPx(context, 20))
+            txCommentContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, ScreenHelper.dpToPx(context, 20))
         }
     }
 
@@ -216,13 +216,15 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onAmountPressed()
         }
 
-        regularButton.setOnClickListener {
-            presenter?.onRegularPressed()
+        buttonGroupDraggable.onPositionChangedListener = OnPositionChangedListener {
+           if (it == 0) {
+               presenter?.onRegularPressed()
+           }
+            else {
+               presenter?.onMaxPrivacyPressed()
+           }
         }
 
-        maxPrivacyButton.setOnClickListener {
-            presenter?.onMaxPrivacyPressed()
-        }
 
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -334,7 +336,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 onCancel = {
                     presenter?.state?.address?.id?.let { AppManager.instance.wallet?.deleteAddress(it) }
                     nextStep()
-                           },
+                },
                 onConfirm = {
                     presenter?.onSaveAddressPressed()
                     nextStep()
@@ -356,8 +358,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         amount.removeTextChangedListener(amountWatcher)
         amount.onFocusChangeListener = null
 
-        maxPrivacyButton.setOnClickListener(null)
-        regularButton.setOnClickListener(null)
+//        maxPrivacyButton.setOnClickListener(null)
+//        regularButton.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {

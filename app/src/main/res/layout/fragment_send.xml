@@ -181,9 +181,10 @@
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/addressContainer">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/transactionTypeTitle"
@@ -195,46 +196,53 @@
                         android:text="@string/transaction_type"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:textSize="12sp" />
 
-                    <Button
-                        android:id="@+id/regularButton"
-                        android:layout_width="wrap_content"
+                    <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
+                        android:id="@+id/buttonGroupDraggable"
+                        android:layout_width="230dp"
                         android:layout_height="32dp"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/roboto_bold"
-                        android:padding="0dp"
-                        android:paddingStart="0dp"
-                        android:text="@string/regular"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle"
-                        tools:ignore="RtlSymmetry" />
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white_01"
+                        app:borderWidth="0dp"
+                        app:draggable="false"
+                        app:position="0"
+                        app:radius="24dp"
+                        app:rippleColor="@color/white_01"
+                        app:selectedBackground="@color/colorAccent20"
+                        app:selectedBorderColor="@color/colorAccent"
+                        app:selectedBorderWidth="2dp"
+                        app:selectedButtonRadius="16dp"
+                        app:selectionAnimationDuration="250">
 
-                    <Button
-                        android:id="@+id/offlineButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/accent_btn_background"
-                        android:fontFamily="@font/roboto_bold"
-                        android:padding="0dp"
-                        android:paddingStart="15dp"
-                        android:paddingEnd="15dp"
-                        android:text="@string/offline"
-                        android:textColor="@color/accent"
-                        android:textSize="14sp"
-                        app:layout_constraintStart_toEndOf="@+id/regularButton"
-                        app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />
+                        <com.addisonelliott.segmentedbutton.SegmentedButton
+                            android:id="@+id/regularButton"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            app:selectedTextColor="@color/colorAccent"
+                            app:selectedTextStyle="bold"
+                            app:text="@string/regular"
+                            app:textColor="@color/common_text_dark_color"
+                            app:textSize="14sp" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <com.addisonelliott.segmentedbutton.SegmentedButton
+                            android:id="@+id/maxPrivacyButton"
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto_regular"
+                            app:selectedTextColor="@color/colorAccent"
+                            app:selectedTextStyle="bold"
+                            app:text="@string/offline"
+                            app:textColor="@color/common_text_dark_color"
+                            app:textSize="14sp" />
+                    </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
+
+
+                </LinearLayout>
             </FrameLayout>
 
 

@@ -49,6 +49,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.addisonelliott.segmentedbutton.SegmentedButtonGroup
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
@@ -79,6 +80,7 @@ import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 import kotlinx.android.synthetic.main.fragment_send.*
 import kotlinx.android.synthetic.main.fragment_send.amount
 import kotlinx.android.synthetic.main.fragment_send.btnExpandComment
+import kotlinx.android.synthetic.main.fragment_send.buttonGroupDraggable
 import kotlinx.android.synthetic.main.fragment_send.contentLayout
 import kotlinx.android.synthetic.main.fragment_send.regularButton
 import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
@@ -314,45 +316,25 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         setSegmentButtons()
 
-        offlineButton.setOnClickListener {
-            isOffline = true
-            setSegmentButtons()
-            presenter?.requestFee()
-        }
-
-        regularButton.setOnClickListener {
-            isOffline = false
-            setSegmentButtons()
-            presenter?.requestFee()
+        buttonGroupDraggable.onPositionChangedListener = SegmentedButtonGroup.OnPositionChangedListener {
+            if (it == 0) {
+                isOffline = false
+                setSegmentButtons()
+                presenter?.requestFee()
+            } else {
+                isOffline = true
+                setSegmentButtons()
+                presenter?.requestFee()
+            }
         }
     }
 
     private fun setSegmentButtons() {
-        val value = ScreenHelper.dpToPx(context, 15)
-
         if(!isOffline) {
             sendDescription.text = resources.getString(R.string.confirmation_send_description)
-
-            regularButton.setPaddingRelative(value,0,value,0)
-            offlineButton.setPaddingRelative(0,0,0,0)
-
-            regularButton.setTextColor(resources.getColor(R.color.accent, null))
-            offlineButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
-            offlineButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
         else {
             sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
-
-            offlineButton.setPaddingRelative(value,0,value,0)
-            regularButton.setPaddingRelative(0,0,0,0)
-
-            offlineButton.setTextColor(resources.getColor(R.color.accent, null))
-            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
-
-            offlineButton.setBackgroundResource(R.drawable.accent_btn_background)
-            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
         }
     }
 
