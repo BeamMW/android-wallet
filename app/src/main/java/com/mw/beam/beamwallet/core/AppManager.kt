@@ -112,17 +112,17 @@ class AppManager {
         return null
     }
 
-    private val gson = Gson()
-//    private fun getIgnoredContacts(): List<String>  {
-//        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
-//
-//        if (json.isNullOrBlank()) {
-//            return arrayListOf<String>()
-//        }
-//
+//    private val gson = Gson()
+////    private fun getIgnoredContacts(): List<String>  {
+////        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
+////
+////        if (json.isNullOrBlank()) {
+////            return arrayListOf<String>()
+////        }
+////
 //        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
 //        return gson.fromJson(json, token.type) as List<String>
-//    }
+////    }
 //
 //    fun setIgnoreAddress(id: String?) {
 //        if (!id.isNullOrEmpty()) {
@@ -250,8 +250,6 @@ class AppManager {
     }
 
     fun removeWallet() {
-        TagHelper.clear()
-
         isSubscribe = false
         isRestored = false
 
@@ -314,19 +312,6 @@ class AppManager {
     }
 
     fun importData(data: String) {
-        val json = Gson()
-
-        val map = json.fromJson(data, HashMap::class.java)
-        val tags = map["Categories"]
-
-        if (tags!=null) {
-            val tagsString = json.toJson(tags).toString()
-            val tagData = json.fromJson(tagsString, Array<Tag>::class.java)
-            for (t in tagData) {
-                TagHelper.saveTag(t)
-            }
-        }
-
         wallet?.importDataFromJson(data)
     }
 

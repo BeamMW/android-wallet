@@ -18,10 +18,6 @@ package com.mw.beam.beamwallet.screens.receive
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
-import com.mw.beam.beamwallet.core.listeners.WalletListener
-import io.reactivex.subjects.Subject
 
 /**
  *  11/13/18.

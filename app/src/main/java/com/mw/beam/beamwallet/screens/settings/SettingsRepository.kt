@@ -84,16 +84,10 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
     }
 
     override fun deleteAddress(addressId: String) {
-        TagHelper.changeTagsForAddress(addressId, null)
         getResult("deleteAddress") {
             wallet?.deleteAddress(addressId)
         }
     }
-
-    override fun getAllCategory() : List<Tag>{
-        return TagHelper.getAllTagsSorted(TagHelper.getAllTags())
-    }
-
 
     override fun getCurrentLanguage(): LocaleHelper.SupportedLanguage {
         return LocaleHelper.getCurrentLanguage()

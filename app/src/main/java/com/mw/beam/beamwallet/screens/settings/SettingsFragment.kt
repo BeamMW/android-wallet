@@ -109,7 +109,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             mode() == SettingsFragmentMode.Node -> getString(R.string.node)
             mode() == SettingsFragmentMode.Privacy -> getString(R.string.privacy)
             mode() == SettingsFragmentMode.Utilities -> getString(R.string.utilities)
-            mode() == SettingsFragmentMode.Tags -> getString(R.string.tags)
             mode() == SettingsFragmentMode.Notifications -> getString(R.string.notifications)
             else -> ""
         }
@@ -301,7 +300,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodeFragment())
                     }
                     else if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Privacy
-                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Tags || item.mode == SettingsFragmentMode.Notifications) {
+                            || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Notifications) {
                                 findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
@@ -383,11 +382,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         presenter?.onExportPressed()
                     } else if (item.mode == SettingsFragmentMode.Import) {
                         presenter?.omImportPressed()
-                    } else if (item.mode == SettingsFragmentMode.CreateTag) {
-                        presenter?.onAddCategoryPressed()
-                    } else if (item.mode == SettingsFragmentMode.ShowTag) {
-                        presenter?.onCategoryPressed(item.spannable.toString())
-                    } else if (item.mode == SettingsFragmentMode.DarkMode) {
+                    }  else if (item.mode == SettingsFragmentMode.DarkMode) {
                         val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         App.isDarkMode = isDark
                         PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, isDark)
@@ -452,16 +447,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             }
 
             mainLayout.addView(section, 0)
-        }
-
-        if (mode() == SettingsFragmentMode.Tags && oldItemsCount != presenter?.repository?.getAllCategory()?.count() && oldItemsCount != -1) {
-            mainScrollView.post {
-                mainScrollView.fullScroll(View.FOCUS_DOWN)
-            }
-        } else if (mode() == SettingsFragmentMode.Tags && oldItemsCount == -1) {
-            if(presenter?.repository?.getAllCategory()?.count()!=null) {
-                oldItemsCount = presenter?.repository?.getAllCategory()?.count()!!
-            }
         }
     }
 
@@ -636,16 +621,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
-    override fun navigateToAddCategory() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToEditCategoryFragment(null))
-    }
 
     override fun navigateToCurrency() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCurrencyFragment())
-    }
-
-    override fun navigateToCategory(categoryId: String) {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCategoryFragment(categoryId))
     }
 
     override fun navigateToLanguage() {
@@ -723,24 +701,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 onCancel = {  })
     }
 
-    override fun updateCategoryList(allTag: List<Tag>) {
-        mainLayout.removeAllViews()
-        items.clear()
-
-        var s1 = mutableListOf<SettingsItem>()
-
-        for (tag in allTag){
-            s1.add(SettingsItem(null, "",null, SettingsFragmentMode.ShowTag, switch = null, spannable = tag.spannableName(requireContext())))
-        }
-
-        var s2 = mutableListOf<SettingsItem>()
-        s2.add(SettingsItem(null, getString(R.string.create_tag),null, SettingsFragmentMode.CreateTag))
-
-        items.add(s1.toTypedArray())
-        items.add(s2.toTypedArray())
-
-        addItems()
-    }
 
     override fun setLanguage(language: LocaleHelper.SupportedLanguage) {
         for (view in mainLayout.children) {
@@ -1003,8 +963,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 presenter?.onDialogClearDataPressed(
                         view.deleteAllAddressesCheckbox.isChecked,
                         view.deleteAllContactsCheckbox.isChecked,
-                        view.deleteAllTransactionsCheckbox.isChecked,
-                        view.deleteAllTagsCheckbox.isChecked
+                        view.deleteAllTransactionsCheckbox.isChecked
                 )
             }
 
@@ -1016,7 +975,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     @SuppressLint("StringFormatInvalid")
-    override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
+    override fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
         val clearData = arrayListOf<String>()
 
         if (clearAddresses) {
@@ -1031,14 +990,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             clearData.add(getString(R.string.transactions).toLowerCase())
         }
 
-        if (clearTags) {
-            clearData.add(getString(R.string.tags).toLowerCase())
-        }
-
         showAlert(
                 getString(R.string.settings_confirm_clear_message, clearData.joinToString(separator = ", ")),
                 getString(R.string.delete),
-                { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions, clearTags) },
+                { presenter?.onConfirmClearDataPressed(clearAddresses, clearContacts, clearTransactions) },
                 getString(R.string.settings_dialog_clear_title),
                 getString(R.string.cancel)
         )
@@ -1053,7 +1008,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         viewExportOptions.contactsCheckbox.isChecked = true
         viewExportOptions.addressesCheckbox.isChecked = true
         viewExportOptions.transactionCheckbox.isChecked = true
-        viewExportOptions.tagsCheckbox.isChecked = true
 
         viewExportOptions.findViewById<TextView>(R.id.btnConfirm).setOnClickListener {
             dialog?.dismiss()
@@ -1061,13 +1015,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             val contacts = viewExportOptions.contactsCheckbox.isChecked
             val addresses = viewExportOptions.addressesCheckbox.isChecked
             val transactions = viewExportOptions.transactionCheckbox.isChecked
-            val tags = viewExportOptions.tagsCheckbox.isChecked
 
-            var excludeParameters = mutableListOf<String>()
+            val excludeParameters = mutableListOf<String>()
             if (!contacts) excludeParameters.add("Contacts")
             if (!addresses) excludeParameters.add("OwnAddresses")
             if (!transactions) excludeParameters.add("TransactionParameters")
-            if (!tags) excludeParameters.add("Categories")
 
             presenter?.onExportWithExclude(excludeParameters.toTypedArray())
         }

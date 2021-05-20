@@ -20,8 +20,6 @@ import android.graphics.Bitmap
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -71,10 +69,6 @@ class TransactionDetailsRepository : BaseRepository(), TransactionDetailsContrac
 
     override fun requestProof(txId: String) {
         wallet?.getPaymentInfo(txId)
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
     }
 
     override fun isAllowOpenExternalLink(): Boolean {

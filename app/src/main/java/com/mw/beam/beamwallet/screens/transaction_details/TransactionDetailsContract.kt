@@ -23,8 +23,6 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TxStatus
 import io.reactivex.Observable
 import io.reactivex.subjects.Subject
 import java.io.File
@@ -85,7 +83,6 @@ interface TransactionDetailsContract {
         fun getUtxoByTx(txId: String): Subject<List<Utxo>?>
         fun requestProof(txId: String)
         fun isAllowOpenExternalLink(): Boolean
-        fun getAddressTags(address: String): List<Tag>
         fun saveImage(bitmap: Bitmap?): File?
     }
 }

@@ -58,11 +58,11 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-    override fun isFromReceive(): Boolean = ChangeAddressFragmentArgs.fromBundle(arguments!!).isFromReceive
+    override fun isFromReceive(): Boolean = ChangeAddressFragmentArgs.fromBundle(requireArguments()).isFromReceive
 
-    override fun getGeneratedAddress(): WalletAddress? = ChangeAddressFragmentArgs.fromBundle(arguments!!).generatedAddress
+    override fun getGeneratedAddress(): WalletAddress? = ChangeAddressFragmentArgs.fromBundle(requireArguments()).generatedAddress
 
-    override fun getToolbarTitle(): String? = getString(R.string.change_address_title)
+    override fun getToolbarTitle(): String = getString(R.string.change_address_title)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_change_address
 
@@ -77,19 +77,18 @@ class ChangeAddressFragment : BaseFragment<ChangeAddressPresenter>(), ChangeAddr
             tokenTitle.text = getString(R.string.outgoing_address)
         }
 
-        adapter = AddressesAdapter(context!!, object: AddressesAdapter.OnItemClickListener {
+        adapter = AddressesAdapter(requireContext(), object: AddressesAdapter.OnItemClickListener {
             override fun onItemClick(item: WalletAddress) {
                 presenter?.onItemPressed(item)
             }
-        }, null,
-                { presenter?.onSearchTagsForAddress(it) ?: listOf() }, generatedAddress)
+        }, null, generatedAddress)
 
         addressesRecyclerView.layoutManager = LinearLayoutManager(context)
         addressesRecyclerView.adapter = adapter
     }
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, if (isFromReceive()) R.color.received_color else R.color.sent_color)
+        return ContextCompat.getColor(requireContext(), if (isFromReceive()) R.color.received_color else R.color.sent_color)
     }
 
     override fun addListeners() {

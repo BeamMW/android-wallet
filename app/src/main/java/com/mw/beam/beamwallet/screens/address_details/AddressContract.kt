@@ -20,14 +20,8 @@ import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TrashManager
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
 
 /**
  *  3/4/19.
@@ -44,7 +38,6 @@ interface AddressContract {
         fun configPrivacyStatus(isEnable: Boolean)
         fun finishScreen()
         fun showDeleteAddressDialog()
-        fun configureTags(findTag: List<Tag>)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
         fun sendAddress(walletAddress: WalletAddress)
         fun receiveAddress(walletAddress: WalletAddress)
@@ -66,6 +59,5 @@ interface AddressContract {
 
     interface Repository : MvpRepository {
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
-        fun getAddressTags(address: String): List<Tag>
     }
 }

@@ -18,10 +18,7 @@ package com.mw.beam.beamwallet.screens.address_edit
 
 import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
-import com.mw.beam.beamwallet.core.helpers.TagHelper
-import io.reactivex.disposables.Disposable
 
 /**
  *  3/5/19.
@@ -29,21 +26,6 @@ import io.reactivex.disposables.Disposable
 class EditAddressPresenter(currentView: EditAddressContract.View, currentRepository: EditAddressContract.Repository, val state: EditAddressState)
     : BasePresenter<EditAddressContract.View, EditAddressContract.Repository>(currentView, currentRepository),
         EditAddressContract.Presenter {
-
-    private var categorySubscription: Disposable? = null
-
-    override fun initSubscriptions() {
-        super.initSubscriptions()
-
-        if (categorySubscription==null)
-        {
-            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
-                if (it!=null) {
-                    state.tempTags = listOf<Tag>(it)
-                }
-            }
-        }
-    }
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -57,30 +39,11 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         view?.init(state.address ?: return)
 
-        if (state.tempTags.count() == 0 && state.currentTags.count() == 0)
-        {
-            val currentTags = repository.getAddressTags(state.address!!.id)
-
-            state.tempTags = currentTags
-            state.currentTags = currentTags
-        }
-        else{
-            view?.configSaveButton(shouldEnableButton())
-        }
-
-        view?.setTags(state.tempTags)
-    }
-
-    override fun onDestroy() {
-        categorySubscription?.dispose()
-
-        super.onDestroy()
+        view?.configSaveButton(shouldEnableButton())
     }
 
     override fun onStart() {
         super.onStart()
-
-        view?.setupTagAction(repository.getAllTags().isEmpty())
 
         if (state.shouldExpireNow) {
             view?.configExpireSpinnerTime(state.shouldExpireNow)
@@ -112,24 +75,6 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
             repository.deleteAddress(it, if (withTransactions) state.getTransactions() else listOf())
             view?.onAddressDeleted()
         }
-    }
-
-    override fun onSelectTags(tags: List<Tag>) {
-        state.tempTags = tags
-        view?.setTags(tags)
-        view?.configSaveButton(shouldEnableButton())
-    }
-
-    override fun onTagActionPressed() {
-        if (repository.getAllTags().isEmpty()) {
-            view?.showCreateTagDialog()
-        } else {
-            view?.showTagsDialog(state.tempTags)
-        }
-    }
-
-    override fun onCreateNewTagPressed() {
-        view?.showAddNewCategory()
     }
 
     override fun onSwitchCheckedChange(isChecked: Boolean) {
@@ -189,30 +134,12 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
 
         val isCommentChanged = state.tempComment != state.address?.label ?: return false
 
-        val isCategoryChanged = !state.tempTags.containsAll(state.currentTags) || state.tempTags.size != state.currentTags.size
-
-        return isExpireChanged || isCommentChanged || isCategoryChanged
+        return isExpireChanged || isCommentChanged
     }
 
     override fun onSavePressed() {
         val address = state.address ?: return
         address.label = state.tempComment.trim()
-
-        var categories = mutableListOf<String>()
-
-        for (t in state.tempTags) {
-            categories.add(t.id)
-        }
-
-        var ids = categories.joinToString(";")
-        if(categories.isNotEmpty()) {
-            address.category = ids
-        }
-        else {
-            address.category = ""
-        }
-
-        repository.saveTagsForAddress(state.address!!.id, state.tempTags)
 
         if (!address.isContact) {
             if (address.isExpired) {

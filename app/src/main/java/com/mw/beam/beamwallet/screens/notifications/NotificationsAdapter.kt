@@ -132,8 +132,7 @@ class NotificationsAdapter(private val context: Context,
                     detail.visibility = if (notificationItem.detail == null) View.GONE else View.VISIBLE
                 }
 
-                categories.text = notificationItem.categories
-                categories.visibility = if (notificationItem.categories == null) View.GONE else View.VISIBLE
+                categories.visibility = View.GONE
 
                 date.text = CalendarUtils.fromTimestamp(notificationItem.date)
 

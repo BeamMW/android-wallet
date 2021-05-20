@@ -56,10 +56,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var feeSubscription: Disposable
 
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
-    private var categorySubscription: Disposable? = null
 
     override fun onDestroy() {
-        categorySubscription?.dispose()
 
         super.onDestroy()
     }
@@ -102,7 +100,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         changeAddressLiveData.observe(view!!.getLifecycleOwner(), Observer {
             if (it.id != state.outgoingAddress?.id) {
-                state.tags.clear()
                 state.isNeedGenerateNewAddress = false
                 state.wasAddressSaved = state.generatedAddress?.id != it.id
                 setAddress(it, !state.wasAddressSaved)
@@ -147,8 +144,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.outgoingAddress?.let {
             setAddress(it, !state.wasAddressSaved)
         }
-
-        view?.setupTagAction(repository.getAllTags().isEmpty())
 
         notifyPrivacyStateChange()
 
@@ -271,10 +266,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.createOptionsMenu(menu, inflater, state.privacyMode)
     }
 
-    override fun onCreateNewTagPressed() {
-        view?.showAddNewCategory()
-    }
-
     override fun onNext() {
         if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
             val amount = view?.getAmount()
@@ -341,37 +332,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         state.outgoingAddress?.duration = period.value
     }
 
-    override fun onSelectTags(tags: List<Tag>) {
-        state.tags.clear()
-        state.tags.addAll(tags)
-        view?.setTags(tags)
-    }
-
-    override fun onTagActionPressed() {
-        if (repository.getAllTags().isEmpty()) {
-            view?.showCreateTagDialog()
-        } else {
-            view?.showTagsDialog(state.tags)
-        }
-    }
-
     private fun saveAddress() {
         if (state.outgoingAddress != null) {
             state.outgoingAddress!!.duration = state.expirePeriod.value
 
             val comment = view?.getCommentOutgoingAddress()
-
-            var categories = mutableListOf<String>()
-
-            for (t in state.tags) {
-                categories.add(t.id)
-            }
-
-            var ids = categories.joinToString(";")
-
             state.outgoingAddress!!.label = comment ?: ""
-            state.outgoingAddress!!.category = ids
-            repository.saveTagsForAddress(state.outgoingAddress!!.id, state.tags)
 
             if (state.wasAddressSaved) {
                 repository.updateAddress(state.outgoingAddress!!)
@@ -478,10 +444,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
             val address = state.addresses.values.firstOrNull { it.id == rawToken }
-            val category = address?.let { repository.getAddressTags(it.id) } ?: listOf()
-            view?.setSendContact(address, category)
+            view?.setSendContact(address)
         } else {
-            view?.setSendContact(null, listOf())
+            view?.setSendContact(null)
         }
 
         val isPastedToken = state.isPastedText && validToken
@@ -516,8 +481,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val searchText = rawToken.trim().toLowerCase()
             state.addresses.values.filter {
                 (!it.isExpired || it.isContact) && (it.id.trim().toLowerCase().startsWith(searchText) ||
-                        it.label.trim().toLowerCase().contains(searchText) ||
-                        repository.getAddressTags(it.id).any { tag -> tag.name.trim().toLowerCase().contains(searchText) })
+                        it.label.trim().toLowerCase().contains(searchText))
             }
         } else {
             state.addresses.values.filter { !it.isExpired || it.isContact }
@@ -670,16 +634,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         if (state.isNeedGenerateNewAddress) {
             repository.generateNewAddress()
         }
-
-        if (categorySubscription==null)
-        {
-            categorySubscription = TagHelper.subOnCategoryCreated.subscribe(){
-                if (it!=null) {
-                    state.tags.clear()
-                    state.tags.add(it)
-                }
-            }
-        }
     }
 
     private fun subscribeToOfflineCount() {
@@ -699,15 +653,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private fun setAddress(walletAddress: WalletAddress, isGenerated: Boolean) {
         state.outgoingAddress = walletAddress
 
-        if (state.tags.count() == 0 )
-        {
-            state.tags.addAll(repository.getAddressTags(walletAddress.id))
-        }
-
         view?.configOutgoingAddress(walletAddress, isGenerated)
-
-        view?.setTags(state.tags)
-
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription!!, feeSubscription)

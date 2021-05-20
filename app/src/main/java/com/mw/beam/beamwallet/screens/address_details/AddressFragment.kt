@@ -28,9 +28,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
@@ -156,12 +154,6 @@ else{
             identityLayout.visibility = View.VISIBLE
             identityLabel.text = address.identity
         }
-    }
-
-    override fun configureTags(findTag: List<Tag>) {
-        val categoryVisibility = if (findTag.isEmpty()) View.GONE else View.VISIBLE
-        tagsLayout.visibility = categoryVisibility
-        tagsLabel.text = findTag.createSpannableString(requireContext())
     }
 
     @SuppressLint("InflateParams")

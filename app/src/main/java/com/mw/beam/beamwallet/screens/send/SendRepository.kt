@@ -18,13 +18,8 @@ package com.mw.beam.beamwallet.screens.send
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
 
@@ -60,18 +55,6 @@ class SendRepository : BaseRepository(), SendContract.Repository {
         getResult("updateAddress") {
             wallet?.saveAddress(address.toDTO(), true)
         }
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
-    }
-
-    override fun getAllTags(): List<Tag> {
-        return TagHelper.getAllTags()
-    }
-
-    override fun saveTagsForAddress(address: String, tags: List<Tag>) {
-        TagHelper.changeTagsForAddress(address, tags)
     }
 
     override fun isNeedConfirmEnablePrivacyMode(): Boolean = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE_NEED_CONFIRM, true)

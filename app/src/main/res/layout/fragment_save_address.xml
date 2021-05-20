@@ -22,7 +22,9 @@
         android:fillViewport="true"
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+        app:layout_constraintVertical_bias="0.94"
+        tools:layout_editor_absoluteX="51dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
@@ -30,15 +32,6 @@
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/common_offset"
             android:paddingEnd="@dimen/common_offset">
-
-            <ImageView
-                android:id="@+id/tagAction"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_add"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
             <LinearLayout
                 android:id="@+id/nameLayout"
@@ -95,29 +88,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/categoryTitle"
-                style="@style/common_subheader_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/tag"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nameLayout" />
-
-            <TextView
-                android:id="@+id/tags"
-                style="@style/common_text_big_light"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                app:layout_constraintEnd_toStartOf="@id/tagAction"
-                app:layout_constraintStart_toStartOf="@id/categoryTitle"
-                app:layout_constraintTop_toBottomOf="@id/categoryTitle"
-                tools:text="Salary, Payments" />
-
-            <TextView
                 android:id="@+id/address"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
@@ -132,7 +102,7 @@
                 android:id="@+id/btnSave"
                 android:layout_width="@dimen/send_transfer_btn_width"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="@dimen/send_btn_margin"
                 android:background="@drawable/send_button"
                 app:button_icon="@drawable/ic_btn_save"
@@ -140,15 +110,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/btnCancel"
-                app:layout_constraintTop_toBottomOf="@id/tags"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintTop_toBottomOf="@+id/nameLayout"
                 app:lower_case="true" />
 
             <com.mw.beam.beamwallet.core.views.BeamButton
                 android:id="@+id/btnCancel"
                 android:layout_width="@dimen/send_transfer_btn_width"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginBottom="@dimen/send_btn_margin"
                 android:background="@drawable/primary_button"
                 app:button_icon="@drawable/ic_btn_cancel"
@@ -157,8 +126,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btnSave"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tags"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintTop_toBottomOf="@+id/nameLayout"
                 app:lower_case="true" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,8 +21,6 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 /**
@@ -75,17 +73,5 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
 
             wallet?.updateAddress(address.id, address.label, addressExpiration.ordinal)
         }
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
-    }
-
-    override fun getAllTags(): List<Tag> {
-        return TagHelper.getAllTags()
-    }
-
-    override fun saveTagsForAddress(address: String, tags: List<Tag>) {
-        TagHelper.changeTagsForAddress(address, tags)
     }
 }

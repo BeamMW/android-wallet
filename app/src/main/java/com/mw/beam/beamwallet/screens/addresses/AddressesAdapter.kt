@@ -23,18 +23,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.createSpannableString
-import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_address.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 import com.mw.beam.beamwallet.core.helpers.selector
 
 /**
@@ -42,7 +37,7 @@ import com.mw.beam.beamwallet.core.helpers.selector
  */
 class AddressesAdapter(private val context: Context,
                        private val clickListener: OnItemClickListener,
-                       private val longListener: OnLongClickListener?, private val tagProvider: ((address: String) -> List<Tag>)? = null,
+                       private val longListener: OnLongClickListener?,
                        private val generatedAddress: WalletAddress? = null) : androidx.recyclerview.widget.RecyclerView.Adapter<AddressesAdapter.ViewHolder>() {
 
     private val noNameLabel = context.getString(R.string.no_name)
@@ -83,7 +78,6 @@ class AddressesAdapter(private val context: Context,
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val address = data[position]
-        val findTags = tagProvider?.invoke(address.id)
 
         holder.apply {
             val isGeneratedAddress = address.id == generatedAddress?.id
@@ -105,12 +99,6 @@ class AddressesAdapter(private val context: Context,
             else{
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
             }
-
-            val category = itemView.findViewById<TextView>(R.id.tag)
-
-            category.visibility = if (findTags.isNullOrEmpty()) View.GONE else View.VISIBLE
-
-            category.text = findTags.createSpannableString(context)
 
             checkBox.setOnClickListener {
 

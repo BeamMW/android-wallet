@@ -74,10 +74,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
-        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
@@ -131,10 +131,6 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                             onSelectedAddressesChanged()
                         }
                     }
-                },
-
-                {
-                    return@AddressesPagerAdapter presenter?.onSearchTagsForAddress(it) ?: listOf()
                 })
 
         pager.adapter = pagerAdapter
@@ -430,10 +426,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     override fun showAddressDetails(address: WalletAddress) {

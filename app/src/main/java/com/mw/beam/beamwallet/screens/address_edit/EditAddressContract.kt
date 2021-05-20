@@ -22,7 +22,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -36,11 +35,6 @@ interface EditAddressContract {
         fun configSaveButton(shouldEnable: Boolean)
         fun finishScreen()
         fun onAddressDeleted()
-        fun showAddNewCategory()
-        fun setupTagAction(isEmptyTags: Boolean)
-        fun showTagsDialog(selectedTags: List<Tag>)
-        fun showCreateTagDialog()
-        fun setTags(tags: List<Tag>)
         fun configMenuItems(menu: Menu?, address: WalletAddress)
         fun showDeleteAddressDialog(transactionAlert:Boolean)
         fun showDeleteSnackBar(walletAddress: WalletAddress)
@@ -51,9 +45,6 @@ interface EditAddressContract {
         fun onExpirePeriodChanged(period : ExpirePeriod)
         fun onSavePressed()
         fun onChangeComment(comment: String)
-        fun onTagActionPressed()
-        fun onSelectTags(tags: List<Tag>)
-        fun onCreateNewTagPressed()
         fun onMenuCreate(menu: Menu?)
         fun onDeleteAddress()
         fun onConfirmDeleteAddress(withTransactions: Boolean)
@@ -62,9 +53,6 @@ interface EditAddressContract {
     interface Repository : MvpRepository {
         fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
         fun updateAddress(address: WalletAddress)
-        fun getAddressTags(address: String): List<Tag>
-        fun getAllTags(): List<Tag>
-        fun saveTagsForAddress(address: String, tags: List<Tag>)
         fun saveAddress(address: WalletAddress, own: Boolean)
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
     }

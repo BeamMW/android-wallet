@@ -23,7 +23,6 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.LocaleHelper
 import java.io.File
 
@@ -54,14 +53,11 @@ interface SettingsContract {
         fun clearInvalidNodeAddressError()
         fun showClearDataDialog()
         fun setAllowOpenExternalLinkValue(allowOpen: Boolean)
-        fun updateCategoryList(allTag: List<Tag>)
-        fun navigateToCategory(categoryId: String)
-        fun navigateToAddCategory()
         fun navigateToLanguage()
         fun navigateToCurrency()
         fun navigateToOwnerKeyVerification()
         fun navigateToPaymentProof()
-        fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
+        fun showClearDataAlert(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun setLogSettings(days:Long)
         fun setCurrencySettings(currency: Currency)
         fun showLogsDialog()
@@ -100,11 +96,9 @@ interface SettingsContract {
         fun onNodeAddressPressed()
         fun onChangeNodeAddress()
         fun onClearDataPressed()
-        fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
-        fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean)
+        fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
+        fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean)
         fun onSaveNodeAddress(address: String?)
-        fun onAddCategoryPressed()
-        fun onCategoryPressed(categoryName: String)
         fun onLanguagePressed()
         fun onShowOwnerKey()
         fun onChangeLogSettings(days:Long)
@@ -151,7 +145,6 @@ interface SettingsContract {
         fun getCurrentNodeAddress(): String
         fun deleteAddress(addressId: String)
         fun deleteTransaction(txDescription: TxDescription?)
-        fun getAllCategory() : List<Tag>
         fun getCurrentLanguage(): LocaleHelper.SupportedLanguage
         fun saveLogSettings(days:Long)
         fun getLogSettings():Long

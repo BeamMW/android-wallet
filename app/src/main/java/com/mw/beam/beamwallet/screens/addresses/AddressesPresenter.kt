@@ -19,9 +19,6 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
@@ -120,10 +117,6 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
         view?.updateAddresses(Tab.EXPIRED, addresses.filter { it.isExpired && !it.isContact })
         view?.updateAddresses(Tab.CONTACTS, addresses.filter { it.isContact })
         view?.updatePlaceholder(addresses.count() == 0)
-    }
-
-    override fun onSearchTagsForAddress(address: String): List<Tag> {
-        return repository.getAddressTags(address)
     }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription)

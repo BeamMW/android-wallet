@@ -123,27 +123,17 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         return ContextCompat.getColor(requireContext(), R.color.sent_color)
     }
 
-    override fun configureOutAddress(walletAddress: WalletAddress, tags: List<Tag>) {
+    override fun configureOutAddress(walletAddress: WalletAddress) {
         if (!walletAddress.label.isBlank()) {
             outgoingAddressName.visibility = View.VISIBLE
             outgoingAddressName.text = walletAddress.label
         }
-
-        if (tags.isNotEmpty()) {
-            outgoingAddressCategory.visibility = View.VISIBLE
-            outgoingAddressCategory.text = tags.createSpannableString(requireContext())
-        }
     }
 
-    override fun configureContact(walletAddress: WalletAddress, tags: List<Tag>) {
+    override fun configureContact(walletAddress: WalletAddress) {
         if (!walletAddress.label.isBlank()) {
             contactName.visibility = View.VISIBLE
             contactName.text = walletAddress.label
-        }
-
-        if (tags.isNotEmpty()) {
-            contactCategory.visibility = View.VISIBLE
-            contactCategory.text = tags.createSpannableString(requireContext())
         }
     }
 

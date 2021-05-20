@@ -22,7 +22,6 @@ class NotificationItem  {
     var name: String? = null
     var icon: Int? = null
     var detail: String? = null
-    var categories: Spannable? = null
     var detailSpannable: Spannable? = null
 
     constructor(name: String) {
@@ -191,17 +190,6 @@ class NotificationItem  {
             icon = R.drawable.ic_icon_notifictions_expired
             name =  cntx.getString(R.string.address_expired)
             detail = pId
-            val address = AppManager.instance.getAddress(pId)
-
-            if(address!=null) {
-
-                val tags = TagHelper.getTagsForAddress(pId)
-                categories = if(tags.isEmpty()) {
-                    null
-                } else {
-                    tags.createSpannableString(App.self.applicationContext)
-                }
-            }
         }
     }
 }

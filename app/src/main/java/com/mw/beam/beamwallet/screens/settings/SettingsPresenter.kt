@@ -78,9 +78,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         exportDataSubscription = WalletListener.subOnDataExported.subscribe {
             val json = Gson()
 
-            val allCategories = repository.getAllCategory()
-            val categoriesJson = "{\"Categories\":" + json.toJson(allCategories) + ","
-            val resultJson = categoriesJson + it.substring(1)
+            val resultJson = it
 
             val map = json.fromJson(resultJson, HashMap::class.java)
 
@@ -115,10 +113,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         view?.onNeedAddedViews()
 
-        if (view?.mode() == SettingsFragmentMode.Tags) {
-            view?.updateCategoryList(repository.getAllCategory())
-        }
-
         if (view?.mode() == SettingsFragmentMode.General) {
             view?.updateLockScreenValue(repository.getLockScreenValue())
             view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
@@ -141,21 +135,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.setAllowTransaction(repository.isAllowTransactions())
             view?.setAllowWalletUpdates(repository.isAllowWalletUpdates())
             view?.setAllowAddressExpiration(repository.isAllowAddressExpiration())
-        }
-    }
-
-    override fun onAddCategoryPressed() {
-        view?.navigateToAddCategory()
-    }
-
-    override fun onCategoryPressed(categoryName: String) {
-        val tags = repository.getAllCategory()
-        val tag = tags.findLast {
-            it.name == categoryName
-        }
-
-        if (tag!=null) {
-            view?.navigateToCategory(tag.id)
         }
     }
 
@@ -284,18 +263,14 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToCurrency()
     }
 
-    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
+    override fun onDialogClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
         view?.closeDialog()
-        if (clearAddresses || clearContacts || clearTransactions || clearTags) {
-            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions, clearTags)
+        if (clearAddresses || clearContacts || clearTransactions) {
+            view?.showClearDataAlert(clearAddresses, clearContacts, clearTransactions)
         }
     }
 
-    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean, clearTags: Boolean) {
-        if (clearTags) {
-            TagHelper.getAllTags().forEach { TagHelper.deleteTag(it) }
-        }
-
+    override fun onConfirmClearDataPressed(clearAddresses: Boolean, clearContacts: Boolean, clearTransactions: Boolean) {
         if (clearAddresses) {
             state.addresses.forEach { repository.deleteAddress(it.id) }
         }

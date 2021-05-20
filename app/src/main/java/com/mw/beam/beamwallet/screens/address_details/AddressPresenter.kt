@@ -20,8 +20,6 @@ import android.view.Menu
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.disposables.Disposable
 
 /**
@@ -46,8 +44,6 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     override fun onStart() {
         super.onStart()
         notifyPrivacyStateChange()
-
-        view?.configureTags(repository.getAddressTags(state.address?.id ?: return))
     }
 
     private fun notifyPrivacyStateChange() {
@@ -117,12 +113,10 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
             if (it == true && view?.getAddress()?.isContact == false) {
                 state.address = AppManager.instance.getAddress(view?.getAddress()?.id)
                 state.address?.let { it1 -> view?.init(it1) }
-                state.address?.id?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
             else if (it == false && view?.getAddress()?.isContact == true) {
                 state.address = AppManager.instance.getAddress(view?.getAddress()?.id)
                 state.address?.let { it1 -> view?.init(it1) }
-                state.address?.id?.let { it1 -> repository.getAddressTags(it1) }?.let { it2 -> view?.configureTags(it2) }
             }
         }
     }

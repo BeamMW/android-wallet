@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import io.reactivex.subjects.Subject
 
 interface SendConfirmationContract {
@@ -37,8 +36,8 @@ interface SendConfirmationContract {
         fun getRemaining(): Int
         fun getIsOffline(): Boolean
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int)
-        fun configureContact(walletAddress: WalletAddress, tags: List<Tag>)
-        fun configureOutAddress(walletAddress: WalletAddress, tags: List<Tag>)
+        fun configureContact(walletAddress: WalletAddress)
+        fun configureOutAddress(walletAddress: WalletAddress)
         fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double)
         fun showSaveAddressFragment(address: String)
         fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, isOffline:Boolean?)
@@ -53,7 +52,6 @@ interface SendConfirmationContract {
 
     interface Repository : MvpRepository {
         fun isConfirmTransactionEnabled(): Boolean
-        fun getAddressTags(address: String): List<Tag>
         fun getAddresses(): Subject<OnAddressesData>
         fun calcChange(amount: Long): Subject<Long>
     }

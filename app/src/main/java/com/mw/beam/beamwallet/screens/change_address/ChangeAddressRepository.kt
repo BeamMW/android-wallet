@@ -19,8 +19,6 @@ package com.mw.beam.beamwallet.screens.change_address
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
@@ -31,10 +29,6 @@ class ChangeAddressRepository: BaseRepository(), ChangeAddressContract.Repositor
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
         }
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
     }
 
     override fun getTrashSubject(): Subject<TrashManager.Action> {

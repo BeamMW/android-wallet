@@ -76,13 +76,13 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             val findAddress = AppManager.instance.getAddress(finder)
             if (findAddress != null) {
                 state.contact = findAddress
-                view?.configureContact(findAddress, repository.getAddressTags(findAddress.id))
+                view?.configureContact(findAddress)
             }
 
             val outAddress =  AppManager.instance.getAddress(out)
             //state.addresses.values.find { it.id == out || it.address == out}
             if (outAddress != null) {
-                view?.configureOutAddress(outAddress, repository.getAddressTags(outAddress.id))
+                view?.configureOutAddress(outAddress)
             }
         }
 

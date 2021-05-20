@@ -47,7 +47,6 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     private val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
 
     var label: String = source.label
-    var category: String = source.category
     val createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
@@ -61,7 +60,6 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label
         this.duration = this@WalletAddress.duration
-        this.category = this@WalletAddress.category
         this.identity = this@WalletAddress.identity
         this.address = this@WalletAddress.address
     }
@@ -79,11 +77,7 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     val id: String
         get() = this.getWalletID()
 
-    fun splitCategories() : MutableList<String>  {
-        return category.split(";").toMutableList()
-    }
-
     override fun toString(): String {
-        return "\n\nWalletAddress(\n walletID=$walletID\n label=$label\n tag=$category\n createTime=${CalendarUtils.fromTimestamp(createTime)}\n duration=$duration\n own=$own\n isExpired=$isExpired\n isContact=$isContact\n"
+        return "\n\nWalletAddress(\n walletID=$walletID\n label=$label\n createTime=${CalendarUtils.fromTimestamp(createTime)}\n duration=$duration\n own=$own\n isExpired=$isExpired\n isContact=$isContact\n"
     }
 }

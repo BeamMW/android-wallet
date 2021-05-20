@@ -23,7 +23,6 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 import com.mw.beam.beamwallet.core.helpers.PermissionStatus
 import io.reactivex.subjects.Subject
@@ -73,19 +72,14 @@ interface SendContract {
         fun getCommentOutgoingAddress(): String
         fun handleExpandEditAddress(expand: Boolean)
         fun handleExpandAdvanced(expand: Boolean)
-        fun setTags(currentTags: List<Tag>)
         fun updateFeeViews(clearAmountFocus: Boolean = true)
         fun showFeeDialog()
-        fun showAddNewCategory()
-        fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>)
+        fun setSendContact(walletAddress: WalletAddress?)
         fun handleAddressSuggestions(addresses: List<WalletAddress>?, showSuggestions: Boolean = true)
         fun requestFocusToAmount()
         fun showMinFeeError()
         fun setupMinFee(fee: Int)
         fun setupMaxFee(max: Int, min:Int)
-        fun setupTagAction(isEmptyTags: Boolean)
-        fun showTagsDialog(selectedTags: List<Tag>)
-        fun showCreateTagDialog()
         fun onTrimAddress()
         fun showTokenFragment()
     }
@@ -117,9 +111,6 @@ interface SendContract {
         fun onEnterFee(rawFee: String?)
         fun onSelectAddress(walletAddress: WalletAddress)
         fun onPaste()
-        fun onTagActionPressed()
-        fun onSelectTags(tags: List<Tag>)
-        fun onCreateNewTagPressed()
     }
 
     interface Repository : MvpRepository {
@@ -130,8 +121,5 @@ interface SendContract {
         fun isNeedConfirmEnablePrivacyMode(): Boolean
         fun saveAddress(address: WalletAddress)
         fun updateAddress(address: WalletAddress)
-        fun getAddressTags(address: String): List<Tag>
-        fun getAllTags(): List<Tag>
-        fun saveTagsForAddress(address: String, tags: List<Tag>)
     }
 }

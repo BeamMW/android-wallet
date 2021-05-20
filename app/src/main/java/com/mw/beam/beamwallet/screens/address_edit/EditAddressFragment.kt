@@ -34,7 +34,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.core.views.TagAdapter
 import com.mw.beam.beamwallet.core.watchers.OnItemSelectedListener
 import kotlinx.android.synthetic.main.fragment_edit_address.*
 import androidx.appcompat.widget.AppCompatTextView
@@ -92,12 +91,12 @@ class EditAddressFragment : BaseFragment<EditAddressPresenter>(), EditAddressCon
 
     override fun getToolbarTitle(): String? { return getString(R.string.edit_address) }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_edit_address
-    override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(arguments!!).walletAddress
+    override fun getAddress(): WalletAddress = EditAddressFragmentArgs.fromBundle(requireArguments()).walletAddress
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     override fun init(address: WalletAddress) {
@@ -128,8 +127,8 @@ else{
             expireLabel.text = CalendarUtils.fromTimestamp(address.createTime + address.duration)
         }
 
-        val strings = context!!.resources.getTextArray(R.array.receive_expires_periods)
-        val adapter = object: ArrayAdapter<CharSequence>(context!!, android.R.layout.simple_spinner_item,strings) {
+        val strings = requireContext().resources.getTextArray(R.array.receive_expires_periods)
+        val adapter = object: ArrayAdapter<CharSequence>(requireContext(), android.R.layout.simple_spinner_item,strings) {
             override fun getDropDownView(position: Int, convertView: View?, parent: android.view.ViewGroup): View {
 
                 val view = View.inflate(context,android.R.layout.simple_spinner_item,null)
@@ -257,58 +256,6 @@ else{
         }
     }
 
-    override fun setupTagAction(isEmptyTags: Boolean) {
-        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(context!!, resId)
-        tagAction.setImageDrawable(drawable)
-    }
-
-    override fun showCreateTagDialog() {
-        showAlert(
-                getString(R.string.dialog_empty_tags_message),
-                getString(R.string.create_tag),
-                { presenter?.onCreateNewTagPressed() },
-                getString(R.string.tag_list_is_empty),
-                getString(R.string.cancel)
-        )
-    }
-
-    @SuppressLint("InflateParams")
-    override fun showTagsDialog(selectedTags: List<Tag>) {
-       this.bottomDialog = BottomSheetDialog(context!!, R.style.common_bottom_sheet_style).apply {
-            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
-            setContentView(view)
-
-            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
-
-            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
-            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
-
-            tagList.layoutManager = LinearLayoutManager(context)
-            tagList.adapter = tagAdapter
-
-            tagAdapter.setSelectedTags(selectedTags)
-
-            btnBottomSheetClose.setOnClickListener {
-                dismiss()
-            }
-
-            show()
-        }
-    }
-
-    override fun setTags(tags: List<Tag>) {
-        val sorted = TagHelper.getAllTagsSorted(tags)
-        tagsLabel.text = sorted.createSpannableString(context!!)
-
-        if (tagsLabel.text.isNullOrEmpty() || sorted.count() == 0) {
-            tagsLabel.text = getString(R.string.none)
-        }
-    }
-
-    override fun showAddNewCategory() {
-        findNavController().navigate(EditAddressFragmentDirections.actionEditAddressFragmentToEditCategoryFragment())
-    }
 
     override fun addListeners() {
         expireList.onItemSelectedListener = expireListener
@@ -324,10 +271,6 @@ else{
 
         btnCancel.setOnClickListener {
             findNavController().popBackStack()
-        }
-
-        tagsLayout.setOnClickListener {
-            presenter?.onTagActionPressed()
         }
 
         nameLabel.addTextChangedListener(commentTextWatcher)
@@ -384,7 +327,6 @@ else{
     override fun clearListeners() {
         btnSave.setOnClickListener(null)
         btnCancel.setOnClickListener(null)
-        tagsLayout.setOnClickListener(null)
         nameLabel.removeTextChangedListener(commentTextWatcher)
         expireList.onItemSelectedListener = null
     }

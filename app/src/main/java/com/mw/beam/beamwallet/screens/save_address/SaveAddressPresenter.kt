@@ -17,11 +17,9 @@
 package com.mw.beam.beamwallet.screens.save_address
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddressContract.Repository, private val state: SaveAddressState)
@@ -31,21 +29,15 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
         super.onViewCreated()
         view?.apply {
             state.address = getAddress()
-            state.tags = repository.getAddressTags(state.address)
 
             init(state.address)
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        view?.setupTagAction(repository.getAllTags().isEmpty())
-    }
-
     override fun onSavePressed() {
         view?.apply {
             var identity = ""
-            var address = state.address
+            val address = state.address
 
             if(AppManager.instance.wallet?.isToken(address) == true)
             {
@@ -53,38 +45,9 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
                 identity = params?.identity ?: ""
             }
 
-            if(state.tags.count() > 0) {
-                repository.saveTagsForAddress(address, state.tags)
-            }
-
-            val categories = mutableListOf<String>()
-            for (t in state.tags) {
-                categories.add(t.id)
-            }
-            val ids = categories.joinToString(";")
-
-           // AppManager.instance.removeIgnoredAddress(address)
-
-            AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), ids, System.currentTimeMillis(), 0, 0, identity, address), false)
+            AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), "", System.currentTimeMillis(), 0, 0, identity, address), false)
 
             close()
-        }
-    }
-
-    override fun onCreateNewTagPressed() {
-        view?.showAddNewCategory()
-    }
-
-    override fun onSelectTags(tags: List<Tag>) {
-        state.tags = tags
-        view?.setTags(tags)
-    }
-
-    override fun onTagActionPressed() {
-        if (repository.getAllTags().isEmpty()) {
-            view?.showCreateTagDialog()
-        } else {
-            view?.showTagsDialog(state.tags)
         }
     }
 

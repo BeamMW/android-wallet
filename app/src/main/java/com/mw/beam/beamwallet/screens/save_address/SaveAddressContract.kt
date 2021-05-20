@@ -20,31 +20,19 @@ import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 
 interface SaveAddressContract {
     interface View: MvpView {
         fun getAddress(): String
         fun init(address: String)
-        fun showAddNewCategory()
         fun getName(): String
         fun close()
-        fun setupTagAction(isEmptyTags: Boolean)
-        fun showTagsDialog(selectedTags: List<Tag>)
-        fun showCreateTagDialog()
-        fun setTags(tags: List<Tag>)
     }
     interface Presenter: MvpPresenter<View> {
         fun onSavePressed()
         fun onCancelPressed()
-        fun onTagActionPressed()
-        fun onSelectTags(tags: List<Tag>)
-        fun onCreateNewTagPressed()
     }
     interface Repository: MvpRepository {
         fun saveAddress(address: WalletAddress, own: Boolean)
-        fun getAddressTags(address: String): List<Tag>
-        fun getAllTags(): List<Tag>
-        fun saveTagsForAddress(address: String, tags: List<Tag>)
     }
 }

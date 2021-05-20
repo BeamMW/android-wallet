@@ -21,7 +21,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.TrashManager
 import io.reactivex.subjects.Subject
 
@@ -40,14 +39,12 @@ interface ChangeAddressContract {
     interface Presenter: MvpPresenter<View> {
         fun onChangeSearchText(text: String)
         fun onItemPressed(walletAddress: WalletAddress)
-        fun onSearchTagsForAddress(address: String): List<Tag>
     }
 
     interface Repository: MvpRepository {
         fun getAddresses(): Subject<OnAddressesData>
         fun getTrashSubject(): Subject<TrashManager.Action>
         fun getAllAddressesInTrash(): List<WalletAddress>
-        fun getAddressTags(address: String): List<Tag>
     }
 
     enum class ViewState {

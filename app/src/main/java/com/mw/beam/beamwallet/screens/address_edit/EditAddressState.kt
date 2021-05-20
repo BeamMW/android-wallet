@@ -19,7 +19,6 @@ package com.mw.beam.beamwallet.screens.address_edit
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
 import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
@@ -30,8 +29,6 @@ class EditAddressState {
     var tempComment: String = ""
     var shouldExpireNow = false
     var shouldActivateNow = false
-    var currentTags: List<Tag> = listOf()
-    var tempTags: List<Tag> = listOf()
     lateinit var chosenPeriod: ExpirePeriod
 
     fun getTransactions():List<TxDescription> {

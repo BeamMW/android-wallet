@@ -246,14 +246,9 @@ else{
             endContactLayout.visibility = View.GONE
         }
 
-        val startTags = TagHelper.getTagsForAddress(startAddress.text.toString())
-        val endTags = TagHelper.getTagsForAddress(endAddress.text.toString())
 
-        startAddressCategory.visibility = if (startTags.isEmpty()) View.GONE else View.VISIBLE
-        startAddressCategory.text = startTags.createSpannableString(requireContext())
-
-        endAddressCategory.visibility = if (endTags.isEmpty()) View.GONE else View.VISIBLE
-        endAddressCategory.text = endTags.createSpannableString(requireContext())
+        startAddressCategory.visibility = View.GONE
+        endAddressCategory.visibility =  View.GONE
     }
 
     @SuppressLint("SetTextI18n")

@@ -286,7 +286,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 isPaste = true
                 presenter?.onSelectAddress(item)
             }
-        },null, { presenter?.repository?.getAddressTags(it) ?: listOf() }, AddressPagerType.SMALL)
+        },null, AddressPagerType.SMALL)
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
@@ -512,10 +512,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         tabLayout.setOnTouchListener { _, event ->
             handleMotionAction(event)
-        }
-
-        tagAction.setOnClickListener {
-            presenter?.onTagActionPressed()
         }
 
         contentScrollView.overScrollMode = ScrollView.OVER_SCROLL_NEVER
@@ -999,59 +995,6 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
     }
 
-    override fun setTags(currentTags: List<Tag>) {
-        if (currentTags.count()==0) {
-            tags.text = getString(R.string.none)
-        }
-        else{
-            tags.text = currentTags.createSpannableString(requireContext())
-        }
-    }
-
-    override fun setupTagAction(isEmptyTags: Boolean) {
-        val resId = if (isEmptyTags) R.drawable.ic_add_tag else R.drawable.ic_edit_tag
-        val drawable = ContextCompat.getDrawable(requireContext(), resId)
-        tagAction.setImageDrawable(drawable)
-    }
-
-    override fun showCreateTagDialog() {
-        showAlert(
-                getString(R.string.dialog_empty_tags_message),
-                getString(R.string.create_tag),
-                { presenter?.onCreateNewTagPressed() },
-                getString(R.string.tag_list_is_empty),
-                getString(R.string.cancel)
-        )
-    }
-
-    @SuppressLint("InflateParams")
-    override fun showTagsDialog(selectedTags: List<Tag>) {
-        BottomSheetDialog(requireContext(), R.style.common_bottom_sheet_style).apply {
-            val view = LayoutInflater.from(context).inflate(R.layout.tags_bottom_sheet, null)
-            setContentView(view)
-
-            val tagAdapter = TagAdapter { presenter?.onSelectTags(it) }
-
-            val tagList = view.findViewById<RecyclerView>(R.id.tagList)
-            val btnBottomSheetClose = view.findViewById<ImageView>(R.id.btnBottomSheetClose)
-
-            tagList.layoutManager = LinearLayoutManager(context)
-            tagList.adapter = tagAdapter
-
-            tagAdapter.setSelectedTags(selectedTags)
-
-            btnBottomSheetClose.setOnClickListener {
-                dismiss()
-            }
-
-            show()
-        }
-    }
-
-    override fun showAddNewCategory() {
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToEditCategoryFragment())
-    }
-
     override fun showTokenFragment() {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToShowTokenFragment(address, false))
     }
@@ -1174,16 +1117,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     }
 
-    override fun setSendContact(walletAddress: WalletAddress?, tags: List<Tag>) {
-        contactCategory.visibility = if (tags.isEmpty()) View.GONE else View.VISIBLE
-        contactIcon.visibility = if (walletAddress != null || tags.isNotEmpty()) View.VISIBLE else View.GONE
+    override fun setSendContact(walletAddress: WalletAddress?) {
+        contactCategory.visibility =  View.GONE
+        contactIcon.visibility = if (walletAddress != null) View.VISIBLE else View.GONE
         contactName.visibility = if (walletAddress == null) View.GONE else View.VISIBLE
 
         walletAddress?.label?.let {
             contactName.text = if (it.isBlank()) getString(R.string.no_name) else it
         }
 
-        contactCategory.text = tags.createSpannableString(requireContext())
         contactName.setTypeface(null,Typeface.NORMAL)
 
         if (walletAddress == null) {

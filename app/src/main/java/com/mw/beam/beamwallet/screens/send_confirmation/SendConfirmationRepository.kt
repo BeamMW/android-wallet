@@ -18,8 +18,6 @@ package com.mw.beam.beamwallet.screens.send_confirmation
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TagHelper
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.listeners.WalletListener
 import io.reactivex.subjects.Subject
@@ -31,10 +29,6 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
             wallet?.getAddresses(true)
             wallet?.getAddresses(false)
         }
-    }
-
-    override fun getAddressTags(address: String): List<Tag> {
-        return TagHelper.getTagsForAddress(address)
     }
 
     override fun isConfirmTransactionEnabled(): Boolean {

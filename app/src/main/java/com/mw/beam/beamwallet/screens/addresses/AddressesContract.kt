@@ -19,14 +19,8 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.OnAddressesData
-import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.TrashManager
-import io.reactivex.Observable
-import io.reactivex.subjects.Subject
 
 /**
  *  2/28/19.
@@ -49,7 +43,6 @@ interface AddressesContract {
 
     interface Presenter : MvpPresenter<View> {
         fun onAddressPressed(address: WalletAddress)
-        fun onSearchTagsForAddress(address: String): List<Tag>
         fun onAddContactPressed()
         fun onEditAddressPressed()
         fun onCopyAddressPressed()
@@ -61,7 +54,6 @@ interface AddressesContract {
     }
 
     interface Repository : MvpRepository {
-        fun getAddressTags(address: String): List<Tag>
         fun deleteAddress(walletAddress: WalletAddress, withTransactions: List<TxDescription>)
     }
 }

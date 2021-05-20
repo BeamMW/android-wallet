@@ -17,8 +17,6 @@
 package com.mw.beam.beamwallet.screens.receive
 
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.Tag
-import com.mw.beam.beamwallet.core.helpers.ExpirePeriod
 
 /**
  *  1/4/19.
