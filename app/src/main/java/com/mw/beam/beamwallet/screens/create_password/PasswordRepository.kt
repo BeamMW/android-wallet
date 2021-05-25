@@ -33,17 +33,16 @@ class PasswordRepository : BaseRepository(), PasswordContract.Repository {
         var result = Status.STATUS_ERROR
 
         if (!pass.isNullOrBlank() && phrases != null) {
+            PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
+            PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+
+
             if (Api.isWalletInitialized(AppConfig.DB_PATH)) {
                 removeDatabase()
                 removeNodeDatabase()
             }
 
-            val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
-            if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
-                AppConfig.NODE_ADDRESS = nodeAddress
-            } else {
-                AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
-            }
+            AppConfig.NODE_ADDRESS = AppManager.instance.randomNode()
 
             AppManager.instance.wallet = Api.createWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, phrases)
 

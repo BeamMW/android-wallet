@@ -416,7 +416,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
-    <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
+    <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="min_fee_error_max_privacy">Сoins were automatically selected to maximize privacy and minimal transaction fee of 1,000,100 GROTH.</string>
@@ -672,7 +672,7 @@ address or contact</string>
     <string name="online_token_for_pool">Online address (for exchange or mining pool)</string>
     <string name="supports_payment">Supports XX payments.</string>
     <string name="max_privacy_address">Max Privacy address</string>
-    <string name="receive_notice_max_privacy">Max Privacy transaction can last up to 2 days.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
+    <string name="receive_notice_max_privacy">Max Privacy transaction can last at most 72 hours.\n\nMin transaction fee to send Max privacy coins\nis 0.01 BEAM.</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">Address type</string>
     <string name="payments">Payments</string>

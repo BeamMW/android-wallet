@@ -99,6 +99,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 restoreFullDescription.visibility = View.VISIBLE
                 restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
                 restoreFullDescriptionText2.visibility = View.GONE
+                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
+                configProgress(0, descriptionString)
             }
             WelcomeMode.OPEN -> title.text = openTitleString
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {

@@ -221,7 +221,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
-                s1.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
+
+                if (AppManager.instance.isMaxPrivacyEnabled())
+                {
+                    s1.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
+                }
+
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
@@ -623,7 +628,47 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
 
     override fun navigateToCurrency() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCurrencyFragment())
+        context?.let {
+            val valueId = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
+            val currency = Currency.fromValue(valueId.toInt())
+
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_currency_settings, null)
+
+            val valuesArray = resources.getStringArray(R.array.currency_values)
+
+            var index = 0
+            valuesArray.forEach { string ->
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+
+                (button as RadioButton).apply {
+                    text = string
+                    isChecked = (index == 0 && currency == Currency.Usd) || (index == 1 && currency == Currency.Bitcoin)
+                    setOnClickListener {sender->
+                        val btn = sender as RadioButton
+                        if (btn.text == getString(R.string.usd)) {
+                            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
+                            setCurrencySettings(Currency.Usd)
+                        }
+                        else {
+                            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Bitcoin.value.toLong())
+                            setCurrencySettings(Currency.Bitcoin)
+                        }
+                        AppManager.instance.updateCurrentCurrency()
+                        presenter?.onDialogClosePressed()
+                    }
+                }
+
+                view.radioGroupLockSettings.addView(button)
+
+                index += 1
+            }
+
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+       // findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCurrencyFragment())
     }
 
     override fun navigateToLanguage() {

@@ -74,11 +74,12 @@
 
     <LinearLayout
         android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:layout_weight="1"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,9 +87,10 @@
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnShare"
-            android:layout_width="@dimen/wallet_button_width"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:layout_weight="1"
             android:background="@drawable/primary_button"
             android:visibility="visible"
             app:button_icon="@drawable/share_qr_white"
@@ -97,9 +99,10 @@
 
         <com.mw.beam.beamwallet.core.views.BeamButton
             android:id="@+id/btnCopy"
-            android:layout_width="@dimen/wallet_button_width"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_weight="1"
             android:background="@drawable/accept_button"
             android:visibility="visible"
             app:button_icon="@drawable/ic_btn_copy_dark"

@@ -23,4 +23,9 @@
         <item>3</item>
     </integer-array>
 
+    <integer-array name="currency_values">
+        <item>@string/usd</item>
+        <item>@string/btc</item>
+    </integer-array>
+
 </resources>

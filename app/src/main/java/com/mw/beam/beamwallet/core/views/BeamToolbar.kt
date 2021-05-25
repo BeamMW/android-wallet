@@ -222,14 +222,26 @@ class BeamToolbar : LinearLayout {
                     mobile -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
                         status.text = context.getString(R.string.online_mobile_node).toLowerCase()
+
+                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                        statusIcon.layoutParams = paramsStatus
                     }
                     random -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
                         status.text = context.getString(R.string.online).toLowerCase()
+
+                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                        statusIcon.layoutParams = paramsStatus
                     }
                     else -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
                         status.text = context.getString(R.string.online).toLowerCase()
+
+                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 7)
+                        statusIcon.layoutParams = paramsStatus
                     }
                 }
             }

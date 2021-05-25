@@ -108,6 +108,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var ignoreWatcher = false
     private var isVisibleComment = false
     private var isOffline = false
+    private var isMaxPrivacy = false
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -138,6 +139,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.onTokenChanged(enteredAddress)
                 handleAddressSuggestions(null)
                 requestFocusToAmount()
+                setSegmentButtons()
             }
             else if (!ignoreWatcher) {
                 address = token.toString()
@@ -287,6 +289,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.onSelectAddress(item)
             }
         },null, AddressPagerType.SMALL)
+        pagerAdapter.displayAddressType = true
 
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
@@ -330,7 +333,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     private fun setSegmentButtons() {
-        if(!isOffline) {
+        if(isMaxPrivacy) {
+            sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
+        }
+        else if(!isOffline) {
             sendDescription.text = resources.getString(R.string.confirmation_send_description)
         }
         else {
@@ -619,7 +625,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //        if (contactName.visibility == View.VISIBLE) {
 //            offset = 120
 //        }
-        return ScreenHelper.dpToPx(context, 120) //addressContainer.height - offset
+        return ScreenHelper.dpToPx(context, 110) //addressContainer.height - offset
     }
 
     @SuppressLint("InflateParams", "StringFormatInvalid")
@@ -1261,11 +1267,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     private fun setAddressType(token: String) {
+        isMaxPrivacy = false
+
         var params = AppManager.instance.wallet?.getTransactionParameters(token, false)
         if(params!=null) {
 
             when (params.getAddressType()) {
                 BMAddressType.BMAddressTypeMaxPrivacy -> {
+                    isMaxPrivacy = true
                     transactionTypeLayout.visibility = View.GONE
                     addressTypeLabel.text = getString(R.string.max_privacy_address) + "."
                 }
@@ -1295,6 +1304,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             transactionTypeLayout.visibility = View.GONE
             addressTypeLabel.visibility = View.GONE
         }
+
+        setSegmentButtons()
     }
 }
 

@@ -49,7 +49,7 @@
             android:layout_marginStart="@dimen/toolbar_status_start_offset"
             android:layout_marginTop="2dp"
             android:contentDescription="@null"
-            android:src="@drawable/green_status"
+            android:src="@drawable/ic_tusted_node_status"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

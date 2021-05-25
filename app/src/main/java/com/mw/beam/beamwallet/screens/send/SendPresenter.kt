@@ -361,6 +361,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         val scannedAddress = QrHelper.getScannedAddress(text)
         val isValidAddress = AppManager.instance.isValidAddress(scannedAddress)
+        val old = state.scannedAddress
 
         if (isValidAddress) {
             state.scannedAddress = scannedAddress
@@ -405,7 +406,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                   view?.clearErrors()
                 }, 200)
             }
-            else{
+            else if (text.startsWith(QrHelper.BEAM_QR_PREFIX)){
                 android.os.Handler().postDelayed({
                     view?.apply {
                         val amount = getAmount()

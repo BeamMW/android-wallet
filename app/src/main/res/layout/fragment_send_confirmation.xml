@@ -13,7 +13,9 @@
         android:fillViewport="true"
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarLayout">
+        app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
+        app:layout_constraintVertical_bias="0.712"
+        tools:layout_editor_absoluteX="109dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/contentLayout"
@@ -30,50 +32,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/sendTo"
-                style="@style/common_text_big_light"
+            <LinearLayout
+                android:id="@+id/linearLayout6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:textAlignment="textEnd"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/sendToTitle"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/contactName"
-                style="@style/common_text_big_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAlignment="textEnd"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sendTo"
-                tools:text="Sara Scholz" />
+                <TextView
+                    android:id="@+id/contactName"
+                    style="@style/common_text_big_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_offset"
+                    android:textAlignment="textEnd"
+                    android:visibility="gone"
+                    tools:text="Sara Scholz"
+                    android:textColor="@android:color/white"
+                    tools:visibility="visible" />
 
-            <TextView
-                android:id="@+id/contactCategory"
-                style="@style/common_text_big_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:textAlignment="textEnd"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contactName"
-                tools:text="Salary" />
+                <TextView
+                    android:id="@+id/sendTo"
+                    style="@style/common_text_big_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:alpha="0.7"
+                    tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
+
+            </LinearLayout>
 
 
             <TextView
@@ -82,52 +73,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/outgoing_address"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/contactCategory" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
             <TextView
                 android:id="@+id/outgoingAddress"
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/outgoingAddressTitle"
                 app:layout_constraintTop_toTopOf="@+id/outgoingAddressTitle"
                 tools:text="123311" />
-
-            <TextView
-                android:id="@+id/outgoingAddressName"
-                style="@style/common_text_big_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:textAlignment="textEnd"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outgoingAddress"
-                tools:text="Name"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/outgoingAddressCategory"
-                style="@style/common_text_big_dark"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="@dimen/common_offset"
-                android:textAlignment="textEnd"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/outgoingAddressName"
-                tools:text="Salary"
-                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/transactionTypeTitle"
@@ -135,19 +97,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/common_offset"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/transaction_type"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/outgoingAddressCategory" />
+                app:layout_constraintTop_toBottomOf="@+id/outgoingAddressTitle" />
 
             <TextView
                 android:id="@+id/transactionType"
                 style="@style/common_text_big_light"
-                android:textAlignment="textEnd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/transactionTypeTitle"
                 app:layout_constraintTop_toTopOf="@+id/transactionTypeTitle"
@@ -213,7 +175,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:textAlignment="textEnd"
-                android:textColor="@color/sent_color"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/feeTitle"
                 app:layout_constraintTop_toTopOf="@+id/feeTitle"
@@ -254,8 +216,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:visibility="gone"
                 android:textAlignment="textEnd"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/changeUtxoTitle"
                 app:layout_constraintTop_toTopOf="@+id/changeUtxoTitle"
@@ -298,8 +260,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
-                android:visibility="gone"
                 android:textAlignment="textEnd"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/remainingTitle"
                 app:layout_constraintTop_toTopOf="@+id/remainingTitle"

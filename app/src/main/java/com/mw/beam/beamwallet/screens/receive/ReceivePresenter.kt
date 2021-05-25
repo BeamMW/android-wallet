@@ -49,6 +49,8 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         val address = view?.getWalletAddressFromArguments()
 
         if(address!=null) {
+            initSubscriptions()
+
             isSkipSave = true
             state.wasAddressSaved = true
             state.address = address

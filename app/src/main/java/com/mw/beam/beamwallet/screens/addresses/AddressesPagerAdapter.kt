@@ -48,6 +48,7 @@ class AddressesPagerAdapter(val context: Context,
 
     private var mode = AddressesFragment.Mode.NONE
 
+    var displayAddressType = false
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val layout = LayoutInflater.from(context).inflate(R.layout.item_list_placholder, container, false) as ViewGroup
 
@@ -57,6 +58,8 @@ class AddressesPagerAdapter(val context: Context,
         val emptyView = layout.findViewById<LinearLayout>(R.id.emptyLayout)
 
         val emptyLabel = emptyView.findViewById<TextView>(R.id.emptyLabel)
+
+        contactsAdapter.displayAddressType = displayAddressType
 
         if (type == AddressPagerType.FULL) {
             when (position) {

@@ -90,6 +90,7 @@
                     android:layout_height="44dp"
                     android:contentDescription="@null"
                     android:src="@drawable/ic_add"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/categoryTitle" />
 
@@ -135,6 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     android:text="@string/tag"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name" />
@@ -146,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/common_offset"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toStartOf="@id/tagAction"
                     app:layout_constraintStart_toStartOf="@id/categoryTitle"
                     app:layout_constraintTop_toBottomOf="@id/categoryTitle"

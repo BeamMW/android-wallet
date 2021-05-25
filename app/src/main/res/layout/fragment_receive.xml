@@ -118,6 +118,7 @@
                             android:fontFamily="@font/roboto_bold"
                             android:text="@string/transaction_type"
                             android:textAllCaps="true"
+                            android:letterSpacing="0.15"
                             android:textColor="@android:color/white"
                             android:textSize="12sp" />
 
@@ -126,7 +127,7 @@
                             android:layout_width="230dp"
                             android:layout_height="32dp"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="14dp"
                             android:background="@color/white_01"
                             app:borderWidth="0dp"
                             app:draggable="false"
@@ -231,6 +232,7 @@
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="@string/address"
+                        android:letterSpacing="0.15"
                         android:textAllCaps="true"
                         android:textColor="@android:color/white"
                         android:textSize="12sp" />
@@ -240,7 +242,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="14dp"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:gravity="center_vertical"
                         android:orientation="horizontal"
@@ -355,7 +357,7 @@
                             android:layout_marginStart="@dimen/common_offset"
                             android:letterSpacing="0.15"
                             android:text="@string/requested_amount_optional"
-                            android:textAllCaps="true"
+                            android:textAllCaps="false"
                             android:textSize="@dimen/common_text_small_size"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -378,8 +380,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:text="@string/currency_beam"
+                        android:letterSpacing="0.15"
                         android:textAllCaps="true"
-                        android:textSize="@dimen/send_currency_text_size"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="@id/amount"
                         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -455,6 +458,7 @@
                         android:background="@drawable/edit_text_selector"
                         android:backgroundTint="@android:color/transparent"
                         android:hint="@string/local_comment"
+                        android:textStyle="italic"
                         android:imeOptions="actionDone"
                         android:inputType="text|textCapSentences"
                         android:singleLine="true"

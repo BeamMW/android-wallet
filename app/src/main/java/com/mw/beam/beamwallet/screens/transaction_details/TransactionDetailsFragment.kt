@@ -281,7 +281,6 @@ else{
 
         transactionStatusIcon.setImageDrawable(txDescription.statusImage())
 
-
         if (txDescription.status == TxStatus.Failed) {
             transactionStatusIcon.imageTintList = ColorStateList.valueOf(txDescription.statusColor)
         }
@@ -319,13 +318,12 @@ else{
         kernelLabel.text = txDescription.kernelId
         addressTypeLabel.text = txDescription.getAddressType(requireContext())
 
-        if(startAddress.text.startsWith("1000000") || startAddress.text.startsWith("ffffff")) {
+        if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (!txDescription.sender.value)) {
             startAddress.text = getString(R.string.shielded_pool)
         }
-
-        if(endAddress.text.startsWith("1000000") || endAddress.text.startsWith("ffffff")) {
-            endAddress.text = getString(R.string.shielded_pool)
-        }
+//        else if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (txDescription.sender.value)) {
+//            endAddress.text = getString(R.string.shielded_pool)
+//        }
 
         if(!txDescription.identity.isNullOrEmpty() && txDescription.identity != "0") {
             walletIdLayout.visibility = View.VISIBLE

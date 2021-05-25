@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.*
 import android.transition.TransitionManager
@@ -253,6 +254,24 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         copyButton.setOnClickListener {
             presenter?.onCopyPressed()
         }
+
+        txComment.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+               if (txComment.text.toString().isEmpty()) {
+                   txComment.setTypeface(null, Typeface.ITALIC)
+               }
+                else {
+                   txComment.setTypeface(null, Typeface.NORMAL)
+               }
+            }
+
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

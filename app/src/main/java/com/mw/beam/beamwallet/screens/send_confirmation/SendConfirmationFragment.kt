@@ -37,7 +37,6 @@ import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
-import kotlinx.android.synthetic.main.fragment_send_confirmation.contactCategory
 import kotlinx.android.synthetic.main.fragment_send_confirmation.contactName
 import kotlinx.android.synthetic.main.fragment_send_confirmation.outgoingAddress
 import kotlinx.android.synthetic.main.fragment_send_confirmation.secondAvailableSum
@@ -124,10 +123,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun configureOutAddress(walletAddress: WalletAddress) {
-        if (!walletAddress.label.isBlank()) {
-            outgoingAddressName.visibility = View.VISIBLE
-            outgoingAddressName.text = walletAddress.label
-        }
+
     }
 
     override fun configureContact(walletAddress: WalletAddress) {

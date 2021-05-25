@@ -26,6 +26,8 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_address.*
@@ -49,6 +51,7 @@ class AddressesAdapter(private val context: Context,
 
     var selectedAddresses = mutableListOf<String>()
     var mode = AddressesFragment.Mode.NONE
+    var displayAddressType = false
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_address, parent, false)).apply {
@@ -117,6 +120,28 @@ class AddressesAdapter(private val context: Context,
             } else {
                 checkBox.isChecked = selectedAddresses.contains(address.id)
                 checkBox.visibility = View.VISIBLE
+            }
+
+            val addressType = itemView.findViewById<TextView>(R.id.addressTypeLabel)
+            if(displayAddressType) {
+                addressType.visibility = View.VISIBLE
+                val params = AppManager.instance.wallet?.getTransactionParameters(address.id, false)
+                if(params!=null) {
+                    when (params.getAddressType()) {
+                        BMAddressType.BMAddressTypeMaxPrivacy -> {
+                            addressType.text = context.getString(R.string.max_privacy)
+                        }
+                        BMAddressType.BMAddressTypeOfflinePublic -> {
+                            addressType.text = context.getString(R.string.public_offline)
+                        }
+                        else -> {
+                            addressType.text = context.getString(R.string.regular)
+                        }
+                    }
+                }
+                else {
+                    addressType.text = context.getString(R.string.regular)
+                }
             }
         }
     }
