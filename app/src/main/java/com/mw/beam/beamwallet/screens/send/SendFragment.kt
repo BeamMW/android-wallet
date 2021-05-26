@@ -217,6 +217,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return SendFragmentArgs.fromBundle(requireArguments()).amount
     }
 
+    override fun getAmountText(): String {
+        val entered = amount.text.toString()
+        return  entered
+    }
+
     override fun getAmount(): Double = try {
         if(presenter?.currency == Currency.Beam) {
             amount.text.toString().toDouble()

@@ -85,6 +85,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
+        val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+
         if(mode != WelcomeMode.MOBILE_CONNECT) {
             AppManager.instance.removeOldValues()
         }
@@ -109,6 +111,13 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 appVersion.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
+                if(mobile) {
+                    restoreFullDescription.visibility = View.VISIBLE
+                    restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
+                    restoreFullDescriptionText2.visibility = View.GONE
+                    val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
+                    configProgress(0, descriptionString)
+                }
                 title.text = createTitleString
                 btnCancel.visibility = View.VISIBLE
                 appVersion.visibility = View.VISIBLE
@@ -118,15 +127,19 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         if(mode == WelcomeMode.OPEN || mode == WelcomeMode.CREATE) {
             timer?.cancel()
             timer = null
+            if(mode == WelcomeMode.CREATE && mobile) {
 
-            timer = Timer()
-            timer?.schedule(timerTask {
-                if (!App.isAuthenticated) {
-                    AppActivity.self.runOnUiThread {
-                        showWallet()
+            }
+            else {
+                timer = Timer()
+                timer?.schedule(timerTask {
+                    if (!App.isAuthenticated) {
+                        AppActivity.self.runOnUiThread {
+                            showWallet()
+                        }
                     }
-                }
-            }, 2000)
+                }, 2000)
+            }
         }
     }
 
@@ -195,6 +208,10 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 }
             }
             WelcomeMode.CREATE -> {
+                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
+                configProgress(countProgress(progressData), descriptionString)
             }
         }
     }

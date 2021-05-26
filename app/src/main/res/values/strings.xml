@@ -609,7 +609,7 @@ address or contact</string>
     <string name="add_all_unlinked">Add all unlinked</string>
     <string name="off">Off</string>
     <string name="exchange_not_available">online (exchange rate to %1$s wasn’t received)</string>
-
+    <string name="exchange_not_available_mobile">online: mobile node (exchange rate to %1$s wasn’t received)</string>
     <string name="wallet_id">Identity</string>
     <string name="show_token">More details</string>
     <string name="transaction_token">Transaction address</string>

@@ -202,6 +202,16 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_passwordFragment_to_publicOfflineAddressFragment"
+            app:destination="@id/publicOfflineAddressFragment" />
+        <action
+            android:id="@+id/action_passwordFragment_to_nodeFragment"
+            app:destination="@id/nodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/welcomeDescriptionFragment"
@@ -1156,5 +1166,16 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="iscreate"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="password"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="seed"
+            app:argType="string[]" />
     </fragment>
 </navigation>

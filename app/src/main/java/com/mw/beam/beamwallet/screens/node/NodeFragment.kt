@@ -7,9 +7,6 @@ import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
-import androidx.navigation.NavOptions
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 
 import com.mw.beam.beamwallet.R
@@ -27,16 +24,17 @@ import com.mw.beam.beamwallet.core.helpers.PreferencesManager.KEY_CONNECT_TO_RAN
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager.KEY_MOBILE_PROTOCOL
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager.KEY_NODE_ADDRESS
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import com.mw.beam.beamwallet.screens.settings.SettingsFragmentArgs
-import com.mw.beam.beamwallet.screens.settings.SettingsFragmentMode
-import com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress.WelcomeProgressFragmentArgs
 
 
 import kotlinx.android.synthetic.main.fragment_node.*
 import kotlinx.android.synthetic.main.fragment_node.toolbarLayout
 
 class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
+
+
+    private fun isCreate(): Boolean? = arguments?.let { NodeFragmentArgs.fromBundle(it).iscreate }
+    private fun password(): String? = arguments?.let { NodeFragmentArgs.fromBundle(it).password }
+    private fun seed(): Array<String>? = arguments?.let { NodeFragmentArgs.fromBundle(it).seed }
 
     override fun getToolbarTitle(): String = getString(R.string.node)
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_node
@@ -55,10 +53,15 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbarLayout.hasStatus = true
+        toolbarLayout.hasStatus = isCreate() != true
         toolbarLayout.changeNodeButton.alpha = 0f
         toolbarLayout.changeNodeButton.visibility = View.GONE
         toolbarLayout.changeNodeButton.isEnabled = false
+
+        if (isCreate() == true) {
+            btnNext.textResId = R.string.pass_proceed_to_wallet
+            btnNext.iconResId = R.drawable.ic_btn_proceed
+        }
 
         var okString = ""
         dialogNodeValue.addTextChangedListener(object : TextWatcher {
@@ -107,26 +110,34 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
         val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
         val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
-        val own = PreferencesManager.getString(KEY_NODE_ADDRESS) ?: ""
-        dialogNodeValue.setText(own)
 
-        if(mobile) {
-            inputNodeLayout.visibility = View.GONE
-            mobileNodeButton.isChecked = true
-            ownNodeButton.isChecked = false
-            randomButton.isChecked = false
-        }
-        else if (random) {
-            inputNodeLayout.visibility = View.GONE
-            randomButton.isChecked = true
-            mobileNodeButton.isChecked = false
-            ownNodeButton.isChecked = false
+        if (isCreate() == true) {
+            dialogNodeValue.setText("")
         }
         else {
-            inputNodeLayout.visibility = View.VISIBLE
-            ownNodeButton.isChecked = true
-            mobileNodeButton.isChecked = false
-            randomButton.isChecked = false
+            val own = PreferencesManager.getString(KEY_NODE_ADDRESS) ?: ""
+            dialogNodeValue.setText(own)
+        }
+
+        when {
+            mobile -> {
+                inputNodeLayout.visibility = View.GONE
+                mobileNodeButton.isChecked = true
+                ownNodeButton.isChecked = false
+                randomButton.isChecked = false
+            }
+            random -> {
+                inputNodeLayout.visibility = View.GONE
+                randomButton.isChecked = true
+                mobileNodeButton.isChecked = false
+                ownNodeButton.isChecked = false
+            }
+            else -> {
+                inputNodeLayout.visibility = View.VISIBLE
+                ownNodeButton.isChecked = true
+                mobileNodeButton.isChecked = false
+                randomButton.isChecked = false
+            }
         }
     }
 
@@ -190,10 +201,13 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
 
         AppManager.instance.wallet?.enableBodyRequests(false)
-
         AppManager.instance.onChangeNodeAddress()
         AppConfig.NODE_ADDRESS = node
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+
+        if (isCreate() == true) {
+            findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(password(),WelcomeMode.CREATE.name, seed(), false))
+        }
     }
 
     private fun onRandomNode() {
@@ -201,37 +215,39 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
 
         AppManager.instance.wallet?.enableBodyRequests(false)
-
         AppManager.instance.onChangeNodeAddress()
         AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
+
+        if (isCreate() == true) {
+            findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(password(),WelcomeMode.CREATE.name, seed(), false))
+        }
     }
 
     private fun onMobileNode() {
         PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, true)
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
 
+
         AppManager.instance.wallet?.enableBodyRequests(true)
 
         AppManager.instance.onChangeNodeAddress()
         AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
-        findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.MOBILE_CONNECT.name, null, false))
 
-//        val destinationFragment = R.id.welcomeProgressFragment
-//        val navBuilder = NavOptions.Builder()
-//        val modeArg = WelcomeProgressFragmentArgs("", WelcomeMode.MOBILE_CONNECT.name,null,false)
-//        val navigationOptions = navBuilder.setPopUpTo(destinationFragment, false).build()
-
-      //  AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, modeArg.toBundle(), navigationOptions)
+        if (isCreate() == true) {
+            findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(password(),WelcomeMode.CREATE.name, seed(), false))
+        }
+        else {
+            findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.MOBILE_CONNECT.name, null, false))
+        }
     }
 
-    fun String.isValidUrl(): Boolean = Patterns.WEB_URL.matcher(this).matches()
+    private fun String.isValidUrl(): Boolean = Patterns.WEB_URL.matcher(this).matches()
 
     private fun validateUrl() : Boolean {
         val node = dialogNodeValue.text.toString()
         val url = "http://" + node
-        val valid =  url.isValidUrl()
-        return valid
+        return url.isValidUrl()
     }
 }

@@ -44,7 +44,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     private var isButtonPressed = false
 
     private val args by lazy {
-        PasswordFragmentArgs.fromBundle(arguments!!)
+        PasswordFragmentArgs.fromBundle(requireArguments())
     }
 
     private val passWatcher = object : TextWatcher {
@@ -82,13 +82,14 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             }
             else -> {
                 description.text = getString(R.string.pass_screen_description)
-                btnProceed.textResId = R.string.pass_proceed_to_wallet
+               // btnProceed.textResId = R.string.
+                btnProceed.textResId = R.string.next
                 btnProceed.iconResId = R.drawable.ic_btn_proceed
             }
         }
 
-        passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
-        confirmPassLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+        passLayout.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
+        confirmPassLayout.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,7 +99,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
         if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
 
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
     }
 
 
@@ -157,12 +158,16 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                     onConfirm = {
                         isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
-                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToNodeFragment(true, pass, seed))
+                      //  findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     },
                     onCancel = {
                         isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
-                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToNodeFragment(true, pass, seed))
+
+                        //   findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     }, cancelable = false)
             FingerprintManager.isManagerAvailable() -> showAlert(message = getString(R.string.enable_touch_id_text),
                     title = getString(R.string.use_finger),
@@ -171,15 +176,18 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                     onConfirm = {
                         isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, true)
-                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToNodeFragment(true, pass, seed))
+                        //  findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     },
                     onCancel = {
                         isButtonPressed = false
                         PreferencesManager.putBoolean(PreferencesManager.KEY_IS_FINGERPRINT_ENABLED, false)
-                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                        findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToNodeFragment(true, pass, seed))
+                        // findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                     }, cancelable = false)
             else -> {
-                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
+                findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToNodeFragment(true, pass, seed))
+                //findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeProgressFragment(pass, mode.name, seed))
                 isButtonPressed = false
             }
         }

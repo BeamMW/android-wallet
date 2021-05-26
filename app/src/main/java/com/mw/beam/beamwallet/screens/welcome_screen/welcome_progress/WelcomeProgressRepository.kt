@@ -109,6 +109,9 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
             }
 
             val nodeAddress = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
+
+            val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+
             if (!isEnabledConnectToRandomNode() && !nodeAddress.isNullOrBlank()) {
                 AppConfig.NODE_ADDRESS = nodeAddress
             } else {
@@ -120,6 +123,13 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
             if (wallet != null) {
                 PreferencesManager.putString(PreferencesManager.KEY_PASSWORD, pass)
                 result = Status.STATUS_OK
+            }
+
+            if (mobile) {
+                AppManager.instance.wallet?.enableBodyRequests(true)
+            }
+            else  {
+                AppManager.instance.wallet?.enableBodyRequests(false)
             }
         }
 

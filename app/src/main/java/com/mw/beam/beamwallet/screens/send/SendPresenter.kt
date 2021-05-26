@@ -515,11 +515,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onAmountUnfocused() {
         view?.apply {
-            val amount = getAmount()
-            val fee = getFee()
+            val amountText = getAmountText()
+            if (amountText.isNotEmpty()) {
+                val amount = getAmount()
+                val fee = getFee()
 
-            hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
-                    ?: 0, state.privacyMode)
+                hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                        ?: 0, state.privacyMode)
+            }
         }
     }
 

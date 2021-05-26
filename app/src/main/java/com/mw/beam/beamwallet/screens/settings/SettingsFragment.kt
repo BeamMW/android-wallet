@@ -302,7 +302,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     }
 
                     if(item.mode == SettingsFragmentMode.Node) {
-                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodeFragment())
+                        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToNodeFragment(false, null, arrayOf()))
                     }
                     else if (item.mode == SettingsFragmentMode.General || item.mode == SettingsFragmentMode.Privacy
                             || item.mode == SettingsFragmentMode.Utilities || item.mode == SettingsFragmentMode.Notifications) {

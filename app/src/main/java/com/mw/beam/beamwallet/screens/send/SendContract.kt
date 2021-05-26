@@ -33,6 +33,7 @@ import io.reactivex.subjects.Subject
 interface SendContract {
 
     interface View : MvpView {
+        fun getAmountText():String
         fun getAmount(): Double
         fun getFee(): Long
         fun isOffline(): Boolean

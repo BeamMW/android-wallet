@@ -164,6 +164,10 @@ class BeamToolbar : LinearLayout {
              progressBar.visibility = View.VISIBLE
              statusIcon.visibility = View.INVISIBLE
              status.text = context.getString(R.string.reconnect).toLowerCase()
+
+             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+             statusIcon.layoutParams = paramsStatus
          }
         else if (AppManager.instance.isConnecting) {
             progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -172,6 +176,10 @@ class BeamToolbar : LinearLayout {
             progressBar.visibility = View.VISIBLE
             statusIcon.visibility = View.INVISIBLE
             status.text = context.getString(R.string.connecting).toLowerCase()
+
+             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+             statusIcon.layoutParams = paramsStatus
         }
         else{
             when (networkStatus) {
@@ -191,6 +199,9 @@ class BeamToolbar : LinearLayout {
                     statusIcon.visibility = View.INVISIBLE
                     status.text = context.getString(R.string.updating).toLowerCase() + " " + percent.toInt().toString() + "%"
 
+                    val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                    statusIcon.layoutParams = paramsStatus
                 }
             }
         }
@@ -208,15 +219,29 @@ class BeamToolbar : LinearLayout {
             status.setTextColor(context.getColor(R.color.common_text_dark_color))
         }
 
+        val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+        val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+
         if (isOnline) {
             if (AppManager.instance.currencies.count() == 0 && AppManager.instance.currentCurrency() != Currency.Off) {
                 val name = AppManager.instance.currentCurrency().shortName()
-                status.text = context.getString(R.string.exchange_not_available, name)
-                statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
+                if(mobile) {
+                    status.text = context.getString(R.string.exchange_not_available_mobile, name)
+                }
+                else {
+                   status.text = context.getString(R.string.exchange_not_available, name)
+                }
+                if (mobile || random) {
+                    statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
+                }
+                else {
+                    statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tusted_node_status_orange))
+                }
+                val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                statusIcon.layoutParams = paramsStatus
             }
             else {
-                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
-                val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
 
                 when {
                     mobile -> {
@@ -253,6 +278,10 @@ class BeamToolbar : LinearLayout {
             }
             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
             status.text = (context.getString(R.string.common_status_error).toLowerCase() + ": " + AppConfig.NODE_ADDRESS)
+
+            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+            statusIcon.layoutParams = paramsStatus
         }
     }
 }

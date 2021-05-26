@@ -58,7 +58,7 @@ class NotificationItem  {
                         name =  cntx.getString(R.string.notification_receive_content_title)
                         val string = cntx.getString(R.string.transaction_receiving_notif_body)
                                 .replace("(value)", beam)
-                                .replace("(address)", address)
+                                .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
                         detail = string
                     }
@@ -67,7 +67,7 @@ class NotificationItem  {
                         name =  cntx.getString(R.string.buy_transaction_failed_title)
                         val string = cntx.getString(R.string.transaction_received_notif_body_failed)
                                 .replace("(value)", beam)
-                                .replace("(address)", address)
+                                .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
                         detail = string
                     }
@@ -77,7 +77,7 @@ class NotificationItem  {
                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_max_privacy_notif_body)
                                     .replace("(value)", beam)
-                                    .replace("(address)", transaction.myId)
+                                    .replace("(address)", transaction.myId.trimAddress())
                                     .replace("  ", " ")
                             detail = string
                         }
@@ -96,7 +96,7 @@ class NotificationItem  {
                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_notif_body)
                                     .replace("(value)", beam)
-                                    .replace("(address)", address)
+                                    .replace("(address)", address.trimAddress())
                                     .replace("  ", " ")
                             detail = string
                         }
@@ -118,7 +118,7 @@ class NotificationItem  {
 
                         val string = cntx.getString(R.string.transaction_sent_notif_body_failed)
                                 .replace("(value)", beam)
-                                .replace("(address)", address)
+                                .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
 
                         detail = string
@@ -158,7 +158,7 @@ class NotificationItem  {
                             name =  cntx.getString(R.string.transaction_sent)
                             val string = cntx.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", beam)
-                                    .replace("(address)", address)
+                                    .replace("(address)", address.trimAddress())
                                     .replace("  ", " ")
                             detail = string
                         }

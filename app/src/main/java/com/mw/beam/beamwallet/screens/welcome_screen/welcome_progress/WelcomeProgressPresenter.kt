@@ -218,6 +218,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         val randomNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false))
         val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
+        val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
 
         if(isTrustedNodeRestor || (randomNode && trustedNode)) {
             view?.updateProgress(OnSyncProgressData(1, 4), state.mode ,isDownloadProgress = false, isRestoreProgress = false)
@@ -243,9 +244,14 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         }
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
+            val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
-                if (it.total == 0) {
+                if(WelcomeMode.CREATE == state.mode && mobile && it.total == 0) {
+
+                }
+                else if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                     showWallet()
                 }
