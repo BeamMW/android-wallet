@@ -32,19 +32,8 @@ object ReceiveTxCommentHelper {
     }
 
     fun getSavedCommnetAndSaveForTx(tx: TxDescription): String {
-        val txCommentKey = "tx_comment:${tx.id}"
-        var txComment = PreferencesManager.getString(txCommentKey) ?: ""
-
-        if (txComment.isBlank()) {
-            val receiveCommentKey = "receive_comment:${tx.myId}"
-            txComment = PreferencesManager.getString(receiveCommentKey) ?: ""
-
-            if (txComment.isNotBlank()) {
-                PreferencesManager.putString(receiveCommentKey, "")
-                PreferencesManager.putString(txCommentKey, txComment)
-            }
-        }
-
-        return txComment
+        val receiveCommentKey = "receive_comment:${tx.myId}"
+        val comment = PreferencesManager.getString(receiveCommentKey) ?: ""
+        return comment
     }
 }

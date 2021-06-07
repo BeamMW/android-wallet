@@ -10,7 +10,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="140dp"
         android:background="@drawable/receive_toolbar_gradient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

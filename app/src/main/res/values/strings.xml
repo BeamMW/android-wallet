@@ -682,7 +682,7 @@ address or contact</string>
     <string name="sender_identity">Sender identity</string>
     <string name="receiver_identity">Receiver identity</string>
     <string name="choose_currency">Choose currency</string>
-
+    <string name="min_fee_offline">Min transaction fee to send offline transaction\nis 0.01 BEAM.</string>
     <string name="max_privacy_lock_time">Max privacy lock time limit</string>
     <string name="lock_time_limit">Lock time limit</string>
     <string name="no_limit">No limit</string>
@@ -708,7 +708,6 @@ address or contact</string>
     <string name="receive_contact_placholder">Name the new address or search existing contact</string>
     <string name="search_or_paste">Search by name or paste address</string>
     <string name="regular_address">Regular address</string>
-
     <string name="random_node_title">Random node</string>
     <string name="fast_sync">Fast sync</string>
     <string name="random_node_text">For those who don’t have any other Beam wallet.</string>
@@ -723,7 +722,9 @@ address or contact</string>
     <string name="wallet_connected_to_mobile_node">Wallet connected to Mobile node</string>
     <string name="connect">Connect</string>
     <string name="node_ip_hint">12.123.123:1234</string>
-
-
+    <string name="disconnect">Disconnect</string>
+    <string name="please_enter_node_address">Please enter node address</string>
+    <string name="regular_offline_address">Regular offline-only address</string>
+    <string name="regular_online_address">Regular online-only address</string>
 </resources>
 

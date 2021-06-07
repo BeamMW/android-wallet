@@ -45,6 +45,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     lateinit var file:File
     private var recoveryPresented = false
     private var isWaitingRestore = false
+    private  var isNeedCheck = false
 
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeProgressUpdatedSubscription: Disposable
@@ -245,11 +246,26 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
             val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+            val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+            val isOwn = !mobile && !isRandom
 
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
                 if(WelcomeMode.CREATE == state.mode && mobile && it.total == 0) {
 
+                }
+                else if(WelcomeMode.CREATE == state.mode && isOwn && it.total == 0) {
+
+                }
+                else if(WelcomeMode.MOBILE_CONNECT == state.mode && it.total == 0) {
+//                    if (isNeedCheck) {
+//                        view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
+//                        showWallet()
+//                    }
+//                    else {
+//                        isNeedCheck = true
+                        AppManager.instance.wallet?.syncWithNode()
+//                    }
                 }
                 else if (it.total == 0) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)

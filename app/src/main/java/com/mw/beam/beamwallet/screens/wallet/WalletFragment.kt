@@ -572,6 +572,8 @@ else{
         if(AppManager.instance.getNetworkStatus() == NetworkStatus.OFFLINE) {
             AppManager.instance.setNetworkStatus(false)
         }
+
+        AppManager.instance.wallet?.getTransactions()
     }
 
     override fun onStop() {

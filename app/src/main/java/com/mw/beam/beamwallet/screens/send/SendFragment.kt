@@ -109,6 +109,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var isVisibleComment = false
     private var isOffline = false
     private var isMaxPrivacy = false
+    private var typeAddress:BMAddressType? = null
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -327,10 +328,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         buttonGroupDraggable.onPositionChangedListener = SegmentedButtonGroup.OnPositionChangedListener {
             if (it == 0) {
                 isOffline = false
+                addressTypeLabel.text = getString(R.string.regular_online_address) + "."
                 setSegmentButtons()
                 presenter?.requestFee()
             } else {
                 isOffline = true
+                addressTypeLabel.text = getString(R.string.regular_offline_address) + "."
                 setSegmentButtons()
                 presenter?.requestFee()
             }
@@ -338,14 +341,17 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     private fun setSegmentButtons() {
-        if(isMaxPrivacy) {
+        if(typeAddress == BMAddressType.BMAddressTypeOfflinePublic) {
+            sendDescription.text = resources.getString(R.string.min_fee_offline)
+        }
+        else if(isMaxPrivacy) {
             sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
         }
         else if(!isOffline) {
             sendDescription.text = resources.getString(R.string.confirmation_send_description)
         }
         else {
-            sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
+            sendDescription.text = resources.getString(R.string.min_fee_offline)
         }
     }
 
@@ -565,7 +571,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     fun handleExpandComment(expand: Boolean) {
         animateDropDownIcon(btnExpandComment, expand)
-        TransitionManager.beginDelayedTransition(contentLayout)
+       // TransitionManager.beginDelayedTransition(contentLayout)
         txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         if (expand) {
@@ -861,7 +867,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
      //   val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
         val second = getRealAmount().convertToCurrencyString(presenter?.currency)
-        when {
+        if (second == null) {
+            usedFee.visibility = View.GONE
+        }
+        else {
+            usedFee.visibility = View.VISIBLE
+
+            when {
             getRealAmount() <= 0 -> {
                 usedFee.text = "$second"
             }
@@ -869,6 +881,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 usedFee.text = "$second"
             }
         }
+        }
+
     }
 
     override fun updateFeeTransactionVisibility() {
@@ -975,7 +989,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
         else{
             animateDropDownIcon(btnExpandAdvanced, expand)
-            beginTransaction(true)
+           // beginTransaction(true)
 
             if(expand) {
                 advancedGroup.visible(true)
@@ -994,7 +1008,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
         else{
             animateDropDownIcon(btnExpandEditAddress, expand)
-            beginTransaction(true)
+           // beginTransaction(true)
 
 
             if(expand) {
@@ -1220,6 +1234,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     @SuppressLint("SetTextI18n")
     override fun updateAvailable(available: Long) {
         btnSendAll.isEnabled = available > 0
+        if (available > 0) {
+            btnSendAll.alpha = 1.0f
+        }
+        else {
+            btnSendAll.alpha = 0.5f
+        }
         availableSum.text = "${available.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
         secondAvailableSum.text = available.convertToCurrencyString()
     }
@@ -1273,10 +1293,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     @SuppressLint("SetTextI18n")
     private fun setAddressType(token: String) {
         isMaxPrivacy = false
-
+        typeAddress = null
         var params = AppManager.instance.wallet?.getTransactionParameters(token, false)
         if(params!=null) {
-
+            typeAddress = params.getAddressType()
             when (params.getAddressType()) {
                 BMAddressType.BMAddressTypeMaxPrivacy -> {
                     isMaxPrivacy = true
@@ -1294,7 +1314,18 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     else {
                         transactionTypeLayout.visibility = View.GONE
                     }
-                    addressTypeLabel.text = getString(R.string.regular_address) + "."
+
+                    if (params.isShielded) {
+                        if (isOffline) {
+                            addressTypeLabel.text = getString(R.string.regular_offline_address) + "."
+                        }
+                        else {
+                            addressTypeLabel.text = getString(R.string.regular_online_address) + "."
+                        }
+                    }
+                    else {
+                        addressTypeLabel.text = getString(R.string.regular_address) + "."
+                    }
                 }
             }
 

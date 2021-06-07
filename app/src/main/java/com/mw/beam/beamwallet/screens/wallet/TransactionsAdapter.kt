@@ -141,16 +141,16 @@ class TransactionsAdapter(private val context: Context, private val longListener
             icon.setImageDrawable(transaction.statusImage())
 
             if (transaction.status == TxStatus.Failed) {
-                icon.imageTintList = ColorStateList.valueOf(transaction.statusColor)
+                icon.imageTintList = ColorStateList.valueOf(transaction.statusColor())
             }
             else {
                 icon.imageTintList = null
             }
 
             sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value) + " BEAM"
-            sum.setTextColor(transaction.amountColor)
+            sum.setTextColor(transaction.amountColor())
 
-            status.setTextColor(transaction.statusColor)
+            status.setTextColor(transaction.statusColor())
             status.text = transaction.getStatusString(context)
 
             if(sumSecondBalance!=null)

@@ -27,7 +27,7 @@
 
     <ScrollView
         android:id="@+id/mainScrollView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fillViewport="true"
         android:fitsSystemWindows="true"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/linearLayout5"
+                android:id="@+id/randomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -100,7 +100,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+                app:layout_constraintTop_toBottomOf="@+id/randomLayout">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -211,6 +211,8 @@
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:./-_"
                         android:hint="@string/node_ip_hint"
                         android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
                         android:paddingStart="10dp"
                         android:paddingTop="0dp"
                         android:paddingEnd="10dp"

@@ -134,7 +134,7 @@ class BeamToolbar : LinearLayout {
 
             val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
 
-            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf(), navigationOptions)
+            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf("password" to null, "seed" to emptyArray<String>()), navigationOptions)
 
 //            val destinationFragment = R.id.nodeFragment
 //            val navBuilder = NavOptions.Builder()
@@ -178,7 +178,7 @@ class BeamToolbar : LinearLayout {
             status.text = context.getString(R.string.connecting).toLowerCase()
 
              val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 0)
              statusIcon.layoutParams = paramsStatus
         }
         else{
@@ -200,7 +200,7 @@ class BeamToolbar : LinearLayout {
                     status.text = context.getString(R.string.updating).toLowerCase() + " " + percent.toInt().toString() + "%"
 
                     val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 0)
                     statusIcon.layoutParams = paramsStatus
                 }
             }
@@ -232,17 +232,31 @@ class BeamToolbar : LinearLayout {
                    status.text = context.getString(R.string.exchange_not_available, name)
                 }
                 if (mobile || random) {
+                    val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                    statusIcon.layoutParams = paramsStatus
+
                     statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
                 }
                 else {
-                    statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tusted_node_status_orange))
+                   if (AppManager.instance.isMaxPrivacyEnabled()) {
+                       val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                       paramsStatus.topMargin = ScreenHelper.dpToPx(context, 5)
+                       statusIcon.layoutParams = paramsStatus
+
+                       statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tusted_node_status_orange))
+                   }
+                    else {
+                       val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                       paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                       statusIcon.layoutParams = paramsStatus
+
+                       statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
+                   }
                 }
-                val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                statusIcon.layoutParams = paramsStatus
+
             }
             else {
-
                 when {
                     mobile -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
@@ -261,12 +275,22 @@ class BeamToolbar : LinearLayout {
                         statusIcon.layoutParams = paramsStatus
                     }
                     else -> {
-                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
-                        status.text = context.getString(R.string.online).toLowerCase()
+                        if (AppManager.instance.isMaxPrivacyEnabled()) {
+                            statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
+                            status.text = context.getString(R.string.online).toLowerCase()
 
-                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 7)
-                        statusIcon.layoutParams = paramsStatus
+                            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 5)
+                            statusIcon.layoutParams = paramsStatus
+                        }
+                        else {
+                            statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
+                            status.text = context.getString(R.string.online).toLowerCase()
+
+                            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+                            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+                            statusIcon.layoutParams = paramsStatus
+                        }
                     }
                 }
             }

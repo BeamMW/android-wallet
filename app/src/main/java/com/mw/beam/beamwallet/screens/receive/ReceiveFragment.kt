@@ -179,7 +179,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun handleExpandComment(expand: Boolean) {
         animateDropDownIcon(btnExpandComment, expand)
-        TransitionManager.beginDelayedTransition(contentLayout)
+      //  TransitionManager.beginDelayedTransition(contentLayout)
         txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         if (expand) {

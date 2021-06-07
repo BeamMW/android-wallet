@@ -45,6 +45,8 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
                 identity = params?.identity ?: ""
             }
 
+            AppManager.instance.removeIgnoredAddress(address)
+
             AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), "", System.currentTimeMillis(), 0, 0, identity, address), false)
 
             close()

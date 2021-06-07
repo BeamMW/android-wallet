@@ -97,6 +97,7 @@ class AppManager {
             }
         }
 
+
     }
 
     fun isCurrenciesAvailable(): Boolean {
@@ -112,44 +113,44 @@ class AppManager {
         return null
     }
 
-//    private val gson = Gson()
-////    private fun getIgnoredContacts(): List<String>  {
-////        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
-////
-////        if (json.isNullOrBlank()) {
-////            return arrayListOf<String>()
-////        }
-////
-//        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
-//        return gson.fromJson(json, token.type) as List<String>
-////    }
-//
-//    fun setIgnoreAddress(id: String?) {
-//        if (!id.isNullOrEmpty()) {
-//            var strings = mutableListOf<String>()
-//            strings.addAll(getIgnoredContacts())
-//            if (!strings.contains(id)) {
-//                strings.add(id)
-//            }
-//            PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
-//        }
-//    }
+    private val gson = Gson()
+    private fun getIgnoredContacts(): List<String>  {
+        val json = PreferencesManager.getString(PreferencesManager.IGNORE_CONTACTS)
+
+        if (json.isNullOrBlank()) {
+            return arrayListOf<String>()
+        }
+
+        val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
+        return gson.fromJson(json, token.type) as List<String>
+    }
+
+    fun setIgnoreAddress(id: String?) {
+        if (!id.isNullOrEmpty()) {
+            var strings = mutableListOf<String>()
+            strings.addAll(getIgnoredContacts())
+            if (!strings.contains(id)) {
+                strings.add(id)
+            }
+            PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+        }
+    }
 
     fun isMaxPrivacyEnabled(): Boolean {
         val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
         return wallet?.isConnectionTrusted() == true || protocolEnabled
     }
 
-//    fun removeIgnoredAddress(id: String) {
-//        if (id.isNotEmpty()) {
-//            var strings = mutableListOf<String>()
-//            strings.addAll(getIgnoredContacts())
-//            if (strings.contains(id)) {
-//                strings.remove(id)
-//                PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
-//            }
-//        }
-//    }
+    fun removeIgnoredAddress(id: String) {
+        if (id.isNotEmpty()) {
+            var strings = mutableListOf<String>()
+            strings.addAll(getIgnoredContacts())
+            if (strings.contains(id)) {
+                strings.remove(id)
+                PreferencesManager.putString(PreferencesManager.IGNORE_CONTACTS, gson.toJson(strings))
+            }
+        }
+    }
 
     fun reconnect(): Boolean {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true);
@@ -295,6 +296,7 @@ class AppManager {
             }
         }
 
+        PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS, "")
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false);
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, "")
         AppConfig.NODE_ADDRESS = randomNode()
@@ -908,6 +910,16 @@ class AppManager {
     fun subscribeToUpdates() {
         if (!isSubscribe)
         {
+            val json = PreferencesManager.getString(PreferencesManager.KEY_TRANSACTIONS)
+
+            if (!json.isNullOrBlank()) {
+                val g = Gson()
+                val token: TypeToken<List<TxDescription>> = object : TypeToken<List<TxDescription>>() {}
+                val a = g.fromJson(json, token.type) as List<TxDescription>
+                transactions.clear()
+                transactions.addAll(a)
+            }
+
             Log.e("SUBSCRIBE", "SUBSCRIBE")
 
             isSubscribe = true
@@ -939,9 +951,11 @@ class AppManager {
                 else if (!it.own) {
                     contacts.clear()
                     if (it.addresses!=null) {
-                       // val ignored = getIgnoredContacts()
+                        val ignored = getIgnoredContacts()
                         it.addresses.forEach {address->
-                            contacts.add(address)
+                            if(!ignored.contains(address.address) && !ignored.contains(address.id)) {
+                                contacts.add(address)
+                            }
                         }
                     }
 
@@ -976,7 +990,11 @@ class AppManager {
                 transactions.removeAll { item ->
                     calendarFromTimestamp(item.createTime).get(Calendar.YEAR) == 1970
                 }
-
+//
+                val g = Gson()
+                val jsonString = g.toJson(transactions)
+                PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS, jsonString)
+//
                 subOnTransactionsChanged.onNext(0)
             }
 
@@ -1126,9 +1144,7 @@ class AppManager {
                     }
                 }
 
-              //  val gson = Gson()
-              //  val jsonString = gson.toJson(currencies)
-              //  PreferencesManager.putString(PreferencesManager.KEY_CURRENCY_RECOVER, jsonString)
+
 
 
                 val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)

@@ -85,10 +85,10 @@ class ShareTransactionDetailsView : FrameLayout {
         imageView.setImageDrawable(txDescription.statusImage())
         imageViewCenter.setImageDrawable(txDescription.statusImage())
 
-        confirming_state_text.setTextColor(txDescription.statusColor)
-        confirming_state_textCenter.setTextColor(txDescription.statusColor)
+        confirming_state_text.setTextColor(txDescription.statusColor())
+        confirming_state_textCenter.setTextColor(txDescription.statusColor())
 
-        amount.setTextColor(txDescription.amountColor)
+        amount.setTextColor(txDescription.amountColor())
 
         if(!txDescription.identity.isNullOrEmpty()) {
             walletIdLayout.visibility = View.VISIBLE

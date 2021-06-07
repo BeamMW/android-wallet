@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.Utxo
+import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
 import io.reactivex.disposables.Disposable
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -117,6 +118,10 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
             utxosCount = AppManager.instance.getUtxos().count()
             allUtxos.clear()
             allUtxos.addAll(AppManager.instance.getUtxos())
+            allUtxos.removeAll {
+                it.keyType == UtxoKeyType.Decoy
+            }
+            utxosCount = allUtxos.count()
 
             val transactions = AppManager.instance.getTransactions()
 

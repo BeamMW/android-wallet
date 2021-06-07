@@ -36,6 +36,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
@@ -86,6 +87,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun init(mode: WelcomeMode) {
         val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+        val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+        val isOwn = !mobile && !isRandom
 
         if(mode != WelcomeMode.MOBILE_CONNECT) {
             AppManager.instance.removeOldValues()
@@ -104,14 +107,24 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
                 configProgress(0, descriptionString)
             }
-            WelcomeMode.OPEN -> title.text = openTitleString
+            WelcomeMode.OPEN -> {
+                title.text = openTitleString
+                if (mobile) {
+                    btnCancel.visibility = View.VISIBLE
+                    restoreFullDescription.visibility = View.VISIBLE
+                    restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
+                    restoreFullDescriptionText2.visibility = View.GONE
+                    val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
+                    configProgress(0, descriptionString)
+                }
+            }
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = downloadTitleString
                 btnCancel.visibility = View.VISIBLE
                 appVersion.visibility = View.VISIBLE
             }
             WelcomeMode.CREATE -> {
-                if(mobile) {
+                if(mobile || isOwn) {
                     restoreFullDescription.visibility = View.VISIBLE
                     restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
                     restoreFullDescriptionText2.visibility = View.GONE
@@ -128,6 +141,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             timer?.cancel()
             timer = null
             if(mode == WelcomeMode.CREATE && mobile) {
+
+            }
+            else if(mode == WelcomeMode.CREATE && isOwn) {
+
+            }
+            else if(mode == WelcomeMode.OPEN && mobile) {
 
             }
             else {
@@ -149,7 +168,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 findNavController().popBackStack()
             }
             else {
-                presenter?.onBackPressed()
+                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+                if(mobile && getMode() == WelcomeMode.OPEN) {
+                    Api.closeWallet()
+                    AppManager.instance.wallet = null
+                    AppManager.instance.unSubscribeToUpdates()
+                    logOut()
+                }
+                else {
+                    presenter?.onBackPressed()
+                }
             }
         }
     }
@@ -161,7 +189,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
+                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+                if (mobile) {
+                    val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+                    val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
+                    configProgress(countProgress(progressData), descriptionString)
+                }
+                else {
+                    configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
+                }
             }
             WelcomeMode.MOBILE_CONNECT -> {
                 val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
@@ -208,7 +244,6 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 }
             }
             WelcomeMode.CREATE -> {
-                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
                 val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
                 val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
                 configProgress(countProgress(progressData), descriptionString)
@@ -335,13 +370,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
                 }
             }, 1000)
+
+            return
         }
-        if (isShowWallet && !App.isAuthenticated ) {
+        else if (isShowWallet && !App.isAuthenticated ) {
             return
         }
         else if (App.isAuthenticated ) {
             return
         }
+
 
         isShowWallet = true
 

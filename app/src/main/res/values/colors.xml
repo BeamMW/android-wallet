@@ -34,6 +34,7 @@
     <color name="n_color">#063863</color>
     <color name="black_12">#0C0C0C</color>
     <color name="unlink_color">#133e38</color>
+    <color name="white_100">#ffffff</color>
 
     <color name="pass_progress_empty">@color/colorPrimary</color>
     <color name="pass_progress_weak">@color/common_error_color</color>

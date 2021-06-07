@@ -257,7 +257,7 @@ else{
         dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
 
         amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value) + " BEAM"
-        amountLabel.setTextColor(txDescription.amountColor)
+        amountLabel.setTextColor(txDescription.amountColor())
 
         val second = txDescription.amount.convertToCurrencyString()
 
@@ -268,7 +268,7 @@ else{
             secondAvailableSum.text = second
         }
 
-        statusLabel.setTextColor(txDescription.statusColor)
+        statusLabel.setTextColor(txDescription.statusColor())
         val status = txDescription.getStatusString(requireContext()).trim()
 
         if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED
@@ -282,11 +282,11 @@ else{
         transactionStatusIcon.setImageDrawable(txDescription.statusImage())
 
         if (txDescription.status == TxStatus.Failed) {
-            transactionStatusIcon.imageTintList = ColorStateList.valueOf(txDescription.statusColor)
+            transactionStatusIcon.imageTintList = ColorStateList.valueOf(txDescription.statusColor())
         }
 
         val drawable = shape.background as GradientDrawable
-        drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor)
+        drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor())
 
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {

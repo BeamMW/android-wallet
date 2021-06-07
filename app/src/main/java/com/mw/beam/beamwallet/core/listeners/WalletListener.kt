@@ -30,6 +30,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
+import java.util.*
 
 
 /**
@@ -40,6 +41,7 @@ object WalletListener {
     private val DUMMY_OBJECT = Any()
 
     var oldCurrent = -1
+    var newTime = 0L
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
 
@@ -47,10 +49,7 @@ object WalletListener {
     val obsOnTxStatus: Observable<OnTxStatusData> = subOnTxStatus.map {
         it.tx?.forEach { tx ->
             if (!tx.sender.value) {
-                val savedComment = if (it.action == ChangeAction.ADDED || it.action == ChangeAction.UPDATED)
-                    ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
-                else ReceiveTxCommentHelper.getSavedComment(tx)
-
+                val savedComment = ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
                 tx.message = if (savedComment.isNotBlank()) savedComment else ""
             }
         }
@@ -309,17 +308,39 @@ object WalletListener {
     @JvmStatic
     fun onExchangeRates(rates: Array<ExchangeRateDTO>?) {
         LogUtils.logResponse(rates, "onExchangeRates")
-        if(rates!=null) {
-            val result = arrayListOf<ExchangeRate>()
-            rates.forEach {
-               if(it != null) {
-                   if(it.currency == 1 || it.currency == 2) {
-                       result.add(ExchangeRate(it))
-                   }
-               }
+        if (newTime == 0L) {
+            if(rates!=null) {
+                newTime = Date().time
+
+                val result = arrayListOf<ExchangeRate>()
+                rates.forEach {
+                    if(it != null) {
+                        if(it.currency == 1 || it.currency == 2) {
+                            result.add(ExchangeRate(it))
+                        }
+                    }
+                }
+                if (result.size > 0){
+                    subOnExchangeRates.onNext(result)
+                }
             }
-            if (result.size > 0){
-                subOnExchangeRates.onNext(result)
+        }
+        else if(rates!=null) {
+            val diff = Date().time - newTime
+            if(diff > 1000) {
+                newTime = Date().time
+
+                val result = arrayListOf<ExchangeRate>()
+                rates.forEach {
+                    if(it != null) {
+                        if(it.currency == 1 || it.currency == 2) {
+                            result.add(ExchangeRate(it))
+                        }
+                    }
+                }
+                if (result.size > 0){
+                    subOnExchangeRates.onNext(result)
+                }
             }
         }
     }

@@ -167,33 +167,36 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
       return "$status "
     }
 
-    val amountColor = when (sender) {
+    fun amountColor() = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
         TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
     }
 
-    val statusColor = if (TxStatus.Cancelled == status) {
-        ContextCompat.getColor(App.self, R.color.failed_status_color)
-    }
-    else if (TxStatus.Failed == status) {
-        when (failureReason) {
-            TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getColor(App.self, R.color.failed_status_color)
-            else -> ContextCompat.getColor(App.self, R.color.common_error_color)
+    fun statusColor() = when {
+        TxStatus.Cancelled == status -> {
+            ContextCompat.getColor(App.self, R.color.failed_status_color)
         }
-    }
-    else if (selfTx) {
-        ContextCompat.getColor(App.self, R.color.common_text_color)
-    } else {
-        when (sender) {
-            TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
-            TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
+        TxStatus.Failed == status -> {
+            when (failureReason) {
+                TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getColor(App.self, R.color.failed_status_color)
+                else -> ContextCompat.getColor(App.self, R.color.common_error_color)
+            }
+        }
+        selfTx -> {
+            ContextCompat.getColor(App.self, R.color.common_text_color)
+        }
+        else -> {
+            when (sender) {
+                TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
+                TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
+            }
         }
     }
 
-    val currencyImage = when (sender) {
-        TxSender.RECEIVED -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_receive)
-        TxSender.SENT -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_send)
-    }
+//    val currencyImage = when (sender) {
+//        TxSender.RECEIVED -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_receive)
+//        TxSender.SENT -> ContextCompat.getDrawable(App.self, R.drawable.currency_beam_send)
+//    }
 
     fun statusImage():Drawable?  {
         if (isMaxPrivacy || isPublicOffline || isShielded) {
@@ -201,16 +204,16 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             {
                 if(isPublicOffline || isShielded) {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
                         TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_offline)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_offline)
                     }
                 }
                 else  {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
                         TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_online)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_online)
                     }
@@ -220,16 +223,16 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             {
                 if(isPublicOffline || isShielded) {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
                         TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_max_offline)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_offline)
                     }
                 }
                 else {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
                         TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_max_online)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_online)
                     }
