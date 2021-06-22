@@ -40,7 +40,7 @@ class AppManager {
     var lastSendindAddress = ""
 
     private var walletStatus:WalletStatus =
-            WalletStatus(WalletStatusDTO(0, 0,
+            WalletStatus(WalletStatusDTO(0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0,
                     SystemStateDTO("", 0)))
 

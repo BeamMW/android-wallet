@@ -22,6 +22,7 @@ import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
  *  10/9/18.
  */
 data class WalletStatus(private val source: WalletStatusDTO) {
+    val assetId = source.assetId
     val available: Long = source.available + source.shielded
     val receiving: Long = source.receiving
     val sending: Long = source.sending

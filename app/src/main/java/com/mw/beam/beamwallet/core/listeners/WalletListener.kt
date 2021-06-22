@@ -88,13 +88,14 @@ object WalletListener {
     var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
 
     @JvmStatic
-    fun onStatus(status: WalletStatusDTO) : Unit {
-        if (App.isAuthenticated) {
-            return returnResult(subOnStatus, WalletStatus(status), "onStatus")
-        }
-        else{
-            subOnStatus.onNext(WalletStatus(status))
-        }
+    fun onStatus(status: Array<WalletStatusDTO>?) {
+        val array = status
+//        if (App.isAuthenticated) {
+//            return returnResult(subOnStatus, WalletStatus(status), "onStatus")
+//        }
+//        else{
+//            subOnStatus.onNext(WalletStatus(status))
+//        }
     }
 
     @JvmStatic
@@ -378,6 +379,11 @@ object WalletListener {
     fun onExportTxHistoryToCsv(value: String) {
         LogUtils.logResponse(value, "onExportTxHistoryToCsv")
         suboOExportTxHistoryToCsv.onNext(value)
+    }
+
+    @JvmStatic
+    fun onAssetInfo(info: AssetInfoDTO) {
+        val i = info
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

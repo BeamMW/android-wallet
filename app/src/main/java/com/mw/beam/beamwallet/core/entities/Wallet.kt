@@ -81,4 +81,6 @@ data class Wallet(val _this: Long) {
 
     external fun rescan()
     external fun enableBodyRequests(enable: Boolean)
+
+    external fun getAssetInfo(id: Int)
 }

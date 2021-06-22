@@ -19,7 +19,8 @@ package com.mw.beam.beamwallet.core.entities.dto
 /**
  *  1/4/19.
  */
-class WalletStatusDTO(val available: Long,
+class WalletStatusDTO(val assetId: Int,
+                      val available: Long,
                       val receiving: Long,
                       val sending: Long,
                       val maturing: Long,
