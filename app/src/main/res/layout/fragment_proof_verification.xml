@@ -140,8 +140,6 @@
                             android:layout_height="@dimen/wallet_expandable_icon_size"
                             android:background="@drawable/btn_drop_down"
                             android:contentDescription="@null"
-                            app:layout_constraintBottom_toBottomOf="@id/inProgressTitle"
-                            app:layout_constraintStart_toEndOf="@id/inProgressTitle"
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </LinearLayout>

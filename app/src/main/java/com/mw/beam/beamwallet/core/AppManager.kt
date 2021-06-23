@@ -35,9 +35,7 @@ class AppManager {
     var ignoreNotifications = mutableListOf<String>()
     var syncProgressData = OnSyncProgressData(1, 1, 0)
 
-    var currencies = mutableListOf<ExchangeRate>()
-    private var currentRate: ExchangeRate? = null
-    var lastSendindAddress = ""
+    var lastSendingAddress = ""
 
     private var walletStatus:WalletStatus =
             WalletStatus(WalletStatusDTO(0, 0, 0,
@@ -85,33 +83,6 @@ class AppManager {
             }
     }
 
-    init {
-        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-        if(value == 0L) {
-            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
-        }
-
-        currencies.forEach {
-            if (it.currency.value == value.toInt()) {
-                currentRate = it
-            }
-        }
-
-
-    }
-
-    fun isCurrenciesAvailable(): Boolean {
-        return currencies.size > 0
-    }
-
-    fun getCurrencyById(value: Currency?): ExchangeRate? {
-        currencies.forEach {
-            if (it.currency.value == value?.value) {
-                return it
-            }
-        }
-        return null
-    }
 
     private val gson = Gson()
     private fun getIgnoredContacts(): List<String>  {
@@ -127,7 +98,7 @@ class AppManager {
 
     fun setIgnoreAddress(id: String?) {
         if (!id.isNullOrEmpty()) {
-            var strings = mutableListOf<String>()
+            val strings = mutableListOf<String>()
             strings.addAll(getIgnoredContacts())
             if (!strings.contains(id)) {
                 strings.add(id)
@@ -143,7 +114,7 @@ class AppManager {
 
     fun removeIgnoredAddress(id: String) {
         if (id.isNotEmpty()) {
-            var strings = mutableListOf<String>()
+            val strings = mutableListOf<String>()
             strings.addAll(getIgnoredContacts())
             if (strings.contains(id)) {
                 strings.remove(id)
@@ -205,30 +176,6 @@ class AppManager {
         }
 
         return ""
-    }
-
-    fun updateCurrentCurrency() {
-        var found = false
-        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-        currencies.forEach {
-            if (it.currency.value == value.toInt()) {
-                found = true
-                currentRate = it
-            }
-        }
-
-        if (!found) {
-            currentRate = null
-        }
-    }
-
-    fun currentCurrency(): Currency {
-        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-        return Currency.fromValue(value.toInt())
-    }
-
-    fun currentExchangeRate(): ExchangeRate? {
-        return currentRate
     }
 
     fun reload() {
@@ -1095,28 +1042,27 @@ class AppManager {
                     }
                 }
 
-                subOnAddressesChanged?.onNext(true)
+                subOnAddressesChanged.onNext(true)
             }
 
-            WalletListener.subOnStatus.subscribe(){
+            WalletListener.subOnStatus.subscribe {
                 walletStatus = it
-
                 subOnStatusChanged.onNext(0)
             }
 
-            WalletListener.subOnPublicAddress.subscribe() {
-                subOnPublicAddress?.onNext(it)
+            WalletListener.subOnPublicAddress.subscribe {
+                subOnPublicAddress.onNext(it)
             }
 
-            WalletListener.subOnMaxPrivacyAddress.subscribe() {
-                subOnMaxPrivacyAddress?.onNext(it)
+            WalletListener.subOnMaxPrivacyAddress.subscribe {
+                subOnMaxPrivacyAddress.onNext(it)
             }
 
-            WalletListener.subOnNodeConnectedStatusChanged.subscribe(){
+            WalletListener.subOnNodeConnectedStatusChanged.subscribe {
                 setNetworkStatus(it)
             }
 
-            WalletListener.subOnNodeConnectionFailed.subscribe(){
+            WalletListener.subOnNodeConnectionFailed.subscribe {
                 val reconnect = reconnect()
                 if (!reconnect) {
                     networkStatus = NetworkStatus.OFFLINE
@@ -1124,44 +1070,18 @@ class AppManager {
                 }
             }
 
-            WalletListener.subOnSyncProgressUpdated.subscribe(){
+            WalletListener.subOnSyncProgressUpdated.subscribe {
                 syncProgressData = it
                 networkStatus = if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING
                 subOnNetworkStatusChanged.onNext(0)
             }
 
-            WalletListener.subOnExchangeRates.subscribe() {
-                val oldCount = currencies.count()
-
-                it?.forEach { item ->
-                    val index1 = currencies.indexOfFirst { old->
-                        old.currency.value == item.currency.value
-                    }
-                    if (index1 != -1) {
-                        currencies[index1] = item
-                    } else {
-                        currencies.add(item)
-                    }
-                }
-
-
-
-
-                val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-                currencies.forEach { rate ->
-                    if (rate.currency.value == value.toInt()) {
-                        currentRate = rate
-                    }
-                }
-
-                if(oldCount == 0){
-                    subOnNetworkStatusChanged.onNext(0)
-                }
-
+            WalletListener.subOnExchangeRates.subscribe {
+                subOnNetworkStatusChanged.onNext(0)
                 subOnCurrenciesChanged.onNext(0)
             }
 
-            WalletListener.subNotificationChanged.subscribe() {
+            WalletListener.subNotificationChanged.subscribe {
                 if (it.action == ChangeAction.REMOVED) {
                     notifications.removeAll { item ->
                         item.id == it.notification.id
@@ -1220,7 +1140,7 @@ class AppManager {
 
             }
 
-            WalletListener.suboOExportTxHistoryToCsv.subscribe(){
+            WalletListener.suboOExportTxHistoryToCsv.subscribe {
                 subOnExportToCSV.onNext(it)
             }
 
@@ -1253,7 +1173,7 @@ class AppManager {
 
     @SuppressLint("CheckResult")
     private fun subscribeToNewAddress() {
-        WalletListener.subOnGeneratedNewAddress.subscribe(){
+        WalletListener.subOnGeneratedNewAddress.subscribe {
             subOnAddressCreated.onNext(it)
         }
     }

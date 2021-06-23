@@ -16,7 +16,6 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.Context
@@ -26,37 +25,30 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import androidx.viewpager.widget.ViewPager
-import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.base_screen.*
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.entities.WalletStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamWithSign
-import kotlinx.android.synthetic.main.fragment_wallet.*
-import com.mw.beam.beamwallet.core.AppManager
-import android.widget.PopupMenu
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import kotlinx.android.synthetic.main.toolbar.*
 import android.content.Intent
+import android.widget.PopupMenu
+
+import kotlinx.android.synthetic.main.fragment_wallet.*
+import kotlinx.android.synthetic.main.toolbar.*
+
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
+import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.entities.TxDescription
 
 
-/**
- *  10/1/18.
- */
 class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
-    private lateinit var adapter: TransactionsAdapter
-    private lateinit var balancePagerAdapter: BalancePagerAdapter
-    private var selectedSection = BalanceTab.Available
+    private lateinit var transactionsAdapter: TransactionsAdapter
+    private lateinit var assetsAdapter: AssetsAdapter
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -72,161 +64,27 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    private val onPageSelectedListener = object : ViewPager.SimpleOnPageChangeListener() {
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            val selectedColor = if (App.isDarkMode) {
-                ContextCompat.getColor(requireContext(), R.color.common_text_dark_color_dark)
-            } else{
-                ContextCompat.getColor(requireContext(), R.color.common_text_dark_color)
-            }
-
-            selectedSection = balancePagerAdapter.tabs[position]
-
-            val unselectedColor = ContextCompat.getColor(requireContext(), R.color.unselect_balance_tab_text_color)
-            when (selectedSection) {
-                BalanceTab.Available -> {
-                    maxPrivacyAddressTitle.setTextColor(unselectedColor)
-                    availableTitle.setTextColor(selectedColor)
-                    maturingTitle.setTextColor(unselectedColor)
-                    moreDetailsButton.visibility = View.GONE
-                }
-                BalanceTab.Maturing -> {
-                    maxPrivacyAddressTitle.setTextColor(unselectedColor)
-                    availableTitle.setTextColor(unselectedColor)
-                    maturingTitle.setTextColor(selectedColor)
-                    moreDetailsButton.visibility = View.GONE
-                }
-                BalanceTab.MaxPrivacy -> {
-                    availableTitle.setTextColor(unselectedColor)
-                    maturingTitle.setTextColor(unselectedColor)
-                    maxPrivacyAddressTitle.setTextColor(selectedColor)
-                    moreDetailsButton.visibility = balanceViewPager.visibility
-                }
-            }
-
-            balancePagerAdapter.notifyDataSetChanged()
-        }
-    }
-
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
-}
-else{
-    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
-}
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black) }
+    else{
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
+    }
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
-    override fun getToolbarTitle(): String? = getString(R.string.wallet)
+    override fun getToolbarTitle(): String = getString(R.string.wallet)
 
-    override fun configWalletStatus(walletStatus: WalletStatus, expandBalanceCard: Boolean, expandInProgressCard: Boolean, isEnablePrivacyMode: Boolean) {
-        configAvailable(walletStatus.available, walletStatus.maturing, walletStatus.maxPrivacy, expandBalanceCard, isEnablePrivacyMode)
-        configInProgress(walletStatus.receiving, walletStatus.sending, expandInProgressCard, isEnablePrivacyMode)
+    override fun configWalletStatus() {
+        assetsAdapter.data = AssetManager.instance.assets
+        assetsAdapter.notifyDataSetChanged()
     }
 
-    override fun configAvailable(availableAmount: Long, maturingAmount: Long, maxPrivacyAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
-       if (balanceViewPager != null) {
-           balanceViewPager.adapter = balancePagerAdapter
-           if(indicator != null) {
-               indicator.setViewPager(balanceViewPager)
-           }
-       }
-
-        balancePagerAdapter.available = availableAmount
-        balancePagerAdapter.maturing = maturingAmount
-        balancePagerAdapter.maxPrivacy = maxPrivacyAmount
-        balancePagerAdapter.tabs = mutableListOf<BalanceTab>()
-
-        balancePagerAdapter.tabs.add(BalanceTab.Available)
-
-        if (maturingAmount > 0) {
-            balancePagerAdapter.tabs.add(BalanceTab.Maturing)
-        }
-
-        if (maxPrivacyAmount > 0) {
-            balancePagerAdapter.tabs.add(BalanceTab.MaxPrivacy)
-        }
-
-        balancePagerAdapter.notifyDataSetChanged()
-
-        val contentVisibility = if (expandCard && !isEnablePrivacyMode) View.VISIBLE else View.GONE
-
-        if (balanceViewPager != null) {
-            balanceViewPager.visibility = contentVisibility
-            if (contentVisibility == View.VISIBLE) {
-                balanceViewPager.setCurrentItem(selectedSection.ordinal, false)
-            }
-        }
-
-        if(indicator != null) {
-            indicator.visibility = if (maturingAmount > 0 || maxPrivacyAmount > 0) contentVisibility else View.GONE
-        }
-        maturingTitle.visibility = if (maturingAmount > 0) View.VISIBLE else View.GONE
-        maxPrivacyAddressTitle.visibility = if (maxPrivacyAmount > 0) View.VISIBLE else View.GONE
-        moreDetailsButton.text = requireContext().getString(R.string.show_token).toLowerCase()
-    }
-
-    override fun configInProgress(receivingAmount: Long, sendingAmount: Long, expandCard: Boolean, isEnablePrivacyMode: Boolean) {
-        //nothing in progress
-        if (receivingAmount == 0L && sendingAmount == 0L) {
-            inProgressLayout.visibility = View.GONE
-            return
-        } else {
-            inProgressLayout.visibility = View.VISIBLE
-        }
-
-        if (isEnablePrivacyMode) {
-            return
-        }
-
-        when (receivingAmount) {
-            0L -> {
-                receivingGroup.visibility = View.GONE
-            }
-            else -> {
-                receiving.text = receivingAmount.convertToBeamWithSign(false) + " BEAM"
-                val amount = receivingAmount.convertToCurrencyString()
-                if (amount == null) {
-                    receivingSecondBalance.text = amount
-                }
-                else {
-                    receivingSecondBalance.text = "+$amount"
-
-                }
-                receiving.requestLayout()
-                receiving.refreshDrawableState()
-                receivingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
-            }
-        }
-
-        when (sendingAmount) {
-            0L -> sendingGroup.visibility = View.GONE
-            else -> {
-                sending.text = sendingAmount.convertToBeamWithSign(true) + " BEAM"
-
-                val amount = sendingAmount.convertToCurrencyString()
-                if (amount == null) {
-                    sendingSecondBalance.text = amount
-                }
-                else {
-                    sendingSecondBalance.text = "-$amount"
-
-                }
-
-                sendingGroup.visibility = if (expandCard) View.VISIBLE else View.GONE
-            }
-        }
-    }
-
-    override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean) {
+    override fun configTransactions(transactions: List<TxDescription>) {
         transactionsList.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
         emptyTransactionsListMessage.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
-        btnShowAll.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
-        transactionsTitle.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
+        transactionsHeader.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
 
         if (transactions.isNotEmpty()) {
-            adapter.setPrivacyMode(isEnablePrivacyMode)
-            adapter.data = transactions
-            adapter.notifyDataSetChanged()
+            transactionsAdapter.data = transactions
+            transactionsAdapter.notifyDataSetChanged()
 
             btnShowAll.text = getString(R.string.show_all)
             btnShowAll.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,null,null)
@@ -245,14 +103,6 @@ else{
         toolbar.setNavigationIcon(R.drawable.ic_menu)
         toolbar.setNavigationOnClickListener {
             (activity as? AppActivity)?.openMenu()
-        }
-
-        balancePagerAdapter = BalancePagerAdapter(requireContext())
-        if (balanceViewPager != null) {
-           balanceViewPager.adapter = balancePagerAdapter
-           if(indicator != null) {
-               indicator.setViewPager(balanceViewPager)
-           }
         }
     }
 
@@ -304,47 +154,17 @@ else{
         btnReceive.setOnClickListener { presenter?.onReceivePressed() }
         btnNext.setOnClickListener { presenter?.onSendPressed() }
 
-        btnExpandAvailable.setOnClickListener {
-            presenter?.onExpandAvailablePressed()
-        }
-
-        availableTitle.setOnClickListener {
-            balanceViewPager.setCurrentItem(BalanceTab.Available.ordinal, true)
-        }
-
-        maturingTitle.setOnClickListener {
-            balanceViewPager.setCurrentItem(BalanceTab.Maturing.ordinal, true)
-        }
-
-        maxPrivacyAddressTitle.setOnClickListener {
-            balanceViewPager.setCurrentItem(BalanceTab.MaxPrivacy.ordinal, true)
-        }
-
-        moreDetailsButton.setOnClickListener {
-            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToMaxPrivacyDetailFragment())
-        }
-
-        balanceViewPager.addOnPageChangeListener(onPageSelectedListener)
-        onPageSelectedListener.onPageSelected(balanceViewPager.currentItem)
-
-        btnExpandInProgress.setOnClickListener {
-            presenter?.onExpandInProgressPressed()
-        }
-
         btnShowAll.setOnClickListener {
-
             val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)
 
             if (AppManager.instance.getTransactions().count() > 0) {
                 presenter?.onShowAllPressed()
             }
             else PopupMenu(wrapper, btnShowAll).apply {
-                setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-                    override fun onMenuItemClick(item: MenuItem?): Boolean {
-                        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())
-                        return true
-                    }
-                })
+                setOnMenuItemClickListener {
+                    findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToProofVerificationFragment())
+                    true
+                }
                 inflate(R.menu.proof_menu)
                 show()
             }
@@ -371,73 +191,30 @@ else{
 
     override fun addTitleListeners(isEnablePrivacyMode: Boolean) {
         if (!isEnablePrivacyMode) {
-            availableTitleContainer.setOnClickListener {
-                presenter?.onExpandAvailablePressed()
-            }
 
-            inProgressTitleContainer.setOnClickListener {
-                presenter?.onExpandInProgressPressed()
-            }
         }
-    }
-
-    private fun clearTitleListeners() {
-        inProgressTitleContainer.setOnClickListener(null)
-        availableTitleContainer.setOnClickListener(null)
     }
 
     private fun initTransactionsList() {
         val context = context ?: return
 
-        adapter = TransactionsAdapter(context, null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
+        transactionsAdapter = TransactionsAdapter(context, null, mutableListOf(), TransactionsAdapter.Mode.SHORT) {
             presenter?.onTransactionPressed(it)
         }
 
         transactionsList.layoutManager = LinearLayoutManager(context)
-        transactionsList.adapter = adapter
-    }
+        transactionsList.adapter = transactionsAdapter
 
-    override fun handleExpandAvailable(shouldExpandAvailable: Boolean) {
-        animateDropDownIcon(btnExpandAvailable, !shouldExpandAvailable)
-        beginTransition()
+        assetsAdapter = AssetsAdapter(
+                context, AssetManager.instance.assets
+        ) {
 
-        val contentVisibility = if (shouldExpandAvailable) View.VISIBLE else View.GONE
-
-        if (balanceViewPager != null) {
-            balanceViewPager.visibility = contentVisibility
         }
 
-        if (indicator != null) {
-            indicator.visibility = contentVisibility
-        }
-
-        if(selectedSection == BalanceTab.MaxPrivacy) {
-            if(shouldExpandAvailable) {
-                moreDetailsButton.visibility = View.GONE
-            }
-            else {
-                moreDetailsButton.visibility = View.VISIBLE
-            }
-        }
-        else {
-            moreDetailsButton.visibility = View.GONE
-        }
+        assetsList.layoutManager = LinearLayoutManager(context)
+        assetsList.adapter = assetsAdapter
     }
 
-    override fun handleExpandInProgress(shouldExpandInProgress: Boolean) {
-        animateDropDownIcon(btnExpandInProgress, !shouldExpandInProgress)
-        beginTransition()
-        receivingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-        sendingGroup.visibility = if (shouldExpandInProgress) View.GONE else View.VISIBLE
-    }
-
-    private fun beginTransition() {
-        TransitionManager.beginDelayedTransition(contentLayout, AutoTransition().apply {
-            excludeChildren(transactionsList, true)
-           // excludeChildren(receivingCurrency, true)
-           // excludeChildren(sendingCurrency, true)
-        })
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         presenter?.onCreateOptionsMenu(menu, inflater)
@@ -460,20 +237,9 @@ else{
 
     override fun configPrivacyStatus(isEnable: Boolean) {
         activity?.invalidateOptionsMenu()
-        adapter.setPrivacyMode(isEnable)
+        transactionsAdapter.setPrivacyMode(isEnable)
 
-        val visibility = if (isEnable) View.GONE else View.VISIBLE
-
-        btnExpandAvailable.visibility = visibility
-        btnExpandInProgress.visibility = visibility
-
-        clearTitleListeners()
         addTitleListeners(isEnable)
-
-        if (!isEnable) {
-            presenter?.onCheckShouldExpandAvailable()
-            presenter?.onCheckShouldExpandInProgress()
-        }
     }
 
     override fun showFaucet(show: Boolean) {
@@ -534,30 +300,13 @@ else{
     override fun clearListeners() {
         btnReceive.setOnClickListener(null)
         btnNext.setOnClickListener(null)
-        btnExpandAvailable.setOnClickListener(null)
-        btnExpandInProgress.setOnClickListener(null)
-        availableTitleContainer.setOnClickListener(null)
-        inProgressTitleContainer.setOnClickListener(null)
-        availableTitle.setOnClickListener(null)
-        maturingTitle.setOnClickListener(null)
-        maxPrivacyAddressTitle.setOnClickListener(null)
         btnShowAll.setOnClickListener(null)
         btnFaucetClose.setOnClickListener(null)
-        moreDetailsButton.setOnClickListener(null)
         btnSecureClose.setOnClickListener(null)
         btnFaucetReceive.setOnClickListener(null)
         btnSecureReceive.setOnClickListener(null)
-        balanceViewPager.removeOnPageChangeListener(onPageSelectedListener)
-        clearTitleListeners()
     }
 
-    private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
-        val angleFrom = if (shouldExpand) 180f else 360f
-        val angleTo = if (shouldExpand) 360f else 180f
-        val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
-        anim.duration = 500
-        anim.start()
-    }
 
     override fun closeDrawer() {
     }

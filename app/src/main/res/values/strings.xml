@@ -726,5 +726,6 @@ address or contact</string>
     <string name="please_enter_node_address">Please enter node address</string>
     <string name="regular_offline_address">Regular offline-only address</string>
     <string name="regular_online_address">Regular online-only address</string>
+    <string name="assets">Assets</string>
 </resources>
 

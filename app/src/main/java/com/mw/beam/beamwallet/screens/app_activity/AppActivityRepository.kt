@@ -18,8 +18,6 @@ package com.mw.beam.beamwallet.screens.app_activity
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.TrashManager
 
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean) {
@@ -36,6 +34,6 @@ class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     }
 
     override fun cancelSendMoney(token: String) {
-        AppManager.instance.lastSendindAddress = ""
+        AppManager.instance.lastSendingAddress = ""
     }
 }

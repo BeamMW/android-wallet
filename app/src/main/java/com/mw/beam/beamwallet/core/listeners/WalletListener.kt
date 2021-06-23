@@ -17,11 +17,13 @@ package com.mw.beam.beamwallet.core.listeners
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -88,14 +90,53 @@ object WalletListener {
     var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
 
     @JvmStatic
-    fun onStatus(status: Array<WalletStatusDTO>?) {
-        val array = status
-//        if (App.isAuthenticated) {
-//            return returnResult(subOnStatus, WalletStatus(status), "onStatus")
-//        }
-//        else{
-//            subOnStatus.onNext(WalletStatus(status))
-//        }
+    fun onStatus(status: Array<WalletStatusDTO>?) : Unit {
+        if (App.isAuthenticated && status != null) {
+
+            status.forEach {
+                var found = false
+
+                for (i in AssetManager.instance.assets.indices) {
+                    val asset = AssetManager.instance.assets[i]
+                    if (asset.assetId == it.assetId) {
+                        found = true
+
+                        asset.available = it.available
+                        asset.receiving = it.receiving
+                        asset.sending = it.sending
+                        asset.shielded = it.shielded
+                        asset.maxPrivacy = it.maxPrivacy
+                        asset.maturing = it.maturing
+                        asset.system = it.system
+                        asset.updateLastTime = it.updateLastTime
+                        asset.updateDone = it.updateDone
+                        asset.updateTotal = it.updateTotal
+
+                        AssetManager.instance.assets[i] = asset
+                    }
+                }
+
+                if (!found) {
+                    val asset = Asset(it.assetId ,it.available, it.receiving,
+                            it.sending,it.maturing,it.shielded,it.maxPrivacy,it.updateLastTime,it.updateDone,
+                            it.updateTotal, it.system)
+                    AssetManager.instance.assets.add(asset)
+                }
+            }
+
+            val beam = status.first { it
+                it.assetId == 0
+            }
+            return returnResult(subOnStatus, WalletStatus(beam), "onStatus")
+        }
+        else{
+            val beam = status?.first { it
+                it.assetId == 0
+            }
+            if(beam != null) {
+                subOnStatus.onNext(WalletStatus(beam))
+            }
+        }
     }
 
     @JvmStatic
@@ -312,37 +353,34 @@ object WalletListener {
         if (newTime == 0L) {
             if(rates!=null) {
                 newTime = Date().time
-
-                val result = arrayListOf<ExchangeRate>()
-                rates.forEach {
-                    if(it != null) {
-                        if(it.currency == 1 || it.currency == 2) {
-                            result.add(ExchangeRate(it))
-                        }
-                    }
-                }
-                if (result.size > 0){
-                    subOnExchangeRates.onNext(result)
-                }
+                onReceiveRates(rates)
             }
         }
         else if(rates!=null) {
             val diff = Date().time - newTime
             if(diff > 1000) {
                 newTime = Date().time
-
-                val result = arrayListOf<ExchangeRate>()
-                rates.forEach {
-                    if(it != null) {
-                        if(it.currency == 1 || it.currency == 2) {
-                            result.add(ExchangeRate(it))
-                        }
-                    }
-                }
-                if (result.size > 0){
-                    subOnExchangeRates.onNext(result)
-                }
+                onReceiveRates(rates)
             }
+        }
+    }
+
+    private fun onReceiveRates(rates: Array<ExchangeRateDTO>) {
+        val result = arrayListOf<ExchangeRate>()
+        rates.forEach {
+            if(it.from == Currency.Beam.ordinal || it.to == Currency.Usd.ordinal) {
+                result.add(ExchangeRate(it))
+            }
+            else if(it.from == Currency.Beam.ordinal || it.to == Currency.Bitcoin.ordinal) {
+                result.add(ExchangeRate(it))
+            }
+            else if(it.from == Currency.Beam.ordinal || it.toName.contains("asset")) {
+                result.add(ExchangeRate(it))
+            }
+        }
+        if (result.size > 0){
+            ExchangeManager.instance.rates = result
+            subOnExchangeRates.onNext(result)
         }
     }
 

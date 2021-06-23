@@ -26,12 +26,7 @@ import com.mw.beam.beamwallet.core.AppManager
 class WalletState {
     var walletStatus: WalletStatus? = null
 
-    var prevProgressExpandState = false
-    var prevAvailableExpandState = false
-
-    var shouldExpandAvailable = false
-    var shouldExpandInProgress = false
     var privacyMode = false
 
-    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(5)
+    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(4)
 }

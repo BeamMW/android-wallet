@@ -102,59 +102,65 @@
                     android:orientation="vertical"
                     android:padding="@dimen/wallet_empty_list_message_padding"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionsTitle"
+                    app:layout_constraintTop_toBottomOf="@id/transactionsHeader"
                     tools:ignore="UseCompoundDrawables"
-                    tools:visibility="gone">
+                    tools:visibility="visible">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@null"
-                        android:tint="?attr/subHeaderTextColor"
-                        android:src="@drawable/ic_wallet_empty" />
+                        android:src="@drawable/ic_wallet_empty"
+                        android:tint="?attr/subHeaderTextColor" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/common_offset"
-                        android:textColor="?attr/subHeaderTextColor"
                         android:text="@string/wallet_empty_transactions_list_message"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="?attr/subHeaderTextColor" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/btnShowAll"
-                    style="@style/common_subheader_dark"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/transactionsHeader"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:letterSpacing="0"
-                    android:padding="10dp"
-                    android:text="@string/show_all"
-                    android:textAllCaps="false"
-                    app:layout_constraintBottom_toBottomOf="@id/transactionsTitle"
+                    android:layout_marginTop="32dp"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/transactionsTitle" />
-
-
-                <TextView
-                    android:id="@+id/transactionsTitle"
-                    style="@style/common_subheader_dark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:paddingStart="@dimen/common_offset"
-                    android:paddingTop="@dimen/transactions_title_padding"
-                    android:paddingEnd="@dimen/common_offset"
-                    android:paddingBottom="@dimen/transactions_title_padding"
-                    android:text="@string/transactions"
-                    android:textColor="@color/common_text_color"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/inProgressLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/assetsList">
+
+                    <TextView
+                        style="@style/common_subheader_dark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/common_offset"
+                        android:paddingTop="@dimen/transactions_title_padding"
+                        android:paddingEnd="@dimen/common_offset"
+                        android:paddingBottom="@dimen/transactions_title_padding"
+                        android:text="@string/transactions"
+                        android:textColor="@color/common_text_color" />
+
+                    <TextView
+                        android:id="@+id/btnShowAll"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:letterSpacing="0"
+                        android:padding="10dp"
+                        android:text="@string/show_all"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+
 
                 <!--Transactions-->
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -278,267 +284,6 @@
                         app:layout_constraintVertical_bias="1" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/availableLayout"
-                    style="@style/common_card_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/wallet_state_card_backgroud"
-                    android:paddingStart="@dimen/common_card_padding"
-                    android:paddingTop="@dimen/common_card_padding"
-                    android:paddingEnd="@dimen/common_card_padding"
-                    android:paddingBottom="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/secureLayout">
-
-                    <TextView
-                        android:id="@+id/moreDetailsButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:contentDescription="@null"
-                        android:paddingLeft="3dp"
-                        android:paddingTop="10dp"
-                        android:paddingRight="3dp"
-                        android:paddingBottom="10dp"
-                        android:text="@string/show_token"
-                        android:textAllCaps="false"
-                        android:textColor="@color/accent"
-                        android:visibility="gone"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/availableTitleContainer" />
-
-                    <LinearLayout
-                        android:id="@+id/availableTitleContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingBottom="10dp"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/availableTitle"
-                            style="@style/common_subheader_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingEnd="15dp"
-                            android:text="@string/available"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlSymmetry" />
-
-                        <TextView
-                            android:id="@+id/maturingTitle"
-                            style="@style/common_subheader_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingStart="15dp"
-                            android:paddingEnd="15dp"
-                            android:text="@string/maturing"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlSymmetry" />
-
-                        <TextView
-                            android:id="@+id/maxPrivacyAddressTitle"
-                            style="@style/common_subheader_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:paddingStart="15dp"
-                            android:paddingEnd="15dp"
-                            android:text="@string/max_privacy"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlSymmetry" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/wallet_expandable_icon_size"
-                            android:layout_weight="1" />
-
-                        <View
-                            android:id="@+id/btnExpandAvailable"
-                            android:layout_width="@dimen/wallet_expandable_icon_size"
-                            android:layout_height="@dimen/wallet_expandable_icon_size"
-                            android:background="@drawable/btn_drop_down"
-                            android:contentDescription="@null"
-                            app:layout_constraintBottom_toBottomOf="@id/availableTitle"
-                            app:layout_constraintStart_toEndOf="@id/availableTitle"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </LinearLayout>
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/balanceViewPager"
-                        android:layout_width="0dp"
-                        android:layout_height="78dp"
-                        android:layout_marginEnd="8dp"
-                        android:visibility="visible"
-                        app:layout_constraintEnd_toStartOf="@+id/moreDetailsButton"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/availableTitleContainer" />
-
-                    <me.relex.circleindicator.CircleIndicator
-                        android:id="@+id/indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/balanceViewPager" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/inProgressLayout"
-                    style="@style/common_card_style"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/wallet_in_progress_margin_top"
-                    android:background="@drawable/wallet_state_card_backgroud"
-                    android:padding="@dimen/common_card_padding"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/availableLayout">
-
-                    <ImageView
-                        android:id="@+id/receivingIcon"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:contentDescription="@string/receiving"
-                        app:layout_constraintBottom_toBottomOf="@+id/receiving"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/receiving"
-                        app:srcCompat="@drawable/ic_icon_received" />
-
-                    <!--Receiving-->
-                    <ImageView
-                        android:id="@+id/sendingIcon"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginTop="@dimen/wallet_in_progress_element_margin_top"
-                        android:contentDescription="@string/sending"
-                        app:layout_constraintBottom_toBottomOf="@+id/sending"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/sending"
-                        app:srcCompat="@drawable/ic_icon_sent" />
-
-                    <LinearLayout
-                        android:id="@+id/inProgressTitleContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <TextView
-                            android:id="@+id/inProgressTitle"
-                            style="@style/common_subheader_dark"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/in_progress"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:ignore="RtlSymmetry" />
-
-                        <View
-                            android:id="@+id/btnExpandInProgress"
-                            android:layout_width="@dimen/wallet_expandable_icon_size"
-                            android:layout_height="@dimen/wallet_expandable_icon_size"
-                            android:background="@drawable/btn_drop_down"
-                            android:contentDescription="@null"
-                            app:layout_constraintBottom_toBottomOf="@id/inProgressTitle"
-                            app:layout_constraintStart_toEndOf="@id/inProgressTitle"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/sending"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                        android:layout_marginTop="@dimen/wallet_in_progress_title_margin_top"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/send_selector"
-                        android:textSize="@dimen/wallet_sum_text_size"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toEndOf="@id/sendingIcon"
-                        app:layout_constraintTop_toBottomOf="@id/inProgressTitleContainer"
-                        app:layout_constraintWidth_max="wrap"
-                        tools:text="-125.989883830000" />
-
-                    <TextView
-                        android:id="@+id/sendingSecondBalance"
-                        style="@style/common_text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="14sp"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toEndOf="@+id/sendingIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/sending"
-                        tools:text="1234 USD" />
-
-                    <!--Sending-->
-                    <TextView
-                        android:id="@+id/receiving"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/wallet_card_text_padding_start"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/received_color"
-                        android:textSize="@dimen/wallet_sum_text_size"
-                        app:layout_constraintHorizontal_chainStyle="packed"
-                        app:layout_constraintStart_toEndOf="@id/receivingIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/sendingSecondBalance"
-                        app:layout_constraintWidth_max="wrap"
-                        tools:text="+125.989883830000" />
-
-                    <TextView
-                        android:id="@+id/receivingSecondBalance"
-                        style="@style/common_text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="13dp"
-                        android:layout_marginTop="3dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textSize="14sp"
-                        android:visibility="visible"
-                        app:layout_constraintStart_toEndOf="@+id/receivingIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/receiving"
-                        tools:text="1234 USD" />
-
-                    <androidx.constraintlayout.widget.Group
-                        android:id="@+id/receivingGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:constraint_referenced_ids="receiving,receivingIcon,receivingSecondBalance"
-                        tools:layout_editor_absoluteX="20dp"
-                        tools:layout_editor_absoluteY="20dp"
-                        tools:visibility="visible" />
-
-                    <androidx.constraintlayout.widget.Group
-                        android:id="@+id/sendingGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:constraint_referenced_ids="sending,sendingIcon,sendingSecondBalance"
-                        tools:layout_editor_absoluteX="20dp"
-                        tools:layout_editor_absoluteY="20dp"
-                        tools:visibility="visible" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/transactionsList"
@@ -548,10 +293,60 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/transactionsTitle"
-                    tools:itemCount="5"
+                    app:layout_constraintTop_toBottomOf="@+id/transactionsHeader"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_transaction" />
+
+                <LinearLayout
+                    android:id="@+id/assetsHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/secureLayout">
+
+                    <TextView
+                        style="@style/common_subheader_dark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/common_offset"
+                        android:paddingTop="@dimen/transactions_title_padding"
+                        android:paddingEnd="@dimen/common_offset"
+                        android:paddingBottom="@dimen/transactions_title_padding"
+                        android:text="@string/assets"
+                        android:textColor="@color/common_text_color" />
+
+                    <TextView
+                        android:id="@+id/btnShowAllAssets"
+                        style="@style/common_subheader_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:letterSpacing="0"
+                        android:padding="10dp"
+                        android:text="@string/show_all"
+                        android:textAllCaps="false" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/assetsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:descendantFocusability="blocksDescendants"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/assetsHeader"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_asset" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

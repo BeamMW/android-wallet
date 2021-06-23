@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
+        android:elevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mikhaellopez.gradientview.GradientView
+            android:id="@+id/gradientView"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:gv_direction="left_to_right"
+            app:gv_end="@color/colorPrimary"
+            app:gv_start="#00f6d2"
+            app:gv_alpha_start="0.3"
+            app:gv_alpha_end="1">
+
+        </com.mikhaellopez.gradientview.GradientView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            <ImageView
+                android:id="@+id/assetIcon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:background="@color/white_02"
+                android:importantForAccessibility="no" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/assetLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        tools:text="125.98987 BEAM" />
+
+                    <TextView
+                        android:id="@+id/assetSecondLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/white_08"
+                        android:textSize="14sp"
+                        tools:text="125.98987 BEAM" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lockLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:drawableStart="@drawable/ic_asset_lock"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/white_08"
+                    android:textSize="14sp"
+                    tools:text="14590.098756 BEAM" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

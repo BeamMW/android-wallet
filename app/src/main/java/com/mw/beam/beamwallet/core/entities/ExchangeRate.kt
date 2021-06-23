@@ -4,13 +4,14 @@ import android.content.Context
 import android.os.Parcelable
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.dto.ExchangeRateDTO
+import com.mw.beam.beamwallet.core.helpers.convertToBeam
 import kotlinx.android.parcel.Parcelize
 
 
 enum class Currency(val value: Int) {
-    Beam(0),
-    Bitcoin(2),
-    Usd(1),
+    Beam(1),
+    Usd(2),
+    Bitcoin(3),
     Off(-1);
 
     companion object {
@@ -64,7 +65,9 @@ enum class Currency(val value: Int) {
 
 @Parcelize
 data class ExchangeRate(private val source: ExchangeRateDTO) : Parcelable {
-    var currency:Currency = Currency.fromValue(source.currency)
-    var unit = source.unit
-    var amount = source.amount
+    var currency = Currency.fromValue(source.to)
+    var value = source.rate
+    var realValue = source.rate.convertToBeam()
+    var code = currency.shortName()
+    var assetId = source.assetId
 }
