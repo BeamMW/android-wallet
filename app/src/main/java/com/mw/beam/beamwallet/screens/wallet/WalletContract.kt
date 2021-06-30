@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.OnTxStatusData
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
@@ -34,18 +35,18 @@ import io.reactivex.subjects.Subject
 interface WalletContract {
     interface View : MvpView {
         fun init()
-        fun configWalletStatus()
+        fun configWalletStatus(assets:List<Asset>)
         fun configTransactions(transactions: List<TxDescription>)
         fun showTransactionDetails(txId: String)
         fun showReceiveScreen()
         fun showSendScreen()
-        fun addTitleListeners(isEnablePrivacyMode: Boolean)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)
         fun closeDrawer()
         fun clearAllNotification()
         fun showAllTransactions()
+        fun showAllAssets()
         fun selectWalletMenu()
         fun showFaucet(show:Boolean)
         fun showSecure(show:Boolean)
@@ -63,6 +64,7 @@ interface WalletContract {
         fun onCancelDialog()
         fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?)
         fun onShowAllPressed()
+        fun onShowAllAssetsPressed()
         fun onReceiveFaucet()
         fun generateFaucetAddress()
         fun onSecure()

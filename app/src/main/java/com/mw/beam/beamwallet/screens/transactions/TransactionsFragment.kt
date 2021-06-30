@@ -79,6 +79,10 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
         }
     }
 
+    override fun getAssetId(): Int {
+        return TransactionsFragmentArgs.fromBundle(requireArguments()).assetId
+    }
+
     override fun onStart() {
         super.onStart()
         onBackPressedCallback.isEnabled = true
@@ -98,20 +102,20 @@ class TransactionsFragment : BaseFragment<TransactionsPresenter>(), Transactions
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_transactions
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
         toolbarLayout.hasStatus = true
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
-        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireActivity(), R.color.colorPrimary))
 
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
@@ -132,7 +136,7 @@ else{
             }
         }
         else{
-            pageAdapter = TransactionsPageAdapter(context!!,
+            pageAdapter = TransactionsPageAdapter(requireContext(),
                     object : TransactionsAdapter.OnLongClickListener {
                         override fun onLongClick(item: TxDescription) {
                             if (mode == Mode.NONE) {
@@ -183,7 +187,7 @@ else{
     }
 
     override fun showSearchTransaction() {
-        findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToSearchTransactionFragment())
+        findNavController().navigate(TransactionsFragmentDirections.actionTransactionsFragmentToSearchTransactionFragment(getAssetId()))
     }
 
     override fun showTransactionDetails(txId: String) {

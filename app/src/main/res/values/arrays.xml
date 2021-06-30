@@ -28,4 +28,13 @@
         <item>@string/btc</item>
     </integer-array>
 
+    <integer-array name="assets_sort_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </integer-array>
+
 </resources>

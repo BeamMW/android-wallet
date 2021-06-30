@@ -32,17 +32,15 @@ import kotlinx.android.synthetic.main.fragment_wallet.*
 import kotlinx.android.synthetic.main.toolbar.*
 
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
-import com.mw.beam.beamwallet.core.OnboardManager
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.*
+import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.TxDescription
 
 
@@ -72,9 +70,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_wallet
     override fun getToolbarTitle(): String = getString(R.string.wallet)
 
-    override fun configWalletStatus() {
-        assetsAdapter.data = AssetManager.instance.assets
-        assetsAdapter.notifyDataSetChanged()
+    override fun configWalletStatus(assets: List<Asset>) {
+        assetsAdapter.reloadData(assets)
     }
 
     override fun configTransactions(transactions: List<TxDescription>) {
@@ -93,6 +90,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     override fun showAllTransactions() {
         findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToTransactionsFragment())
+    }
+
+    override fun showAllAssets() {
+        findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToAssetsListFragment())
     }
 
     override fun init() {
@@ -170,6 +171,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
             }
         }
 
+        btnShowAllAssets.setOnClickListener {
+            presenter?.onShowAllAssetsPressed()
+        }
+
         btnFaucetClose.setOnClickListener {
             OnboardManager.instance.isCloseFaucet = true
             faucetLayout.gone(true)
@@ -189,12 +194,6 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
     }
 
-    override fun addTitleListeners(isEnablePrivacyMode: Boolean) {
-        if (!isEnablePrivacyMode) {
-
-        }
-    }
-
     private fun initTransactionsList() {
         val context = context ?: return
 
@@ -206,9 +205,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         transactionsList.adapter = transactionsAdapter
 
         assetsAdapter = AssetsAdapter(
-                context, AssetManager.instance.assets
+                context, presenter?.state?.getAssets() ?: arrayListOf()
         ) {
-
+            findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToAssetDetailFragment(it.assetId, it.unitName))
         }
 
         assetsList.layoutManager = LinearLayoutManager(context)
@@ -236,10 +235,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
-        activity?.invalidateOptionsMenu()
-        transactionsAdapter.setPrivacyMode(isEnable)
+        ExchangeManager.instance.isPrivacyMode = isEnable
 
-        addTitleListeners(isEnable)
+        activity?.invalidateOptionsMenu()
+
+        transactionsAdapter.setPrivacyMode(isEnable)
+        assetsAdapter.notifyDataSetChanged()
     }
 
     override fun showFaucet(show: Boolean) {
@@ -305,6 +306,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         btnSecureClose.setOnClickListener(null)
         btnFaucetReceive.setOnClickListener(null)
         btnSecureReceive.setOnClickListener(null)
+        btnShowAllAssets.setOnClickListener(null)
     }
 
 

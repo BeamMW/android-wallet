@@ -46,6 +46,7 @@ object WalletListener {
     var newTime = 0L
 
     var subOnStatus: Subject<WalletStatus> = BehaviorSubject.create<WalletStatus>().toSerialized()
+    var subOnAssetInfo: Subject<AssetInfoDTO> = BehaviorSubject.create<AssetInfoDTO>().toSerialized()
 
     private var subOnTxStatus: Subject<OnTxStatusData> = BehaviorSubject.create<OnTxStatusData>().toSerialized()
     val obsOnTxStatus: Observable<OnTxStatusData> = subOnTxStatus.map {
@@ -53,6 +54,7 @@ object WalletListener {
             if (!tx.sender.value) {
                 val savedComment = ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
                 tx.message = if (savedComment.isNotBlank()) savedComment else ""
+                tx.asset = AssetManager.instance.getAsset(tx.assetId)
             }
         }
         it
@@ -127,6 +129,9 @@ object WalletListener {
             val beam = status.first { it
                 it.assetId == 0
             }
+
+            AssetManager.instance.onChangeAssets()
+
             return returnResult(subOnStatus, WalletStatus(beam), "onStatus")
         }
         else{
@@ -368,18 +373,31 @@ object WalletListener {
     private fun onReceiveRates(rates: Array<ExchangeRateDTO>) {
         val result = arrayListOf<ExchangeRate>()
         rates.forEach {
-            if(it.from == Currency.Beam.ordinal || it.to == Currency.Usd.ordinal) {
+            if (it.toName == "usd" && it.fromName == "beam") {
                 result.add(ExchangeRate(it))
             }
-            else if(it.from == Currency.Beam.ordinal || it.to == Currency.Bitcoin.ordinal) {
+            else if (it.toName == "btc" && it.fromName == "beam") {
                 result.add(ExchangeRate(it))
             }
-            else if(it.from == Currency.Beam.ordinal || it.toName.contains("asset")) {
+            else if (it.toName == "usd" && it.fromName.contains("asset")) {
+                result.add(ExchangeRate(it))
+            }
+            else if (it.toName == "btc" && it.fromName.contains("asset")) {
                 result.add(ExchangeRate(it))
             }
         }
         if (result.size > 0){
-            ExchangeManager.instance.rates = result
+            result.forEach {
+                val index = ExchangeManager.instance.rates.indexOfLast { rate->
+                    rate.fromName == it.fromName && rate.toName == it.toName
+                }
+                if (index != -1) {
+                    ExchangeManager.instance.rates[index] = it
+                }
+                else {
+                    ExchangeManager.instance.rates.add(it)
+                }
+            }
             subOnExchangeRates.onNext(result)
         }
     }
@@ -420,8 +438,9 @@ object WalletListener {
     }
 
     @JvmStatic
-    fun onAssetInfo(info: AssetInfoDTO) {
-        val i = info
+    fun onAssetInfo(info: AssetInfoDTO): Unit  {
+        AssetManager.instance.onReceivedAssetInfo(info)
+        return returnResult(subOnAssetInfo, info, "onAssetInfo")
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

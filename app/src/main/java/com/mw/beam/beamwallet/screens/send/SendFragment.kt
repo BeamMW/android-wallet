@@ -60,6 +60,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.Api
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -229,9 +230,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
         else {
             val entered = amount.text.toString().toDouble()
-            val rate = AppManager.instance.getCurrencyById(presenter?.currency)
-            val value = rate?.amount?.toDouble()?.div(100000000)
-            val result = (entered)/ value!!
+            val rate = ExchangeManager.instance.getRate(presenter?.currency?.value)
+            val value = rate?.value?.toDouble()?.div(100000000) ?:  0.0
+            val result = (entered)/ value
             result
         }
     } catch (e: Exception) {
@@ -541,7 +542,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
 //        }
 
-        if(AppManager.instance.isCurrenciesAvailable()) {
+        if(ExchangeManager.instance.isCurrenciesAvailable()) {
             currencyButton.setOnClickListener {
                 presenter?.currency?.value?.let {
                     it1 -> SendFragmentDirections.actionSendFragmentToChooseCurrencyFragment(it1) }?.let {
@@ -606,7 +607,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
-        if(!AppManager.instance.isCurrenciesAvailable()) {
+        if(!ExchangeManager.instance.isCurrenciesAvailable()) {
             currencyButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
         }
 
@@ -818,6 +819,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
+        ExchangeManager.instance.isPrivacyMode = isEnable
+
         activity?.invalidateOptionsMenu()
 
         beginTransaction()

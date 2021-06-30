@@ -38,6 +38,7 @@ import com.mw.beam.beamwallet.base_screen.BaseActivity
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
@@ -223,8 +224,8 @@ class BeamToolbar : LinearLayout {
         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
 
         if (isOnline) {
-            if (AppManager.instance.currencies.count() == 0 && AppManager.instance.currentCurrency() != Currency.Off) {
-                val name = AppManager.instance.currentCurrency().shortName()
+            if (!ExchangeManager.instance.isCurrenciesAvailable()) {
+                val name = ExchangeManager.instance.currentCurrency().shortName()
                 if(mobile) {
                     status.text = context.getString(R.string.exchange_not_available_mobile, name)
                 }

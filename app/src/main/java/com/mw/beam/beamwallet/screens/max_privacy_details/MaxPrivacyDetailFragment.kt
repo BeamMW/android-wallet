@@ -63,7 +63,7 @@ class MaxPrivacyDetailFragment: BaseFragment<MaxPrivacyDetailPresenter>(), MaxPr
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_max_privacy_details
 
-    override fun getToolbarTitle(): String? = getString(R.string.max_privacy)
+    override fun getToolbarTitle(): String = getString(R.string.max_privacy)
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
     }
@@ -100,8 +100,8 @@ class MaxPrivacyDetailFragment: BaseFragment<MaxPrivacyDetailPresenter>(), MaxPr
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater?.inflate(R.menu.filter_menu, menu)
-        val menuItem = menu?.findItem(R.id.filter_menu)
+        inflater.inflate(R.menu.filter_menu, menu)
+        val menuItem = menu.findItem(R.id.filter_menu)
         menuItem?.setOnMenuItemClickListener {
             showSortDialog()
             false

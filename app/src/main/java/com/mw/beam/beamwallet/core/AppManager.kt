@@ -1050,6 +1050,10 @@ class AppManager {
                 subOnStatusChanged.onNext(0)
             }
 
+            WalletListener.subOnAssetInfo.subscribe {
+                subOnStatusChanged.onNext(0)
+            }
+
             WalletListener.subOnPublicAddress.subscribe {
                 subOnPublicAddress.onNext(it)
             }
@@ -1077,8 +1081,11 @@ class AppManager {
             }
 
             WalletListener.subOnExchangeRates.subscribe {
-                subOnNetworkStatusChanged.onNext(0)
-                subOnCurrenciesChanged.onNext(0)
+               AppActivity.self.runOnUiThread {
+                   subOnNetworkStatusChanged.onNext(0)
+                   subOnCurrenciesChanged.onNext(0)
+                   subOnStatusChanged.onNext(0)
+               }
             }
 
             WalletListener.subNotificationChanged.subscribe {

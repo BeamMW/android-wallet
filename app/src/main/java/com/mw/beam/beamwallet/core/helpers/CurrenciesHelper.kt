@@ -16,30 +16,56 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
-import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.Currency
-import kotlinx.android.synthetic.main.fragment_send.*
+
+import kotlin.math.roundToInt
+
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.*
+import kotlin.math.roundToLong
 
-/**
- *  3/14/19.
- */
 fun Long.convertToBeamString(): String = (this.toDouble() / 100000000).convertToBeamString()
 fun Double.convertToBeamString(): String = DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(this)
 fun Long.convertToBeam(): Double = this.toDouble() / 100000000
 fun Long.convertToBeamWithSign(isSent: Boolean) = if (isSent) "-${this.convertToBeamString()}" else "+${this.convertToBeamString()}"
-fun Double.convertToGroth() = Math.round(this * 100000000)
+fun Double.convertToGroth() = (this * 100000000).roundToLong()
+
+fun Long.convertToAssetString(name:String): String {
+    if (ExchangeManager.instance.isPrivacyMode) {
+        return name
+    }
+    return (this.toDouble() / 100000000).convertToBeamString() + " " + name
+}
+
+fun Long.exchangeValueAsset(assetId:Int): String {
+    if (this == 0L || ExchangeManager.instance.isPrivacyMode) {
+        return ""
+    }
+
+   ExchangeManager.instance.rates.forEach {
+       if (it.currency.value == ExchangeManager.instance.currency && it.assetId == assetId) {
+           val value = it.value.toDouble() / 100000000
+           val beam = this.convertToBeam()
+           val rate = value * beam
+           if (it.currency == Currency.Usd) {
+               return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+           }
+           else if (it.currency == Currency.Bitcoin) {
+               return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+           }
+       }
+   }
+
+    return ""
+}
 
 fun Long.convertToCurrencyString(): String? {
-    val current = AppManager.instance.currentExchangeRate()
+    val current = ExchangeManager.instance.currentRate() ?: return null
 
-    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
-        return null
-    }
-    if (current!=null && this != 0L) {
-        val value = current.amount.toDouble() / 100000000
+    if (this != 0L) {
+        val value = current.value.toDouble() / 100000000
         val beam = this.convertToBeam()
         val rate = value * beam
         if (current.currency == Currency.Usd) {
@@ -49,28 +75,23 @@ fun Long.convertToCurrencyString(): String? {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
     }
-    else if (current==null || this == 0L) {
-        if (AppManager.instance.currentCurrency() == Currency.Usd) {
+    else if (this == 0L) {
+        if (ExchangeManager.instance.currency == Currency.Usd.value) {
             return  "-USD"
         }
-        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
+        else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
             return  "-BTC"
         }
     }
-
 
     return null
 }
 
 fun Long.convertToCurrencyGrothString(): String? {
-    val current = AppManager.instance.currentExchangeRate()
+    val current = ExchangeManager.instance.currentRate() ?: return null
 
-    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
-        return null
-    }
-
-    if (current!=null && this != 0L) {
-        val value = current.amount.toDouble() / 100000000
+    if (this != 0L) {
+        val value = current.value.toDouble() / 100000000
         val beam = this.convertToBeam()
         var rate = value * beam
         if (current.currency == Currency.Usd) {
@@ -89,11 +110,11 @@ fun Long.convertToCurrencyGrothString(): String? {
             return resultString
         }
     }
-    else if (current==null || this == 0L) {
-        if (AppManager.instance.currentCurrency() == Currency.Usd) {
+    else if (this == 0L) {
+        if (ExchangeManager.instance.currency == Currency.Usd.value) {
             return  "-USD"
         }
-        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
+        else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
             return  "-BTC"
         }
     }
@@ -106,21 +127,17 @@ fun Double.convertToCurrencyString(currency: Currency?): String? {
         return convertToCurrencyString()
     }
     val entered = this
-    val current = AppManager.instance.getCurrencyById(currency)
-    val value = current?.amount?.toDouble()?.div(100000000)
-    val rate = (entered)/value!!
-    return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BEAM"
+    val current = ExchangeManager.instance.getRate(currency?.value)
+    val value = current?.value?.toDouble()?.div(100000000) ?: return null
+    val rate = (entered)/value
+    return DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BEAM"
 }
 
 fun Double.convertToCurrencyString(): String? {
-    val current = AppManager.instance.currentExchangeRate()
+    val current = ExchangeManager.instance.currentRate() ?: return null
 
-    if (current?.currency == Currency.Off || AppManager.instance.currencies.count() == 0) {
-        return null
-    }
-
-    if (current!=null && this != 0.0) {
-        val value = current.amount.toDouble() / 100000000
+    if (this != 0.0) {
+        val value = current.value.toDouble() / 100000000
         val rate = value * this
         if (current.currency == Currency.Usd) {
             return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
@@ -130,11 +147,11 @@ fun Double.convertToCurrencyString(): String? {
         }
     }
     else if (this == 0.0) {
-        if (AppManager.instance.currentCurrency() == Currency.Usd) {
-            return  "0 USD"
+        if (ExchangeManager.instance.currency == Currency.Usd.value) {
+            return  "-USD"
         }
-        else if (AppManager.instance.currentCurrency() == Currency.Bitcoin) {
-            return  "0 BTC"
+        else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
+            return  "-BTC"
         }
     }
 

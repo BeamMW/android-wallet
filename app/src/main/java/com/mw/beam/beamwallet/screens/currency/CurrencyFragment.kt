@@ -43,7 +43,7 @@ class CurrencyFragment: BaseFragment<CurrencyPresenter>(), CurrencyContract.View
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
-    override fun init(currencies: List<ExchangeRate>, currency: Currency) {
+    override fun init(currencies: List<Currency>, currency: Currency) {
         adapter = CurrencyAdapter(currencies) {
             presenter?.onSelectCurrency(it)
         }

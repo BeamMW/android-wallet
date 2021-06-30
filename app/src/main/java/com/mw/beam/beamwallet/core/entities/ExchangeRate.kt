@@ -33,11 +33,11 @@ enum class Currency(val value: Int) {
             this == Bitcoin -> {
                 context.getString(R.string.btc)
             }
-            this == Off -> {
-                context.getString(R.string.off)
-            }
             this == Beam -> {
                 "BEAM"
+            }
+            this == Usd -> {
+                context.getString(R.string.usd)
             }
             else -> {
                 context.getString(R.string.usd)
@@ -50,11 +50,11 @@ enum class Currency(val value: Int) {
             this == Bitcoin -> {
                 "BTC"
             }
-            this == Off -> {
-                ""
-            }
             this == Beam -> {
                 "BEAM"
+            }
+            this == Usd -> {
+                "USD"
             }
             else -> {
                 "USD"
@@ -65,9 +65,23 @@ enum class Currency(val value: Int) {
 
 @Parcelize
 data class ExchangeRate(private val source: ExchangeRateDTO) : Parcelable {
-    var currency = Currency.fromValue(source.to)
+    var currency = if (source.toName == "btc") {
+        Currency.Bitcoin
+    }
+    else {
+        Currency.Usd
+    }
+
     var value = source.rate
     var realValue = source.rate.convertToBeam()
     var code = currency.shortName()
-    var assetId = source.assetId
+    var assetId = if (source.fromName.contains("asset")) {
+        val assetId = source.fromName.replace("asset_", "")
+        assetId.toInt()
+    }
+    else {
+        0
+    }
+    var fromName = source.fromName
+    var toName = source.toName
 }

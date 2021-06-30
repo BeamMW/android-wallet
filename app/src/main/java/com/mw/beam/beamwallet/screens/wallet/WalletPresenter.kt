@@ -34,7 +34,7 @@ import org.jetbrains.anko.runOnUiThread
 /**
  *  10/1/18.
  */
-class WalletPresenter(currentView: WalletContract.View, currentRepository: WalletContract.Repository, private val state: WalletState)
+class WalletPresenter(currentView: WalletContract.View, currentRepository: WalletContract.Repository, val state: WalletState)
     : BasePresenter<WalletContract.View, WalletContract.Repository>(currentView, currentRepository),
         WalletContract.Presenter {
 
@@ -64,7 +64,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showFaucet(canReceive)
         view?.showSecure(OnboardManager.instance.canMakeSecure())
 
-        view?.configWalletStatus()
+        view?.configWalletStatus(state.getAssets())
 
     }
 
@@ -123,6 +123,10 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.showAllTransactions()
     }
 
+    override fun onShowAllAssetsPressed() {
+        view?.showAllAssets()
+    }
+
     override fun onReceiveFaucet() {
         view?.showReceiveFaucet()
     }
@@ -137,11 +141,12 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         state.walletStatus = AppManager.instance.getStatus()
 
         view?.configTransactions(state.getTransactions())
-        view?.configWalletStatus()
+        view?.configWalletStatus(state.getAssets())
 
         walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe {
             state.walletStatus = AppManager.instance.getStatus()
-            view?.configWalletStatus()
+            view?.configWalletStatus(state.getAssets())
+            view?.configTransactions(state.getTransactions())
 
             val canReceive = OnboardManager.instance.canReceiveFaucet() && state.getTransactions().count() == 0
             view?.showFaucet(canReceive)
@@ -166,7 +171,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         subOnCurrenciesSubscription = AppManager.instance.subOnCurrenciesChanged.subscribe {
             App.self.runOnUiThread {
                 view?.configTransactions(state.getTransactions())
-                view?.configWalletStatus()
+                view?.configWalletStatus(state.getAssets())
             }
         }
     }

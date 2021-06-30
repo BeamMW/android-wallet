@@ -25,6 +25,20 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.*
 import androidx.navigation.fragment.findNavController
+import android.transition.AutoTransition
+import android.animation.ObjectAnimator
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.os.Handler
+import android.view.MenuInflater
+import android.view.LayoutInflater
+import android.text.Spannable
+import android.text.style.ForegroundColorSpan
+import android.text.SpannableStringBuilder
+import android.graphics.Color
+import android.content.res.ColorStateList
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -36,36 +50,15 @@ import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.ExchangeManager
+import com.mw.beam.beamwallet.core.AppManager
+
+import java.io.File
+
+
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
 import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
-import java.io.File
-import com.mw.beam.beamwallet.core.AppManager
-import android.transition.AutoTransition
-import android.animation.ObjectAnimator
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.os.Handler
-import android.graphics.drawable.GradientDrawable
-import kotlinx.android.synthetic.main.fragment_transaction_details.detailsArrowView
-import kotlinx.android.synthetic.main.fragment_transaction_details.detailsExpandLayout
-import kotlinx.android.synthetic.main.fragment_transaction_details.kernelLayout
-import kotlinx.android.synthetic.main.fragment_transaction_details.receiverLayout
-import kotlinx.android.synthetic.main.fragment_transaction_details.senderLayout
-import kotlinx.android.synthetic.main.fragment_transaction_details.toolbarLayout
-import android.view.MenuInflater
-import android.view.LayoutInflater
-import android.text.Spannable
-import android.text.style.ForegroundColorSpan
-import android.text.SpannableStringBuilder
-import android.graphics.Color
-import android.content.res.ColorStateList
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.entities.Currency
-import kotlinx.android.synthetic.main.fragment_transaction_details.*
-import kotlinx.android.synthetic.main.fragment_transaction_details.mainConstraintLayout
-import kotlinx.android.synthetic.main.item_transaction.*
-
 
 /**
  *  10/18/18.
@@ -77,7 +70,7 @@ class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), 
     private var oldTransaction: TxDescription? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_transaction_details
-    override fun getToolbarTitle(): String? = getString(R.string.transaction_details)
+    override fun getToolbarTitle(): String = getString(R.string.transaction_details)
     override fun getTransactionId(): String = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).txId
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
     ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
@@ -86,8 +79,6 @@ else{
     ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
-    var downX: Float = 0f
-    var downY: Float = 0f
     var txId:String = ""
 
     override fun init(txDescription: TxDescription, isEnablePrivacyMode: Boolean) {
@@ -105,18 +96,6 @@ else{
             moreMenu?.close()
 
             toolbarLayout.hasStatus = true
-
-            amountLabel.visibility = if (isEnablePrivacyMode) View.GONE else View.VISIBLE
-
-            val current = AppManager.instance.currentCurrency()
-
-            if(isEnablePrivacyMode || current == Currency.Off) {
-                secondAvailableSum.visibility = View.GONE
-            }
-            else {
-                secondAvailableSum.visibility = View.VISIBLE
-            }
-
 
             detailsArrowView.rotation = 180f
             proofArrowView.rotation = 180f
@@ -179,7 +158,7 @@ else{
     }
 
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "SetTextI18n")
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
         utxosLayout.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
 
@@ -210,7 +189,7 @@ else{
                     utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
                 }
 
-                utxoView.utxoAmount.text = utxo.amount.convertToBeamString() + " BEAM"
+                utxoView.utxoAmount.text = utxo.amount.convertToAssetString(oldTransaction?.asset?.unitName ?: "")
 
                 utxosList.addView(utxoView)
             }
@@ -220,7 +199,7 @@ else{
     override fun updatePaymentProof(paymentProof: PaymentProof) {
         if (proofLayout.visibility == View.VISIBLE)
             return
-        else if(paymentProof.rawProof.isNullOrEmpty())
+        else if(paymentProof.rawProof.isEmpty())
             return
 
         proofLabel.text = paymentProof.rawProof
@@ -231,7 +210,7 @@ else{
     override fun updateAddresses(txDescription: TxDescription) {
         val start = AppManager.instance.getAddress(startAddress.text.toString())
 
-        if (start != null && !start.label.isNullOrEmpty()) {
+        if (start != null && start.label.isNotEmpty()) {
             startContactLayout.visibility = View.VISIBLE
             startContactValue.text = start.label
         } else {
@@ -239,7 +218,7 @@ else{
         }
 
         val end = AppManager.instance.getAddress(endAddress.text.toString())
-        if (end != null && !end.label.isNullOrEmpty()) {
+        if (end != null && end.label.isNotEmpty()) {
             endContactLayout.visibility = View.VISIBLE
             endContactValue.text = end.label
         } else {
@@ -251,17 +230,18 @@ else{
         endAddressCategory.visibility =  View.GONE
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     private fun configGeneralTransactionInfo(txDescription: TxDescription) {
 
         dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
 
-        amountLabel.text = txDescription.amount.convertToBeamWithSign(txDescription.sender.value) + " BEAM"
+        val amount = txDescription.amount.convertToAssetString(txDescription.asset?.unitName ?: "")
+        amountLabel.text = amount
         amountLabel.setTextColor(txDescription.amountColor())
 
-        val second = txDescription.amount.convertToCurrencyString()
+        val second = txDescription.amount.exchangeValueAsset(txDescription.assetId)
 
-        if (second == null) {
+        if (second.isEmpty()) {
             secondAvailableSum.visibility = View.GONE
         }
         else {
@@ -278,26 +258,20 @@ else{
 
         val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
         statusLabel.text = upperString
+        statusLabel.setCompoundDrawablesWithIntrinsicBounds(txDescription.statusImage(), null, null, null)
 
-        transactionStatusIcon.setImageDrawable(txDescription.statusImage())
-
-        if (txDescription.status == TxStatus.Failed) {
-            transactionStatusIcon.imageTintList = ColorStateList.valueOf(txDescription.statusColor())
-        }
-
-        val drawable = shape.background as GradientDrawable
-        drawable.setStroke(ScreenHelper.dpToPx(context, 1), txDescription.statusColor())
+        assetIcon.setImageResource(txDescription.asset?.image ?: R.drawable.ic_asset_0)
 
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {
                 startAddress.text = txDescription.myId
                 endAddress.text = txDescription.peerId
 
-                startAddressTitle.text = "${getString(R.string.my_sending_address)}".toUpperCase()
-                endAddressTitle.text = "${getString(R.string.my_receiving_address)}".toUpperCase()
+                startAddressTitle.text = getString(R.string.my_sending_address).toUpperCase()
+                endAddressTitle.text = getString(R.string.my_receiving_address).toUpperCase()
             } else {
-                startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
-                endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
+                startAddressTitle.text = getString(R.string.contact).toUpperCase()
+                endAddressTitle.text = getString(R.string.my_address).toUpperCase()
 
                 startAddress.text = txDescription.peerId
                 endAddress.text = txDescription.myId
@@ -307,8 +281,8 @@ else{
                 }
             }
         } else {
-            startAddressTitle.text = "${getString(R.string.contact)}".toUpperCase()
-            endAddressTitle.text = "${getString(R.string.my_address)}".toUpperCase()
+            startAddressTitle.text = getString(R.string.contact).toUpperCase()
+            endAddressTitle.text = getString(R.string.my_address).toUpperCase()
             startAddress.text = txDescription.peerId
             endAddress.text = txDescription.myId
         }

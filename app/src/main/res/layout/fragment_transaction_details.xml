@@ -54,7 +54,7 @@
                 android:id="@+id/infoCard"
                 style="@style/common_card_style"
                 android:layout_width="0dp"
-                android:layout_height="122dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="12dp"
@@ -71,55 +71,41 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/amountLabel"
+                        style="@style/common_text_big_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_marginTop="36dp"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:textSize="20sp"
+                        tools:text="190.2020" />
 
-                        <TextView
-                            android:id="@+id/amountLabel"
-                            style="@style/common_text_big_light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:gravity="center"
-                            android:textSize="20sp"
-                            tools:text="190.2020" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:orientation="vertical"
+                    <TextView
+                        android:id="@+id/secondAvailableSum"
+                        style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textAlignment="center"
+                        android:textColor="@color/white_08"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        tools:text="-USD" />
 
-                        <TextView
-                            android:id="@+id/secondAvailableSum"
-                            style="@style/common_text_big_dark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:layout_gravity="center"
-                            android:textAlignment="center"
-                            android:textSize="14sp"
-                            android:visibility="visible"
-                            tools:text="-USD" />
-
-                        <TextView
-                            android:id="@+id/statusLabel"
-                            style="@style/common_text_big_light"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:fontFamily="@font/roboto_italic"
-                            android:layout_gravity="center"
-                            android:paddingTop="5dp"
-                            android:textSize="16sp"
-                            tools:text="@string/available" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/statusLabel"
+                        style="@style/common_text_big_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_italic"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginTop="8dp"
+                        tools:text="@string/available" />
 
 
                 </LinearLayout>
@@ -130,7 +116,6 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/shape"
                 android:contentDescription="@null"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -140,9 +125,9 @@
                 app:layout_constraintWidth_percent=".5">
 
                 <ImageView
-                    android:id="@+id/transactionStatusIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/assetIcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_sending_share_transaction_details" />
             </LinearLayout>
 

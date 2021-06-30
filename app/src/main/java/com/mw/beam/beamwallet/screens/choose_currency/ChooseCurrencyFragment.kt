@@ -47,7 +47,7 @@ class ChooseCurrencyFragment: BaseFragment<ChooseCurrencyPresenter>(), ChooseCur
         ChooseCurrencyFragmentArgs.fromBundle(requireArguments())
     }
 
-    override fun init(currencies: List<ExchangeRate>) {
+    override fun init(currencies: List<Currency>) {
         adapter = ChooseCurrencyAdapter(currencies) {
             presenter?.onSelectCurrency(it)
         }

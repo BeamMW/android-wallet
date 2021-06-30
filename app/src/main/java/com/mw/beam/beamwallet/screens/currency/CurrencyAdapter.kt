@@ -28,7 +28,7 @@ import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
-class CurrencyAdapter(private val currencies: List<ExchangeRate>, private val onSelected: (Currency) -> Unit): RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
+class CurrencyAdapter(private val currencies: List<Currency>, private val onSelected: (Currency) -> Unit): RecyclerView.Adapter<CurrencyAdapter.ViewHolder>() {
     private var selectedCurrency: Currency = Currency.Usd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,9 +40,9 @@ class CurrencyAdapter(private val currencies: List<ExchangeRate>, private val on
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currency = currencies[position]
 
-        holder.selected = selectedCurrency.value == currency.currency.value
-        holder.name = currency.currency.name(App.self)
-        holder.itemView.setOnClickListener { onSelected(currency.currency) }
+        holder.selected = selectedCurrency.value == currency.value
+        holder.name = currency.name(App.self)
+        holder.itemView.setOnClickListener { onSelected(currency) }
     }
 
     fun currency(language: Currency) {

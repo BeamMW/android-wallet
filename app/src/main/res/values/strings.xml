@@ -727,5 +727,11 @@ address or contact</string>
     <string name="regular_offline_address">Regular offline-only address</string>
     <string name="regular_online_address">Regular online-only address</string>
     <string name="assets">Assets</string>
+    <string name="usage_recent_old">Usage: recent to oldest</string>
+    <string name="usage_old_recent">Usage: oldest to recent</string>
+    <string name="amount_large_small">Amount: largest to smallest</string>
+    <string name="amount_small_large">Amount: smallest to largest</string>
+    <string name="usd_small_large">USD: smallest to largest</string>
+    <string name="usd_large_small">USD: largest to smallest</string>
 </resources>
 

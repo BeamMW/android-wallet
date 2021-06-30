@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.ExchangeManager
 
 /**
  *  3/4/19.
@@ -130,6 +131,7 @@ else{
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
+        ExchangeManager.instance.isPrivacyMode = isEnable
         adapter?.setPrivacyMode(isEnable)
     }
 

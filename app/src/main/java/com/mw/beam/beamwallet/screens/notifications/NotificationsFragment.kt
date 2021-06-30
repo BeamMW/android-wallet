@@ -28,6 +28,7 @@ import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.NotificationItem
 import com.mw.beam.beamwallet.core.views.NotificationBanner
 
@@ -281,6 +282,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     }
 
     override fun configPrivacyStatus(isEnable: Boolean) {
+        ExchangeManager.instance.isPrivacyMode = isEnable
         activity?.invalidateOptionsMenu()
         presenter?.repository?.getNotifications(requireContext())?.let { presenter?.state?.privacyMode?.let { it1 -> configNotifications(it, it1) } }
         adapter.setPrivacyMode(isEnable)

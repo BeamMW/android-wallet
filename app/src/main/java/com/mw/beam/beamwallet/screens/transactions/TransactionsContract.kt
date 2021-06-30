@@ -29,6 +29,7 @@ import java.io.File
 interface TransactionsContract {
     interface View: MvpView {
         fun init()
+        fun getAssetId():Int
         fun showTransactionDetails(txId: String)
         fun configTransactions(transactions: List<TxDescription>)
         fun exportSave(content:String)

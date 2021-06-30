@@ -1,6 +1,9 @@
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
+import com.mw.beam.beamwallet.core.helpers.exchangeValueAsset
 
 
 class Asset(val assetId: Int,
@@ -24,4 +27,21 @@ class Asset(val assetId: Int,
     var site: String = ""
     var paper: String = ""
     var color:String = ""
+    var image:Int = 0
+
+    fun isBeam():Boolean {
+        return assetId == 0
+    }
+
+    fun lockedSum():Long {
+        return receiving + sending + maturing + maxPrivacy
+    }
+
+    fun usd():Long {
+        return ExchangeManager.instance.exchangeValueUSDAsset(available, assetId)
+    }
+
+    fun dateUsed():Long {
+        return AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
+    }
 }

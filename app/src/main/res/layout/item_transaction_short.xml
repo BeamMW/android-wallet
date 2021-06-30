@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,32 +11,28 @@
     android:paddingEnd="@dimen/common_offset"
     android:paddingBottom="@dimen/transaction_item_padding">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/icon"
+            android:id="@+id/assetIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@null"
             android:paddingEnd="15dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/message"
+            app:layout_constraintTop_toTopOf="@id/amountLabel"
             tools:ignore="RtlSymmetry"
-            tools:src="@drawable/ic_icon_sent" />
+            tools:src="@drawable/ic_asset_0" />
 
-    <ImageView
-        android:id="@+id/currency"
-        style="@style/common_currency_style"
-        android:layout_width="12dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="6dp"
-        android:contentDescription="@null"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/currency_beam" />
-
-    <TextView
-            android:id="@+id/message"
+        <TextView
+            android:id="@+id/amountLabel"
             style="@style/common_subheader_light"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -44,59 +41,47 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/barrier"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/icon"
+            app:layout_constraintStart_toEndOf="@id/assetIcon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Receive" />
 
-    <TextView
-        android:id="@+id/sum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:paddingStart="@dimen/wallet_currency_padding"
-        android:paddingEnd="@dimen/wallet_currency_padding"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/status"
-        app:layout_constraintEnd_toStartOf="@id/currency"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="123.12" />
-
-    <TextView
-        android:id="@+id/sumSecondBalance"
-        style="@style/common_text_big_dark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="2dp"
-        android:fontFamily="@font/roboto_regular"
-        android:textSize="14sp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/status"
-        app:layout_constraintTop_toBottomOf="@+id/sum"
-        tools:text="1234 USD" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="secondBalanceLabel"
+            tools:ignore="RtlSymmetry"
+            tools:layout_editor_absoluteX="259dp" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/secondBalanceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:paddingStart="@dimen/wallet_currency_padding"
+            android:paddingEnd="@dimen/wallet_currency_padding"
+            android:textColor="@color/white_08"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/statusLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="123.12" />
+
+        <TextView
+            android:id="@+id/statusLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_icon_sent"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/roboto_italic"
-            android:paddingTop="@dimen/transaction_status_padding_top"
-            android:paddingEnd="@dimen/wallet_currency_padding"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/message"
-            app:layout_constraintTop_toBottomOf="@id/message"
+            app:layout_constraintStart_toStartOf="@id/amountLabel"
+            app:layout_constraintTop_toBottomOf="@id/amountLabel"
             tools:text="@string/sending_to_own_address" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="5dp"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="sum,sumSecondBalance"
-        tools:ignore="RtlSymmetry"
-        tools:layout_editor_absoluteX="317dp"
-        tools:layout_editor_absoluteY="13dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

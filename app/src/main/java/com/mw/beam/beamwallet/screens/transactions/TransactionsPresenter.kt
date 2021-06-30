@@ -40,28 +40,16 @@ class TransactionsPresenter(view: TransactionsContract.View?, repository: Transa
         super.onViewCreated()
 
         view?.init()
-//
-//      android.os.Handler().postDelayed({
-//          view?.init()
-//          view?.configTransactions(getTransactions())
-//      }, 200)
-
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//
-//        view?.init()
-//
-//        doAsync {
-//            val tr = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
-//            uiThread {
-//                view?.configTransactions(tr)
-//            }
-//        }
-//    }
-
-    fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }
+    fun getTransactions() = if(view?.getAssetId() == -1) {
+        AppManager.instance.getTransactions().sortedByDescending { it.createTime }
+    }
+    else {
+        AppManager.instance.getTransactions().filter {
+            it.assetId == view?.getAssetId()
+        }.sortedByDescending { it.createTime }
+    }
 
     override fun onTransactionPressed(txDescription: TxDescription) {
         view?.showTransactionDetails(txDescription.id)

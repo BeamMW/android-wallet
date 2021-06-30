@@ -32,83 +32,72 @@
         app:layout_constraintStart_toEndOf="@id/checkBox"
         app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@null"
-        android:paddingEnd="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/message"
-        tools:ignore="RtlSymmetry"
-        tools:src="@drawable/ic_icon_sent" />
+        <ImageView
+            android:id="@+id/assetIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:paddingEnd="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/amountLabel"
+            tools:ignore="RtlSymmetry"
+            tools:src="@drawable/ic_asset_0" />
 
-    <TextView
-        android:id="@+id/message"
-        style="@style/common_subheader_light"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="start"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Receive" />
+        <TextView
+            android:id="@+id/amountLabel"
+            style="@style/common_subheader_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="start"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/assetIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Receive" />
 
-    <TextView
-        android:id="@+id/date"
-        style="@style/common_text_small_light"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:paddingTop="@dimen/transaction_date_padding"
-        app:layout_constraintBottom_toTopOf="@id/commentTextView"
-        app:layout_constraintEnd_toEndOf="@id/currency"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/icon"
-        app:layout_constraintTop_toBottomOf="@id/status"
-        tools:text="date" />
+        <TextView
+            android:id="@+id/dateLabel"
+            style="@style/common_text_small_light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:paddingTop="@dimen/transaction_date_padding"
+            android:textColor="@color/white_08"
+            app:layout_constraintBottom_toTopOf="@id/commentLabel"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/assetIcon"
+            app:layout_constraintTop_toBottomOf="@id/statusLabel"
+            tools:text="date" />
 
-    <ImageView
-        android:id="@+id/commentIcon"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintStart_toStartOf="@id/message"
-        app:layout_constraintTop_toTopOf="@id/commentTextView"
-        app:layout_constraintBottom_toBottomOf="@id/commentTextView"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_icon_comment"
-        android:layout_width="16dp"
-        android:layout_height="16dp" />
+        <ImageView
+            android:id="@+id/commentIcon"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintStart_toStartOf="@id/amountLabel"
+            app:layout_constraintTop_toTopOf="@id/commentLabel"
+            app:layout_constraintBottom_toBottomOf="@id/commentLabel"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_icon_comment"
+            android:layout_width="16dp"
+            android:layout_height="16dp" />
 
-    <TextView
-        android:id="@+id/commentTextView"
-        style="@style/common_text_big_dark"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
-        android:layout_marginStart="10dp"
-        app:layout_constraintEnd_toEndOf="@id/currency"
-        app:layout_constraintStart_toEndOf="@id/commentIcon"
-        app:layout_constraintTop_toBottomOf="@id/date"
-        tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
-        tools:visibility="visible" />
-
-    <LinearLayout
-        android:id="@+id/searchResultContainer"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/commentTextView"
-        app:layout_constraintStart_toStartOf="@id/message"
-        app:layout_constraintEnd_toEndOf="@id/currency"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/commentLabel"
+            style="@style/common_text_big_dark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/commentIcon"
+            app:layout_constraintTop_toBottomOf="@id/dateLabel"
+            tools:text="437dnks37sbso93sj7shskksbhyxmlxzbvklxsvaj"
+            tools:visibility="visible" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
@@ -116,60 +105,51 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             app:barrierDirection="start"
-            app:constraint_referenced_ids="sum,sumSecondBalance"
+            app:constraint_referenced_ids="secondBalanceLabel"
             tools:ignore="RtlSymmetry"
-            tools:layout_editor_absoluteX="271dp" />
+            tools:layout_editor_absoluteX="259dp" />
 
         <TextView
-            android:id="@+id/sum"
+            android:id="@+id/secondBalanceLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_medium"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:paddingStart="@dimen/wallet_currency_padding"
             android:paddingEnd="@dimen/wallet_currency_padding"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@id/status"
-            app:layout_constraintEnd_toStartOf="@id/currency"
+            android:textColor="@color/white_08"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/statusLabel"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="123.12" />
 
         <TextView
-            android:id="@+id/sumSecondBalance"
-            style="@style/common_text_big_dark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="2dp"
-            android:fontFamily="@font/roboto_regular"
-            android:textSize="14sp"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="@+id/date"
-            app:layout_constraintTop_toBottomOf="@+id/sum"
-            tools:text="1234 USD" />
-
-        <ImageView
-            android:id="@+id/currency"
-            style="@style/common_currency_style"
-            android:layout_width="12dp"
-            android:layout_height="18dp"
-            android:layout_marginTop="6dp"
-            android:contentDescription="@null"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/currency_beam" />
-
-        <TextView
-            android:id="@+id/status"
+            android:id="@+id/statusLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawableStart="@drawable/ic_icon_sent"
+            android:drawablePadding="5dp"
             android:fontFamily="@font/roboto_italic"
-            android:paddingTop="@dimen/transaction_status_padding_top"
-            android:paddingEnd="@dimen/wallet_currency_padding"
             android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="@id/message"
-            app:layout_constraintTop_toBottomOf="@id/message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/amountLabel"
+            app:layout_constraintTop_toBottomOf="@id/amountLabel"
             tools:text="@string/sending_to_own_address" />
+
+        <LinearLayout
+            android:id="@+id/searchResultContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/amountLabel"
+            app:layout_constraintTop_toBottomOf="@id/commentLabel"
+            tools:visibility="visible" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:filterTouchesWhenObscured="true"
     android:background="@android:color/transparent">
 
     <androidx.cardview.widget.CardView
@@ -45,10 +46,11 @@
                 android:id="@+id/assetIcon"
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                android:background="@color/white_02"
+                android:src="@drawable/ic_asset_0"
                 android:importantForAccessibility="no" />
 
             <LinearLayout
+                android:id="@+id/balanceLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

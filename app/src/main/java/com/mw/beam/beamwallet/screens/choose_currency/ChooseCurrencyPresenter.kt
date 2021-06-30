@@ -29,19 +29,10 @@ class ChooseCurrencyPresenter(view: ChooseCurrencyContract.View?, repository: Ch
     override fun onViewCreated() {
         super.onViewCreated()
 
-        val usdRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
-        usdRate.currency = Currency.Usd
-
-        val btcRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
-        btcRate.currency = Currency.Bitcoin
-
-        val beamRate = ExchangeRate(ExchangeRateDTO(-1,0,0,0));
-        beamRate.currency = Currency.Beam
-
-        var currencies = mutableListOf<ExchangeRate>() //repository.getCurrencies().toMutableList()
-        currencies.add(beamRate)
-        currencies.add(usdRate)
-        currencies.add(btcRate)
+        var currencies = mutableListOf<Currency>() //repository.getCurrencies().toMutableList()
+        currencies.add(Currency.Beam)
+        currencies.add(Currency.Usd)
+        currencies.add(Currency.Bitcoin)
 
         view?.init(currencies)
     }

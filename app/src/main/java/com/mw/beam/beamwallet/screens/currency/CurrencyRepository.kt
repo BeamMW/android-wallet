@@ -17,24 +17,18 @@
 package com.mw.beam.beamwallet.screens.currency
 
 import com.mw.beam.beamwallet.base_screen.BaseRepository
-import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.Currency
-import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 
 class CurrencyRepository: BaseRepository(), CurrencyContract.Repository {
 
-    override fun getCurrencies(): List<ExchangeRate> {
-        return AppManager.instance.currencies
-    }
-
     override fun getCurrentCurrency(): Currency {
-        val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
-        return Currency.fromValue(value.toInt())
+        return ExchangeManager.instance.currentCurrency()
     }
 
     override fun setCurrency(currency: Currency) {
         PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, currency.value.toLong())
-        AppManager.instance.updateCurrentCurrency()
+        ExchangeManager.instance.currency = currency.value
     }
 }

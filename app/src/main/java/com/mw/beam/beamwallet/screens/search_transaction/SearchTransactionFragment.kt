@@ -48,10 +48,14 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_search_transaction
 
-    override fun getToolbarTitle(): String? = ""
+    override fun getToolbarTitle(): String = ""
+
+    override fun getAssetId(): Int {
+        return SearchTransactionFragmentArgs.fromBundle(requireArguments()).assetId
+    }
 
     override fun init() {
-        adapter = TransactionsAdapter(context!!,null, mutableListOf(), TransactionsAdapter.Mode.SEARCH) {
+        adapter = TransactionsAdapter(requireContext(),null, mutableListOf(), TransactionsAdapter.Mode.SEARCH) {
             presenter?.onTransactionPressed(it)
         }
 

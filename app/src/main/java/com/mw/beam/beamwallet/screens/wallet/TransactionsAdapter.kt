@@ -18,7 +18,6 @@ package com.mw.beam.beamwallet.screens.wallet
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -33,6 +32,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
@@ -41,10 +41,11 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.screens.transactions.TransactionsFragment
+
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_transaction.*
-import java.util.regex.Pattern
 
+import java.util.regex.Pattern
 
 class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
         RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
@@ -58,8 +59,6 @@ class TransactionsAdapter(private val context: Context, private val longListener
     private val regularTypeface by lazy { ResourcesCompat.getFont(context, R.font.roboto_regular) }
     private val commonDarkTextColor by lazy { ContextCompat.getColor(context, R.color.common_text_dark_color) }
     private val itemOffset by lazy { context.resources.getDimensionPixelSize(R.dimen.search_text_offset) }
-    private val receiveText = context.getString(R.string.receive)
-    private val sendText = context.getString(R.string.send)
     private var privacyMode: Boolean = false
     private var searchString: String? = null
 
@@ -114,12 +113,17 @@ class TransactionsAdapter(private val context: Context, private val longListener
         val transaction = data[position]
 
         holder.apply {
-            val messageStatus = when (transaction.sender) {
-                TxSender.RECEIVED -> receiveText
-                TxSender.SENT -> sendText
+
+            val asset = transaction.asset
+
+            assetIcon.setImageResource(asset?.image ?: R.drawable.ic_asset_0)
+
+            when (transaction.sender) {
+                TxSender.RECEIVED -> amountLabel.text = "+ " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
+                TxSender.SENT -> amountLabel.text = "+ " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
             }
 
-            message.text = messageStatus
+            secondBalanceLabel.text = transaction.amount.exchangeValueAsset(transaction.assetId)
 
             if (App.isDarkMode) {
                 if (reverseColors) {
@@ -138,41 +142,9 @@ class TransactionsAdapter(private val context: Context, private val longListener
               }
           }
 
-            icon.setImageDrawable(transaction.statusImage())
-
-            if (transaction.status == TxStatus.Failed) {
-                icon.imageTintList = ColorStateList.valueOf(transaction.statusColor())
-            }
-            else {
-                icon.imageTintList = null
-            }
-
-            sum.text = transaction.amount.convertToBeamWithSign(transaction.sender.value) + " BEAM"
-            sum.setTextColor(transaction.amountColor())
-
-            status.setTextColor(transaction.statusColor())
-            status.text = transaction.getStatusString(context)
-
-            if(sumSecondBalance!=null)
-            {
-                val amount = transaction.amount.convertToCurrencyString()
-                if (amount == null) {
-                    sumSecondBalance.text = amount
-                }
-                else {
-                    if (transaction.sender.value) {
-                        sumSecondBalance.text = "-$amount"
-                    }
-                    else{
-                        sumSecondBalance.text = "+$amount"
-                    }
-                }
-            }
-
-
-            val amountVisibility = if (privacyMode) View.GONE else View.VISIBLE
-            sum.visibility = amountVisibility
-            sumSecondBalance.visibility = amountVisibility
+            statusLabel.setCompoundDrawablesWithIntrinsicBounds(transaction.statusImage(), null, null, null)
+            statusLabel.setTextColor(transaction.statusColor())
+            statusLabel.text = transaction.getStatusString(context)
 
             if (cellMode == Mode.SEARCH) {
                 searchResultContainer.removeAllViews()
@@ -212,25 +184,25 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
 
             if (cellMode != Mode.SHORT) {
-                date.text = CalendarUtils.fromTimestamp(transaction.createTime)
+                dateLabel.text = CalendarUtils.fromTimestamp(transaction.createTime)
 
                 when {
                     !searchString.isNullOrBlank() && transaction.message.toLowerCase().contains(searchString?.toLowerCase()
                             ?: "") && transaction.message.isNotBlank() -> {
                         commentIcon.visibility = View.VISIBLE
-                        commentTextView.visibility = View.VISIBLE
+                        commentLabel.visibility = View.VISIBLE
 
-                        setSpannableText(commentTextView, transaction.message, searchString ?: "")
+                        setSpannableText(commentLabel, transaction.message, searchString ?: "")
                     }
                     transaction.message.isNotBlank() -> {
                         commentIcon.visibility = View.VISIBLE
-                        commentTextView.text = transaction.message
-                        commentTextView.setTextColor(ContextCompat.getColor(context, R.color.common_text_dark_color))
-                        commentTextView.visibility = View.VISIBLE
+                        commentLabel.text = transaction.message
+                        commentLabel.setTextColor(ContextCompat.getColor(context, R.color.common_text_dark_color))
+                        commentLabel.visibility = View.VISIBLE
                     }
                     else -> {
                         commentIcon.visibility = View.GONE
-                        commentTextView.visibility = View.GONE
+                        commentLabel.visibility = View.GONE
                     }
                 }
             }

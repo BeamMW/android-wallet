@@ -46,4 +46,5 @@ data class TxDescriptionDTO(var id: String,
                             var senderIdentity: String,
                             var receiverIdentity: String,
                             var receiverAddress: String,
-                            var senderAddress: String) : Parcelable
+                            var senderAddress: String,
+                            var assetId:Int) : Parcelable

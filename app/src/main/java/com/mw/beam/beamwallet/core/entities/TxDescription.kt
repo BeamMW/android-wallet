@@ -56,6 +56,8 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val receiverIdentity = source.receiverIdentity
     val receiverAddress = source.receiverAddress
     val senderAddress = source.senderAddress
+    val assetId = source.assetId
+    var asset:Asset? = null
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)

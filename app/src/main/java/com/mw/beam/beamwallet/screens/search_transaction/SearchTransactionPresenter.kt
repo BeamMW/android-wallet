@@ -55,7 +55,7 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
         view?.setClearButtonVisible(state.searchText.isNotBlank())
 
         val transactions = if (state.searchText.isNotBlank()) {
-            state.getAllTransactions().filter {
+            state.getAllTransactions(view?.getAssetId() ?: -1).filter {
                 it.id.toLowerCase().startsWith(state.searchText) ||
                 it.kernelId.toLowerCase().startsWith(state.searchText) ||
                         it.peerId.toLowerCase().startsWith(state.searchText) ||

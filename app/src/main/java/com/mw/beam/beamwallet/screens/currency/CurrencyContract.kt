@@ -25,7 +25,7 @@ import com.mw.beam.beamwallet.core.entities.ExchangeRate
 interface CurrencyContract {
 
     interface View: MvpView {
-        fun init(currencies: List<ExchangeRate>, currency: Currency)
+        fun init(currencies: List<Currency>, currency: Currency)
         fun changeCurrency(currency: Currency)
     }
 
@@ -34,7 +34,6 @@ interface CurrencyContract {
     }
 
     interface Repository: MvpRepository {
-        fun getCurrencies(): List<ExchangeRate>
         fun getCurrentCurrency(): Currency
         fun setCurrency(currency: Currency)
     }

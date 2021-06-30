@@ -19,13 +19,13 @@ class ExchangeManager {
             }
     }
 
-    var currency = Currency.Usd.ordinal
+    var currency = Currency.Usd.value
     var isPrivacyMode = false
 
     init {
         val value = PreferencesManager.getLong(PreferencesManager.KEY_CURRENCY, 0)
         if(value == 0L) {
-            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.ordinal.toLong())
+            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
         }
         else {
             currency = value.toInt()
@@ -40,9 +40,33 @@ class ExchangeManager {
         return rates.size > 0
     }
 
+    fun currentCurrency():Currency {
+        return Currency.fromValue(currency)
+    }
+
     fun currentRate():ExchangeRate? {
         return rates.firstOrNull {
-            it.currency.ordinal == currency
+            it.currency.value == currency
         }
+    }
+
+    fun getRate(id:Int?):ExchangeRate? {
+        return rates.firstOrNull {
+            it.currency.value == id
+        }
+    }
+
+    fun exchangeValueUSDAsset(amount:Long, asset:Int):Long {
+        if(amount == 0L || isPrivacyMode) {
+            return  0L
+        }
+
+        rates.forEach {
+            if(it.assetId == asset && it.currency == Currency.Usd) {
+                return  it.value * amount;
+            }
+        }
+
+        return 0L
     }
 }

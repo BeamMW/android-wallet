@@ -29,6 +29,7 @@ import io.reactivex.subjects.Subject
 interface SearchTransactionContract {
     interface View: MvpView {
         fun init()
+        fun getAssetId():Int
         fun clearSearchText()
         fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?)
         fun setClearButtonVisible(isVisible: Boolean)

@@ -35,7 +35,6 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.addDoubleDots
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
@@ -66,7 +65,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
-import com.mw.beam.beamwallet.core.OnboardManager
 import kotlinx.android.synthetic.main.dialog_export_data.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.btnCancel
 import java.io.FileOutputStream
@@ -77,9 +75,8 @@ import com.github.loadingview.LoadingDialog
 import com.mw.beam.beamwallet.core.views.SettingsItemView
 import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
-import com.mw.beam.beamwallet.core.App
 import android.os.Build
-import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.wallet.NavItem
@@ -94,7 +91,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null)
 
     var items = mutableListOf<Array<SettingsItem>>()
-    var oldItemsCount = -1
 
     override fun mode(): SettingsFragmentMode {
         return SettingsFragmentArgs.fromBundle(requireArguments()).mode
@@ -647,13 +643,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         val btn = sender as RadioButton
                         if (btn.text == getString(R.string.usd)) {
                             PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
+                            ExchangeManager.instance.currency = Currency.Usd.value
                             setCurrencySettings(Currency.Usd)
                         }
                         else {
                             PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Bitcoin.value.toLong())
+                            ExchangeManager.instance.currency = Currency.Bitcoin.value
                             setCurrencySettings(Currency.Bitcoin)
                         }
-                        AppManager.instance.updateCurrentCurrency()
                         presenter?.onDialogClosePressed()
                     }
                 }
