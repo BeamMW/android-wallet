@@ -45,6 +45,7 @@ class AssetDetailFragment : BaseFragment<AssetDetailPresenter>(), AssetDetailCon
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return AssetDetailPresenter(this, AssetDetailRepository())
     }
+
     override fun getToolbarTitle(): String = AssetDetailFragmentArgs.fromBundle(requireArguments()).name
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_asset_detail
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
@@ -163,6 +164,6 @@ class AssetDetailFragment : BaseFragment<AssetDetailPresenter>(), AssetDetailCon
     }
 
     private fun openInfo() {
-
+        findNavController().navigate(AssetDetailFragmentDirections.actionAssetDetailFragmentToAssetInfoFragment(getAssetId(), AssetDetailFragmentArgs.fromBundle(requireArguments()).name))
     }
 }

@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_eye_crossed"
         app:showAsAction="always"/>
     <item android:id="@+id/info_menu"
-        android:title="@string/filter"
+        android:title="@string/asset_info"
         android:icon="@drawable/ic_info_button_asset"
         app:showAsAction="always"/>
 </menu>

@@ -199,7 +199,6 @@
     <string name="maturity">Maturity</string>
 
 
-
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaction details</string>
     <string name="general_transaction_info">General transaction info</string>
@@ -733,5 +732,11 @@ address or contact</string>
     <string name="amount_small_large">Amount: smallest to largest</string>
     <string name="usd_small_large">USD: smallest to largest</string>
     <string name="usd_large_small">USD: largest to smallest</string>
+    <string name="balance">Balance</string>
+    <string name="asset_info">Asset info</string>
+    <string name="more_details">more details</string>
+    <string name="locked">Locked</string>
+
+
 </resources>
 
