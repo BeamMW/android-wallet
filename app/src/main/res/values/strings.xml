@@ -736,7 +736,11 @@ address or contact</string>
     <string name="asset_info">Asset info</string>
     <string name="more_details">more details</string>
     <string name="locked">Locked</string>
-
-
+    <string name="beam_confidential_asset">Beam Confidential Asset</string>
+    <string name="website">Website</string>
+    <string name="description_paper">description Paper</string>
+    <string name="smallest_unit_name">Smallest unit name</string>
+    <string name="short_description">Short description</string>
+    <string name="long_description">Long description</string>
 </resources>
 

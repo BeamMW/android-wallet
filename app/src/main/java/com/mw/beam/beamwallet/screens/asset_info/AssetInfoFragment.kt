@@ -32,6 +32,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.Asset
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 import kotlinx.android.synthetic.main.fragment_asset_info.*
 
@@ -61,11 +62,13 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
 
         toolbarLayout.hasStatus = true
 
-        pageAdapter = AssetInfoPageAdapter(getAssetId(), requireFragmentManager(), 2)
+        pageAdapter = AssetInfoPageAdapter(getAssetId(), AppActivity.self.supportFragmentManager, 2)
+        pageAdapter.notifyDataSetChanged()
 
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.balance)))
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.asset_info)))
 
+        viewPager.isSaveFromParentEnabled = false
         viewPager.adapter = pageAdapter
 
         viewPager.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
@@ -87,5 +90,9 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
 
     override fun configAsset(asset: Asset?) {
 
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 }

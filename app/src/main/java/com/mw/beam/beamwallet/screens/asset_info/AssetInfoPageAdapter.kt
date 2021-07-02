@@ -17,13 +17,12 @@
 
 package com.mw.beam.beamwallet.screens.asset_info
 
-import androidx.fragment.app.FragmentPagerAdapter
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 
-class AssetInfoPageAdapter(val assetId: Int, fm: FragmentManager, totalTabs: Int) : FragmentPagerAdapter(fm) {
+class AssetInfoPageAdapter(val assetId: Int, fm: FragmentManager, totalTabs: Int) : FragmentStatePagerAdapter(fm) {
     var totalTabs: Int = totalTabs
 
     override fun getItem(position: Int): Fragment {
@@ -31,7 +30,7 @@ class AssetInfoPageAdapter(val assetId: Int, fm: FragmentManager, totalTabs: Int
             0 -> {
                 AssetBalanceFragment.newInstance(assetId)
             }
-            else -> AssetBalanceFragment.newInstance(assetId)
+            else -> AssetDescriptionFragment.newInstance(assetId)
         }
     }
 
