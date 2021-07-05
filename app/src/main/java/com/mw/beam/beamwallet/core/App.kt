@@ -224,7 +224,7 @@ class App : Application() {
 
             val date = Calendar.getInstance().time
 
-            var removedFiles = mutableListOf<File>()
+            val removedFiles = mutableListOf<File>()
             for (i in files.indices) {
                 if (files[i].exists()) {
                     val modify = Date(files[i].lastModified())

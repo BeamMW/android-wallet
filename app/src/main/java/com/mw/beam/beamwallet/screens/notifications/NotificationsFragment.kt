@@ -42,7 +42,7 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_notifications
-    override fun getToolbarTitle(): String? = getString(R.string.notifications)
+    override fun getToolbarTitle(): String = getString(R.string.notifications)
 
     private var selectedNotifications = mutableListOf<String>()
 

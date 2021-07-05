@@ -17,14 +17,20 @@
 package com.mw.beam.beamwallet.screens.save_address
 
 
+import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.helpers.trimAddress
+
 import kotlinx.android.synthetic.main.fragment_save_address.*
+
 
 class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressContract.View {
     override fun getAddress(): String = SaveAddressFragmentArgs.fromBundle(requireArguments()).address
@@ -65,4 +71,24 @@ class SaveAddressFragment: BaseFragment<SaveAddressPresenter>(), SaveAddressCont
     }
 
     override fun getToolbarTitle(): String = getString(R.string.save_address)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (App.isDarkMode) {
+            gradientView.setBackgroundResource(R.drawable.send_bg_dark)
+        }
+        else {
+            gradientView.setBackgroundResource(R.drawable.send_bg)
+        }
+    }
+
+    override fun getStatusBarColor(): Int {
+        return if (App.isDarkMode) {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color_dark)
+        }
+        else {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color)
+        }
+    }
 }

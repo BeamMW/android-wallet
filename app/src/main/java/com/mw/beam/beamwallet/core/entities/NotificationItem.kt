@@ -4,13 +4,12 @@ import android.content.Context
 import android.graphics.Typeface
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.helpers.*
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import java.util.regex.Pattern
 
 class NotificationItem  {
@@ -31,7 +30,7 @@ class NotificationItem  {
         this.name = name
     }
 
-    constructor(notification: Notification, hideAmount:Boolean, context: Context?) {
+    constructor(notification: Notification, context: Context?) {
         nId = notification.id
         pId = notification.objId
         isRead = notification.isRead
@@ -48,7 +47,9 @@ class NotificationItem  {
         else if(type == NotificationType.Transaction) {
             val transaction = AppManager.instance.getTransaction(pId)
             if(transaction!=null) {
-                val beam = if (hideAmount) "" else transaction.amount.convertToBeamString()
+                val asset = AssetManager.instance.getAsset(transaction.assetId)
+
+                val amountString = transaction.amount.convertToAssetString(asset?.unitName ?: "")
                 var address = if (transaction.sender == TxSender.RECEIVED) transaction.peerId else transaction.myId
 
                 if (transaction.sender == TxSender.RECEIVED) {
@@ -57,7 +58,7 @@ class NotificationItem  {
                         icon = R.drawable.ic_icon_notifictions_received
                         name =  cntx.getString(R.string.notification_receive_content_title)
                         val string = cntx.getString(R.string.transaction_receiving_notif_body)
-                                .replace("(value)", beam)
+                                .replace("(value)", amountString)
                                 .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
                         detail = string
@@ -66,7 +67,7 @@ class NotificationItem  {
                         icon = R.drawable.ic_icon_notifictions_failed
                         name =  cntx.getString(R.string.buy_transaction_failed_title)
                         val string = cntx.getString(R.string.transaction_received_notif_body_failed)
-                                .replace("(value)", beam)
+                                .replace("(value)", amountString)
                                 .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
                         detail = string
@@ -76,7 +77,7 @@ class NotificationItem  {
                             icon = R.drawable.ic_notifictions_received_max_privacy
                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_max_privacy_notif_body)
-                                    .replace("(value)", beam)
+                                    .replace("(value)", amountString)
                                     .replace("(address)", transaction.myId.trimAddress())
                                     .replace("  ", " ")
                             detail = string
@@ -86,7 +87,7 @@ class NotificationItem  {
                             icon = R.drawable.ic_notifictions_received_offline
                             name =  cntx.getString(R.string.transaction_received_from_offline)
                             val string = cntx.getString(R.string.transaction_received_notif_body)
-                                    .replace("(value)", beam)
+                                    .replace("(value)", amountString)
                                     .replace("(address)", "shielded pool")
                                     .replace("  ", " ")
                             detail = string
@@ -95,7 +96,7 @@ class NotificationItem  {
                             icon = R.drawable.ic_icon_notifictions_received
                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_notif_body)
-                                    .replace("(value)", beam)
+                                    .replace("(value)", amountString)
                                     .replace("(address)", address.trimAddress())
                                     .replace("  ", " ")
                             detail = string
@@ -117,7 +118,7 @@ class NotificationItem  {
                         name =  cntx.getString(R.string.buy_transaction_failed_title)
 
                         val string = cntx.getString(R.string.transaction_sent_notif_body_failed)
-                                .replace("(value)", beam)
+                                .replace("(value)", amountString)
                                 .replace("(address)", address.trimAddress())
                                 .replace("  ", " ")
 
@@ -147,7 +148,7 @@ class NotificationItem  {
                             }
 
                             val string = cntx.getString(R.string.transaction_sent_notif_body)
-                                    .replace("(value)", beam)
+                                    .replace("(value)", amountString)
                                     .replace("(address)", address)
                                     .replace("  ", " ")
                             detail = string
@@ -157,7 +158,7 @@ class NotificationItem  {
                             icon = R.drawable.ic_icon_notifictions_sent
                             name =  cntx.getString(R.string.transaction_sent)
                             val string = cntx.getString(R.string.transaction_sent_notif_body)
-                                    .replace("(value)", beam)
+                                    .replace("(value)", amountString)
                                     .replace("(address)", address.trimAddress())
                                     .replace("  ", " ")
                             detail = string
@@ -167,7 +168,7 @@ class NotificationItem  {
 
                 if (detail!=null) {
                     val spannableString = SpannableString(detail)
-                    val matcherBeam = Pattern.compile("$beam BEAM").matcher(detail)
+                    val matcherBeam = Pattern.compile("$amountString").matcher(detail)
                     if (matcherBeam.find()) {
                         spannableString.setSpan(
                                 StyleSpan(Typeface.BOLD),

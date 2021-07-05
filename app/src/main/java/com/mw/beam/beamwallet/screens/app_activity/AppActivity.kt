@@ -590,8 +590,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         else if(count == 1) {
             val notification = AppManager.instance.getUnsentNotification()
             if(notification!=null) {
-                val privacy = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
-                val item = NotificationItem(notification, privacy, this)
+                val item = NotificationItem(notification, this)
                 if(item.icon!=null) {
                     val view = self.findViewById<View>(android.R.id.content)
                     val banner = NotificationBanner.make(view, self, item) { notificationId, objectId, type ->

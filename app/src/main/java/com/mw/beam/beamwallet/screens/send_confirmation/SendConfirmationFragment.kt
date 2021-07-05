@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.send_confirmation
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -37,10 +39,7 @@ import com.mw.beam.beamwallet.screens.app_activity.PendingSendInfo
 import com.mw.beam.beamwallet.screens.confirm.PasswordConfirmDialog
 
 import kotlinx.android.synthetic.main.fragment_send_confirmation.*
-import kotlinx.android.synthetic.main.fragment_send_confirmation.contactName
-import kotlinx.android.synthetic.main.fragment_send_confirmation.outgoingAddress
-import kotlinx.android.synthetic.main.fragment_send_confirmation.secondAvailableSum
-import kotlinx.android.synthetic.main.fragment_send_confirmation.toolbarLayout
+
 
 class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), SendConfirmationContract.View {
     private val args: SendConfirmationFragmentArgs by lazy {
@@ -112,6 +111,17 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (App.isDarkMode) {
+            gradientView.setBackgroundResource(R.drawable.send_bg_dark)
+        }
+        else {
+            gradientView.setBackgroundResource(R.drawable.send_bg)
+        }
+    }
+
     override fun onStart() {
         super.onStart()
 
@@ -119,7 +129,12 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(requireContext(), R.color.sent_color)
+        return if (App.isDarkMode) {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color_dark)
+        }
+        else {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color)
+        }
     }
 
     override fun configureOutAddress(walletAddress: WalletAddress) {

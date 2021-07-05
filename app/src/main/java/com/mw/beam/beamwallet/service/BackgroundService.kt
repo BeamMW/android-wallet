@@ -89,9 +89,7 @@ class BackgroundService : JobService() {
                                 val notification = com.mw.beam.beamwallet.core.entities.Notification(NotificationType.Transaction,
                                         "", txId, isRead = false, isSent = false, createdTime = txDescription.createTime, text = "")
 
-                                val isPrivacyModeEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
-
-                                val item = NotificationItem(notification, isPrivacyModeEnabled, applicationContext)
+                                val item = NotificationItem(notification, applicationContext)
 
                                 val view = AppActivity.self.findViewById<View>(android.R.id.content)
                                 val banner = NotificationBanner.make(view, AppActivity.self, item) { notificationId, objectId, type ->
@@ -204,8 +202,7 @@ class BackgroundService : JobService() {
             else if(count == 1) {
                 val notification = AppManager.instance.getUnsentNotification()
                 if(notification!=null) {
-                    val privacy = PreferencesManager.getBoolean(PreferencesManager.KEY_PRIVACY_MODE)
-                    val item = NotificationItem(notification, privacy, applicationContext)
+                    val item = NotificationItem(notification, applicationContext)
                     onNotificationSend(item.name, item.detail)
                 }
             }

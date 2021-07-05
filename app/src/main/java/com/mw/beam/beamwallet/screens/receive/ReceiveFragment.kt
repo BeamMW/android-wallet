@@ -98,7 +98,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(requireContext(), R.color.received_color)
+        return if(App.isDarkMode) {
+            ContextCompat.getColor(requireContext(), R.color.receive_toolbar_color_dark)
+        }
+        else {
+            ContextCompat.getColor(requireContext(), R.color.receive_toolbar_color)
+        }
     }
 
     override fun updateTokens(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions) {
@@ -284,10 +289,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
 
         if(App.isDarkMode) {
-            nameLayout.setBackgroundColor(requireContext().getColor(R.color.colorPrimary_dark).withAlpha(95))
-        }
-        else{
-            nameLayout.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
+            backgroundView.setBackgroundResource(R.drawable.receive_bg_dark)
         }
     }
 

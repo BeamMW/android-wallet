@@ -32,6 +32,7 @@ import androidx.navigation.fragment.findNavController
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
@@ -46,12 +47,23 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive_show_token
     override fun getToolbarTitle(): String = getString(R.string.address_details)
     override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(requireArguments()).token
+
     override fun getStatusBarColor(): Int {
         return if(ShowTokenFragmentArgs.fromBundle(requireArguments()).receive) {
-            ContextCompat.getColor(requireContext(), R.color.received_color)
+            return if(App.isDarkMode) {
+                ContextCompat.getColor(requireContext(), R.color.receive_toolbar_color_dark)
+            }
+            else {
+                ContextCompat.getColor(requireContext(), R.color.receive_toolbar_color)
+            }
         }
         else {
-            ContextCompat.getColor(requireContext(), R.color.sent_color)
+            return if (App.isDarkMode) {
+                ContextCompat.getColor(requireContext(), R.color.send_toolbar_color_dark)
+            }
+            else {
+                ContextCompat.getColor(requireContext(), R.color.send_toolbar_color)
+            }
         }
     }
 
@@ -110,7 +122,17 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
         if (!isReceive) {
             btnShare.background = resources.getDrawable(R.drawable.send_button, null)
-            gradientView.setBackgroundResource(R.drawable.send_toolbar_gradient)
+            if(App.isDarkMode) {
+                gradientView.setBackgroundResource(R.drawable.send_bg_dark)
+            }
+             else {
+                gradientView.setBackgroundResource(R.drawable.send_bg)
+            }
+        }
+        else {
+            if(App.isDarkMode) {
+                gradientView.setBackgroundResource(R.drawable.receive_bg_dark)
+            }
         }
     }
 

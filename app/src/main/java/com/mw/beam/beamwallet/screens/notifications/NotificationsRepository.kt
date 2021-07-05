@@ -32,14 +32,13 @@ class NotificationsRepository : BaseRepository(), NotifcationsContract.Repositor
         val unread = mutableListOf<NotificationItem>()
         val read = mutableListOf<NotificationItem>()
         val result = mutableListOf<NotificationItem>()
-        val privacy = isPrivacyModeEnabled()
 
         notifications.forEach {
             if (it.isRead) {
-                read.add(NotificationItem(it, privacy, context))
+                read.add(NotificationItem(it, context))
             }
             else {
-                unread.add(NotificationItem(it, privacy, context))
+                unread.add(NotificationItem(it, context))
             }
         }
         read.sortByDescending { it.date  }

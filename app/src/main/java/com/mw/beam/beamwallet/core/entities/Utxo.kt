@@ -40,6 +40,7 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     var txoID: Long = source.txoID
     var timeLeft: String? = null
     var time: Long = 0L
+    var assetId = source.assetId
 
     var transactionDate:Long? = null
     var transactionComment:String? = null

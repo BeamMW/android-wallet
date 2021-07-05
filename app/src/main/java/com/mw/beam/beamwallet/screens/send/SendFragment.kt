@@ -399,7 +399,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(requireContext(), R.color.sent_color)
+        return if (App.isDarkMode) {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color_dark)
+        }
+        else {
+            ContextCompat.getColor(requireContext(), R.color.send_toolbar_color)
+        }
     }
 
     private fun handleMotionAction(event: MotionEvent, returnValue: Boolean = true): Boolean {
@@ -592,6 +597,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.currency = c
             currencyButton.text = presenter?.currency?.shortName()
             presenter?.onAmountChanged()
+        }
+
+        if (App.isDarkMode) {
+            gradientView.setBackgroundResource(R.drawable.send_bg_dark)
+        }
+        else {
+            gradientView.setBackgroundResource(R.drawable.send_bg)
         }
     }
 
