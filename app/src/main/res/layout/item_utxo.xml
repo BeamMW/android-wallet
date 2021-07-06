@@ -12,6 +12,17 @@
     android:paddingEnd="@dimen/common_offset"
     android:paddingBottom="10dp">
 
+    <ImageView
+        android:id="@+id/assetIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:paddingEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/amountLabel"
+        tools:ignore="RtlSymmetry"
+        tools:src="@drawable/ic_asset_0" />
+
     <TextView
         android:id="@+id/amountLabel"
         android:layout_width="wrap_content"
@@ -20,7 +31,7 @@
         android:gravity="start"
         android:textColor="#FFFFFF"
         android:textSize="19sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/assetIcon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="10" />

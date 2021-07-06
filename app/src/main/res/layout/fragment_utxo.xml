@@ -69,14 +69,13 @@
                         style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="3dp"
-                        android:layout_marginEnd="16dp"
                         android:fontFamily="@font/roboto_bold"
                         android:letterSpacing="0.1"
                         android:maxLines="2"
                         android:text="@string/blockchain_height"
                         android:textAllCaps="true"
-                        app:layout_constraintEnd_toStartOf="@+id/blockchainHeightValue"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_max="200dp"
@@ -87,49 +86,13 @@
                         style="@style/common_text_big_light"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textSize="18sp"
-                        app:layout_constraintStart_toEndOf="@id/utxoBarrier"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="84406" />
 
-                    <TextView
-                        android:id="@+id/blockchainHashTitle"
-                        style="@style/common_text_big_dark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/utxo_item_padding"
-                        android:fontFamily="@font/roboto_bold"
-                        android:letterSpacing="0.1"
-                        android:maxLines="2"
-                        android:text="@string/last_block_hash"
-                        android:textAllCaps="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/blockchainHeightTitle"
-                        app:layout_constraintWidth_max="200dp"
-                        tools:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/blockchainHashValue"
-                        style="@style/common_text_big_light"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/proxima_regular"
-                        android:maxLines="3"
-                        android:textSize="14sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="@id/blockchainHeightValue"
-                        app:layout_constraintTop_toTopOf="@id/blockchainHashTitle"
-                        tools:text="1Cs4wu6pu5qCZ35bSLNVzGyEx5N69t" />
-
-                    <androidx.constraintlayout.widget.Barrier
-                        android:id="@+id/utxoBarrier"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:barrierDirection="end"
-                        app:constraint_referenced_ids="blockchainHeightTitle,blockchainHashTitle" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

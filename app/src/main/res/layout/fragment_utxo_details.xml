@@ -54,22 +54,32 @@
                 android:layout_marginEnd="12dp"
                 app:cardCornerRadius="@dimen/common_card_corner_radius"
                 app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/cardBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@drawable/wallet_state_card_backgroud"
                     android:gravity="center"
+                    android:layout_gravity="center"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+
                         android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/assetIcon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@null"
+                            android:paddingEnd="10dp"
+                            tools:ignore="RtlSymmetry"
+                            tools:src="@drawable/ic_asset_0" />
 
                         <TextView
                             android:id="@+id/amountLabel"
@@ -80,30 +90,17 @@
                             android:gravity="center"
                             android:textSize="20sp"
                             tools:text="190.2020" />
-
-                        <ImageView
-                            android:id="@+id/currency"
-                            android:layout_width="12dp"
-                            android:layout_height="19dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginTop="3dp"
-                            android:contentDescription="@null"
-                            android:visibility="gone"
-                            app:layout_constraintStart_toEndOf="@id/amount"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/currency_beam" />
-
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/statusLabel"
                         style="@style/common_text_big_light"
-                        android:textColor="?attr/subHeaderTextColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
                         android:fontFamily="@font/roboto_italic"
                         android:gravity="center"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="16sp"
 
                         tools:text="@string/available" />

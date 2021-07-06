@@ -26,6 +26,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import android.transition.TransitionManager
+import android.transition.AutoTransition
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.findNavController
+
+import kotlinx.android.synthetic.main.fragment_utxo_details.*
+import kotlinx.android.synthetic.main.fragment_utxo_details.toolbarLayout
+
+import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -33,18 +45,8 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.Utxo
-import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
-import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+
 import kotlinx.android.synthetic.main.fragment_utxo_details.*
-import kotlinx.android.synthetic.main.fragment_utxo_details.toolbarLayout
-import android.transition.TransitionManager
-import android.transition.AutoTransition
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.navigation.fragment.findNavController
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.helpers.selector
-import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
  *  12/20/18.
@@ -52,15 +54,15 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsContract.View {
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
     }
     else{
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
     override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
-    override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(arguments!!).utxo
+    override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(requireArguments()).utxo
 
 
     override fun init(utxo: Utxo) {
@@ -77,7 +79,9 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
         idLabel.text = utxo.stringId
 
-        amountLabel.text = utxo.amount.convertToBeamString() + " BEAM"
+        val asset = AssetManager.instance.getAsset(utxo.assetId)
+        assetIcon.setImageResource(asset?.image ?: R.drawable.ic_asset_0)
+        amountLabel.text = utxo.amount.convertToAssetString(asset?.unitName ?: "")
 
         val status = when (utxo.status) {
             UtxoStatus.Incoming -> getString(R.string.incoming)
@@ -89,10 +93,10 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
         }
 
-        val receivedColor = ContextCompat.getColor(context!!, R.color.received_color)
-        val sentColor = ContextCompat.getColor(context!!, R.color.sent_color)
-        val commonStatusColor = ContextCompat.getColor(context!!, R.color.common_text_color)
-        val accentColor = ContextCompat.getColor(context!!, R.color.accent)
+        val receivedColor = ContextCompat.getColor(requireContext(), R.color.received_color)
+        val sentColor = ContextCompat.getColor(requireContext(), R.color.sent_color)
+        val commonStatusColor = ContextCompat.getColor(requireContext(), R.color.common_text_color)
+        val accentColor = ContextCompat.getColor(requireContext(), R.color.accent)
 
         if (utxo.status == UtxoStatus.Maturing) {
             val available = getString(R.string.maturing)
@@ -101,7 +105,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
             val spannable = SpannableStringBuilder.valueOf(string)
             spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
-                    0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             statusLabel.text = spannable
         }
         else if(utxo.confirmHeight > 0) {
@@ -112,11 +116,11 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
             when (utxo.status) {
                 UtxoStatus.Incoming ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.received_color, context?.theme)),
-                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                 UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
-                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
                 UtxoStatus.Available, UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
-                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
             }
 
             statusLabel.text = spannable
@@ -176,12 +180,12 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
         transactionHistoryList.removeAllViews()
         relatedTransactions?.forEach {
             transactionHistoryList.addView(configTransaction(
-                    isReceived = it.id == utxo.createTxId,
-                    time = CalendarUtils.fromTimestamp(it.createTime),
-                    id = it.id,
-                    comment = it.message,
-                    offset = offset,
-                    index = index))
+                isReceived = it.id == utxo.createTxId,
+                time = CalendarUtils.fromTimestamp(it.createTime),
+                id = it.id,
+                comment = it.message,
+                offset = offset,
+                index = index))
             index++
         }
     }
@@ -202,13 +206,13 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
 
     @SuppressLint("InflateParams")
     private fun configTransaction(isReceived: Boolean, time: String, id: String, comment: String, offset: Int, index:Int): View? {
-        val notMultiplyColor = ContextCompat.getColor(context!!, R.color.colorClear)
+        val notMultiplyColor = ContextCompat.getColor(requireContext(), R.color.colorClear)
 
         val multiplyColor = if (App.isDarkMode) {
-            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color_dark)
+            ContextCompat.getColor(requireContext(), R.color.wallet_adapter_multiply_color_dark)
         }
         else{
-            ContextCompat.getColor(context!!, R.color.wallet_adapter_multiply_color)
+            ContextCompat.getColor(requireContext(), R.color.wallet_adapter_multiply_color)
         }
 
         val view = LayoutInflater.from(context).inflate(R.layout.item_history, null)

@@ -26,17 +26,12 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.fragment_utxo.*
 import kotlinx.android.synthetic.main.item_utxo.*
-import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.helpers.*
-import kotlinx.android.synthetic.main.fragment_utxo_details.*
-import kotlinx.android.synthetic.main.item_utxo.amountLabel
-import kotlinx.android.synthetic.main.item_utxo.statusLabel
-import kotlinx.android.synthetic.main.item_utxo.typeLabel
 
+import kotlinx.android.synthetic.main.item_utxo.*
 
 /**
  *  12/18/18.
@@ -102,7 +97,10 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_multiply_color else R.color.colorClear)
             }
 
-            amountLabel.text = utxo.amount.convertToBeamString() + " BEAM"
+            val asset = AssetManager.instance.getAsset(utxo.assetId)
+            assetIcon.setImageResource(asset?.image ?: R.drawable.ic_asset_0)
+            amountLabel.text = utxo.amount.convertToAssetString(asset?.unitName ?: "")
+
             typeLabel.text = when (utxo.keyType) {
                 UtxoKeyType.Commission -> context.getString(R.string.commission)
                 UtxoKeyType.Coinbase -> context.getString(R.string.coinbase)

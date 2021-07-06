@@ -40,7 +40,6 @@ import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import kotlinx.android.synthetic.main.fragment_utxo.itemsswipetorefresh
 import kotlinx.android.synthetic.main.toolbar.*
 
-
 /**
  *  10/2/18.
  */
@@ -58,10 +57,10 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
-        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(context!!, R.color.colorPrimary))
+        itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
         itemsswipetorefresh.setOnRefreshListener {
             AppManager.instance.reload()
@@ -87,7 +86,6 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         setHasOptionsMenu(true)
 
         blockchainHeightTitle.addDoubleDots()
-        blockchainHashTitle.addDoubleDots()
 
         (activity as? AppActivity)?.enableLeftMenu(true)
         toolbar.setNavigationIcon(R.drawable.ic_menu)
@@ -152,7 +150,6 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
 
     override fun updateBlockchainInfo(systemState: SystemState) {
         blockchainHeightValue.text = systemState.height.toString()
-        blockchainHashValue.text = systemState.hash
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
@@ -160,10 +157,10 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     }
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
     }
     else{
-        ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+        ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
 
