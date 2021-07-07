@@ -20,8 +20,6 @@ import com.mw.beam.beamwallet.core.views.Status
 import com.mw.beam.beamwallet.core.watchers.TextWatcher
 import com.mw.beam.beamwallet.core.views.Type
 
-import kotlinx.android.synthetic.main.dialog_password_confirm.pass
-import kotlinx.android.synthetic.main.dialog_password_confirm.passError
 import kotlinx.android.synthetic.main.dialog_password_confirm_finger.*
 
 class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), PasswordConfirmContract.View {

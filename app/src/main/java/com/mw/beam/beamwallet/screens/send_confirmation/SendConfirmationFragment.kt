@@ -169,7 +169,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     @SuppressLint("SetTextI18n")
     override fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double) {
-        val left = AppManager.instance.getStatus().available.convertToBeam() - usedUtxo
+        val left = 0L //AppManager.instance.getStatus().available.convertToBeam() - usedUtxo
 
         remainingTitle.visibility = View.VISIBLE
         remaining.visibility = View.VISIBLE

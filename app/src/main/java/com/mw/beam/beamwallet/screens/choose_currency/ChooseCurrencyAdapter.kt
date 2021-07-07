@@ -24,29 +24,30 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
-class ChooseCurrencyAdapter(private val currencies: List<Currency>, private val onSelected: (Currency) -> Unit): RecyclerView.Adapter<ChooseCurrencyAdapter.ViewHolder>() {
-    var selectedCurrency: Currency = Currency.Beam
+class ChooseCurrencyAdapter(private val assets: List<Asset>, private val onSelected: (Int) -> Unit): RecyclerView.Adapter<ChooseCurrencyAdapter.ViewHolder>() {
+    var selectedAsset = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_currency, parent, false))
     }
 
-    override fun getItemCount(): Int = currencies.size
+    override fun getItemCount(): Int = assets.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currency = currencies[position]
+        val asset = assets[position]
 
-        holder.selected = selectedCurrency.value == currency.value
-        holder.name = currency.name(App.self)
-        holder.itemView.setOnClickListener { onSelected(currency) }
+        holder.selected = asset.assetId == selectedAsset
+        holder.name = asset.unitName
+        holder.itemView.setOnClickListener { onSelected(asset.assetId) }
     }
 
-    fun currency(language: Currency) {
-        selectedCurrency = language
+    fun currency(id: Int) {
+        selectedAsset = id
         notifyDataSetChanged()
     }
 

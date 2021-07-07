@@ -114,7 +114,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                     }
                     state.shieldedInputsFee = it.shieldedInputsFee
 
-                    val left = AppManager.instance.getStatus().available - totalSendAmount
+                    val left = 0L //AppManager.instance.getStatus().available - totalSendAmount
                     if (left < change) {
                         change = 0L
                     }

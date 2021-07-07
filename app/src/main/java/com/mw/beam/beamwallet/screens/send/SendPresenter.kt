@@ -24,6 +24,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -47,7 +48,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     var change = 0L
     var inputShield = 0L
     var isAllPressed = false
-    var currency = Currency.Beam
+    var assetId = 0
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
@@ -56,11 +57,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     private lateinit var feeSubscription: Disposable
 
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-    }
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -80,7 +76,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 view?.setAmount(amount)
                 view?.hideKeyboard()
 
-                val availableAmount = AppManager.instance.getStatus().available
+                val availableAmount = AssetManager.instance.getAvailable(assetId)
                 val feeAmount = try {
                     view?.getFee() ?: 0L
                 } catch (exception: NumberFormatException) {
@@ -230,7 +226,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onSendAllPressed() {
         isAllPressed = true
 
-        val availableAmount = state.walletStatus!!.available
+        val availableAmount = AssetManager.instance.getAvailable(assetId)
 
         val feeAmount = try {
             view?.getFee() ?: 0L
@@ -239,8 +235,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         setAmount(availableAmount, feeAmount)
+
         view?.hasAmountError(view?.getAmount()?.convertToGroth()
-                ?: 0, feeAmount, state.walletStatus!!.available, state.privacyMode)
+                ?: 0, feeAmount, availableAmount, state.privacyMode)
         if (availableAmount <= feeAmount) {
             view?.setAmount(availableAmount.convertToBeam())
             onAmountUnfocused()
@@ -267,7 +264,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onNext() {
-        if (view?.hasErrors(state.walletStatus?.available ?: 0, state.privacyMode) == false) {
+        if (view?.hasErrors(AssetManager.instance.getAvailable(assetId), state.privacyMode) == false) {
             val amount = view?.getAmount()
             val fee = view?.getFee()
             val comment = view?.getComment()
@@ -296,11 +293,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onEnterFee(rawFee: String?) {
-        if(state.walletStatus != null) {
-            rawFee?.let {
-                view?.setFee(it)
-                onFeeChanged(it)
-            }
+        rawFee?.let {
+            view?.setFee(it)
+            onFeeChanged(it)
         }
     }
 
@@ -412,7 +407,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                         val amount = getAmount()
                         val fee = getFee()
 
-                        hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                        hasAmountError(amount.convertToGroth(), fee, AssetManager.instance.getAvailable(assetId)
                                 ?: 0, state.privacyMode)
                     }
 
@@ -520,17 +515,13 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 val amount = getAmount()
                 val fee = getFee()
 
-                hasAmountError(amount.convertToGroth(), fee, state.walletStatus?.available
+                hasAmountError(amount.convertToGroth(), fee, AssetManager.instance.getAvailable(assetId)
                         ?: 0, state.privacyMode)
             }
         }
     }
 
     override fun onFeeChanged(rawFee: String?) {
-        if(state.walletStatus == null) {
-            return
-        }
-
         if (rawFee != null && rawFee.length > MAX_FEE_LENGTH) {
             view?.setFee(rawFee.substring(0, MAX_FEE_LENGTH))
         }
@@ -543,7 +534,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.clearErrors()
 
         var enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
-        val availableAmount = state.walletStatus!!.available
+        val availableAmount = AssetManager.instance.getAvailable(assetId)
         val maxEnterAmount = availableAmount - feeAmount
         when {
             enteredAmount > maxEnterAmount || enteredAmount.convertToBeamString() == (availableAmount - state.prevFee).convertToBeamString() -> {
@@ -551,7 +542,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     enteredAmount = availableAmount - feeAmount
                     setAmount(availableAmount, feeAmount)
                 }
-                view?.hasAmountError(enteredAmount, feeAmount, state.walletStatus!!.available, state.privacyMode)
+                view?.hasAmountError(enteredAmount, feeAmount,  AssetManager.instance.getAvailable(assetId), state.privacyMode)
                 view?.updateFeeTransactionVisibility()
             }
             else -> view?.updateFeeTransactionVisibility()
@@ -561,7 +552,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     private fun setAmount(availableAmount: Long, fee: Long) {
-        val maxEnterAmount = availableAmount - fee
+        val maxEnterAmount = if(assetId != 0) {
+            availableAmount
+        }
+        else {
+            availableAmount - fee
+        }
         if (maxEnterAmount > 0) {
             view?.setAmount(maxEnterAmount.convertToBeam())
         }
@@ -573,9 +569,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        state.walletStatus = AppManager.instance.getStatus()
-
-        view?.updateAvailable(state.walletStatus!!.available)
+        view?.updateAvailable( AssetManager.instance.getAvailable(assetId))
 
         if (isFork()) {
             view?.setupMinFee(FORK_MIN_FEE)
@@ -590,7 +584,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 val amount = view?.getAmount()
                 if (amount != null) {
                     if(amount > 0.0) {
-                        val availableAmount = AppManager.instance.getStatus().available
+                        val availableAmount = AssetManager.instance.getAvailable(assetId)
                         val feeAmount = try {
                             view?.getFee() ?: 0L
                         } catch (exception: NumberFormatException) {
@@ -613,8 +607,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         }
 
         walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
-            state.walletStatus = AppManager.instance.getStatus()
-            view?.updateAvailable(state.walletStatus!!.available)
+            view?.updateAvailable( AssetManager.instance.getAvailable(assetId))
         }
 
         AppManager.instance.getAllAddresses().forEach { address ->
@@ -660,7 +653,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         view?.configOutgoingAddress(walletAddress, isGenerated)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription!!, feeSubscription)
+    override fun getSubscriptions(): Array<Disposable> = arrayOf(walletStatusSubscription, addressesSubscription, walletIdSubscription, offlineCountSubscription!!, feeSubscription)
 
     override fun hasStatus(): Boolean = true
 }

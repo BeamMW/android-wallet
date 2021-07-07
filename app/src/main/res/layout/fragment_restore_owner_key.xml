@@ -80,7 +80,6 @@
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="@dimen/common_offset"
                 android:layout_marginEnd="14dp"
-                android:text="@string/once_you_ll_paste_the_code_run_your_node_on_desktop_and_click_next_on_mobile_app"
                 android:textAlignment="center"
                 android:textStyle="italic"
                 app:layout_constraintEnd_toEndOf="parent"

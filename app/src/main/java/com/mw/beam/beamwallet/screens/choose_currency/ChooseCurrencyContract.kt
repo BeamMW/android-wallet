@@ -19,18 +19,17 @@ package com.mw.beam.beamwallet.screens.choose_currency
 import com.mw.beam.beamwallet.base_screen.MvpPresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.entities.Currency
-import com.mw.beam.beamwallet.core.entities.ExchangeRate
+import com.mw.beam.beamwallet.core.entities.Asset
 
 interface ChooseCurrencyContract {
 
     interface View: MvpView {
-        fun init(currencies: List<Currency>)
-        fun changeCurrency(currency: Currency)
+        fun init(assets: List<Asset>)
+        fun changeAsset(assetId: Int)
     }
 
     interface Presenter: MvpPresenter<View> {
-        fun onSelectCurrency(currency: Currency)
+        fun onSelectAsset(assetId: Int)
     }
 
     interface Repository: MvpRepository {

@@ -17,6 +17,8 @@
 package com.mw.beam.beamwallet.screens.choose_currency
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.core.entities.dto.ExchangeRateDTO
@@ -29,15 +31,10 @@ class ChooseCurrencyPresenter(view: ChooseCurrencyContract.View?, repository: Ch
     override fun onViewCreated() {
         super.onViewCreated()
 
-        var currencies = mutableListOf<Currency>() //repository.getCurrencies().toMutableList()
-        currencies.add(Currency.Beam)
-        currencies.add(Currency.Usd)
-        currencies.add(Currency.Bitcoin)
-
-        view?.init(currencies)
+        view?.init(AssetManager.instance.assets)
     }
 
-    override fun onSelectCurrency(currency: Currency) {
-        view?.changeCurrency(currency)
+    override fun onSelectAsset(assetId: Int) {
+        view?.changeAsset(assetId)
     }
 }

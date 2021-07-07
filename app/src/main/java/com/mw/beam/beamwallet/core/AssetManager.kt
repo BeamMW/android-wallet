@@ -138,4 +138,9 @@ class AssetManager {
             it.assetId == id
         }
     }
+
+    fun getAvailable(id:Int):Long {
+        val asset = getAsset(id)
+        return (asset?.available ?: 0L) + (asset?.shielded ?: 0L)
+    }
 }

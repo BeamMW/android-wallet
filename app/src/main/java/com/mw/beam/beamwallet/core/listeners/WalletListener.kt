@@ -415,6 +415,13 @@ object WalletListener {
     }
 
     @JvmStatic
+    fun onCoinsSeleced(explicitFee: Long, change: Long, minimalExplicitFee: Long) {
+        subOnFeeCalculated.onNext(FeeChange(explicitFee, change, 0L))
+        LogUtils.logResponse(explicitFee, "onFeeCalculated")
+    }
+
+
+    @JvmStatic
     fun onNeedExtractShieldedCoins(value: Boolean) {
         LogUtils.logResponse(value, "onNeedExtractShieldedCoins")
     }

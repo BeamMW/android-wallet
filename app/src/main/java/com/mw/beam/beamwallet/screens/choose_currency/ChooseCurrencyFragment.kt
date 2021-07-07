@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import kotlinx.android.synthetic.main.fragment_choose_currency.*
@@ -38,7 +39,7 @@ class ChooseCurrencyFragment: BaseFragment<ChooseCurrencyPresenter>(), ChooseCur
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_choose_currency
 
-    override fun getToolbarTitle(): String? = getString(R.string.choose_currency)
+    override fun getToolbarTitle(): String = getString(R.string.choose_currency)
     override fun getStatusBarColor(): Int {
         return ContextCompat.getColor(requireContext(), R.color.sent_color)
     }
@@ -47,19 +48,18 @@ class ChooseCurrencyFragment: BaseFragment<ChooseCurrencyPresenter>(), ChooseCur
         ChooseCurrencyFragmentArgs.fromBundle(requireArguments())
     }
 
-    override fun init(currencies: List<Currency>) {
-        adapter = ChooseCurrencyAdapter(currencies) {
-            presenter?.onSelectCurrency(it)
+    override fun init(assets: List<Asset>) {
+        adapter = ChooseCurrencyAdapter(assets) {
+            presenter?.onSelectAsset(it)
         }
-        adapter.currency(Currency.fromValue(args.selectedCurrency))
+        adapter.currency(args.selectedCurrency)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }
 
-    override fun changeCurrency(currency: Currency) {
-        val v = currency.value
-        setFragmentResult("CURRENCY_FRAGMENT", bundleOf("currency" to v))
+    override fun changeAsset(assetId: Int) {
+        setFragmentResult("CURRENCY_FRAGMENT", bundleOf("currency" to assetId))
         findNavController().popBackStack()
     }
 

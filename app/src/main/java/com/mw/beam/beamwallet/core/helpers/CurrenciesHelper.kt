@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.core.helpers
 
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.Currency
 
@@ -37,6 +38,14 @@ fun Long.convertToAssetString(name:String): String {
         return name
     }
     return (this.toDouble() / 100000000).convertToBeamString() + " " + name
+}
+
+fun Long.convertToAssetStringWithId(id:Int?): String {
+    val asset = AssetManager.instance.getAsset(id ?: -1)
+    if (ExchangeManager.instance.isPrivacyMode) {
+        return asset?.unitName ?: ""
+    }
+    return (this.toDouble() / 100000000).convertToBeamString() + " " + asset?.unitName ?: ""
 }
 
 fun Long.exchangeValueAsset(assetId:Int): String {

@@ -42,13 +42,13 @@ class OnboardManager {
     fun canReceiveFaucet(): Boolean {
 
         val isInProgress = AppManager.instance.getStatus().sending > 0 || AppManager.instance.getStatus().receiving > 0
-        val isBalanceZero = AppManager.instance.getStatus().available == 0L
+        val isBalanceZero =  AssetManager.instance.getAvailable(0) == 0L
         val isTransactionsEmpty = AppManager.instance.getTransactions().count() == 0
         return !isInProgress && isBalanceZero && !isCloseFaucet && isTransactionsEmpty
     }
 
     fun canMakeSecure(): Boolean {
-        val available = AppManager.instance.getStatus().available
+        val available =  AssetManager.instance.getAvailable(0)
 
         if (available.convertToBeam() >= minAmountToSecure && !isCloseSecure && isSkipedSeed())
         {

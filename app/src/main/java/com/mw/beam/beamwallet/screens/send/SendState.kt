@@ -30,7 +30,6 @@ class SendState {
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
     var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
-    var walletStatus: WalletStatus? = AppManager.instance.getStatus()
     var privacyMode = false
     val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null

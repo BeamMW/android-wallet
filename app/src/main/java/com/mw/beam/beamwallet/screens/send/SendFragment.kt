@@ -43,24 +43,17 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.marginTop
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.Api
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.ExchangeManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.WalletAddress
@@ -82,15 +75,12 @@ import kotlinx.android.synthetic.main.fragment_send.*
 import kotlinx.android.synthetic.main.fragment_send.amount
 import kotlinx.android.synthetic.main.fragment_send.btnExpandComment
 import kotlinx.android.synthetic.main.fragment_send.buttonGroupDraggable
-import kotlinx.android.synthetic.main.fragment_send.contentLayout
-import kotlinx.android.synthetic.main.fragment_send.regularButton
 import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
 import kotlinx.android.synthetic.main.fragment_send.transactionTypeLayout
 import kotlinx.android.synthetic.main.fragment_send.txComment
 import kotlinx.android.synthetic.main.fragment_send.txCommentContainer
 import kotlinx.android.synthetic.main.fragment_send.txCommentGroup
 
-import org.jetbrains.anko.withAlpha
 import java.text.NumberFormat
 import java.util.*
 
@@ -209,7 +199,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_send
-    override fun getToolbarTitle(): String? = getString(R.string.send)
+    override fun getToolbarTitle(): String = getString(R.string.send)
 
     override fun getAddressFromArguments(): String? {
         return SendFragmentArgs.fromBundle(requireArguments()).address
@@ -220,23 +210,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun getAmountText(): String {
-        val entered = amount.text.toString()
-        return  entered
+        return amount.text.toString()
     }
 
-    override fun getAmount(): Double = try {
-        if(presenter?.currency == Currency.Beam) {
+    override fun getAmount(): Double {
+        return try {
             amount.text.toString().toDouble()
+        } catch (ex:Exception) {
+            0.0
         }
-        else {
-            val entered = amount.text.toString().toDouble()
-            val rate = ExchangeManager.instance.getRate(presenter?.currency?.value)
-            val value = rate?.value?.toDouble()?.div(100000000) ?:  0.0
-            val result = (entered)/ value
-            result
-        }
-    } catch (e: Exception) {
-        0.0
     }
 
     private fun getRealAmount(): Double = try {
@@ -547,9 +529,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
 //        }
 
-        if(ExchangeManager.instance.isCurrenciesAvailable()) {
+        if(AssetManager.instance.assets.size > 1) {
             currencyButton.setOnClickListener {
-                presenter?.currency?.value?.let {
+                presenter?.assetId?.let {
                     it1 -> SendFragmentDirections.actionSendFragmentToChooseCurrencyFragment(it1) }?.let {
                     it2 -> findNavController().navigate(it2) }
             }
@@ -592,11 +574,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
-        setFragmentResultListener("CURRENCY_FRAGMENT") { key, bundle ->
-            val c = Currency.fromValue(bundle.getInt("currency"))
-            presenter?.currency = c
-            currencyButton.text = presenter?.currency?.shortName()
+        setFragmentResultListener("CURRENCY_FRAGMENT") { _, bundle ->
+            val assetId = bundle.getInt("currency")
+            presenter?.assetId = assetId
+            currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
             presenter?.onAmountChanged()
+            updateAvailable( AssetManager.instance.getAvailable(assetId))
         }
 
         if (App.isDarkMode) {
@@ -619,11 +602,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
-        if(!ExchangeManager.instance.isCurrenciesAvailable()) {
+        if(AssetManager.instance.assets.size <= 1) {
             currencyButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
         }
 
-        currencyButton.text = presenter?.currency?.shortName()
+        currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
     }
 
     override fun onStop() {
@@ -794,18 +777,18 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            3 -> {
-                presenter?.currency = Currency.Beam
-            }
-            2 -> {
-                presenter?.currency = Currency.Bitcoin
-            }
-            1 -> {
-                presenter?.currency = Currency.Usd
-            }
-        }
-        currencyButton.text = presenter?.currency?.shortName()
+//        when (item.itemId) {
+//            3 -> {
+//                presenter?.currency = Currency.Beam
+//            }
+//            2 -> {
+//                presenter?.currency = Currency.Bitcoin
+//            }
+//            1 -> {
+//                presenter?.currency = Currency.Usd
+//            }
+//        }
+        currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
         presenter?.onAmountChanged()
         return super.onContextItemSelected(item)
     }
@@ -880,24 +863,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-     //   val feeString = "(${if (fee > 0) "+" else ""}$fee ${getString(R.string.currency_groth).toUpperCase()} ${getString(R.string.transaction_fee).toLowerCase()})"
-        val second = getRealAmount().convertToCurrencyString(presenter?.currency)
-        if (second == null) {
+        val second = getRealAmount().convertToGroth().exchangeValueAsset(presenter?.assetId ?: 0)
+        if (second.isEmpty()) {
             usedFee.visibility = View.GONE
         }
         else {
             usedFee.visibility = View.VISIBLE
-
-            when {
-            getRealAmount() <= 0 -> {
-                usedFee.text = "$second"
-            }
-            second!=null -> {
-                usedFee.text = "$second"
-            }
-        }
         }
 
+        usedFee.text = second
     }
 
     override fun updateFeeTransactionVisibility() {
@@ -955,17 +929,25 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     true
                 }
                 amount == 0L && fee < availableAmount -> {
-                    configAmountError(getString(R.string.send_amount_zero_error))
+                    configAmountError(getString(R.string.send_amount_zero_error_asset,amount.convertToAssetStringWithId(presenter?.assetId)))
                     true
                 }
-                amount + fee > availableAmount -> {
-                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToBeamString(), isEnablePrivacyMode))
+                amount > availableAmount && presenter?.assetId != 0 -> {
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+                    true
+                }
+                fee > AssetManager.instance.getAvailable(0) && presenter?.assetId != 0 -> {
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+                    true
+                }
+                amount + fee > availableAmount && presenter?.assetId == 0 -> {
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
                     true
                 }
                 else -> false
             }
         } catch (exception: NumberFormatException) {
-            configAmountError(configAmountErrorMessage(amount.convertToBeamString(), isEnablePrivacyMode))
+            configAmountError(configAmountErrorMessage(amount.convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
             true
         }
     }
@@ -975,7 +957,24 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return if (isEnablePrivacyMode) {
             getString(R.string.insufficient_funds)
         } else {
-            getString(R.string.send_amount_overflow_error, amountString)
+            if (presenter?.assetId == 0) {
+               getString(R.string.send_amount_overflow_error, amountString)
+            }
+            else {
+                val beamsAvailable = AssetManager.instance.getAvailable(0)
+                val feeAmount = try {
+                    getFee() ?: 0L
+                } catch (exception: NumberFormatException) {
+                    0L
+                }
+                if(beamsAvailable < feeAmount) {
+                    val left = feeAmount - beamsAvailable
+                    getString(R.string.send_amount_overflow_error, left.convertToBeamString())
+                }
+                else {
+                  getString(R.string.send_amount_overflow_error, amountString)
+                }
+            }
         }
     }
 
@@ -1246,7 +1245,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, addressType, remainingCount, change, inputShield, isOfflineTransaction))
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun updateAvailable(available: Long) {
         btnSendAll.isEnabled = available > 0
         if (available > 0) {
@@ -1255,8 +1254,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         else {
             btnSendAll.alpha = 0.5f
         }
-        availableSum.text = "${available.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
-        secondAvailableSum.text = available.convertToCurrencyString()
+        availableSum.text = available.convertToAssetStringWithId(presenter?.assetId).toUpperCase()
+        secondAvailableSum.text = available.exchangeValueAsset(presenter?.assetId ?: -1)
     }
 
     override fun isAmountErrorShown(): Boolean {

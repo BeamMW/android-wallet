@@ -61,7 +61,7 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo_details
-    override fun getToolbarTitle(): String? = getString(R.string.utxo_details)
+    override fun getToolbarTitle(): String = getString(R.string.utxo_details)
     override fun getUtxo(): Utxo = UtxoDetailsFragmentArgs.fromBundle(requireArguments()).utxo
 
 
