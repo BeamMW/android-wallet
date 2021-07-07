@@ -155,7 +155,6 @@
                     tools:text="Salary, Payments" />
 
                 <View
-                    android:id="@+id/addressDivider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="@color/divider_color"
@@ -164,7 +163,6 @@
                     app:layout_constraintTop_toBottomOf="@id/address" />
 
                 <View
-                    android:id="@+id/nameDivider"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:background="@color/divider_color"

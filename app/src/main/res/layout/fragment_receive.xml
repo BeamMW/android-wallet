@@ -143,7 +143,6 @@
                             app:selectionAnimationDuration="250">
 
                             <com.addisonelliott.segmentedbutton.SegmentedButton
-                                android:id="@+id/regularButton"
                                 android:layout_width="0dp"
                                 android:layout_height="32dp"
                                 android:layout_weight="1"
@@ -218,7 +217,6 @@
 
 
                 <LinearLayout
-                    android:id="@+id/newAddressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -227,7 +225,6 @@
                     android:paddingBottom="20dp">
 
                     <TextView
-                        android:id="@+id/newAddressTitleView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
@@ -298,7 +295,6 @@
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/requestAmountCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"

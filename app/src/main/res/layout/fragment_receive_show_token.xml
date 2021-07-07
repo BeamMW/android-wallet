@@ -139,7 +139,6 @@
                 tools:visibility="visible">
 
                 <TextView
-                    android:id="@+id/identityTitle"
                     style="@style/common_subheader_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -67,7 +67,6 @@
                 app:srcCompat="@drawable/no_type" />
 
             <TextView
-                android:id="@+id/no_type"
                 style="@style/welcome_description_item_text_style"
                 android:layout_marginEnd="@dimen/welcome_description_side_offset"
                 android:text="@string/welcome_no_type"

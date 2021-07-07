@@ -59,7 +59,6 @@
             tools:text="label" />
 
         <TextView
-            android:id="@+id/tag"
             style="@style/common_text_big_light"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

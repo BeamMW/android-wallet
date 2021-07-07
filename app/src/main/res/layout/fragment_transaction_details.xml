@@ -112,7 +112,6 @@
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
-                android:id="@+id/shape"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
@@ -283,7 +282,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/senderIdentityLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
@@ -303,7 +301,6 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/senderIdentityLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
@@ -390,7 +387,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/receiverIdentityLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
@@ -410,7 +406,6 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/receiverIdentityLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"

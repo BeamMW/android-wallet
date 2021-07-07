@@ -220,7 +220,6 @@
                         app:selectionAnimationDuration="250">
 
                         <com.addisonelliott.segmentedbutton.SegmentedButton
-                            android:id="@+id/regularButton"
                             android:layout_width="0dp"
                             android:layout_height="32dp"
                             android:layout_weight="1"

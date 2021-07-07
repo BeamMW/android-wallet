@@ -2,22 +2,17 @@
 <resources>
     <string name="app_name">Beam钱包</string>
     <string name="common_logo_text">机密，快速，便于使用</string>
-    <string name="common_testnet">测试网</string>
-    <string name="common_masternet">主网</string>
     <string name="done">完成</string>
     <string name="common_error">哎呀，出问题了……</string>
     <string name="online">在线</string>
     <string name="updating">正在更新</string>
     <string name="common_status_error">Cannot connect to</string>
     <string name="open">打开</string>
-    <string name="close">关闭</string>
     <string name="cancel">取消</string>
     <string name="delete">删除</string>
-    <string name="confirm">确认</string>
     <string name="change_address">找零</string>
     <string name="change_address_title">找零地址</string>
     <string name="change_utxo_type">找零</string>
-    <string name="change_description">CHANGE (will be locked till the transaction will succeed or expire)</string>
     <string name="ok">好</string>
     <string name="undo">撤销</string>
     <string name="next">下一步</string>
@@ -38,24 +33,16 @@
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">无网络连接</string>
     <string name="error_incorrect_node">节点名称不正确或无网络连接</string>
-    <string name="common_stay_active_title">保持有效</string>
-    <string name="common_stay_active_message">请不要关闭钱包，否则交易无法完成</string>
     <!--NavigationDrawer-->
-    <string name="nav_dashboard">主面板</string>
     <string name="wallet">钱包</string>
     <string name="address_book">地址薄</string>
     <string name="notifications">通知</string>
-    <string name="help">帮助</string>
     <string name="settings">设置</string>
     <string name="storage_permission_required_message_small">请授予存储权限</string>
     <!--Welcome-->
     <string name="create_new_wallet">创建新钱包</string>
     <string name="restore_wallet">恢复钱包</string>
     <string name="welcome_restore_or_create">恢复钱包或创建新钱包</string>
-    <string name="welcome_generate_seed_phrase">生成助记词</string>
-    <string name="i_agree">我同意</string>
-    <string name="welcome_restore_notification">您正在尝试还原已存在的Beam钱包
-请注意：如果您在其他设备上使用该钱包，您的余额将是最新的，但交易历史和地址将分别保存在每个设备上</string>
     <string name="copy">复制</string>
     <string name="welcome_description">通过种子短语创建新的钱包。
 如果您丢了手机
@@ -131,13 +118,10 @@
     <string name="wallet_sent_message">已付Beam</string>
     <string name="available">可用余额</string>
     <string name="in_progress">交易中</string>
-    <string name="receiving">收款中</string>
-    <string name="sending">付款中</string>
     <string name="sending_to_own_address">正在付款至自有地址</string>
     <string name="maturing">成熟中</string>
     <string name="receive">收款</string>
     <string name="send">付款</string>
-    <string name="completed">已完成</string>
     <string name="received">已收</string>
     <string name="sent">已付</string>
     <string name="sent_to_own_address">已付款至自有地址</string>
@@ -158,25 +142,19 @@
     <string name="export_transaction_history_text">你想要在你的设备上保存交易历史还是分享？</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
-    <string name="active">有效</string>
     <string name="all">所有</string>
     <string name="incoming">入账</string>
     <string name="outgoing">出账</string>
     <string name="spent">已使用</string>
     <string name="unavailable">不可用</string>
-    <string name="utxo_status_result_rollback">挖矿回滚</string>
     <string name="blockchain_height">区块高度</string>
-    <string name="last_block_hash">最高区块哈希值</string>
     <string name="utxo_security_message">当前处于隐私模式</string>
     <string name="utxo_turn_off_see_utxo">关闭以查看UTXO列表</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO详情</string>
     <string name="kernel_id">内核ID</string>
-    <string name="utxo_type">UTXO类型</string>
     <string name="type">类型</string>
-    <string name="completion_time">完成时间</string>
     <string name="contact">联系人</string>
-    <string name="utxo_history">UTXO历史记录</string>
     <string name="commission">手续费</string>
     <string name="coinbase">Coinbase</string>
     <string name="decoy">诱饵</string>
@@ -187,21 +165,17 @@
     <string name="childKey">子键</string>
     <string name="bbs">BBS</string>
     <string name="date">日期</string>
-    <string name="time">时间</string>
     <string name="id">ID</string>
     <string name="treasure">宝箱</string>
     <string name="shielded">盾</string>
     <string name="maturity">成熟</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">交易详情</string>
-    <string name="general_transaction_info">简明交易信息</string>
-    <string name="currency_amount">货币数量</string>
     <string name="transaction_fee">交易费</string>
     <string name="comment">备注</string>
     <string name="transaction_id">交易ID</string>
     <string name="transaction_history">交易历史</string>
     <string name="repeat_transaction">重复交易</string>
-    <string name="save_peer_address">保存节点地址</string>
     <string name="copy_address">复制地址</string>
     <string name="cancel_transaction">取消交易</string>
     <string name="delete_transaction">删除交易</string>
@@ -223,24 +197,16 @@
     <string name="delete_contacts_text">这些联系人将从你的钱包中删除。</string>
     <string name="delete_contact_text">此联系人将从你的钱包中删除。</string>
     <!--ReceiveFragment-->
-    <string name="swap">交换</string>
     <string name="auto_generated">自动生成</string>
-    <string name="annotation">注释</string>
     <string name="expires">失效</string>
-    <string name="receive_send_annotation_description">注释保存在本地，不会被发送至区块链上或包含在交易中</string>
-    <string name="share_address">分享地址</string>
-    <string name="show_qr">显示二维码</string>
     <string name="addresses">地址</string>
-    <string name="receive_token_description">通过外部安全媒介发送此地址</string>
     <string name="receive_save_address_message">是否保存创建的地址以备后用？</string>
     <string name="receive_save_changes_message">是否保存对该地址的修改？</string>
-    <string name="request_an_amount">请求数量</string>
     <string name="optional">可选</string>
     <string name="name">名称</string>
     <string name="edit_address">编辑地址</string>
     <string name="edit_contact">编辑联系人</string>
     <string name="advanced">高级</string>
-    <string name="send_token_description">输入或扫描收款人的地址</string>
     <string name="share">分享</string>
     <string name="save_to_downloads">下载保存到</string>
     <string name="saved_to_downloads">下载保存到</string>
@@ -255,26 +221,16 @@
     <string name="send_permission_required_message">请允许使用相机权限以扫描二维码</string>
     <string name="send_error_not_beam_address">扫描的二维码不是Beam钱包地址</string>
     <string name="send_error_paste">不能粘贴无效地址</string>
-    <string name="send_confirm_transaction_details">确认交易详情</string>
-    <string name="recipient">收款人</string>
     <string name="amount">数量</string>
-    <string name="send_dialog_description">请输入密码以广播交易</string>
-    <string name="send_dialog_description_with_fingerprint">请使用指纹认证或输入密码以广播交易</string>
-    <string name="total_available">可用余额</string>
     <string name="transaction_comment">交易备注</string>
-    <string name="wont_be_shared">不会被共享</string>
     <string name="outgoing_address">出账地址</string>
-    <string name="my_addresses">我的地址</string>
-    <string name="no_matching_address_found">未找到匹配地址</string>
     <string name="address_already_exist_1">该地址已存在</string>
     <string name="address_already_exist_2">无法保存地址
 该地址已存在</string>
     <string name="settings_report">报告问题</string>
     <string name="receive_description_qr">请向付款方出示该二维码、或通过外部安全媒介将其发送给付款方</string>
     <!--SettingsFragment-->
-    <string name="settings_change_pass">修改钱包密码</string>
     <string name="settings_version">APP版本</string>
-    <string name="settings_send_logs_description">发送日志…</string>
     <string name="node">节点</string>
     <string name="settings_ip_title">IP地址:端口</string>
     <string name="settings_general_settings">概述</string>
@@ -295,8 +251,6 @@
     <string name="settings_dialog_clear_transactions">删除所有交易</string>
     <string name="settings_confirm_clear_message">确定删除钱包中所有%1$s吗?</string>
     <string name="contacts">联系人</string>
-    <string name="transaction">交易</string>
-    <string name="loading_wallet">正在载入钱包</string>
     <!--ProgressFragment-->
     <string name="addresses_tab_active">有效</string>
     <!--AddressesFragment-->
@@ -308,13 +262,11 @@
     <string name="contacts_deleted">联系人已删除</string>
     <string name="address">地址</string>
     <!--AddressFragment-->
-    <string name="show_qr_code">显示二维码</string>
     <string name="delete_address">删除地址</string>
     <string name="delete_contact">删除联系人</string>
     <string name="delete_addresses">删除地址</string>
     <string name="delete_contacts">删除联系人</string>
     <string name="transactions_list">交易列表</string>
-    <string name="address_id">地址ID</string>
     <string name="expiration_date">失效日期</string>
     <string name="tag">标签</string>
     <string name="show_qr_code_short">显示二维码</string>
@@ -322,8 +274,6 @@
     <!--EditAddressFragment-->
     <string name="active_address">激活地址</string>
     <string name="save">保存</string>
-    <string name="now">现在</string>
-    <string name="none">无</string>
     <string name="change_password">修改密码</string>
     <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">请输入当前密码</string>
@@ -331,7 +281,6 @@
     <!--ScanQrActivity-->
     <string name="payment_proof_verification">付款证明验证</string>
     <!--PaymentProofActivity-->
-    <string name="paste_your_payment_proof_here">请在此处粘贴付款证明</string>
     <string name="payment_proof_verification_error">无法解码证明
 非法序列</string>
     <string name="copy_details">复制详情</string>
@@ -343,18 +292,13 @@
     <string name="paste_payment_proof">请在此处粘贴付款证明</string>
     <string name="edit">编辑</string>
     <!--CategoryFragment-->
-    <string name="delete_tag">删除标签</string>
-    <string name="tag_delete_dialog_message">确定要删除此%1$s标签吗？</string>
-    <string name="edit_tag">修改标签</string>
     <!--EditCategory-->
-    <string name="create_tag">创建标签</string>
     <string name="color">颜色</string>
     <string name="show_owner_key">显示所有者密钥</string>
     <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">只有设置了两步验证（提交密码并使用指纹ID）方可获取所有者密钥</string>
     <string name="owner_key_verification_fingerprint_error">指纹验证失败
 请等待几分钟后重试</string>
-    <string name="owner_key_verification_title_with_finger">请输入密码并使用指纹ID访问钱包</string>
     <string name="owner_key_verification_fingerprint_description">请使用指纹ID完成认证</string>
     <string name="key_code">密钥代码</string>
     <string name="owner_key_copied_message">所有者密钥已被复制到剪贴板</string>
@@ -371,38 +315,26 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="notification_receive_content_text">请点击查看详情</string>
     <string name="notification_channel_name">通知频道</string>
     <string name="notification_channel_description">默认通知频道</string>
-    <string name="touch_sensor">轻触指纹感应器</string>
     <!--FingerprintDialog-->
-    <string name="fingerprint_id">指纹ID</string>
     <!--ChangeAddressFragment-->
     <string name="language">语言</string>
     <!-- Language -->
-    <string name="language_dialog_message">为使语言设置生效，需重新启动App</string>
-    <string name="restart_now">立即重启</string>
     <string name="rate_app">评价App</string>
-    <string name="existing_addresses">已存在地址</string>
     <string name="requested_amount">请求数量</string>
-    <string name="paste_address_or_choose_contact">粘贴地址或选择联系人</string>
     <string name="send_to">付款至</string>
     <string name="amount_to_send">付款金额</string>
-    <string name="total_utxo_value">总UTXO价值</string>
     <string name="confirmation_send_description">为使交易顺利完成，收款人应于12小时内上线同步其钱包至最新高度，而后您应于2小时内再次上线同步钱包</string>
     <string name="confirmation">确认</string>
-    <string name="save_recipient_address">是否保存收款人地址以方便未来继续向其付款？</string>
     <string name="save_address">保存地址</string>
     <string name="dont_save">不保存</string>
     <string name="save_changes">保存修改</string>
     <string name="receive_description">为使交易顺利完成，您需要在支付完Beam后12小时内上线同步钱包</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
-    <string name="min_fee_error_max_privacy">Сoins were automatically selected to maximize privacy and minimal transaction fee of 1,000,100 GROTH.</string>
     <string name="delete_all_transactions_related_to_this_address">删除与该地址有关的所有交易</string>
     <string name="delete_all_transactions_related_to_this_addresses">删除与该地址有关的所有交易</string>
     <string name="delete_all_transactions_related_to_this_contact">删除与此联系人相关的所有交易</string>
     <string name="delete_all_transactions_related_to_this_contacts">删除所有与这些联系人相关的交易</string>
-    <string name="search_transaction">搜索交易</string>
-    <string name="never_expires">永不失效</string>
-    <string name="expires_in">%1$s小时%2$s分钟后失效</string>
     <string name="add_contact">新增联系人</string>
     <string name="enter_your_password_to_confirm_transaction">请输入密码以确认交易</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">请使用指纹或输入密码以确认交易</string>
@@ -431,26 +363,16 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="node_restore_warning">Verify that your own node is fully synchonized with the blockchain before starting the restore procedure.\n\nOtherwise, your restored balance may be incorrect and additional restore procedure will be required.</string>
     <string name="understand">我理解</string>
     <string name="downloading_blockchain_info">正在下载区块链信息</string>
-    <string name="add_all">添加总余额</string>
     <string name="my_active_addresses">有效地址</string>
-    <string name="tag_list_is_empty">标签列表为空</string>
-    <string name="dialog_empty_tags_message">您还没有任何标签
-您现在想要创建一个标签吗？</string>
-    <string name="you_can_create_more_tags_in_settings">您可以在设置中创建更多标签</string>
-    <string name="choose_tag">选择标签</string>
     <string name="use_finger">使用指纹</string>
     <string name="use_faceid">Use your  Face recognition</string>
     <string name="tags">标签</string>
-    <string name="add_new_tag">添加新标签</string>
-    <string name="initiated">已启动</string>
-    <string name="latest_confirmation">最新确认</string>
     <string name="share_transaction">分享交易</string>
     <string name="paste">粘贴</string>
     <string name="selected">已选中</string>
     <string name="empty_address_list">地址列表是空的</string>
     <string name="empty_contacts_list">联系人列表是空的</string>
     <string name="empty_utxo_list">UTXO列表是空的</string>
-    <string name="version">版本号 %1$s</string>
     <string name="show_all">显示全部</string>
     <string name="empty_address_list_active">无有效地址</string>
     <string name="empty_address_list_expired">无失效地址</string>
@@ -481,14 +403,12 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="last_30_days">过去 30 天</string>
     <string name="status">状态</string>
     <string name="complete_verification">完成验证</string>
-    <string name="complete_wallet_verification">完成钱包验证</string>
     <string name="complete_seed_verification">Verify seed phrase</string>
     <string name="seed_verification">Seed Verification</string>
     <string name="i_will_later">稍后设置</string>
     <string name="faucet_text">看看钱包是如何使用。并从社区水龙头获得少量Beam。</string>
     <string name="get_coins">获取硬币</string>
     <string name="make_wallet_secure_text">请写下并验证您的助记词，以便你可以随时恢复你的资金。</string>
-    <string name="secure_your_phrase">保护你的助记词</string>
     <string name="clear_local_data">清除本地钱包数据</string>
     <string name="show_seed_phrase">显示助记词</string>
     <string name="clear_wallet">删除当前钱包</string>
@@ -502,15 +422,11 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="incorrect_file_title">文件不正确</string>
     <string name="incorrect_file_text">你试图导入到 Beam 钱包的文件不适合。请选择另一个文件，然后重试。</string>
     <string name="import_data_text">你确定要将数据导入到Beam钱包吗？所有当前数据将被导入的数据替换。</string>
-    <string name="import_data_title">导入数据</string>
     <string name="imp">导入</string>
-    <string name="export_data">导出数据</string>
-    <string name="clear_wallet_password">输入密码以删除钱包”</string>
     <string name="change_node_text_2">Use your fingerprint or enter your password to change node settings</string>
     <string name="change_node_text_3">输入你的密码以更改节点设置</string>
     <string name="get_beam_faucet">从Beam社区水龙头获得Beam</string>
     <string name="privacy">隐私</string>
-    <string name="feedback">反馈</string>
     <string name="enter_your_password">输入你的密码</string>
     <string name="wallet_data_saved">钱包数据下载保存到</string>
     <string name="remove_wallet_password_1">Use your fingerprint or enter your password to remove current wallet</string>
@@ -532,7 +448,6 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="enable">启用</string>
     <string name="dont_use">不使用</string>
     <string name="since_block_height">Since block height</string>
-    <string name="block_height">Block height</string>
     <string name="import_data_warning">只有从钱包导出的带有相同助记词的数据可以导入。</string>
     <string name="faucet_redirect_text">Redirecting to the faucet website.\nYour address will be filled-in automatically.</string>
     <string name="clear_wallet_transactions_text">Unable to delete wallet with active transactions</string>
@@ -544,8 +459,6 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="btc">BTC (Bitcoin)</string>
     <string name="second_currency">Secondary currency</string>
     <string name="wallet_updates">Wallet updates</string>
-    <string name="news">News</string>
-    <string name="address_expiration">地址过期</string>
     <string name="transaction_status">交易状态</string>
     <string name="new_notifications_title">You have new notifications</string>
     <string name="new_notifications_text">Please click to open details</string>
@@ -565,71 +478,24 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="read">Read</string>
     <string name="new_version_available_title">New version (version) is available</string>
     <string name="new_version_available_detail">Your current version is v(version)\nPlease update to get the most of your Beam wallet.</string>
-    <string name="new_version_available_notif_title">New version is available</string>
-    <string name="new_version_available_notif_detail">Please update to get the most of your Beam wallet</string>
     <string name="notification">Notification</string>
     <string name="update_now">Update now</string>
     <string name="buy_transaction_failed_title">交易失败</string>
-    <string name="unlinked">Unlinked</string>
-    <string name="unlink">Unlink</string>
-    <string name="available_unlink">Unlink available</string>
-    <string name="unlinking_fee">Unlinking fee</string>
-    <string name="small_amount_unlink">Amount is too small. Minimal amount is</string>
     <string name="remaining">剩余</string>
-    <string name="amount_to_unlink">Amount to unlink</string>
-    <string name="unlink_notice">Please notice that unlinking funds may take up to few days to proceed.</string>
-    <string name="unlink_beam">Unlink BEAM</string>
-    <string name="unlinked_funds_only">Unlinked funds only</string>
-    <string name="add_all_unlinked">Add all unlinked</string>
-    <string name="off">Off</string>
     <string name="exchange_not_available">online (exchange rate to %1$s wasn’t received)</string>
     <string name="wallet_id">身份</string>
-    <string name="show_token">更多详细信息</string>
-    <string name="transaction_token">Transaction address</string>
-    <string name="general">概述</string>
-    <string name="one_time">一次性使用</string>
-    <string name="permanent">永久有效</string>
-    <string name="edit_token">编辑地址</string>
-    <string name="receive_from">Receive from</string>
-    <string name="pool">Exchange or mining pool</string>
     <string name="share_token">分享地址</string>
     <string name="token">地址</string>
     <string name="reconnect">Reconnecting to another random node…</string>
-    <string name="max_privacy_title">离线</string>
     <string name="max_privacy_text">The receiver pays fees.</string>
-    <string name="max_privacy_text_2">The receiver pays fees.</string>
-    <string name="max">Max</string>
-    <string name="max_privacy_requested_title"></string>
-    <string name="max_privacy_request_title">Request Offline transaction</string>
-    <string name="max_privacy_request_text">The receiver pays fees.</string>
-    <string name="offline_transaction">Offline transaction</string>
     <string name="transaction_type">Transaction type</string>
     <string name="perm_out_address_title">Permanent outgoing address</string>
     <string name="perm_out_address_text">This address will be used for sending to specific receiver address.</string>
-    <string name="perm_token">Permanent address.</string>
-    <string name="token_type">地址类型</string>
-    <string name="token_expiration">地址过期</string>
-    <string name="online_token">在线地址</string>
-    <string name="offline_token">离线地址</string>
-    <string name="for_wallet">For wallet</string>
-    <string name="for_pool">For exchange or mining pool</string>
-    <string name="for_pool_permanent">Exchanges or mining pools support only permanent address now.</string>
-    <string name="for_pool_regular">Exchanges or mining pools support only regular transaction now.</string>
-    <string name="switch_to_permanent">Switch to permanent</string>
-    <string name="switch_to_regular">Switch to regular</string>
-    <string name="one_time_expire_text">One-time use address (expire in 12 hours after succesfull transaction).</string>
     <string name="transaction_info">交易信息</string>
-    <string name="offline_token_type">离线</string>
-    <string name="online_token_type">在线</string>
     <string name="max_privacy_disabled_node">Connect to integrated or own node to enable receiving max privacy and offline transactions</string>
-    <string name="address_not_supported_max_privacy">This type of address does not support offline transactions</string>
-    <string name="cant_sent_max_to_my_address">Can not sent Offline transaction to own address</string>
     <string name="offline">离线</string>
-    <string name="offline_transactions">Offline transactions</string>
     <string name="address_expire_after_2h">Address will expire in 12 hours after succesfull transaction</string>
     <string name="sbbs_address">SBBS address</string>
-    <string name="offline_remaining">Offline transactions remaining</string>
-    <string name="transactions_remaining">Transactions remaining</string>
     <string name="withdraw">Withdraw</string>
     <string name="shielded_pool">Shielded pool</string>
     <string name="transaction_received_from_offline">Transaction received from offline</string>
@@ -641,17 +507,11 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="public_offline_address">公共离线地址</string>
     <string name="public_offline_address_hint">公开此地址将允许您被识别</string>
     <string name="connect_node_offline_public">Connect to integrated or own node to enable receiving public offline transactions</string>
-    <string name="online_address_for_wallet">在线地址 (钱包)</string>
-    <string name="online_token_for_pool">在线地址 (用于交易所或采矿池)</string>
-    <string name="supports_payment">Supports XX payments.</string>
     <string name="max_privacy_address">最大隐私地址</string>
     <string name="receive_notice_max_privacy">Max privacy transaction can last\nat most 72 hours.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">地址类型</string>
-    <string name="payments">支付</string>
     <string name="zero">0</string>
-    <string name="payments_left">Payments left: XX.</string>
-    <string name="locked_till">(locked till the transaction\nwill succeed or expire)</string>
     <string name="sender_identity">发件人身份</string>
     <string name="receiver_identity">接收者身份</string>
     <string name="choose_currency">Choose currency</string>

@@ -280,7 +280,6 @@
                         tools:ignore="RtlSymmetry" />
 
                     <View
-                        android:id="@+id/transactionsArrowView"
                         android:layout_width="@dimen/wallet_expandable_icon_size"
                         android:layout_height="@dimen/wallet_expandable_icon_size"
                         android:background="@drawable/btn_drop_down"

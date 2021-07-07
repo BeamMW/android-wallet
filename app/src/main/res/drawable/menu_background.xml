@@ -1,5 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/alert_dialog_color"/>
-    <corners
-        android:radius="12dp"/>
-</shape>

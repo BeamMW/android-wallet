@@ -1,10 +1,5 @@
 <resources>
 
-    <style name="Autocomplete">
-        <item name="colorControlNormal">@color/white_01</item>
-        <item name="colorControlActivated">@color/white_01</item>
-    </style>
-
     <style name="ToolbarTheme" parent="@style/Base.TextAppearance.AppCompat.Title">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
@@ -12,9 +7,6 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
-    </style>
-
-    <style name="NoAnimTheme" parent="Theme.AppCompat.NoActionBar">
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
@@ -97,12 +89,6 @@
     <style name="common_button_style">
         <item name="android:layout_width">@dimen/common_btn_width</item>
         <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="common_currency_style">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginTop">@dimen/common_currency_offset</item>
     </style>
 
     <style name="common_card_style">
@@ -202,76 +188,10 @@
     </style>
 
     <!-- WalletFragment -->
-    <style name="wallet_card_title_style" parent="common_header_big">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingEnd">@dimen/wallet_expandable_icon_padding</item>
-    </style>
-
-    <style name="wallet_in_progress_categories_style" parent="common_header_small">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
 
     <!-- TransactionDetails -->
-    <style name="transaction_details_title" parent="common_subheader_light">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
-    <style name="transaction_details_sub_title" parent="common_text_big_dark">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:paddingEnd">@dimen/transaction_details_padding</item>
-        <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
-    </style>
-
-    <style name="transaction_details_value" parent="common_text_big_light">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:paddingBottom">@dimen/transaction_details_padding</item>
-    </style>
-
-    <style name="common_bottom_sheet_style" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textViewStyle">@style/common_text_big_dark</item>
-        <item name="android:textAppearance">@style/common_text_big_dark</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:buttonStyle">@style/common_button_text_style</item>
-        <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
-        <item name="android:textColorHint">@color/common_hint_text_color</item>
-    </style>
 
     <!--Styles for sharing transaction details-->
-    <style name="share_transaction_details_parameter" parent="common_text_big_dark">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="share_transaction_details_value" parent="common_text_big_light">
-        <item name="android:layout_width">@dimen/share_transaction_details_value_width</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textAlignment">viewEnd</item>
-    </style>
-
-    <style name="share_transaction_details_divider">
-        <item name="android:background">@color/share_transaction_details_divider_color</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/suggestions_divider_wight</item>
-    </style>
-
-    <style name="share_transaction_details_subtitle" parent="common_text_big_light">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">left</item>
-        <item name="android:fontFamily">@font/roboto_regular</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:letterSpacing">0.07</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
 
     <style name="share_transaction_details_title" parent="common_text_big_light">
         <item name="android:layout_width">match_parent</item>

@@ -2,7 +2,6 @@
 <com.google.android.material.navigation.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navView"
     android:layout_width="@dimen/navigation_width"
     android:layout_height="match_parent"
     android:layout_gravity="start"
@@ -11,7 +10,6 @@
     tools:visibility="visible">
 
     <LinearLayout
-        android:id="@+id/menuLinerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/menuBackground"
@@ -53,7 +51,6 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

@@ -11,8 +11,7 @@
         android:gravity="center"
         android:id="@android:id/progress" >
         <layer-list>
-            <item
-                android:id="@+id/progressshape" >
+            <item>
                 <clip>
                     <shape
                         android:shape="rectangle" >

@@ -2,22 +2,17 @@
 <resources>
     <string name="app_name">Beam-plånbok</string>
     <string name="common_logo_text">Konfidentiell, snabb, lätt att använda</string>
-    <string name="common_testnet">Testnät</string>
-    <string name="common_masternet">Masternät</string>
     <string name="done">Klart</string>
     <string name="common_error">Ojdå, någonting gick visst fel…</string>
     <string name="online">Uppkopplad</string>
     <string name="updating">Uppdaterar</string>
     <string name="common_status_error">Kan inte ansluta till</string>
     <string name="open">Öppna</string>
-    <string name="close">Stäng</string>
     <string name="cancel">Avbryt</string>
     <string name="delete">Ta bort</string>
-    <string name="confirm">Bekräfta</string>
     <string name="change_address">Ändra</string>
     <string name="change_address_title">Byt adress</string>
     <string name="change_utxo_type">Ändra</string>
-    <string name="change_description">Växel (kommer att vara låst tills transaktionen lyckas eller utgår)</string>
     <string name="ok">OK</string>
     <string name="undo">Ångra</string>
     <string name="next">Nästa</string>
@@ -36,23 +31,16 @@
     <string name="currency_groth">GROTH</string>
     <string name="error_no_internet_connection">Internetåtkomst saknas</string>
     <string name="error_incorrect_node">Felaktigt nod-namn eller så saknas internet-anslutning</string>
-    <string name="common_stay_active_title">Håll aktiv</string>
-    <string name="common_stay_active_message">Stäng inte plånboken, annars kommer transaktionen inte att gå igenom</string>
     <!--NavigationDrawer-->
-    <string name="nav_dashboard">Dashboard</string>
     <string name="wallet">Plånbok</string>
     <string name="address_book">Adressbok</string>
     <string name="notifications">Notifieringar</string>
-    <string name="help">Hjälp</string>
     <string name="settings">Inställningar</string>
     <string name="storage_permission_required_message_small">Vänligen tillåt access till lagringsutrymmet</string>
     <!--Welcome-->
     <string name="create_new_wallet">Skapa ny plånbok</string>
     <string name="restore_wallet">Återställ plånbok</string>
     <string name="welcome_restore_or_create">Återställ plånbok eller skapa en ny</string>
-    <string name="welcome_generate_seed_phrase">Generera seed phrase</string>
-    <string name="i_agree">Jag samtycker</string>
-    <string name="welcome_restore_notification">Du försöker nu återställa en befintlig Beam-plånbok. Notera att om du använder din plånbok på en annan enhet kommer balansen vara uppdaterad men transaktionshistorik och adresser kommer hållas separat per enhet.</string>
     <string name="copy">Kopiera</string>
     <string name="welcome_description">Skapa en ny plånbok genom att generera ett seed phrase. Om du blir av med din enhet så behövs ditt seed phrase för att återställa tillgångarna. Ange aldrig ditt seed phrase på en nyckelknippa eller lösenordsmanagerare. Spara aldrig detta på ditt lokala filsystem eller några fjärr-mappar av någon sort.</string>
     <string name="welcome_no_see">Låt ingen annan se din seed phrase.</string>
@@ -121,13 +109,10 @@
     <string name="wallet_sent_message">Beam skickade</string>
     <string name="available">Tillgängligt</string>
     <string name="in_progress">Pågående</string>
-    <string name="receiving">Mottager</string>
-    <string name="sending">Skickar</string>
     <string name="sending_to_own_address">Skickat till egen adress</string>
     <string name="maturing">Mognar</string>
     <string name="receive">Ta emot</string>
     <string name="send">Skicka</string>
-    <string name="completed">Avslutad</string>
     <string name="received">Mottaget</string>
     <string name="sent">Skickat</string>
     <string name="sent_to_own_address">Skickat till egen adress</string>
@@ -148,25 +133,19 @@
     <string name="export_transaction_history_text">Vill du spara transaktionsdata på din enhet eller dela den?</string>
     <!--UtxoFragment-->
     <string name="utxo">UTXO</string>
-    <string name="active">Aktiva</string>
     <string name="all">Alla</string>
     <string name="incoming">Inkommande</string>
     <string name="outgoing">Utgående</string>
     <string name="spent">Spenderat</string>
     <string name="unavailable">Otillgängligt</string>
-    <string name="utxo_status_result_rollback">Mining-resultat rollback</string>
     <string name="blockchain_height">Block-kedjans höjd</string>
-    <string name="last_block_hash">Senaste blockets hash</string>
     <string name="utxo_security_message">Du är för närvarande i privat läge.</string>
     <string name="utxo_turn_off_see_utxo">Stäng av detta för att se din UTXO-lista.</string>
     <!--UtxoDetailsFragment-->
     <string name="utxo_details">UTXO-detaljer</string>
     <string name="kernel_id">Kärn ID</string>
-    <string name="utxo_type">UTXO-typ</string>
     <string name="type">Typ</string>
-    <string name="completion_time">Slutförandetid</string>
     <string name="contact">Kontakt</string>
-    <string name="utxo_history">UTXO-historik</string>
     <string name="commission">Provision</string>
     <string name="coinbase">Coinbase</string>
     <string name="decoy">Dummy</string>
@@ -177,21 +156,17 @@
     <string name="childKey">ChildKey</string>
     <string name="bbs">Bbs</string>
     <string name="date">Datum</string>
-    <string name="time">Tid</string>
     <string name="id">ID</string>
     <string name="treasure">Skatt</string>
     <string name="shielded">Skärmade</string>
     <string name="maturity">Mognad</string>
     <!--TransactionDetailsFragment-->
     <string name="transaction_details">Transaktionsdetaljer</string>
-    <string name="general_transaction_info">Generell transaktionsinformation</string>
-    <string name="currency_amount">Valutabelopp</string>
     <string name="transaction_fee">Transaktionskostnad</string>
     <string name="comment">Kommentar</string>
     <string name="transaction_id">Transaktions-ID</string>
     <string name="transaction_history">Transaktionshistorik</string>
     <string name="repeat_transaction">Repetera transaktion</string>
-    <string name="save_peer_address">Spara jämlike (peer) adress</string>
     <string name="copy_address">Kopiera adress</string>
     <string name="cancel_transaction">Avbryt transaktion</string>
     <string name="delete_transaction">Ta bort transaktion</string>
@@ -213,24 +188,16 @@
     <string name="delete_contacts_text">Dessa kontakter kommer att tas bort från din plånbok.</string>
     <string name="delete_contact_text">Denna kontakt kommer att tas bort från din plånbok.</string>
     <!--ReceiveFragment-->
-    <string name="swap">Swappa</string>
     <string name="auto_generated">automatiskt genererad</string>
-    <string name="annotation">Anteckning</string>
     <string name="expires">Utgånget</string>
-    <string name="receive_send_annotation_description">Anteckningar är lokala och delas inte med någon.</string>
-    <string name="share_address">Dela adress</string>
-    <string name="show_qr">visa QR</string>
     <string name="addresses">Adresser</string>
-    <string name="receive_token_description">Skicka denna adress över en extern säker kanal.</string>
     <string name="receive_save_address_message">Vill du spara skapade adresser och använda dessa vid ett senare tillfälle?</string>
     <string name="receive_save_changes_message">Vill du spara ändringar för denna adress?</string>
-    <string name="request_an_amount">Begär belopp</string>
     <string name="optional">Valfritt</string>
     <string name="name">Namn</string>
     <string name="edit_address">Editera adress</string>
     <string name="edit_contact">Ändra kontakt</string>
     <string name="advanced">Avancerat</string>
-    <string name="send_token_description">Mata in eller scanna mottagarens adress</string>
     <string name="share">Dela</string>
     <string name="save_to_downloads">Spara till Nerladdade filer</string>
     <string name="saved_to_downloads">Spara till Nerladdade filer</string>
@@ -245,26 +212,16 @@
     <string name="send_permission_required_message">Vänligen, ge kameran tillåtelse att användas för att använda QR scanning</string>
     <string name="send_error_not_beam_address">Den scannade koden är inte en Beam-adress</string>
     <string name="send_error_paste">Går ej att klistra in en ogiltig adress</string>
-    <string name="send_confirm_transaction_details">Verifiera transaktionsdetaljer</string>
-    <string name="recipient">Mottagare</string>
     <string name="amount">Belopp</string>
-    <string name="send_dialog_description">För att skicka transaktion, vänligen ange lösenord</string>
-    <string name="send_dialog_description_with_fingerprint">För att skicka transaktion, vänligen använd fingeravtrycks-Id eller ange lösenord</string>
-    <string name="total_available">Totalt tillgängligt</string>
     <string name="transaction_comment">Transaktions-kommentar</string>
-    <string name="wont_be_shared">kommer inte att delas med någon</string>
     <string name="outgoing_address">Utgående adresser</string>
-    <string name="my_addresses">Mina adresser</string>
-    <string name="no_matching_address_found">Inga matchande adresser hittades</string>
     <string name="address_already_exist_1">Denna adress finns redan</string>
     <string name="address_already_exist_2">Du kan inte spara din adress.
 Denna adress finns redan</string>
     <string name="settings_report">Rapportera ett problem</string>
     <string name="receive_description_qr">Visa denna QR-kod till sändaren eller skicka den över en extern säker kanal.</string>
     <!--SettingsFragment-->
-    <string name="settings_change_pass">Byt plånbokens lösenord</string>
     <string name="settings_version">App version</string>
-    <string name="settings_send_logs_description">Skicka loggar…</string>
     <string name="node">Nod</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Generell</string>
@@ -285,8 +242,6 @@ Denna adress finns redan</string>
     <string name="settings_dialog_clear_transactions">Ta bort alla transaktioner</string>
     <string name="settings_confirm_clear_message">Är du säker på att du vill ta bort alla %1$s från din plånbok?</string>
     <string name="contacts">Kontakter</string>
-    <string name="transaction">Transaktion</string>
-    <string name="loading_wallet">Laddar plånbok</string>
     <!--ProgressFragment-->
     <string name="addresses_tab_active">Min aktiva</string>
     <!--AddressesFragment-->
@@ -298,13 +253,11 @@ Denna adress finns redan</string>
     <string name="contacts_deleted">Kontakter har raderats</string>
     <string name="address">Adress</string>
     <!--AddressFragment-->
-    <string name="show_qr_code">Visa QR-kod</string>
     <string name="delete_address">Ta bort adress</string>
     <string name="delete_contact">Ta bort kontakt</string>
     <string name="delete_addresses">Ta bort adresser</string>
     <string name="delete_contacts">Ta bort kontakter</string>
     <string name="transactions_list">Transaktionslista</string>
-    <string name="address_id">Adress ID</string>
     <string name="expiration_date">Utgångsdatum</string>
     <string name="tag">Tag</string>
     <string name="show_qr_code_short">Visa QR</string>
@@ -312,8 +265,6 @@ Denna adress finns redan</string>
     <!--EditAddressFragment-->
     <string name="active_address">Aktivera adress</string>
     <string name="save">Spara</string>
-    <string name="now">Nu</string>
-    <string name="none">Inga</string>
     <string name="change_password">Byt lösenord</string>
     <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Skriv in ditt nuvarande lösenord</string>
@@ -321,7 +272,6 @@ Denna adress finns redan</string>
     <!--ScanQrActivity-->
     <string name="payment_proof_verification">Verifiering för betalningsbevis</string>
     <!--PaymentProofActivity-->
-    <string name="paste_your_payment_proof_here">Klistra in ditt betalningsbevis här</string>
     <string name="payment_proof_verification_error">Kan inte avkoda bevis, ogiltig sekvens.</string>
     <string name="copy_details">Kopiera detaljer</string>
     <string name="copy_code">Kopiera kod</string>
@@ -332,17 +282,12 @@ Denna adress finns redan</string>
     <string name="paste_payment_proof">Klistra in ditt betalningsbevis här</string>
     <string name="edit">Ändra</string>
     <!--CategoryFragment-->
-    <string name="delete_tag">Ta bort tag</string>
-    <string name="tag_delete_dialog_message">Vill du verkligen ta bort %1$s tag?</string>
-    <string name="edit_tag">Editera tag</string>
     <!--EditCategory-->
-    <string name="create_tag">Skapa Tag</string>
     <string name="color">Färg</string>
     <string name="show_owner_key">Visa ägar-nyckel</string>
     <!--OwnerKeyFragments-->
     <string name="owner_key_verification_description">För att se ägarnyckeln måste du klara denna 2-stegs verifiering(ange lösenord samt använda fingeravtrycks-ID)</string>
     <string name="owner_key_verification_fingerprint_error">Fingeravtrycks-auktorisering misslyckades. Vänligen försök igen inom några minuter.</string>
-    <string name="owner_key_verification_title_with_finger">Ange ditt lösenord och använd fingeravtrycks-ID för att få tillgång till plånboken</string>
     <string name="owner_key_verification_fingerprint_description">Vänligen använd fingeravtrycks-ID för att avsluta verifieringen</string>
     <string name="key_code">Nyckel-kod</string>
     <string name="owner_key_copied_message">Ägarens nyckel-kod kopierat till urklipp</string>
@@ -355,38 +300,26 @@ Denna adress finns redan</string>
     <string name="notification_receive_content_text">Vänligen klicka för att se detaljer</string>
     <string name="notification_channel_name">Notifierings-kanal</string>
     <string name="notification_channel_description">Standard notifierings-kanal</string>
-    <string name="touch_sensor">Tryck på fingeravtryckssensorn</string>
     <!--FingerprintDialog-->
-    <string name="fingerprint_id">Fingeravtrycks-ID</string>
     <!--ChangeAddressFragment-->
     <string name="language">Språk</string>
     <!-- Language -->
-    <string name="language_dialog_message">För att språkändringarna skall gälla måste appen startas om</string>
-    <string name="restart_now">Starta om nu</string>
     <string name="rate_app">Betygsätt appen</string>
-    <string name="existing_addresses">Existerande adresser</string>
     <string name="requested_amount">Begärt belopp</string>
-    <string name="paste_address_or_choose_contact">Klistra in adress eller välj kontakt</string>
     <string name="send_to">Skicka till</string>
     <string name="amount_to_send">Mängd att skicka</string>
-    <string name="total_utxo_value">Totalt UTXO-värde</string>
     <string name="confirmation_send_description">För att transaktionen skall gå igenom måste mottagaren komma online inom 12 timmar och du bör vara online inom 2 timmar efteråt.</string>
     <string name="confirmation">Bekräftelse</string>
-    <string name="save_recipient_address">Vill du spara mottagar-adressen för framtida transaktioner?</string>
     <string name="save_address">Spara adress</string>
     <string name="dont_save">Spara inte</string>
     <string name="save_changes">Spara ändringar</string>
     <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
     <string name="search_by_address_tag_or_name">Klistra in adress eller sök efter adress, tagg eller namn</string>
     <string name="min_fee_error">Mynt valdes automatiskt för att maximera sekretess och minsta transaktionsavgift på %1$s GROTH</string>
-    <string name="min_fee_error_max_privacy">Mynt valdes automatiskt för att maximera integritet och minimal transaktionsavgift på 1,000,100 GROTH.</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
     <string name="delete_all_transactions_related_to_this_addresses">Ta bort alla transaktioner som är kopplade till dessa adresser</string>
     <string name="delete_all_transactions_related_to_this_contact">Ta bort alla transaktioner som är kopplade till denna kontakt</string>
     <string name="delete_all_transactions_related_to_this_contacts">Ta bort alla transaktioner som är kopplade till dessa kontakter</string>
-    <string name="search_transaction">Sök transaktion</string>
-    <string name="never_expires">Utgår aldrig</string>
-    <string name="expires_in">Utgår om %1$s t %2$s m</string>
     <string name="add_contact">Lägg till kontakt</string>
     <string name="enter_your_password_to_confirm_transaction">Ange ditt lösenord för att bekräfta transaktion</string>
     <string name="use_fingerprint_ot_enter_your_password_to_confirm_transaction">Använd fingeravtryck eller ange ditt lösenord för att bekräfta transaktion</string>
@@ -413,25 +346,16 @@ Denna adress finns redan</string>
     <string name="node_restore_warning">Kontrollera att din egen nod är helt synkroniserad med blockkedjan innan du startar återställningsproceduren.\n\nAnnars kan ditt återställda saldo vara felaktigt och ytterligare återställningsprocedur kommer att krävas.</string>
     <string name="understand">Jag förstår</string>
     <string name="downloading_blockchain_info">Laddar ner blockkedje-info</string>
-    <string name="add_all">Lägg till alla</string>
     <string name="my_active_addresses">Mina aktiva adresser</string>
-    <string name="tag_list_is_empty">Tag-listan är tom</string>
-    <string name="dialog_empty_tags_message">Du har inga tags ännu. Vill du skapa en tag nu?</string>
-    <string name="you_can_create_more_tags_in_settings">Du kan skapa fler tagar under Inställningar.</string>
-    <string name="choose_tag">Välj tag</string>
     <string name="use_finger">Använd ditt fingeravtryck </string>
     <string name="use_faceid">Använd din ansiktsigenkänning</string>
     <string name="tags">Tagar</string>
-    <string name="add_new_tag">Lägg till ny tag</string>
-    <string name="initiated">Initierad</string>
-    <string name="latest_confirmation">Senaste verifiering</string>
     <string name="share_transaction">Dela transaktion</string>
     <string name="paste">Klistra in</string>
     <string name="selected">Vald</string>
     <string name="empty_address_list">Din adress-lista är tom</string>
     <string name="empty_contacts_list">Din kontakt-lista är tom</string>
     <string name="empty_utxo_list">Din UTXO-lista är tom</string>
-    <string name="version">Version %1$s</string>
     <string name="show_all">Visa alla</string>
     <string name="empty_address_list_active">Du har inga aktiva adresser</string>
     <string name="empty_address_list_expired">Du har inga utgångna adresser</string>
@@ -461,14 +385,12 @@ Denna adress finns redan</string>
     <string name="last_30_days">Senaste 30 dagarna</string>
     <string name="status">Status</string>
     <string name="complete_verification">Komplettera verifieringen</string>
-    <string name="complete_wallet_verification">Komplettera plånboksverifieringen</string>
     <string name="complete_seed_verification">Verifiera seed phrase</string>
     <string name="seed_verification">Verifiering av seed</string>
     <string name="i_will_later">Jag gör det senare</string>
     <string name="faucet_text">Vill du se plånboken \"in action\"? Tillgodose en liten mängd Beam från community-fauceten.</string>
     <string name="get_coins">Skaffa mynt</string>
     <string name="make_wallet_secure_text">Skriv ner och validera din seed phrase så att du alltid kan återställa dina medel.</string>
-    <string name="secure_your_phrase">Säkra din phrase</string>
     <string name="clear_local_data">Rensa lokal plånboksdata</string>
     <string name="show_seed_phrase">Visa seed phrase</string>
     <string name="clear_wallet">Ta bort aktuell plånbok</string>
@@ -481,15 +403,11 @@ Denna adress finns redan</string>
     <string name="incorrect_file_title">Fel filtyp</string>
     <string name="incorrect_file_text">Filen du försöker importera till Beam-plånboken passar inte. Vänligen välj en annan fil och försök igen.</string>
     <string name="import_data_text">Är du säker på att du vill importera data till Beam-plånboken? All nuvarande data kommer att ersättas med det som importeras.</string>
-    <string name="import_data_title">Importera data</string>
     <string name="imp">Importera</string>
-    <string name="export_data">Exportera data</string>
-    <string name="clear_wallet_password">Ange ditt lösenord för att ta bort plånboken.</string>
     <string name="change_node_text_2">Använd fingeravtryck eller mata in ditt lösenord för att ändra nod-inställningar</string>
     <string name="change_node_text_3">Ange ditt lösenord för att ändra nod-inställningar</string>
     <string name="get_beam_faucet">Skaffa Beam från Community-fauceten</string>
     <string name="privacy">Integritet</string>
-    <string name="feedback">Återkoppling</string>
     <string name="enter_your_password">Ange ditt lösenord</string>
     <string name="wallet_data_saved">Plånboks-data sparad till Nerladdade filer</string>
     <string name="remove_wallet_password_1">Använd fingeravtryck eller ange ditt lösenord för att ta bort nuvarande plånbok</string>
@@ -509,7 +427,6 @@ Denna adress finns redan</string>
     <string name="enable">Aktivera</string>
     <string name="dont_use">Använd inte</string>
     <string name="since_block_height">Sedan blockets höjd</string>
-    <string name="block_height">Block-kedjans höjd</string>
     <string name="import_data_warning">Endast datat från den exporterade plånboken med samma seed phrase kan bli importerat.</string>
     <string name="faucet_redirect_text">Omdirigering till faucet-hemsidan.\nDin adress kommer att fyllas i automatiskt.</string>
     <string name="clear_wallet_transactions_text">Det går inte att ta bort plånboken med aktiva transaktioner</string>
@@ -521,8 +438,6 @@ Denna adress finns redan</string>
     <string name="btc">BTC (Bitcoin)</string>
     <string name="second_currency">Sekundär valuta</string>
     <string name="wallet_updates">Uppdateringar av plånboken</string>
-    <string name="news">Nyheter</string>
-    <string name="address_expiration">Adressens utgångsdatum</string>
     <string name="transaction_status">Transaktions-status</string>
     <string name="new_notifications_title">Du har nya aviseringar</string>
     <string name="new_notifications_text">Vänligen klicka för att se detaljer</string>
@@ -542,71 +457,24 @@ Denna adress finns redan</string>
     <string name="read">Läst</string>
     <string name="new_version_available_title">Ny version (version) finns tillgänglig</string>
     <string name="new_version_available_detail">Din nuvarande version är v(version)\nVänligen uppdatera för att få ut det mesta av din Beam-plånbok.</string>
-    <string name="new_version_available_notif_title">Ny version finns tillgänglig</string>
-    <string name="new_version_available_notif_detail">Vänligen uppdatera för att få ut det mesta av din Beam plånbok</string>
     <string name="notification">Avisering</string>
     <string name="update_now">Uppdatera nu</string>
     <string name="buy_transaction_failed_title">Transaktion misslyckades</string>
-    <string name="unlinked">Avlänkad</string>
-    <string name="unlink">Ta bort länkning</string>
-    <string name="available_unlink">Avlänka tillgänglig</string>
-    <string name="unlinking_fee">Avlänknings-avgift</string>
-    <string name="small_amount_unlink">Beloppet är för litet. Minimalt belopp är</string>
     <string name="remaining">Återstående</string>
-    <string name="amount_to_unlink">Belopp att avlänka</string>
-    <string name="unlink_notice">Notera att det kan ta upp till några dagar för avlänkade medel att bli klara.</string>
-    <string name="unlink_beam">Avlänka BEAM</string>
-    <string name="unlinked_funds_only">Endast olänkade likvida medel</string>
-    <string name="add_all_unlinked">Lägg till alla avlänkade</string>
-    <string name="off">Av</string>
     <string name="exchange_not_available">online (växelkurs till %1$s mottogs inte)</string>
     <string name="wallet_id">Identitet</string>
-    <string name="show_token">Mer detaljer</string>
-    <string name="transaction_token">Transaktionsadress</string>
-    <string name="general">Generell</string>
-    <string name="one_time">Engångsanvändning</string>
-    <string name="permanent">Permanent</string>
-    <string name="edit_token">Editera adress</string>
-    <string name="receive_from">Ta emot från</string>
-    <string name="pool">Exchange eller mining-pool</string>
     <string name="share_token">Dela adress</string>
     <string name="token">Adress</string>
     <string name="reconnect">Återansluter till en annan slumpmässig nod…</string>
-    <string name="max_privacy_title">Nerkopplad</string>
     <string name="max_privacy_text">Mottagaren betalar avgifter.</string>
-    <string name="max_privacy_text_2">Mottagaren betalar avgifter.</string>
-    <string name="max">Max</string>
-    <string name="max_privacy_requested_title"></string>
-    <string name="max_privacy_request_title">Begär offline-transaktion</string>
-    <string name="max_privacy_request_text">Mottagaren betalar avgifter.</string>
-    <string name="offline_transaction">Offline transaktion</string>
     <string name="transaction_type">Transaktionstyp</string>
     <string name="perm_out_address_title">Permanent utgående adress</string>
     <string name="perm_out_address_text">Denna adress kommer att användas för att skicka till specifik mottagaradress.</string>
-    <string name="perm_token">Permanent adress.</string>
-    <string name="token_type">Adresstyp</string>
-    <string name="token_expiration">Adressens utgångsdatum</string>
-    <string name="online_token">Online-adress</string>
-    <string name="offline_token">Offline adress</string>
-    <string name="for_wallet">För plånbok</string>
-    <string name="for_pool">För exchange eller miningpool</string>
-    <string name="for_pool_permanent">Exchanges eller miningpooler stöder endast permanenta adresser nu.</string>
-    <string name="for_pool_regular">Exchanges eller miningpooler stöder endast reguljära adresser nu.</string>
-    <string name="switch_to_permanent">Växla till permanent</string>
-    <string name="switch_to_regular">Växla till reguljär</string>
-    <string name="one_time_expire_text">Adress för engångsanvändning (löper ut om 12 timmar efter lyckad transaktion).</string>
     <string name="transaction_info">Information om transaktion</string>
-    <string name="offline_token_type">Nerkopplad</string>
-    <string name="online_token_type">Uppkopplad</string>
     <string name="max_privacy_disabled_node">Anslut till integrerad eller egen nod för att aktivera mottagande av maximal sekretess och offline-transaktioner</string>
-    <string name="address_not_supported_max_privacy">Denna typ av adress stöder inte offline-transaktioner</string>
-    <string name="cant_sent_max_to_my_address">Kan inte skicka Offline transaktion till egen adress</string>
     <string name="offline">Nerkopplad</string>
-    <string name="offline_transactions">Offline transaktioner</string>
     <string name="address_expire_after_2h">Adressen löper ut om 12 timmar efter genomförd transaktion</string>
     <string name="sbbs_address">SBBS adress</string>
-    <string name="offline_remaining">Offline-transaktioner som kvarstår</string>
-    <string name="transactions_remaining">Transaktioner kvarstår</string>
     <string name="withdraw">Ta ut</string>
     <string name="shielded_pool">Skyddad pool</string>
     <string name="transaction_received_from_offline">Transaktion mottagen från offline</string>
@@ -618,17 +486,11 @@ Denna adress finns redan</string>
     <string name="public_offline_address">Publik offline-adress</string>
     <string name="public_offline_address_hint">Genom att publicera denna adress kan du identifieras</string>
     <string name="connect_node_offline_public">Anslut till integrerad eller egen nod för att aktivera mottagande av offentliga offlinetransaktioner</string>
-    <string name="online_address_for_wallet">Online-adress (för plånbok)</string>
-    <string name="online_token_for_pool">Online-adress (för exchange eller miningpool)</string>
-    <string name="supports_payment">Stöder XX betalningar.</string>
     <string name="max_privacy_address">Max sekretess-adress</string>
     <string name="receive_notice_max_privacy">Max privacy transaction can last\nat most 72 hours.\n\nMin transaction fee\nto send Max privacy coins is 0.01 BEAM.</string>
     <string name="local_comment">Kommentarer är lokala och kommer inte att delas</string>
     <string name="address_type">Adresstyp</string>
-    <string name="payments">Betalningar</string>
     <string name="zero">0</string>
-    <string name="payments_left">Återstående betalningar: XX.</string>
-    <string name="locked_till">(låst tills transaktionen\nkommer att lyckas eller upphöra)</string>
     <string name="sender_identity">Avsändarens identitet</string>
     <string name="receiver_identity">Mottagarens identitet</string>
     <string name="choose_currency">Välj valuta</string>
