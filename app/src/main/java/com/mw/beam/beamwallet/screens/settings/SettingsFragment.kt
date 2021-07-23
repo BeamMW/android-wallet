@@ -98,7 +98,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_settings
 
-    override fun getToolbarTitle(): String? {
+    override fun getToolbarTitle(): String {
         return when {
             mode() == SettingsFragmentMode.All -> getString(R.string.settings)
             mode() == SettingsFragmentMode.General -> getString(R.string.settings_general_settings)
@@ -133,7 +133,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         when {
             mode() == SettingsFragmentMode.All -> {
 
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, SettingsFragmentMode.General))
                 s1.add(SettingsItem(R.drawable.ic_notification,getString(R.string.notifications),null, SettingsFragmentMode.Notifications))
                 s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, SettingsFragmentMode.Node))
@@ -143,11 +143,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
            //     var s2 = mutableListOf<SettingsItem>()
            //     s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, SettingsFragmentMode.Tags))
 
-                var s3 = mutableListOf<SettingsItem>()
+                val s3 = mutableListOf<SettingsItem>()
                 s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, SettingsFragmentMode.Rate))
                 s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, SettingsFragmentMode.Report))
 
-                var s4 = mutableListOf<SettingsItem>()
+                val s4 = mutableListOf<SettingsItem>()
                 s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
 
                 items.add(s1.toTypedArray())
@@ -157,14 +157,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
                 {
-                    var s5 = mutableListOf<SettingsItem>()
+                    val s5 = mutableListOf<SettingsItem>()
                     s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
                     items.add(s5.toTypedArray())
                 }
             }
 
             mode()== SettingsFragmentMode.General -> {
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
@@ -172,7 +172,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.show_amounts),null, SettingsFragmentMode.Currency))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
-                var s2 = mutableListOf<SettingsItem>()
+                val s2 = mutableListOf<SettingsItem>()
                 s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
                 s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
@@ -201,7 +201,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 toolbarLayout.changeNodeButton.isEnabled = false
             }
             mode() == SettingsFragmentMode.Privacy -> {
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, SettingsFragmentMode.AskPassword, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, SettingsFragmentMode.FingerPrint, switch = true))
                 s1.add(SettingsItem(null, getString(R.string.max_privacy_lock_time),null, SettingsFragmentMode.MaxPrivacyLimit))
@@ -214,7 +214,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Utilities -> {
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
@@ -223,9 +223,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     s1.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
                 }
 
+                val status = AppManager.instance.getStatus().system.height
                 s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
                 s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
                 s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
+                s1.add(SettingsItem(null, getString(R.string.show_utxo),null, SettingsFragmentMode.UTXO))
+                s1.add(SettingsItem(null, getString(R.string.blockchain_height),status.toString(), SettingsFragmentMode.Height))
+
                 items.add(s1.toTypedArray())
             }
         }
@@ -234,6 +238,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         addItems()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -410,6 +415,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     }
                     else if (item.mode == SettingsFragmentMode.Rescan) {
                         presenter?.onRescanPressed()
+                    }
+                    else if (item.mode == SettingsFragmentMode.UTXO) {
+                        presenter?.onUTXOPressed()
                     }
                 }
 
@@ -639,17 +647,25 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 (button as RadioButton).apply {
                     text = string
                     isChecked = (index == 0 && currency == Currency.Usd) || (index == 1 && currency == Currency.Bitcoin)
+                            || (index == 2 && currency == Currency.Eth)
                     setOnClickListener {sender->
                         val btn = sender as RadioButton
-                        if (btn.text == getString(R.string.usd)) {
-                            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
-                            ExchangeManager.instance.currency = Currency.Usd.value
-                            setCurrencySettings(Currency.Usd)
-                        }
-                        else {
-                            PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Bitcoin.value.toLong())
-                            ExchangeManager.instance.currency = Currency.Bitcoin.value
-                            setCurrencySettings(Currency.Bitcoin)
+                        when (btn.text) {
+                            getString(R.string.usd) -> {
+                                PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
+                                ExchangeManager.instance.currency = Currency.Usd.value
+                                setCurrencySettings(Currency.Usd)
+                            }
+                            getString(R.string.eth) -> {
+                                PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Eth.value.toLong())
+                                ExchangeManager.instance.currency = Currency.Eth.value
+                                setCurrencySettings(Currency.Eth)
+                            }
+                            else -> {
+                                PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Bitcoin.value.toLong())
+                                ExchangeManager.instance.currency = Currency.Bitcoin.value
+                                setCurrencySettings(Currency.Bitcoin)
+                            }
                         }
                         presenter?.onDialogClosePressed()
                     }
@@ -1288,6 +1304,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     btnCancelText = null,
                     onCancel = {  })
         }
+    }
+
+    override fun showUTXO() {
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUtxoFragment())
     }
 
     override fun walletRemoved() {

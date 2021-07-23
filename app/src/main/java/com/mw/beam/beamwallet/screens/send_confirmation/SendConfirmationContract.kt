@@ -35,6 +35,7 @@ interface SendConfirmationContract {
         fun getAddressType(): Int
         fun getRemaining(): Int
         fun getIsOffline(): Boolean
+        fun getAssetId(): Int
         fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int)
         fun configureContact(walletAddress: WalletAddress)
         fun configureOutAddress(walletAddress: WalletAddress)
@@ -53,6 +54,6 @@ interface SendConfirmationContract {
     interface Repository : MvpRepository {
         fun isConfirmTransactionEnabled(): Boolean
         fun getAddresses(): Subject<OnAddressesData>
-        fun calcChange(amount: Long): Subject<Long>
+        fun calcChange(amount: Long, assetId:Int): Subject<Long>
     }
 }

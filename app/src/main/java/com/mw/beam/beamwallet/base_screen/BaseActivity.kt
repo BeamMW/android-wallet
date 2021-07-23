@@ -209,8 +209,6 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
         }
 
         resources.updateConfiguration(config, resources.displayMetrics)
-
-
     }
 
     fun showLockScreen() {

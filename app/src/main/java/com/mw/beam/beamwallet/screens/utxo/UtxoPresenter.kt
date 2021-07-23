@@ -35,7 +35,6 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         UtxoContract.Presenter {
 
     private lateinit var utxoUpdatedSubscription: Disposable
-    private lateinit var blockchainInfoSubscription: Disposable
     private lateinit var txStatusSubscription: Disposable
 
     private var allUtxos = mutableListOf<Utxo>()
@@ -94,16 +93,10 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
             AppManager.instance.requestUTXO()
         }
 
-        view?.updateBlockchainInfo(AppManager.instance.getStatus().system)
-
         filter()
 
         utxoUpdatedSubscription = AppManager.instance.subOnUtxosChanged.subscribe() {
             filter()
-        }
-
-        blockchainInfoSubscription = AppManager.instance.subOnStatusChanged.subscribe(){
-            view?.updateBlockchainInfo(AppManager.instance.getStatus().system)
         }
 
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe() {
@@ -128,7 +121,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
             var sortByDate = false
 
             allUtxos.forEach {
-                var transaction = transactions.filter { s -> s.id == it.createTxId || s.id == it.spentTxId }.firstOrNull()
+                val transaction = transactions.filter { s -> s.id == it.createTxId || s.id == it.spentTxId }.firstOrNull()
                 if (transaction != null) {
                     sortByDate = true
                     it.transactionDate = transaction.createTime
@@ -153,8 +146,8 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         super.onDestroy()
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(utxoUpdatedSubscription, blockchainInfoSubscription, txStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable> = arrayOf(utxoUpdatedSubscription, txStatusSubscription)
 
-    override fun hasBackArrow(): Boolean? = true
+    override fun hasBackArrow(): Boolean = true
     override fun hasStatus(): Boolean = true
 }

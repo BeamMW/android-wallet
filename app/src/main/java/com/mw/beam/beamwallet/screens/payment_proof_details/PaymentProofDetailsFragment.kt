@@ -29,15 +29,16 @@ import com.mw.beam.beamwallet.core.AppManager
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.helpers.convertToAssetStringWithId
 
 class PaymentProofDetailsFragment : BaseFragment<PaymentProofDetailsPresenter>(), PaymentProofDetailsContract.View {
 
-    override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(arguments!!).paymentProof
+    override fun getPaymentProof(): PaymentProof = PaymentProofDetailsFragmentArgs.fromBundle(requireArguments()).paymentProof
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     @SuppressLint("SetTextI18n")
@@ -46,12 +47,12 @@ else{
 
         senderValue.text = paymentProof.senderId
         receiverValue.text = paymentProof.receiverId
-        amountValue.text = "${paymentProof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
+        amountValue.text = paymentProof.amount.convertToAssetStringWithId(paymentProof.assetId)
         kernelValue.text = paymentProof.kernelId
         codeValue.text = paymentProof.rawProof
 
         val sender = AppManager.instance.getAddress(paymentProof.senderId)
-        if(sender !=null && !sender.label.isNullOrEmpty())
+        if(sender !=null && sender.label.isNotEmpty())
         {
             senderContactLayout.visibility = View.VISIBLE
             senderContactValue.text = sender.label
@@ -77,7 +78,7 @@ else{
                 "${getString(R.string.receiver)} " +
                 "${paymentProof.receiverId} \n" +
                 "${getString(R.string.amount)} " +
-                "${"${paymentProof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()} \n" +
+                "${paymentProof.amount.convertToAssetStringWithId(paymentProof.assetId)} \n" +
                 "${getString(R.string.kernel_id)} " +
                 paymentProof.kernelId
     }
@@ -101,7 +102,7 @@ else{
         btnCodeCopy.setOnClickListener(null)
     }
 
-    override fun getToolbarTitle(): String? = getString(R.string.payment_proof)
+    override fun getToolbarTitle(): String = getString(R.string.payment_proof)
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_payment_proof_details
 

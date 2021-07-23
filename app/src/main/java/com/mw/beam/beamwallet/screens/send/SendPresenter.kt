@@ -48,7 +48,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     var change = 0L
     var inputShield = 0L
     var isAllPressed = false
-    var assetId = 0
+    var assetId = -1
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
@@ -60,6 +60,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onViewCreated() {
         super.onViewCreated()
+
+        if (assetId == -1) {
+            assetId = AssetManager.instance.selectedAssetId
+        }
 
         view?.init(DEFAULT_FEE, MAX_FEE)
         state.privacyMode = repository.isPrivacyModeEnabled()
@@ -173,7 +177,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val fee = view?.getFee() ?: 0L
         val isShielded = (view?.isOffline() == true || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
                 state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
-        AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(enteredAmount + fee, 0L, isShielded)
+        AppManager.instance.wallet?.selectCoins(enteredAmount + fee, 0L, isShielded, assetId)
     }
 
     private fun onFeeDidCalculated(fee: Long) {
@@ -194,6 +198,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onSelectAddress(walletAddress: WalletAddress) {
         if(AppManager.instance.wallet?.isToken(walletAddress.address) == true) {
             val params = AppManager.instance.wallet?.getTransactionParameters(walletAddress.address, false)
+            assetId = params?.assetId ?: 0
             state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
         }
         else {
@@ -372,6 +377,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if(AppManager.instance.wallet?.isToken(scannedAddress) == true) {
                 val params = AppManager.instance.wallet?.getTransactionParameters(scannedAddress, true)
                 if(params!=null) {
+                    assetId = params.assetId
                     state.addressType = params.getAddressType()
                     val isShielded = (state.addressType == BMAddressType.BMAddressTypeShielded || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
                             state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
@@ -468,6 +474,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         if(!rawToken.isNullOrEmpty() && AppManager.instance.isValidAddress(rawToken)) {
             val params = AppManager.instance.wallet?.getTransactionParameters(rawToken, false)
+            assetId = params?.assetId ?: 0
             state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
         }
     }

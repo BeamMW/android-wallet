@@ -79,6 +79,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:layout_marginTop="36dp"
                         android:gravity="center"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="20sp"
                         tools:text="190.2020" />
 

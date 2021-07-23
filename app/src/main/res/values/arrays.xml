@@ -26,6 +26,7 @@
     <integer-array name="currency_values">
         <item>@string/usd</item>
         <item>@string/btc</item>
+        <item>@string/eth</item>
     </integer-array>
 
     <integer-array name="assets_sort_values">

@@ -19,18 +19,13 @@ package com.mw.beam.beamwallet.screens.transactions
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.TxDescription
-import com.mw.beam.beamwallet.core.helpers.ChangeAction
-import com.mw.beam.beamwallet.core.helpers.TrashManager
-import com.mw.beam.beamwallet.core.utils.TransactionFields
 import io.reactivex.disposables.Disposable
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+
 
 class TransactionsPresenter(view: TransactionsContract.View?, repository: TransactionsContract.Repository)
     : BasePresenter<TransactionsContract.View, TransactionsContract.Repository>(view, repository), TransactionsContract.Presenter {
 
     private lateinit var txStatusSubscription: Disposable
-    private lateinit var exportCSVSubscription: Disposable
 
     var removedTransactions = mutableListOf<String>()
     var isAllSelected = false

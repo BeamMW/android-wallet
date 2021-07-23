@@ -56,6 +56,6 @@ class AppActivityPresenter(view: AppActivityContract.View?, repository: AppActiv
     override fun onPendingSend(info: PendingSendInfo) {
         AppManager.instance.lastSendingAddress = info.token
 
-        view?.startNewSnackbar({ repository.cancelSendMoney(info.token) }, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee, info.saveAddress) })
+        view?.startNewSnackbar(info.assetId, { repository.cancelSendMoney(info.token) }, { repository.sendMoney(info.outgoingAddress, info.token, info.comment, info.amount, info.fee, info.saveAddress, info.assetId) })
     }
 }

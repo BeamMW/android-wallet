@@ -65,6 +65,8 @@
                             android:textColor="#FFFFFF"
                             android:textSize="16sp"
                             tools:ignore="RtlSymmetry"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             tools:text="asset name" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -89,7 +91,7 @@
                                 android:textColor="@color/accent"
                                 android:textSize="14sp"
                                 android:text="@string/website"
-                                android:drawableEnd="@drawable/ic_external_link"
+                                android:drawableEnd="@drawable/ic_external_link_new"
                                 android:drawablePadding="5dp"
                                 android:layout_marginEnd="15dp"
                                 android:textAllCaps="false"/>
@@ -102,7 +104,7 @@
                                 android:textColor="@color/accent"
                                 android:textSize="14sp"
                                 android:text="@string/description_paper"
-                                android:drawableEnd="@drawable/ic_external_link"
+                                android:drawableEnd="@drawable/ic_external_link_new"
                                 android:drawablePadding="5dp"
                                 android:textAllCaps="false"/>
 

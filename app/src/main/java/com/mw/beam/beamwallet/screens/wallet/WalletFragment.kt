@@ -153,7 +153,10 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     @SuppressLint("RestrictedApi")
     override fun addListeners() {
         btnReceive.setOnClickListener { presenter?.onReceivePressed() }
-        btnNext.setOnClickListener { presenter?.onSendPressed() }
+        btnNext.setOnClickListener {
+            AssetManager.instance.selectedAssetId = 0
+            presenter?.onSendPressed()
+        }
 
         btnShowAll.setOnClickListener {
             val wrapper = ContextThemeWrapper(context, R.style.PopupMenu)

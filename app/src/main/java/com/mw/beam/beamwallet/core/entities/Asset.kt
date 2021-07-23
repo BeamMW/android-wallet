@@ -1,5 +1,6 @@
 package com.mw.beam.beamwallet.core.entities
 
+import android.util.Log
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
@@ -42,6 +43,7 @@ class Asset(val assetId: Int,
     }
 
     fun dateUsed():Long {
-        return AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
+        val date = AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
+        return date
     }
 }

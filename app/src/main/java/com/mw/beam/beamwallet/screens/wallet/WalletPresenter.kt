@@ -21,10 +21,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.base_screen.BasePresenter
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppConfig
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.OnboardManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
@@ -144,9 +141,12 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         view?.configWalletStatus(state.getAssets())
 
         walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe {
+            AssetManager.instance.onChangeAssets()
+
             state.walletStatus = AppManager.instance.getStatus()
-            view?.configWalletStatus(state.getAssets())
+
             view?.configTransactions(state.getTransactions())
+            view?.configWalletStatus(state.getAssets())
 
             val canReceive = OnboardManager.instance.canReceiveFaucet() && state.getTransactions().count() == 0
             view?.showFaucet(canReceive)
@@ -154,7 +154,9 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
         }
 
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe {
+            AssetManager.instance.onChangeAssets()
             view?.configTransactions(state.getTransactions())
+            view?.configWalletStatus(state.getAssets())
         }
 
         faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe {

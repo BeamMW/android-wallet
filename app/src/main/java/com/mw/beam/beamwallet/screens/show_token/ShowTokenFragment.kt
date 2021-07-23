@@ -35,6 +35,7 @@ import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
+import com.mw.beam.beamwallet.core.helpers.convertToAssetStringWithId
 import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 
 import kotlinx.android.synthetic.main.fragment_receive_show_token.*
@@ -81,8 +82,9 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
             if(params != null) {
                 if(params.amount > 0) {
+                    val asset = params.assetId
                     amountLayout.visibility = View.VISIBLE
-                    amountValue.text = """${params.amount.convertToBeamString()} BEAM"""
+                    amountValue.text =params.amount.convertToAssetStringWithId(asset)
                 }
 
                 transactionTypeLayout.visibility = View.VISIBLE

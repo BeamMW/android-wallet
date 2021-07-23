@@ -140,7 +140,7 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
             secondAvailableSum.visibility = amountVisibility
 
             amountView.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
-            secondAvailableSum.text = amount.convertToCurrencyString()
+            secondAvailableSum.text = amount.convertToCurrencyString()// amount.exchangeValueAsset(transaction.assetId)
         }
 
         btnShare.setOnClickListener { presenter?.onSharePressed(qrImage!!) }

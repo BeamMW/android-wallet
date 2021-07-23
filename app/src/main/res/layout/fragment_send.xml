@@ -289,7 +289,7 @@
                     android:textColor="@color/sent_color"
                     android:textColorHint="@color/common_hint_text_color"
                     android:textSize="@dimen/send_amount_text_size"
-                    app:layout_constraintEnd_toStartOf="@id/currencyButton"
+                    app:layout_constraintEnd_toStartOf="@id/currencyLayout"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/amountTitle"
@@ -329,26 +329,44 @@
                     android:layout_marginEnd="@dimen/common_offset"
                     android:textColor="@color/common_error_color"
                     android:visibility="gone"
+                    android:maxLines="3"
+                    android:ellipsize="middle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/usedFee"
                     tools:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/currencyButton"
+                <LinearLayout
+                    android:id="@+id/currencyLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:drawableEnd="@drawable/ic_hide"
-                    android:drawablePadding="10dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="@string/currency_beam"
-                    android:textAllCaps="true"
-                    android:textColor="@color/common_text_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@id/amount"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/currency"
+                        style="@style/common_subheader_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:letterSpacing="0.15"
+                        android:text="@string/currency_beam"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:maxWidth="130dp"
+                        android:textAllCaps="true"
+                        android:textSize="16sp" />
+
+                    <View
+                        android:id="@+id/btnExpandCurrency"
+                        android:layout_width="@dimen/wallet_expandable_icon_size"
+                        android:layout_height="@dimen/wallet_expandable_icon_size"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/btn_drop_down"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/availableTitle"
@@ -369,6 +387,8 @@
                     android:layout_marginTop="@dimen/send_available_sum_margin_top"
                     android:layout_marginEnd="@dimen/send_available_sum_margin_end"
                     android:textSize="@dimen/send_available_sum_text_size"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintEnd_toStartOf="@id/btnSendAll"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/availableTitle"

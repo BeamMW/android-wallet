@@ -44,15 +44,12 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.PaymentProof
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.CalendarUtils
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.ExchangeManager
-import com.mw.beam.beamwallet.core.AppManager
 
 import java.io.File
 
@@ -487,6 +484,7 @@ else{
     }
 
     override fun showSendFragment(address: String, amount: Long) {
+        AssetManager.instance.selectedAssetId = presenter?.state?.txDescription?.assetId ?: 0
         findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToSendFragment(address, amount))
     }
 

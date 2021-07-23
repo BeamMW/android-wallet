@@ -112,6 +112,10 @@ class AppManager {
         return wallet?.isConnectionTrusted() == true || protocolEnabled
     }
 
+    fun isSynced(): Boolean {
+        return wallet?.isSynced() == true
+    }
+
     fun removeIgnoredAddress(id: String) {
         if (id.isNotEmpty()) {
             val strings = mutableListOf<String>()
@@ -195,6 +199,7 @@ class AppManager {
         utxos.clear()
         shieldedUtxos.clear()
         notifications.clear()
+        AssetManager.instance.clear()
     }
 
     fun removeWallet() {
@@ -214,6 +219,7 @@ class AppManager {
         shieldedUtxos.clear()
 
         PreferencesManager.clear()
+        AssetManager.instance.clear()
 
         val db = File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME)
 
@@ -251,7 +257,7 @@ class AppManager {
 
     fun randomNode(): String {
         val nodes = Api.getDefaultPeers();
-        var result = mutableListOf<String>();
+        val result = mutableListOf<String>();
         nodes.forEach {
             if(!it.contains("shanghai")) {
                 result.add(it)
@@ -277,7 +283,7 @@ class AppManager {
     //MARK: - UTXOS
 
     fun getTransactionsByUTXO(utxo: Utxo?) : List<TxDescription> {
-        var result = mutableListOf<TxDescription>()
+        val result = mutableListOf<TxDescription>()
 
         transactions.forEach {
             if (it.id == utxo?.spentTxId)
@@ -473,7 +479,7 @@ class AppManager {
     }
 
     fun getUTXOByTransaction(tx: TxDescription) : List<Utxo> {
-        var result = mutableListOf<Utxo>()
+        val result = mutableListOf<Utxo>()
 
         getUtxos().forEach {
             if (it.createTxId == tx.id)
@@ -884,6 +890,7 @@ class AppManager {
                     restoreTransactions(item.data.transactions)
                 }
 
+
                 subOnTransactionsChanged.onNext(0)
                 subOnAddressesChanged.onNext(true)
             }
@@ -937,11 +944,11 @@ class AppManager {
                 transactions.removeAll { item ->
                     calendarFromTimestamp(item.createTime).get(Calendar.YEAR) == 1970
                 }
-//
+
                 val g = Gson()
                 val jsonString = g.toJson(transactions)
                 PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS, jsonString)
-//
+
                 subOnTransactionsChanged.onNext(0)
             }
 

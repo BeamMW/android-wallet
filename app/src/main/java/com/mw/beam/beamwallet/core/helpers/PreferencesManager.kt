@@ -71,7 +71,7 @@ object PreferencesManager {
     const val KEY_NOTIFICATIONS = "KEY_NOTIFICATIONS"
     const val KEY_WALLET_STATUS = "KEY_WALLET_STATUS"
     const val KEY_ADDRESSES = "KEY_ADDRESSES"
-    const val KEY_ASSETS = "KEY_ASSETS"
+    const val KEY_ASSETS = "KEY_ASSETS_2"
 
     const val KEY_MOBILE_PROTOCOL = "KEY_MOBILE_PROTOCOL"
 

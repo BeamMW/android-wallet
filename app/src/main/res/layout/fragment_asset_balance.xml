@@ -60,6 +60,8 @@
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         tools:ignore="RtlSymmetry"
                         tools:text="asset name" />
 
@@ -98,6 +100,8 @@
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:layout_marginTop="5dp"
                         tools:text="10 BEAM"
                         />
@@ -139,6 +143,8 @@
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:layout_marginTop="5dp"
                         tools:text="10 BEAM"
                         />
@@ -181,6 +187,8 @@
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
                         android:layout_marginTop="5dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         tools:text="10 BEAM"
                         />
 
@@ -233,6 +241,8 @@
                                android:fontFamily="@font/roboto_bold"
                                android:letterSpacing="0.2"
                                android:text="@string/locked"
+                               android:maxLines="1"
+                               android:ellipsize="end"
                                android:textAllCaps="true"
                                android:textColor="@android:color/white"
                                android:textSize="12sp" />
@@ -258,6 +268,8 @@
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:layout_marginTop="5dp"
                         tools:text="10 BEAM"
                         />
@@ -298,6 +310,8 @@
                         android:fontFamily="@font/roboto_regular"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:textSize="14sp"
                         android:layout_marginTop="5dp"
                         tools:text="10 BEAM"
@@ -340,6 +354,8 @@
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:layout_marginTop="5dp"
                         tools:text="10 BEAM"
                         />
@@ -387,6 +403,8 @@
                             android:textAllCaps="false"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             android:layout_marginTop="5dp"
                             tools:text="10 BEAM"
                             />

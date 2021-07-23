@@ -80,6 +80,7 @@ interface SettingsContract {
         fun onReconnected()
         fun showPublicOfflineAddress()
         fun showRescanDialog()
+        fun showUTXO()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -124,7 +125,8 @@ interface SettingsContract {
         fun onChangeAllowAddressExpiration(allow: Boolean)
         fun onShowPublicOfflineAddressPressed()
         fun onChangeMaxPrivacySettings(value: Long)
-        fun onEnableMobileNode(enable: Boolean);
+        fun onEnableMobileNode(enable: Boolean)
+        fun onUTXOPressed()
     }
 
     interface Repository : MvpRepository {

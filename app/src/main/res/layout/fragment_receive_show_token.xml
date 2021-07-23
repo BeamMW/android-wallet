@@ -73,6 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 

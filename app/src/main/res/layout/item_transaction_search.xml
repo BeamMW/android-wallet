@@ -51,6 +51,8 @@
                     android:fontFamily="@font/roboto_medium"
                     android:gravity="start"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintEnd_toStartOf="@id/barrier"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toEndOf="@id/assetIcon"

@@ -116,7 +116,11 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
                 UtxoKeyType.Shielded -> context.getString(R.string.shielded)
             }
 
-            if (utxo.transactionComment != null && utxo.transactionDate != null)
+            if (utxo.status == UtxoStatus.Maturing) {
+                dateLabel.visibility = View.VISIBLE
+                dateLabel.text = tillBlockHeight + " " + utxo.maturity
+            }
+            else if (utxo.transactionComment != null && utxo.transactionDate != null)
             {
                 dateLabel.visibility = View.VISIBLE
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
@@ -125,10 +129,6 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
             {
                 dateLabel.visibility = View.VISIBLE
                 dateLabel.text = CalendarUtils.fromTimestampShort(utxo.transactionDate!!)
-            }
-            else if (utxo.status == UtxoStatus.Maturing) {
-                dateLabel.visibility = View.VISIBLE
-                dateLabel.text = tillBlockHeight + " " + utxo.maturity
             }
             else{
                 dateLabel.visibility = View.GONE

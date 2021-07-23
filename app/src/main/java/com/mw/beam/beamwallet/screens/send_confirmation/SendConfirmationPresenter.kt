@@ -70,8 +70,8 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
                 state.addresses[address.id] = address
             }
 
-            var finder = state.token
-            var out = state.outgoingAddress
+            val finder = state.token
+            val out = state.outgoingAddress
 
             val findAddress = AppManager.instance.getAddress(finder)
             if (findAddress != null) {
@@ -80,53 +80,38 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             }
 
             val outAddress =  AppManager.instance.getAddress(out)
-            //state.addresses.values.find { it.id == out || it.address == out}
             if (outAddress != null) {
                 view?.configureOutAddress(outAddress)
             }
         }
 
-        val totalSendAmount = state.amount + state.fee
+        var totalSendAmount = state.amount
+        if(view?.getAssetId() == 0) {
+            totalSendAmount += state.fee
+        }
 
-        if (AppManager.instance.getStatus().shielded == 0L) {
-            changeSubscription = repository.calcChange(totalSendAmount).subscribe {
-                view?.configUtxoInfo((totalSendAmount).convertToBeam(), it.convertToBeam())
-            }
+        if (view?.getChange() == null)
+        {
+            view?.configUtxoInfo((totalSendAmount).convertToBeam(), 0L.convertToBeam())
         }
         else {
-            if (view?.getChange() == null)
-            {
-                view?.configUtxoInfo((totalSendAmount).convertToBeam(), 0L.convertToBeam())
-            }
-            else {
-                view?.configUtxoInfo((totalSendAmount).convertToBeam(), view!!.getChange().convertToBeam())
-            }
-
-            val isShielded = (view?.getIsOffline() == true || state.getEnumAddressType()  == BMAddressType.BMAddressTypeOfflinePublic ||
-                    state.getEnumAddressType()  == BMAddressType.BMAddressTypeMaxPrivacy)
-
-            changeSubscription = WalletListener.subOnFeeCalculated.subscribe {
-                AppActivity.self.runOnUiThread {
-                    var change = it.change
-
-                    if (isShielded) {
-                        change += it.shieldedInputsFee
-                    }
-                    state.shieldedInputsFee = it.shieldedInputsFee
-
-                    val left = 0L //AppManager.instance.getStatus().available - totalSendAmount
-                    if (left < change) {
-                        change = 0L
-                    }
-                    view?.configUtxoInfo((totalSendAmount).convertToBeam(), change.convertToBeam())
-                }
-            }
-
-            AppManager.instance.wallet?.calcShieldedCoinSelectionInfo(state.amount, state.fee, isShielded)
+            view?.configUtxoInfo((totalSendAmount).convertToBeam(), view!!.getChange().convertToBeam())
         }
+
+        val isShielded = (view?.getIsOffline() == true || state.getEnumAddressType()  == BMAddressType.BMAddressTypeOfflinePublic ||
+                state.getEnumAddressType()  == BMAddressType.BMAddressTypeMaxPrivacy)
+
+        changeSubscription = WalletListener.subOnFeeCalculated.subscribe {
+            AppActivity.self.runOnUiThread {
+                val change = it.change
+                view?.configUtxoInfo((totalSendAmount).convertToBeam(), change.convertToBeam())
+            }
+        }
+
+        AppManager.instance.wallet?.selectCoins(state.amount, state.fee, isShielded, view?.getAssetId() ?: 0)
     }
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(addressesSubscription, changeSubscription)
+    override fun getSubscriptions(): Array<Disposable> = arrayOf(addressesSubscription, changeSubscription)
 
     private fun showWallet() {
         state.apply { view?.delaySend(outgoingAddress, state.token, comment, amount, fee - shieldedInputsFee, view?.getIsOffline()) }

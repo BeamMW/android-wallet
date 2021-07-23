@@ -34,7 +34,6 @@ interface UtxoContract {
         fun init()
         fun updateUtxos(utxos: List<Utxo>)
         fun showUtxoDetails(utxo: Utxo)
-        fun updateBlockchainInfo(systemState: SystemState)
         fun showActivatePrivacyModeDialog()
         fun configPrivacyStatus(isEnable: Boolean)
         fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean)

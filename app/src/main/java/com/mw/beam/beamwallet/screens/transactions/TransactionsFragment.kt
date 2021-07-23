@@ -125,6 +125,8 @@ else{
                 }
             }, 1000)
         }
+
+        cancelSelectedTransactions()
     }
 
     override fun init() {
@@ -314,7 +316,7 @@ else{
                     presenter?.onExportSave()
                 }
 
-                dialog = AlertDialog.Builder(context!!).setView(view).show().apply {
+                dialog = AlertDialog.Builder(requireContext()).setView(view).show().apply {
                     window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 }
             }
@@ -326,8 +328,21 @@ else{
     }
 
     override fun didSelectAllTransactions(transactions: List<TxDescription>) {
+        var newItems = transactions
+        when (pager.currentItem) {
+            1 -> {
+                newItems = pageAdapter?.inProgressTxAdapter?.data ?: transactions
+            }
+            2 -> {
+                newItems = pageAdapter?.sentTxAdapter?.data ?: transactions
+            }
+            3 -> {
+                newItems = pageAdapter?.receivedTxAdapter?.data ?: transactions
+            }
+        }
+
         selectedTransactions.clear()
-        transactions.forEach {
+        newItems.forEach {
             selectedTransactions.add(it.id)
         }
         pageAdapter?.changeSelectedItems(selectedTransactions, false, null)
@@ -348,7 +363,7 @@ else{
         return TransactionsPresenter(this, TransactionsRepository())
     }
 
-    override fun getToolbarTitle(): String? = getString(R.string.transactions)
+    override fun getToolbarTitle(): String =getString(R.string.transactions)
 
     override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenu.ContextMenuInfo?) {
         super.onCreateContextMenu(menu, v, menuInfo)
@@ -380,7 +395,7 @@ else{
 
     private fun onSelectedTransactionsChanged() {
         val toolbarLayout = toolbarLayout
-        toolbarLayout.centerTitle = false
+        toolbarLayout.centerTitle = true
         toolbarLayout.toolbar.title = selectedTransactions.count().toString() + " " + getString(R.string.selected).toLowerCase()
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_btn_cancel)
         toolbarLayout.toolbar.setNavigationOnClickListener {
@@ -390,6 +405,8 @@ else{
                 cancelSelectedTransactions()
             }
         }
+        toolbarLayout.centerTitleView.visibility = View.VISIBLE
+        toolbarLayout.leftTitleView.visibility = View.GONE
 
         if (selectedTransactions.count() == 0) {
             cancelSelectedTransactions()
@@ -405,6 +422,8 @@ else{
         toolbarLayout.centerTitle = false
         toolbarLayout.toolbar.title = getString(R.string.transactions)
         toolbarLayout.toolbar.setNavigationIcon(R.drawable.ic_back)
+        toolbarLayout.centerTitleView.visibility = View.GONE
+        toolbarLayout.leftTitleView.visibility = View.GONE
 
         presenter?.onModeChanged(Mode.NONE)
 

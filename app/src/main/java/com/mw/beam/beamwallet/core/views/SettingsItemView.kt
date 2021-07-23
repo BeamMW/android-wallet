@@ -68,7 +68,7 @@ class SettingsItemView: FrameLayout {
         set(value) {
             field = value
 
-            if(value.isNullOrEmpty()) {
+            if(value.isEmpty()) {
                 textLabel.visibility = View.GONE
             }
             else{

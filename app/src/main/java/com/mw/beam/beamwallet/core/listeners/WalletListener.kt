@@ -17,6 +17,7 @@ package com.mw.beam.beamwallet.core.listeners
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
@@ -54,8 +55,8 @@ object WalletListener {
             if (!tx.sender.value) {
                 val savedComment = ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
                 tx.message = if (savedComment.isNotBlank()) savedComment else ""
-                tx.asset = AssetManager.instance.getAsset(tx.assetId)
             }
+            tx.asset = AssetManager.instance.getAsset(tx.assetId)
         }
         it
     }
@@ -131,6 +132,7 @@ object WalletListener {
             }
 
             AssetManager.instance.onChangeAssets()
+
 
             return returnResult(subOnStatus, WalletStatus(beam), "onStatus")
         }
@@ -373,13 +375,20 @@ object WalletListener {
     private fun onReceiveRates(rates: Array<ExchangeRateDTO>) {
         val result = arrayListOf<ExchangeRate>()
         rates.forEach {
+           Log.e("CURRENCY", it.toName)
             if (it.toName == "usd" && it.fromName == "beam") {
                 result.add(ExchangeRate(it))
             }
             else if (it.toName == "btc" && it.fromName == "beam") {
                 result.add(ExchangeRate(it))
             }
+            else if (it.toName == "eth" && it.fromName == "beam") {
+                result.add(ExchangeRate(it))
+            }
             else if (it.toName == "usd" && it.fromName.contains("asset")) {
+                result.add(ExchangeRate(it))
+            }
+            else if (it.toName == "eth" && it.fromName.contains("asset")) {
                 result.add(ExchangeRate(it))
             }
             else if (it.toName == "btc" && it.fromName.contains("asset")) {
@@ -409,13 +418,7 @@ object WalletListener {
     }
 
     @JvmStatic
-    fun onCoinsSelectionCalculated(fee: Long, change: Long, shieldedInputsFee: Long) {
-        subOnFeeCalculated.onNext(FeeChange(shieldedInputsFee, change, 0L))
-        LogUtils.logResponse(fee, "onFeeCalculated")
-    }
-
-    @JvmStatic
-    fun onCoinsSeleced(explicitFee: Long, change: Long, minimalExplicitFee: Long) {
+    fun onCoinsSelected(explicitFee: Long, change: Long, minimalExplicitFee: Long) {
         subOnFeeCalculated.onNext(FeeChange(explicitFee, change, 0L))
         LogUtils.logResponse(explicitFee, "onFeeCalculated")
     }

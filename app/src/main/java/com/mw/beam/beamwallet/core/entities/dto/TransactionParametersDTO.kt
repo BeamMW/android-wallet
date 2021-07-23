@@ -34,7 +34,8 @@ data class TransactionParametersDTO(val address: String,
                                     val amount: Long,
                                     var versionError: Boolean,
                                     var version: String,
-                                    var addressType: Int) : Parcelable {
+                                    var addressType: Int,
+                                    var assetId:Int) : Parcelable {
 
     fun getAddressType(): BMAddressType {
         if (isPublicOffline) {

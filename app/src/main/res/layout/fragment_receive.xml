@@ -314,7 +314,7 @@
                         android:textColor="@color/received_color"
                         android:textColorHint="@color/common_hint_text_color"
                         android:textSize="@dimen/receive_amount_text_size"
-                        app:layout_constraintEnd_toStartOf="@id/currency"
+                        app:layout_constraintEnd_toStartOf="@id/currencyLayout"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/amountContainer"
@@ -373,18 +373,36 @@
                             app:layout_constraintTop_toTopOf="@id/amountTitle" />
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/currency"
-                        style="@style/common_subheader_light"
+                    <LinearLayout
+                        android:id="@+id/currencyLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/common_offset"
-                        android:text="@string/currency_beam"
-                        android:letterSpacing="0.15"
-                        android:textAllCaps="true"
-                        android:textSize="16sp"
+                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/amount"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:id="@+id/currency"
+                            style="@style/common_subheader_light"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:letterSpacing="0.15"
+                            android:text="@string/currency_beam"
+                            android:maxWidth="130dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:textAllCaps="true"
+                            android:textSize="16sp" />
+
+                        <View
+                            android:id="@+id/btnExpandCurrency"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
 
                     <View
                         android:id="@+id/amountDivider"
@@ -400,7 +418,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:constraint_referenced_ids="currency,amountDivider,amount, secondAvailableSum"
+                        app:constraint_referenced_ids="currencyLayout,amountDivider,amount, secondAvailableSum"
                         tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

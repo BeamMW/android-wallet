@@ -119,6 +119,7 @@
     <string name="back">Back</string>
 
     <!--WalletFragment-->
+    <string name="wallet_asset_sent_message">%ss sent</string>
     <string name="wallet_sent_message">Beams sent</string>
     <string name="available">Available</string>
     <string name="in_progress">In progress</string>
@@ -167,7 +168,7 @@
     <string name="regular">Regular</string>
     <string name="kernel">Kernel</string>
     <string name="kernel2">Kernel2</string>
-    <string name="identity">Identity</string>
+    <string name="identity">Signature</string>
     <string name="childKey">ChildKey</string>
     <string name="bbs">Bbs</string>
     <string name="date">Date</string>
@@ -508,9 +509,10 @@ address or contact</string>
     <string name="update_now">Update now</string>
     <string name="buy_transaction_failed_title">Transaction failed</string>
     <string name="remaining">Remaining</string>
+    <string name="remaining_beam">Remaining BEAM</string>
     <string name="exchange_not_available">online (exchange rate to %1$s wasn’t received)</string>
     <string name="exchange_not_available_mobile">online: mobile node (exchange rate to %1$s wasn’t received)</string>
-    <string name="wallet_id">Identity</string>
+    <string name="wallet_id">Signature</string>
     <string name="share_token">Share address</string>
     <string name="token">Address</string>
     <string name="reconnect">Reconnecting to another random node…</string>
@@ -539,8 +541,8 @@ address or contact</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">Address type</string>
     <string name="zero">0</string>
-    <string name="sender_identity">Sender identity</string>
-    <string name="receiver_identity">Receiver identity</string>
+    <string name="sender_identity">Sender signature</string>
+    <string name="receiver_identity">Receiver signature</string>
     <string name="choose_currency">Choose currency</string>
     <string name="min_fee_offline">Min transaction fee to send offline transaction\nis 0.01 BEAM.</string>
     <string name="max_privacy_lock_time">Max privacy lock time limit</string>
@@ -601,5 +603,9 @@ address or contact</string>
     <string name="smallest_unit_name">Smallest unit name</string>
     <string name="short_description">Short description</string>
     <string name="long_description">Long description</string>
+    <string name="show_utxo">Show UTXO</string>
+    <string name="eth">ETH (Ethereum)</string>
+
+
 </resources>
 

@@ -16,13 +16,14 @@
 
 package com.mw.beam.beamwallet.screens.utxo
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
-import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -31,14 +32,10 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.ExchangeManager
-import com.mw.beam.beamwallet.core.entities.SystemState
 import com.mw.beam.beamwallet.core.entities.Utxo
 import com.mw.beam.beamwallet.core.helpers.UtxoStatus
-import com.mw.beam.beamwallet.core.views.addDoubleDots
+
 import kotlinx.android.synthetic.main.fragment_utxo.*
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import kotlinx.android.synthetic.main.fragment_utxo.itemsswipetorefresh
-import kotlinx.android.synthetic.main.toolbar.*
 
 /**
  *  10/2/18.
@@ -47,17 +44,10 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
     private lateinit var pagerAdapter: UtxosPagerAdapter
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_utxo
-    override fun getToolbarTitle(): String? = getString(R.string.utxo)
-
-    private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            showWalletFragment()
-        }
-    }
+    override fun getToolbarTitle(): String = getString(R.string.utxo)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
         itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
@@ -84,35 +74,12 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         pager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(pager)
         setHasOptionsMenu(true)
-
-        blockchainHeightTitle.addDoubleDots()
-
-        (activity as? AppActivity)?.enableLeftMenu(true)
-        toolbar.setNavigationIcon(R.drawable.ic_menu)
-        toolbar.setNavigationOnClickListener {
-            (activity as? AppActivity)?.openMenu()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         presenter?.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onStart() {
-        super.onStart()
-        onBackPressedCallback.isEnabled = true
-    }
-
-    override fun onStop() {
-        onBackPressedCallback.isEnabled = false
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        onBackPressedCallback.isEnabled = false
-        onBackPressedCallback.remove()
-        super.onDestroy()
-    }
 
     override fun createOptionsMenu(menu: Menu?, inflater: MenuInflater?, isEnablePrivacyMode: Boolean) {
         inflater?.inflate(R.menu.privacy_menu, menu)
@@ -148,10 +115,6 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         setVisibility()
     }
 
-    override fun updateBlockchainInfo(systemState: SystemState) {
-        blockchainHeightValue.text = systemState.height.toString()
-    }
-
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return UtxoPresenter(this, UtxoRepository(), UtxoState())
     }
@@ -163,7 +126,7 @@ class UtxoFragment : BaseFragment<UtxoPresenter>(), UtxoContract.View {
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
-
+    @SuppressLint("SetTextI18n")
     private fun setVisibility() {
         if (presenter?.repository?.isPrivacyModeEnabled() == false && utxoPrivacyMessage!=null) {
 

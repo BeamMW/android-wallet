@@ -47,8 +47,8 @@ class ShareTransactionDetailsView : FrameLayout {
         confirming_state_text.text = txDescription.getStatusString(context).capitalize()
         confirming_state_textCenter.text = txDescription.getStatusString(context).capitalize()
 
-        amount.text = txDescription.amount.convertToBeamString() + " BEAM"
-        secondAvailableSum.text = txDescription.amount.convertToCurrencyString()
+        amount.text = txDescription.amount.convertToAssetStringWithId(txDescription.assetId)
+        secondAvailableSum.text = txDescription.amount.exchangeValueAsset(txDescription.assetId)
 
         addressTypeLabel.text = txDescription.getAddressType(context)
 

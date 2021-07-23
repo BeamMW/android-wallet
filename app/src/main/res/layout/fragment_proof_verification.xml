@@ -290,6 +290,8 @@
                             android:textAllCaps="false"
                             android:textColor="@color/sent_color"
                             android:textSize="14sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
                             tools:text="1" />
                     </LinearLayout>
 

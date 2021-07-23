@@ -64,6 +64,9 @@ fun Long.exchangeValueAsset(assetId:Int): String {
            else if (it.currency == Currency.Bitcoin) {
                return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
            }
+           else if (it.currency == Currency.Eth) {
+               return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+           }
        }
    }
 
@@ -83,6 +86,9 @@ fun Long.convertToCurrencyString(): String? {
         else if (current.currency == Currency.Bitcoin) {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
+        else if (current.currency == Currency.Eth) {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+        }
     }
     else if (this == 0L) {
         if (ExchangeManager.instance.currency == Currency.Usd.value) {
@@ -90,6 +96,9 @@ fun Long.convertToCurrencyString(): String? {
         }
         else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
             return  "-BTC"
+        }
+        else if (ExchangeManager.instance.currency == Currency.Eth.value) {
+            return  "-ETH"
         }
     }
 
@@ -118,6 +127,15 @@ fun Long.convertToCurrencyGrothString(): String? {
 
             return resultString
         }
+        else if (current.currency == Currency.Eth) {
+            val resultString = DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+            if(resultString == "0 ETH") {
+                rate *= 100000000;
+                return DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " satoshis"
+            }
+
+            return resultString
+        }
     }
     else if (this == 0L) {
         if (ExchangeManager.instance.currency == Currency.Usd.value) {
@@ -125,6 +143,9 @@ fun Long.convertToCurrencyGrothString(): String? {
         }
         else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
             return  "-BTC"
+        }
+        else if (ExchangeManager.instance.currency == Currency.Eth.value) {
+            return  "-ETH"
         }
     }
 
@@ -154,6 +175,9 @@ fun Double.convertToCurrencyString(): String? {
         else if (current.currency == Currency.Bitcoin) {
             return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
         }
+        else if (current.currency == Currency.Eth) {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+        }
     }
     else if (this == 0.0) {
         if (ExchangeManager.instance.currency == Currency.Usd.value) {
@@ -161,6 +185,9 @@ fun Double.convertToCurrencyString(): String? {
         }
         else if (ExchangeManager.instance.currency == Currency.Bitcoin.value) {
             return  "-BTC"
+        }
+        else if (ExchangeManager.instance.currency == Currency.Eth.value) {
+            return  "-ETH"
         }
     }
 

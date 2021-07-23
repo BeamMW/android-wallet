@@ -37,10 +37,10 @@ class TransactionsPageAdapter(private val context: Context,
                                onTxClickListener: (TxDescription) -> Unit): androidx.viewpager.widget.PagerAdapter()  {
 
     private var transactions: List<TxDescription> = listOf()
-    private val allTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
-    private val inProgressTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(),TransactionsAdapter.Mode.FULL, onTxClickListener)
-    private val sentTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
-    private val receivedTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
+    val allTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
+    val inProgressTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(),TransactionsAdapter.Mode.FULL, onTxClickListener)
+    val sentTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
+    val receivedTxAdapter = TransactionsAdapter(context,onTxLongClickListener, listOf(), TransactionsAdapter.Mode.FULL, onTxClickListener)
     private var mode = TransactionsFragment.Mode.NONE
     private var selectedTransactions = mutableListOf<String>()
 

@@ -16,10 +16,13 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.util.Log
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.WalletStatus
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.entities.Asset
+import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 /**
  *  12/4/18.
@@ -30,5 +33,13 @@ class WalletState {
     var privacyMode = false
 
     fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(4)
-    fun getAssets() =  AssetManager.instance.assets.sortedBy { it.dateUsed() }.take(4).reversed()
+    fun getAssets(): List<Asset> {
+        val assets = AssetManager.instance.loadAssets().sortedByDescending { it.dateUsed() }
+
+        assets.forEach {
+            Log.e("ASSET", "${it.unitName} - ${CalendarUtils.fromTimestamp(it.dateUsed())}")
+        }
+
+        return assets.take(4)
+    }
 }

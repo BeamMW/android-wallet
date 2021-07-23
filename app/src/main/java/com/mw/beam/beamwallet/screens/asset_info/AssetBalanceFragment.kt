@@ -56,13 +56,13 @@ class AssetBalanceFragment : Fragment() {
             assetNameLabel.text = asset.unitName.toUpperCase()
             assetIcon.setImageResource(asset.image)
 
+            val available = AssetManager.instance.getAvailable(assetId)
 
-            availableLabel.text = asset.available.convertToAssetString(asset.unitName)
-            availableSecondLabel.text = asset.available.exchangeValueAsset(assetId)
+            availableLabel.text = available.convertToAssetString(asset.unitName)
+            availableSecondLabel.text = available.exchangeValueAsset(assetId)
 
-
-            regularLabel.text = (asset.available - asset.shielded).convertToAssetString(asset.unitName)
-            regularSecondLabel.text = (asset.available - asset.shielded).exchangeValueAsset(assetId)
+            regularLabel.text = (available - asset.shielded).convertToAssetString(asset.unitName)
+            regularSecondLabel.text = (available - asset.shielded).exchangeValueAsset(assetId)
 
 
             maxPrivacyLabel.text = asset.shielded.convertToAssetString(asset.unitName)

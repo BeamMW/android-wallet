@@ -29,6 +29,7 @@ import android.os.Handler
 import android.provider.Settings
 import android.text.*
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.view.*
@@ -39,11 +40,12 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.appcompat.widget.PopupMenu
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.addisonelliott.segmentedbutton.SegmentedButtonGroup
@@ -55,7 +57,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.BMAddressType
-import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.*
@@ -72,14 +73,6 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 import kotlinx.android.synthetic.main.fragment_send.*
-import kotlinx.android.synthetic.main.fragment_send.amount
-import kotlinx.android.synthetic.main.fragment_send.btnExpandComment
-import kotlinx.android.synthetic.main.fragment_send.buttonGroupDraggable
-import kotlinx.android.synthetic.main.fragment_send.secondAvailableSum
-import kotlinx.android.synthetic.main.fragment_send.transactionTypeLayout
-import kotlinx.android.synthetic.main.fragment_send.txComment
-import kotlinx.android.synthetic.main.fragment_send.txCommentContainer
-import kotlinx.android.synthetic.main.fragment_send.txCommentGroup
 
 import java.text.NumberFormat
 import java.util.*
@@ -415,6 +408,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return returnValue
     }
 
+    @SuppressLint("RestrictedApi")
     override fun addListeners() {
         btnFeeKeyboard.setOnClickListener {
             presenter?.onLongPressFee()
@@ -529,13 +523,50 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
 //        }
 
-        if(AssetManager.instance.assets.size > 1) {
-            currencyButton.setOnClickListener {
-                presenter?.assetId?.let {
-                    it1 -> SendFragmentDirections.actionSendFragmentToChooseCurrencyFragment(it1) }?.let {
-                    it2 -> findNavController().navigate(it2) }
-            }
+        if(AssetManager.instance.assets.size != 1) {
+            currencyLayout
+                .setOnClickListener {
+                    animateDropDownIcon(btnExpandCurrency, true)
+                    val menu = PopupMenu(requireContext(), currencyLayout)
+                    menu.setOnDismissListener {
+                        animateDropDownIcon(btnExpandCurrency, false)
+                    }
+                    AssetManager.instance.assets.forEach {
+                        val sb = SpannableString(it.unitName)
+                        if (it.assetId == presenter?.assetId) {
+                            sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                            sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
+                        }
+                        else {
+                            sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
+                        }
+                        val item = menu.menu.add(sb)
+                        item.setIcon(it.image)
+                    }
+                    menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                        val title = item.title.toString()
+                        val asset = AssetManager.instance.getAssetName(title)
+                        val assetId = asset?.assetId ?: 0
+                        if(presenter?.assetId != assetId && presenter?.isAllPressed == true) {
+                            presenter?.isAllPressed = false
+                            amount.setText("")
+                        }
+                        presenter?.assetId = assetId
+                        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+                        presenter?.onAmountChanged()
+                        updateAvailable(AssetManager.instance.getAvailable(assetId))
+
+                        true
+                    })
+
+                    if (menu.menu is MenuBuilder) {
+                        (menu.menu as MenuBuilder).setOptionalIconsVisible(true)
+                    }
+                    menu.show()
+                }
         }
+
+
     }
 
     override fun onTrimAddress() {
@@ -574,13 +605,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
-        setFragmentResultListener("CURRENCY_FRAGMENT") { _, bundle ->
-            val assetId = bundle.getInt("currency")
-            presenter?.assetId = assetId
-            currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
-            presenter?.onAmountChanged()
-            updateAvailable( AssetManager.instance.getAvailable(assetId))
-        }
+        animateDropDownIcon(btnExpandCurrency, false)
 
         if (App.isDarkMode) {
             gradientView.setBackgroundResource(R.drawable.send_bg_dark)
@@ -603,10 +628,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         if(AssetManager.instance.assets.size <= 1) {
-            currencyButton.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null)
+            btnExpandCurrency.visibility = View.GONE
         }
 
-        currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
     }
 
     override fun onStop() {
@@ -788,7 +813,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //                presenter?.currency = Currency.Usd
 //            }
 //        }
-        currencyButton.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
         presenter?.onAmountChanged()
         return super.onContextItemSelected(item)
     }
@@ -1242,7 +1267,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         if(transactionTypeLayout.visibility == View.VISIBLE && isOffline) {
             isOfflineTransaction = true
         }
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, addressType, remainingCount, change, inputShield, isOfflineTransaction))
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToSendConfirmationFragment(token, outgoingAddress, amount, fee, comment, addressType, remainingCount, change, inputShield, isOfflineTransaction, presenter?.assetId ?: 0))
     }
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
@@ -1283,7 +1308,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         tagAction.setOnClickListener(null)
         showTokenButton.setOnClickListener(null)
         permanentOutSwitch.setOnClickListener(null)
-        currencyButton.setOnClickListener(null)
+        currencyLayout.setOnClickListener(null)
     }
 
     private fun configAmountError(errorString: String) {
@@ -1292,6 +1317,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.text_color_selector))
         amount.isStateError = true
         updateFeeTransactionVisibility()
+        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
     }
 
     private fun showAppDetailsPage() {
@@ -1308,7 +1334,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private fun setAddressType(token: String) {
         isMaxPrivacy = false
         typeAddress = null
-        var params = AppManager.instance.wallet?.getTransactionParameters(token, false)
+        val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
         if(params!=null) {
             typeAddress = params.getAddressType()
             when (params.getAddressType()) {

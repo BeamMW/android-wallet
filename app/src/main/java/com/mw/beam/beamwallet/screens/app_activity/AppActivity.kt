@@ -46,7 +46,6 @@ import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
-import android.view.MenuItem
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.core.AppManager
@@ -56,6 +55,7 @@ import com.google.gson.JsonElement
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.base_screen.*
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.NotificationItem
 import com.mw.beam.beamwallet.core.entities.NotificationType
 import com.mw.beam.beamwallet.core.views.NotificationBanner
@@ -321,8 +321,9 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         presenter?.onPendingSend(info)
     }
 
-    override fun startNewSnackbar(onUndo: () -> Unit, onDismiss: () -> Unit) {
-        showSnackBar(getString(R.string.wallet_sent_message), onDismiss, onUndo)
+    override fun startNewSnackbar(assetId:Int, onUndo: () -> Unit, onDismiss: () -> Unit) {
+        val asset = AssetManager.instance.getAsset(assetId)?.unitName ?: ""
+        showSnackBar(getString(R.string.wallet_asset_sent_message, asset), onDismiss, onUndo)
     }
 
     override fun ensureState(): Boolean = true
@@ -351,7 +352,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
                 NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
 
         navigationView = layoutInflater.inflate(R.layout.left_menu, null)
@@ -365,7 +365,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                     val destinationFragment = when (navItem.id) {
                         NavItem.ID.WALLET -> R.id.walletFragment
                         NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-                        NavItem.ID.UTXO -> R.id.utxoFragment
                         NavItem.ID.SETTINGS -> R.id.settingsFragment
                         NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
                         else -> 0
@@ -532,7 +531,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                 NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
                 NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
                 NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
                 NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
 
         navItemsAdapter.data = menuItems.toTypedArray()

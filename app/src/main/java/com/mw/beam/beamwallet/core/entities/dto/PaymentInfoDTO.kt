@@ -26,4 +26,5 @@ data class PaymentInfoDTO(
         var amount: Long,
         var kernelId: String,
         var isValid: Boolean,
-        var rawProof: String) : Parcelable
+        var rawProof: String,
+        var assetId:Int) : Parcelable

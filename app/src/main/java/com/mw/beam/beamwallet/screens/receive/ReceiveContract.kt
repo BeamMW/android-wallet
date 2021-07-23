@@ -32,6 +32,7 @@ interface ReceiveContract {
         fun shareToken(receiveToken: String)
         fun copyToken(receiveToken: String)
         fun close()
+        fun getAssetId():Int
         fun getAmountFromArguments(): Long
         fun getAmount(): Double?
         fun getTxComment(): String?

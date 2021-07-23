@@ -120,10 +120,17 @@ class TransactionsAdapter(private val context: Context, private val longListener
 
             when (transaction.sender) {
                 TxSender.RECEIVED -> amountLabel.text = "+ " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
-                TxSender.SENT -> amountLabel.text = "+ " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
+                TxSender.SENT -> amountLabel.text = "- " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
             }
 
-            secondBalanceLabel.text = transaction.amount.exchangeValueAsset(transaction.assetId)
+            val secondValue = transaction.amount.exchangeValueAsset(transaction.assetId)
+            if (secondValue.isNotEmpty()) {
+                when (transaction.sender) {
+                    TxSender.RECEIVED -> secondBalanceLabel.text = "+ $secondValue"
+                    TxSender.SENT -> secondBalanceLabel.text = "- $secondValue"
+                }
+            }
+
 
             if (App.isDarkMode) {
                 if (reverseColors) {

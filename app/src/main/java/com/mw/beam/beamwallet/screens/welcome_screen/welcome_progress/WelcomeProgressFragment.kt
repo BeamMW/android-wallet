@@ -90,7 +90,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
         val isOwn = !mobile && !isRandom
 
-        if(mode != WelcomeMode.MOBILE_CONNECT) {
+        if(mode == WelcomeMode.CREATE || mode == WelcomeMode.RESTORE || mode == WelcomeMode.RESTORE_AUTOMATIC) {
             AppManager.instance.removeOldValues()
         }
 
@@ -98,7 +98,12 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
         when (mode) {
             WelcomeMode.MOBILE_CONNECT -> {
-                title.text = getString(R.string.connect_to_mobilenode)
+                if(mobile) {
+                    title.text = getString(R.string.connect_to_mobilenode)
+                }
+                else {
+                    title.text = getString(R.string.welcome_progress_open)
+                }
                 btnCancel.visibility = View.VISIBLE
                 appVersion.visibility = View.GONE
                 restoreFullDescription.visibility = View.VISIBLE
@@ -364,13 +369,15 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             timer?.cancel()
             timer = null
 
-            Handler().postDelayed({
-                AppActivity.self.runOnUiThread {
-                    showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
-                    findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
-                }
-            }, 1000)
-
+            val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+            if(mobile) {
+                Handler().postDelayed({
+                    AppActivity.self.runOnUiThread {
+                        showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
+                        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+                    }
+                }, 1000)
+            }
             return
         }
         else if (isShowWallet && !App.isAuthenticated ) {

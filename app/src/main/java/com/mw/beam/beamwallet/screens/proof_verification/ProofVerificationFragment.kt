@@ -53,8 +53,7 @@ import kotlinx.android.synthetic.main.fragment_proof_verification.receiverLayout
 import android.view.inputmethod.EditorInfo
 import android.view.KeyEvent
 import com.mw.beam.beamwallet.core.App
-
-
+import com.mw.beam.beamwallet.core.helpers.convertToAssetStringWithId
 
 
 class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), ProofVerificationContract.View {
@@ -62,13 +61,13 @@ class ProofVerificationFragment : BaseFragment<ProofVerificationPresenter>(), Pr
 
     override fun onControllerGetContentLayoutId(): Int = R.layout.fragment_proof_verification
 
-    override fun getToolbarTitle(): String? = getString(R.string.payment_proof_verification)
+    override fun getToolbarTitle(): String = getString(R.string.payment_proof_verification)
 
     override fun getStatusBarColor(): Int = if (App.isDarkMode) {
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color_black)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color_black)
 }
 else{
-    ContextCompat.getColor(context!!, R.color.addresses_status_bar_color)
+    ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
 }
 
     override fun addListeners() {
@@ -78,11 +77,11 @@ else{
 
                 if (s.toString().isNullOrEmpty())
                 {
-                    var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
+                    val typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
                     proofValue.typeface = typeFace
                 }
                 else{
-                    var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
+                    val typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_regular)
                     proofValue.typeface = typeFace
                 }
             }
@@ -117,7 +116,7 @@ else{
 
       //  proofValue.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS and InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE)
 
-        var typeFace: Typeface? = ResourcesCompat.getFont(context!!, R.font.roboto_italic)
+        val typeFace: Typeface? = ResourcesCompat.getFont(requireContext(), R.font.roboto_italic)
         proofValue.typeface = typeFace
 
         proofValue.requestFocus()
@@ -133,19 +132,19 @@ else{
 
     override fun showErrorProof() {
         proofError.visibility = View.VISIBLE
-        view4.setBackgroundColor(context!!.getColor(R.color.common_error_color))
+        view4.setBackgroundColor(requireContext().getColor(R.color.common_error_color))
 
      //   val errorColorStateList = ColorStateList.valueOf(context!!.getColor(R.color.common_error_color))
        // proofValue.backgroundTintList = errorColorStateList
-        proofValue.setTextColor(context!!.getColor(R.color.common_error_color))
+        proofValue.setTextColor(requireContext().getColor(R.color.common_error_color))
     }
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
-        view4.setBackgroundColor(context!!.getColor(R.color.white_02))
+        view4.setBackgroundColor(requireContext().getColor(R.color.white_02))
 
        // proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.white_01))
-        proofValue.setTextColor(context!!.getColor(R.color.common_text_color))
+        proofValue.setTextColor(requireContext().getColor(R.color.common_text_color))
     }
 
     @SuppressLint("SetTextI18n")
@@ -177,8 +176,7 @@ else{
             receiverContactLayout.visibility = View.GONE
         }
 
-
-        amountValue.text = "${proof.amount.convertToBeamString()} ${getString(R.string.currency_beam)}".toUpperCase()
+        amountValue.text = proof.amount.convertToAssetStringWithId(proof.assetId)
         kernelValue.text = proof.kernelId
 
         TransitionManager.beginDelayedTransition(proofContainer)
@@ -198,7 +196,7 @@ else{
                 "${getString(R.string.receiver)} " +
                 "${proof.receiverId} \n" +
                 "${getString(R.string.amount)} " +
-                "${(proof.amount.convertToBeamString() + getString(R.string.currency_beam)).toUpperCase()} \n" +
+                "${proof.amount.convertToAssetStringWithId(proof.assetId)} \n" +
                 "${getString(R.string.kernel_id)} " +
                 proof.kernelId
     }

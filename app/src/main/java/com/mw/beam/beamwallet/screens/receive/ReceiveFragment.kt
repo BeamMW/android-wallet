@@ -18,12 +18,20 @@ package com.mw.beam.beamwallet.screens.receive
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.*
+import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.transition.TransitionManager
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.view.menu.MenuBuilder
+import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
@@ -36,12 +44,17 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.helpers.ScreenHelper
+import com.mw.beam.beamwallet.core.helpers.convertToBeamString
+import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
+import com.mw.beam.beamwallet.core.helpers.trimAddress
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+
 import kotlinx.android.synthetic.main.fragment_receive.*
-import org.jetbrains.anko.withAlpha
+
 
 
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
@@ -50,6 +63,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private var sbbsAddress = ""
     private var offlineAddress = ""
     private var maxPrivacyAddress = ""
+    private var assetId = -1
 
     private val amountWatcher: com.mw.beam.beamwallet.core.watchers.TextWatcher = object : com.mw.beam.beamwallet.core.watchers.TextWatcher {
         override fun afterTextChanged(token: Editable?) {
@@ -78,6 +92,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun getAmount(): Double? = amount.text?.toString()?.toDoubleOrNull()
 
+    override fun getAssetId(): Int {
+        if(assetId == -1) {
+            assetId = ReceiveFragmentArgs.fromBundle(requireArguments()).assetId
+        }
+        return assetId
+    }
+
     override fun setAmount(newAmount: Double) {
         amount.setText(newAmount.convertToBeamString())
         secondAvailableSum.text = newAmount.convertToCurrencyString()
@@ -89,7 +110,6 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-
         secondAvailableSum.text = (getAmount() ?: 0.0).convertToCurrencyString()
 
         amount.filters = arrayOf(AmountFilter())
@@ -209,6 +229,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         showSnackBar(getString(R.string.address_copied_to_clipboard))
     }
 
+    @SuppressLint("RestrictedApi")
     override fun addListeners() {
         btnShareToken.setOnClickListener {
             presenter?.onShareTokenPressed()
@@ -260,6 +281,42 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onCopyPressed()
         }
 
+        if(AssetManager.instance.assets.size != 1) {
+            currencyLayout.setOnClickListener {
+                animateDropDownIcon(btnExpandCurrency, true)
+                val menu = PopupMenu(requireContext(), currencyLayout)
+                menu.setOnDismissListener {
+                    animateDropDownIcon(btnExpandCurrency, false)
+                }
+                AssetManager.instance.assets.forEach {
+                    val sb = SpannableString(it.unitName)
+                    if (it.assetId == this.assetId) {
+                        sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
+                    }
+                    else {
+                        sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
+                    }
+                    val item = menu.menu.add(sb)
+                    item.setIcon(it.image)
+                }
+                menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                    val title = item.title.toString()
+                    val asset = AssetManager.instance.getAssetName(title)
+                    this.assetId = asset?.assetId ?:0
+                    currency.text = asset?.unitName ?: ""
+                    presenter?.updateToken()
+
+                    true
+                })
+
+                if (menu.menu is MenuBuilder) {
+                    (menu.menu as MenuBuilder).setOptionalIconsVisible(true)
+                }
+                menu.show()
+            }
+        }
+
         txComment.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -282,6 +339,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        animateDropDownIcon(btnExpandCurrency, false)
+
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         setFragmentResultListener("FragmentB_REQUEST_KEY") { key, bundle ->
@@ -291,6 +350,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         if(App.isDarkMode) {
             backgroundView.setBackgroundResource(R.drawable.receive_bg_dark)
         }
+
+        if(AssetManager.instance.assets.size <= 1) {
+            btnExpandCurrency.visibility = View.GONE
+        }
+
+        currency.text = AssetManager.instance.getAsset(getAssetId())?.unitName
     }
 
     override fun onStart() {

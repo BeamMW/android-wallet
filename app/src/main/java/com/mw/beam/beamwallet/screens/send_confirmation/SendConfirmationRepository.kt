@@ -35,9 +35,9 @@ class SendConfirmationRepository: BaseRepository(), SendConfirmationContract.Rep
         return PreferencesManager.getBoolean(PreferencesManager.KEY_IS_SENDING_CONFIRM_ENABLED)
     }
 
-    override fun calcChange(amount: Long): Subject<Long> {
+    override fun calcChange(amount: Long, assetId:Int): Subject<Long> {
         return getResult(WalletListener.subOnChangeCalculated, "calcChange") {
-            wallet?.calcChange(amount)
+            wallet?.calcChange(amount, assetId)
         }
     }
 }

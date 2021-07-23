@@ -311,8 +311,6 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
                         })
                     }
                     else {
-                        onOwnNode()
-
                         if (isCreate() == false) {
                             isNeedDisconnect = true
 
@@ -322,6 +320,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
                             checkEnables()
                         }
+                        onOwnNode()
                     }
                 }
             }
@@ -351,6 +350,9 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         if (isCreate() == true) {
             findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(password(),WelcomeMode.CREATE.name, seed(), false))
         }
+        else {
+            findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(null, WelcomeMode.MOBILE_CONNECT.name, null, false))
+        }
     }
 
     private fun onRandomNode() {
@@ -373,7 +375,6 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, true)
         PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
 
-
         AppManager.instance.wallet?.enableBodyRequests(true)
 
         AppManager.instance.onChangeNodeAddress()
@@ -382,7 +383,6 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
         if (isCreate() == true) {
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, "")
-
             findNavController().navigate(NodeFragmentDirections.actionNodeFragmentToWelcomeProgressFragment(password(),WelcomeMode.CREATE.name, seed(), false))
         }
         else {
@@ -394,7 +394,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
     private fun validateUrl() : Boolean {
         val node = dialogNodeValue.text.toString()
-        val url = "http://" + node
+        val url = "http://$node"
         return url.isValidUrl()
     }
 }

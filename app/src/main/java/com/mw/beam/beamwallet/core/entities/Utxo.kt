@@ -41,6 +41,7 @@ data class Utxo(private val source: UtxoDTO) : Parcelable {
     var timeLeft: String? = null
     var time: Long = 0L
     var assetId = source.assetId
+    var isShielded = source.isShielded
 
     var transactionDate:Long? = null
     var transactionComment:String? = null

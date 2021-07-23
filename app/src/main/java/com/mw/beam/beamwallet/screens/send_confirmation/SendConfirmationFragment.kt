@@ -31,6 +31,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
@@ -59,6 +60,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     override fun getRemaining(): Int = args.remaining
     override fun getChange(): Long = args.change
     override fun getShieldedInputsFee(): Long = args.shieldedInputsFee
+    override fun getAssetId(): Int = args.assetId
 
     override fun getIsOffline(): Boolean {
         return args.isOffline
@@ -68,14 +70,16 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     @SuppressLint("SetTextI18n")
     override fun init(address: String, outgoingAddress: String, amount: Double, fee: Long, addressType: Int) {
+        val asset = AssetManager.instance.getAsset(getAssetId())!!
 
         sendTo.text = address.trimAddress()
 
         this.outgoingAddress.text = outgoingAddress.trimAddress()
 
-        amountToSend.text = "${amount.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
-        secondAvailableSum.text = amount.convertToCurrencyString()
-        secondAvailableFeeSum.text = fee.convertToCurrencyGrothString()
+        amountToSend.text = amount.convertToGroth().convertToAssetString(asset.unitName)
+        secondAvailableSum.text = amount.convertToGroth().exchangeValueAsset(getAssetId())
+
+        secondAvailableFeeSum.text = fee.exchangeValueAsset(0)
 
         if(secondAvailableSum.text.isNullOrEmpty()) {
             secondAvailableSum.visibility = View.GONE
@@ -85,8 +89,7 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
             secondAvailableFeeSum.visibility = View.GONE
         }
 
-       // this.fee.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
-        this.fee.text = "${fee.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+        this.fee.text =  fee.convertToAssetStringWithId(0)
 
         typeAddress = BMAddressType.findByValue(addressType) ?: BMAddressType.BMAddressTypeRegular
 
@@ -108,6 +111,16 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
                     transactionType.text = getString(R.string.regular)
                 }
             }
+        }
+
+        if (getAssetId() != 0) {
+            remainingBeamTitle.visibility = View.VISIBLE
+            remainingBeam.visibility = View.VISIBLE
+            secondRemainingBeamSum.visibility = View.VISIBLE
+
+            val left = AssetManager.instance.getAvailable(0) - fee
+            remainingBeam.text = left.convertToAssetStringWithId(0)
+            secondRemainingBeamSum.text = left.exchangeValueAsset(0)
         }
     }
 
@@ -169,7 +182,9 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
 
     @SuppressLint("SetTextI18n")
     override fun configUtxoInfo(usedUtxo: Double, changedUtxo: Double) {
-        val left = 0L //AppManager.instance.getStatus().available.convertToBeam() - usedUtxo
+        val asset = AssetManager.instance.getAsset(getAssetId())!!
+
+        val left = asset.available.convertToBeam() - usedUtxo
 
         remainingTitle.visibility = View.VISIBLE
         remaining.visibility = View.VISIBLE
@@ -178,11 +193,11 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
         secondRemainingSum.visibility = View.VISIBLE
         secondAvailableChangeSum.visibility = View.VISIBLE
 
-        remaining.text = "${left.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
-        changeUtxo.text = "${changedUtxo.convertToBeamString()} ${getString(R.string.currency_beam).toUpperCase()}"
+        remaining.text = left.convertToGroth().convertToAssetString(asset.unitName)
+        changeUtxo.text = changedUtxo.convertToGroth().convertToAssetString(asset.unitName)
 
-        secondRemainingSum.text = left.convertToCurrencyString()
-        secondAvailableChangeSum.text = changedUtxo.convertToCurrencyString()
+        secondRemainingSum.text = left.convertToGroth().exchangeValueAsset(getAssetId())
+        secondAvailableChangeSum.text = changedUtxo.convertToGroth().exchangeValueAsset(getAssetId())
 
         if(secondRemainingSum.text.isNullOrEmpty()) {
             secondRemainingSum.visibility = View.GONE
@@ -202,8 +217,8 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
                 toSend = params.address
             }
         }
-
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(toSend, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded))
+        val asset = getAssetId()
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(toSend, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded, asset))
     }
 
     override fun showSaveAddressFragment(address: String) {

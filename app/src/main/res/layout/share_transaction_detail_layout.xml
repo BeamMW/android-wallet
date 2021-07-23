@@ -377,6 +377,8 @@
                     style="@style/share_transaction_details_amount"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/confirming_state_text"
                     app:layout_constraintTop_toTopOf="parent"

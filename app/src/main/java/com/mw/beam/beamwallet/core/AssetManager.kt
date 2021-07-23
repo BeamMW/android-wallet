@@ -26,7 +26,12 @@ class AssetManager {
             }
     }
 
+    var selectedAssetId = 0
     var assets = mutableListOf<Asset>()
+
+    fun loadAssets() : List<Asset> {
+        return assets.map { it }.toList()
+    }
 
     init {
         val json = PreferencesManager.getString(PreferencesManager.KEY_ASSETS)
@@ -39,26 +44,36 @@ class AssetManager {
         }
 
         if (assets.size == 0) {
-            val assetBeam = Asset(0 ,0L, 0L,
-                    0,0L,0L,0L,0,0,
-                    0, SystemStateDTO("", 0))
-            assetBeam.nthUnitName = "BEAM";
-            assetBeam.unitName = "BEAM"
-            assetBeam.color = colors[0]
-            assetBeam.shortName = "BEAM"
-            assetBeam.shortDesc = ""
-            assetBeam.longDesc = ""
-            assetBeam.site = ""
-            assetBeam.paper = ""
-            assets.add(assetBeam)
+            addBeam()
         }
+    }
+
+    private fun addBeam() {
+        val assetBeam = Asset(0 ,0L, 0L,
+            0,0L,0L,0L,0,0,
+            0, SystemStateDTO("", 0))
+        assetBeam.nthUnitName = "BEAM";
+        assetBeam.unitName = "BEAM"
+        assetBeam.color = colors[0]
+        assetBeam.shortName = "BEAM"
+        assetBeam.shortDesc = ""
+        assetBeam.longDesc = ""
+        assetBeam.site = ""
+        assetBeam.paper = ""
+        assets.add(assetBeam)
+    }
+
+    fun clear() {
+        assets.clear()
+        selectedAssetId = 0
+        addBeam()
+        onChangeAssets()
     }
 
     fun onChangeAssets() {
         assets.forEach {
             it.color = getColor(it)
             it.image = getImage(it)
-
             if (it.nthUnitName.isEmpty()) {
                 AppManager.instance.wallet?.getAssetInfo(it.assetId)
             }
@@ -75,6 +90,7 @@ class AssetManager {
                 it.unitName = info.unitName
                 it.nthUnitName = info.nthUnitName
                 it.shortName = info.shortName
+
                 it.shortDesc = info.shortDesc
                 it.longDesc = info.longDesc
                 it.name = info.name
@@ -133,10 +149,16 @@ class AssetManager {
         }
     }
 
-    fun getLastTransaction(id:Int):TxDescription? {
-        return AppManager.instance.getTransactions().firstOrNull {
-            it.assetId == id
+    fun getAssetName(name:String): Asset? {
+        return assets.firstOrNull {
+            it.unitName == name
         }
+    }
+
+    fun getLastTransaction(id:Int):TxDescription? {
+        return AppManager.instance.getTransactions().filter {
+            it.assetId == id
+        }.sortedByDescending { it.createTime }.firstOrNull()
     }
 
     fun getAvailable(id:Int):Long {

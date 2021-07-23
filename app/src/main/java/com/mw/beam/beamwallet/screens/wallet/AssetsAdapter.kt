@@ -46,10 +46,10 @@ class AssetsAdapter(private val context: Context, private var data: List<Asset>,
 
     override fun getItemCount(): Int = data.size
 
-    override fun getItemId(position: Int): Long {
-        val data = data[position]
-        return data.assetId.toLong()
-    }
+//    override fun getItemId(position: Int): Long {
+//        val data = data[position]
+//        return data.assetId.toLong()
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_asset, parent, false)).apply {
         this.containerView.setOnClickListener {

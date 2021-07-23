@@ -63,14 +63,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     private var navigationOptions:NavOptions? = null
     private var destinationFragment:Int? = null
 
-    private val menuItems by lazy {
-        arrayOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.UTXO, R.drawable.menu_utxo, getString(R.string.utxo)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
-    }
-
     fun showWalletFragment() {
         if ((activity as? AppActivity)?.isMenuOpened() == true) {
             (activity as? AppActivity)?.closeMenu()
@@ -79,7 +71,6 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
             (activity as? AppActivity)?.showWallet()
         }
     }
-
 
     override fun onHideKeyboard() {
     }
@@ -134,7 +125,7 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
     }
 
     open fun getStatusBarColor(): Int {
-        return ContextCompat.getColor(context!!, android.R.color.transparent)
+        return ContextCompat.getColor(requireContext(), android.R.color.transparent)
     }
 
     override fun dismissAlert() {
@@ -178,10 +169,10 @@ abstract class BaseFragment<T : BasePresenter<out MvpView, out MvpRepository>> :
             val view = view
             if (App.isDarkMode)
             {
-                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark_dark, context!!.theme))
+                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark_dark, requireContext().theme))
             }
             else{
-                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark, context!!.theme))
+                view?.setBackgroundColor(resources.getColor(R.color.colorPrimaryDark, requireContext().theme))
             }
         }
 

@@ -217,37 +217,11 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun initSubscriptions() {
 
-        val randomNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,false))
-        val trustedNode = (PreferencesManager.getBoolean(PreferencesManager.KEY_RESTORED_FROM_TRUSTED,false))
         val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
-
-        if(isTrustedNodeRestor || (randomNode && trustedNode)) {
-            view?.updateProgress(OnSyncProgressData(1, 4), state.mode ,isDownloadProgress = false, isRestoreProgress = false)
-
-            Timer().schedule(2000) {
-                App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(2, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-                }
-            }
-
-            Timer().schedule(3000) {
-                App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(3, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-                }
-            }
-
-            Timer().schedule(4000) {
-                App.self.runOnUiThread {
-                    view?.updateProgress(OnSyncProgressData(4, 4), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-                    showWallet()
-                }
-            }
-        }
+        val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+        val isOwn = !mobile && !isRandom
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
-            val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
-            val isOwn = !mobile && !isRandom
 
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
@@ -258,13 +232,23 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
                 }
                 else if(WelcomeMode.MOBILE_CONNECT == state.mode && it.total == 0) {
+                    if(isOwn) {
+                        if(AppManager.instance.isSynced()) {
+                            showWallet()
+                        }
+                        else {
+                            AppManager.instance.wallet?.syncWithNode()
+                        }
+                    }
+                    else {
+                        AppManager.instance.wallet?.syncWithNode()
+                    }
 //                    if (isNeedCheck) {
 //                        view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
 //                        showWallet()
 //                    }
 //                    else {
 //                        isNeedCheck = true
-                        AppManager.instance.wallet?.syncWithNode()
 //                    }
                 }
                 else if (it.total == 0) {
@@ -392,6 +376,14 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     private fun showWallet() {
        if(!isShow) {
+           val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
+           val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+           val isOwn = !mobile && !isRandom
+
+           if (isOwn && !AppManager.instance.isSynced()) {
+               return
+           }
+
            isShow = true
 
            disposable.dispose()

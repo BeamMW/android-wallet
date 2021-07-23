@@ -40,6 +40,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     var transaction = TransactionTypeOptions.REGULAR
     private var isSkipSave = false
     private var oldAmount = 0L
+    private var oldAssetId = 0
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -231,16 +232,18 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     private fun requestAddresses() {
         if(state.address != null) {
             val amount = view?.getAmount()?.convertToGroth() ?: 0L
+            val assetId = view?.getAssetId() ?: 0
 
-            val isNew = oldAmount != amount
+            val isNew = (oldAmount != amount || oldAssetId != assetId)
             oldAmount = amount
+            oldAssetId = assetId
 
             if (state.address?.tokenOffline.isNullOrEmpty() || isNew) {
-                state.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(oldAmount, state.address!!.id)!!
+                state.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(oldAmount, state.address!!.id, assetId)!!
             }
 
             if (state.address?.tokenMaxPrivacy.isNullOrEmpty() || isNew) {
-                AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, state.address!!.id)
+                AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, state.address!!.id, assetId)
             }
 
             view?.updateTokens(state.address!!, transaction)

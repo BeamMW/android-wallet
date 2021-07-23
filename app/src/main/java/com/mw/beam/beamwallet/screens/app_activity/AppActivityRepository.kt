@@ -20,7 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.AppManager
 
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
-    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean) {
+    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean, assetId:Int) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
             if(AppManager.instance.isToken(token)) {
                 val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
@@ -29,7 +29,7 @@ class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
             else  {
                 AppManager.instance.removeIgnoredAddress(token)
             }
-            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee, true)
+            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee,  assetId)
         }
     }
 

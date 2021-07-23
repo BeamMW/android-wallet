@@ -91,48 +91,50 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
             UtxoStatus.Spent -> getString(R.string.spent)
             UtxoStatus.Available -> getString(R.string.available)
             UtxoStatus.Unavailable -> getString(R.string.unavailable)
-        }
+        }.toLowerCase()
 
         val receivedColor = ContextCompat.getColor(requireContext(), R.color.received_color)
         val sentColor = ContextCompat.getColor(requireContext(), R.color.sent_color)
         val commonStatusColor = ContextCompat.getColor(requireContext(), R.color.common_text_color)
         val accentColor = ContextCompat.getColor(requireContext(), R.color.accent)
 
-        if (utxo.status == UtxoStatus.Maturing) {
-            val available = getString(R.string.maturing)
-            val till = " (" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
-            val string = available + till
+        when {
+            utxo.status == UtxoStatus.Maturing -> {
+                val available = getString(R.string.maturing)
+                val till = " (" + getString(R.string.till_block_height) + " " + utxo.maturity + ")"
+                val string = available + till
 
-            val spannable = SpannableStringBuilder.valueOf(string)
-            spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
-                0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-            statusLabel.text = spannable
-        }
-        else if(utxo.confirmHeight > 0) {
-            val till = " (" + getString(R.string.since_block_height).toLowerCase() + " " + utxo.confirmHeight + ")"
-            val string = status + till
-
-            val spannable = SpannableStringBuilder.valueOf(string)
-
-            when (utxo.status) {
-                UtxoStatus.Incoming ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.received_color, context?.theme)),
-                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-                UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
-                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
-                UtxoStatus.Available, UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
-                    0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                val spannable = SpannableStringBuilder.valueOf(string)
+                spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                    0,available.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                statusLabel.text = spannable
             }
+            utxo.confirmHeight > 0 -> {
+                val till = " (" + getString(R.string.since_block_height).toLowerCase() + " " + utxo.confirmHeight + ")"
+                val string = status + till
 
-            statusLabel.text = spannable
-        }
-        else{
-            statusLabel.text = status
-            statusLabel.setTextColor(when (utxo.status) {
-                UtxoStatus.Incoming -> receivedColor
-                UtxoStatus.Available -> accentColor
-                UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
-                UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable -> commonStatusColor
-            })
+                val spannable = SpannableStringBuilder.valueOf(string)
+
+                when (utxo.status) {
+                    UtxoStatus.Incoming ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.received_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                    UtxoStatus.Outgoing, UtxoStatus.Spent ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.sent_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                    UtxoStatus.Available, UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable ->  spannable.setSpan(ForegroundColorSpan(resources.getColor(R.color.common_text_color, context?.theme)),
+                        0,status.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+                }
+
+                statusLabel.text = spannable
+            }
+            else -> {
+                statusLabel.text = status
+                statusLabel.setTextColor(when (utxo.status) {
+                    UtxoStatus.Incoming -> receivedColor
+                    UtxoStatus.Available -> accentColor
+                    UtxoStatus.Outgoing, UtxoStatus.Spent -> sentColor
+                    UtxoStatus.Change, UtxoStatus.Maturing, UtxoStatus.Unavailable -> commonStatusColor
+                })
+            }
         }
 
         typeLabel.text = when (utxo.keyType) {
@@ -172,22 +174,22 @@ class UtxoDetailsFragment : BaseFragment<UtxoDetailsPresenter>(), UtxoDetailsCon
     }
 
     override fun configUtxoHistory(utxo: Utxo, relatedTransactions: List<TxDescription>?) {
-        val offset: Int = resources.getDimensionPixelSize(R.dimen.utxo_history_offset)
-        var index = 0
+//        val offset: Int = resources.getDimensionPixelSize(R.dimen.utxo_history_offset)
+//        var index = 0
 
-        transactionsLayout.visibility = if (relatedTransactions.isNullOrEmpty()) View.GONE else View.VISIBLE
+        transactionsLayout.visibility = View.GONE //if (relatedTransactions.isNullOrEmpty()) View.GONE else View.VISIBLE
 
-        transactionHistoryList.removeAllViews()
-        relatedTransactions?.forEach {
-            transactionHistoryList.addView(configTransaction(
-                isReceived = it.id == utxo.createTxId,
-                time = CalendarUtils.fromTimestamp(it.createTime),
-                id = it.id,
-                comment = it.message,
-                offset = offset,
-                index = index))
-            index++
-        }
+//        transactionHistoryList.removeAllViews()
+//        relatedTransactions?.forEach {
+//            transactionHistoryList.addView(configTransaction(
+//                isReceived = it.id == utxo.createTxId,
+//                time = CalendarUtils.fromTimestamp(it.createTime),
+//                id = it.id,
+//                comment = it.message,
+//                offset = offset,
+//                index = index))
+//            index++
+//        }
     }
 
     override fun handleExpandDetails(shouldExpandDetails: Boolean) {

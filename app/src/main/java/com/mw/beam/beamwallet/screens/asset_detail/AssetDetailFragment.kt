@@ -29,6 +29,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.TxDescription
@@ -76,6 +77,16 @@ class AssetDetailFragment : BaseFragment<AssetDetailPresenter>(), AssetDetailCon
 
         btnShowAll.setOnClickListener {
             findNavController().navigate(AssetDetailFragmentDirections.actionAssetDetailFragmentToTransactionsFragment(getAssetId()))
+        }
+
+        btnNext.setOnClickListener {
+            AssetManager.instance.selectedAssetId = getAssetId()
+            findNavController().navigate(AssetDetailFragmentDirections.actionAssetDetailFragmentToSendFragment())
+        }
+
+        btnReceive.setOnClickListener {
+            val asset = presenter?.getAsset()
+            findNavController().navigate(AssetDetailFragmentDirections.actionAssetDetailFragmentToReceiveFragment(0L, null, asset?.assetId ?: 0))
         }
     }
 

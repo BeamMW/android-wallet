@@ -28,9 +28,9 @@ data class Wallet(val _this: Long) {
     external fun getTransactions()
     external fun getAllUtxosStatus()
     external fun syncWithNode()
-    external fun calcShieldedCoinSelectionInfo(amount: Long, fee: Long, isShielded: Boolean)
+    external fun selectCoins(amount: Long, fee: Long, isShielded: Boolean, assetId:Int)
 
-    external fun calcChange(amount: Long)
+    external fun calcChange(amount: Long, assetId:Int)
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
@@ -59,16 +59,18 @@ data class Wallet(val _this: Long) {
     external fun markNotificationAsRead(id : String)
     external fun deleteNotification(id : String)
 
-    external fun generateRegularAddress(isPermanentAddress: Boolean, amount: Long, walletId: String): String
-    external fun generateOfflineAddress(amount: Long, walletId: String): String
-    external fun generateMaxPrivacyAddress(amount: Long, walletId: String)
+    external fun generateRegularAddress(isPermanentAddress: Boolean, amount: Long, walletId: String, assetId:Int): String
+    external fun generateOfflineAddress(amount: Long, walletId: String, assetId:Int): String
+    external fun generateMaxPrivacyAddress(amount: Long, walletId: String, assetId:Int)
 
     external fun isToken(token: String): Boolean
     external fun isAddress(address: String): Boolean
-    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean)
+    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, assetId:Int)
     external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
 
     external fun isConnectionTrusted(): Boolean
+    external fun isSynced(): Boolean
+
     external fun callMyMethod()
     external fun getPublicAddress()
     external fun exportTxHistoryToCsv()

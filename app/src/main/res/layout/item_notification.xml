@@ -53,6 +53,8 @@
             android:fontFamily="@font/roboto_regular"
             android:gravity="start"
             android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintStart_toEndOf="@id/icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Receive" />

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/privacy_mode"
-        android:title="@string/privacy_mode"
-        android:icon="@drawable/ic_eye_crossed"
-        app:showAsAction="always"/>
     <item android:id="@+id/info_menu"
         android:title="@string/asset_info"
         android:icon="@drawable/ic_info_button_asset"
+        app:showAsAction="always"/>
+    <item android:id="@+id/privacy_mode"
+        android:title="@string/privacy_mode"
+        android:icon="@drawable/ic_eye_crossed"
         app:showAsAction="always"/>
 </menu>

@@ -25,7 +25,7 @@ interface AppActivityContract {
         fun showOpenFragment()
         fun showWalletFragment()
         fun showTransactionDetailsFragment(txId: String)
-        fun startNewSnackbar(onUndo: () -> Unit, onDismiss: () -> Unit)
+        fun startNewSnackbar(assetId:Int, onUndo: () -> Unit, onDismiss: () -> Unit)
     }
 
     interface Presenter: MvpPresenter<View> {
@@ -34,7 +34,7 @@ interface AppActivityContract {
     }
 
     interface Repository: MvpRepository {
-        fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean)
+        fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean, assetId:Int)
         fun cancelSendMoney(token: String)
     }
 }

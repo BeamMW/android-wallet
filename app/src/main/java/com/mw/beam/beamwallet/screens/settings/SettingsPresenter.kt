@@ -393,19 +393,27 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onChangeAllowNews(allow: Boolean) {
-        repository?.setAllowNews(allow)
+        repository.setAllowNews(allow)
     }
 
     override fun onChangeAllowTransactionStatus(allow: Boolean) {
-        repository?.setAllowTransactions(allow)
+        repository.setAllowTransactions(allow)
     }
 
     override fun onChangeAllowWalletUpdates(allow: Boolean) {
-        repository?.setAllowWalletUpdates(allow)
+        repository.setAllowWalletUpdates(allow)
     }
 
     override fun onChangeAllowAddressExpiration(allow: Boolean) {
-        repository?.setAllowAddressExpiration(allow)
+        repository.setAllowAddressExpiration(allow)
+    }
+
+    override fun onShowPublicOfflineAddressPressed() {
+        view?.showPublicOfflineAddress()
+    }
+
+    override fun onUTXOPressed() {
+        view?.showUTXO()
     }
 
     override fun onDestroy() {
@@ -413,9 +421,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         super.onDestroy()
     }
 
-    override fun onShowPublicOfflineAddressPressed() {
-        view?.showPublicOfflineAddress()
-    }
 
     override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription)
 }
