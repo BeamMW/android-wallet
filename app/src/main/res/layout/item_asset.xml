@@ -90,6 +90,8 @@
                     android:layout_marginTop="3dp"
                     android:drawableStart="@drawable/ic_asset_lock"
                     android:drawablePadding="5dp"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/white_08"
                     android:textSize="14sp"

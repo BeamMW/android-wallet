@@ -71,6 +71,10 @@ class MaxPrivacyDetailFragment: BaseFragment<MaxPrivacyDetailPresenter>(), MaxPr
         ContextCompat.getColor(requireContext(), R.color.addresses_status_bar_color)
     }
 
+    override fun getAssetId(): Int {
+        return MaxPrivacyDetailFragmentArgs.fromBundle(requireArguments()).assetId
+    }
+
     private var sort = MaxPrivacyDetailSort.time_ear
 
     override fun init(utxos: List<Utxo>) {

@@ -20,6 +20,7 @@ package com.mw.beam.beamwallet.screens.asset_info
 import android.os.Bundle
 import android.view.*
 import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
 
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
@@ -64,6 +65,11 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
 
         pageAdapter = AssetInfoPageAdapter(getAssetId(), AppActivity.self.supportFragmentManager, 2)
         pageAdapter.notifyDataSetChanged()
+        pageAdapter.onClick = {
+            val asset = presenter?.getAsset()
+
+            findNavController().navigate(AssetInfoFragmentDirections.actionAssetInfoFragmentToMaxPrivacyDetailFragment(asset?.assetId ?: 0))
+        }
 
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.balance)))
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.asset_info)))

@@ -11,7 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.helpers.UtxoKeyType
+import com.mw.beam.beamwallet.core.helpers.UtxoStatus
 import com.mw.beam.beamwallet.core.helpers.convertToAssetString
 import com.mw.beam.beamwallet.core.helpers.exchangeValueAsset
 
@@ -24,6 +27,7 @@ class AssetBalanceFragment : Fragment() {
     private var assetId = 0
     private var shouldExpandDetails = true
     private var shouldExpandLocked = true
+    var onClick: (() -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,12 +72,21 @@ class AssetBalanceFragment : Fragment() {
             maxPrivacyLabel.text = asset.shielded.convertToAssetString(asset.unitName)
             maxPrivacySecondLabel.text = asset.shielded.exchangeValueAsset(assetId)
 
-            val lockedBalance = asset.maxPrivacy + asset.maturing + asset.sending + asset.receiving
-            val changeBalance = asset.sending + asset.receiving
+            val lockedBalance = asset.maxPrivacy + asset.maturing + asset.receiving
+            var changeBalance = 0L
+
+            val utxos = AppManager.instance.getUtxos().filter {
+                (it.assetId == assetId && it.status == UtxoStatus.Unavailable && it.keyType == UtxoKeyType.Change)
+                ||
+                (it.assetId == assetId && it.status == UtxoStatus.Incoming && it.keyType == UtxoKeyType.Change)
+            }
+
+            utxos.forEach {
+                changeBalance += it.amount
+            }
 
             lockedLabel.text = lockedBalance.convertToAssetString(asset.unitName)
             lockedSecondLabel.text = lockedBalance.exchangeValueAsset(assetId)
-
 
             maturingLabel.text = asset.maturing.convertToAssetString(asset.unitName)
             maturingSecondLabel.text = asset.maturing.exchangeValueAsset(assetId)
@@ -114,6 +127,10 @@ class AssetBalanceFragment : Fragment() {
             maturingLayout.visibility = contentVisibility
             changeLayout.visibility = contentVisibility
             maxPrivacyLayout2.visibility = contentVisibility
+        }
+
+        morePrivacyButton.setOnClickListener {
+            onClick?.invoke()
         }
     }
 

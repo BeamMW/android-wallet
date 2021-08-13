@@ -221,7 +221,9 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
            // notificationsListView.visibility = if (notifications.isEmpty()) View.GONE else View.VISIBLE
             btnClearAll.visibility = if (notifications.isEmpty()) View.INVISIBLE else View.VISIBLE
             emptyLayout.visibility = if (notifications.isEmpty()) View.VISIBLE else View.GONE
-            toolbarLayout.hasOffset = !notifications.isEmpty()
+            toolbarLayout.hasOffset = notifications.isNotEmpty()
+            toolbarLayout.canShowChangeButton = notifications.isEmpty()
+
             adapter.setPrivacyMode(isEnablePrivacyMode)
             adapter.data = notifications
             adapter.notifyDataSetChanged()
@@ -261,6 +263,8 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
         } else if (item.itemId == R.id.all) {
             if (selectedNotifications.count() == AppManager.instance.getNotifications().count()) {
                 cancelSelectedNotifications()
+
+                onlSelectedNotificationsChanged()
             }
             else {
                 selectedNotifications.clear()
@@ -272,6 +276,8 @@ class NotificationsFragment : BaseFragment<NotificationsPresenter>(), Notifcatio
                 adapter.changeSelectedItems(selectedNotifications, false, null)
                 adapter.notifyDataSetChanged()
                 activity?.invalidateOptionsMenu()
+
+                onlSelectedNotificationsChanged()
             }
         }
         return super.onOptionsItemSelected(item)

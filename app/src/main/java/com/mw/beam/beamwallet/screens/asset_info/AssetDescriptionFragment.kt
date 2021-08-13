@@ -58,7 +58,7 @@ class AssetDescriptionFragment : Fragment() {
 
             shortDescLabel.text = asset.shortDesc
             longDescLabel.text = asset.longDesc
-            smallNameLabel.text = asset.shortName
+            smallNameLabel.text = asset.nthUnitName
 
             if (asset.site.isEmpty()) {
                 siteLabel.visibility = View.GONE
@@ -76,6 +76,14 @@ class AssetDescriptionFragment : Fragment() {
                 descLabel.setOnClickListener {
                     openLink(asset.paper)
                 }
+            }
+
+            if (asset.shortDesc.isEmpty()) {
+                shortDescLayout.visibility = View.GONE
+            }
+
+            if (asset.longDesc.isEmpty()) {
+                longDescLayout.visibility = View.GONE
             }
         }
     }

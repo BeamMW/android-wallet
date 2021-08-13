@@ -102,7 +102,10 @@ class AssetsListFragment : BaseFragment<AssetsListPresenter>(), AssetsListContra
     }
 
     override fun configAssets(asset: List<Asset>) {
-        assetsAdapter.reloadData(asset)
+        val newAssets = asset.filter {
+            it.isBeam() || it.lockedSum() > 0 || it.available > 0 || it.hasInProgressTransactions()
+        }
+        assetsAdapter.reloadData(newAssets)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

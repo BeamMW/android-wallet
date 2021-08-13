@@ -144,6 +144,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/shortDescLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
@@ -163,16 +164,16 @@
                         android:id="@+id/shortDescLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
-                        android:layout_marginTop="5dp"
-                        tools:text="10 BEAM"
-                        />
+                        tools:text="10 BEAM" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/longDescLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="20dp"
@@ -192,13 +193,12 @@
                         android:id="@+id/longDescLabel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textAllCaps="false"
                         android:textColor="#FFFFFF"
                         android:textSize="14sp"
-                        android:layout_marginTop="5dp"
-                        tools:text="10 BEAM"
-                        />
+                        tools:text="10 BEAM" />
                 </LinearLayout>
 
             </LinearLayout>

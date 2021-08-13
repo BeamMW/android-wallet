@@ -48,9 +48,11 @@ fun Long.convertToAssetStringWithId(id:Int?): String {
     return (this.toDouble() / 100000000).convertToBeamString() + " " + asset?.unitName ?: ""
 }
 
-fun Long.exchangeValueAsset(assetId:Int): String {
+fun Long.exchangeValueAsset(assetId:Int, displayZero:Boolean = false): String {
     if (this == 0L || ExchangeManager.instance.isPrivacyMode) {
-        return ""
+       if (!displayZero) {
+           return ""
+       }
     }
 
    ExchangeManager.instance.rates.forEach {
@@ -58,14 +60,16 @@ fun Long.exchangeValueAsset(assetId:Int): String {
            val value = it.value.toDouble() / 100000000
            val beam = this.convertToBeam()
            val rate = value * beam
-           if (it.currency == Currency.Usd) {
-               return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
-           }
-           else if (it.currency == Currency.Bitcoin) {
-               return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
-           }
-           else if (it.currency == Currency.Eth) {
-               return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+           when (it.currency) {
+               Currency.Usd -> {
+                   return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+               }
+               Currency.Bitcoin -> {
+                   return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+               }
+               Currency.Eth -> {
+                   return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+               }
            }
        }
    }

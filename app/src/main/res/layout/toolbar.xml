@@ -32,13 +32,13 @@
         <TextView
             android:id="@+id/leftTitle"
             style="@style/toolbar_left_title_text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="55dp"
             android:layout_marginRight="55dp"
-            android:maxLines="1"
             android:layout_marginBottom="1dp"
+            android:maxLines="2"
             tools:text="Left title" />
     </FrameLayout>
 

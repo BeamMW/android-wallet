@@ -125,6 +125,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 handleAddressSuggestions(null)
                 requestFocusToAmount()
                 setSegmentButtons()
+
+                currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+                presenter?.onAmountChanged()
+                updateAvailable(AssetManager.instance.getAvailable(presenter?.assetId ?: 0))
             }
             else if (!ignoreWatcher) {
                 address = token.toString()
@@ -309,7 +313,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.requestFee()
             } else {
                 isOffline = true
-                addressTypeLabel.text = getString(R.string.regular_offline_address) + "."
+                updateMaxPrivacyCount(presenter?.state?.maxPrivacyCount ?: 1)
                 setSegmentButtons()
                 presenter?.requestFee()
             }
@@ -321,18 +325,26 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             sendDescription.text = resources.getString(R.string.min_fee_offline)
         }
         else if(isMaxPrivacy) {
-            sendDescription.text = resources.getString(R.string.receive_notice_max_privacy)
+            sendDescription.text = resources.getString(R.string.send_notice_max_privacy)
         }
         else if(!isOffline) {
             sendDescription.text = resources.getString(R.string.confirmation_send_description)
         }
         else {
-            sendDescription.text = resources.getString(R.string.min_fee_offline)
+            sendDescription.text = resources.getString(R.string.send_offline_hint)
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun updateMaxPrivacyCount(count: Int) {
-
+        if (isOffline) {
+            val left = getString(R.string.transactions_left, count.toString())
+            var result = getString(R.string.regular_offline_address) + ": " + left + "."
+            if (count <=3) {
+                result += " " + getString(R.string.transactions_left_hint)
+            }
+            addressTypeLabel.text = result
+        }
     }
 
     override fun setupMaxFee(max: Int, min:Int) {
@@ -527,12 +539,18 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             currencyLayout
                 .setOnClickListener {
                     animateDropDownIcon(btnExpandCurrency, true)
-                    val menu = PopupMenu(requireContext(), currencyLayout)
+                    val menu = PopupMenu(requireContext(), currencyLayout, Gravity.END, R.attr.listPopupWindowStyle, R.style.popupOverflowMenu)
                     menu.setOnDismissListener {
                         animateDropDownIcon(btnExpandCurrency, false)
                     }
+                    menu.gravity = Gravity.END;
+
                     AssetManager.instance.assets.forEach {
-                        val sb = SpannableString(it.unitName)
+                        var name = it.unitName
+                        if (name.length > 8) {
+                            name = name.substring(0,8) + "..."
+                        }
+                        val sb = SpannableString(name)
                         if (it.assetId == presenter?.assetId) {
                             sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                             sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
@@ -544,16 +562,17 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         item.setIcon(it.image)
                     }
                     menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                        val title = item.title.toString()
+                        val title = item.title.toString().replace("...", "")
                         val asset = AssetManager.instance.getAssetName(title)
                         val assetId = asset?.assetId ?: 0
-                        if(presenter?.assetId != assetId && presenter?.isAllPressed == true) {
+                        if(presenter?.assetId != assetId) {
                             presenter?.isAllPressed = false
                             amount.setText("")
                         }
                         presenter?.assetId = assetId
                         currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
                         presenter?.onAmountChanged()
+                        updateAvailable(AssetManager.instance.getAvailable(assetId))
                         updateAvailable(AssetManager.instance.getAvailable(assetId))
 
                         true
@@ -888,7 +907,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         feeProgressValue.text = "$fee ${getString(R.string.currency_groth).toUpperCase()}"
         feeProgressValue.layoutParams = params
 
-        val second = getRealAmount().convertToGroth().exchangeValueAsset(presenter?.assetId ?: 0)
+        val second = getRealAmount().convertToGroth().exchangeValueAsset(presenter?.assetId ?: 0, true)
         if (second.isEmpty()) {
             usedFee.visibility = View.GONE
         }
@@ -947,8 +966,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun hasAmountError(amount: Long, fee: Long, availableAmount: Long, isEnablePrivacyMode: Boolean): Boolean {
+        var assetName = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName ?: ""
+        if (assetName.length > 15) {
+            assetName = assetName.substring(0,14) + "..."
+        }
         return try {
             when {
+
                 this.amount.text.isNullOrBlank() -> {
                     configAmountError(getString(R.string.send_amount_empty_error))
                     true
@@ -958,21 +982,21 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     true
                 }
                 amount > availableAmount && presenter?.assetId != 0 -> {
-                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
                     true
                 }
                 fee > AssetManager.instance.getAvailable(0) && presenter?.assetId != 0 -> {
-                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
                     true
                 }
                 amount + fee > availableAmount && presenter?.assetId == 0 -> {
-                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
                     true
                 }
                 else -> false
             }
         } catch (exception: NumberFormatException) {
-            configAmountError(configAmountErrorMessage(amount.convertToAssetStringWithId(presenter?.assetId), isEnablePrivacyMode))
+            configAmountError(configAmountErrorMessage(amount.convertToAssetString(assetName), isEnablePrivacyMode))
             true
         }
     }
@@ -1060,7 +1084,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun showTokenFragment() {
-        findNavController().navigate(SendFragmentDirections.actionSendFragmentToShowTokenFragment(address, false))
+        findNavController().navigate(SendFragmentDirections.actionSendFragmentToShowTokenFragment(address,
+            receive = false,
+            isNewFormat = false,
+            name = null
+        ))
     }
 
     private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
@@ -1341,7 +1369,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 BMAddressType.BMAddressTypeMaxPrivacy -> {
                     isMaxPrivacy = true
                     transactionTypeLayout.visibility = View.GONE
-                    addressTypeLabel.text = getString(R.string.max_privacy_address) + "."
+                    addressTypeLabel.text = getString(R.string.send_max_privacy_title) + "."
                 }
                 BMAddressType.BMAddressTypeOfflinePublic -> {
                     transactionTypeLayout.visibility = View.GONE
@@ -1357,14 +1385,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
                     if (params.isShielded) {
                         if (isOffline) {
-                            addressTypeLabel.text = getString(R.string.regular_offline_address) + "."
+                            updateMaxPrivacyCount(presenter?.state?.maxPrivacyCount ?: 1)
                         }
                         else {
                             addressTypeLabel.text = getString(R.string.regular_online_address) + "."
                         }
                     }
                     else {
-                        addressTypeLabel.text = getString(R.string.regular_address) + "."
+                        addressTypeLabel.text = getString(R.string.regular_online_address) + "."
                     }
                 }
             }

@@ -48,6 +48,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
     }
 
     override fun configStatus(networkStatus: NetworkStatus) {
+        toolbarLayout.canShowChangeButton = false
         super.configStatus(networkStatus)
     }
 
@@ -59,6 +60,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         toolbarLayout.changeNodeButton.alpha = 0f
         toolbarLayout.changeNodeButton.visibility = View.GONE
         toolbarLayout.changeNodeButton.isEnabled = false
+        toolbarLayout.canShowChangeButton = false
 
         if (isCreate() == true) {
             btnNext.textResId = R.string.pass_proceed_to_wallet

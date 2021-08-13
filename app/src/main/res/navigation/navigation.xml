@@ -1178,6 +1178,14 @@
             android:name="receive"
             app:argType="boolean"
             android:defaultValue="true" />
+        <argument
+            android:name="isNewFormat"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <argument
+            android:name="name"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/withdrawGameFragment"
@@ -1200,7 +1208,12 @@
     <fragment
         android:id="@+id/maxPrivacyDetailFragment"
         android:name="com.mw.beam.beamwallet.screens.max_privacy_details.MaxPrivacyDetailFragment"
-        android:label="MaxPrivacyDetailFragment" />
+        android:label="MaxPrivacyDetailFragment" >
+        <argument
+            android:name="assetId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
     <fragment
         android:id="@+id/nodeFragment"
         android:name="com.mw.beam.beamwallet.screens.node.NodeFragment"
@@ -1295,6 +1308,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_assetDetailFragment_to_maxPrivacyDetailFragment"
+            app:destination="@id/maxPrivacyDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/assetInfoFragment"
@@ -1307,5 +1327,12 @@
         <argument
             android:name="name"
             app:argType="string" />
+        <action
+            android:id="@+id/action_assetInfoFragment_to_maxPrivacyDetailFragment"
+            app:destination="@id/maxPrivacyDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 </navigation>

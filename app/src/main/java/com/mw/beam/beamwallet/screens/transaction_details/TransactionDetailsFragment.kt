@@ -186,7 +186,7 @@ else{
                     utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
                 }
 
-                utxoView.utxoAmount.text = utxo.amount.convertToAssetString(oldTransaction?.asset?.unitName ?: "")
+                utxoView.utxoAmount.text = utxo.amount.convertToAssetStringWithId(utxo?.asset)
 
                 utxosList.addView(utxoView)
             }

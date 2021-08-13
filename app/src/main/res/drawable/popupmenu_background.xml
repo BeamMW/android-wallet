@@ -1,0 +1,11 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/window_popup_bg"/>
+
+    <corners
+        android:radius="12dp"/>
+
+    <padding
+        android:bottom="8dp"
+        android:top="8dp"/>
+
+</shape>

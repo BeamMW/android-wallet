@@ -14,7 +14,10 @@ class AssetManager {
 
     companion object {
         private var INSTANCE: AssetManager? = null
-        private var colors = arrayOf("#00F6D2","#73FF7C","#FFE75B","#FF746B","#d885ff","#008eff","#ff746b","#91e300","#ffe75a","#9643ff","#395bff","#ff3b3b","#73ff7c","#ffa86c","#ff3abe","#00aee1","#ff5200","#6464ff","#ff7a21","#63afff","#c81f68")
+        private var colors = arrayOf("#72fdff","#2acf1d","#ffbb54","#d885ff","#008eff","#ff746b","#91e300",
+            "#ffe75a","#9643ff","#395bff","#ff3b3b","#73ff7c","#ffa86c","#ff3abe","#00aee1","#ff5200","#6464ff","#ff7a21","#63afff","#c81f68")
+        private var icons = arrayOf(R.drawable.asset0,R.drawable.asset1,R.drawable.asset2,R.drawable.asset3,R.drawable.asset4,R.drawable.assetbeamx,R.drawable.asset6,R.drawable.asset7,R.drawable.asset8,R.drawable.asset9,R.drawable.asset10,R.drawable.asset11,R.drawable.asset12,R.drawable.asset13,R.drawable.asset14,R.drawable.asset15,R.drawable.asset16,R.drawable.asset17,R.drawable.asset18,R.drawable.asset19)
+
 
         val instance: AssetManager
             get() {
@@ -105,35 +108,22 @@ class AssetManager {
     }
 
     private  fun getColor(asset: Asset):String {
-        return colors[getIndex(asset)]
+        return if (asset.isBeam()) {
+            return "#00F6D2"
+        }
+        else {
+            val idx = (asset.assetId % icons.size);
+            colors[idx]
+        }
     }
 
     private  fun getImage(asset: Asset):Int {
-        when (getIndex(asset)) {
-            0 -> {
-                return R.drawable.ic_asset_0
-            }
-            1 -> {
-                return R.drawable.ic_asset_1
-            }
-            2 -> {
-                return R.drawable.ic_asset_2
-            }
-            3 -> {
-                return R.drawable.ic_asset_3
-            }
-            4 -> {
-                return R.drawable.ic_asset_4
-            }
-            5 -> {
-                return R.drawable.ic_asset_5
-            }
-            6 -> {
-                return R.drawable.ic_asset_6
-            }
-            else -> {
-                return 0
-            }
+
+        return if(asset.isBeam()) {
+            R.drawable.ic_asset_0
+        } else {
+            val idx = (asset.assetId % icons.size);
+            icons[idx];
         }
     }
 
@@ -151,7 +141,7 @@ class AssetManager {
 
     fun getAssetName(name:String): Asset? {
         return assets.firstOrNull {
-            it.unitName == name
+            it.unitName == name ||  it.unitName.startsWith(name)
         }
     }
 
@@ -163,6 +153,6 @@ class AssetManager {
 
     fun getAvailable(id:Int):Long {
         val asset = getAsset(id)
-        return (asset?.available ?: 0L) + (asset?.shielded ?: 0L)
+        return (asset?.available ?: 0L)
     }
 }

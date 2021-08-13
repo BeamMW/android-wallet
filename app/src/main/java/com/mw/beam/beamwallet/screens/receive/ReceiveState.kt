@@ -26,4 +26,5 @@ class ReceiveState {
     var wasAddressSaved: Boolean = false
     var expandAmount = false
     var expandComment = false
+    var expandAdvanced = false
 }

@@ -28,6 +28,8 @@ interface ShowTokenContract {
     interface View : MvpView {
         fun getToken(): String
         fun init(token: String)
+        fun getName(): String?
+        fun getNewFormat(): Boolean
     }
 
     interface Presenter : MvpPresenter<View> {

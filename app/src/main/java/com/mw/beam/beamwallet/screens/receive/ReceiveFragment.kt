@@ -28,6 +28,7 @@ import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.transition.TransitionManager
+import android.view.Gravity
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
@@ -36,7 +37,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
-import com.addisonelliott.segmentedbutton.SegmentedButtonGroup.OnPositionChangedListener
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -46,15 +46,26 @@ import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.core.helpers.ScreenHelper
-import com.mw.beam.beamwallet.core.helpers.convertToBeamString
-import com.mw.beam.beamwallet.core.helpers.convertToCurrencyString
-import com.mw.beam.beamwallet.core.helpers.trimAddress
+import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 import kotlinx.android.synthetic.main.fragment_receive.*
-
+import kotlinx.android.synthetic.main.fragment_receive.amount
+import kotlinx.android.synthetic.main.fragment_receive.amountContainer
+import kotlinx.android.synthetic.main.fragment_receive.amountTitle
+import kotlinx.android.synthetic.main.fragment_receive.btnExpandAdvanced
+import kotlinx.android.synthetic.main.fragment_receive.btnExpandComment
+import kotlinx.android.synthetic.main.fragment_receive.btnExpandCurrency
+import kotlinx.android.synthetic.main.fragment_receive.contentLayout
+import kotlinx.android.synthetic.main.fragment_receive.currency
+import kotlinx.android.synthetic.main.fragment_receive.currencyLayout
+import kotlinx.android.synthetic.main.fragment_receive.secondAvailableSum
+import kotlinx.android.synthetic.main.fragment_receive.txComment
+import kotlinx.android.synthetic.main.fragment_receive.txCommentContainer
+import kotlinx.android.synthetic.main.fragment_receive.txCommentGroup
+import kotlinx.android.synthetic.main.fragment_send.*
+import java.util.*
 
 
 class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
@@ -68,7 +79,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     private val amountWatcher: com.mw.beam.beamwallet.core.watchers.TextWatcher = object : com.mw.beam.beamwallet.core.watchers.TextWatcher {
         override fun afterTextChanged(token: Editable?) {
             val amount = getAmount() ?: 0.0
-            secondAvailableSum.text = amount.convertToCurrencyString()
+            secondAvailableSum.text = amount.convertToGroth().exchangeValueAsset(assetId)
             presenter?.updateToken()
         }
     }
@@ -101,7 +112,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun setAmount(newAmount: Double) {
         amount.setText(newAmount.convertToBeamString())
-        secondAvailableSum.text = newAmount.convertToCurrencyString()
+        secondAvailableSum.text = newAmount.convertToGroth().exchangeValueAsset(assetId)
     }
 
     override fun getTxComment(): String? {
@@ -110,8 +121,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun init() {
-        secondAvailableSum.text = (getAmount() ?: 0.0).convertToCurrencyString()
-
+        secondAvailableSum.text = (getAmount() ?: 0.0).convertToGroth().exchangeValueAsset(assetId)
         amount.filters = arrayOf(AmountFilter())
         amountTitle.text = "${getString(R.string.requested_amount).toUpperCase()} (${getString(R.string.optional).toLowerCase()})"
     }
@@ -132,60 +142,58 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         maxPrivacyAddress = walletAddress.tokenMaxPrivacy
 
         if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressLabel.text = walletAddress.tokenOffline.trimAddress()
+            if (!AppManager.instance.isMaxPrivacyEnabled()) {
+                addressLabel.text = walletAddress.address.trimAddress()
+            }
+            else {
+                addressLabel.text = walletAddress.tokenOffline.trimAddress()
+            }
         }
         else {
             addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions){
         nameComment.setText(walletAddress.label)
 
-        val value = ScreenHelper.dpToPx(context, 15)
-
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            switchView.isChecked = false
+            addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
-
-//            regularButton.setPaddingRelative(value,0,value,0)
-//            maxPrivacyButton.setPaddingRelative(0,0,0,0)
-//
-//            regularButton.setTextColor(resources.getColor(R.color.accent, null))
-//            maxPrivacyButton.setTextColor(resources.getColor(android.R.color.white, null))
-//
-//            regularButton.setBackgroundResource(R.drawable.accent_btn_background)
-//            maxPrivacyButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+            if (!AppManager.instance.isMaxPrivacyEnabled()) {
+                addressLabel.text = walletAddress.address.trimAddress()
+            }
+            else {
+                addressLabel.text = walletAddress.tokenOffline.trimAddress()
+            }
         }
         else {
-            receiveDescription.text = resources.getString(R.string.receive_notice_max_privacy)
-
-//            maxPrivacyButton.setPaddingRelative(value,0,value,0)
-//            regularButton.setPaddingRelative(0,0,0,0)
-//
-//            maxPrivacyButton.setTextColor(resources.getColor(R.color.accent, null))
-//            regularButton.setTextColor(resources.getColor(android.R.color.white, null))
-//
-//            maxPrivacyButton.setBackgroundResource(R.drawable.accent_btn_background)
-//            regularButton.setBackgroundColor(resources.getColor(android.R.color.transparent, null))
+            val lockLimit = AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L
+            val time = getMaxPrivacyStringValue(lockLimit)
+            val description = if (time.isNullOrEmpty()) {
+                resources.getString(R.string.receive_notice_max_privacy, getString(R.string.transaction_indefinitely))
+            }
+            else {
+                resources.getString(R.string.receive_notice_max_privacy, getString(R.string.transaction_time, time))
+            }
+            switchView.isChecked = true
+            addressTitle.text = resources.getString(R.string.address).toUpperCase() +
+                    " (" + resources.getString(R.string.maximum_anonymity) + ")"
+            receiveDescription.text = description
+            addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
         }
 
         AppActivity.self.runOnUiThread {
             if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
-                notAvailableLabel.visibility = View.VISIBLE
-
-                buttonGroupDraggable.isEnabled = false
-                maxPrivacyButton.isEnabled = false
-                maxPrivacyButton.textColor = resources.getColor(R.color.white_01, null)
+                switcherView.alpha = 0.5f
+                maxLabel.alpha = 0.5f
+              //  notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
+               // notAvailableLabel.visibility = View.VISIBLE
+                switchView.isEnabled = false
+                receiveDescription.text = resources.getString(R.string.receive_description_2)
             }
-        }
-
-        if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressLabel.text = walletAddress.tokenOffline.trimAddress()
-        }
-        else {
-            addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
         }
     }
 
@@ -202,9 +210,21 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
     }
 
+    override fun handleExpandAdvanced(expand: Boolean) {
+        animateDropDownIcon(btnExpandAdvanced, expand)
+        TransitionManager.beginDelayedTransition(contentLayout)
+        advacnedGroup.visibility = if (expand) View.VISIBLE else View.GONE
+//        if (expand) {
+//            advancedCardContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, 0)
+//        }
+//        else {
+//            advancedCardContainer.setPadding(0, ScreenHelper.dpToPx(context, 20), 0, ScreenHelper.dpToPx(context, 20))
+//        }
+    }
+
     override fun handleExpandComment(expand: Boolean) {
         animateDropDownIcon(btnExpandComment, expand)
-      //  TransitionManager.beginDelayedTransition(contentLayout)
+        TransitionManager.beginDelayedTransition(contentLayout)
         txCommentGroup.visibility = if (expand) View.VISIBLE else View.GONE
 
         if (expand) {
@@ -235,6 +255,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onShareTokenPressed()
         }
 
+        advancedCardContainer.setOnClickListener {
+            presenter?.onAdvancedPressed()
+        }
         txCommentContainer.setOnClickListener {
             presenter?.onCommentPressed()
         }
@@ -243,15 +266,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onAmountPressed()
         }
 
-        buttonGroupDraggable.onPositionChangedListener = OnPositionChangedListener {
-           if (it == 0) {
-               presenter?.onRegularPressed()
-           }
+        switchView.setOnClickListener {
+            if (switchView.isChecked) {
+                presenter?.onMaxPrivacyPressed()
+            }
             else {
-               presenter?.onMaxPrivacyPressed()
-           }
+                presenter?.onRegularPressed()
+            }
         }
-
 
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -284,12 +306,18 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         if(AssetManager.instance.assets.size != 1) {
             currencyLayout.setOnClickListener {
                 animateDropDownIcon(btnExpandCurrency, true)
-                val menu = PopupMenu(requireContext(), currencyLayout)
+                val menu = PopupMenu(requireContext(), currencyLayout, Gravity.END, R.attr.listPopupWindowStyle, R.style.popupOverflowMenu)
+                menu.gravity = Gravity.END;
+
                 menu.setOnDismissListener {
                     animateDropDownIcon(btnExpandCurrency, false)
                 }
                 AssetManager.instance.assets.forEach {
-                    val sb = SpannableString(it.unitName)
+                    var name = it.unitName
+                    if (name.length > 8) {
+                        name = name.substring(0,8) + "..."
+                    }
+                    val sb = SpannableString(name)
                     if (it.assetId == this.assetId) {
                         sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
@@ -301,10 +329,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     item.setIcon(it.image)
                 }
                 menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                    val title = item.title.toString()
+                    val title = item.title.toString().replace("...", "")
                     val asset = AssetManager.instance.getAssetName(title)
                     this.assetId = asset?.assetId ?:0
+
+                    amount.setText("")
+                    secondAvailableSum.text = 0.0.convertToGroth().exchangeValueAsset(assetId)
                     currency.text = asset?.unitName ?: ""
+
                     presenter?.updateToken()
 
                     true
@@ -431,7 +463,19 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun showShowToken(receiveToken: String) {
-        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToShowTokenFragment(receiveToken))
+        val name = if(presenter?.transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                getString(R.string.regular_online_address)
+            }
+            else {
+                getString(R.string.regular_address)
+            }
+        }
+        else {
+            getString(R.string.max_anonymity_address)
+        }
+
+        findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToShowTokenFragment(receiveToken, true, true, name))
     }
 
     override fun close() {
@@ -443,12 +487,30 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         amount.removeTextChangedListener(amountWatcher)
         amount.onFocusChangeListener = null
-
-//        maxPrivacyButton.setOnClickListener(null)
-//        regularButton.setOnClickListener(null)
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return ReceivePresenter(this, ReceiveRepository(), ReceiveState())
+    }
+
+    private fun getMaxPrivacyStringValue(hours: Long): String? {
+        when (hours) {
+            24L -> {
+                return getString(R.string.h24)
+            }
+            36L -> {
+                return getString(R.string.h36)
+            }
+            48L -> {
+                return getString(R.string.h48)
+            }
+            60L -> {
+                return getString(R.string.h60)
+            }
+            72L -> {
+                return getString(R.string.h72)
+            }
+            else -> return null
+        }
     }
 }

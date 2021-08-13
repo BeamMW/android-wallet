@@ -48,8 +48,9 @@ class NotificationItem  {
             val transaction = AppManager.instance.getTransaction(pId)
             if(transaction!=null) {
                 val asset = AssetManager.instance.getAsset(transaction.assetId)
+                val assetName = (asset?.unitName ?: "").trimAddress()
 
-                val amountString = transaction.amount.convertToAssetString(asset?.unitName ?: "")
+                val amountString = transaction.amount.convertToAssetString(assetName)
                 var address = if (transaction.sender == TxSender.RECEIVED) transaction.peerId else transaction.myId
 
                 if (transaction.sender == TxSender.RECEIVED) {

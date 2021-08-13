@@ -28,6 +28,7 @@ interface MaxPrivacyDetailContract {
     interface View: MvpView {
         fun init(utxos: List<Utxo>)
         fun changeFilter(utxos: List<Utxo>)
+        fun getAssetId():Int
     }
 
     interface Presenter: MvpPresenter<View> {

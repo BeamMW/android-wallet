@@ -34,7 +34,12 @@ class WalletState {
 
     fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(4)
     fun getAssets(): List<Asset> {
-        val assets = AssetManager.instance.loadAssets().sortedByDescending { it.dateUsed() }
+        var assets = AssetManager.instance.loadAssets()
+        assets = assets.filter {
+            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+        }
+
+        assets.sortedByDescending { it.dateUsed() }
 
         assets.forEach {
             Log.e("ASSET", "${it.unitName} - ${CalendarUtils.fromTimestamp(it.dateUsed())}")

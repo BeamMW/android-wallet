@@ -53,6 +53,17 @@ import kotlinx.android.synthetic.main.fragment_receive.*
  *  12/10/18.
  */
 class BeamToolbar : LinearLayout {
+
+    var oldStatus = NetworkStatus.ONLINE
+
+    var canShowChangeButton: Boolean = true
+        set(value) {
+            if(field!=value) {
+                configureStatus(oldStatus)
+            }
+            field = value
+        }
+
     var hasStatus: Boolean = false
         set(value) {
             field = value
@@ -152,6 +163,8 @@ class BeamToolbar : LinearLayout {
          if(AppManager.instance.ignoreNetworkStatus) {
              return
          }
+         oldStatus = networkStatus
+
          changeNodeButton.visibility = View.GONE
 
          if(networkStatus == NetworkStatus.RECONNECT) {
@@ -269,7 +282,10 @@ class BeamToolbar : LinearLayout {
                     }
                     random -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                        status.text = context.getString(R.string.online).toLowerCase()
+                        status.text = context.getString(R.string.online_new_status).toLowerCase()
+                        if (canShowChangeButton) {
+                            changeNodeButton.visibility = View.VISIBLE
+                        }
 
                         val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
                         paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
@@ -286,7 +302,12 @@ class BeamToolbar : LinearLayout {
                         }
                         else {
                             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                            status.text = context.getString(R.string.online).toLowerCase()
+                            status.text = context.getString(R.string.online_new_status).toLowerCase()
+                            if(changeNodeButton.alpha != 0f) {
+                                if (canShowChangeButton) {
+                                    changeNodeButton.visibility = View.VISIBLE
+                                }
+                            }
 
                             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
                             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
@@ -299,7 +320,9 @@ class BeamToolbar : LinearLayout {
         } else {
             val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
             if(!random && !hasOffset) {
-                changeNodeButton.visibility = View.VISIBLE
+                if (canShowChangeButton) {
+                    changeNodeButton.visibility = View.VISIBLE
+                }
             }
             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
             status.text = (context.getString(R.string.common_status_error).toLowerCase() + ": " + AppConfig.NODE_ADDRESS)

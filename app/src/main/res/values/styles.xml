@@ -35,6 +35,8 @@
         <item name="cardBackground">@color/cardDarkColor</item>
         <item name="initialBackground">@drawable/initial_background_black</item>
         <item name="addressStatusBarColor">@color/addresses_status_bar_color_black</item>
+        <item name="actionOverflowMenuStyle">@style/popupOverflowMenu</item>
+        <item name="listPopupWindowStyle">@style/myListPopupWindow</item>
     </style>
 
     <!-- Base application theme -->
@@ -64,6 +66,8 @@
         <item name="cardBackground">@color/colorPrimary</item>
         <item name="initialBackground">@drawable/initial_background</item>
         <item name="addressStatusBarColor">@color/addresses_status_bar_color</item>
+        <item name="actionOverflowMenuStyle">@style/popupOverflowMenu</item>
+        <item name="listPopupWindowStyle">@style/myListPopupWindow</item>
     </style>
 
     <style name="PopupMenu" parent="Theme.AppCompat.NoActionBar">
@@ -71,7 +75,25 @@
         <item name="android:textColorSecondary">?attr/alertDialogColor</item>
         <item name="android:textColor">@color/common_text_color</item>
         <item name="android:colorBackground">?attr/alertDialogColor</item>
+<!--        <item name="android:popupBackground">@drawable/popupmenu_background</item>-->
     </style>
+
+    <style name="popupOverflowMenu" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/popupmenu_background</item>
+        <item name="listPopupWindowStyle">@style/myListPopupWindow</item>
+    </style>
+
+    <style name="myListPopupWindow" parent="Widget.MaterialComponents.PopupMenu.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/popupmenu_background</item>
+    </style>
+
+<!--    <style name="PopupMenuTheme">-->
+<!--        <item name="android:textColorPrimary">@color/common_text_color</item>-->
+<!--        <item name="android:textColorSecondary">?attr/alertDialogColor</item>-->
+<!--        <item name="android:textColor">@color/common_text_color</item>-->
+<!--        &lt;!&ndash;        <item name="android:colorBackground">?attr/alertDialogColor</item>&ndash;&gt;-->
+<!--        <item name="android:popupBackground">@drawable/popupmenu_background</item>-->
+<!--    </style>-->
 
     <style name="common_button_text_style">
         <item name="android:textSize">@dimen/wallet_button_text_size</item>

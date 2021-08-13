@@ -108,7 +108,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                                 selectedAddresses.add(item.id)
                             }
 
-                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.addresses?.count()
+                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.filteredAddresses(pager.currentItem)?.count()
 
                             onSelectedAddressesChanged()
                         }
@@ -126,7 +126,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             pagerAdapter.reloadData(mode)
 
-                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.addresses?.count()
+                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.filteredAddresses(pager.currentItem)?.count()
 
                             onSelectedAddressesChanged()
                         }
@@ -266,8 +266,21 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
     }
 
     override fun didSelectAllAddresses(addresses: List<WalletAddress>) {
+        val filtered = when (pager.currentItem) {
+            0 -> {
+                addresses.filter { !it.isExpired && !it.isContact }
+            }
+            1 -> {
+                addresses.filter { it.isExpired && !it.isContact }
+            }
+            else -> {
+                addresses.filter { it.isContact }
+            }
+        }
+
+
         selectedAddresses.clear()
-        addresses.forEach {
+        filtered.forEach {
             selectedAddresses.add(it.id)
         }
         pagerAdapter.changeSelectedItems(selectedAddresses, false, null)

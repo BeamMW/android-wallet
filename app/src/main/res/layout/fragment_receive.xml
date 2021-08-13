@@ -98,125 +98,9 @@
 
                 </LinearLayout>
 
-                <FrameLayout
-                    android:id="@+id/transactionTypeLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="?attr/cardBackground"
-                    android:paddingBottom="20dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/transactionTypeTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/common_offset"
-                            android:layout_marginTop="15dp"
-                            android:fontFamily="@font/roboto_bold"
-                            android:text="@string/transaction_type"
-                            android:textAllCaps="true"
-                            android:letterSpacing="0.15"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp" />
-
-                        <com.addisonelliott.segmentedbutton.SegmentedButtonGroup
-                            android:id="@+id/buttonGroupDraggable"
-                            android:layout_width="230dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="14dp"
-                            android:background="@color/white_01"
-                            app:borderWidth="0dp"
-                            app:draggable="false"
-                            app:position="0"
-                            app:radius="24dp"
-                            app:rippleColor="@color/white_01"
-                            app:selectedBackground="@color/colorAccent20"
-                            app:selectedBorderColor="@color/accent"
-                            app:selectedBorderWidth="2dp"
-                            app:selectedButtonRadius="16dp"
-                            app:selectionAnimationDuration="250">
-
-                            <com.addisonelliott.segmentedbutton.SegmentedButton
-                                android:layout_width="0dp"
-                                android:layout_height="32dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                app:selectedTextColor="@color/colorAccent"
-                                app:selectedTextStyle="bold"
-                                app:text="@string/regular"
-                                app:textColor="@color/common_text_dark_color"
-                                app:textSize="14sp" />
-
-                            <com.addisonelliott.segmentedbutton.SegmentedButton
-                                android:id="@+id/maxPrivacyButton"
-                                android:layout_width="0dp"
-                                android:layout_height="32dp"
-                                android:layout_weight="1"
-                                android:fontFamily="@font/roboto_regular"
-                                app:selectedTextColor="@color/colorAccent"
-                                app:selectedTextStyle="bold"
-                                app:text="@string/max_privacy"
-                                app:textColor="@color/common_text_dark_color"
-                                app:textSize="14sp" />
-                        </com.addisonelliott.segmentedbutton.SegmentedButtonGroup>
-
-<!--                        <Button-->
-<!--                            android:id="@+id/regularButton"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="32dp"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="8dp"-->
-<!--                            android:background="@android:color/transparent"-->
-<!--                            android:fontFamily="@font/roboto_bold"-->
-<!--                            android:padding="0dp"-->
-<!--                            android:paddingStart="0dp"-->
-<!--                            android:text="@string/regular"-->
-<!--                            android:textColor="@android:color/white"-->
-<!--                            android:textSize="14sp"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle"-->
-<!--                            tools:ignore="RtlSymmetry" />-->
-
-<!--                        <Button-->
-<!--                            android:id="@+id/maxPrivacyButton"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="32dp"-->
-<!--                            android:layout_marginStart="16dp"-->
-<!--                            android:layout_marginTop="8dp"-->
-<!--                            android:background="@drawable/accent_btn_background"-->
-<!--                            android:fontFamily="@font/roboto_bold"-->
-<!--                            android:padding="0dp"-->
-<!--                            android:paddingStart="15dp"-->
-<!--                            android:paddingEnd="15dp"-->
-<!--                            android:text="@string/max_privacy"-->
-<!--                            android:textColor="@color/accent"-->
-<!--                            android:textSize="14sp"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/regularButton"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/transactionTypeTitle" />-->
-
-                        <TextView
-                            android:id="@+id/notAvailableLabel"
-                            style="@style/common_text_small_dark"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/common_offset"
-                            android:layout_marginTop="@dimen/send_receive_common_margin"
-                            android:layout_marginEnd="16dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/max_privacy_disabled_node"
-                            android:textSize="14sp"
-                            android:visibility="gone" />
-                    </LinearLayout>
-                </FrameLayout>
-
 
                 <LinearLayout
+                    android:id="@+id/addressLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -225,14 +109,15 @@
                     android:paddingBottom="20dp">
 
                     <TextView
+                        android:id="@+id/addressTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/address"
                         android:letterSpacing="0.15"
-                        android:textAllCaps="true"
+                        android:text="@string/address"
+                        android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         android:textSize="12sp" />
 
@@ -377,6 +262,7 @@
                         android:id="@+id/currencyLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/amount"
                         app:layout_constraintEnd_toEndOf="parent">
@@ -387,11 +273,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
+                            android:ellipsize="end"
                             android:letterSpacing="0.15"
-                            android:text="@string/currency_beam"
                             android:maxWidth="130dp"
                             android:maxLines="1"
-                            android:ellipsize="end"
+                            android:text="@string/currency_beam"
                             android:textAllCaps="true"
                             android:textSize="16sp" />
 
@@ -399,7 +285,6 @@
                             android:id="@+id/btnExpandCurrency"
                             android:layout_width="@dimen/wallet_expandable_icon_size"
                             android:layout_height="@dimen/wallet_expandable_icon_size"
-                            android:layout_marginEnd="16dp"
                             android:background="@drawable/btn_drop_down"
                             android:contentDescription="@null" />
                     </LinearLayout>
@@ -513,6 +398,121 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         app:constraint_referenced_ids="commentDivider,txComment,commentEmptyView"
+                        tools:visibility="visible" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/advancedCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="?attr/cardBackground">
+
+                    <LinearLayout
+                        android:id="@+id/advancedCardContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:orientation="horizontal"
+                        android:paddingTop="@dimen/receive_card_padding"
+                        android:paddingBottom="@dimen/receive_card_padding"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/advancedTitle"
+                            style="@style/common_subheader_light"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:letterSpacing="0.15"
+                            android:text="@string/advanced"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/common_text_small_size"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:id="@+id/btnExpandAdvanced"
+                            android:layout_width="@dimen/wallet_expandable_icon_size"
+                            android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/btn_drop_down"
+                            android:contentDescription="@null"
+                            app:layout_constraintBottom_toBottomOf="@id/advancedTitle"
+                            app:layout_constraintStart_toEndOf="@id/advancedTitle"
+                            app:layout_constraintTop_toTopOf="@id/advancedTitle" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/switcherView"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/advancedCardContainer"
+                        app:layout_constraintTop_toBottomOf="@+id/advancedCardContainer">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/maxLabel"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/common_offset"
+                                android:text="@string/maximum_anonymity_set"
+                                android:textColor="@android:color/white"
+                                android:fontFamily="@font/roboto_regular"
+                                android:textAllCaps="false"
+                                android:layout_gravity="center"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switchView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp"
+                                android:theme="@style/SCBSwitch" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/notAvailableLabel"
+                            style="@style/common_text_small_dark"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_offset"
+                            android:layout_marginTop="@dimen/send_receive_common_margin"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/max_privacy_disabled_node"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/advancedEmptyView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:background="@android:color/transparent"
+                        app:layout_constraintEnd_toEndOf="@id/switcherView"
+                        app:layout_constraintStart_toStartOf="@id/switcherView"
+                        app:layout_constraintTop_toBottomOf="@+id/switcherView" />
+
+                    <androidx.constraintlayout.widget.Group
+                        android:id="@+id/advacnedGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="switcherView,advancedEmptyView"
                         tools:visibility="visible" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

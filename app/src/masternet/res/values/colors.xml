@@ -12,6 +12,6 @@
     <color name="receive_toolbar_color_dark">#08a4c9</color>
     <color name="send_toolbar_color">#79418d</color>
     <color name="send_toolbar_color_dark">#79418d</color>
-
+    <color name="window_popup_bg">#303030</color>
 
 </resources>

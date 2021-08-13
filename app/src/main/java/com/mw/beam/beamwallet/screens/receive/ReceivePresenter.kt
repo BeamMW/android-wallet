@@ -89,6 +89,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         super.onResume()
         view?.handleExpandAmount(state.expandAmount)
         view?.handleExpandComment(state.expandComment)
+        view?.handleExpandAdvanced(state.expandAdvanced)
     }
 
     override fun onBackPressed() {
@@ -124,7 +125,12 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.shareToken(state.address?.tokenMaxPrivacy ?: "")
         }
         else {
-            view?.shareToken(state.address?.tokenOffline ?: "")
+            if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                view?.shareToken(state.address?.address ?: "")
+            }
+            else {
+                view?.shareToken(state.address?.tokenOffline ?: "")
+            }
         }
     }
 
@@ -136,6 +142,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     override fun onAmountPressed() {
         state.expandAmount = !state.expandAmount
         view?.handleExpandAmount(state.expandAmount)
+    }
+
+    override fun onAdvancedPressed() {
+        state.expandAdvanced = !state.expandAdvanced
+        view?.handleExpandAdvanced(state.expandAdvanced)
     }
 
     override fun onShowQrPressed() {
@@ -152,7 +163,12 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.copyToken(state.address?.tokenMaxPrivacy ?: "")
         }
         else {
-            view?.copyToken(state.address?.tokenOffline ?: "")
+            if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                view?.copyToken(state.address?.address ?: "")
+            }
+            else {
+                view?.copyToken(state.address?.tokenOffline ?: "")
+            }
         }
     }
 

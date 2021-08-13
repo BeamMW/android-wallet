@@ -16,7 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.transaction_details
 
-data class UtxoInfoItem(val type: UtxoType, val amount: Long)
+data class UtxoInfoItem(val type: UtxoType, val amount: Long, val asset:Int)
 
 enum class UtxoType {
     Send, Receive, Exchange

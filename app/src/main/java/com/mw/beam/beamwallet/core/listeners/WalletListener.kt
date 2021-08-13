@@ -104,7 +104,7 @@ object WalletListener {
                     if (asset.assetId == it.assetId) {
                         found = true
 
-                        asset.available = it.available
+                        asset.available = it.available + it.shielded //it.maxPrivacy
                         asset.receiving = it.receiving
                         asset.sending = it.sending
                         asset.shielded = it.shielded

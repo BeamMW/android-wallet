@@ -118,7 +118,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
                 }
             }
 
-            UtxoInfoItem(type, utxo.amount)
+            UtxoInfoItem(type, utxo.amount, utxo.assetId)
         }, repository.isPrivacyModeEnabled())
     }
 

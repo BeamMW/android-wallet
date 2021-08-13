@@ -197,8 +197,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     override fun onSelectAddress(walletAddress: WalletAddress) {
         if(AppManager.instance.wallet?.isToken(walletAddress.address) == true) {
-            val params = AppManager.instance.wallet?.getTransactionParameters(walletAddress.address, false)
-            assetId = params?.assetId ?: 0
+            val params = AppManager.instance.wallet?.getTransactionParameters(walletAddress.address, true)
+            if((params?.assetId ?:0) != 0) {
+                assetId = params?.assetId ?: 0
+            }
             state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
         }
         else {
@@ -377,7 +379,9 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if(AppManager.instance.wallet?.isToken(scannedAddress) == true) {
                 val params = AppManager.instance.wallet?.getTransactionParameters(scannedAddress, true)
                 if(params!=null) {
-                    assetId = params.assetId
+                    if((params.assetId) != 0) {
+                        assetId = params.assetId
+                    }
                     state.addressType = params.getAddressType()
                     val isShielded = (state.addressType == BMAddressType.BMAddressTypeShielded || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
                             state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
@@ -473,8 +477,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 //        }
 
         if(!rawToken.isNullOrEmpty() && AppManager.instance.isValidAddress(rawToken)) {
-            val params = AppManager.instance.wallet?.getTransactionParameters(rawToken, false)
-            assetId = params?.assetId ?: 0
+            val params = AppManager.instance.wallet?.getTransactionParameters(rawToken, true)
+            if((params?.assetId ?: 0) != 0) {
+                assetId = params?.assetId ?: 0
+            }
             state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
         }
     }

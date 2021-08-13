@@ -108,6 +108,7 @@ class AppManager {
     }
 
     fun isMaxPrivacyEnabled(): Boolean {
+       // return true
         val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
         return wallet?.isConnectionTrusted() == true || protocolEnabled
     }

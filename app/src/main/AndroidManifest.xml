@@ -42,7 +42,6 @@
                 <category android:name="android.intent.category.DEFAULT"></category>
                 <category android:name="android.intent.category.BROWSABLE"></category>
                 <data android:scheme="app" android:host="@string/redirect" />
-
             </intent-filter>
 
         </activity>

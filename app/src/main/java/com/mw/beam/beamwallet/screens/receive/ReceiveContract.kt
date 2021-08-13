@@ -39,6 +39,7 @@ interface ReceiveContract {
         fun setAmount(newAmount: Double)
         fun handleExpandAmount(expand: Boolean)
         fun handleExpandComment(expand: Boolean)
+        fun handleExpandAdvanced(expand: Boolean)
         fun getLifecycleOwner(): LifecycleOwner
         fun getWalletAddressFromArguments(): WalletAddress?
         fun showSaveAddressDialog(nextStep: () -> Unit)
@@ -54,6 +55,7 @@ interface ReceiveContract {
         fun onCopyPressed()
         fun onCommentPressed()
         fun onAmountPressed()
+        fun onAdvancedPressed()
         fun onSaveAddressPressed()
         fun onBackPressed()
         fun onRegularPressed()

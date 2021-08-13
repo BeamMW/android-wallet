@@ -24,6 +24,20 @@ class AddressesState {
 
     var addresses = mutableListOf<WalletAddress>()
 
+    fun filteredAddresses(item:Int): List<WalletAddress> {
+        return when (item) {
+            0 -> {
+                addresses.filter { !it.isExpired && !it.isContact }
+            }
+            1 -> {
+                addresses.filter { it.isExpired && !it.isContact }
+            }
+            else -> {
+                addresses.filter { it.isContact }
+            }
+        }
+    }
+
     fun getTransactions(walletID:String) : List<TxDescription> {
         return AppManager.instance.getTransactionsByAddress(walletID)
     }

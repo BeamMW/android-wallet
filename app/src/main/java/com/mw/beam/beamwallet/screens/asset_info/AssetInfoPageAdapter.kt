@@ -22,13 +22,17 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 
-class AssetInfoPageAdapter(val assetId: Int, fm: FragmentManager, totalTabs: Int) : FragmentStatePagerAdapter(fm) {
-    var totalTabs: Int = totalTabs
+class AssetInfoPageAdapter(val assetId: Int, fm: FragmentManager, private val totalTabs: Int) : FragmentStatePagerAdapter(fm) {
+    var onClick: (() -> Unit)? = null
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                AssetBalanceFragment.newInstance(assetId)
+                val fragment = AssetBalanceFragment.newInstance(assetId)
+                fragment.onClick = {
+                    onClick?.invoke()
+                }
+                return fragment
             }
             else -> AssetDescriptionFragment.newInstance(assetId)
         }

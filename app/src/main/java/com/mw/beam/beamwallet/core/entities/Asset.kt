@@ -1,10 +1,8 @@
 package com.mw.beam.beamwallet.core.entities
 
-import android.util.Log
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
-import com.mw.beam.beamwallet.core.helpers.exchangeValueAsset
 
 
 class Asset(val assetId: Int,
@@ -34,16 +32,20 @@ class Asset(val assetId: Int,
         return assetId == 0
     }
 
+    fun hasInProgressTransactions():Boolean {
+        val last =  AssetManager.instance.getLastTransaction(assetId)
+        return last?.isInProgress() == true
+    }
+
     fun lockedSum():Long {
-        return receiving + sending + maturing + maxPrivacy
+        return maturing + maxPrivacy
     }
 
     fun usd():Long {
         return ExchangeManager.instance.exchangeValueUSDAsset(available, assetId)
     }
 
-    fun dateUsed():Long {
-        val date = AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
-        return date
+    fun dateUsed(): Long {
+        return AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
     }
 }

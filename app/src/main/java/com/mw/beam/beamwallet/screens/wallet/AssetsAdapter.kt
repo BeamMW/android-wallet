@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 import com.mw.beam.beamwallet.core.helpers.convertToAssetString
 import com.mw.beam.beamwallet.core.helpers.exchangeValueAsset
+import org.jetbrains.anko.withAlpha
 
 
 class AssetsAdapter(private val context: Context, private var data: List<Asset>, private val clickListener: (Asset) -> Unit) :

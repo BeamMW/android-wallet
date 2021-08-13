@@ -322,7 +322,10 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     override fun startNewSnackbar(assetId:Int, onUndo: () -> Unit, onDismiss: () -> Unit) {
-        val asset = AssetManager.instance.getAsset(assetId)?.unitName ?: ""
+        var asset = AssetManager.instance.getAsset(assetId)?.unitName ?: ""
+        if(asset.length > 8) {
+            asset = asset.substring(0,8) + "..."
+        }
         showSnackBar(getString(R.string.wallet_asset_sent_message, asset), onDismiss, onUndo)
     }
 

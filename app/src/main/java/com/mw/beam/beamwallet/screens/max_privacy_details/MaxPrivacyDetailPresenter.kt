@@ -33,6 +33,13 @@ class MaxPrivacyDetailPresenter(view: MaxPrivacyDetailContract.View?, repository
             it.keyType == UtxoKeyType.Shielded && it.status == UtxoStatus.Maturing
         }
 
+        val asset = view?.getAssetId() ?: -1
+        if (asset!=-1) {
+            utxos = utxos.filter {
+                it.assetId == asset
+            }
+        }
+
         utxos.forEach {
             val time = AppManager.instance.wallet?.getMaturityHours(it.txoID)
             it.time = time ?: 0L
@@ -49,6 +56,13 @@ class MaxPrivacyDetailPresenter(view: MaxPrivacyDetailContract.View?, repository
     override fun onSelectFilter(filter: MaxPrivacyDetailSort) {
         var utxos = AppManager.instance.getUtxos().filter {
             it.keyType == UtxoKeyType.Shielded && it.status == UtxoStatus.Maturing
+        }
+
+        val asset = view?.getAssetId() ?: -1
+        if (asset!=-1) {
+            utxos = utxos.filter {
+                it.assetId == asset
+            }
         }
 
         utxos.forEach {

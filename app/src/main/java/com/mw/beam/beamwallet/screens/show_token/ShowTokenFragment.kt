@@ -46,8 +46,19 @@ import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
  */
 class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_receive_show_token
-    override fun getToolbarTitle(): String = getString(R.string.address_details)
+
+    override fun getToolbarTitle(): String {
+        val name = getName()
+        return if (name.isNullOrEmpty()) {
+            getString(R.string.address_details)
+        } else {
+            name
+        }
+    }
+
     override fun getToken(): String = ShowTokenFragmentArgs.fromBundle(requireArguments()).token
+    override fun getName(): String? = ShowTokenFragmentArgs.fromBundle(requireArguments()).name
+    override fun getNewFormat(): Boolean = ShowTokenFragmentArgs.fromBundle(requireArguments()).isNewFormat
 
     override fun getStatusBarColor(): Int {
         return if(ShowTokenFragmentArgs.fromBundle(requireArguments()).receive) {
@@ -87,9 +98,11 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                     amountValue.text =params.amount.convertToAssetStringWithId(asset)
                 }
 
-                transactionTypeLayout.visibility = View.VISIBLE
+                if (!getNewFormat()) {
+                    transactionTypeLayout.visibility = View.VISIBLE
+                }
 
-                if (params.address.isEmpty()) {
+                if (params.address.isEmpty() || getNewFormat()) {
                     addressLayout.visibility = View.GONE
                 }
                 else {
@@ -106,10 +119,24 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                     }
                     else -> {
                         transactionTypeValue.text = getString(R.string.regular)
+                        if (getNewFormat()) {
+                            aboutAddressLabel.visibility = View.VISIBLE
+                            dividerView.visibility = View.VISIBLE
+                            sbbsNewLayout.visibility = View.VISIBLE
+                            sbbsNewLabel.text = params.address
+
+                            if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                                dividerView.visibility = View.GONE
+                                tokenTitle.text = getString(R.string.online_sbbs_address)
+                                tokenValue.text = params.address
+                                sbbsNewLayout.visibility = View.GONE
+                                aboutAddressLabel.text = getString(R.string.only_online_support)
+                            }
+                        }
                     }
                 }
 
-                if(params.identity.isNotEmpty()) {
+                if(params.identity.isNotEmpty() && !getNewFormat()) {
                     identityLayout.visibility = View.VISIBLE
                     identityValue.text = params.identity
                 }
@@ -120,7 +147,10 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             transactionTypeLayout.visibility = View.VISIBLE
         }
 
-        tokenValue.text = token
+        if(AppManager.instance.isMaxPrivacyEnabled() || !isReceive || !getNewFormat()) {
+            tokenValue.text = token
+        }
+
 
         if (!isReceive) {
             btnShare.background = resources.getDrawable(R.drawable.send_button, null)
@@ -140,7 +170,13 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
     override fun addListeners() {
         btnShare.setOnClickListener {
-            presenter?.onCopyToken()
+            if(AppManager.instance.isMaxPrivacyEnabled() || !getNewFormat()) {
+                presenter?.onCopyToken()
+            }
+            else {
+                copyToClipboard(tokenValue.text.toString(), "ADDRESS")
+            }
+
             showSnackBar(getString(R.string.address_copied_to_clipboard))
             val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
             if (isReceive) {
@@ -150,7 +186,21 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         }
 
         btnCopy.setOnClickListener {
-            presenter?.onCopyToken()
+            if(AppManager.instance.isMaxPrivacyEnabled() || !getNewFormat()) {
+                presenter?.onCopyToken()
+            }
+            else {
+                copyToClipboard(tokenValue.text.toString(), "ADDRESS")
+            }
+            val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
+            if (isReceive) {
+                setFragmentResult("FragmentB_REQUEST_KEY", bundleOf("data" to "button clicked"))
+            }
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        btnCopyNewSbbs.setOnClickListener {
+            copyToClipboard(sbbsNewLabel.text.toString(), "ADDRESS")
             val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
             if (isReceive) {
                 setFragmentResult("FragmentB_REQUEST_KEY", bundleOf("data" to "button clicked"))

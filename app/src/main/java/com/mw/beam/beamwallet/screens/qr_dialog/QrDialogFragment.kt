@@ -30,6 +30,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.AppConfig
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
 import kotlinx.android.synthetic.main.dialog_qr_code.*
@@ -76,17 +77,30 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
                secondAvailableSum.visibility = View.GONE
 
                if (args.isMaxPrivacy) {
-                   infoLabel.text = resources.getString(R.string.receive_notice_max_privacy)
+                   val lockLimit = AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L
+                   val time = getMaxPrivacyStringValue(lockLimit)
+                   val description = if (time.isNullOrEmpty()) {
+                       resources.getString(R.string.receive_notice_max_privacy, getString(R.string.transaction_indefinitely))
+                   }
+                   else {
+                       resources.getString(R.string.receive_notice_max_privacy, getString(R.string.transaction_time, time))
+                   }
+
+                   infoLabel.text = description
                }
                else {
-                    infoLabel.text = resources.getString(R.string.receive_description)
+                   if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                       infoLabel.text = resources.getString(R.string.receive_description_2)
+                   }
+                   else {
+                       infoLabel.text = resources.getString(R.string.receive_description)
+                   }
                }
            }
             else {
                amountTitle.visibility = View.GONE
                amountView.visibility = View.GONE
                secondAvailableSum.visibility = View.GONE
-
 
                tokenView.text = token
                infoLabel.text = resources.getString(R.string.receive_description_qr)
@@ -164,5 +178,27 @@ class QrDialogFragment: BaseDialogFragment<QrDialogPresenter>(), QrDialogContrac
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return QrDialogPresenter(this, QrDialogRepository(), QrDialogState())
+    }
+
+
+    private fun getMaxPrivacyStringValue(hours: Long): String? {
+        when (hours) {
+            24L -> {
+                return getString(R.string.h24)
+            }
+            36L -> {
+                return getString(R.string.h36)
+            }
+            48L -> {
+                return getString(R.string.h48)
+            }
+            60L -> {
+                return getString(R.string.h60)
+            }
+            72L -> {
+                return getString(R.string.h72)
+            }
+            else -> return null
+        }
     }
 }

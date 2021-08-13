@@ -86,6 +86,18 @@
                         android:padding="10dp"
                         android:text="@string/random_node_text" />
                 </LinearLayout>
+
+                <TextView
+                    style="@style/common_text_big_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_italic"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:textAlignment="center"
+                    android:textColor="?attr/subHeaderTextColor"
+                    android:text="@string/remote_node_hint" />
+
             </LinearLayout>
 
             <LinearLayout

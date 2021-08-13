@@ -348,12 +348,12 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="requested_amount">Requested amount</string>
     <string name="send_to">Send to</string>
     <string name="amount_to_send">Amount to send</string>
-    <string name="confirmation_send_description">For the transaction to complete, the recipient must get online within the next 12 hours and you should get online within 2 hours afterwards.</string>
+    <string name="confirmation_send_description">The recipient must get online within the next 12 hours and you should get online within 2 hours afterwards.</string>
     <string name="confirmation">Confirmation</string>
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
-    <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
+    <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor online payment to complete, you should get online during 12 hours after coins are sent.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -537,7 +537,7 @@ address or contact</string>
     <string name="public_offline_address_hint">Publishing this address will allow you to be identified</string>
     <string name="connect_node_offline_public">Connect to own node or enable mobile node in the settings to enable receiving public offline transactions</string>
     <string name="max_privacy_address">Max Privacy address</string>
-    <string name="receive_notice_max_privacy">Max Privacy transaction can last at most 72 hours.\n\nMin transaction fee to send Max privacy coins\nis 0.01 BEAM.</string>
+    <string name="receive_notice_max_privacy">%s\n\nMin transaction fee to send maximum\nanonymity coins is 0.01 BEAM.</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">Address type</string>
     <string name="zero">0</string>
@@ -584,8 +584,10 @@ address or contact</string>
     <string name="node_ip_hint">12.123.123:1234</string>
     <string name="disconnect">Disconnect</string>
     <string name="please_enter_node_address">Please enter node address</string>
-    <string name="regular_offline_address">Regular offline-only address</string>
-    <string name="regular_online_address">Regular online-only address</string>
+    <string name="regular_offline_address">Offline address</string>
+    <string name="regular_online_address">Online address</string>
+    <string name="transactions_left">%s transactions left</string>
+    <string name="transactions_left_hint">Ask receiver to come online to support more offline transactions.</string>
     <string name="assets">Assets</string>
     <string name="usage_recent_old">Usage: recent to oldest</string>
     <string name="usage_old_recent">Usage: oldest to recent</string>
@@ -605,6 +607,23 @@ address or contact</string>
     <string name="long_description">Long description</string>
     <string name="show_utxo">Show UTXO</string>
     <string name="eth">ETH (Ethereum)</string>
+    <string name="maximum_anonymity_set">Maximum anonymity set</string>
+    <string name="maximum_anonymity">Maximum anonymity</string>
+    <string name="maximum_anonymity_address">Maximum anonymity address</string>
+    <string name="max_anonymity_address">Max anonymity address</string>
+    <string name="copy_address_close">Copy address and close</string>
+    <string name="about_sbbs">Regular address include both\nonline and offline addresses.</string>
+    <string name="online_sbbs_address">Online (SBBS) address</string>
+    <string name="send_offline_hint">Make sure the address is correct as offline\ntransactions cannot be canceled.</string>
+    <string name="send_max_privacy_title">Guarantees maximum anonymity set of up to 64K</string>
+    <string name="send_notice_max_privacy">Transaction can last at most 72 hours.</string>
+    <string name="transaction_indefinitely">Transaction can last indefinitely.</string>
+    <string name="transaction_time">Transaction can last at most %s.</string>
+    <string name="online_new_status">online: connected node supports online transactions only</string>
+    <string name="remote_node_hint">To support maximum anonymity set and offline transactions please connect to mobile node or own node configured with your owner key.</string>
+    <string name="receive_description_2">For online payment to complete, you should get online during 12 hours after coins are sent.</string>
+    <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
+
 
 
 </resources>
