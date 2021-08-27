@@ -154,7 +154,12 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.showQR(state.address?.tokenMaxPrivacy ?: "")
         }
         else {
-            view?.showQR(state.address?.tokenOffline ?: "")
+            if (!AppManager.instance.isMaxPrivacyEnabled()) {
+                view?.showQR(state.address?.address ?: "")
+            }
+            else {
+                view?.showQR(state.address?.tokenOffline ?: "")
+            }
         }
     }
 

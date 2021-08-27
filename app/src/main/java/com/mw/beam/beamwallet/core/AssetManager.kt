@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.core
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mw.beam.beamwallet.R
@@ -14,7 +15,7 @@ class AssetManager {
 
     companion object {
         private var INSTANCE: AssetManager? = null
-        private var colors = arrayOf("#72fdff","#2acf1d","#ffbb54","#d885ff","#008eff","#ff746b","#91e300",
+        private var colors = arrayOf("#72fdff","#2acf1d","#ffbb54","#d885ff","#008eff","#d885ff","#91e300",
             "#ffe75a","#9643ff","#395bff","#ff3b3b","#73ff7c","#ffa86c","#ff3abe","#00aee1","#ff5200","#6464ff","#ff7a21","#63afff","#c81f68")
         private var icons = arrayOf(R.drawable.asset0,R.drawable.asset1,R.drawable.asset2,R.drawable.asset3,R.drawable.asset4,R.drawable.assetbeamx,R.drawable.asset6,R.drawable.asset7,R.drawable.asset8,R.drawable.asset9,R.drawable.asset10,R.drawable.asset11,R.drawable.asset12,R.drawable.asset13,R.drawable.asset14,R.drawable.asset15,R.drawable.asset16,R.drawable.asset17,R.drawable.asset18,R.drawable.asset19)
 
@@ -27,16 +28,32 @@ class AssetManager {
 
                 return INSTANCE!!
             }
+
+        fun makeInit() {
+            INSTANCE = AssetManager()
+        }
     }
 
+    var requestesAssets = arrayListOf<Int>()
     var selectedAssetId = 0
-    var assets = mutableListOf<Asset>()
+    var assets = arrayListOf<Asset>()
 
     fun loadAssets() : List<Asset> {
         return assets.map { it }.toList()
     }
 
-    init {
+    fun filteredDataUsed() : List<Asset> {
+        val array = assets.map { it }.toList()
+        val filtered = array.filter {
+            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+                    || it.isBeam()
+        }
+
+        filtered.sortedByDescending { it.dateUsed() }
+        return filtered
+    }
+
+    fun fetch() {
         val json = PreferencesManager.getString(PreferencesManager.KEY_ASSETS)
 
         if (!json.isNullOrBlank()) {
@@ -49,6 +66,13 @@ class AssetManager {
         if (assets.size == 0) {
             addBeam()
         }
+
+        val filtered = assets.filter {
+            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+                    || it.isBeam()
+        }
+        assets.clear()
+        assets.addAll(filtered)
     }
 
     private fun addBeam() {
@@ -74,13 +98,23 @@ class AssetManager {
     }
 
     fun onChangeAssets() {
+        Log.e("ASSETS","ON ASSET CHANGED")
+
         assets.forEach {
             it.color = getColor(it)
             it.image = getImage(it)
-            if (it.nthUnitName.isEmpty()) {
+            if (it.nthUnitName.isEmpty() && !requestesAssets.contains(it.assetId)) {
+                requestesAssets.add(it.assetId)
                 AppManager.instance.wallet?.getAssetInfo(it.assetId)
             }
         }
+
+        val filtered = assets.filter {
+            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+                    || it.isBeam()
+        }
+        assets.clear()
+        assets.addAll(filtered)
 
         val g = Gson()
         val jsonString = g.toJson(assets)
@@ -88,6 +122,8 @@ class AssetManager {
     }
 
     fun onReceivedAssetInfo(info: AssetInfoDTO) {
+        Log.e("ASSETS","AssetInfoDTO")
+
         assets.forEach {
             if (info.id == it.assetId) {
                 it.unitName = info.unitName
@@ -105,12 +141,17 @@ class AssetManager {
         val g = Gson()
         val jsonString = g.toJson(assets)
         PreferencesManager.putString(PreferencesManager.KEY_ASSETS, jsonString)
+
+        requestesAssets.remove(info.id)
     }
 
     private  fun getColor(asset: Asset):String {
         return if (asset.isBeam()) {
             return "#00F6D2"
         }
+//        else if(asset.isDemoX()) {
+//            return "#00F6D2"
+//        }
         else {
             val idx = (asset.assetId % icons.size);
             colors[idx]
@@ -121,7 +162,11 @@ class AssetManager {
 
         return if(asset.isBeam()) {
             R.drawable.ic_asset_0
-        } else {
+        }
+        else if(asset.isDemoX()) {
+            R.drawable.assetbeamx
+        }
+        else {
             val idx = (asset.assetId % icons.size);
             icons[idx];
         }

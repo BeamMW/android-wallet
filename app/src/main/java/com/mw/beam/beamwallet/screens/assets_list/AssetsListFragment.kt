@@ -103,8 +103,9 @@ class AssetsListFragment : BaseFragment<AssetsListPresenter>(), AssetsListContra
 
     override fun configAssets(asset: List<Asset>) {
         val newAssets = asset.filter {
-            it.isBeam() || it.lockedSum() > 0 || it.available > 0 || it.hasInProgressTransactions()
+            !it.isBeam() &&  (it.lockedSum() > 0 || it.available > 0 || it.hasInProgressTransactions())
         }
+
         assetsAdapter.reloadData(newAssets)
     }
 

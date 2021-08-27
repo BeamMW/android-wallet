@@ -10,4 +10,8 @@
     <color name="search_toolbar_color">#150f21</color>
     <color name="addresses_status_bar_color_black">#1e172c</color>
     <color name="addresses_status_bar_color">#4c3677</color>
+    <color name="send_toolbar_color_dark">#79418d</color>
+    <color name="receive_toolbar_color_dark">#08a4c9</color>
+    <color name="receive_toolbar_color">#147494</color>
+    <color name="send_toolbar_color">#79418d</color>
 </resources>

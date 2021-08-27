@@ -133,7 +133,6 @@ object WalletListener {
 
             AssetManager.instance.onChangeAssets()
 
-
             return returnResult(subOnStatus, WalletStatus(beam), "onStatus")
         }
         else{
@@ -418,8 +417,9 @@ object WalletListener {
     }
 
     @JvmStatic
-    fun onCoinsSelected(explicitFee: Long, change: Long, minimalExplicitFee: Long) {
-        subOnFeeCalculated.onNext(FeeChange(explicitFee, change, 0L))
+    fun onCoinsSelected(explicitFee: Long, change: Long, minimalExplicitFee: Long, max: Long) {
+        //max 100000000L
+        subOnFeeCalculated.onNext(FeeChange(explicitFee, change, 0L, max))
         LogUtils.logResponse(explicitFee, "onFeeCalculated")
     }
 

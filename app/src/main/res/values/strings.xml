@@ -623,8 +623,8 @@ address or contact</string>
     <string name="remote_node_hint">To support maximum anonymity set and offline transactions please connect to mobile node or own node configured with your owner key.</string>
     <string name="receive_description_2">For online payment to complete, you should get online during 12 hours after coins are sent.</string>
     <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
-
-
+    <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s</string>
+    <string name="max_funds_hint">Maximum amount is %s</string>
 
 </resources>
 

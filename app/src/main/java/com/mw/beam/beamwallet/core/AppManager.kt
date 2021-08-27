@@ -5,7 +5,6 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.*
@@ -17,13 +16,13 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
 import java.util.*
-import kotlin.collections.HashMap
 
 
 class AppManager {
     var wallet: Wallet? = null
 
     private var handler:android.os.Handler? = null
+    private var notificationTimer:Timer? = null
 
     private var contacts = mutableListOf<WalletAddress>()
     private var addresses = mutableListOf<WalletAddress>()
@@ -1146,7 +1145,10 @@ class AppManager {
                     }
                 }
 
-                Timer().schedule(object : TimerTask() {
+                notificationTimer?.cancel()
+                notificationTimer = null
+                notificationTimer = Timer()
+                notificationTimer?.schedule(object : TimerTask() {
                     override fun run() {
                         (AppActivity.self)?.reloadNotifications()
                         subOnNotificationsChanged.onNext(0)

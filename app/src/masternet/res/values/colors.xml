@@ -9,9 +9,9 @@
     <color name="search_toolbar_color">#0f0f0f</color>
     <color name="addresses_status_bar_color_black">#393939</color>
     <color name="receive_toolbar_color">#145e6e</color>
-    <color name="receive_toolbar_color_dark">#08a4c9</color>
     <color name="send_toolbar_color">#79418d</color>
     <color name="send_toolbar_color_dark">#79418d</color>
+    <color name="receive_toolbar_color_dark">#08a4c9</color>
     <color name="window_popup_bg">#303030</color>
 
 </resources>

@@ -94,6 +94,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     private var isOffline = false
     private var isMaxPrivacy = false
     private var typeAddress:BMAddressType? = null
+    private var ignoreAmountWatcher = false
 
     private val tokenWatcher: TextWatcher = object : PasteEditTextWatcher {
         override fun onPaste() {
@@ -146,7 +147,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     private val amountWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(token: Editable?) {
-            presenter?.onAmountChanged()
+            if (!ignoreAmountWatcher) {
+                presenter?.onAmountChanged()
+
+                val entered = getAmountText()
+                if (entered != presenter?.maxAvailableAmount && presenter?.isAllPressed == true
+                    && presenter?.maxAvailableAmount?.isEmpty() == false) {
+                    presenter?.isAllPressed = false
+                }
+            }
         }
     }
 
@@ -306,6 +315,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         setSegmentButtons()
 
         buttonGroupDraggable.onPositionChangedListener = SegmentedButtonGroup.OnPositionChangedListener {
+            if (presenter?.isAllPressed == true) {
+                ignoreAmountWatcher = true
+            }
             if (it == 0) {
                 isOffline = false
                 addressTypeLabel.text = getString(R.string.regular_online_address) + "."
@@ -420,6 +432,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return returnValue
     }
 
+    override fun isIgnoreAmountWatcher(): Boolean {
+        return ignoreAmountWatcher
+    }
+
     @SuppressLint("RestrictedApi")
     override fun addListeners() {
         btnFeeKeyboard.setOnClickListener {
@@ -431,6 +447,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
         btnSendAll.setOnClickListener {
+            ignoreAmountWatcher = true
             presenter?.onSendAllPressed()
         }
 
@@ -586,6 +603,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
 
 
+    }
+
+    override fun onCalcFeeDone() {
+        if (presenter?.isAllPressed == true) {
+            ignoreAmountWatcher = false
+        }
     }
 
     override fun onTrimAddress() {
@@ -993,6 +1016,24 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
                     true
                 }
+                (presenter?.isAllPressed == true && amount > (presenter?.maxSelected ?: 0)
+                        && (presenter?.maxSelected ?: 0) != 0L)
+                        || (presenter?.isAllPressed == true && amount == (presenter?.maxSelected ?: 0)
+                        && (presenter?.maxSelected ?: 0) != 0L)
+                -> {
+                    val max = presenter?.maxSelected ?: 0L
+                    configAmountError(getString(R.string.max_funds_hint, max.convertToAssetString(assetName)), true)
+                    if (this.getAmount().convertToGroth() != max) {
+                        this.setAmount(max.convertToBeam())
+                    }
+                    !((presenter?.isAllPressed == true && amount == (presenter?.maxSelected ?: 0))
+                            && (presenter?.maxSelected ?: 0) != 0L)
+                }
+                amount > (presenter?.maxSelected ?: 0) && presenter?.maxSelected != 0L -> {
+                    val max = presenter?.maxSelected ?: 0L
+                    configAmountError(getString(R.string.max_funds_error, max.convertToAssetString(assetName)))
+                    true
+                }
                 else -> false
             }
         } catch (exception: NumberFormatException) {
@@ -1339,10 +1380,22 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         currencyLayout.setOnClickListener(null)
     }
 
-    private fun configAmountError(errorString: String) {
+    private fun configAmountError(errorString: String, isHint:Boolean = false) {
         amountError.visibility = View.VISIBLE
         amountError.text = errorString
-        amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.text_color_selector))
+        if (isHint) {
+            if (App.isDarkMode) {
+                amountError.setTextColor(ContextCompat.getColor(requireContext(), R.color.common_text_dark_color_dark))
+            }
+            else {
+                amountError.setTextColor(ContextCompat.getColor(requireContext(), R.color.common_text_dark_color))
+            }
+            amount.setTextColor(ContextCompat.getColor(requireContext(), R.color.sent_color))
+        }
+        else {
+            amountError.setTextColor(ContextCompat.getColor(requireContext(), R.color.category_red))
+            amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.text_color_selector))
+        }
         amount.isStateError = true
         updateFeeTransactionVisibility()
         currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName

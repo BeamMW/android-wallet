@@ -32,14 +32,26 @@ class Asset(val assetId: Int,
         return assetId == 0
     }
 
+    fun isDemoX():Boolean {
+        return unitName == "DEMOX" || unitName == "BEAMX"
+    }
+
     fun hasInProgressTransactions():Boolean {
         val last =  AssetManager.instance.getLastTransaction(assetId)
         return last?.isInProgress() == true
     }
 
     fun lockedSum():Long {
-        return maturing + maxPrivacy
+        return maturing + maxPrivacy + changedSum()
     }
+
+    fun changedSum():Long {
+        if (sending > 0 && receiving > 0) {
+            return receiving
+        }
+        return 0L
+    }
+
 
     fun usd():Long {
         return ExchangeManager.instance.exchangeValueUSDAsset(available, assetId)

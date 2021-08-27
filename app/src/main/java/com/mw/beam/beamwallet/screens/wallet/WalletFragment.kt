@@ -71,6 +71,12 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
     override fun getToolbarTitle(): String = getString(R.string.wallet)
 
     override fun configWalletStatus(assets: List<Asset>) {
+        if (assets.count() > 1) {
+            assetsHeader.visibility = View.VISIBLE
+        }
+        else {
+            assetsHeader.visibility = View.INVISIBLE
+        }
         assetsAdapter.reloadData(assets)
     }
 
@@ -175,7 +181,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         }
 
         btnShowAllAssets.setOnClickListener {
-            presenter?.onShowAllAssetsPressed()
+            if (assetsHeader.visibility == View.VISIBLE) {
+                presenter?.onShowAllAssetsPressed()
+            }
         }
 
         btnFaucetClose.setOnClickListener {

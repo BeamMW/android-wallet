@@ -83,6 +83,8 @@ interface SendContract {
         fun setupMaxFee(max: Int, min:Int)
         fun onTrimAddress()
         fun showTokenFragment()
+        fun onCalcFeeDone()
+        fun isIgnoreAmountWatcher():Boolean
     }
 
     interface Presenter : MvpPresenter<View> {

@@ -72,18 +72,18 @@ class AssetBalanceFragment : Fragment() {
             maxPrivacyLabel.text = asset.shielded.convertToAssetString(asset.unitName)
             maxPrivacySecondLabel.text = asset.shielded.exchangeValueAsset(assetId)
 
-            val lockedBalance = asset.maxPrivacy + asset.maturing + asset.receiving
-            var changeBalance = 0L
+            val lockedBalance = asset.lockedSum()
+            val changeBalance = asset.changedSum()
 
-            val utxos = AppManager.instance.getUtxos().filter {
-                (it.assetId == assetId && it.status == UtxoStatus.Unavailable && it.keyType == UtxoKeyType.Change)
-                ||
-                (it.assetId == assetId && it.status == UtxoStatus.Incoming && it.keyType == UtxoKeyType.Change)
-            }
-
-            utxos.forEach {
-                changeBalance += it.amount
-            }
+//            val utxos = AppManager.instance.getUtxos().filter {
+//                (it.assetId == assetId && it.status == UtxoStatus.Unavailable && it.keyType == UtxoKeyType.Change)
+//                ||
+//                (it.assetId == assetId && it.status == UtxoStatus.Incoming && it.keyType == UtxoKeyType.Change)
+//            }
+//
+//            utxos.forEach {
+//                changeBalance += it.amount
+//            }
 
             lockedLabel.text = lockedBalance.convertToAssetString(asset.unitName)
             lockedSecondLabel.text = lockedBalance.exchangeValueAsset(assetId)

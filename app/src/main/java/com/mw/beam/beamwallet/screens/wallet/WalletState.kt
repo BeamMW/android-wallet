@@ -33,16 +33,19 @@ class WalletState {
     var privacyMode = false
 
     fun getTransactions() = AppManager.instance.getTransactions().sortedByDescending { it.createTime }.take(4)
+
     fun getAssets(): List<Asset> {
-        var assets = AssetManager.instance.loadAssets()
-        assets = assets.filter {
-            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+        val assets = arrayListOf<Asset>()
+        assets.addAll(AssetManager.instance.filteredDataUsed())
+
+        val index = assets.indexOfFirst {
+            it.isBeam()
         }
 
-        assets.sortedByDescending { it.dateUsed() }
-
-        assets.forEach {
-            Log.e("ASSET", "${it.unitName} - ${CalendarUtils.fromTimestamp(it.dateUsed())}")
+        if (index != 0) {
+            val beam = assets[index]
+            assets.removeAt(index)
+            assets.add(0, beam)
         }
 
         return assets.take(4)

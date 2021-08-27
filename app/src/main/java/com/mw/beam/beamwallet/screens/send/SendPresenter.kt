@@ -18,6 +18,7 @@ package com.mw.beam.beamwallet.screens.send
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.MutableLiveData
@@ -49,6 +50,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     var inputShield = 0L
     var isAllPressed = false
     var assetId = -1
+    var maxSelected = 0L
+    var maxAvailableAmount = ""
 
     private lateinit var walletStatusSubscription: Disposable
     private lateinit var addressesSubscription: Disposable
@@ -173,6 +176,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun requestFee() {
+        Log.e("FEE", "REQUEST FEE")
         val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
         val fee = view?.getFee() ?: 0L
         val isShielded = (view?.isOffline() == true || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
@@ -231,7 +235,11 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onSendAllPressed() {
+        if (view?.getAmountText() == maxAvailableAmount && !maxAvailableAmount.isEmpty()) {
+            return
+        }
         isAllPressed = true
+        onAmountUnfocused()
 
         val availableAmount = AssetManager.instance.getAvailable(assetId)
 
@@ -241,15 +249,21 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             0L
         }
 
-        setAmount(availableAmount, feeAmount)
+        val isShielded = (view?.isOffline() == true || state.addressType == BMAddressType.BMAddressTypeOfflinePublic ||
+                state.addressType == BMAddressType.BMAddressTypeMaxPrivacy)
+        AppManager.instance.wallet?.selectCoins(availableAmount + feeAmount, 0L, isShielded, assetId)
 
-        view?.hasAmountError(view?.getAmount()?.convertToGroth()
-                ?: 0, feeAmount, availableAmount, state.privacyMode)
-        if (availableAmount <= feeAmount) {
-            view?.setAmount(availableAmount.convertToBeam())
-            onAmountUnfocused()
-        }
-        view?.updateFeeTransactionVisibility()
+//        setAmount(availableAmount, feeAmount)
+//
+//        view?.hasAmountError(view?.getAmount()?.convertToGroth()
+//                ?: 0, feeAmount, availableAmount, state.privacyMode)
+//        if (availableAmount <= feeAmount) {
+//            view?.setAmount(availableAmount.convertToBeam())
+//            onAmountUnfocused()
+//        }
+//        view?.updateFeeTransactionVisibility()
+//
+//        maxAvailableAmount = view?.getAmountText() ?: ""
     }
 
     override fun onPaste() {
@@ -278,7 +292,6 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             val token = view?.getToken()
 
             if (amount != null && fee != null && token != null && isValidToken(token)) {
-
                 if (isFork() && fee < FORK_MIN_FEE) {
                     view?.showMinFeeError()
                     return
@@ -500,24 +513,29 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     }
 
     override fun onAmountChanged() {
-        val amount = view?.getAmount()
-        if(amount != null && amount > 0) {
-            view?.apply {
-                updateFeeTransactionVisibility()
-            }
-            requestFee()
+        Log.e("FEE", "ON AMOUNT CHANGE FEE")
 
-            if (amount != null) {
-                if(amount <= 0.0) {
+        if (view?.isIgnoreAmountWatcher() == false) {
+            val amount = view?.getAmount()
+            //
+            if(amount != null && amount > 0) {
+                view?.apply {
+                    updateFeeTransactionVisibility()
+                }
+                requestFee()
+
+                if (amount != null) {
+                    if(amount <= 0.0) {
+                        view?.clearErrors()
+                    }
+                }
+                else {
                     view?.clearErrors()
                 }
             }
             else {
                 view?.clearErrors()
             }
-        }
-        else {
-            view?.clearErrors()
         }
     }
 
@@ -590,22 +608,45 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         feeSubscription = WalletListener.subOnFeeCalculated.subscribe {
             AppActivity.self.runOnUiThread {
+
                 inputShield = it.shieldedInputsFee
                 change = it.change
                 onFeeDidCalculated(it.fee)
 
-                val amount = view?.getAmount()
-                if (amount != null) {
-                    if(amount > 0.0) {
+                if(isAllPressed) {
+                    maxSelected = it.max - it.fee
+
+                    if (view?.getAmount()?.convertToGroth() != it.max - it.fee) {
+                        setAmount(it.max, it.fee)
+
                         val availableAmount = AssetManager.instance.getAvailable(assetId)
-                        val feeAmount = try {
-                            view?.getFee() ?: 0L
-                        } catch (exception: NumberFormatException) {
-                            0L
+                        val error = view?.hasAmountError(maxSelected, it.fee, availableAmount, state.privacyMode)
+                        if (!error!!) {
+                            view?.clearErrors()
                         }
 
-                        val error = view?.hasAmountError(amount.convertToGroth(), feeAmount, availableAmount, state.privacyMode)
-                        if (!error!!) {
+                        maxAvailableAmount = view?.getAmountText() ?: ""
+                    }
+                }
+                else {
+                    val amount = view?.getAmount()
+                    if (amount != null) {
+                        if(amount > 0.0) {
+                            maxSelected = it.max - it.fee
+
+                            val availableAmount = AssetManager.instance.getAvailable(assetId)
+                            val feeAmount = try {
+                                view?.getFee() ?: 0L
+                            } catch (exception: NumberFormatException) {
+                                0L
+                            }
+
+                            val error = view?.hasAmountError(amount.convertToGroth(), feeAmount, availableAmount, state.privacyMode)
+                            if (!error!!) {
+                                view?.clearErrors()
+                            }
+                        }
+                        else {
                             view?.clearErrors()
                         }
                     }
@@ -613,9 +654,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                         view?.clearErrors()
                     }
                 }
-                else {
-                    view?.clearErrors()
-                }
+
+                view?.onCalcFeeDone()
             }
         }
 

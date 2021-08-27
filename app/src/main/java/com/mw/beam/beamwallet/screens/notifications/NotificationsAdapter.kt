@@ -143,12 +143,25 @@ class NotificationsAdapter(private val context: Context,
                     checkBox.isChecked = selectedNotifiations.contains(notificationItem.nId)
                     checkBox.visibility = View.VISIBLE
                 }
+
+                checkBox.setOnClickListener {
+                    if (selectedNotifiations.contains(notificationItem.nId)) {
+                        selectedNotifiations.remove(notificationItem.nId)
+                    } else {
+                        selectedNotifiations.add(notificationItem.nId)
+                    }
+
+                    clickListener.onItemClick(notificationItem)
+                }
             }
         }
     }
 
     override fun getItemCount(): Int = data.size
-    override fun getItemId(position: Int): Long = position.toLong()
+    override fun getItemId(position: Int): Long {
+        val notificationItem = data[position]
+        return notificationItem.date
+    }
 
     override fun getItemViewType(position: Int): Int {
         val notificationItem = data[position]

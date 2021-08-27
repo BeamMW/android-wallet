@@ -21,6 +21,12 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.ComponentName
 import android.content.Context
+import android.content.res.AssetFileDescriptor
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -33,18 +39,17 @@ import com.elvishew.xlog.printer.file.FilePrinter
 import com.elvishew.xlog.printer.file.backup.NeverBackupStrategy
 import com.elvishew.xlog.printer.file.naming.DateFileNameGenerator
 import com.mw.beam.beamwallet.BuildConfig
-import com.mw.beam.beamwallet.service.BackgroundService
-import java.util.concurrent.TimeUnit
-import java.io.File
-import java.util.*
-import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.R
+import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.service.BackgroundService
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import androidx.biometric.BiometricPrompt
+import java.io.*
+import java.nio.channels.FileChannel
+import java.util.*
 import java.util.concurrent.Executor
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import java.util.concurrent.TimeUnit
+
 
 /**
  *  10/1/18.
@@ -76,6 +81,8 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver{
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -114,6 +121,8 @@ class App : Application() {
 
         self = this
 
+      //  copyFile("wallet.db")
+
         AppConfig.DB_PATH = filesDir.absolutePath
         AppConfig.LOG_PATH = AppConfig.DB_PATH + "/logs"
         AppConfig.ZIP_PATH = AppConfig.LOG_PATH + "/logs.zip"
@@ -148,6 +157,44 @@ class App : Application() {
                         .build())
 
         clearLogs()
+
+        AssetManager.makeInit()
+        AssetManager.instance.fetch()
+    }
+
+    private fun copyFile(filename: String) {
+        val assetManager: android.content.res.AssetManager = assets!!
+        var `in`: InputStream? = null
+        var out: OutputStream? = null
+        try {
+            `in` = assetManager.open(filename)
+            val newFileName = filesDir.absolutePath.toString() + File.separator + filename
+            out = FileOutputStream(newFileName)
+            val buffer = ByteArray(1024)
+            var read: Int
+            while (`in`!!.read(buffer).also { read = it } != -1) {
+                out.write(buffer, 0, read)
+            }
+            `in`.close()
+            `in` = null
+            out.flush()
+            out.close()
+            out = null
+        } catch (e: Exception) {
+            Log.e("tag", e.message.toString())
+        }
+    }
+
+    @Throws(IOException::class)
+    fun copyFdToFile(src: FileDescriptor?, dst: File?) {
+        val inChannel: FileChannel = FileInputStream(src).getChannel()
+        val outChannel: FileChannel = FileOutputStream(dst).getChannel()
+        try {
+            inChannel.transferTo(0, inChannel.size(), outChannel)
+        } finally {
+            if (inChannel != null) inChannel.close()
+            if (outChannel != null) outChannel.close()
+        }
     }
 
     fun showFaceIdPrompt(fromFragment:Fragment,title:String,cancel:String? = null, resultCallback: (result: com.mw.beam.beamwallet.core.views.Status) -> Unit) {
