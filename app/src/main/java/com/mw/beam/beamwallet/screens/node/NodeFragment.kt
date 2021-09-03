@@ -363,7 +363,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
         AppManager.instance.wallet?.enableBodyRequests(false)
         AppManager.instance.onChangeNodeAddress()
-        AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+        AppConfig.NODE_ADDRESS = AppManager.getNode()
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
 
         if (isCreate() == true) {
@@ -380,7 +380,7 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         AppManager.instance.wallet?.enableBodyRequests(true)
 
         AppManager.instance.onChangeNodeAddress()
-        AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+        AppConfig.NODE_ADDRESS = AppManager.getNode()
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
 
         if (isCreate() == true) {

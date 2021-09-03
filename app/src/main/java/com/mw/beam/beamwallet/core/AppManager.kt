@@ -19,6 +19,7 @@ import java.util.*
 
 
 class AppManager {
+
     var wallet: Wallet? = null
 
     private var handler:android.os.Handler? = null
@@ -80,6 +81,14 @@ class AppManager {
 
                 return INSTANCE!!
             }
+
+        fun getNode():String {
+            val node = Api.getDefaultPeers().random()
+            if (!node.contains("shanghai")) {
+                return  node
+            }
+            return Api.getDefaultPeers().random()
+        }
     }
 
 
@@ -154,32 +163,10 @@ class AppManager {
         return wallet?.isConnectionTrusted() == true
     }
 
+
+
     private fun chooseRandomNodeWithoutNodes(): String {
-        val peers = Api.getDefaultPeers()
-
-        val array = mutableListOf<String>()
-
-        peers.forEach { random ->
-            if(!random.contains("shanghai")) {
-                var found = false
-
-                array.forEach { node ->
-                    if(random == node) {
-                        found = true;
-                    }
-                }
-
-                if(!found) {
-                    array.add(random)
-                }
-            }
-        }
-
-        if(array.count() > 0 ) {
-            return array[0]
-        }
-
-        return ""
+        return AppManager.getNode()
     }
 
     fun reload() {

@@ -355,6 +355,7 @@ object WalletListener {
 
     @JvmStatic
     fun onExchangeRates(rates: Array<ExchangeRateDTO>?) {
+        Log.e("RATES", rates?.size.toString() ?: "UNKNOWN")
         LogUtils.logResponse(rates, "onExchangeRates")
         if (newTime == 0L) {
             if(rates!=null) {

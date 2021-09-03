@@ -60,32 +60,32 @@ class AssetsListPresenter(view: AssetsListContract.View?, repository: AssetsList
     fun getAssets():List<Asset> {
         when (filter) {
             AssetFilter.recent_old -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.dateUsed()
                 }.reversed()
             }
             AssetFilter.old_recent -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.dateUsed()
                 }
             }
             AssetFilter.amount_large_small -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.available
                 }.reversed()
             }
             AssetFilter.amount_small_large -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.available
                 }
             }
             AssetFilter.amount_usd_large -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.usd()
                 }.reversed()
             }
             else -> {
-                return AssetManager.instance.assets.sortedBy {
+                return AssetManager.instance.filteredAssets.sortedBy {
                     it.usd()
                 }
             }

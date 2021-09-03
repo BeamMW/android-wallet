@@ -552,7 +552,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //            addressContainer.setBackgroundColor(requireContext().getColor(R.color.colorPrimary).withAlpha(95))
 //        }
 
-        if(AssetManager.instance.assets.size != 1) {
+        if(AssetManager.instance.filteredAssets.size != 1) {
             currencyLayout
                 .setOnClickListener {
                     animateDropDownIcon(btnExpandCurrency, true)
@@ -562,7 +562,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     }
                     menu.gravity = Gravity.END;
 
-                    AssetManager.instance.assets.forEach {
+                    AssetManager.instance.filteredAssets.forEach {
                         var name = it.unitName
                         if (name.length > 8) {
                             name = name.substring(0,8) + "..."
@@ -669,7 +669,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             presenter?.onScanQrPressed()
         }
 
-        if(AssetManager.instance.assets.size <= 1) {
+        if(AssetManager.instance.filteredAssets.size <= 1) {
             btnExpandCurrency.visibility = View.GONE
         }
 

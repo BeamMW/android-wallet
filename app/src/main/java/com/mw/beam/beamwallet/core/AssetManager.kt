@@ -37,13 +37,14 @@ class AssetManager {
     var requestesAssets = arrayListOf<Int>()
     var selectedAssetId = 0
     var assets = arrayListOf<Asset>()
+    var filteredAssets = arrayListOf<Asset>()
 
     fun loadAssets() : List<Asset> {
-        return assets.map { it }.toList()
+        return filteredAssets.map { it }.toList()
     }
 
     fun filteredDataUsed() : List<Asset> {
-        val array = assets.map { it }.toList()
+        val array = filteredAssets.map { it }.toList()
         val filtered = array.filter {
             it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
                     || it.isBeam()
@@ -67,12 +68,13 @@ class AssetManager {
             addBeam()
         }
 
+
         val filtered = assets.filter {
             it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
                     || it.isBeam()
         }
-        assets.clear()
-        assets.addAll(filtered)
+        filteredAssets.clear()
+        filteredAssets.addAll(filtered)
     }
 
     private fun addBeam() {
@@ -91,7 +93,7 @@ class AssetManager {
     }
 
     fun clear() {
-        assets.clear()
+        filteredAssets.clear()
         selectedAssetId = 0
         addBeam()
         onChangeAssets()
@@ -113,8 +115,8 @@ class AssetManager {
             it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
                     || it.isBeam()
         }
-        assets.clear()
-        assets.addAll(filtered)
+        filteredAssets.clear()
+        filteredAssets.addAll(filtered)
 
         val g = Gson()
         val jsonString = g.toJson(assets)
@@ -142,12 +144,22 @@ class AssetManager {
         val jsonString = g.toJson(assets)
         PreferencesManager.putString(PreferencesManager.KEY_ASSETS, jsonString)
 
+        val filtered = assets.filter {
+            it.available > 0L || it.lockedSum() > 0L || it.hasInProgressTransactions()
+                    || it.isBeam()
+        }
+        filteredAssets.clear()
+        filteredAssets.addAll(filtered)
+
         requestesAssets.remove(info.id)
     }
 
     private  fun getColor(asset: Asset):String {
         return if (asset.isBeam()) {
             return "#00F6D2"
+        }
+        else if (asset.isDemoX()) {
+            return "#977dff"
         }
 //        else if(asset.isDemoX()) {
 //            return "#00F6D2"

@@ -303,7 +303,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             presenter?.onCopyPressed()
         }
 
-        if(AssetManager.instance.assets.size != 1) {
+        if(AssetManager.instance.filteredAssets.size != 1) {
             currencyLayout.setOnClickListener {
                 animateDropDownIcon(btnExpandCurrency, true)
                 val menu = PopupMenu(requireContext(), currencyLayout, Gravity.END, R.attr.listPopupWindowStyle, R.style.popupOverflowMenu)
@@ -312,7 +312,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 menu.setOnDismissListener {
                     animateDropDownIcon(btnExpandCurrency, false)
                 }
-                AssetManager.instance.assets.forEach {
+                AssetManager.instance.filteredAssets.forEach {
                     var name = it.unitName
                     if (name.length > 8) {
                         name = name.substring(0,8) + "..."
@@ -383,7 +383,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             backgroundView.setBackgroundResource(R.drawable.receive_bg_dark)
         }
 
-        if(AssetManager.instance.assets.size <= 1) {
+        if(AssetManager.instance.filteredAssets.size <= 1) {
             btnExpandCurrency.visibility = View.GONE
         }
 

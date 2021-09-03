@@ -33,7 +33,7 @@ class Asset(val assetId: Int,
     }
 
     fun isDemoX():Boolean {
-        return unitName == "DEMOX" || unitName == "BEAMX"
+        return unitName.toUpperCase() == "DEMOX" || unitName.toUpperCase() == "BEAMX"
     }
 
     fun hasInProgressTransactions():Boolean {

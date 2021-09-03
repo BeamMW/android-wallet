@@ -57,6 +57,7 @@
             android:paddingEnd="20dp"
             android:paddingBottom="8dp"
             android:textColor="@color/colorAccent"
+            android:visibility="gone"
             tools:text="EN" />
 
     </LinearLayout>

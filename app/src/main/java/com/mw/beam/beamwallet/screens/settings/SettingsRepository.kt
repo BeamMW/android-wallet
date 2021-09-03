@@ -70,7 +70,7 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
         if (random) {
             AppManager.instance.onChangeNodeAddress()
-            AppConfig.NODE_ADDRESS = Api.getDefaultPeers().random()
+            AppConfig.NODE_ADDRESS = AppManager.getNode()
             AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
         }
     }

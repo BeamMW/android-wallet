@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Beam Wallet Testnet</string>
-    <string name="online">Online (testnet)</string>
+    <string name="online">Online</string>
     <string name="redirect" translatable="false">open.testnet.app</string>
 </resources>

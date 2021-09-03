@@ -614,9 +614,14 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                 onFeeDidCalculated(it.fee)
 
                 if(isAllPressed) {
-                    maxSelected = it.max - it.fee
+                    if (assetId == 0) {
+                        maxSelected = it.max - it.fee
+                    }
+                    else {
+                        maxSelected = it.max
+                    }
 
-                    if (view?.getAmount()?.convertToGroth() != it.max - it.fee) {
+                    if (view?.getAmount()?.convertToGroth() != maxSelected) {
                         setAmount(it.max, it.fee)
 
                         val availableAmount = AssetManager.instance.getAvailable(assetId)
@@ -632,7 +637,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     val amount = view?.getAmount()
                     if (amount != null) {
                         if(amount > 0.0) {
-                            maxSelected = it.max - it.fee
+                            if (assetId == 0) {
+                                maxSelected = it.max - it.fee
+                            }
+                            else {
+                                maxSelected = it.max
+                            }
 
                             val availableAmount = AssetManager.instance.getAvailable(assetId)
                             val feeAmount = try {
