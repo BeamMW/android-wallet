@@ -20,6 +20,10 @@ import android.annotation.SuppressLint
 import android.widget.TextView
 import android.animation.*
 import android.view.*
+import android.widget.ImageView
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 
 @SuppressLint("SetTextI18n")
 fun TextView.addDoubleDots() {
@@ -74,4 +78,19 @@ private fun View.hide(hidingStrategy: Int, animate: Boolean = true) {
     } else {
         visibility = hidingStrategy
     }
+}
+
+fun ImageView.loadUrl(url: String) {
+
+    val imageLoader = ImageLoader.Builder(this.context)
+        .componentRegistry { add(SvgDecoder(this@loadUrl.context)) }
+        .build()
+
+    val request = ImageRequest.Builder(this.context)
+        .crossfade(false)
+        .data(url)
+        .target(this)
+        .build()
+
+    imageLoader.enqueue(request)
 }

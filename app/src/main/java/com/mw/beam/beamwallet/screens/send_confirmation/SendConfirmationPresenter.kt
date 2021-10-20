@@ -60,6 +60,7 @@ class SendConfirmationPresenter(view: SendConfirmationContract.View?, repository
             state.apply { view?.delaySend(outgoingAddress, token, comment, amount, fee - shieldedInputsFee, view?.getIsOffline()) }
             view?.showSaveAddressFragment(state.token)
         } else {
+            AppManager.lastSendSavedContact = state.contact?.toDTO()
             showWallet()
         }
     }

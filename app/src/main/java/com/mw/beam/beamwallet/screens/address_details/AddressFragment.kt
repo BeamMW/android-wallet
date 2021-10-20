@@ -34,6 +34,7 @@ import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 import kotlinx.android.synthetic.main.dialog_delete_address.view.*
 import kotlinx.android.synthetic.main.fragment_address.*
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 
 /**
@@ -60,7 +61,7 @@ else{
         toolbarLayout.hasStatus = true
 
         addressDetails = address
-        addressId = address.id
+        addressId = address.displayAddress ?: address.address
 
         configAddressDetails(address)
 
@@ -136,7 +137,7 @@ else{
     }
 
     private fun configAddressDetails(address: WalletAddress) {
-        idLabel.text = address.id
+        idLabel.text = address.displayAddress ?: address.address
         expirationLabel.text = if (address.duration == 0L) getString(R.string.never) else CalendarUtils.fromTimestamp(address.createTime + address.duration)
         nameLabel.text = address.label
         isContact = address.isContact
@@ -169,11 +170,22 @@ else{
     }
 
     override fun sendAddress(walletAddress: WalletAddress) {
-        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToSendFragment(walletAddress.id))
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToSendFragment(walletAddress.address))
     }
 
     override fun receiveAddress(walletAddress: WalletAddress) {
-        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToReceiveFragment(0L, walletAddress))
+        var assetId:Int? = null
+        val isToken = AppManager.instance.wallet?.isToken(walletAddress.address)
+        if (isToken == true) {
+            val params =
+                AppManager.instance.wallet?.getTransactionParameters(walletAddress.address, false)
+
+            if (params?.assetId != 0) {
+                assetId = params?.assetId
+            }
+        }
+
+        findNavController().navigate(AddressFragmentDirections.actionAddressFragmentToReceiveFragment(0L, walletAddress, assetId ?: 0))
     }
 
     override fun showDeleteAddressDialog() {

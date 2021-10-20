@@ -65,7 +65,7 @@ data class Wallet(val _this: Long) {
 
     external fun isToken(token: String): Boolean
     external fun isAddress(address: String): Boolean
-    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, assetId:Int)
+    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, assetId:Int, isOffline:Boolean)
     external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
 
     external fun isConnectionTrusted(): Boolean
@@ -85,4 +85,17 @@ data class Wallet(val _this: Long) {
     external fun enableBodyRequests(enable: Boolean)
 
     external fun getAssetInfo(id: Int)
+
+    //DAO
+    external fun appSupported(version: String, minVersion:String): Boolean
+    external fun launchApp(name: String, url:String)
+    external fun callWalletApi(json: String)
+    external fun contractInfoApproved(json: String)
+    external fun contractInfoRejected(json: String)
+
+    external fun clearLastWalletId()
+
+    external fun setMinConfirmations(value:Long)
+    external fun getCoinConfirmationsOffsetAsync()
+    external fun getCoinConfirmationsOffset():Long
 }

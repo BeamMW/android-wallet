@@ -27,7 +27,7 @@ class ReceiveRepository : BaseRepository(), ReceiveContract.Repository {
     override fun saveAddress(address: WalletAddress) {
         getResult("saveAddressChanges") {
             val dto = address.toDTO()
-            dto.duration = 0L
+          //  dto.duration = 0L
             wallet?.saveAddress(dto, true)
         }
     }

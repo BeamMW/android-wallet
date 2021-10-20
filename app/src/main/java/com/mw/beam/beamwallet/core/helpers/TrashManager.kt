@@ -60,7 +60,7 @@ object TrashManager {
     fun remove(id: String) {
         actions[id]?.apply {
             addresses.forEach {
-                AppManager.instance.wallet?.deleteAddress(it.id)
+                AppManager.instance.wallet?.deleteAddress(it.getOriginalId)
                 AppManager.instance.deleteAllNotificationByObject(it.id)
 //                if (it.getOriginalId.isEmpty() && it.isContact) {
 //                    AppManager.instance.setIgnoreAddress(it.id)

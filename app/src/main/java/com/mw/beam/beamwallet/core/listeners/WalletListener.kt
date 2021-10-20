@@ -24,7 +24,6 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.*
-import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.*
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.utils.LogUtils
@@ -54,7 +53,9 @@ object WalletListener {
         it.tx?.forEach { tx ->
             if (!tx.sender.value) {
                 val savedComment = ReceiveTxCommentHelper.getSavedCommnetAndSaveForTx(tx)
-                tx.message = if (savedComment.isNotBlank()) savedComment else ""
+                if (savedComment.isNotBlank()) {
+                    tx.message = savedComment
+                }
             }
             tx.asset = AssetManager.instance.getAsset(tx.assetId)
         }
@@ -91,6 +92,10 @@ object WalletListener {
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
+
+    var subOnCallWalletApiResult: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnCallWalletApiApproved: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
+    var subOnCallWalletApiContract: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
 
     @JvmStatic
     fun onStatus(status: Array<WalletStatusDTO>?) : Unit {
@@ -452,6 +457,25 @@ object WalletListener {
     fun onAssetInfo(info: AssetInfoDTO): Unit  {
         AssetManager.instance.onReceivedAssetInfo(info)
         return returnResult(subOnAssetInfo, info, "onAssetInfo")
+    }
+
+    @JvmStatic
+    fun approveSend(info: ContractConsentDTO): Unit  {
+      Log.e("TEST", "approveSend")
+        LogUtils.logResponse(info, "approveSend")
+        subOnCallWalletApiApproved.onNext(info)
+    }
+
+    @JvmStatic
+    fun approveContractInfo(info: ContractConsentDTO): Unit  {
+        Log.e("TEST", "approveContractInfo")
+        subOnCallWalletApiContract.onNext(info)
+    }
+
+    @JvmStatic
+    fun sendDAOApiResult(info: String): Unit  {
+        LogUtils.logResponse(info, "sendDAOApiResult")
+        subOnCallWalletApiResult.onNext(info)
     }
 
     private fun <T> returnResult(subject: Subject<T>, result: T, responseName: String) {

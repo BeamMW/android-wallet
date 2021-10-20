@@ -140,20 +140,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, SettingsFragmentMode.Privacy))
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, SettingsFragmentMode.Utilities))
 
-           //     var s2 = mutableListOf<SettingsItem>()
-           //     s2.add(SettingsItem(R.drawable.ic_icon_settings_tags,getString(R.string.tags),null, SettingsFragmentMode.Tags))
-
                 val s3 = mutableListOf<SettingsItem>()
                 s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, SettingsFragmentMode.Rate))
                 s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, SettingsFragmentMode.Report))
 
-                val s4 = mutableListOf<SettingsItem>()
-                s4.add(SettingsItem(R.drawable.ic_icon_settings_remove,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
-
                 items.add(s1.toTypedArray())
-              //  items.add(s2.toTypedArray())
                 items.add(s3.toTypedArray())
-                items.add(s4.toTypedArray())
 
                 if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
                 {
@@ -180,7 +172,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s2.toTypedArray())
             }
             mode() == SettingsFragmentMode.Notifications -> {
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.wallet_updates),null, SettingsFragmentMode.WalletUpdates, switch = true))
                // s1.add(SettingsItem(null, getString(R.string.news),null, SettingsFragmentMode.News, switch = true))
                // s1.add(SettingsItem(null, getString(R.string.address_expiration),null, SettingsFragmentMode.AddressExpiration, switch = true))
@@ -188,11 +180,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Node -> {
-                var s1 = mutableListOf<SettingsItem>()
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.settings_run_random_node),AppConfig.NODE_ADDRESS, SettingsFragmentMode.ConnectNode, switch = true, spannable = createNodeSpannableString()))
                 items.add(s1.toTypedArray())
 
-                var s2 = mutableListOf<SettingsItem>()
+                val s2 = mutableListOf<SettingsItem>()
                 s2.add(SettingsItem(null, getString(R.string.mobile_node_title),getString(R.string.mobile_node_text), SettingsFragmentMode.MobileNode, switch = true))
                 items.add(s2.toTypedArray())
 
@@ -214,23 +206,31 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Utilities -> {
-                val s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
-                s1.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
-
-                if (AppManager.instance.isMaxPrivacyEnabled())
-                {
-                    s1.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
-                }
-
                 val status = AppManager.instance.getStatus().system.height
-                s1.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
-                s1.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
-                s1.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
-                s1.add(SettingsItem(null, getString(R.string.show_utxo),null, SettingsFragmentMode.UTXO))
+
+                val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(null, getString(R.string.blockchain_height),status.toString(), SettingsFragmentMode.Height))
 
+                val s2 = mutableListOf<SettingsItem>()
+                s2.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
+                s2.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
+                s2.add(SettingsItem(null, getString(R.string.show_utxo),null, SettingsFragmentMode.UTXO))
+                if (AppManager.instance.isMaxPrivacyEnabled())
+                {
+                    s2.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
+                }
+                s2.add(SettingsItem(null,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
+
+                val s3 = mutableListOf<SettingsItem>()
+                s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
+                s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
+                s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+
                 items.add(s1.toTypedArray())
+                items.add(s2.toTypedArray())
+                items.add(s3.toTypedArray())
+
+
             }
         }
 
@@ -287,12 +287,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     mode = item.mode
                     switch = item.switch
                     spannable = item.spannable
-                }
-
-                if(item.mode == SettingsFragmentMode.RemoveWallet)
-                {
-                    item.textLabel.setTextColor(ContextCompat.getColor(requireContext(), R.color.remove))
-                    item.iconView.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.remove))
                 }
 
                 item.setOnClickListener {
@@ -816,7 +810,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
 
     override fun changePass() {
-        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToCheckOldPassFragment())
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPasswordChangeFragment(null, WelcomeMode.CHANGE_PASS.name, true))
     }
 
     override fun addListeners() {
@@ -921,7 +915,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         context?.let {
             val view = LayoutInflater.from(it).inflate(R.layout.dialog_max_privacy_settings, null)
 
-            val time = AppManager.instance?.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L
+            val time = AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L
             val valuesArray = resources.getIntArray(R.array.max_privacy_values)
 
             valuesArray.forEach { millisInt ->
@@ -930,7 +924,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
 
                 (button as RadioButton).apply {
-                    text = getMaxPrivacyStringValue(value)
+                    text = getMaxPrivacyStringValue(value, true)
                     isChecked = value == time
                     setOnClickListener { presenter?.onChangeMaxPrivacySettings(value) }
                 }
@@ -1136,7 +1130,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
 
-    private fun getMaxPrivacyStringValue(hours: Long): String {
+    private fun getMaxPrivacyStringValue(hours: Long, isHint:Boolean): String {
         when (hours) {
             24L -> {
                 return getString(R.string.h24)
@@ -1151,9 +1145,19 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 return getString(R.string.h60)
             }
             72L -> {
-                return getString(R.string.h72)
+                return if (!isHint) {
+                    getString(R.string.h72)
+                } else {
+                    getString(R.string.h72_hint)
+                }
             }
-            else -> return getString(R.string.no_limit)
+            else -> {
+                return if (!isHint) {
+                    getString(R.string.no_limit)
+                } else {
+                    getString(R.string.no_limit_hint)
+                }
+            }
         }
     }
 
@@ -1185,7 +1189,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             for (group in (view as LinearLayout).children) {
                 var item = group as SettingsItemView
                 if (item.mode == SettingsFragmentMode.MaxPrivacyLimit) {
-                    item.detail = getMaxPrivacyStringValue(hours)
+                    item.detail = getMaxPrivacyStringValue(hours, false)
                 }
             }
         }

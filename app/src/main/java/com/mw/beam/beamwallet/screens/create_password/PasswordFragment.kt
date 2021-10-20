@@ -16,18 +16,17 @@
 
 package com.mw.beam.beamwallet.screens.create_password
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.fragment.findNavController
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.FaceIDManager
 import com.mw.beam.beamwallet.core.helpers.FingerprintManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
@@ -42,20 +41,43 @@ import kotlinx.android.synthetic.main.fragment_passwords.*
  */
 class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.View {
     private var isButtonPressed = false
+    private var isChangePassword = false
 
     private val args by lazy {
         PasswordFragmentArgs.fromBundle(requireArguments())
     }
 
+    var currentPassValue = ""
+    var passValue = ""
+    var confirmPassValue = ""
+
     private val passWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
-            presenter?.onPassChanged(password?.toString())
+            if (password.toString() != passValue) {
+                passValue = password.toString()
+                presenter?.onPassChanged(password?.toString())
+                checkButton()
+            }
         }
     }
 
     private val confirmPassWatcher = object : TextWatcher {
         override fun afterTextChanged(password: Editable?) {
-            presenter?.onConfirmPassChanged()
+            if (password.toString() != confirmPassValue) {
+                confirmPassValue = password.toString()
+                presenter?.onConfirmPassChanged()
+                checkButton()
+            }
+        }
+    }
+
+    private val currentPassWatcher = object : TextWatcher {
+        override fun afterTextChanged(password: Editable?) {
+            if (password.toString() != currentPassValue) {
+                currentPassValue = password.toString()
+                presenter?.onConfirmPassChanged()
+                checkButton()
+            }
         }
     }
 
@@ -66,9 +88,11 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_passwords
-    override fun getToolbarTitle(): String? = if (args.passChangeMode) getString(R.string.change_password) else getString(R.string.password)
+    override fun getToolbarTitle(): String = if (args.passChangeMode) getString(R.string.change_password) else getString(R.string.password)
 
     override fun init(isModeChangePass: Boolean, mode: WelcomeMode) {
+        isChangePassword = isModeChangePass
+
         when {
             mode == WelcomeMode.RESTORE -> {
                 description.text = getString(R.string.pass_screen_description)
@@ -76,8 +100,10 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
                 btnProceed.iconResId = R.drawable.ic_btn_proceed
             }
             isModeChangePass -> {
-                description.text = getString(R.string.pass_screen_change_description)
-                btnProceed.textResId = R.string.pass_save_new
+                description.visibility = View.GONE
+                currentPassLayout.visibility = View.VISIBLE
+                passwordLabel.text = getString(R.string.new_password)
+                btnProceed.textResId = R.string.save
                 btnProceed.iconResId = R.drawable.ic_btn_save
             }
             else -> {
@@ -88,14 +114,19 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             }
         }
 
-        passLayout.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
-        confirmPassLayout.typeface = ResourcesCompat.getFont(requireContext(), R.font.roboto_regular)
+        checkButton()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         isButtonPressed = false
+
+        pass.setShowNeedPassEye()
+        confirmPass.setShowNeedPassEye()
+        currentPass.setShowNeedPassEye()
+
+        checkButton()
 
         if (getWelcomeMode() == WelcomeMode.RESTORE || isModeChangePass()) return
 
@@ -106,8 +137,8 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     override fun onStart() {
         super.onStart()
 
-        pass.requestFocus()
-        showKeyboard()
+      //  pass.requestFocus()
+      //  showKeyboard()
 
         isButtonPressed = false
 
@@ -133,7 +164,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
     override fun addListeners() {
         pass.addTextChangedListener(passWatcher)
         confirmPass.addTextChangedListener(confirmPassWatcher)
-
+        currentPass.addTextChangedListener(currentPassWatcher)
         btnProceed.setOnClickListener {
             if (!isButtonPressed) {
                 isButtonPressed = true
@@ -193,6 +224,18 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         }
     }
 
+    override fun onControllerStart() {
+        super.onControllerStart()
+
+        checkButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        checkButton()
+    }
+
     override fun showSeedFragment() {
         findNavController().navigate(PasswordFragmentDirections.actionPasswordFragmentToWelcomeSeedFragment())
     }
@@ -243,11 +286,31 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         var hasErrors = false
         clearErrors()
 
+        if (isChangePassword) {
+            val isValid = AppManager.instance.wallet?.checkWalletPassword(currentPass.text.toString()) ?: false
+
+            if (!isValid) {
+                currentPassError.visibility = View.VISIBLE
+                if (currentPass.text.isNullOrBlank()) {
+                    currentPassError.text = getString(R.string.password_can_not_be_empty)
+                }
+                else {
+                    currentPassError.text = getString(R.string.current_password_is_incorrect)
+                }
+                currentPass.isStateError = true
+                hasErrors = true
+                btnProceed.isEnabled = false
+                isButtonPressed = false
+                return hasErrors
+            }
+        }
+
         if (pass.text.isNullOrBlank()) {
             passError.visibility = View.VISIBLE
             passError.text = getString(R.string.password_can_not_be_empty)
             pass.isStateError = true
             hasErrors = true
+            btnProceed.isEnabled = false
             isButtonPressed = false
         }
 
@@ -256,6 +319,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_not_match)
             confirmPass.isStateError = true
             hasErrors = true
+            btnProceed.isEnabled = false
             isButtonPressed = false
         }
 
@@ -264,6 +328,7 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             passError.text = getString(R.string.password_can_not_be_empty)
             confirmPass.isStateError = true
             hasErrors = true
+            btnProceed.isEnabled = false
             isButtonPressed = false
         }
 
@@ -274,15 +339,25 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
         passError.visibility = View.VISIBLE
         passError.text = getString(R.string.pass_old_pass_error)
         pass.isStateError = true
+        btnProceed.isEnabled = false
         isButtonPressed = false
     }
 
     override fun clearErrors() {
         passError.visibility = View.GONE
+        currentPassError.visibility = View.GONE
+
+        if(currentPass.isFocused) {
+            currentPass.isStateAccent = true
+        }
+        else if(currentPass.isFocused) {
+            currentPass.isStateNormal = true
+        }
 
         if (pass.isFocused) {
             pass.isStateAccent = true
-        } else {
+        }
+        else {
             pass.isStateNormal = true
         }
 
@@ -309,9 +384,44 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
 
     override fun setStrengthLevel(strength: PasswordStrengthView.Strength) {
         strengthView.strength = strength
+
+        when (strength) {
+            PasswordStrengthView.Strength.EMPTY -> {
+                passTypeLabel.text = ""
+            }
+            PasswordStrengthView.Strength.VERY_WEAK -> {
+                passTypeLabel.text = getString(R.string.very_weak_password)
+            }
+            PasswordStrengthView.Strength.WEAK -> {
+                passTypeLabel.text = getString(R.string.weak_password)
+            }
+            PasswordStrengthView.Strength.MEDIUM -> {
+                passTypeLabel.text = getString(R.string.medium_password)
+            }
+            PasswordStrengthView.Strength.STRONG -> {
+                passTypeLabel.text = getString(R.string.strong_password)
+            }
+            PasswordStrengthView.Strength.VERY_STRONG -> {
+                passTypeLabel.text = getString(R.string.very_strong_password)
+            }
+        }
     }
 
     override fun initPresenter(): BasePresenter<out MvpView, out MvpRepository> {
         return PasswordPresenter(this, PasswordRepository(), PasswordState())
+    }
+
+    private fun checkButton() {
+        val pass = pass.text.toString()
+        val passConfirm = confirmPass.text.toString()
+        val currentPass = currentPass.text.toString()
+
+        if (isChangePassword) {
+            btnProceed.isEnabled = !(pass.isEmpty() || passConfirm.isEmpty() || currentPass.isEmpty())
+        }
+        else {
+            btnProceed.isEnabled = !(pass.isEmpty() || passConfirm.isEmpty())
+        }
+
     }
 }

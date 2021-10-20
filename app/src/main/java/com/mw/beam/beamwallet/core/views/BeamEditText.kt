@@ -16,16 +16,23 @@
 
 package com.mw.beam.beamwallet.core.views
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+
+import android.text.InputType
+import android.text.TextWatcher
 
 /**
  *  12/4/18.
  */
-class BeamEditText : AppCompatEditText {
+open class BeamEditText : AppCompatEditText {
     companion object {
         private val STATE_ACCENT = intArrayOf(R.attr.state_accent)
         private val STATE_NORMAL = intArrayOf(R.attr.state_normal)
@@ -60,6 +67,38 @@ class BeamEditText : AppCompatEditText {
             }
         }
 
+    private var isShowPassword = false
+    private var isNeedShowEye = false
+
+    @SuppressLint("ClickableViewAccessibility")
+    fun setShowNeedPassEye() {
+        isNeedShowEye = true
+
+        setOnTouchListener(OnTouchListener { v, event ->
+            val right = 2
+            if (event.action == MotionEvent.ACTION_UP && compoundDrawables[right] != null ) {
+                if (event.rawX >= getRight() - compoundDrawables[right].bounds.width()
+                ) {
+
+                    isShowPassword = !isShowPassword
+                    val isError = isStateError
+                    if (isShowPassword) {
+                        inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_eye_crossed, 0);
+                    } else {
+                        inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_eye, 0);
+                    }
+                    if (isError) {
+                        isStateError = true
+                    }
+                    return@OnTouchListener true
+                }
+            }
+            false
+        })
+    }
+
     constructor(context: Context) : super(context) {
         init(context, null)
     }
@@ -89,10 +128,26 @@ class BeamEditText : AppCompatEditText {
         setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_selector))
 
         this.setOnFocusChangeListener { _, isFocused ->
-            if (isFocused) {
-                isStateAccent = true
-            } else {
-                isStateNormal = true
+            if (!isStateError) {
+                if (isFocused) {
+                    isStateAccent = true
+                } else {
+                    isStateNormal = true
+                }
+            }
+
+            if (isNeedShowEye) {
+                if (isFocused) {
+                    if (isShowPassword) {
+                        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_eye_crossed, 0);
+                    }
+                    else {
+                        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_eye, 0);
+                    }
+                }
+                else {
+                    setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                }
             }
         }
 
@@ -108,4 +163,9 @@ class BeamEditText : AppCompatEditText {
             isStateError = a.getBoolean(R.styleable.BeamEditText_state_error, false)
         }
     }
+
+    override fun clearFocus() {
+        super.clearFocus()
+    }
+
 }

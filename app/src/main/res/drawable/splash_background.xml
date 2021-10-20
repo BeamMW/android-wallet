@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@drawable/initial_background" />
-
-    <item android:bottom="50dp">
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_logo" />
+    <item>
+        <color android:color="@color/colorPrimary" />
     </item>
 
-    <item android:top="170dp">
+    <item android:drawable="@drawable/bg_new_triangles" />
+
+    <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_text"/>
+            android:src="@drawable/logo_new" />
     </item>
 
 </layer-list>

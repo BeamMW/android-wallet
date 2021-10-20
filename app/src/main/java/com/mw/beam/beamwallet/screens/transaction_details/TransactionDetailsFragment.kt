@@ -120,10 +120,12 @@ else{
                 menu?.findItem(R.id.saveContact)?.isVisible = contact == null
             }
 
+            menu?.findItem(R.id.dapp)?.isVisible = transaction.isDapps == true
             menu?.findItem(R.id.cancel)?.isVisible = TxStatus.InProgress == txStatus || TxStatus.Pending == txStatus
             menu?.findItem(R.id.delete)?.isVisible = TxStatus.Failed == txStatus || TxStatus.Completed == txStatus || TxStatus.Cancelled == txStatus
             menu?.findItem(R.id.repeat)?.isVisible = isSend && TxStatus.InProgress != txStatus && txStatus != TxStatus.Registered
                     && transaction.isMaxPrivacy == false && transaction.isPublicOffline == false && transaction.isMaxPrivacy == false
+                    && transaction.isDapps == false
         }
     }
 
@@ -149,6 +151,19 @@ else{
             }
             R.id.saveContact -> presenter?.onSaveContact()
             R.id.copy -> presenter?.onCopyDetailsPressed()
+            R.id.dapp -> {
+                val app = DAOManager.apps.firstOrNull {
+                    it.name == oldTransaction?.appName
+                }
+                if (app != null) {
+                    findNavController().navigate(TransactionDetailsFragmentDirections.actionTransactionDetailsFragmentToAppDetailFragment(app, false))
+                }
+                else {
+                    showAlert(getString(R.string.dapp_not_found_text), getString(R.string.ok), {
+
+                    }, getString(R.string.dapp_not_found_title))
+                }
+            }
         }
 
         return true
@@ -261,40 +276,60 @@ else{
 
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {
-                startAddress.text = txDescription.myId
-                endAddress.text = txDescription.peerId
+                startAddress.text = txDescription.senderAddress
+                endAddress.text = txDescription.receiverAddress
 
                 startAddressTitle.text = getString(R.string.my_sending_address).toUpperCase()
                 endAddressTitle.text = getString(R.string.my_receiving_address).toUpperCase()
             } else {
-                startAddressTitle.text = getString(R.string.contact).toUpperCase()
-                endAddressTitle.text = getString(R.string.my_address).toUpperCase()
+                if (txDescription.isDapps == true) {
+                    startAddressTitle.text = getString(R.string.dapp_anme).toUpperCase()
+                    startAddress.text = txDescription.appName
+                    receiverLayout.visibility = View.GONE
+                }
+                else {
+                    startAddressTitle.text = getString(R.string.contact).toUpperCase()
+                    endAddressTitle.text = getString(R.string.my_address).toUpperCase()
 
-                startAddress.text = txDescription.peerId
-                endAddress.text = txDescription.myId
+                    startAddress.text = txDescription.peerId
+                    endAddress.text = txDescription.myId
 
-                if (txDescription.peerId.isEmpty()) {
-                    startAddress.text = txDescription.token
+                    if (txDescription.peerId.isEmpty()) {
+                        startAddress.text = txDescription.token
+                    }
                 }
             }
-        } else {
-            startAddressTitle.text = getString(R.string.contact).toUpperCase()
-            endAddressTitle.text = getString(R.string.my_address).toUpperCase()
-            startAddress.text = txDescription.peerId
-            endAddress.text = txDescription.myId
+        }
+        else {
+            if (txDescription.isDapps == true) {
+                startAddressTitle.text = getString(R.string.dapp_anme).toUpperCase()
+                startAddress.text = txDescription.appName
+                receiverLayout.visibility = View.GONE
+            }
+            else {
+                startAddressTitle.text = getString(R.string.contact).toUpperCase()
+                endAddressTitle.text = getString(R.string.my_address).toUpperCase()
+                startAddress.text = txDescription.peerId
+                endAddress.text = txDescription.myId
+            }
         }
 
         feeLabel.text = txDescription.fee.toString() + " GROTH"
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
-        addressTypeLabel.text = txDescription.getAddressType(requireContext())
+
+        if (txDescription.isDapps == true) {
+            addressTypeTitleLabel.text = getString(R.string.app_shader_id).toUpperCase()
+            addressTypeLabel.text = txDescription.contractCids
+        }
+        else {
+            addressTypeLabel.text = txDescription.getAddressType(requireContext())
+        }
+
 
         if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (!txDescription.sender.value)) {
             startAddress.text = getString(R.string.shielded_pool)
         }
-//        else if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (txDescription.sender.value)) {
-//            endAddress.text = getString(R.string.shielded_pool)
-//        }
 
         if(!txDescription.identity.isNullOrEmpty() && txDescription.identity != "0") {
             walletIdLayout.visibility = View.VISIBLE
@@ -357,45 +392,6 @@ else{
         registerForContextMenu(proofLabel)
         registerForContextMenu(kernelLabel)
         registerForContextMenu(walletIdLabel)
-
-//        var listener = View.OnTouchListener(function = {view, motionEvent ->
-//
-//            if (motionEvent.action == MotionEvent.ACTION_DOWN) {
-//                downX = view.getX() - motionEvent.getRawX();
-//                downY = motionEvent.getRawY()
-//            }
-//            else if (motionEvent.action == MotionEvent.ACTION_MOVE) {
-//                var x =  motionEvent.getRawX() + downX
-//
-//                if(x<0) {
-//                    x = 0f
-//                }
-//
-//                view.animate()
-//                        .x(x)
-//                        .y(view.y)
-//                        .setDuration(0)
-//                        .start()
-//
-//
-//            }
-//            else if (motionEvent.action == MotionEvent.ACTION_UP) {
-//                if (view.x > view.width/3) {
-//                    findNavController().popBackStack()
-//                }
-//                else{
-//                    view.animate()
-//                            .x( 0f)
-//                            .y(view.y)
-//                            .setDuration(0)
-//                            .start()
-//                }
-//            }
-//
-//                true
-//
-//        })
-//        mainScroll.setOnTouchListener(listener)
     }
 
 
@@ -642,7 +638,14 @@ else{
         val transaction = oldTransaction!!
 
         if (transaction.sender.value) {
-            if (transaction.selfTx) {
+            if (transaction.isDapps == true) {
+                startAddressTitle = getString(R.string.dapp_anme)
+                startAddress = transaction.appName ?: ""
+
+                endAddressTitle = ""
+                endAddress = ""
+            }
+            else if (transaction.selfTx) {
                 startAddress = transaction.myId
                 endAddress = transaction.peerId
 
@@ -661,10 +664,19 @@ else{
             }
         }
         else {
-            startAddressTitle = "${getString(R.string.contact)}"
-            endAddressTitle = "${getString(R.string.my_address)}"
-            startAddress = transaction.peerId
-            endAddress = transaction.myId
+            if (transaction.isDapps == true) {
+                startAddressTitle = getString(R.string.dapp_anme)
+                startAddress = transaction.appName ?: ""
+
+                endAddressTitle = ""
+                endAddress = ""
+            }
+            else {
+                startAddressTitle = "${getString(R.string.contact)}"
+                endAddressTitle = "${getString(R.string.my_address)}"
+                startAddress = transaction.peerId
+                endAddress = transaction.myId
+            }
         }
 
         if(startAddress.startsWith("100000")) {
@@ -680,6 +692,17 @@ else{
                 startAddressTitle + ": " + startAddress + "\n" +
                 endAddressTitle + ": " + endAddress + "\n"
 
+        if (endAddressTitle.isEmpty()) {
+            txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
+                    "${getString(R.string.status)}: ${statusLabel.text}\n" +
+                    "${getString(R.string.amount)}: ${amountLabel.text}\n" +
+                    startAddressTitle + ": " + startAddress + "\n"
+        }
+
+        if (transaction.isDapps == true) {
+            txDetails += "${getString(R.string.app_shader_id)}: ${transaction.contractCids}\n"
+            txDetails += "${getString(R.string.transaction_comment)}: ${transaction.message}\n"
+        }
 
         if(feeLabel.text.startsWith("0")) {
 

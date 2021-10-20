@@ -5,7 +5,9 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.dto.ContractConsentDTO
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.listeners.WalletListener
@@ -62,6 +64,9 @@ class AppManager {
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnExportToCSV: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnAddressCreated: Subject<WalletAddress> = PublishSubject.create<WalletAddress>().toSerialized()
+    var onCallWalletApiResult: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subApproveContractInfo: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
+    var subCallWalletApiApproved: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
 
     private var newAddressSubscription: Disposable? = null
 
@@ -72,6 +77,8 @@ class AppManager {
 
     companion object {
         private var INSTANCE: AppManager? = null
+
+        var lastSendSavedContact:WalletAddressDTO? = null
 
         val instance: AppManager
             get() {
@@ -317,7 +324,7 @@ class AppManager {
     }
 
     fun getAllAddresses() : List<WalletAddress> {
-        var result = mutableListOf<WalletAddress>()
+        val result = mutableListOf<WalletAddress>()
         result.addAll(contacts)
         result.addAll(addresses)
         return result
@@ -334,6 +341,9 @@ class AppManager {
     fun isMyAddress(address: String): Boolean {
         addresses.forEach {
             if (it.id == address) {
+                return true
+            }
+            else if (it.address == address) {
                 return true
             }
         }
@@ -360,14 +370,14 @@ class AppManager {
 
     fun getAddress(id: String?) : WalletAddress? {
         contacts.forEach {
-            if (it.id == id || it.getOriginalId == id)
+            if (it.id == id || it.getOriginalId == id || it.address == id)
             {
                 return it
             }
         }
 
         addresses.forEach {
-            if (it.id == id || it.getOriginalId == id)
+            if (it.id == id || it.getOriginalId == id || it.address == id)
             {
                 return it
             }
@@ -409,6 +419,19 @@ class AppManager {
     }
 
     //MARK: - Transactions
+
+    fun hasActiveTransactionsAddress(address:String) :Boolean {
+        transactions.forEach {
+            if(it.status == TxStatus.Registered || it.status == TxStatus.InProgress ||
+                it.status == TxStatus.Pending) {
+                if (it.senderAddress == address || it.receiverAddress == address || it.peerId == address || it.myId == address) {
+                    return true
+                }
+            }
+        }
+
+        return false
+    }
 
     fun hasActiveTransactions() :Boolean {
         transactions.forEach {
@@ -684,8 +707,8 @@ class AppManager {
     }
 
     fun getNotifications() : List<Notification> {
-        var results = notifications.map { it }.toList()
-        var lists = mutableListOf<Notification>()
+        val results = notifications.map { it }.toList()
+        val lists = mutableListOf<Notification>()
 
         results.forEach {
             if (it.type == NotificationType.Transaction) {
@@ -1000,7 +1023,10 @@ class AppManager {
                             contacts[index1] = item
                         }
                         else{
-                            contacts.add(item)
+                            val ignored = getIgnoredContacts()
+                            if(!ignored.contains(item.address) && !ignored.contains(item.id)) {
+                                contacts.add(item)
+                            }
                         }
                     } else{
                         val index2 = addresses.indexOfFirst {
@@ -1033,6 +1059,17 @@ class AppManager {
                         if (index2 != -1) {
                             addresses[index2] = item
                         }
+                    }
+                }
+
+                val canSend = isMaxPrivacyEnabled()
+
+                addresses.forEach {
+                    if (canSend) {
+                        it.displayAddress = it.address
+                    }
+                    else{
+                        it.displayAddress = it.getOriginalId
                     }
                 }
 
@@ -1146,6 +1183,18 @@ class AppManager {
 
             WalletListener.suboOExportTxHistoryToCsv.subscribe {
                 subOnExportToCSV.onNext(it)
+            }
+
+            WalletListener.subOnCallWalletApiResult.subscribe {
+                onCallWalletApiResult.onNext(it)
+            }
+
+            WalletListener.subOnCallWalletApiApproved.subscribe {
+                subCallWalletApiApproved.onNext(it)
+            }
+
+            WalletListener.subOnCallWalletApiContract.subscribe {
+                subApproveContractInfo.onNext(it)
             }
 
             subscribeToNewAddress()

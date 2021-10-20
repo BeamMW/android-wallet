@@ -209,16 +209,17 @@ class SendConfirmationFragment : BaseFragment<SendConfirmationPresenter>(), Send
     }
 
     override fun delaySend(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, isOffline:Boolean?) {
-        var toSend = token
-        val isToken = AppManager.instance.wallet?.isToken(toSend)
-        val params = AppManager.instance.wallet?.getTransactionParameters(toSend, false)
-        if (params != null && isToken == true) {
-            if(!params.isMaxPrivacy && !params.isPublicOffline && isOffline == false) {
-                toSend = params.address
-            }
-        }
+//        var toSend = token
+//        val isToken = AppManager.instance.wallet?.isToken(toSend)
+//        val params = AppManager.instance.wallet?.getTransactionParameters(toSend, false)
+//        if (params != null && isToken == true) {
+//            if(!params.isMaxPrivacy && !params.isPublicOffline && isOffline == false) {
+//                toSend = params.address
+//            }
+//        }
         val asset = getAssetId()
-        (activity as? AppActivity)?.pendingSend(PendingSendInfo(toSend, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded, asset))
+        val isOffline = getIsOffline()
+        (activity as? AppActivity)?.pendingSend(PendingSendInfo(token, comment, amount, fee, outgoingAddress, typeAddress == BMAddressType.BMAddressTypeShielded, asset, isOffline))
     }
 
     override fun showSaveAddressFragment(address: String) {

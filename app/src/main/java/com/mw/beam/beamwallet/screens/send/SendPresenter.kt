@@ -219,6 +219,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         val privacyModeEnabled = repository.isPrivacyModeEnabled()
         state.privacyMode = privacyModeEnabled
         view?.configPrivacyStatus(privacyModeEnabled)
+        view?.updateAvailable(AssetManager.instance.getAvailable(assetId))
     }
 
     override fun onChangePrivacyModePressed() {

@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_restore_mode_choice.*
 
 class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), RestoreModeChoiceContract.View {
     private val args by lazy {
-        RestoreModeChoiceFragmentArgs.fromBundle(arguments!!)
+        RestoreModeChoiceFragmentArgs.fromBundle(requireArguments())
     }
 
     override fun getPassword(): String = args.pass
@@ -24,6 +24,8 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
 
     override fun getToolbarTitle(): String? = getString(R.string.restore_wallet)
 
+    var selected = 0
+
     override fun onStart() {
         super.onStart()
 
@@ -31,6 +33,13 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
         val splited = title.split("(")
         if (splited.count() == 2) {
             autoTitleLabel.text = splited[0].toUpperCase() + "(" + splited[1].toLowerCase()
+        }
+
+        if (selected == 1) {
+            automaticRestore.isChecked = true
+        }
+        else if (selected == 2) {
+            ownRestoreButton.isChecked = true
         }
     }
 
@@ -67,10 +76,12 @@ class RestoreModeChoiceFragment : BaseFragment<RestoreModeChoicePresenter>(), Re
     }
 
     override fun showAutomaticProgressRestore(pass: String, seed: Array<String>) {
+        selected = 1
         findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToWelcomeProgressFragment(pass, WelcomeMode.RESTORE_AUTOMATIC.name, seed))
     }
 
     override fun showRestoreOwnerKey(pass: String, seed: Array<String>) {
+        selected = 2
         findNavController().navigate(RestoreModeChoiceFragmentDirections.actionRestoreModeChoiceFragmentToRestoreOwnerKeyFragment(pass, seed))
     }
 

@@ -327,6 +327,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_walletFragment_to_appDetailFragment"
+            app:destination="@id/appDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -439,6 +446,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_passwordChangeFragment"
+            app:destination="@id/passwordChangeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/addressesFragment"
@@ -631,6 +645,13 @@
         <action
             android:id="@+id/action_transactionDetailsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_transactionDetailsFragment_to_appDetailFragment"
+            app:destination="@id/appDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -1330,6 +1351,31 @@
         <action
             android:id="@+id/action_assetInfoFragment_to_maxPrivacyDetailFragment"
             app:destination="@id/maxPrivacyDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/appDetailFragment"
+        android:name="com.mw.beam.beamwallet.screens.apps.detail.AppDetailFragment"
+        android:label="fragment_app_detail"
+        tools:layout="@layout/fragment_app_detail" >
+        <argument
+            android:name="app"
+            app:argType="com.mw.beam.beamwallet.core.entities.DAOApp" />
+        <argument
+            android:name="displayMenu"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/appListFragment"
+        android:name="com.mw.beam.beamwallet.screens.apps.list.AppListFragment"
+        android:label="AppListFragment" >
+        <action
+            android:id="@+id/action_appListFragment_to_appDetailFragment"
+            app:destination="@id/appDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

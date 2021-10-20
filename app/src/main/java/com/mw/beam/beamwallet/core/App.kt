@@ -77,6 +77,8 @@ class App : Application() {
         var is24HoursTimeFormat: Boolean? = null
         var isNeedOpenScanner: Boolean = false
         var isForeground = false
+
+        const val documentationUrl = "https://documentation.beam.mw/"
     }
 
     override fun onCreate() {

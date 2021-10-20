@@ -1,49 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item app:state_accent="false" app:state_error="false" app:state_normal="true">
-        <layer-list>
-            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
-                <shape android:shape="rectangle">
-                    <stroke android:width="1dp" android:color="?attr/colorPrimary" />
-
-
-                    <padding android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="15dp" />
-                </shape>
-            </item>
-        </layer-list>
-    </item>
     <item app:state_accent="false" app:state_error="true" app:state_normal="false">
         <layer-list>
-            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
+            <item>
                 <shape android:shape="rectangle">
-                    <stroke android:width="2dp" android:color="@color/common_error_color" />
-
-
-                    <padding android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="15dp" />
+                    <solid
+                        android:color="#26ff625c"/>
+                    <size
+                        android:height="48dp"/>
+                    <corners
+                        android:topLeftRadius="10dp"
+                        android:topRightRadius="10dp"
+                        android:bottomLeftRadius="10dp"
+                        android:bottomRightRadius="10dp"/>
+                    <padding android:bottom="3dp" android:left="8dp" android:right="8dp" android:top="3dp" />
                 </shape>
             </item>
         </layer-list>
     </item>
     <item app:state_accent="true" app:state_error="false" app:state_normal="false">
         <layer-list>
-            <item android:bottom="2dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
+            <item>
                 <shape android:shape="rectangle">
-                    <stroke android:width="1dp" android:color="@color/colorAccent" />
-
-
-                    <padding android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="15dp" />
+                    <solid
+                        android:color="#19ffffff"/>
+                    <size
+                        android:height="48dp"/>
+                    <corners
+                        android:topLeftRadius="10dp"
+                        android:topRightRadius="10dp"
+                        android:bottomLeftRadius="10dp"
+                        android:bottomRightRadius="10dp"/>
+                    <padding android:bottom="3dp" android:left="8dp" android:right="8dp" android:top="3dp" />
                 </shape>
             </item>
         </layer-list>
     </item>
     <item app:state_accent="false" app:state_error="false" app:state_normal="false">
         <layer-list>
-            <item android:bottom="1dp" android:left="-10dp" android:right="-10dp" android:top="-10dp">
+            <item>
                 <shape android:shape="rectangle">
-                    <stroke android:width="1dp" android:color="?attr/colorPrimary" />
-
-
-                    <padding android:bottom="3dp" android:left="3dp" android:right="3dp" android:top="15dp" />
+                    <solid
+                        android:color="#0cffffff"/>
+                    <size
+                        android:height="48dp"/>
+                    <corners
+                        android:topLeftRadius="10dp"
+                        android:topRightRadius="10dp"
+                        android:bottomLeftRadius="10dp"
+                        android:bottomRightRadius="10dp"/>
+                    <padding android:bottom="3dp" android:left="8dp" android:right="8dp" android:top="3dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item app:state_accent="false" app:state_error="false" app:state_normal="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid
+                        android:color="#0cffffff"/>
+                    <size
+                        android:height="48dp"/>
+                    <corners
+                        android:topLeftRadius="10dp"
+                        android:topRightRadius="10dp"
+                        android:bottomLeftRadius="10dp"
+                        android:bottomRightRadius="10dp"/>
+                    <padding android:bottom="3dp" android:left="8dp" android:right="8dp" android:top="3dp" />
                 </shape>
             </item>
         </layer-list>

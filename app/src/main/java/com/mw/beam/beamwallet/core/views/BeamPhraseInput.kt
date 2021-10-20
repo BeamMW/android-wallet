@@ -31,10 +31,14 @@ import kotlinx.android.synthetic.main.common_phrase_input.view.*
 class BeamPhraseInput : ConstraintLayout {
     var phrase: String = ""
     var isForEnsure: Boolean = false
+    var isNeedGreen = true
+
     val isEmpty: Boolean
         get() = editText.text?.toString()?.isEmpty() ?: true
+
     val isValid: Boolean
         get() = phrase == editText.text?.toString()?.trim() || validator?.invoke(editText.text?.toString()?.trim()) ?: false
+
     var number: Int = Int.MIN_VALUE
         set(value) {
             field = value
@@ -42,6 +46,7 @@ class BeamPhraseInput : ConstraintLayout {
                 numberView.text = field.toString()
             }
         }
+
     var numberTextColorResId: Int = Integer.MIN_VALUE
         set(value) {
             field = value
@@ -99,12 +104,28 @@ class BeamPhraseInput : ConstraintLayout {
                         isEmpty -> {
                             numberTextColorResId = R.color.common_text_color
                             numberBackgroundResId = R.drawable.empty_number_background
-                            editText.isStateNormal = true
+                            if (isFocused) {
+                                editText.isStateNormal = true
+                            }
+                            else {
+                                editText.isStateAccent = true
+                            }
                         }
                         isValid -> {
-                            numberTextColorResId = R.color.phrase_validated_number_text_color
-                            numberBackgroundResId = R.drawable.validated_number_background
-                            editText.isStateAccent = true
+                            if (isNeedGreen) {
+                                numberTextColorResId = R.color.phrase_error_number_text_color
+                                numberBackgroundResId = R.drawable.validated_number_background
+                            }
+                            else {
+                                numberTextColorResId = R.color.common_text_color
+                                numberBackgroundResId = R.drawable.validate_number_background_2
+                            }
+                            if (isFocused) {
+                                editText.isStateNormal = true
+                            }
+                            else {
+                                editText.isStateAccent = true
+                            }
                         }
                         else -> {
                             numberTextColorResId = R.color.phrase_error_number_text_color
@@ -112,15 +133,26 @@ class BeamPhraseInput : ConstraintLayout {
                             editText.isStateError = true
                         }
                     }
-                } else {
+                }
+                else {
                     if (editText.text?.toString()?.trim().isNullOrBlank()) {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.empty_number_background
-                        editText.isStateNormal = true
+                        if (isFocused) {
+                            editText.isStateNormal = true
+                        }
+                        else {
+                            editText.isStateAccent = true
+                        }
                     } else {
                         numberTextColorResId = R.color.phrase_number_text_color
                         numberBackgroundResId = R.drawable.number_background
-                        editText.isStateNormal = true
+                        if (isFocused) {
+                            editText.isStateNormal = true
+                        }
+                        else {
+                            editText.isStateAccent = true
+                        }
                     }
                 }
             }

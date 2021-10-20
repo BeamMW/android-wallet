@@ -33,7 +33,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_create.*
  */
 class WelcomeCreateFragment : BaseFragment<WelcomeCreatePresenter>(), WelcomeCreateContract.View {
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_create
-    override fun getToolbarTitle(): String? = ""
+    override fun getToolbarTitle(): String = ""
     override fun hasBackArrow(): Boolean = WelcomeCreateFragmentArgs.fromBundle(requireArguments()).hasBackArrow
 
     private val onBackPressedCallback: OnBackPressedCallback = object: OnBackPressedCallback(true) {

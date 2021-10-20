@@ -26,7 +26,6 @@ import androidx.navigation.AnimBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.navOptions
 import com.mw.beam.beamwallet.R
-import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.screens.transaction_details.TransactionDetailsFragmentArgs
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
@@ -39,7 +38,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavOptions
 import android.widget.TextView
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import io.reactivex.disposables.Disposable
 import android.net.Uri
@@ -48,19 +46,20 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.mw.beam.beamwallet.core.AppManager
 import com.elvishew.xlog.XLog.json
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.JsonElement
 import com.google.gson.Gson
 import com.google.zxing.integration.android.IntentIntegrator
 import com.mw.beam.beamwallet.base_screen.*
-import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.NotificationItem
 import com.mw.beam.beamwallet.core.entities.NotificationType
+import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 import com.mw.beam.beamwallet.core.views.NotificationBanner
 import com.mw.beam.beamwallet.screens.address_details.AddressFragment
 import com.mw.beam.beamwallet.screens.address_details.AddressFragmentArgs
+import com.mw.beam.beamwallet.screens.apps.detail.AppDetailFragmentArgs
 import com.mw.beam.beamwallet.screens.notifications.NotificationsFragment
 import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragment
 import com.mw.beam.beamwallet.screens.notifications.newversion.NewVersionFragmentArgs
@@ -76,6 +75,9 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     companion object {
         lateinit var self: AppActivity
+
+        var screenWidth = 0
+        var screenHeight = 0
 
         var withdrawAmount = 0
         var withdrawUserId = ""
@@ -121,9 +123,19 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val width = resources.displayMetrics.widthPixels
+        val height = resources.displayMetrics.heightPixels
+        val density = resources.displayMetrics.density
+
+        screenWidth = ((width - 0.5f) / density).toInt()
+        screenHeight = ((height - 0.5f) / density).toInt()
+
+
         setDefaultTheme()
+
         App.isAppRunning = true
         App.isDarkMode =  PreferencesManager.getBoolean(PreferencesManager.DARK_MODE,false)
+
         changeTheme()
 
         super.onCreate(savedInstanceState)
@@ -181,7 +193,6 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     fun changeTheme()
     {
-
         if (App.isDarkMode)
             setTheme(R.style.AppThemeDark)
         else
@@ -238,6 +249,12 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
             shortCut = null
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        DAOManager.loadApps(this)
     }
 
     override fun onDestroy() {
@@ -351,70 +368,92 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     private fun setupMenu(savedInstanceState: Bundle?)
     {
-       menuItems =  mutableListOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+        menuItems = mutableListOf(
+            NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+            NavItem(NavItem.ID.DAO, R.drawable.menu_dao, getString(R.string.dAppStore)),
+            NavItem(NavItem.ID.DAO_CORE, R.drawable.ic_dao, getString(R.string.beam_x_dao)),
+            NavItem(NavItem.ID.SPACE, 0, ""),
+            NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+            NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
+            NavItem(NavItem.ID.DOCUMENTATION, R.drawable.ic_help, getString(R.string.documentation)),
+            NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings))
+        )
 
         navigationView = layoutInflater.inflate(R.layout.left_menu, null)
         val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
 
-        navItemsAdapter = NavItemsAdapter(applicationContext, menuItems.toTypedArray(), object : NavItemsAdapter.OnItemClickListener {
+        val space = screenHeight - (7 * 60) - 190
+
+        navItemsAdapter = NavItemsAdapter(applicationContext, menuItems.toTypedArray(), ScreenHelper.dpToPx(this, space), object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
-                val old = navItemsAdapter.selectedItem
 
-                if (navItemsAdapter.selectedItem != navItem.id) {
-                    val destinationFragment = when (navItem.id) {
-                        NavItem.ID.WALLET -> R.id.walletFragment
-                        NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
-                        NavItem.ID.SETTINGS -> R.id.settingsFragment
-                        NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
-                        else -> 0
-                    }
-
-                    if (old == NavItem.ID.NOTIFICATIONS) {
-                        AppManager.instance.readAllNotification()
-                        reloadNotifications();
-                    }
-
-                    val navBuilder = NavOptions.Builder()
-                    val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
-                    findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
-
-                    val mDelayOnDrawerClose = 50
-                    Handler().postDelayed({
-                        result?.drawerLayout?.closeDrawers()
-                        navItemsAdapter.selectItem(navItem.id)
-                    }, mDelayOnDrawerClose.toLong())
+                if (navItem.id == NavItem.ID.SPACE) {
+                    return
                 }
-                else{
+
+                if (navItem.id == NavItem.ID.DOCUMENTATION) {
+                    val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
+
+                    if (allow) {
+                        openExternalLink(App.documentationUrl)
+                    }
+                    else{
+                        showAlert(
+                            getString(R.string.common_external_link_dialog_message),
+                            getString(R.string.open),
+                            { openExternalLink(App.documentationUrl) },
+                            getString(R.string.common_external_link_dialog_title),
+                            getString(R.string.cancel)
+                        )
+                    }
+
                     result?.drawerLayout?.closeDrawers()
+                }
+                else {
+                    val old = navItemsAdapter.selectedItem
+
+                    if (navItemsAdapter.selectedItem != navItem.id) {
+                        val destinationFragment = when (navItem.id) {
+                            NavItem.ID.WALLET -> R.id.walletFragment
+                            NavItem.ID.ADDRESS_BOOK -> R.id.addressesFragment
+                            NavItem.ID.SETTINGS -> R.id.settingsFragment
+                            NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
+                            NavItem.ID.DAO -> R.id.appListFragment
+                            NavItem.ID.DAO_CORE -> R.id.appDetailFragment
+                            else -> 0
+                        }
+
+                        if (old == NavItem.ID.NOTIFICATIONS) {
+                            AppManager.instance.readAllNotification()
+                            reloadNotifications();
+                        }
+
+                        val navBuilder = NavOptions.Builder()
+                        val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+
+                        if (navItem.id == NavItem.ID.DAO_CORE) {
+                            val args = AppDetailFragmentArgs(DAOManager.getDaoCoreApp(), true)
+                            findNavController(R.id.nav_host).navigate(destinationFragment, args.toBundle(), navigationOptions);
+                        }
+                        else {
+                            findNavController(R.id.nav_host).navigate(destinationFragment, null, navigationOptions);
+                        }
+
+                        val mDelayOnDrawerClose = 50
+                        Handler().postDelayed({
+                            result?.drawerLayout?.closeDrawers()
+                            navItemsAdapter.selectItem(navItem.id)
+                        }, mDelayOnDrawerClose.toLong())
+                    }
+                    else{
+                        result?.drawerLayout?.closeDrawers()
+                    }
                 }
             }
         })
         navMenu.layoutManager = LinearLayoutManager(applicationContext)
         navMenu.adapter = navItemsAdapter
         navItemsAdapter.selectItem(NavItem.ID.WALLET)
-
-        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
-        whereBuyBeamLink.setOnClickListener {
-
-            val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-
-            if (allow) {
-                openExternalLink(AppConfig.BEAM_EXCHANGES_LINK)
-            }
-            else{
-                showAlert(
-                        getString(R.string.common_external_link_dialog_message),
-                        getString(R.string.open),
-                        { openExternalLink(AppConfig.BEAM_EXCHANGES_LINK) },
-                        getString(R.string.common_external_link_dialog_title),
-                        getString(R.string.cancel)
-                )
-            }
-        }
 
         result = DrawerBuilder()
                 .withActivity(this)
@@ -527,14 +566,16 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
     }
 
     fun reloadMenu() {
-        val whereBuyBeamLink = navigationView.findViewById<TextView>(R.id.whereBuyBeamLink)
-        whereBuyBeamLink.text = getString(R.string.welcome_where_to_buy_beam)
-
         menuItems =  mutableListOf(
-                NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
-                NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
-                NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
-                NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings)))
+            NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
+            NavItem(NavItem.ID.DAO, R.drawable.menu_dao, getString(R.string.dAppStore)),
+            NavItem(NavItem.ID.DAO_CORE, R.drawable.ic_dao, getString(R.string.beam_x_dao)),
+            NavItem(NavItem.ID.SPACE, 0, ""),
+            NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
+            NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
+            NavItem(NavItem.ID.DOCUMENTATION, R.drawable.ic_help, getString(R.string.documentation)),
+            NavItem(NavItem.ID.SETTINGS, R.drawable.menu_settings, getString(R.string.settings))
+            )
 
         navItemsAdapter.data = menuItems.toTypedArray()
         navItemsAdapter.selectItem(NavItem.ID.SETTINGS)
@@ -543,8 +584,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
 
     fun reloadNotifications() {
         runOnUiThread {
-            menuItems[2].unreadCount = AppManager.instance.getUnreadNotificationsCount()
-            navItemsAdapter.notifyItemChanged(2)
+            val index = menuItems.indexOfFirst {
+                it.id == NavItem.ID.NOTIFICATIONS
+            }
+            menuItems[index].unreadCount = AppManager.instance.getUnreadNotificationsCount()
+            navItemsAdapter.notifyItemChanged(index)
             sendNotifications()
         }
     }

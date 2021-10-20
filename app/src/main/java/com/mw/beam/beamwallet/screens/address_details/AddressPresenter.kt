@@ -55,7 +55,8 @@ class AddressPresenter(currentView: AddressContract.View, currentRepository: Add
     }
 
     override fun onCopyAddress() {
-        view?.copyToClipboard(state.address?.id ?: return, COPY_TAG)
+        val copyValue = state.address?.displayAddress ?: state.address?.address
+        view?.copyToClipboard(copyValue ?: return, COPY_TAG)
     }
 
     override fun onMenuCreate(menu: Menu?) {

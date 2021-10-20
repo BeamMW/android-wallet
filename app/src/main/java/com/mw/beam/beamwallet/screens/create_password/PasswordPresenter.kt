@@ -17,6 +17,7 @@
 package com.mw.beam.beamwallet.screens.create_password
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.Status
 import com.mw.beam.beamwallet.core.helpers.WelcomeMode
 import com.mw.beam.beamwallet.core.views.PasswordStrengthView
@@ -63,13 +64,20 @@ class PasswordPresenter(currentView: PasswordContract.View, currentRepository: P
                     view?.completePassChanging()
                 }
             } else if (state.mode != WelcomeMode.RESTORE) {
-                if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"), state.mode ?: WelcomeMode.CREATE)) {
-                    //if somehow we get mode null here - seems to be better to apply create mode instead of restore one
-                    view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return, view?.getSeed() ?: return)
-                } else {
-                    view?.showSnackBar(Status.STATUS_ERROR)
+                if (AppManager.instance.wallet == null) {
+                    if (Status.STATUS_OK == repository.createWallet(view?.getPass(), state.phrases?.joinToString(separator = ";", postfix = ";"), state.mode ?: WelcomeMode.CREATE)) {
+                        //if somehow we get mode null here - seems to be better to apply create mode instead of restore one
+                        view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return, view?.getSeed() ?: return)
+                    } else {
+                        view?.showSnackBar(Status.STATUS_ERROR)
+                    }
                 }
-            } else {
+                else {
+                    repository.changePass(view?.getPass())
+                    view?.proceedToWallet(state.mode ?: WelcomeMode.CREATE, view?.getPass() ?: return, view?.getSeed() ?: return)
+                }
+            }
+            else {
                 view?.showRestoreModeChoice(view?.getPass() ?: return, view?.getSeed() ?: return)
             }
         }

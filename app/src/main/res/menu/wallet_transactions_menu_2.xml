@@ -11,6 +11,11 @@
         android:title="@string/repeat_transaction"
         app:showAsAction="always" />
     <item
+        android:id="@+id/dapp"
+        android:icon="@drawable/menu_dapp"
+        android:title="@string/open_dapp"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/delete"
         android:icon="@drawable/menu_delete"
         android:title="@string/delete_transaction"

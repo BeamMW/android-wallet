@@ -30,8 +30,8 @@
                     android:id="@+id/seedLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:columnCount="2"
                     android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                     android:paddingStart="@dimen/welcome_description_side_offset"
                     android:paddingTop="@dimen/common_offset"
                     android:paddingEnd="@dimen/welcome_description_side_offset"
-                    android:paddingBottom="@dimen/welcome_seed_description_padding_bottom"
+                    android:paddingBottom="@dimen/common_offset"
                     android:text="@string/welcome_restore_description"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -101,5 +101,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 </FrameLayout>

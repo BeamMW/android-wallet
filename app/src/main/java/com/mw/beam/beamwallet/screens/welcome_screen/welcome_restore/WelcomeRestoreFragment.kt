@@ -50,7 +50,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         hideKeyboard()
     }
 
-    private var currentEditText: EditText? = null
+    private var currentEditText: BeamEditText? = null
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_restore
     override fun getToolbarTitle(): String = getString(R.string.restore_wallet)
@@ -182,8 +182,8 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         //hide keyboard at last phrase
         (seedLayout.getChildAt(phrasesCount - 1) as BeamPhraseInput).editText.imeOptions = EditorInfo.IME_ACTION_DONE
 
-        (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
-        showKeyboard()
+//        (seedLayout.getChildAt(0) as BeamPhraseInput).requestFocus()
+//        showKeyboard()
     }
 
     private fun configPhrase(number: Int, rowIndex: Int, columnIndex: Int, sideOffset: Int, topOffset: Int): View? {
@@ -192,7 +192,7 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         val phrase = BeamPhraseInput(context)
         phrase.number = number
         phrase.validator = { presenter?.onValidateSeed(it) ?: false }
-
+        phrase.isNeedGreen = false
         phrase.isForEnsure = true
 
         val params = GridLayout.LayoutParams()
@@ -217,10 +217,18 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         })
 
         phrase.editText.setOnFocusChangeListener { v, hasFocus ->
+            val field = v as BeamEditText?
+
+            if (hasFocus && field?.isStateError == false) {
+                field.isStateAccent = true
+            }
+            else if(field?.isStateError == false) {
+                field.isStateNormal = true
+            }
+
             presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
             if (hasFocus) {
-                currentEditText = v as EditText?
-
+                currentEditText = v
                 val index = phrase.number/2
                 if (index > 3) {
                     val y = phrase.height * index + suggestionsView.height

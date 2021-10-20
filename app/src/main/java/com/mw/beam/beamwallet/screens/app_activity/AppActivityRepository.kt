@@ -16,20 +16,28 @@
 
 package com.mw.beam.beamwallet.screens.app_activity
 
+import android.os.Handler
 import com.mw.beam.beamwallet.base_screen.BaseRepository
 import com.mw.beam.beamwallet.core.AppManager
+import android.os.Looper
+
+
+
 
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
-    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean, assetId:Int) {
+    override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean, assetId:Int, isOffline:Boolean) {
         getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
-            if(AppManager.instance.isToken(token)) {
-                val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
-                AppManager.instance.setIgnoreAddress(params?.address)
-            }
-            else  {
-                AppManager.instance.removeIgnoredAddress(token)
-            }
-            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee,  assetId)
+            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee,  assetId, isOffline)
+        }
+
+        if (AppManager.lastSendSavedContact != null) {
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                wallet?.saveAddress(AppManager.lastSendSavedContact!!, false)
+            }, 300)
+
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                AppManager.lastSendSavedContact = null
+            }, 350)
         }
     }
 

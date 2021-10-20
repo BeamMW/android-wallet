@@ -142,6 +142,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         maxPrivacyAddress = walletAddress.tokenMaxPrivacy
 
         if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            addressHintLabel.visibility = View.VISIBLE
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
                 addressLabel.text = walletAddress.address.trimAddress()
             }
@@ -150,6 +151,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             }
         }
         else {
+            addressHintLabel.visibility = View.GONE
             addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
         }
     }
@@ -157,8 +159,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions){
         nameComment.setText(walletAddress.label)
+        txComment.setText(walletAddress.label)
 
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+            addressHintLabel.visibility = View.VISIBLE
             switchView.isChecked = false
             addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
@@ -183,6 +187,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     " (" + resources.getString(R.string.maximum_anonymity) + ")"
             receiveDescription.text = description
             addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
+            addressHintLabel.visibility = View.GONE
         }
 
         AppActivity.self.runOnUiThread {
@@ -245,6 +250,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun copyToken(receiveToken: String) {
         presenter?.state?.wasAddressSaved = true
+        presenter?.saveToken()
         copyToClipboard(receiveToken, copyTag)
         showSnackBar(getString(R.string.address_copied_to_clipboard))
     }
@@ -269,9 +275,11 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         switchView.setOnClickListener {
             if (switchView.isChecked) {
                 presenter?.onMaxPrivacyPressed()
+                presenter?.saveToken()
             }
             else {
                 presenter?.onRegularPressed()
+                presenter?.saveToken()
             }
         }
 
@@ -338,6 +346,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     currency.text = asset?.unitName ?: ""
 
                     presenter?.updateToken()
+                    presenter?.saveToken()
 
                     true
                 })
@@ -377,6 +386,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         setFragmentResultListener("FragmentB_REQUEST_KEY") { key, bundle ->
             presenter?.state?.wasAddressSaved = true
+            presenter?.saveToken()
         }
 
         if(App.isDarkMode) {
@@ -408,6 +418,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun shareToken(receiveToken: String) {
         presenter?.state?.wasAddressSaved = true
+        presenter?.saveToken()
         shareText(getString(R.string.common_share_title), receiveToken, activity)
     }
 
@@ -417,6 +428,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         val address = presenter?.state?.address
         if (address!=null) {
             presenter?.state?.wasAddressSaved = true
+            presenter?.saveToken()
             findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(address,
                     0,
                     false,
@@ -426,7 +438,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         }
     }
 
-    override fun getComment(): String? = nameComment.text?.toString()
+    override fun getComment(): String? = txComment.text?.toString()
 
     override fun showSaveAddressDialog(nextStep: () -> Unit) {
         showAlert(

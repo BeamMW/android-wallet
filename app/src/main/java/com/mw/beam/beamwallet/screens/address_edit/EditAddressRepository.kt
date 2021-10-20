@@ -34,19 +34,15 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
         }
     }
 
-    override fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean) {
+    override fun saveAddressChanges(addr: String, name: String, makeExpired: Boolean, makeActive: Boolean, isExtend: Boolean) {
         getResult("saveAddressChanges") {
-            var addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.OneDay
+            var addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.AsIs
 
             if(makeExpired) {
-                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Expired;
+                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Expired
             }
-            else if(isNever) {
-                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Never;
-            }
-
-            if(addressExpiration == WalletAddressDTO.WalletAddressExpirationStatus.Expired) {
-                AppManager.instance.ignoreNotifications.add(addr)
+            else if(makeActive || isExtend) {
+                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Auto
             }
 
             wallet?.updateAddress(addr, name, addressExpiration.ordinal)
@@ -56,22 +52,6 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
     override fun saveAddress(address: WalletAddress, own: Boolean) {
         getResult("saveAddress") {
             wallet?.saveAddress(address.toDTO(), own)
-        }
-    }
-
-    override fun updateAddress(address: WalletAddress) {
-        getResult("updateAddress") {
-            val addressExpiration = when {
-                address.isExpired -> WalletAddressDTO.WalletAddressExpirationStatus.Expired
-                address.duration == 0L -> WalletAddressDTO.WalletAddressExpirationStatus.Never
-                else -> WalletAddressDTO.WalletAddressExpirationStatus.OneDay
-            }
-
-            if(addressExpiration == WalletAddressDTO.WalletAddressExpirationStatus.Expired) {
-                AppManager.instance.ignoreNotifications.add(address.id)
-            }
-
-            wallet?.updateAddress(address.id, address.label, addressExpiration.ordinal)
         }
     }
 }

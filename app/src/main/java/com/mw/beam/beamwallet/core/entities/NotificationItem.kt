@@ -9,6 +9,7 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
+import com.mw.beam.beamwallet.core.DAOManager
 import com.mw.beam.beamwallet.core.helpers.*
 import java.util.regex.Pattern
 
@@ -22,6 +23,10 @@ class NotificationItem  {
     var icon: Int? = null
     var detail: String? = null
     var detailSpannable: Spannable? = null
+
+    var newTitle: String? = null
+    var newDetail: Spannable? = null
+    var newIcon: String? = null
 
     constructor(name: String) {
         nId = ""
@@ -53,30 +58,96 @@ class NotificationItem  {
                 val amountString = transaction.amount.convertToAssetString(assetName)
                 var address = if (transaction.sender == TxSender.RECEIVED) transaction.peerId else transaction.myId
 
-                if (transaction.sender == TxSender.RECEIVED) {
+                address = if (transaction.isDapps == true) {
+                    transaction.appName ?: ""
+                } else {
+                    address.trimAddress()
+                }
+
+                if (transaction.isDapps == true) {
+                    address = address + ": " + cntx.getString(R.string.send_money)
+                    newTitle = transaction.appName ?: ""
+
+                    if (transaction.status == TxStatus.InProgress || transaction.status == TxStatus.Registered) {
+                        val app = (DAOManager.apps.firstOrNull {
+                            it.name == newTitle
+                        })
+
+                        icon = R.drawable.ic_icon_contract_completed
+                        name = cntx.getString(R.string.dapp_transaction_completed)
+                        detail = transaction.message
+                        //cntx.getString(R.string.dapss_transaction_received_notif_body, address, cntx.getString(R.string.send_money_completed))
+                        newIcon = app?.icon
+
+                        if (transaction.sender == TxSender.RECEIVED) {
+                            val detail = cntx.getString(R.string.withdrawing, amountString)
+                            val spannableString = SpannableString(detail)
+                            val matcherBeam = Pattern.compile("$amountString").matcher(detail)
+                            if (matcherBeam.find()) {
+                                spannableString.setSpan(
+                                    StyleSpan(Typeface.BOLD),
+                                    matcherBeam.start(), matcherBeam.end(),
+                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                            }
+                            newDetail = spannableString
+                        }
+                        else {
+                            val detail = cntx.getString(R.string.depositing, amountString)
+                            val spannableString = SpannableString(detail)
+                            val matcherBeam = Pattern.compile("$amountString").matcher(detail)
+                            if (matcherBeam.find()) {
+                                spannableString.setSpan(
+                                    StyleSpan(Typeface.BOLD),
+                                    matcherBeam.start(), matcherBeam.end(),
+                                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                            }
+                            newDetail = spannableString
+                        }
+                    }
+                    else if (transaction.status == TxStatus.Failed || transaction.status == TxStatus.Cancelled) {
+                        icon = R.drawable.ic_icon_contract_failed
+                        name = cntx.getString(R.string.dapp_transaction_failed)
+                        detail = transaction.message
+                        //cntx.getString(R.string.dapss_transaction_received_notif_body, address, cntx.getString(R.string.send_money_failed))
+                    }
+                    else if(transaction.status == TxStatus.Completed) {
+                        icon = R.drawable.ic_icon_contract_completed
+                        name = cntx.getString(R.string.dapp_transaction_completed)
+                        detail = transaction.message
+                        //cntx.getString(R.string.dapss_transaction_received_notif_body, address, cntx.getString(R.string.send_money_completed))
+                    }
+                }
+                else if (transaction.sender == TxSender.RECEIVED) {
                     if ((transaction.status == TxStatus.Pending || transaction.status == TxStatus.Registered
-                                    || transaction.status == TxStatus.InProgress) && transaction.status != TxStatus.Completed) {
-                        icon = R.drawable.ic_icon_notifictions_received
+                                    || transaction.status == TxStatus.InProgress)
+                        && transaction.status != TxStatus.Completed) {
+
+                        icon =  R.drawable.ic_icon_notifictions_received
                         name =  cntx.getString(R.string.notification_receive_content_title)
                         val string = cntx.getString(R.string.transaction_receiving_notif_body)
                                 .replace("(value)", amountString)
-                                .replace("(address)", address.trimAddress())
+                                .replace("(address)", address)
                                 .replace("  ", " ")
                         detail = string
                     }
                     else if (transaction.status == TxStatus.Cancelled || transaction.status == TxStatus.Failed) {
-                        icon = R.drawable.ic_icon_notifictions_failed
+                        icon = if (transaction.isShielded || transaction.isPublicOffline || transaction.isMaxPrivacy) {
+                                R.drawable.ic_notifictions_offline_receive_failed
+                            }
+                            else {
+                                R.drawable.ic_notifictions_failed_receive
+                            }
                         name =  cntx.getString(R.string.buy_transaction_failed_title)
                         val string = cntx.getString(R.string.transaction_received_notif_body_failed)
                                 .replace("(value)", amountString)
-                                .replace("(address)", address.trimAddress())
+                                .replace("(address)", address)
                                 .replace("  ", " ")
                         detail = string
                     }
                     else {
-                        if(transaction.isMaxPrivacy) {
+                         if(transaction.isMaxPrivacy) {
                             icon = R.drawable.ic_notifictions_received_max_privacy
-                            name =  cntx.getString(R.string.transaction_received)
+                            name =  cntx.getString(R.string.transaction_received_max_privacy)
                             val string = cntx.getString(R.string.transaction_received_max_privacy_notif_body)
                                     .replace("(value)", amountString)
                                     .replace("(address)", transaction.myId.trimAddress())
@@ -98,7 +169,7 @@ class NotificationItem  {
                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_notif_body)
                                     .replace("(value)", amountString)
-                                    .replace("(address)", address.trimAddress())
+                                    .replace("(address)", address)
                                     .replace("  ", " ")
                             detail = string
                         }
@@ -106,30 +177,35 @@ class NotificationItem  {
                 }
                 else {
                     if (transaction.status == TxStatus.Cancelled || transaction.status == TxStatus.Failed) {
+                        name =  cntx.getString(R.string.buy_transaction_failed_title)
+
                         icon = if (transaction.sender == TxSender.RECEIVED) {
-                            R.drawable.ic_icon_notifictions_failed_copy
-                        } else {
-                            if (transaction.isMaxPrivacy) {
-                                R.drawable.ic_notifictions_failed_sent_max_privacy
+                                R.drawable.ic_icon_notifictions_failed_copy
                             }
                             else {
-                                R.drawable.ic_icon_notifictions_failed
+                                if (transaction.isMaxPrivacy) {
+                                    R.drawable.ic_notifictions_failed_sent_max_privacy
+                                }
+                                else if(transaction.isShielded || transaction.isPublicOffline)
+                                {
+                                    R.drawable.ic_notifictions_offline_send_failed
+                                }
+                                else {
+                                    R.drawable.ic_icon_notifictions_failed
+                                }
                             }
-                        }
-                        name =  cntx.getString(R.string.buy_transaction_failed_title)
 
                         val string = cntx.getString(R.string.transaction_sent_notif_body_failed)
                                 .replace("(value)", amountString)
-                                .replace("(address)", address.trimAddress())
+                                .replace("(address)", address)
                                 .replace("  ", " ")
 
                         detail = string
                     }
                     else {
                         if (transaction.isMaxPrivacy || transaction.isShielded || transaction.isPublicOffline) {
-
                             val a = AppManager.instance.getAddress(transaction.myId)
-                            address = if (a != null && !a?.isContact) {
+                            address = if (a != null && !a.isContact) {
                                 transaction.peerId
                             } else {
                                 transaction.myId
@@ -140,7 +216,7 @@ class NotificationItem  {
                             }
 
                             if(transaction.isMaxPrivacy) {
-                                name =  cntx.getString(R.string.transaction_sent)
+                                name =  cntx.getString(R.string.transaction_sent_max_privacy)
                                 icon = R.drawable.ic_notifictions_send_max_privacy
                             }
                             else {
@@ -160,7 +236,7 @@ class NotificationItem  {
                             name =  cntx.getString(R.string.transaction_sent)
                             val string = cntx.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", amountString)
-                                    .replace("(address)", address.trimAddress())
+                                    .replace("(address)", address)
                                     .replace("  ", " ")
                             detail = string
                         }

@@ -125,6 +125,35 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:letterSpacing="0.2"
+                        android:text="@string/asset_id"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/assetIdLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:layout_marginTop="5dp"
+                        tools:text="10 BEAM"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:letterSpacing="0.2"
                         android:text="@string/smallest_unit_name"
                         android:textAllCaps="true"
                         android:textColor="?attr/subHeaderTextColor"
@@ -200,6 +229,20 @@
                         android:textSize="14sp"
                         tools:text="10 BEAM" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btnOpenInBlockExplorer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_external_link_new"
+                    android:drawablePadding="5dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:padding="3dp"
+                    android:text="@string/open_in_blockchain"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginTop="5dp"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

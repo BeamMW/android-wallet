@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="?attr/initialBackground" />
+        app:srcCompat="@drawable/bg_new_triangles" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -80,15 +80,15 @@
 
             <ImageView
                 android:id="@+id/logo"
-                android:layout_width="@dimen/welcome_logo_width"
-                android:layout_height="@dimen/welcome_logo_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/welcome_logo_margin_top"
                 android:contentDescription="@null"
                 app:layout_constraintBottom_toTopOf="@id/logoText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_logo" />
+                app:srcCompat="@drawable/logo_new" />
 
             <TextView
                 android:id="@+id/logoText"
@@ -98,7 +98,8 @@
                 android:fontFamily="@font/slogan_font"
                 android:text="@string/common_logo_text"
                 android:textAlignment="center"
-                android:textColor="@color/logo_text_color"
+                android:textColor="@android:color/white"
+                android:alpha="0.7"
                 android:textSize="@dimen/logo_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,7 @@
 package com.mw.beam.beamwallet.core.entities
 
+import com.mw.beam.beamwallet.BuildConfig
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
@@ -32,8 +34,8 @@ class Asset(val assetId: Int,
         return assetId == 0
     }
 
-    fun isDemoX():Boolean {
-        return unitName.toUpperCase() == "DEMOX" || unitName.toUpperCase() == "BEAMX"
+    fun isBeamX():Boolean {
+        return assetId == 31
     }
 
     fun hasInProgressTransactions():Boolean {
@@ -59,5 +61,13 @@ class Asset(val assetId: Int,
 
     fun dateUsed(): Long {
         return AssetManager.instance.getLastTransaction(assetId)?.createTime ?: 0L
+    }
+
+    fun blockChainUrl():String {
+        return when (BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MASTERNET -> "https://master-net.explorer.beam.mw/assets/details/${assetId}"
+            AppConfig.FLAVOR_TESTNET -> "https://testnet.explorer.beam.mw/assets/details/${assetId}"
+            else -> "https://explorer.beam.mw/assets/details/${assetId}"
+        }
     }
 }

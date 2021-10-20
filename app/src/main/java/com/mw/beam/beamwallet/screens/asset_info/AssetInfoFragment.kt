@@ -63,7 +63,13 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
 
         toolbarLayout.hasStatus = true
 
-        pageAdapter = AssetInfoPageAdapter(getAssetId(), AppActivity.self.supportFragmentManager, 2)
+        val tabs = if (getAssetId() == 0) {
+            1
+        }
+        else {
+            2
+        }
+        pageAdapter = AssetInfoPageAdapter(getAssetId(), AppActivity.self.supportFragmentManager, tabs)
         pageAdapter.notifyDataSetChanged()
         pageAdapter.onClick = {
             val asset = presenter?.getAsset()
@@ -72,7 +78,9 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
         }
 
         tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.balance)))
-        tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.asset_info)))
+        if (tabs == 2) {
+            tabLayout.addTab(tabLayout.newTab().setText(getText(R.string.asset_info)))
+        }
 
         viewPager.isSaveFromParentEnabled = false
         viewPager.adapter = pageAdapter
@@ -89,16 +97,9 @@ class AssetInfoFragment : BaseFragment<AssetInfoPresenter>(), AssetInfoContract.
     }
 
     override fun init() {
-        val asset = presenter?.getAsset()
-
     }
-
 
     override fun configAsset(asset: Asset?) {
 
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 }

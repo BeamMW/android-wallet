@@ -29,6 +29,7 @@ class EditAddressState {
     var tempComment: String = ""
     var shouldExpireNow = false
     var shouldActivateNow = false
+    var shouldExtend = false
     lateinit var chosenPeriod: ExpirePeriod
 
     fun getTransactions():List<TxDescription> {

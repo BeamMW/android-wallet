@@ -313,8 +313,10 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
     override fun copyAddress() {
         val id = selectedAddresses.first()
+        val address = AppManager.instance.getAddress(id)
+        val copyValue = address?.displayAddress ?: address?.address
 
-        copyToClipboard(id, copyTag)
+        copyToClipboard(copyValue ?: id, copyTag)
 
         showSnackBar(getString(R.string.address_copied_to_clipboard))
 

@@ -24,6 +24,7 @@ import io.reactivex.disposables.Disposable
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.*
 
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, val state: ReceiveState)
@@ -41,6 +42,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
     private var isSkipSave = false
     private var oldAmount = 0L
     private var oldAssetId = 0
+    private var forceRequest = false
+    private var firstLoad = false
+    var isSBBS = false
 
     override fun onViewCreated() {
         super.onViewCreated()
@@ -50,6 +54,31 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         val address = view?.getWalletAddressFromArguments()
 
         if(address!=null) {
+            var paramsAmount = 0L
+            if (!firstLoad) {
+                AppManager.instance.wallet?.clearLastWalletId()
+
+                firstLoad = true
+
+                forceRequest = true
+
+                val isToken = AppManager.instance.wallet?.isToken(address.address)
+                if (isToken == true) {
+                    val params = AppManager.instance.wallet?.getTransactionParameters(address.address, false)
+                    if (params?.isMaxPrivacy == true) {
+                        transaction = TransactionTypeOptions.MAX_PRIVACY
+                    }
+                    paramsAmount = params?.amount ?: 0L
+                }
+                else {
+                    isSBBS = true
+                }
+
+                if (paramsAmount > 0L) {
+                    view?.setAmount(paramsAmount.convertToBeam())
+                }
+            }
+
             initSubscriptions()
 
             isSkipSave = true
@@ -57,12 +86,15 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             state.address = address
             initViewAddress(address)
 
+
             updateToken()
 
-            val amount = view?.getAmountFromArguments() ?: 0L
+            val amount = view?.getAmountFromArguments() ?: paramsAmount
             if (amount > 0) {
                 view?.setAmount(amount.convertToBeam())
             }
+
+            saveToken()
         }
         else if(state.address != null) {
             initViewAddress(state.address)
@@ -72,6 +104,27 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     fun setAddressName(name:String) {
         state.address?.label = name
+    }
+
+    override fun saveToken() {
+        state.address?.let { address ->
+            val comment = view?.getComment()
+            address.label = comment ?: ""
+
+            if(transaction == TransactionTypeOptions.MAX_PRIVACY) {
+                address.address = address.tokenMaxPrivacy
+            }
+            else {
+                if(AppManager.instance.isMaxPrivacyEnabled()) {
+                    address.address = address.tokenOffline
+                }
+                else {
+                    address.address = address.address
+                }
+            }
+
+            repository.saveAddress(address)
+        }
     }
 
     private fun initViewAddress(address: WalletAddress?) {
@@ -189,9 +242,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
         walletIdSubscription = AppManager.instance.subOnAddressCreated.subscribe {
             if (state.address == null) {
-                state.address = it
+                it.duration = ((24 * 60 * 60) * 61).toLong()
 
-                it.duration = 0L
+                state.address = it
 
                 AppManager.instance.wallet?.saveAddress(it.toDTO(), true)
 
@@ -232,7 +285,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 }
             }
 
-            repository.saveAddress(address)
+           saveToken()
         }
     }
 
@@ -255,19 +308,24 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             val amount = view?.getAmount()?.convertToGroth() ?: 0L
             val assetId = view?.getAssetId() ?: 0
 
-            val isNew = (oldAmount != amount || oldAssetId != assetId)
+            val isNew = (oldAmount != amount || oldAssetId != assetId || forceRequest)
             oldAmount = amount
             oldAssetId = assetId
 
-            if (state.address?.tokenOffline.isNullOrEmpty() || isNew) {
-                state.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(oldAmount, state.address!!.id, assetId)!!
-            }
+            if (!isSBBS) {
+                if (state.address?.tokenOffline.isNullOrEmpty() || isNew) {
+                    state.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(oldAmount, state.address!!.id, assetId)!!
+                }
 
-            if (state.address?.tokenMaxPrivacy.isNullOrEmpty() || isNew) {
-                AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, state.address!!.id, assetId)
+                if (state.address?.tokenMaxPrivacy.isNullOrEmpty() || isNew) {
+                    AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, state.address!!.id, assetId)
+                }
+
             }
 
             view?.updateTokens(state.address!!, transaction)
+
+            forceRequest = false
         }
     }
 

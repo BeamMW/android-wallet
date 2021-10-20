@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.view.animation.AccelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.fragment.app.DialogFragment
 
 import kotlin.concurrent.schedule
 import kotlin.math.ceil
@@ -17,7 +16,6 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 
 import java.util.*
-import android.graphics.LightingColorFilter
 
 
 class TimerOverlayDialog: BaseDialogFragment<TimerOverlayPresenter>(), TimerOverlayContract.View {

@@ -51,8 +51,7 @@ interface EditAddressContract {
     }
 
     interface Repository : MvpRepository {
-        fun saveAddressChanges(addr: String, name: String, isNever: Boolean, makeActive: Boolean, makeExpired: Boolean)
-        fun updateAddress(address: WalletAddress)
+        fun saveAddressChanges(addr: String, name: String, makeExpired: Boolean, makeActive: Boolean, isExtend: Boolean)
         fun saveAddress(address: WalletAddress, own: Boolean)
         fun deleteAddress(walletAddress: WalletAddress, txDescriptions: List<TxDescription>)
     }

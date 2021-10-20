@@ -34,7 +34,8 @@ data class WalletAddressDTO(val walletID: String,
     
     enum class WalletAddressExpirationStatus {
         Expired,
-        OneDay,
-        Never
+        Auto,
+        Never,
+        AsIs
     }
 }

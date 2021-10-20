@@ -35,11 +35,10 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_marginTop="2dp"
             android:contentDescription="@null"
-            android:paddingEnd="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry"
@@ -50,11 +49,12 @@
             style="@style/common_subheader_light"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
             android:gravity="start"
-            android:textSize="16sp"
             android:maxLines="1"
-            android:ellipsize="end"
+            android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/icon"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Receive" />

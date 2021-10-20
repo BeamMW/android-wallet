@@ -75,11 +75,6 @@ class TransactionsAdapter(private val context: Context, private val longListener
         }
     }
 
-    override fun getItemId(position: Int): Long {
-        val data = data[position]
-        return data.createTime
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
         this.containerView.setOnClickListener {
 
@@ -123,14 +118,21 @@ class TransactionsAdapter(private val context: Context, private val longListener
                 TxSender.SENT -> amountLabel.text = "- " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
             }
 
-            val secondValue = transaction.amount.exchangeValueAsset(transaction.assetId)
-            if (secondValue.isNotEmpty()) {
-                when (transaction.sender) {
-                    TxSender.RECEIVED -> secondBalanceLabel.text = "+ $secondValue"
-                    TxSender.SENT -> secondBalanceLabel.text = "- $secondValue"
+            if (privacyMode) {
+                secondBalanceLabel.visibility = View.GONE
+                secondBalanceLabel.text = ""
+            }
+            else {
+                secondBalanceLabel.visibility = View.VISIBLE
+
+                val secondValue = transaction.amount.exchangeValueAsset(transaction.assetId)
+                if (secondValue.isNotEmpty()) {
+                    when (transaction.sender) {
+                        TxSender.RECEIVED -> secondBalanceLabel.text = "+ $secondValue"
+                        TxSender.SENT -> secondBalanceLabel.text = "- $secondValue"
+                    }
                 }
             }
-
 
             if (App.isDarkMode) {
                 if (reverseColors) {
@@ -305,10 +307,8 @@ class TransactionsAdapter(private val context: Context, private val longListener
     override fun getItemCount(): Int = data.size
 
     fun setPrivacyMode(isEnable: Boolean) {
-        if (privacyMode != isEnable) {
-            privacyMode = isEnable
-            notifyDataSetChanged()
-        }
+        privacyMode = isEnable
+        notifyDataSetChanged()
     }
 
     fun item(index: Int): TxDescription {

@@ -20,6 +20,7 @@
             android:name=".screens.app_activity.SplashActivity"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
+            android:usesCleartextTraffic="true"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
 

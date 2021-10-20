@@ -47,4 +47,20 @@ data class TxDescriptionDTO(var id: String,
                             var receiverIdentity: String,
                             var receiverAddress: String,
                             var senderAddress: String,
-                            var assetId:Int) : Parcelable
+                            var assetId:Int,
+                            var isDapps:Boolean,
+                            var appName:String?,
+                            var appID:String?,
+                            var contractCids:String?) : Parcelable {
+
+                                @JvmName("getSenderValue")
+                                fun getSenderValue():Boolean {
+                                    if (isDapps && amount < 0) {
+                                        return false
+                                    }
+                                    else if (isDapps) {
+                                        return true
+                                    }
+                                    return sender
+                                }
+}

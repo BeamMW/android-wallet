@@ -73,7 +73,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="12sp" />
 
-                    <EditText
+                    <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/nameComment"
                         style="@style/common_text_big_light"
                         android:layout_width="match_parent"
@@ -81,7 +81,6 @@
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginEnd="@dimen/common_offset"
                         android:background="@drawable/edit_text_selector"
-                        android:backgroundTint="@android:color/transparent"
                         android:hint="@string/receive_contact_placholder"
                         android:imeOptions="actionDone"
                         android:inputType="text|textCapSentences"
@@ -94,6 +93,7 @@
                         android:layout_height="1dp"
                         android:layout_marginStart="@dimen/common_offset"
                         android:layout_marginEnd="@dimen/common_offset"
+                        android:alpha="0"
                         android:background="@color/divider_color" />
 
                 </LinearLayout>
@@ -174,8 +174,19 @@
                             app:fonts="1"
                             app:lower_case="true"
                             app:text_padding_enabled="false" />
-
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/addressHintLabel"
+                        style="@style/common_text_big_light"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/subHeaderTextColor"
+                        android:fontFamily="@font/roboto_italic"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/receive_address_hint" />
 
                 </LinearLayout>
 
@@ -185,22 +196,23 @@
                     android:layout_marginTop="20dp"
                     android:background="?attr/cardBackground">
 
-                    <EditText
+                    <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/amount"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_offset"
-                        android:layout_marginEnd="@dimen/common_offset"
+                        android:layout_height="45dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="16dp"
                         android:background="@drawable/edit_text_selector"
-                        android:backgroundTint="@android:color/transparent"
+                        android:fontFamily="@font/roboto_light"
                         android:hint="@string/zero"
                         android:inputType="numberDecimal"
                         android:padding="0dp"
+                        android:paddingEnd="100dp"
                         android:textColor="@color/received_color"
                         android:textColorHint="@color/common_hint_text_color"
-                        android:textSize="@dimen/receive_amount_text_size"
-                        app:layout_constraintEnd_toStartOf="@id/currencyLayout"
-                        app:layout_constraintHorizontal_bias="0.0"
+                        android:textSize="30sp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/amountContainer"
                         tools:ignore="Autofill,LabelFor" />
@@ -210,6 +222,7 @@
                         style="@style/common_text_big_dark"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="15dp"
                         android:fontFamily="@font/roboto_regular"
@@ -262,16 +275,25 @@
                         android:id="@+id/currencyLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginEnd="24dp"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="@id/amount"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/amount">
+
+                        <ImageView
+                            android:id="@+id/currencyImageView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:src="@drawable/asset0" />
 
                         <TextView
                             android:id="@+id/currency"
                             style="@style/common_subheader_light"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:layout_marginEnd="5dp"
                             android:ellipsize="end"
                             android:letterSpacing="0.15"
@@ -285,6 +307,7 @@
                             android:id="@+id/btnExpandCurrency"
                             android:layout_width="@dimen/wallet_expandable_icon_size"
                             android:layout_height="@dimen/wallet_expandable_icon_size"
+                            android:layout_gravity="center"
                             android:background="@drawable/btn_drop_down"
                             android:contentDescription="@null" />
                     </LinearLayout>
@@ -294,6 +317,8 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:background="@color/divider_color"
+                        android:visibility="invisible"
+                        android:alpha="0"
                         app:layout_constraintEnd_toEndOf="@id/amount"
                         app:layout_constraintStart_toStartOf="@id/amount"
                         app:layout_constraintTop_toBottomOf="@id/amount" />
@@ -353,21 +378,21 @@
                             app:layout_constraintTop_toTopOf="@id/txCommentTitle" />
                     </LinearLayout>
 
-                    <EditText
+                    <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/txComment"
                         style="@style/common_text_big_light"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/common_offset"
+                        android:layout_marginTop="12dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/edit_text_selector"
-                        android:backgroundTint="@android:color/transparent"
                         android:hint="@string/local_comment"
-                        android:textStyle="italic"
                         android:imeOptions="actionDone"
                         android:inputType="text|textCapSentences"
                         android:singleLine="true"
                         android:textColorHint="@color/common_hint_text_color"
+                        android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txCommentContainer"
                         app:layout_constraintTop_toBottomOf="@+id/txCommentContainer"
@@ -378,6 +403,7 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
+                        android:alpha="0"
                         android:background="@color/divider_color"
                         app:layout_constraintEnd_toEndOf="@id/txComment"
                         app:layout_constraintStart_toStartOf="@id/txComment"
@@ -386,7 +412,7 @@
                     <View
                         android:id="@+id/commentEmptyView"
                         android:layout_width="0dp"
-                        android:layout_height="20dp"
+                        android:layout_height="10dp"
                         android:background="@android:color/transparent"
                         app:layout_constraintEnd_toEndOf="@id/commentDivider"
                         app:layout_constraintStart_toStartOf="@id/commentDivider"

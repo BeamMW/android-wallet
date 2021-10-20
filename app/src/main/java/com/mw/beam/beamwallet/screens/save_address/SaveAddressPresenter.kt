@@ -38,29 +38,30 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
         view?.apply {
             var identity = ""
             val address = state.address
+            var id = state.address
 
             if(AppManager.instance.wallet?.isToken(address) == true)
             {
                 val params = AppManager.instance.wallet?.getTransactionParameters(address, false)
                 identity = params?.identity ?: ""
+                id = params?.address ?: state.address
             }
 
             AppManager.instance.removeIgnoredAddress(address)
 
-            AppManager.instance.wallet?.saveAddress(WalletAddressDTO(address, getName(), "", System.currentTimeMillis(), 0, 0, identity, address), false)
+            val dto = WalletAddressDTO(id, getName(), "", System.currentTimeMillis(), 0, 0, identity, address)
+            AppManager.lastSendSavedContact = dto
+            AppManager.instance.wallet?.saveAddress(dto, false)
 
             close()
         }
     }
 
     override fun onCancelPressed() {
-        val address = WalletAddress(WalletAddressDTO(state.address,"deleted","",0L,0L,0L, "", ""))
+        onSavePressed()
 
-        TrashManager.add(state.address, address)
-
-        AppManager.instance.wallet?.deleteAddress(state.address)
-
-        view?.close()
+        AppManager.instance.setIgnoreAddress(state.address)
+        AppManager.instance.wallet?.getAddresses(false)
     }
 
 }

@@ -1,6 +1,5 @@
 package com.mw.beam.beamwallet.core
 
-import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -55,6 +54,8 @@ class AssetManager {
     }
 
     fun fetch() {
+        requestesAssets.add(0)
+
         val json = PreferencesManager.getString(PreferencesManager.KEY_ASSETS)
 
         if (!json.isNullOrBlank()) {
@@ -93,7 +94,10 @@ class AssetManager {
     }
 
     fun clear() {
+        assets.clear()
         filteredAssets.clear()
+        requestesAssets.clear()
+        requestesAssets.add(0)
         selectedAssetId = 0
         addBeam()
         onChangeAssets()
@@ -158,7 +162,7 @@ class AssetManager {
         return if (asset.isBeam()) {
             return "#00F6D2"
         }
-        else if (asset.isDemoX()) {
+        else if (asset.isBeamX()) {
             return "#977dff"
         }
 //        else if(asset.isDemoX()) {
@@ -175,7 +179,7 @@ class AssetManager {
         return if(asset.isBeam()) {
             R.drawable.ic_asset_0
         }
-        else if(asset.isDemoX()) {
+        else if(asset.isBeamX()) {
             R.drawable.assetbeamx
         }
         else {

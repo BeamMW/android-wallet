@@ -46,7 +46,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_confirm.*
  *  11/1/18.
  */
 class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeConfirmContract.View {
-    private var currentEditText: EditText? = null
+    private var currentEditText: BeamEditText? = null
     private var sideOffset: Int = Int.MIN_VALUE
     private var topOffset: Int = Int.MIN_VALUE
 
@@ -61,7 +61,7 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().onBackPressedDispatcher.addCallback(activity!!, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
     }
 
     override fun onStart() {
@@ -215,8 +215,18 @@ class WelcomeConfirmFragment : BaseFragment<WelcomeConfirmPresenter>(), WelcomeC
 
         phrase.editText.setOnFocusChangeListener { v, hasFocus ->
             presenter?.onSeedFocusChanged((v as EditText?)?.text.toString(), hasFocus)
+
             if (hasFocus) {
-                currentEditText = v as EditText?
+                currentEditText = v as BeamEditText?
+            }
+
+            val field = v as BeamEditText?
+
+            if (hasFocus && field?.isStateError == false) {
+                field.isStateAccent = true
+            }
+            else if(field?.isStateError == false) {
+                field.isStateNormal = true
             }
         }
 

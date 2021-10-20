@@ -29,7 +29,7 @@ class SendState {
     var isPastedText = false
     var isNeedGenerateNewAddress = true
     var wasAddressSaved: Boolean = false
-    var expirePeriod: ExpirePeriod = ExpirePeriod.DAY
+    var expirePeriod: ExpirePeriod = ExpirePeriod.EXTEND
     var privacyMode = false
     val addresses = HashMap<String, WalletAddress>()
     var scannedAddress : String? = null

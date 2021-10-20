@@ -14,7 +14,7 @@
         android:layout_marginStart="@dimen/settings_common_offset"
         android:layout_marginTop="@dimen/settings_common_offset"
         android:fontFamily="sans-serif"
-        android:text="@string/lock_time_limit"
+        android:text="@string/transaction_time_lock"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/common_alert_title_text_size"
         android:textStyle="bold"

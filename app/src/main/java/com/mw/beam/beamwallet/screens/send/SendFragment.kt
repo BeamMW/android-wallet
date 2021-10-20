@@ -127,7 +127,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 requestFocusToAmount()
                 setSegmentButtons()
 
-                currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+                val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
+                currency.text = asset?.unitName
+                currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+
                 presenter?.onAmountChanged()
                 updateAvailable(AssetManager.instance.getAvailable(presenter?.assetId ?: 0))
             }
@@ -463,7 +466,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         permanentOutSwitch.setOnClickListener {
             presenter?.onExpirePeriodChanged(when (permanentOutSwitch.isChecked) {
                 true -> ExpirePeriod.NEVER
-                else -> ExpirePeriod.DAY
+                else -> ExpirePeriod.EXTEND
             })
 
             if (permanentOutSwitch.isChecked) {
@@ -587,7 +590,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                             amount.setText("")
                         }
                         presenter?.assetId = assetId
-                        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+
+                        currency.text = asset?.unitName
+                        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+
                         presenter?.onAmountChanged()
                         updateAvailable(AssetManager.instance.getAvailable(assetId))
                         updateAvailable(AssetManager.instance.getAvailable(assetId))
@@ -673,7 +679,9 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             btnExpandCurrency.visibility = View.GONE
         }
 
-        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+        val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
+        currency.text = asset?.unitName
+        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
     }
 
     override fun onStop() {
@@ -855,7 +863,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //                presenter?.currency = Currency.Usd
 //            }
 //        }
-        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+        val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
+        currency.text = asset?.unitName
+        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+
         presenter?.onAmountChanged()
         return super.onContextItemSelected(item)
     }
@@ -1236,6 +1247,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         else {
             tokenError.visibility = View.VISIBLE
             tokenError.text = error
+            token.isStateError = true
+
             newVersionTextView.visibility = View.GONE
 
             if(error.contains("by newer Beam library") || error.contains("Can not sent max privacy")) {
@@ -1287,6 +1300,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
     }
 
     override fun clearAddressError() {
+        if (token.isFocused) {
+            token.isStateAccent = true
+        }
+        else {
+            token.isStateNormal = true
+        }
         tokenError.visibility = View.GONE
     }
 
@@ -1304,6 +1323,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amountError.visibility = View.GONE
         amount.setTextColor(ContextCompat.getColor(requireContext(), R.color.sent_color))
         amount.isStateNormal = true
+        if (amount.isFocused) {
+            amount.isStateAccent = true
+        }
+        else {
+            amount.isStateNormal = true
+        }
         updateFeeTransactionVisibility()
     }
 
@@ -1398,7 +1423,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         }
         amount.isStateError = true
         updateFeeTransactionVisibility()
-        currency.text = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName
+
+        val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
+        currency.text = asset?.unitName
+        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
     }
 
     private fun showAppDetailsPage() {

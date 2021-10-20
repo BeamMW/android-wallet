@@ -33,16 +33,21 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val id: String = source.id
-    val amount: Long = source.amount
+    val amount: Long = if (source.amount >= 0) {
+        source.amount
+    }
+    else {
+        source.amount * (-1)
+    }
     val fee: Long = source.fee
     val change: Long = source.change
     val minHeight: Long = source.minHeight
     val peerId: String = source.peerId.replaceFirst(Regex("^0+"), "")
     val myId: String = source.myId.replaceFirst(Regex("^0+"), "")
-    var message: String = source.message ?: ""
+    var message: String = source.message?.capitalize() ?: ""
     val createTime: Long = source.createTime
     val modifyTime: Long = source.modifyTime
-    val sender: TxSender = TxSender.fromValue(source.sender)
+    val sender: TxSender = TxSender.fromValue(source.getSenderValue())
     val status: TxStatus = TxStatus.fromValue(source.status)
     val kernelId: String = source.kernelId
     val selfTx: Boolean = source.selfTx
@@ -58,6 +63,11 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val senderAddress = source.senderAddress
     val assetId = source.assetId
     var asset:Asset? = null
+
+    var isDapps:Boolean? = source.isDapps
+    var appName:String? = source.appName
+    var appID:String? = source.appID
+    var contractCids:String? = source.contractCids
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
@@ -120,11 +130,22 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
 
     fun getStatusString(context: Context) : String {
       var  status = when (status) {
-          TxStatus.Pending -> context.getString(R.string.pending)
+          TxStatus.Pending ->
+          if (selfTx) {
+              context.getString(R.string.sending_to_own_address)
+          }
+          else {
+              context.getString(R.string.pending)
+          }
           TxStatus.InProgress -> {
               when (sender) {
                   TxSender.RECEIVED -> context.getString(R.string.wallet_status_in_progress_sender)
-                  TxSender.SENT -> context.getString(R.string.wallet_status_in_progress_receiver)
+                  TxSender.SENT -> if (selfTx) {
+                      context.getString(R.string.sending_to_own_address)
+                  }
+                  else {
+                       context.getString(R.string.wallet_status_in_progress_receiver)
+                  }
               }
           }
           TxStatus.Registered -> {
@@ -206,10 +227,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             {
                 if(isPublicOffline || isShielded) {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_offline)
-                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_offline)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_receive_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_failed_offline)
+                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_offline)
+                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_iprogress_receive_offline)
                     }
                 }
                 else  {
@@ -225,18 +246,40 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
             {
                 if(isPublicOffline || isShielded) {
                     return when (this.status) {
-                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_cancelled_max_offline)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_offline)
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_max_offline)
-                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_offline)
+                        TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_offline)
+                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed_offline)
+                        TxStatus.Completed -> if (selfTx) {
+                            ContextCompat.getDrawable(App.self, R.drawable.ic_sent_own_offline)
+                        }
+                        else {
+                            ContextCompat.getDrawable(App.self, R.drawable.ic_sent_offline)
+                        }
+                        else ->
+                            if(selfTx) {
+                                ContextCompat.getDrawable(App.self, R.drawable.ic_send_own_offline)
+                            }
+                            else {
+                                ContextCompat.getDrawable(App.self, R.drawable.ic_icon_sending)
+                            }
                     }
                 }
                 else {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
                         TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_max_online)
-                        else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_online)
+                        TxStatus.Completed -> if (selfTx) {
+                            ContextCompat.getDrawable(App.self, R.drawable.ic_sent_max_privacy_own)
+                        }
+                        else {
+                            ContextCompat.getDrawable(App.self, R.drawable.ic_sending_max_online)
+                        }
+                        else ->
+                            if(selfTx) {
+                                ContextCompat.getDrawable(App.self, R.drawable.ic_seding_max_privacy_own)
+                            }
+                            else {
+                                ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_online)
+                            }
                     }
                 }
             }
@@ -284,5 +327,6 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
 
         return null
     }
+
 }
 

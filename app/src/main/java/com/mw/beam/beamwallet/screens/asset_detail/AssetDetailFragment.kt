@@ -171,7 +171,7 @@ class AssetDetailFragment : BaseFragment<AssetDetailPresenter>(), AssetDetailCon
     override fun configPrivacyStatus() {
         activity?.invalidateOptionsMenu()
         assetsAdapter.notifyDataSetChanged()
-        transactionsAdapter.notifyDataSetChanged()
+        transactionsAdapter.setPrivacyMode(ExchangeManager.instance.isPrivacyMode)
     }
 
     private fun openInfo() {

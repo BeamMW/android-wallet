@@ -70,7 +70,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_progress
-    override fun getToolbarTitle(): String? = ""
+    override fun getToolbarTitle(): String = ""
     private var timer: Timer? = null
     private var isShowWallet = false
 

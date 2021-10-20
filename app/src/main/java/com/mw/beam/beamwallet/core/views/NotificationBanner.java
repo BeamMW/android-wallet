@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -34,6 +35,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
+import coil.ImageLoader;
 
 public class NotificationBanner {
 
@@ -63,7 +66,7 @@ public class NotificationBanner {
     private GestureDetector gestureDetector;
     private GestureDetectorCompat simpleGestureHandler;
 
-    private AppCompatImageView iconView;
+    private ImageView iconView;
 
     private int layout;
 
@@ -99,15 +102,30 @@ public class NotificationBanner {
         instance.activity = activity;
         instance.layout =  R.layout.notification_banner;
         instance.setLayout(instance.layout);
-        instance.setBannerTitle(notification.getName());
-        instance.setIconView(notification.getIcon());
         instance.notificationId = notification.getNId();
         instance.objectId = notification.getPId();
         instance.type = notification.getType();
         instance.listener = listener;
 
-        if(notification.getDetailSpannable()!=null) {
+        if (notification.getNewTitle() != null) {
+            instance.setBannerTitle(notification.getNewTitle());
+        }
+        else {
+            instance.setBannerTitle(notification.getName());
+        }
+
+        if(notification.getNewDetail()!=null) {
+            instance.setBannerMessage(notification.getNewDetail());
+        }
+        else if(notification.getDetailSpannable()!=null) {
             instance.setBannerMessage(notification.getDetailSpannable());
+        }
+
+        if (notification.getNewIcon() != null) {
+            instance.setAppIconView(notification.getNewIcon());
+        }
+        else {
+            instance.setIconView(notification.getIcon());
         }
 
         if(notification.getType() == NotificationType.Address || notification.getType() == NotificationType.Version) {
@@ -167,6 +185,11 @@ public class NotificationBanner {
     private void setIconView(Integer icon){
         iconView = popupView.findViewById(R.id.appCompatImageView);
         iconView.setImageResource(icon);
+    }
+
+    private void setAppIconView(String icon){
+        iconView = popupView.findViewById(R.id.appCompatImageView);
+        com.mw.beam.beamwallet.core.views.ViewExtentionsKt.loadUrl(iconView, icon);
     }
 
     private void setBannerTitle(String text){

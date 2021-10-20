@@ -40,7 +40,7 @@ class CheckOldPassFragment : BaseFragment<CheckOldPassPresenter>(), CheckOldPass
     }
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_check_old_pass
-    override fun getToolbarTitle(): String? = getString(R.string.change_password)
+    override fun getToolbarTitle(): String = getString(R.string.change_password)
 
     override fun init() {
         passLayout.typeface = ResourcesCompat.getFont(context!!, R.font.roboto_regular)

@@ -19,6 +19,7 @@ class AddContactRepository: BaseRepository(), AddContactContract.Repository {
             AppManager.instance.removeIgnoredAddress(address)
 
             wallet?.saveAddress(WalletAddressDTO(address, name, "", System.currentTimeMillis(), 0, 0, identity, address), false)
+            wallet?.getAddresses(false)
         }
     }
 }

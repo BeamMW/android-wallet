@@ -54,8 +54,8 @@ class ShareTransactionDetailsView : FrameLayout {
 
         if (txDescription.sender.value) {
             if (txDescription.selfTx) {
-                startAddress.text = txDescription.myId
-                endAddress.text = txDescription.peerId
+                startAddress.text = txDescription.senderAddress.trimAddress()
+                endAddress.text = txDescription.receiverAddress.trimAddress()
 
                 startAddressTitle.text = "${context.getString(R.string.my_sending_address)}".toUpperCase()
                 endAddressTitle.text = "${context.getString(R.string.my_receiving_address)}".toUpperCase()

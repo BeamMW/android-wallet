@@ -202,7 +202,8 @@
     <style name="welcome_password_view_style" parent="common_header_big">
         <item name="android:inputType">textPassword</item>
         <item name="android:textCursorDrawable">@null</item>
-        <item name="android:letterSpacing">@dimen/welcome_password_dots_space</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="welcome_password_label_style" parent="common_subheader_light">

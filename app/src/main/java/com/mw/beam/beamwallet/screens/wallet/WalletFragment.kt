@@ -117,6 +117,8 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
+        DAOManager.loadApps(requireContext())
+
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
         itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
 
@@ -158,7 +160,9 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
 
     @SuppressLint("RestrictedApi")
     override fun addListeners() {
-        btnReceive.setOnClickListener { presenter?.onReceivePressed() }
+        btnReceive.setOnClickListener {
+            presenter?.onReceivePressed()
+        }
         btnNext.setOnClickListener {
             AssetManager.instance.selectedAssetId = 0
             presenter?.onSendPressed()

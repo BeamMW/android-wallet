@@ -1,35 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:filterTouchesWhenObscured="true">
 
     <TextView
         android:id="@+id/numberView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/welcome_number_offset"
-        android:layout_marginEnd="@dimen/welcome_number_offset"
+        android:layout_marginStart="12dp"
         android:background="@drawable/empty_number_background"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:textColor="@color/common_text_color"
         android:textSize="@dimen/welcome_number_text_size"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.mw.beam.beamwallet.core.views.BeamEditText
-        android:tag="input"
         style="@style/common_text_big_light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/welcome_number_offset"
         android:background="@drawable/edit_text_selector"
         android:imeOptions="actionNext"
         android:inputType="text|textVisiblePassword"
         android:maxLines="1"
+        android:paddingStart="40dp"
+        android:tag="input"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
-        app:layout_constraintStart_toEndOf="@id/numberView"
-        app:layout_constraintTop_toTopOf="parent" />
-</merge>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="RtlSymmetry" />
+</androidx.constraintlayout.widget.ConstraintLayout>

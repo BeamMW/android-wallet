@@ -61,6 +61,7 @@ interface ReceiveContract {
         fun onRegularPressed()
         fun onMaxPrivacyPressed()
         fun updateToken()
+        fun saveToken()
     }
 
     interface Repository : MvpRepository {

@@ -47,15 +47,16 @@ class WalletAddress(var source: WalletAddressDTO) : Parcelable {
     private val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
 
     var label: String = source.label
-    val createTime: Long = source.createTime
+    var createTime: Long = source.createTime
     var duration: Long = source.duration
     val own: Long = source.own
-    val isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
+    var isExpired = duration != 0L && ((createTime + duration) * 1000).isBefore()
     var isContact = own == 0L
     var tokenOffline = ""
     var tokenMaxPrivacy = ""
     var identity = source.identity
     var address = source.address
+    var displayAddress:String? = null
 
     fun toDTO(): WalletAddressDTO = source.apply {
         this.label = this@WalletAddress.label

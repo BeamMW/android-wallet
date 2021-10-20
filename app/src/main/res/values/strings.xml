@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Beam Wallet</string>
     <string name="redirect" translatable="false">open.mainnet.app</string>
-    <string name="common_logo_text">Confidential, fast, easy to use</string>
+    <string name="common_logo_text">Confidential DeFi Platform and\nCryptocurrency</string>
     <string name="done">Done</string>
     <string name="common_error">Oops, something went wrong…</string>
     <string name="online">Online</string>
@@ -111,7 +111,7 @@
     <string name="password_can_not_be_empty">Password can not be empty</string>
     <string name="pass_old_pass_error">New password cannot be the same as old</string>
     <string name="pass_wrong">Wrong password</string>
-    <string name="confirm_password">Confirm password</string>
+    <string name="confirm_password">Password confirmation</string>
     <string name="pass_return_seed_message">If you return to seed phrase, it would be changed and your local password won’t be saved.</string>
     <string name="pass_back_seed_title">Back to seed phrase</string>
     <string name="pass_return_seed_title">Return to seed phrase</string>
@@ -133,8 +133,8 @@
     <string name="wallet_status_in_progress_sender">Waiting for sender</string>
     <string name="wallet_status_in_progress_receiver">Waiting for receiver</string>
     <string name="failed">Failed</string>
-    <string name="expired">Expired</string>
-    <string name="cancelled">Cancelled</string>
+    <string name="expired">This address is already expired</string>
+    <string name="cancelled">Canceled</string>
     <string name="pending">Pending</string>
     <string name="transactions">Transactions</string>
     <string name="wallet_empty_transactions_list_message">Your transaction list is empty</string>
@@ -153,7 +153,7 @@
     <string name="outgoing">Outgoing</string>
     <string name="spent">Spent</string>
     <string name="unavailable">Unavailable</string>
-    <string name="blockchain_height">Blockchain Height</string>
+    <string name="blockchain_height">Blockchain height</string>
     <string name="utxo_security_message">You’re currently in Privacy Mode.</string>
     <string name="utxo_turn_off_see_utxo">Turn it off to see your UTXO list.</string>
 
@@ -168,7 +168,7 @@
     <string name="regular">Regular</string>
     <string name="kernel">Kernel</string>
     <string name="kernel2">Kernel2</string>
-    <string name="identity">Signature</string>
+    <string name="identity">Wallet signature</string>
     <string name="childKey">ChildKey</string>
     <string name="bbs">Bbs</string>
     <string name="date">Date</string>
@@ -191,6 +191,8 @@
     <string name="transaction_utxo_list">Transaction UTXO list</string>
     <string name="details">Details</string>
     <string name="transaction_details_open_in_explorer">Open in Block Explorer</string>
+    <string name="open_in_blockchain">Open in Blockchain explorer</string>
+
     <string name="my_receiving_address">My receiving address</string>
     <string name="my_sending_address">My sending address</string>
     <string name="my_address">My address</string>
@@ -209,7 +211,7 @@
 
     <!--ReceiveFragment-->
     <string name="auto_generated">auto-generated</string>
-    <string name="expires">Expires</string>
+    <string name="expires">Expires on</string>
     <string name="addresses">Addresses</string>
     <string name="receive_save_address_message">Would you like to save created address and use it later?</string>
     <string name="receive_save_changes_message">Would you like to save changes in that address?</string>
@@ -286,12 +288,15 @@
     <string name="expiration_date">Expiration date</string>
     <string name="tag">Tag</string>
     <string name="show_qr_code_short">Show QR</string>
-    <string name="expire_address_now">Expire address</string>
+    <string name="expire_address_now">Expire now</string>
+
+    <string name="address_never_expired">This address never expires</string>
 
     <!--EditAddressFragment-->
     <string name="active_address">Activate address</string>
     <string name="save">Save</string>
     <string name="change_password">Change password</string>
+    <string name="extend">Extend</string>
 
     <!--CheckOldPassActivity-->
     <string name="enter_your_current_password">Enter your current password</string>
@@ -354,7 +359,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
     <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor online payment to complete, you should get online during 12 hours after coins are sent.</string>
-    <string name="search_by_address_tag_or_name">Paste address or search by address or name</string>
+    <string name="search_by_address_tag_or_name">Search by name or paste address</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
     <string name="delete_all_transactions_related_to_this_addresses">Delete all transactions related with these addresses</string>
@@ -418,7 +423,7 @@ address or contact</string>
     <string name="s">sec</string>
     <string name="estimted_time">Estimated time:</string>
     <string-array name="receive_expires_periods">
-        <item>In 24 hours</item>
+        <item>Extend</item>
         <item>Never</item>
     </string-array>
 
@@ -451,7 +456,7 @@ address or contact</string>
     <string name="imp">Import</string>
     <string name="change_node_text_2">Use your fingerprint or enter your password to change node settings</string>
     <string name="change_node_text_3">Enter your password to change node settings</string>
-    <string name="get_beam_faucet">Get Beams from Beam Community Faucet</string>
+    <string name="get_beam_faucet">Get BEAM from the community faucet</string>
     <string name="privacy">Privacy</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="wallet_data_saved">Wallet data saved to Downloads</string>
@@ -498,6 +503,9 @@ address or contact</string>
     <string name="clear_all">Clear all</string>
     <string name="address_expired">Address expired</string>
     <string name="transaction_received">Transaction received</string>
+    <string name="transaction_received_max_privacy">Max Privacy transaction received</string>
+    <string name="transaction_sent_max_privacy">Max Privacy transaction sent</string>
+    <string name="transaction_failed_max_privacy">Max Privacy transaction failed</string>
     <string name="transaction_received_notif_body_failed">Receiving (value) from (address) failed</string>
     <string name="transaction_sent_notif_body_failed">Sending (value) to (address) failed</string>
     <string name="transaction_sent">Transaction sent</string>
@@ -530,14 +538,14 @@ address or contact</string>
     <string name="transaction_received_from_offline">Transaction received from offline</string>
     <string name="transaction_send_from_offline">Transaction sent to offline</string>
     <string name="min_100_groth">The minimum fee is 100 GROTH</string>
-    <string name="max_privacy">Max privacy</string>
+    <string name="max_privacy">Maximum anonymity</string>
     <string name="public_offline">Public offline</string>
     <string name="show_public_offline">Show public offline address</string>
     <string name="public_offline_address">Public offline address</string>
     <string name="public_offline_address_hint">Publishing this address will allow you to be identified</string>
     <string name="connect_node_offline_public">Connect to own node or enable mobile node in the settings to enable receiving public offline transactions</string>
-    <string name="max_privacy_address">Max Privacy address</string>
-    <string name="receive_notice_max_privacy">%s\n\nMin transaction fee to send maximum\nanonymity coins is 0.01 BEAM.</string>
+    <string name="max_privacy_address">Maximum anonymity address</string>
+    <string name="receive_notice_max_privacy">%s\n\nMin transaction fee is 0.01 BEAM.</string>
     <string name="local_comment">Comments are local and won’t be shared</string>
     <string name="address_type">Address type</string>
     <string name="zero">0</string>
@@ -545,14 +553,16 @@ address or contact</string>
     <string name="receiver_identity">Receiver signature</string>
     <string name="choose_currency">Choose currency</string>
     <string name="min_fee_offline">Min transaction fee to send offline transaction\nis 0.01 BEAM.</string>
-    <string name="max_privacy_lock_time">Max privacy lock time limit</string>
-    <string name="lock_time_limit">Lock time limit</string>
+    <string name="max_privacy_lock_time">Longest transaction time\nfor maximum anonymity</string>
+    <string name="transaction_time_lock">Transaction time</string>
     <string name="no_limit">No limit</string>
+    <string name="no_limit_hint">No limit (transaction can last indefinitely)</string>
     <string name="h24">24 hours</string>
     <string name="h36">36 hours</string>
     <string name="h48">48 hours</string>
     <string name="h60">60 hours</string>
     <string name="h72">72 hours</string>
+    <string name="h72_hint">72 hours (recommended)</string>
     <string name="last_unlock_time">Latest unlocked time</string>
     <string name="sort_by">Sort by</string>
     <string name="time_ear">Time: earliest to latest</string>
@@ -625,6 +635,46 @@ address or contact</string>
     <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
     <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s</string>
     <string name="max_funds_hint">Maximum amount is %s</string>
+
+    <string name="dAppStore">DAPP Store</string>
+    <string name="fee">Fee</string>
+    <string name="confirm_accept">Confirm</string>
+    <string name="will_take_funds">%s will take the funds from your wallet</string>
+    <string name="will_send_funds">%s will send the funds to your wallet</string>
+    <string name="dapp_anme">DAPP name</string>
+    <string name="app_shader_id">Application shader id</string>
+    <string name="withdraw_to_the_wallet">Withdraw to the wallet</string>
+    <string name="deposit_to_the_wallet">Deposit from the wallet</string>
+    <string name="receive_address_hint">To ensure a better privacy, new address is generated every time. In case you’d like to re-use an earlier created regular address please use the Address Book.</string>
+    <string name="beam_x_dao">BeamX DAO</string>
+    <string name="documentation">Documentation</string>
+
+    <string name="dapp_transaction_completed">DApp transaction completed</string>
+    <string name="dapp_transaction_failed">DApp transaction failed</string>
+    <string name="dapp_transaction_expired">DApp transaction expired</string>
+    <string name="dapp_transaction_cancelled">DApp transaction canceled</string>
+    <string name="dapss_transaction_received_notif_body">Contract transaction from %s %s.</string>
+    <string name="send_money_failed">failed</string>
+    <string name="send_money_completed">completed</string>
+    <string name="send_money">send money</string>
+    <string name="withdrawing">Withdrawing %s</string>
+    <string name="depositing">Depositing %s</string>
+    <string name="app_not_supported">This Dapp requires version %s of Beam Wallet or higher. Please update your wallet.</string>
+
+    <string name="very_weak_password">Very weak password</string>
+    <string name="weak_password">Weak password</string>
+    <string name="medium_password">Medium strength password</string>
+    <string name="strong_password">Strong password</string>
+    <string name="very_strong_password">Very strong password</string>
+    <string name="current_password">Current password</string>
+    <string name="address_expire_active_transaction">There is an active transaction for this address, therefore it cannot be expired.</string>
+
+    <string name="new_password">New password</string>
+    <string name="asset_id">Asset ID</string>
+    <string name="password_approve_transaction">To approve the transaction please enter your password</string>
+    <string name="open_dapp">Open the DAPP</string>
+    <string name="dapp_not_found_title">DAPP not found</string>
+    <string name="dapp_not_found_text">DAPP has been removed</string>
 
 </resources>
 

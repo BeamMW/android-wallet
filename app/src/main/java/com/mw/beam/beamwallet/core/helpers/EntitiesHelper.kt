@@ -127,7 +127,7 @@ enum class UtxoKeyType(val value: String) {
 }
 
 enum class ExpirePeriod(val value: Long) {
-    DAY(86400), NEVER(0)
+    EXTEND(5270400), NEVER(0)
 }
 
 enum class ChangeAction(val value: Int) {

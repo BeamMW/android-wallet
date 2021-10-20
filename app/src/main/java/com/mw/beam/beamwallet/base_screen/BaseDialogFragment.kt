@@ -31,6 +31,9 @@ import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.Status
 
 abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpRepository>>: ViewControllerDialogFragment(), MvpView, ScreenDelegate.ViewDelegate  {
+
+    open var isMatchParent = true
+
     protected var presenter: T? = null
         private set
     private val delegate = ScreenDelegate()
@@ -113,8 +116,10 @@ abstract class BaseDialogFragment<T : BasePresenter<out MvpView, out MvpReposito
 
     override fun onControllerStart() {
         super.onControllerStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        if (isMatchParent) {
+            dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
         presenter?.onStart()
     }
 

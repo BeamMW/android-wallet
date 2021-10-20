@@ -80,7 +80,7 @@ class BackgroundService : JobService() {
 
                     if(txDescription?.status == TxStatus.Pending || txDescription?.status == TxStatus.Registered
                             || txDescription?.status == TxStatus.InProgress) {
-                        if (txDescription != null && txDescription.sender == TxSender.RECEIVED) {
+                        if (txDescription.sender == TxSender.RECEIVED || (txDescription.isDapps == true && txDescription.sender == TxSender.SENT)) {
 
                             val txId = txDescription.id
 

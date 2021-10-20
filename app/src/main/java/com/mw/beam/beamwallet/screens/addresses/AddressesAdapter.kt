@@ -94,7 +94,7 @@ class AddressesAdapter(private val context: Context,
 
             labelView.setTypeface(labelTypeface, Typeface.NORMAL)
 
-            itemView.findViewById<TextView>(R.id.addressId).text = address.id
+            itemView.findViewById<TextView>(R.id.addressId).text = address.displayAddress ?: address.address
 
             if (App.isDarkMode) {
                 itemView.selector(if (position % 2 == 0) R.color.wallet_adapter_not_multiply_color_dark else R.color.colorClear)

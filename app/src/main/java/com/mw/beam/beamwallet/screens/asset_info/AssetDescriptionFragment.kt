@@ -53,6 +53,8 @@ class AssetDescriptionFragment : Fragment() {
 
         val asset = AssetManager.instance.getAsset(assetId)
         if (asset != null) {
+            assetIdLabel.text = asset.assetId.toString()
+
             assetNameLabel.text = asset.unitName.toUpperCase()
             assetIcon.setImageResource(asset.image)
 
@@ -85,6 +87,10 @@ class AssetDescriptionFragment : Fragment() {
             if (asset.longDesc.isEmpty()) {
                 longDescLayout.visibility = View.GONE
             }
+        }
+
+        btnOpenInBlockExplorer.setOnClickListener {
+            openLink(asset?.blockChainUrl() ?: "")
         }
     }
 

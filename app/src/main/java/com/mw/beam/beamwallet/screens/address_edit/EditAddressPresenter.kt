@@ -33,7 +33,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         if (state.address == null)
         {
             state.address = view?.getAddress()
-            state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.DAY
+            state.chosenPeriod = if (state.address!!.duration == 0L) ExpirePeriod.NEVER else ExpirePeriod.EXTEND
             state.tempComment = state.address?.label ?: ""
         }
 
@@ -125,7 +125,7 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
                 true
             } else {
                 when {
-                    state.address!!.duration == 0L && state.chosenPeriod == ExpirePeriod.DAY -> true
+                    state.address!!.duration == 0L && state.chosenPeriod == ExpirePeriod.EXTEND -> true
                     state.address!!.duration != 0L && state.chosenPeriod == ExpirePeriod.NEVER -> true
                     else -> false
                 }
@@ -142,23 +142,12 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
         address.label = state.tempComment.trim()
 
         if (!address.isContact) {
-            if (address.isExpired) {
-                if (state.shouldActivateNow) {
-                    repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = true, makeExpired = false, isNever = state.chosenPeriod == ExpirePeriod.NEVER)
-                } else {
-                    repository.updateAddress(address)
-                }
-            } else {
-                if (state.shouldExpireNow) {
-                    repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = false, makeExpired = true, isNever = false)
-                } else {
-                    when {
-                        state.chosenPeriod == ExpirePeriod.NEVER -> repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = false, makeExpired = false, isNever = true)
-                        state.chosenPeriod == ExpirePeriod.DAY -> repository.saveAddressChanges(addr = address.id, name = address.label, makeActive = true, makeExpired = false, isNever = false)
-                    }
-                }
-            }
-        } else {
+            repository.saveAddressChanges(addr = address.id, name = address.label,
+                makeActive = state.shouldActivateNow,
+                makeExpired = state.shouldExpireNow,
+                isExtend = state.shouldExtend)
+        }
+        else {
             repository.saveAddress(address, false)
         }
 

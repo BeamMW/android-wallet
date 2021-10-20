@@ -68,6 +68,7 @@ class AssetDetailPresenter(view: AssetDetailContract.View?, repository: AssetDet
             ExchangeManager.instance.isPrivacyMode = !ExchangeManager.instance.isPrivacyMode
             repository.setPrivacyModeEnabled(ExchangeManager.instance.isPrivacyMode)
             view?.configPrivacyStatus()
+            view?.configTransactions(getTransactions())
         }
     }
 
