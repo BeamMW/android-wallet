@@ -96,7 +96,7 @@
                         android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
-                    <EditText
+                    <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/nameLabel"
                         style="@style/common_text_big_light"
                         android:layout_width="match_parent"
@@ -106,12 +106,9 @@
                         android:hint="@string/no_name"
                         android:importantForAutofill="noExcludeDescendants"
                         android:inputType="text|textCapSentences"
-                        android:paddingStart="3dp"
-                        android:paddingTop="5dp"
-                        android:paddingEnd="3dp"
-                        android:paddingBottom="5dp"
                         android:singleLine="true"
                         android:textSize="14sp"
+                        android:layout_marginTop="12dp"
                         tools:ignore="Autofill,LabelFor,TextFields" />
 
                 </LinearLayout>

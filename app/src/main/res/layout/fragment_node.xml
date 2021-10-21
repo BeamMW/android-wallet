@@ -204,30 +204,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/wallet_state_card_backgroud"
-                    android:orientation="vertical">
+                    android:layout_marginTop="8dp"
+                    android:minHeight="80dp"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/common_text_big_light"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
+                        android:textAllCaps="true"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="@string/ip_port" />
 
-                    <EditText
+                    <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/dialogNodeValue"
                         style="@style/common_text_big_light"
-                        android:layout_width="match_parent"
+                        android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/transparent"
+                        android:background="@drawable/edit_text_selector"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:./-_"
                         android:hint="@string/node_ip_hint"
-                        android:inputType="text"
                         android:imeOptions="actionDone"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="16dp"
+                        android:inputType="text"
                         android:singleLine="true"
-                        android:paddingStart="10dp"
-                        android:paddingTop="0dp"
-                        android:paddingEnd="10dp"
-                        android:paddingBottom="10dp"
                         tools:ignore="Autofill,LabelFor" />
                 </LinearLayout>
 

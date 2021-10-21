@@ -51,20 +51,7 @@ import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 import kotlinx.android.synthetic.main.fragment_receive.*
-import kotlinx.android.synthetic.main.fragment_receive.amount
-import kotlinx.android.synthetic.main.fragment_receive.amountContainer
-import kotlinx.android.synthetic.main.fragment_receive.amountTitle
-import kotlinx.android.synthetic.main.fragment_receive.btnExpandAdvanced
-import kotlinx.android.synthetic.main.fragment_receive.btnExpandComment
-import kotlinx.android.synthetic.main.fragment_receive.btnExpandCurrency
-import kotlinx.android.synthetic.main.fragment_receive.contentLayout
-import kotlinx.android.synthetic.main.fragment_receive.currency
-import kotlinx.android.synthetic.main.fragment_receive.currencyLayout
-import kotlinx.android.synthetic.main.fragment_receive.secondAvailableSum
-import kotlinx.android.synthetic.main.fragment_receive.txComment
-import kotlinx.android.synthetic.main.fragment_receive.txCommentContainer
-import kotlinx.android.synthetic.main.fragment_receive.txCommentGroup
-import kotlinx.android.synthetic.main.fragment_send.*
+
 import java.util.*
 
 
@@ -287,6 +274,12 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             if (hasFocus) {
                 showKeyboard()
             }
+            if (hasFocus) {
+                amount.isStateAccent = true
+            }
+            else {
+                amount.isStateNormal = true
+            }
         }
 
         amount.addTextChangedListener(amountWatcher)
@@ -344,6 +337,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     amount.setText("")
                     secondAvailableSum.text = 0.0.convertToGroth().exchangeValueAsset(assetId)
                     currency.text = asset?.unitName ?: ""
+                    currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
 
                     presenter?.updateToken()
                     presenter?.saveToken()
@@ -397,7 +391,9 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             btnExpandCurrency.visibility = View.GONE
         }
 
-        currency.text = AssetManager.instance.getAsset(getAssetId())?.unitName
+        val asset = AssetManager.instance.getAsset(getAssetId())
+        currency.text = asset?.unitName
+        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
     }
 
     override fun onStart() {

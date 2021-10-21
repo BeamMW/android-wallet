@@ -229,7 +229,7 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
                 currentPassError.text = getString(R.string.password_can_not_be_empty)
             }
             else {
-                currentPassError.text = getString(R.string.current_password_is_incorrect)
+                currentPassError.text = getString(R.string.pass_wrong)
             }
             currentPass.isStateError = true
             btnConfirm.isEnabled = false

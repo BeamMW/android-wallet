@@ -91,6 +91,19 @@ class AssetManager {
         assetBeam.site = ""
         assetBeam.paper = ""
         assets.add(assetBeam)
+
+        val assetBeamX = Asset(31 ,0L, 0L,
+            0,0L,0L,0L,0,0,
+            0, SystemStateDTO("", 0))
+        assetBeamX.nthUnitName = "BEAMX";
+        assetBeamX.unitName = "BEAMX"
+        assetBeamX.color = "#977dff"
+        assetBeamX.shortName = "BEAMX"
+        assetBeamX.shortDesc = ""
+        assetBeamX.longDesc = ""
+        assetBeamX.site = ""
+        assetBeamX.paper = ""
+        assets.add(assetBeamX)
     }
 
     fun clear() {

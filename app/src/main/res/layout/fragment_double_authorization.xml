@@ -17,6 +17,7 @@
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:fitsSystemWindows="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"
@@ -31,56 +32,71 @@
                 style="@style/common_text_big_light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="65dp"
+                android:layout_marginTop="32dp"
                 android:paddingStart="@dimen/owner_key_verification_offset"
                 android:paddingEnd="@dimen/owner_key_verification_offset"
                 android:textAlignment="center"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Enter your password and use Fingerprint ID to access the wallet" />
+                tools:text="Enter your password and use Fingerprint ID to access the wallet"
+                tools:visibility="gone" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passLayout"
+            <TextView
+                android:id="@+id/passwordLabel"
+                style="@style/common_text_big_dark"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="@font/roboto_bold"
+                android:letterSpacing="0.2"
+                android:text="@string/password"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/pass"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/enterPasswordTitle" />
+
+
+            <com.mw.beam.beamwallet.core.views.BeamEditText
+                android:id="@+id/pass"
+                style="@style/welcome_password_view_style"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/owner_key_password_offset"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="@dimen/owner_key_password_offset"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/edit_text_selector"
+                android:hint="@string/password"
                 app:hintTextAppearance="@style/welcome_password_label_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/enterPasswordTitle"
-                app:layout_constraintVertical_chainStyle="packed">
-
-                <com.mw.beam.beamwallet.core.views.BeamEditText
-                    android:id="@+id/pass"
-                    style="@style/welcome_password_view_style"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    tools:ignore="Autofill,LabelFor" />
-            </com.google.android.material.textfield.TextInputLayout>
+                app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+                tools:ignore="Autofill,LabelFor" />
 
             <TextView
                 android:id="@+id/passError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/proxima_regular"
+                android:fontFamily="@font/roboto_regular"
                 android:text="@string/pass_wrong"
                 android:textColor="@color/common_error_color"
-                android:textSize="@dimen/welcome_passwords_info_text_size"
+                android:textSize="14sp"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@id/passLayout"
-                app:layout_constraintTop_toBottomOf="@id/passLayout" />
+                app:layout_constraintStart_toStartOf="@id/pass"
+                app:layout_constraintTop_toBottomOf="@id/pass" />
 
             <TextView
                 android:id="@+id/verificationDescription"
                 style="@style/common_text_big_dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/owner_key_verification_offset"
+                android:layout_marginTop="32dp"
                 android:paddingStart="@dimen/owner_key_verification_offset"
                 android:paddingEnd="@dimen/owner_key_verification_offset"
                 android:text="@string/owner_key_verification_description"

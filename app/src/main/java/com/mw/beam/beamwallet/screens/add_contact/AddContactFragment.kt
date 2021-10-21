@@ -85,6 +85,13 @@ else{
             if (!hasFocus) {
                 presenter?.checkAddress()
             }
+
+            if (hasFocus && address?.isStateError == false) {
+                address.isStateAccent = true
+            }
+            else if(address?.isStateError == false) {
+                address.isStateNormal = true
+            }
         }
     }
 
@@ -123,6 +130,7 @@ else{
         }
 
         tokenError.visibility = View.VISIBLE
+        this.address.isStateError = true
     }
 
     override fun showErrorNotBeamAddress() {
@@ -131,6 +139,13 @@ else{
 
     override fun hideTokenError() {
         tokenError.visibility = View.INVISIBLE
+
+        if (address.isFocused) {
+            address.isStateAccent = true
+        }
+        else {
+            address.isStateNormal = true
+        }
     }
 
     override fun getAddressFromArguments(): String? {

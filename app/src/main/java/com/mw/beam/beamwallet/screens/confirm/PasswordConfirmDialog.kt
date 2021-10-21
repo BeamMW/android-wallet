@@ -82,7 +82,7 @@ class PasswordConfirmDialog: BaseDialogFragment<PasswordConfirmPresenter>(), Pas
 
 
         if (mode == Mode.SendBeam)
-            btnOk.background = ContextCompat.getDrawable(context!!, R.drawable.send_button)
+            btnOk.background = ContextCompat.getDrawable(requireContext(), R.drawable.send_button)
 
         biometricView.visibility = if (withBiometric) View.VISIBLE else View.GONE
 

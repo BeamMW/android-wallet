@@ -131,20 +131,21 @@ else{
     }
 
     override fun showErrorProof() {
+        proofValue.isStateError = true
         proofError.visibility = View.VISIBLE
         view4.setBackgroundColor(requireContext().getColor(R.color.common_error_color))
-
-     //   val errorColorStateList = ColorStateList.valueOf(context!!.getColor(R.color.common_error_color))
-       // proofValue.backgroundTintList = errorColorStateList
-        proofValue.setTextColor(requireContext().getColor(R.color.common_error_color))
     }
 
     override fun hideErrorProof() {
         proofError.visibility = View.GONE
         view4.setBackgroundColor(requireContext().getColor(R.color.white_02))
 
-       // proofValue.backgroundTintList = ColorStateList.valueOf(context!!.getColor(R.color.white_01))
-        proofValue.setTextColor(requireContext().getColor(R.color.common_text_color))
+        if (proofValue.isFocused) {
+            proofValue.isStateAccent = true
+        }
+        else {
+            proofValue.isStateNormal = true
+        }
     }
 
     @SuppressLint("SetTextI18n")

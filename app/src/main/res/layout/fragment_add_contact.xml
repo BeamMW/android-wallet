@@ -41,17 +41,15 @@
                 android:paddingStart="@dimen/common_offset"
                 android:paddingEnd="@dimen/common_offset">
 
-                <EditText
+                <com.mw.beam.beamwallet.core.views.BeamEditText
                     android:id="@+id/address"
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginEnd="@dimen/common_offset"
                     android:background="@drawable/edit_text_selector"
-                    android:backgroundTint="@android:color/transparent"
                     android:importantForAutofill="noExcludeDescendants"
-                    android:paddingTop="0dp"
                     app:layout_constraintEnd_toStartOf="@id/scanQR"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addressTitle"
@@ -59,13 +57,13 @@
                     tools:targetApi="o"
                     tools:text="167jbfsdjkflk39902mnsdnkbkjadavfd39nas7167jbfsdjkflk39902mnsdnkbkjadavfd39nas7" />
 
-                <EditText
+                <com.mw.beam.beamwallet.core.views.BeamEditText
                     android:id="@+id/name"
                     style="@style/common_text_big_light"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:background="@drawable/edit_text_selector"
-                    android:backgroundTint="@android:color/transparent"
                     android:hint="@string/no_name"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="textCapSentences"
@@ -80,6 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
+                    app:layout_constraintBottom_toBottomOf="@+id/address"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/address"
                     app:srcCompat="@drawable/ic_scan_qr" />
@@ -109,7 +108,8 @@
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/invalid_address"
                     android:textColor="@color/common_error_color"
                     android:visibility="invisible"
@@ -155,8 +155,10 @@
                     tools:text="Salary, Payments" />
 
                 <View
+                    android:id="@+id/view3"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
+                    android:alpha="0"
                     android:background="@color/divider_color"
                     app:layout_constraintEnd_toEndOf="@id/address"
                     app:layout_constraintStart_toStartOf="@id/address"
@@ -165,6 +167,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
+                    android:alpha="0"
                     android:background="@color/divider_color"
                     app:layout_constraintEnd_toEndOf="@id/name"
                     app:layout_constraintStart_toStartOf="@id/name"

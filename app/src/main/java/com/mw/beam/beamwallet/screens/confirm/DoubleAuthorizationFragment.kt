@@ -90,6 +90,8 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
     override fun onStart() {
         super.onStart()
 
+        toolbarLayout.hasStatus = true
+
         displayFingerPrint((presenter?.isEnableFingerprint() == true) || presenter?.isEnableFaceID() == true)
 
         if(presenter?.isEnableFaceID() == true)

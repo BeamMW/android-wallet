@@ -65,7 +65,9 @@ open class BaseRepository : MvpRepository {
 
                 if (!Api.isWalletRunning()) {
                     try {
-                        AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass)
+                        val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+
+                        AppManager.instance.wallet = Api.openWallet(AppConfig.APP_VERSION, AppConfig.NODE_ADDRESS, AppConfig.DB_PATH, pass, protocolEnabled)
                     }
                     catch(e:Exception) {
                         return  Status.STATUS_ERROR

@@ -59,17 +59,17 @@
                     style="@style/common_text_big_light"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/transparent"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/edit_text_selector"
                     android:hint="@string/paste_payment_proof"
                     android:imeOptions="actionDone"
-                    android:paddingStart="@dimen/payment_proof_content_horizontal_margin"
-                    android:paddingEnd="@dimen/payment_proof_content_horizontal_margin"
-                    android:paddingBottom="0dp"
+                    android:inputType="textMultiLine|textNoSuggestions"
                     android:textColorHint="@color/white_02"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/proofTitle"
-                    android:inputType="textMultiLine|textNoSuggestions"
                     tools:ignore="Autofill,LabelFor,TextFields"
                     tools:text="4bd0ca080bd8c3ec4b3061bf5916aa34266f0649a7c151c6777ffe492f15e0976800000000000000ebb27b5501213c84eb212ea276e8ced74f540fbcceb0f4c1c2da2c5108188651a1864ac2f195ce9056c171fd0cd41e8a02dc9c0bb72861b2e03fbbbb5942e5e63d1a7728a2954a10d3bfb9938f0c17509a6a0e870c6bb22ff2d1297f3dae7f54592b00e84c6b3c9ea3e3ad9bc43661b6dcf7dbd818ccc92707d1d75b429697e849265" />
 
@@ -80,6 +80,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:background="@color/white_02"
+                    android:alpha="0"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/proofValue" />
@@ -89,13 +90,16 @@
                     style="@style/common_text_big_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:paddingStart="@dimen/payment_proof_content_horizontal_margin"
                     android:paddingEnd="@dimen/payment_proof_content_horizontal_margin"
                     android:text="@string/payment_proof_verification_error"
                     android:textColor="@color/common_error_color"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/proofValue" />
+                    app:layout_constraintTop_toBottomOf="@id/proofValue"
+                    tools:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/detailsLayout"
