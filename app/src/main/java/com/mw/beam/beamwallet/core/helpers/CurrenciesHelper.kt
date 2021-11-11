@@ -48,6 +48,37 @@ fun Long.convertToAssetStringWithId(id:Int?): String {
     return (this.toDouble() / 100000000).convertToBeamString() + " " + asset?.unitName ?: ""
 }
 
+fun Long.exchangeValueAssetWithRate(rateAmount:Long?, assetId:Int, displayZero:Boolean = false): String {
+    if (rateAmount == null || rateAmount == 0L) {
+        return ""
+    }
+
+    if (this == 0L || ExchangeManager.instance.isPrivacyMode) {
+        if (!displayZero) {
+            return ""
+        }
+    }
+
+    val current = ExchangeManager.instance.currentCurrency()
+
+    val value = rateAmount.toDouble() / 100000000
+    val beam = this.convertToBeam()
+    val rate = value * beam
+    when (current) {
+        Currency.Usd -> {
+            return  DecimalFormat("#.##").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " USD"
+        }
+        Currency.Bitcoin -> {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " BTC"
+        }
+        Currency.Eth -> {
+            return  DecimalFormat("#.########").apply { decimalFormatSymbols = DecimalFormatSymbols.getInstance(Locale.US) }.format(rate) + " ETH"
+        }
+    }
+
+    return ""
+}
+
 fun Long.exchangeValueAsset(assetId:Int, displayZero:Boolean = false): String {
     if (this == 0L || ExchangeManager.instance.isPrivacyMode) {
        if (!displayZero) {

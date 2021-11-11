@@ -69,11 +69,8 @@
                     android:hint="@string/no_name"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="text|textCapSentences"
-                    android:paddingStart="3dp"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="3dp"
-                    android:paddingBottom="5dp"
                     android:singleLine="true"
+                    android:layout_marginTop="12dp"
                     android:textSize="14sp"
                     tools:ignore="Autofill,LabelFor,TextFields" />
 

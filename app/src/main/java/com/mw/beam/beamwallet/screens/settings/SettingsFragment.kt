@@ -81,7 +81,10 @@ import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
+import com.mw.beam.beamwallet.screens.node.NodeFragmentDirections
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
+import kotlinx.android.synthetic.main.dialog_confirmations_settings.view.*
+import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.radioGroupLockSettings
 
 /**
  *  1/21/19.
@@ -162,6 +165,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.lock_screen),null, SettingsFragmentMode.Lock))
               //  s1.add(SettingsItem(null, getString(R.string.save_wallet_logs),null, SettingsFragmentMode.Logs))
                 s1.add(SettingsItem(null, getString(R.string.show_amounts),null, SettingsFragmentMode.Currency))
+                s1.add(SettingsItem(null, getString(R.string.minumum_confirmations),null, SettingsFragmentMode.Confirmations))
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 val s2 = mutableListOf<SettingsItem>()
@@ -304,6 +308,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                                 findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentSelf((item.mode)))
                     } else if (item.mode == SettingsFragmentMode.Lock) {
                         presenter?.onShowLockScreenSettings()
+                    }
+                    else if (item.mode == SettingsFragmentMode.Confirmations) {
+                       showConfirmationsSettingsDialog()
                     }
                     else if (item.mode == SettingsFragmentMode.MaxPrivacyLimit) {
                         presenter?.onShowMaxPrivacySettings()
@@ -523,6 +530,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 getString(R.string.rescan),
                 {
                     AppManager.instance.wallet?.rescan()
+                    findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToWelcomeProgressFragment(null, WelcomeMode.RESCAN.name, null, false))
                 },
                 getString(R.string.rescan),
                 getString(R.string.cancel)
@@ -552,6 +560,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 var item = group as SettingsItemView
                 if (item.mode == SettingsFragmentMode.Currency) {
                     item.detail = currency.name(requireContext())
+                }
+            }
+        }
+    }
+
+    override fun setConfirmations(value:Int) {
+        for (view in mainLayout.children) {
+            for (group in (view as LinearLayout).children) {
+                var item = group as SettingsItemView
+                if (item.mode == SettingsFragmentMode.Confirmations) {
+                    item.detail = value.toString()
                 }
             }
         }
@@ -649,16 +668,19 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                                 PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Usd.value.toLong())
                                 ExchangeManager.instance.currency = Currency.Usd.value
                                 setCurrencySettings(Currency.Usd)
+                                AppManager.instance.wallet?.getTransactions()
                             }
                             getString(R.string.eth) -> {
                                 PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Eth.value.toLong())
                                 ExchangeManager.instance.currency = Currency.Eth.value
                                 setCurrencySettings(Currency.Eth)
+                                AppManager.instance.wallet?.getTransactions()
                             }
                             else -> {
                                 PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, Currency.Bitcoin.value.toLong())
                                 ExchangeManager.instance.currency = Currency.Bitcoin.value
                                 setCurrencySettings(Currency.Bitcoin)
+                                AppManager.instance.wallet?.getTransactions()
                             }
                         }
                         presenter?.onDialogClosePressed()
@@ -877,6 +899,45 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             }
 
             view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            dialog = AlertDialog.Builder(it).setView(view).show()
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+    }
+
+    @SuppressLint("InflateParams")
+    override fun showConfirmationsSettingsDialog() {
+        context?.let {
+            val view = LayoutInflater.from(it).inflate(R.layout.dialog_confirmations_settings, null)
+
+            val valuesArray = resources.getIntArray(R.array.confirmations_values)
+
+            var selected = AppManager.instance.wallet?.getCoinConfirmationsOffset() ?: 0L
+
+            valuesArray.forEach { millisInt ->
+                val value = millisInt.toLong()
+
+                val button = LayoutInflater.from(it).inflate(R.layout.lock_radio_button, view.radioGroupLockSettings, false)
+
+                (button as RadioButton).apply {
+                    id = value.toInt()
+                    text = value.toString()
+                    isChecked = value == selected
+                    setOnClickListener {
+                        selected = value
+                        view.radioGroupLockSettings.check(button.id)
+                    }
+                }
+
+                view.radioGroupLockSettings.addView(button)
+            }
+
+            view.btnCancel.setOnClickListener { presenter?.onDialogClosePressed() }
+            view.btnOK.setOnClickListener {
+                AppManager.instance.wallet?.setCoinConfirmationsOffset(selected.toLong())
+                presenter?.onDialogClosePressed()
+                setConfirmations(selected.toInt())
+            }
+
             dialog = AlertDialog.Builder(it).setView(view).show()
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }

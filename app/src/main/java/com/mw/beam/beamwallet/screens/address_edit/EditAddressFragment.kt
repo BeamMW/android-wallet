@@ -98,7 +98,8 @@ else{
             btnSave.isEnabled = true
         }
 
-        if (!AppManager.instance.hasActiveTransactionsAddress(presenter?.state?.address?.id ?: "")) {
+        if (!AppManager.instance.hasActiveTransactionsAddress(presenter?.state?.address?.id ?: "")
+            || !AppManager.instance.hasActiveTransactionsAddress(presenter?.state?.address?.address ?: "")) {
             setHasOptionsMenu(true)
         }
     }
@@ -132,7 +133,8 @@ else{
 
         btnSave.isEnabled = canSave
 
-        if (AppManager.instance.hasActiveTransactionsAddress(state.address?.id ?: "")) {
+        if (AppManager.instance.hasActiveTransactionsAddress(state.address?.id ?: "")
+            || AppManager.instance.hasActiveTransactionsAddress(state.address?.address ?: "")) {
             setHasOptionsMenu(false)
             expireButton.isEnabled = false
             expireButton.alpha = 0.5f

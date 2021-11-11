@@ -97,14 +97,21 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         presenter?.repository?.setContext(requireContext())
 
         when (mode) {
-            WelcomeMode.MOBILE_CONNECT -> {
-                if(mobile) {
-                    title.text = getString(R.string.connect_to_mobilenode)
+            WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
+                if (mode == WelcomeMode.RESCAN) {
+                    btnCancel.visibility = View.INVISIBLE
+                    btnCancel.isEnabled = false
+                    title.text = getString(R.string.rescan)
                 }
                 else {
-                    title.text = getString(R.string.welcome_progress_open)
+                    if(mobile) {
+                        title.text = getString(R.string.connect_to_mobilenode)
+                    }
+                    else {
+                        title.text = getString(R.string.welcome_progress_open)
+                    }
+                    btnCancel.visibility = View.VISIBLE
                 }
-                btnCancel.visibility = View.VISIBLE
                 appVersion.visibility = View.GONE
                 restoreFullDescription.visibility = View.VISIBLE
                 restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
@@ -169,7 +176,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
     override fun addListeners() {
         btnCancel.setOnClickListener {
-            if(getMode() == WelcomeMode.MOBILE_CONNECT) {
+            if(getMode() == WelcomeMode.MOBILE_CONNECT || getMode() == WelcomeMode.RESCAN) {
                 findNavController().popBackStack()
             }
             else {
@@ -204,7 +211,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
                 }
             }
-            WelcomeMode.MOBILE_CONNECT -> {
+            WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
                 val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
                 val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
                 configProgress(countProgress(progressData), descriptionString)
@@ -363,20 +370,26 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
-        if(!isShowWallet && getMode() == WelcomeMode.MOBILE_CONNECT && App.isAuthenticated) {
+        if(!isShowWallet && (getMode() == WelcomeMode.MOBILE_CONNECT || getMode() == WelcomeMode.RESCAN) && App.isAuthenticated) {
             isShowWallet = true
 
             timer?.cancel()
             timer = null
 
-            val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
-            if(mobile) {
-                Handler().postDelayed({
-                    AppActivity.self.runOnUiThread {
-                        showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
-                        findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
-                    }
-                }, 1000)
+            if (getMode() == WelcomeMode.MOBILE_CONNECT)
+            {
+                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+                if(mobile) {
+                    Handler().postDelayed({
+                        AppActivity.self.runOnUiThread {
+                            showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
+                            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+                        }
+                    }, 1000)
+                }
+            }
+            else if (getMode() == WelcomeMode.RESCAN) {
+                findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
             }
             return
         }

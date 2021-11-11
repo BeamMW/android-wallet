@@ -52,6 +52,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     val kernelId: String = source.kernelId
     val selfTx: Boolean = source.selfTx
     val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
+    val failureReasonID: Int = source.failureReason
     val identity: String? = source.identity
     val isShielded = source.isShielded
     val isMaxPrivacy = source.isMaxPrivacy
@@ -68,6 +69,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     var appName:String? = source.appName
     var appID:String? = source.appID
     var contractCids:String? = source.contractCids
+    var minConfirmationsProgress:String? = source.minConfirmationsProgress
+    var minConfirmations:Int? = source.minConfirmations
+
+    var rate:Long? = null
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
@@ -76,6 +81,10 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     override fun toString(): String {
         return "\n\nTxDescription(\n id=$id\n amount=$amount\n fee=$fee\n status=${status.name}\n kernelId=$kernelId\n change=$change\n minHeight=$minHeight\n " +
                 "peerId=$peerId\n myId=$myId\n message=$message\n createTime=$createTime\n modifyTime=$modifyTime\n sender=${sender.name}\n selfTx=$selfTx\n failureReason=$failureReason)"
+    }
+
+    fun hasPaymentProof():Boolean {
+        return (sender == TxSender.SENT && status == TxStatus.Completed && !selfTx && isDapps == false);
     }
 
     fun getAddressType(context: Context): String {
@@ -93,43 +102,34 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         }
     }
 
-    fun getStatusStringWithoutLocalizable() : String = when (status) {
-        TxStatus.Pending -> "Pending"
-        TxStatus.InProgress -> {
-            when (sender) {
-                TxSender.RECEIVED -> "Waiting for sender"
-                TxSender.SENT -> "Waiting for receiver"
-            }
-        }
-        TxStatus.Registered -> {
-            when {
-                TxSender.RECEIVED == sender -> "In progress"
-                TxSender.SENT == sender && selfTx -> "Sending to own address"
-                TxSender.SENT == sender -> "In progress"
-                else -> ""
-            }
-        }
-        TxStatus.Completed -> {
-            if (selfTx) {
-                "Sent to own address"
-            } else {
-                when (sender) {
-                    TxSender.RECEIVED -> "Received"
-                    TxSender.SENT -> "Sent"
+    fun getConfirmation(context: Context): String {
+        if (minConfirmationsProgress != null) {
+            if (minConfirmationsProgress != "unknown") {
+                val first = minConfirmationsProgress!!.split("/").first()
+                val last = minConfirmationsProgress!!.split("/").last()
+                return if (first == last) {
+                    context.getString(R.string.confirmed) + " (" + minConfirmationsProgress!! + ")"
+                } else {
+                    context.getString(R.string.confirming) + " (" + minConfirmationsProgress!! + ")"
                 }
             }
         }
-        TxStatus.Cancelled -> "Cancelled"
-        TxStatus.Failed -> {
-            when (failureReason) {
-                TxFailureReason.TRANSACTION_EXPIRED -> "Expired"
-                else -> "Failed"
-            }
+        return  ""
+    }
+
+
+    private fun getStatusEnum():TxStatus {
+        if (status == TxStatus.Confirming && ((minConfirmationsProgress == null || minConfirmationsProgress == "unknown"))) {
+            return TxStatus.Registered
         }
-    }.toLowerCase() + " "
+        return this.status
+    }
 
     fun getStatusString(context: Context) : String {
-      var  status = when (status) {
+      var  status = when (getStatusEnum()) {
+          TxStatus.Confirming -> {
+              context.getString(R.string.confirming).lowercase() + " ($minConfirmationsProgress)"
+          }
           TxStatus.Pending ->
           if (selfTx) {
               context.getString(R.string.sending_to_own_address)
@@ -169,7 +169,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
           TxStatus.Cancelled -> context.getString(R.string.cancelled)
           TxStatus.Failed -> {
               when (failureReason) {
-                  TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired)
+                  TxFailureReason.TRANSACTION_EXPIRED -> context.getString(R.string.expired_transaction)
                   else -> context.getString(R.string.failed)
               }
           }
@@ -193,6 +193,11 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
     fun amountColor() = when (sender) {
         TxSender.RECEIVED -> ContextCompat.getColor(App.self, R.color.received_color)
         TxSender.SENT -> ContextCompat.getColor(App.self, R.color.sent_color)
+    }
+
+    fun prefix() = when (sender) {
+        TxSender.RECEIVED -> "+"
+        TxSender.SENT -> "-"
     }
 
     fun statusColor() = when {
@@ -229,7 +234,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_receive_offline)
                         TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_failed_offline)
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_offline)
+                        TxStatus.Completed, TxStatus.Confirming -> ContextCompat.getDrawable(App.self, R.drawable.ic_receive_offline)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_iprogress_receive_offline)
                     }
                 }
@@ -237,7 +242,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
                         TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_online)
+                        TxStatus.Completed, TxStatus.Confirming -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_max_privacy_online)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_progress_max_privacy_online)
                     }
                 }
@@ -248,7 +253,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_offline)
                         TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed_offline)
-                        TxStatus.Completed -> if (selfTx) {
+                        TxStatus.Completed, TxStatus.Confirming -> if (selfTx) {
                             ContextCompat.getDrawable(App.self, R.drawable.ic_sent_own_offline)
                         }
                         else {
@@ -267,7 +272,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_canceled_max_online)
                         TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_failed_max_online)
-                        TxStatus.Completed -> if (selfTx) {
+                        TxStatus.Completed, TxStatus.Confirming -> if (selfTx) {
                             ContextCompat.getDrawable(App.self, R.drawable.ic_sent_max_privacy_own)
                         }
                         else {
@@ -294,7 +299,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                             else -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
                         }
                     }
-                    TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
+                    TxStatus.Completed, TxStatus.Confirming -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_to_own_address_new)
                     else -> ContextCompat.getDrawable(App.self, R.drawable.ic_i_sending_to_own_address_new)
                 }
                 sender == TxSender.RECEIVED -> {
@@ -306,7 +311,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                                 else ->  ContextCompat.getDrawable(App.self, R.drawable.ic_receive_canceled)
                             }
                         }
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
+                        TxStatus.Completed, TxStatus.Confirming -> ContextCompat.getDrawable(App.self, R.drawable.ic_received_new)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_receiving_new)
                     }
                 }
@@ -318,7 +323,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                             TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired)
                             else ->  ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed)
                         }
-                        TxStatus.Completed -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
+                        TxStatus.Completed, TxStatus.Confirming -> ContextCompat.getDrawable(App.self, R.drawable.ic_sent_new)
                         else -> ContextCompat.getDrawable(App.self, R.drawable.ic_sending_new)
                     }
                 }
@@ -328,5 +333,66 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         return null
     }
 
+    fun getTransactionFailedString(context:Context):String?  {
+        val reasons = arrayListOf<String>()
+        reasons.add(context.getString(R.string.tx_failure_undefined))
+        reasons.add(context.getString(R.string.tx_failure_cancelled))
+        reasons.add(context.getString(R.string.tx_failure_receiver_signature_invalid))
+        reasons.add(context.getString(R.string.tx_failure_not_registered_in_blockchain))
+        reasons.add(context.getString(R.string.tx_failure_not_valid))
+        reasons.add(context.getString(R.string.tx_failure_kernel_invalid))
+        reasons.add(context.getString(R.string.tx_failure_parameters_not_sended))
+        reasons.add(context.getString(R.string.tx_failure_no_inputs))
+        reasons.add(context.getString(R.string.tx_failure_addr_expired))
+        reasons.add(context.getString(R.string.tx_failure_parameters_not_readed))
+        reasons.add(context.getString(R.string.tx_failure_time_out))
+        reasons.add(context.getString(R.string.tx_failure_not_signed_by_receiver))
+        reasons.add(context.getString(R.string.tx_failure_max_height_to_high))
+        reasons.add(context.getString(R.string.tx_failure_invalid_state))
+        reasons.add(context.getString(R.string.tx_failure_subtx_failed))
+        reasons.add(context.getString(R.string.tx_failure_invalid_contract_amount))
+        reasons.add(context.getString(R.string.tx_failure_invalid_sidechain_contract))
+        reasons.add(context.getString(R.string.tx_failure_sidechain_internal_error))
+        reasons.add(context.getString(R.string.tx_failure_sidechain_network_error))
+        reasons.add(context.getString(R.string.tx_failure_invalid_sidechain_response_format))
+        reasons.add(context.getString(R.string.tx_failure_invalid_side_chain_credentials))
+        reasons.add(context.getString(R.string.tx_failure_not_enough_time_btc_lock))
+        reasons.add(context.getString(R.string.tx_failure_create_multisig))
+        reasons.add(context.getString(R.string.tx_failure_fee_too_small))
+        reasons.add(context.getString(R.string.tx_failure_fee_too_large))
+        reasons.add(context.getString(R.string.tx_failure_kernel_min_height))
+        reasons.add(context.getString(R.string.tx_failure_loopback))
+        reasons.add(context.getString(R.string.tx_failure_key_keeper_no_initialized))
+        reasons.add(context.getString(R.string.tx_failure_invalid_asset_id))
+        reasons.add(context.getString(R.string.tx_failure_asset_invalid_info))
+        reasons.add(context.getString(R.string.tx_failure_asset_invalid_metadata))
+        reasons.add(context.getString(R.string.tx_failure_asset_invalid_id))
+        reasons.add(context.getString(R.string.tx_failure_asset_confirmation))
+        reasons.add(context.getString(R.string.tx_failure_asset_in_use))
+        reasons.add(context.getString(R.string.tx_failure_asset_locked))
+        reasons.add(context.getString(R.string.tx_failure_asset_small_fee))
+        reasons.add(context.getString(R.string.tx_failure_invalid_asset_amount))
+        reasons.add(context.getString(R.string.tx_failure_invalid_data_for_payment_proof))
+        reasons.add(context.getString(R.string.tx_failure_there_is_no_master_key))
+        reasons.add(context.getString(R.string.tx_failure_keeper_malfunctioned))
+        reasons.add(context.getString(R.string.tx_failure_aborted_by_user))
+        reasons.add(context.getString(R.string.tx_failure_asset_exists))
+        reasons.add(context.getString(R.string.tx_failure_asset_invalid_owner_id))
+        reasons.add(context.getString(R.string.tx_failure_assets_disabled))
+        reasons.add(context.getString(R.string.tx_failure_no_vouchers))
+        reasons.add(context.getString(R.string.tx_failure_assets_fork2))
+        reasons.add(context.getString(R.string.tx_failure_out_of_slots))
+        reasons.add(context.getString(R.string.tx_failure_shielded_coin_fee))
+        reasons.add(context.getString(R.string.tx_failure_assets_disabled_receiver))
+        reasons.add(context.getString(R.string.tx_failure_assets_disabled_blockchain))
+        reasons.add(context.getString(R.string.tx_failure_identity_required))
+        reasons.add(context.getString(R.string.tx_failure_cannot_get_vouchers))
+        reasons.add(context.getString(R.string.random_node_title))
+
+        if(failureReasonID >= reasons.size) {
+            return null
+        }
+        return reasons[failureReasonID]
+    }
 }
 

@@ -205,12 +205,17 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             if((params?.assetId ?:0) != 0) {
                 assetId = params?.assetId ?: 0
             }
+
+            if ((params?.amount ?:0L) > 0L) {
+                view?.setAmount(params?.amount?.convertToBeam() ?: 0.0)
+            }
+
             state.addressType = params?.getAddressType() ?: BMAddressType.BMAddressTypeRegular
         }
         else {
             state.addressType = BMAddressType.BMAddressTypeRegular
         }
-        view?.setAddress(walletAddress.id)
+        view?.setAddress(walletAddress.address)
         view?.handleAddressSuggestions(null)
         view?.requestFocusToAmount()
     }
@@ -463,7 +468,7 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
         view?.clearAddressError()
         if (rawToken != null && isValidToken(rawToken)) {
-            val address = state.addresses.values.firstOrNull { it.id == rawToken }
+            val address = state.addresses.values.firstOrNull { it.address == rawToken }
             view?.setSendContact(address)
         } else {
             view?.setSendContact(null)

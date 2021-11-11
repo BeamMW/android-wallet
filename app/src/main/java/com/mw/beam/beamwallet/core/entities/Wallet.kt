@@ -95,7 +95,9 @@ data class Wallet(val _this: Long) {
 
     external fun clearLastWalletId()
 
-    external fun setMinConfirmations(value:Long)
+    external fun setCoinConfirmationsOffset(value:Long)
     external fun getCoinConfirmationsOffsetAsync()
     external fun getCoinConfirmationsOffset():Long
+
+    external fun getTransactionRate(txId:String, currencyId:Int, assetId:Long):Long
 }

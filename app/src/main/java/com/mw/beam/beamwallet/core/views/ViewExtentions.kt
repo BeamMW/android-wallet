@@ -19,6 +19,7 @@ package com.mw.beam.beamwallet.core.views
 import android.annotation.SuppressLint
 import android.widget.TextView
 import android.animation.*
+import android.graphics.Rect
 import android.view.*
 import android.widget.ImageView
 import coil.ImageLoader
@@ -93,4 +94,14 @@ fun ImageView.loadUrl(url: String) {
         .build()
 
     imageLoader.enqueue(request)
+}
+
+inline fun View?.onSizeChange(crossinline runnable: () -> Unit) = this?.apply {
+    addOnLayoutChangeListener { _, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+        val rect = Rect(left, top, right, bottom)
+        val oldRect = Rect(oldLeft, oldTop, oldRight, oldBottom)
+        if (rect.width() != oldRect.width() || rect.height() != oldRect.height()) {
+            runnable();
+        }
+    }
 }

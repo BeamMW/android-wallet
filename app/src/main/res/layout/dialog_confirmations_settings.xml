@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/common_receive_dialog_background"
+    android:filterTouchesWhenObscured="true">
+
+    <TextView
+        android:id="@+id/lockScreenTitleDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/minumum_confirmations"
+        android:textColor="@color/common_text_color"
+        android:textSize="@dimen/common_alert_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lockScreenDetailDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/settings_common_offset"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/roboto_italic"
+        android:text="@string/minumum_confirmations_hint"
+        android:textColor="@color/common_text_color"
+        android:textSize="14sp"
+        android:alpha="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lockScreenTitleDialog" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="@dimen/settings_dialog_button_group_start_margin"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lockScreenDetailDialog">
+
+        <RadioGroup
+            android:id="@+id/radioGroupLockSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </androidx.core.widget.NestedScrollView>
+
+
+    <TextView
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:padding="@dimen/settings_card_offset"
+        android:text="@string/cancel"
+        android:textAllCaps="true"
+        android:textColor="?attr/subHeaderTextColor"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnOK" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:alpha="0.2"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnCancel"
+        app:layout_constraintTop_toBottomOf="@+id/nestedScrollView"
+        tools:layout_editor_absoluteX="40dp" />
+
+    <TextView
+        android:id="@+id/btnOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/settings_dialog_cancel_margin"
+        android:padding="@dimen/settings_card_offset"
+        android:text="@string/ok"
+        android:textAllCaps="true"
+        android:textColor="@color/accent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnCancel" />
+</androidx.constraintlayout.widget.ConstraintLayout>

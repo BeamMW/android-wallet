@@ -19,25 +19,21 @@ package com.mw.beam.beamwallet.screens.transaction_details
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
-import android.transition.TransitionManager
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.*
 import androidx.navigation.fragment.findNavController
-import android.transition.AutoTransition
-import android.animation.ObjectAnimator
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.os.Handler
 import android.view.MenuInflater
-import android.view.LayoutInflater
 import android.text.Spannable
 import android.text.style.ForegroundColorSpan
 import android.text.SpannableStringBuilder
 import android.graphics.Color
-import android.content.res.ColorStateList
+import android.os.Bundle
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.google.android.material.tabs.TabLayout
 
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.BaseFragment
@@ -53,13 +49,9 @@ import com.mw.beam.beamwallet.core.utils.CalendarUtils
 
 import java.io.File
 
-
 import kotlinx.android.synthetic.main.fragment_transaction_details.*
-import kotlinx.android.synthetic.main.item_transaction_utxo.view.*
 
-/**
- *  10/18/18.
- */
+
 class TransactionDetailsFragment : BaseFragment<TransactionDetailsPresenter>(), TransactionDetailsContract.View {
     private var moreMenu: Menu? = null
     private var share_transaction_details: ShareTransactionDetailsView? = null
@@ -93,11 +85,41 @@ else{
             moreMenu?.close()
 
             toolbarLayout.hasStatus = true
-
-            detailsArrowView.rotation = 180f
-            proofArrowView.rotation = 180f
-            utxosArrowView.rotation = 180f
         }
+
+        if (txDescription.hasPaymentProof()) {
+            tabLayout.visibility = View.VISIBLE
+        }
+        else {
+            val params = mainScroll.layoutParams as ConstraintLayout.LayoutParams
+            params.topMargin = ScreenHelper.dpToPx(requireContext(), 20)
+            mainScroll.layoutParams = params
+
+            tabLayout.visibility = View.GONE
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.general)))
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.payment_proof)))
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab?.position == 0) {
+                    mainScroll.visibility = View.VISIBLE
+                    proofScroll.visibility = View.GONE
+                }
+                else {
+                    mainScroll.visibility = View.GONE
+                    proofScroll.visibility = View.VISIBLE
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -113,9 +135,10 @@ else{
 
             moreMenu = menu
 
-            if (transaction.selfTx) {
+            if (transaction.selfTx || transaction.isDapps == true) {
                 menu?.findItem(R.id.saveContact)?.isVisible = false
-            } else {
+            }
+            else {
                 val contact = AppManager.instance.getAddress(transaction.peerId)
                 menu?.findItem(R.id.saveContact)?.isVisible = contact == null
             }
@@ -172,55 +195,61 @@ else{
 
     @SuppressLint("InflateParams", "SetTextI18n")
     override fun updateUtxos(utxoInfoList: List<UtxoInfoItem>, isEnablePrivacyMode: Boolean) {
-        utxosLayout.visibility = if (utxoInfoList.isEmpty() || isEnablePrivacyMode) View.GONE else View.VISIBLE
 
-
-        if (utxosList.childCount != utxoInfoList.count()) {
-            utxosList.removeAllViews()
-
-            utxoInfoList.forEach { utxo ->
-                val utxoView = LayoutInflater.from(context).inflate(R.layout.item_transaction_utxo, null)
-
-                val drawableId = when (utxo.type) {
-                    UtxoType.Send -> R.drawable.ic_history_sent
-                    UtxoType.Receive -> R.drawable.ic_history_received
-                    UtxoType.Exchange -> R.drawable.menu_utxo
-                }
-
-                if(utxo.type == UtxoType.Exchange) {
-                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
-                    val colorRes  = if (App.isDarkMode) {
-                        R.color.common_text_dark_color_dark
-                    }
-                    else{
-                        R.color.common_text_dark_color
-                    }
-                    utxoView.utxoIcon.imageTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), colorRes))
-                }
-                else{
-                    utxoView.utxoIcon.setImageDrawable(context?.getDrawable(drawableId))
-                }
-
-                utxoView.utxoAmount.text = utxo.amount.convertToAssetStringWithId(utxo?.asset)
-
-                utxosList.addView(utxoView)
-            }
-        }
     }
 
     override fun updatePaymentProof(paymentProof: PaymentProof) {
-        if (proofLayout.visibility == View.VISIBLE)
-            return
-        else if(paymentProof.rawProof.isEmpty())
-            return
-
-        proofLabel.text = paymentProof.rawProof
-        proofLayout.visibility = View.VISIBLE
+        proofCodeValueLabel.text = paymentProof.rawProof
     }
 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
-        val start = AppManager.instance.getAddress(startAddress.text.toString())
+
+    }
+
+    @SuppressLint("SetTextI18n", "DefaultLocale")
+    private fun configGeneralTransactionInfo(txDescription: TxDescription) {
+        val status = txDescription.getStatusString(requireContext()).trim()
+
+        if (txDescription.isDapps == true) {
+            senderLayout.visibility = View.GONE
+            receiverLayout.visibility = View.GONE
+            addressTypeLayout.visibility = View.GONE
+        }
+        else {
+            dAppNameLayout.visibility = View.GONE
+            dAppShaderLayout.visibility = View.GONE
+        }
+
+        if (txDescription.minConfirmationsProgress != null && txDescription.minConfirmationsProgress != "unknown") {
+            confirmationLayout.visibility = View.VISIBLE
+        }
+        else {
+            confirmationLayout.visibility = View.GONE
+        }
+
+        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED
+            || txDescription.kernelId.startsWith("0000000")) {
+            kernelButton.visibility = View.GONE
+        }
+
+        if (txDescription.kernelId.startsWith("0000000") || txDescription.kernelId.isEmpty()) {
+            kernelLayout.visibility = View.GONE
+        }
+
+        if (txDescription.message.isEmpty()) {
+            commentLayout.visibility = View.GONE
+        }
+
+        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
+        startAddress.text = txDescription.senderAddress
+        if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (!txDescription.sender.value)) {
+            startAddress.text = getString(R.string.shielded_pool)
+            senderLayout.visibility = View.GONE
+        }
+        endAddress.text = txDescription.receiverAddress
+
+        val start = AppManager.instance.getAddress(txDescription.senderAddress)
 
         if (start != null && start.label.isNotEmpty()) {
             startContactLayout.visibility = View.VISIBLE
@@ -229,7 +258,7 @@ else{
             startContactLayout.visibility = View.GONE
         }
 
-        val end = AppManager.instance.getAddress(endAddress.text.toString())
+        val end = AppManager.instance.getAddress(txDescription.receiverAddress)
         if (end != null && end.label.isNotEmpty()) {
             endContactLayout.visibility = View.VISIBLE
             endContactValue.text = end.label
@@ -237,119 +266,125 @@ else{
             endContactLayout.visibility = View.GONE
         }
 
-
-        startAddressCategory.visibility = View.GONE
-        endAddressCategory.visibility =  View.GONE
-    }
-
-    @SuppressLint("SetTextI18n", "DefaultLocale")
-    private fun configGeneralTransactionInfo(txDescription: TxDescription) {
-
-        dateLabel.text = CalendarUtils.fromTimestamp(txDescription.createTime)
+        addressTypeLabel.text = txDescription.getAddressType(requireContext())
+        confirmationLabel.text = txDescription.getConfirmation(requireContext())
 
         val amount = txDescription.amount.convertToAssetString(txDescription.asset?.unitName ?: "")
-        amountLabel.text = amount
+        amountLabel.text = txDescription.prefix() + amount
         amountLabel.setTextColor(txDescription.amountColor())
 
-        val second = txDescription.amount.exchangeValueAsset(txDescription.assetId)
-
-        if (second.isEmpty()) {
-            secondAvailableSum.visibility = View.GONE
+        val secondAmount = txDescription.amount.exchangeValueAssetWithRate(txDescription.rate, txDescription.assetId)
+        val rate = ExchangeManager.instance.currentCurrency().shortName()
+        if (secondAmount.isEmpty()) {
+            amountSecondLabel.text = getString(R.string.exchange_rate_not_available, rate)
         }
         else {
-            secondAvailableSum.text = second
+            amountSecondLabel.text = getString(R.string.exchange_rate_calculated, txDescription.prefix() + secondAmount)
         }
+        amountAssetIcon.setImageResource(txDescription.asset?.image ?: R.drawable.ic_asset_0)
 
-        statusLabel.setTextColor(txDescription.statusColor())
-        val status = txDescription.getStatusString(requireContext()).trim()
+        assetIdLabel.text = (txDescription.asset?.assetId ?: 0).toString()
 
-        if (status == TxStatus.Failed.name.toLowerCase() || status == TxStatus.Cancelled.name.toLowerCase() || txDescription.failureReason == TxFailureReason.TRANSACTION_EXPIRED
-                || kernelLabel.text.startsWith("0000000")) {
-            btnOpenInBlockExplorer.visibility = View.GONE
-        }
-
-        val upperString = status.substring(0, 1).toUpperCase() + status.substring(1)
-        statusLabel.text = upperString
-        statusLabel.setCompoundDrawablesWithIntrinsicBounds(txDescription.statusImage(), null, null, null)
-
-        assetIcon.setImageResource(txDescription.asset?.image ?: R.drawable.ic_asset_0)
-
-        if (txDescription.sender.value) {
-            if (txDescription.selfTx) {
-                startAddress.text = txDescription.senderAddress
-                endAddress.text = txDescription.receiverAddress
-
-                startAddressTitle.text = getString(R.string.my_sending_address).toUpperCase()
-                endAddressTitle.text = getString(R.string.my_receiving_address).toUpperCase()
-            } else {
-                if (txDescription.isDapps == true) {
-                    startAddressTitle.text = getString(R.string.dapp_anme).toUpperCase()
-                    startAddress.text = txDescription.appName
-                    receiverLayout.visibility = View.GONE
-                }
-                else {
-                    startAddressTitle.text = getString(R.string.contact).toUpperCase()
-                    endAddressTitle.text = getString(R.string.my_address).toUpperCase()
-
-                    startAddress.text = txDescription.peerId
-                    endAddress.text = txDescription.myId
-
-                    if (txDescription.peerId.isEmpty()) {
-                        startAddress.text = txDescription.token
-                    }
-                }
-            }
+        if (txDescription.asset?.isBeam() == true) {
+            assetIdLayout.visibility = View.GONE
         }
         else {
-            if (txDescription.isDapps == true) {
-                startAddressTitle.text = getString(R.string.dapp_anme).toUpperCase()
-                startAddress.text = txDescription.appName
-                receiverLayout.visibility = View.GONE
-            }
-            else {
-                startAddressTitle.text = getString(R.string.contact).toUpperCase()
-                endAddressTitle.text = getString(R.string.my_address).toUpperCase()
-                startAddress.text = txDescription.peerId
-                endAddress.text = txDescription.myId
-            }
+            assetIdLayout.visibility = View.VISIBLE
         }
 
-        feeLabel.text = txDescription.fee.toString() + " GROTH"
+        val fee = txDescription.fee.convertToAssetString("BEAM")
+        val secondFee = txDescription.fee.exchangeValueAssetWithRate(txDescription.rate,0)
+        feeLabel.text = fee
+        if (secondFee.isEmpty()) {
+            feeSecondLabel.visibility = View.GONE
+        }
+        else {
+            feeSecondLabel.visibility = View.VISIBLE
+            feeSecondLabel.text = secondFee
+        }
+        feeAssetIcon.setImageResource(R.drawable.ic_asset_0)
+
+        dAppNameLabel.text = txDescription.appName
+        dAppShaderLabel.text = txDescription.contractCids
+
+        if (txDescription.isDapps == true) {
+            commentTitleLabel.text = getString(R.string.description)
+        }
+        else {
+            commentTitleLabel.text = getString(R.string.comment)
+        }
+        commentLabel.text = txDescription.message
+
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
-        if (txDescription.isDapps == true) {
-            addressTypeTitleLabel.text = getString(R.string.app_shader_id).toUpperCase()
-            addressTypeLabel.text = txDescription.contractCids
+        dateTitleLabel.text = dateTitleLabel.text.toString() + ":"
+        startAddressTitle.text = startAddressTitle.text.toString() + ":"
+        endAddressTitle.text = endAddressTitle.text.toString() + ":"
+        addressTypeTitleLabel.text = addressTypeTitleLabel.text.toString() + ":"
+        confirmationTitleLabel.text = confirmationTitleLabel.text.toString() + ":"
+        amountTitleLabel.text = amountTitleLabel.text.toString() + ":"
+        feeTitleLabel.text = feeTitleLabel.text.toString() + ":"
+        dAppNameTitleLabel.text = dAppNameTitleLabel.text.toString() + ":"
+        dAppShaderTitleLabel.text = dAppShaderTitleLabel.text.toString() + ":"
+        commentTitleLabel.text = commentTitleLabel.text.toString() + ":"
+        transactionIdTitleLabel.text = transactionIdTitleLabel.text.toString() + ":"
+        kernelTitleLabel.text = kernelTitleLabel.text.toString() + ":"
+        failedTitle.text = failedTitle.text.toString() + ":"
+
+        addressTypeProofTitleLabel.text = addressTypeTitleLabel.text.toString()
+        kernelProofTitleLabel.text = kernelTitleLabel.text.toString()
+        amountProofTitleLabel.text = amountTitleLabel.text.toString()
+
+
+        receiverProofLayout.visibility = receiverLayout.visibility
+        senderProofLayout.visibility = senderLayout.visibility
+
+        endContactProofLayout.visibility = View.GONE
+        startProofContactLayout.visibility = View.GONE
+
+        endContactProofValue.text = endContactValue.text.toString()
+        startProofContactValue.text = startContactValue.text.toString()
+
+        addressTypeProofLabel.text = addressTypeLabel.text.toString()
+
+        amountProofLabel.text = amountLabel.text.toString()
+        amountProofLabel.setTextColor(amountLabel.textColors)
+
+        amountProofSecondLabel.text = amountSecondLabel.text.toString()
+        amountProofSecondLabel.visibility = amountSecondLabel.visibility
+        amountProofAssetIcon.setImageResource(txDescription.asset?.image ?: R.drawable.ic_asset_0)
+
+        kernelProofLayout.visibility = kernelLayout.visibility
+        kernelProofButton.visibility = kernelButton.visibility
+        kernelProofLabel.text = kernelLabel.text.toString()
+
+        proofCodeTitleLabel.text = proofCodeTitleLabel.text.toString() + ":"
+
+        if (!AppManager.instance.isToken(endAddress.text.toString())) {
+            senderProofLayout.visibility = View.GONE
+            receiverProofLayout.visibility = View.GONE
+            addressTypeProofLayout.visibility = View.GONE
+
+            val params = amountProofLayout.layoutParams as LinearLayout.LayoutParams
+            params.topMargin = ScreenHelper.dpToPx(requireContext(), 10)
+            amountProofLayout.layoutParams = params
+        }
+
+        addressTypeProofLayout.visibility = View.GONE
+
+        startProofAddressTitle.text = getString(R.string.sender_wallet_signature) + ":"
+        endAddressProofTitle.text = getString(R.string.sender_wallet_signature) + ":"
+
+        startProofAddress.text = txDescription.senderIdentity
+        endProofAddress.text = txDescription.receiverIdentity
+
+        if (txDescription.status == TxStatus.Failed) {
+            failedLabel.text = txDescription.getTransactionFailedString(requireContext())
+            failedLayout.visibility = View.VISIBLE
         }
         else {
-            addressTypeLabel.text = txDescription.getAddressType(requireContext())
-        }
-
-
-        if((txDescription.isPublicOffline || txDescription.isMaxPrivacy || txDescription.isShielded) && (!txDescription.sender.value)) {
-            startAddress.text = getString(R.string.shielded_pool)
-        }
-
-        if(!txDescription.identity.isNullOrEmpty() && txDescription.identity != "0") {
-            walletIdLayout.visibility = View.VISIBLE
-            walletIdLabel.text = txDescription.identity
-        }
-
-        if (txDescription.message.isNotEmpty()) {
-            commentLabel.text = txDescription.message
-            commentLayout.visibility = View.VISIBLE
-        } else {
-            commentLayout.visibility = View.GONE
-        }
-
-        if (txDescription.fee <= 0L) {
-            feeLayout.visibility = View.GONE
-        }
-
-        if (kernelLabel.text.startsWith("0000000") || kernelLabel.text.isEmpty()) {
-            kernelLayout.visibility = View.GONE
-            btnOpenInBlockExplorer.visibility = View.GONE
+            failedLayout.visibility = View.GONE
         }
     }
 
@@ -363,35 +398,65 @@ else{
         )
     }
 
-    private fun isValidKernelId(kernelId: String) = try {
-        kernelId.toInt() != 0
-    } catch (e: Exception) {
-        true
+    override fun showOpenAssetIdLinkAlert() {
+        showAlert(
+            getString(R.string.common_external_link_dialog_message),
+            getString(R.string.open),
+            {
+                openExternalLink(AppConfig.buildAssetIdLink( presenter?.state?.txDescription?.assetId ?: 0))
+            },
+            getString(R.string.common_external_link_dialog_title),
+            getString(R.string.cancel)
+        )
     }
 
+
     override fun addListeners() {
-        btnOpenInBlockExplorer.setOnClickListener {
+        assetIdLayout.setOnClickListener {
+            presenter?.onOpenAssetIdPressed()
+        }
+        proofCodeCopyButton.setOnClickListener {
+            copyToClipboard(proofCodeValueLabel.text.toString(), "")
+            showSnackBar(getString(R.string.copied_to_clipboard))
+        }
+
+        kernelButton.setOnClickListener {
             presenter?.onOpenInBlockExplorerPressed()
         }
 
-        detailsExpandLayout.setOnClickListener {
-            presenter?.onExpandDetailedPressed()
+        kernelProofButton.setOnClickListener {
+            presenter?.onOpenInBlockExplorerPressed()
         }
 
-        utxosExpandLayout.setOnClickListener {
-            presenter?.onExpandUtxosPressed()
+        copyIdLabel.setOnClickListener {
+            copyToClipboard(idLabel.text.toString(), "")
+            showSnackBar(getString(R.string.copied_to_clipboard))
         }
 
-        proofExpandLayout.setOnClickListener {
-            presenter?.onExpandProofPressed()
+        startAddressCopyButton.setOnClickListener {
+            copyToClipboard(startAddress.text.toString(), "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        endAddressCopyButton.setOnClickListener {
+            copyToClipboard(endAddress.text.toString(), "")
+            showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        startProofAddressCopyButton.setOnClickListener {
+            copyToClipboard(startProofAddress.text.toString(), "")
+            showSnackBar(getString(R.string.copied_to_clipboard))
+        }
+
+        endAddressProofCopyButton.setOnClickListener {
+            copyToClipboard(endProofAddress.text.toString(), "")
+            showSnackBar(getString(R.string.copied_to_clipboard))
         }
 
         registerForContextMenu(startAddress)
         registerForContextMenu(endAddress)
         registerForContextMenu(idLabel)
-        registerForContextMenu(proofLabel)
         registerForContextMenu(kernelLabel)
-        registerForContextMenu(walletIdLabel)
     }
 
 
@@ -435,14 +500,8 @@ else{
             } else {
                 shareText(idLabel.text.toString())
             }
-        } else if (item.itemId == proofLabel.id) {
-            if (item.title.toString() == getString(R.string.copy)) {
-                copyToClipboard(proofLabel.text.toString(), "")
-                showSnackBar(getString(R.string.copied_to_clipboard))
-            } else {
-                shareText(proofLabel.text.toString())
-            }
-        } else if (item.itemId == kernelLabel.id) {
+        }
+        else if (item.itemId == kernelLabel.id) {
             if (item.title.toString() == getString(R.string.copy)) {
                 copyToClipboard(kernelLabel.text.toString(), "")
                 showSnackBar(getString(R.string.copied_to_clipboard))
@@ -450,15 +509,6 @@ else{
                 shareText(kernelLabel.text.toString())
             }
         }
-        else if (item.itemId == walletIdLabel.id) {
-            if (item.title.toString() == getString(R.string.copy)) {
-                copyToClipboard(walletIdLabel.text.toString(), "")
-                showSnackBar(getString(R.string.copied_to_clipboard))
-            } else {
-                shareText(walletIdLabel.text.toString())
-            }
-        }
-
 
         return super.onContextItemSelected(item)
     }
@@ -503,10 +553,7 @@ else{
     }
 
     override fun clearListeners() {
-        btnOpenInBlockExplorer.setOnClickListener(null)
-        detailsExpandLayout.setOnClickListener(null)
-        utxosExpandLayout.setOnClickListener(null)
-        proofExpandLayout.setOnClickListener(null)
+
     }
 
     override fun finishScreen() {
@@ -540,74 +587,15 @@ else{
     }
 
     override fun handleExpandProof(shouldExpandProof: Boolean) {
-        animateDropDownIcon(proofArrowView, !shouldExpandProof)
-        beginTransition()
 
-        val contentVisibility = if (shouldExpandProof) View.VISIBLE else View.GONE
-        proofValueLayout.visibility = contentVisibility
     }
 
     override fun handleExpandUtxos(shouldExpandUtxos: Boolean) {
-        animateDropDownIcon(utxosArrowView, !shouldExpandUtxos)
-        beginTransition()
 
-        val contentVisibility = if (shouldExpandUtxos) View.VISIBLE else View.GONE
-        utxosList.visibility = contentVisibility
     }
 
     override fun handleExpandDetails(shouldExpandDetails: Boolean) {
-        animateDropDownIcon(detailsArrowView, !shouldExpandDetails)
-        beginTransition()
 
-        val contentVisibility = if (shouldExpandDetails) View.VISIBLE else View.GONE
-        dateLayout.visibility = contentVisibility
-        senderLayout.visibility = contentVisibility
-        receiverLayout.visibility = contentVisibility
-        idLayout.visibility = contentVisibility
-        addressTypeLayout.visibility = contentVisibility
-       // identityLayout.visibility = contentVisibility
-
-        if (contentVisibility == View.VISIBLE && !commentLabel.text.toString().isNullOrEmpty()) {
-            commentLayout.visibility = contentVisibility
-        } else {
-            commentLayout.visibility = View.GONE
-        }
-
-        if (presenter?.state?.txDescription?.fee ?: 0 <= 0L) {
-            feeLayout.visibility = View.GONE
-        }
-        else {
-            feeLayout.visibility = contentVisibility
-        }
-
-        if (presenter?.state?.txDescription?.identity.isNullOrEmpty()) {
-            walletIdLayout.visibility = View.GONE
-        }
-        else {
-            walletIdLayout.visibility = contentVisibility
-        }
-
-        if (kernelLabel.text.startsWith("0000000")) {
-            kernelLayout.visibility = View.GONE
-            btnOpenInBlockExplorer.visibility = View.GONE
-        }
-        else {
-            kernelLayout.visibility = contentVisibility
-            btnOpenInBlockExplorer.visibility = contentVisibility
-        }
-    }
-
-    private fun animateDropDownIcon(view: View, shouldExpand: Boolean) {
-        val angleFrom = if (shouldExpand) 180f else 360f
-        val angleTo = if (shouldExpand) 360f else 180f
-        val anim = ObjectAnimator.ofFloat(view, "rotation", angleFrom, angleTo)
-        anim.duration = 500
-        anim.start()
-    }
-
-    private fun beginTransition() {
-        TransitionManager.beginDelayedTransition(mainConstraintLayout, AutoTransition().apply {
-        })
     }
 
     override fun showCancelAlert() {
@@ -627,99 +615,41 @@ else{
     }
 
     override fun copyDetails() {
-        val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-
-        var startAddressTitle = ""
-        var endAddressTitle = ""
-
-        var startAddress = ""
-        var endAddress = ""
-
         val transaction = oldTransaction!!
 
-        if (transaction.sender.value) {
-            if (transaction.isDapps == true) {
-                startAddressTitle = getString(R.string.dapp_anme)
-                startAddress = transaction.appName ?: ""
-
-                endAddressTitle = ""
-                endAddress = ""
-            }
-            else if (transaction.selfTx) {
-                startAddress = transaction.myId
-                endAddress = transaction.peerId
-
-                startAddressTitle = "${getString(R.string.my_sending_address)}"
-                endAddressTitle = "${getString(R.string.my_receiving_address)}"
-            } else {
-                startAddressTitle = "${getString(R.string.contact)}"
-                endAddressTitle = "${getString(R.string.my_address)}"
-
-                startAddress = transaction.peerId
-                endAddress = transaction.myId
-
-                if(startAddress.isEmpty()) {
-                    startAddress = transaction.token
-                }
-            }
-        }
-        else {
-            if (transaction.isDapps == true) {
-                startAddressTitle = getString(R.string.dapp_anme)
-                startAddress = transaction.appName ?: ""
-
-                endAddressTitle = ""
-                endAddress = ""
-            }
-            else {
-                startAddressTitle = "${getString(R.string.contact)}"
-                endAddressTitle = "${getString(R.string.my_address)}"
-                startAddress = transaction.peerId
-                endAddress = transaction.myId
-            }
-        }
-
-        if(startAddress.startsWith("100000")) {
-            startAddress = "Shielded pool";
-        }
-        if(endAddress.startsWith("100000")) {
-            endAddress = "Shielded pool";
-        }
-
         var txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
-                "${getString(R.string.status)}: ${statusLabel.text}\n" +
-                "${getString(R.string.amount)}: ${amountLabel.text}\n" +
-                startAddressTitle + ": " + startAddress + "\n" +
-                endAddressTitle + ": " + endAddress + "\n"
+                "${getString(R.string.status)}: ${transaction.getStatusString(requireContext())}\n"
 
-        if (endAddressTitle.isEmpty()) {
-            txDetails = "${getString(R.string.date)}: ${dateLabel.text}\n" +
-                    "${getString(R.string.status)}: ${statusLabel.text}\n" +
-                    "${getString(R.string.amount)}: ${amountLabel.text}\n" +
-                    startAddressTitle + ": " + startAddress + "\n"
+        if (senderLayout.visibility == View.VISIBLE) {
+            txDetails +=  "${getString(R.string.sending_address)}: ${startAddress.text}\n"
         }
 
-        if (transaction.isDapps == true) {
-            txDetails += "${getString(R.string.app_shader_id)}: ${transaction.contractCids}\n"
-            txDetails += "${getString(R.string.transaction_comment)}: ${transaction.message}\n"
+        if (receiverLayout.visibility == View.VISIBLE) {
+            txDetails +=  "${getString(R.string.receiving_address)}: ${endAddress.text}\n"
         }
 
-        if(feeLabel.text.startsWith("0")) {
-
-        }
-        else {
-            txDetails += "${getString(R.string.transaction_fee)}: ${feeLabel.text}\n"
+        if (dAppNameLayout.visibility == View.VISIBLE) {
+            txDetails +=  "${getString(R.string.dapp_anme)}: ${dAppNameLabel.text}\n"
+            txDetails +=  "${getString(R.string.app_shader_id)}: ${dAppShaderLabel.text}\n"
         }
 
-        txDetails += "${getString(R.string.transaction_id)}: ${idLabel.text}\n"
+        txDetails +=  "${getString(R.string.address_type)}: ${addressTypeLabel.text}\n"
+        txDetails +=  "${getString(R.string.amount)}: ${amountLabel.text}\n"
+        txDetails +=  "${getString(R.string.fee)}: ${feeLabel.text}\n"
 
-        if(!kernelLabel.text.startsWith("0000")) {
-            txDetails += "${getString(R.string.kernel_id)}: ${kernelLabel.text}\n"
+        if (idLayout.visibility == View.VISIBLE) {
+            txDetails += "${getString(R.string.transaction_id)}: ${transaction.id}\n"
         }
 
+        if (kernelLayout.visibility == View.VISIBLE) {
+            txDetails += "${getString(R.string.kernel_id)}: ${transaction.kernelId}\n"
+        }
 
-        val clip = ClipData.newPlainText("label", txDetails)
-        clipboardManager?.setPrimaryClip(clip)
+        if (failedLayout.visibility == View.VISIBLE) {
+            txDetails += "${getString(R.string.failure_reason)}: ${transaction.getTransactionFailedString(requireContext())}\n"
+        }
+
+        copyToClipboard(txDetails, "")
         showSnackBar(getString(R.string.copied_to_clipboard))
     }
 

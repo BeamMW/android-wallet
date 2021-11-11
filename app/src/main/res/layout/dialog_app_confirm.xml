@@ -205,6 +205,17 @@
                     android:textSize="14sp"
                     tools:text="Staking Dapp will send the funds to your wallet" />
 
+                <TextView
+                    android:id="@+id/errorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_italic"
+                    android:textAlignment="center"
+                    android:textColor="@color/category_red"
+                    android:textSize="14sp"
+                    android:visibility="gone"
+                    android:text="@string/no_funds_dao" />
+
                 <LinearLayout
                     android:id="@+id/passLayout"
                     android:layout_width="match_parent"

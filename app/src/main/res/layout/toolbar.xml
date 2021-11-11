@@ -53,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/toolbar_status_start_offset"
-            android:layout_marginTop="2dp"
             android:contentDescription="@null"
             android:src="@drawable/ic_tusted_node_status"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,22 +63,20 @@
             android:layout_width="@dimen/toolbar_progress_size"
             android:layout_height="@dimen/toolbar_progress_size"
             android:layout_marginStart="@dimen/toolbar_status_start_offset"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/statusIcon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/statusIcon" />
+            app:layout_constraintTop_toTopOf="@+id/connectionStatus" />
 
         <TextView
             android:id="@+id/connectionStatus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="1dp"
             android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-regular"
-            android:maxLines="3"
-            android:paddingEnd="@dimen/toolbar_padding_end"
+            android:fontFamily="@font/roboto_regular"
+            android:maxLines="4"
             android:textAlignment="textStart"
             android:textColor="?attr/subHeaderTextColor"
             android:textSize="@dimen/toolbar_status_text_size"
@@ -88,22 +85,25 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry" />
 
-        <TextView
+        <ImageView
             android:id="@+id/changeNodeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="16dp"
-            android:fontFamily="sans-serif-regular"
-            android:paddingStart="8dp"
-            android:text="@string/change_address"
-            android:textAlignment="textEnd"
-            android:textColor="@color/accent"
-            android:textSize="@dimen/toolbar_status_text_size"
+            android:layout_marginTop="5dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:src="@drawable/ic_hide_new"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/connectionStatus"
             tools:ignore="RtlSymmetry" />
 
+        <View
+            android:id="@+id/changeNodeButtonClickable"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </merge>

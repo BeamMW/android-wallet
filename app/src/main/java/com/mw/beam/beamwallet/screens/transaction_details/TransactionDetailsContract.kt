@@ -54,6 +54,7 @@ interface TransactionDetailsContract {
         fun showCancelAlert()
         fun showDeleteAlert()
         fun copyDetails()
+        fun showOpenAssetIdLinkAlert()
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -73,6 +74,8 @@ interface TransactionDetailsContract {
         fun onCancelTransactionConfirm()
         fun onDeleteTransactionsPressed()
         fun onCopyDetailsPressed()
+        fun onOpenAssetIdPressed()
+
     }
 
     interface Repository : MvpRepository {

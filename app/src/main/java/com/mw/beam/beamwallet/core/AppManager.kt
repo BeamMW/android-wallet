@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mw.beam.beamwallet.core.entities.*
+import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.ContractConsentDTO
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
@@ -325,6 +326,19 @@ class AppManager {
 
     fun getAllAddresses() : List<WalletAddress> {
         val result = mutableListOf<WalletAddress>()
+
+        val canSend = isMaxPrivacyEnabled()
+
+        addresses.forEach {
+            if (canSend) {
+                it.displayAddress = it.address
+            }
+            else{
+                it.displayAddress = it.getOriginalId
+            }
+        }
+
+
         result.addAll(contacts)
         result.addAll(addresses)
         return result
@@ -423,8 +437,9 @@ class AppManager {
     fun hasActiveTransactionsAddress(address:String) :Boolean {
         transactions.forEach {
             if(it.status == TxStatus.Registered || it.status == TxStatus.InProgress ||
-                it.status == TxStatus.Pending) {
-                if (it.senderAddress == address || it.receiverAddress == address || it.peerId == address || it.myId == address) {
+                it.status == TxStatus.Pending || it.status == TxStatus.Confirming) {
+                if (it.senderAddress == address || it.receiverAddress == address || it.peerId == address || it.myId == address
+                    || it.token == address) {
                     return true
                 }
             }
@@ -955,6 +970,17 @@ class AppManager {
                     calendarFromTimestamp(item.createTime).get(Calendar.YEAR) == 1970
                 }
 
+                var currencyId = 0
+                if (ExchangeManager.instance.currentCurrency() == Currency.Bitcoin) {
+                    currencyId = 2
+                }
+                else if (ExchangeManager.instance.currentCurrency() == Currency.Eth) {
+                    currencyId = 1
+                }
+                transactions.forEach { item ->
+                    item.rate = wallet?.getTransactionRate(item.id, currencyId, item.assetId.toLong())
+                }
+
                 val g = Gson()
                 val jsonString = g.toJson(transactions)
                 PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS, jsonString)
@@ -1213,6 +1239,7 @@ class AppManager {
             wallet?.switchOnOffNotifications(4, true)
             wallet?.switchOnOffNotifications(5, true)
 
+            wallet?.getCoinConfirmationsOffsetAsync()
             wallet?.getWalletStatus()
             wallet?.getAllUtxosStatus()
             wallet?.getAddresses(true)

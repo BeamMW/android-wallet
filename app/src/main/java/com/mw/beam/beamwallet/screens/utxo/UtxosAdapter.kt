@@ -68,6 +68,8 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
+
         val utxo = data[position]
 
         holder.apply {

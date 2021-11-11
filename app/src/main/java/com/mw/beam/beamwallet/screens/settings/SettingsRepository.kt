@@ -189,5 +189,10 @@ class SettingsRepository : BaseRepository(), SettingsContract.Repository {
 
     override fun setCurrencySettings(currency: Currency) {
         PreferencesManager.putLong(PreferencesManager.KEY_CURRENCY, currency.value.toLong())
+        AppManager.instance.wallet?.getTransactions()
+    }
+
+    override fun getConfirmations() : Int {
+        return  AppManager.instance.wallet?.getCoinConfirmationsOffset()?.toInt() ?: 0
     }
 }

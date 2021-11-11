@@ -147,7 +147,7 @@ class NotificationItem  {
                     else {
                          if(transaction.isMaxPrivacy) {
                             icon = R.drawable.ic_notifictions_received_max_privacy
-                            name =  cntx.getString(R.string.transaction_received_max_privacy)
+                             name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_max_privacy_notif_body)
                                     .replace("(value)", amountString)
                                     .replace("(address)", transaction.myId.trimAddress())
@@ -157,7 +157,7 @@ class NotificationItem  {
                         else if (transaction.isShielded || transaction.isPublicOffline)
                         {
                             icon = R.drawable.ic_notifictions_received_offline
-                            name =  cntx.getString(R.string.transaction_received_from_offline)
+                            name =  cntx.getString(R.string.transaction_received)
                             val string = cntx.getString(R.string.transaction_received_notif_body)
                                     .replace("(value)", amountString)
                                     .replace("(address)", "shielded pool")
@@ -216,17 +216,17 @@ class NotificationItem  {
                             }
 
                             if(transaction.isMaxPrivacy) {
-                                name =  cntx.getString(R.string.transaction_sent_max_privacy)
+                                name =  cntx.getString(R.string.transaction_sent)
                                 icon = R.drawable.ic_notifictions_send_max_privacy
                             }
                             else {
                                 icon = R.drawable.ic_notifictions_send_offline
-                                name =  cntx.getString(R.string.transaction_send_from_offline)
+                                name =  cntx.getString(R.string.transaction_sent)
                             }
 
                             val string = cntx.getString(R.string.transaction_sent_notif_body)
                                     .replace("(value)", amountString)
-                                    .replace("(address)", address)
+                                    .replace("(address)", address.trimAddress())
                                     .replace("  ", " ")
                             detail = string
                         }

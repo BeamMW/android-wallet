@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.mw.beam.beamwallet.base_screen.BasePresenter
@@ -222,6 +223,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         val isOwn = !mobile && !isRandom
 
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
+            Log.e("UPDATE", "${it.done} ==== ${it.total}")
 
             if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
@@ -230,6 +232,12 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 }
                 else if(WelcomeMode.CREATE == state.mode && isOwn && it.total == 0) {
 
+                }
+                else if(WelcomeMode.RESCAN == state.mode && it.total == 0) {
+
+                }
+                else if(WelcomeMode.RESCAN == state.mode && (it.total == it.done)) {
+                    showWallet()
                 }
                 else if(WelcomeMode.MOBILE_CONNECT == state.mode && it.total == 0) {
                     if(isOwn) {
@@ -243,15 +251,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     else {
                         AppManager.instance.wallet?.syncWithNode()
                     }
-//                    if (isNeedCheck) {
-//                        view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-//                        showWallet()
-//                    }
-//                    else {
-//                        isNeedCheck = true
-//                    }
                 }
-                else if (it.total == 0) {
+                else if (it.total == 0 && WelcomeMode.RESCAN != state.mode) {
                     view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
                     showWallet()
                 }

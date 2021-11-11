@@ -78,7 +78,7 @@ class BeamToolbar : LinearLayout {
         set(value) {
             field = value
             if (value) {
-                val value = ScreenHelper.dpToPx(context, 200)
+                val value = ScreenHelper.dpToPx(context, 170)
                 changeNodeButton.visibility = View.GONE
                 status.setPaddingRelative(0,0,value,0)
             }
@@ -93,7 +93,11 @@ class BeamToolbar : LinearLayout {
     lateinit var progressBar: ProgressBar
     lateinit var centerTitleView: TextView
     lateinit var leftTitleView: TextView
-    lateinit var changeNodeButton: TextView
+    lateinit var changeNodeButton: ImageView
+    lateinit var changeNodeButtonClickable: View
+
+
+
     private lateinit var statusLayout: ConstraintLayout
 
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
@@ -118,7 +122,8 @@ class BeamToolbar : LinearLayout {
         centerTitleView = this.findViewById(R.id.centerTitle)
         leftTitleView = this.findViewById(R.id.leftTitle)
         changeNodeButton = this.findViewById(R.id.changeNodeButton)
-        changeNodeButton.visibility = View.GONE
+        changeNodeButton.visibility = View.VISIBLE
+        changeNodeButtonClickable = this.findViewById(R.id.changeNodeButtonClickable)
 
         this.orientation = VERTICAL
 
@@ -134,27 +139,18 @@ class BeamToolbar : LinearLayout {
         }
 
         status.text = status.text.toString().toLowerCase()
-        changeNodeButton.text = changeNodeButton.text.toString().toLowerCase()
 
         toolbar.setNavigationIcon(R.drawable.ic_back)
 
         configureStatus(AppManager.instance.getNetworkStatus())
 
-        changeNodeButton.setOnClickListener {
-            val destinationFragment = R.id.nodeFragment
-            val navBuilder = NavOptions.Builder()
-
-            val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
-
-            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf("password" to null, "seed" to emptyArray<String>()), navigationOptions)
-
-//            val destinationFragment = R.id.nodeFragment
-//            val navBuilder = NavOptions.Builder()
-//            val modeArg = SettingsFragmentArgs(SettingsFragmentMode.Node)
-//
-//            val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
-//
-//            AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, modeArg.toBundle(), navigationOptions)
+        changeNodeButtonClickable.setOnClickListener {
+            if (changeNodeButton.visibility == View.VISIBLE && changeNodeButton.alpha == 1.0f) {
+                val destinationFragment = R.id.nodeFragment
+                val navBuilder = NavOptions.Builder()
+                val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
+                AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf("password" to null, "seed" to emptyArray<String>()), navigationOptions)
+            }
         }
     }
 
@@ -165,7 +161,8 @@ class BeamToolbar : LinearLayout {
          }
          oldStatus = networkStatus
 
-         changeNodeButton.visibility = View.GONE
+         val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+         val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
 
          if(networkStatus == NetworkStatus.RECONNECT) {
              if(App.isDarkMode) {
@@ -177,11 +174,18 @@ class BeamToolbar : LinearLayout {
              progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
              progressBar.visibility = View.VISIBLE
              statusIcon.visibility = View.INVISIBLE
-             status.text = context.getString(R.string.reconnect).toLowerCase()
 
-             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-             statusIcon.layoutParams = paramsStatus
+             when {
+                 mobile -> {
+                     status.text = context.getString(R.string.reconnect_mobile).toLowerCase()
+                 }
+                 random -> {
+                     status.text = context.getString(R.string.reconnect_random).toLowerCase()
+                 }
+                 else -> {
+                     status.text = context.getString(R.string.reconnecting).toLowerCase()
+                 }
+             }
          }
         else if (AppManager.instance.isConnecting) {
             progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
@@ -190,10 +194,6 @@ class BeamToolbar : LinearLayout {
             progressBar.visibility = View.VISIBLE
             statusIcon.visibility = View.INVISIBLE
             status.text = context.getString(R.string.connecting).toLowerCase()
-
-             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-             paramsStatus.topMargin = ScreenHelper.dpToPx(context, 0)
-             statusIcon.layoutParams = paramsStatus
         }
         else{
             when (networkStatus) {
@@ -204,18 +204,32 @@ class BeamToolbar : LinearLayout {
                     handleStatus(false)
                 }
                 NetworkStatus.UPDATING -> {
-                    status.setTextColor(context.getColor(R.color.colorAccent))
+                    if(App.isDarkMode) {
+                        status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
+                    }
+                    else{
+                        status.setTextColor(context.getColor(R.color.common_text_dark_color))
+                    }
 
                     val percent = (AppManager.instance.syncProgressData.done.toDouble()/AppManager.instance.syncProgressData.total.toDouble()) * 100.0
 
-                    progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.colorAccent), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    progressBar.indeterminateDrawable.setColorFilter(context.getColor(R.color.category_orange), android.graphics.PorterDuff.Mode.MULTIPLY);
                     progressBar.visibility = View.VISIBLE
                     statusIcon.visibility = View.INVISIBLE
-                    status.text = context.getString(R.string.updating).toLowerCase() + " " + percent.toInt().toString() + "%"
 
-                    val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 0)
-                    statusIcon.layoutParams = paramsStatus
+                    when {
+                        mobile -> {
+                            val p = percent.toInt().toString() + "%"
+                            status.text = context.getString(R.string.updating_mobile, p).toLowerCase()
+                        }
+                        random -> {
+                            status.text = context.getString(R.string.updating).toLowerCase() + " " + percent.toInt().toString() + "%"
+                        }
+                        else -> {
+                            val p = percent.toInt().toString() + "%"
+                            status.text = context.getString(R.string.updating_own, p).toLowerCase()
+                        }
+                    }
                 }
             }
         }
@@ -224,7 +238,8 @@ class BeamToolbar : LinearLayout {
     private fun handleStatus(isOnline: Boolean) {
         progressBar.visibility = View.INVISIBLE
         statusIcon.visibility = View.VISIBLE
-        changeNodeButton.visibility = View.GONE
+
+        var isTrustIcon = false
 
         if(App.isDarkMode) {
             status.setTextColor(context.getColor(R.color.common_text_dark_color_dark))
@@ -239,96 +254,94 @@ class BeamToolbar : LinearLayout {
         if (isOnline) {
             if (!ExchangeManager.instance.isCurrenciesAvailable()) {
                 val name = ExchangeManager.instance.currentCurrency().shortName()
-                if(mobile) {
-                    status.text = context.getString(R.string.exchange_not_available_mobile, name)
+                when {
+                    mobile -> {
+                        status.text = context.getString(R.string.exchange_not_available_mobile, name)
+                    }
+                    random -> {
+                        status.text = context.getString(R.string.exchange_not_available_random, name)
+                    }
+                    else -> {
+                        status.text = context.getString(R.string.exchange_not_available_own, name)
+                    }
                 }
-                else {
-                   status.text = context.getString(R.string.exchange_not_available, name)
-                }
-                if (mobile || random) {
-                    val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                    paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                    statusIcon.layoutParams = paramsStatus
 
+                if (random) {
                     statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
                 }
                 else {
                    if (AppManager.instance.isMaxPrivacyEnabled()) {
-                       val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                       paramsStatus.topMargin = ScreenHelper.dpToPx(context, 5)
-                       statusIcon.layoutParams = paramsStatus
-
+                       isTrustIcon = true
                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_icon_tusted_node_status_orange))
                    }
                     else {
-                       val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                       paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                       statusIcon.layoutParams = paramsStatus
-
                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.orange_status))
                    }
                 }
-
             }
             else {
                 when {
                     mobile -> {
-                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                        status.text = context.getString(R.string.online_mobile_node).toLowerCase()
-
-                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                        statusIcon.layoutParams = paramsStatus
+                        isTrustIcon = true
+                        statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
+                        status.text = context.getString(R.string.online).toLowerCase()
                     }
                     random -> {
                         statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                        status.text = context.getString(R.string.online_new_status).toLowerCase()
+                        status.text = context.getString(R.string.random_node_status).toLowerCase()
                         if (canShowChangeButton) {
                             changeNodeButton.visibility = View.VISIBLE
                         }
-
-                        val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                        paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                        statusIcon.layoutParams = paramsStatus
                     }
                     else -> {
                         if (AppManager.instance.isMaxPrivacyEnabled()) {
+                            isTrustIcon = true
                             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_tusted_node_status))
                             status.text = context.getString(R.string.online).toLowerCase()
-
-                            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 5)
-                            statusIcon.layoutParams = paramsStatus
                         }
                         else {
                             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                            status.text = context.getString(R.string.online_new_status).toLowerCase()
+                            status.text = context.getString(R.string.own_node_new_status).toLowerCase()
                             if(changeNodeButton.alpha != 0f) {
                                 if (canShowChangeButton) {
                                     changeNodeButton.visibility = View.VISIBLE
                                 }
                             }
-
-                            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-                            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
-                            statusIcon.layoutParams = paramsStatus
                         }
                     }
                 }
             }
-
-        } else {
-            val random = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
-            if(!random && !hasOffset) {
+        }
+        else {
+            val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+            if(!isRandom && !hasOffset) {
                 if (canShowChangeButton) {
                     changeNodeButton.visibility = View.VISIBLE
                 }
             }
             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.red_status))
-            status.text = (context.getString(R.string.common_status_error).toLowerCase() + ": " + AppConfig.NODE_ADDRESS)
 
+            when {
+                mobile -> {
+                    status.text = (context.getString(R.string.common_status_error_mobile_node).toLowerCase())
+                }
+                random -> {
+                    status.text = (context.getString(R.string.common_status_error_random_node).toLowerCase())
+                }
+                else -> {
+                    status.text = (context.getString(R.string.common_status_error_own_node, AppConfig.NODE_ADDRESS).toLowerCase())
+                }
+            }
+        }
+
+        if (!isTrustIcon) {
             val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
-            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 2)
+            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 1)
+            statusIcon.layoutParams = paramsStatus
+        }
+        else {
+            val paramsStatus = statusIcon.layoutParams as ConstraintLayout.LayoutParams
+            paramsStatus.topMargin = ScreenHelper.dpToPx(context, 4)
             statusIcon.layoutParams = paramsStatus
         }
     }

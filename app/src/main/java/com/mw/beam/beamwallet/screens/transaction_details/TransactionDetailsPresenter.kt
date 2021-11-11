@@ -98,6 +98,18 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         }
     }
 
+    override fun onOpenAssetIdPressed() {
+        if (state.txDescription == null) {
+            return
+        }
+
+        if (repository.isAllowOpenExternalLink()) {
+            view?.openExternalLink(AppConfig.buildAssetIdLink(state.txDescription!!.assetId))
+        } else {
+            view?.showOpenAssetIdLinkAlert()
+        }
+    }
+
     override fun onOpenLinkPressed() {
         if (state.txDescription == null) {
             return
@@ -151,7 +163,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
     override fun onRepeatTransaction() {
         state.txDescription?.let { txDescription ->
             if (txDescription.sender.value) {
-                view?.showSendFragment(txDescription.peerId, txDescription.amount)
+                view?.showSendFragment(txDescription.receiverAddress, txDescription.amount)
             } else {
                 val address = AppManager.instance.getAddress(txDescription.myId)
                 view?.showReceiveFragment(txDescription.amount, address)
@@ -161,7 +173,7 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSaveContact() {
         state.txDescription?.let { txDescription ->
-            view?.showSaveContact(txDescription.peerId)
+            view?.showSaveContact(txDescription.receiverAddress)
         }
     }
 

@@ -20,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.DAOAmount
 import com.mw.beam.beamwallet.core.entities.DAOApp
 import com.mw.beam.beamwallet.core.entities.DAOInfo
@@ -39,6 +40,10 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private lateinit var info:ContractConsentDTO
     private lateinit var app:DAOApp
     private var request = ""
+    private var assetId = 0
+    private var sendAmount = 0L
+    private var sendFee = 0L
+    private var isSpend = false
 
     override var isMatchParent: Boolean
         get() = false
@@ -132,6 +137,10 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         val asset = amounts[0].assetID ?: 0
         val amountLong = amount.convertToGroth()
         val feeLong = fee.convertToGroth()
+        assetId = asset
+        sendAmount = amountLong
+        sendFee = feeLong
+        isSpend = details.isSpend ?: false
 
         val secondValue = amountLong.exchangeValueAsset(asset)
         val secondFeeValue = feeLong.exchangeValueAsset(0)
@@ -149,7 +158,7 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             secondFeeLabel.visibility = View.GONE
         }
 
-        if(asset == 31) {
+        if(asset == 31 || asset == 7) {
             assetIcon.setImageResource(R.drawable.assetbeamx)
         }
 
@@ -184,13 +193,17 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         btnConfirm.setOnClickListener {
             if (isConfirm) {
                 if (canSend()) {
-                    dismiss()
-                    onConfirm?.invoke(true, request)
+                    if (checkAmount()) {
+                        dismiss()
+                        onConfirm?.invoke(true, request)
+                    }
                 }
             }
             else {
-                dismiss()
-                onConfirm?.invoke(true, request)
+               if (checkAmount()) {
+                    dismiss()
+                    onConfirm?.invoke(true, request)
+               }
             }
         }
 
@@ -203,6 +216,51 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         }
         else {
             passLayout.visibility = View.GONE
+        }
+
+        if(isSpend) {
+            checkAmount()
+        }
+    }
+
+    private fun checkAmount():Boolean {
+        if (isSpend) {
+            val available = AssetManager.instance.getAvailable(assetId)
+            val availableFee = AssetManager.instance.getAvailable(0)
+
+            if (assetId == 0) {
+                val totalSend = sendFee + sendAmount
+                return if (available < totalSend) {
+                    hintLabel.visibility = View.GONE
+                    errorLabel.visibility = View.VISIBLE
+                    btnConfirm.isEnabled = false
+                    false
+                } else {
+                    true
+                }
+            }
+            else {
+                when {
+                    available < sendAmount -> {
+                        hintLabel.visibility = View.GONE
+                        errorLabel.visibility = View.VISIBLE
+                        btnConfirm.isEnabled = false
+                        return false
+                    }
+                    availableFee < sendFee -> {
+                        hintLabel.visibility = View.GONE
+                        errorLabel.visibility = View.VISIBLE
+                        btnConfirm.isEnabled = false
+                        return false
+                    }
+                    else -> {
+                        return true
+                    }
+                }
+            }
+        }
+        else {
+            return true
         }
     }
 

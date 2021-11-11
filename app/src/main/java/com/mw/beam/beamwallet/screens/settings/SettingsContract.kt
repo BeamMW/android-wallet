@@ -38,8 +38,10 @@ interface SettingsContract {
         fun setRunOnBackground(allow: Boolean)
         fun sendMailWithLogs()
         fun setLanguage(language: LocaleHelper.SupportedLanguage)
+        fun setConfirmations(value:Int)
         fun changePass()
         fun showLockScreenSettingsDialog()
+        fun showConfirmationsSettingsDialog()
         fun showFingerprintSettings(isFingerprintEnabled: Boolean)
         fun getContext(): Context?
         fun closeDialog()
@@ -161,5 +163,6 @@ interface SettingsContract {
         fun setAllowNews(allow: Boolean)
         fun setAllowAddressExpiration(allow: Boolean)
         fun setMobileNodeEnabled(enabled: Boolean)
+        fun getConfirmations() : Int
     }
 }

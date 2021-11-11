@@ -47,6 +47,7 @@ import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.core.views.onSizeChange
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
@@ -131,7 +132,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
             addressHintLabel.visibility = View.VISIBLE
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                addressLabel.text = walletAddress.address.trimAddress()
+                addressLabel.text = walletAddress.id.trimAddress()
             }
             else {
                 addressLabel.text = walletAddress.tokenOffline.trimAddress()
@@ -154,7 +155,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                addressLabel.text = walletAddress.address.trimAddress()
+                addressLabel.text = walletAddress.id.trimAddress()
             }
             else {
                 addressLabel.text = walletAddress.tokenOffline.trimAddress()
@@ -188,6 +189,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             }
         }
     }
+
 
     override fun handleExpandAmount(expand: Boolean) {
         animateDropDownIcon(btnExpandAmount, expand)
@@ -394,6 +396,11 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         val asset = AssetManager.instance.getAsset(getAssetId())
         currency.text = asset?.unitName
         currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+
+        currencyLayout.onSizeChange {
+            val w = currencyLayout.width + ScreenHelper.dpToPx(requireContext(), 20)
+            amount.setPaddingRelative(ScreenHelper.dpToPx(requireContext(), 10),0, w, 0)
+        }
     }
 
     override fun onStart() {

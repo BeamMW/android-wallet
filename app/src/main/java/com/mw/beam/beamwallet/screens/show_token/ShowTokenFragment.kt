@@ -92,11 +92,11 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
         if(AppManager.instance.wallet?.isToken(token) == true) {
             val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
             if(params != null) {
-                if(params.amount > 0) {
-                    val asset = params.assetId
-                    amountLayout.visibility = View.VISIBLE
-                    amountValue.text =params.amount.convertToAssetStringWithId(asset)
-                }
+//                if(params.amount > 0) {
+//                    val asset = params.assetId
+//                    amountLayout.visibility = View.VISIBLE
+//                    amountValue.text =params.amount.convertToAssetStringWithId(asset)
+//                }
 
                 if (!getNewFormat()) {
                     transactionTypeLayout.visibility = View.VISIBLE
@@ -143,14 +143,30 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
             }
         }
         else {
-            transactionTypeValue.text = getString(R.string.regular)
-            transactionTypeLayout.visibility = View.VISIBLE
+            if (!getNewFormat()) {
+                transactionTypeLayout.visibility = View.VISIBLE
+                transactionTypeValue.text = getString(R.string.regular)
+            }
+            else {
+                aboutAddressLabel.visibility = View.VISIBLE
+            }
+
+            dividerView.visibility = View.VISIBLE
+            sbbsNewLayout.visibility = View.VISIBLE
+            sbbsNewLabel.text = token
+
+            if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                dividerView.visibility = View.GONE
+                tokenTitle.text = getString(R.string.online_sbbs_address)
+                tokenValue.text = token
+                sbbsNewLayout.visibility = View.GONE
+                aboutAddressLabel.text = getString(R.string.only_online_support)
+            }
         }
 
         if(AppManager.instance.isMaxPrivacyEnabled() || !isReceive || !getNewFormat()) {
             tokenValue.text = token
         }
-
 
         if (!isReceive) {
             btnShare.background = resources.getDrawable(R.drawable.send_button, null)

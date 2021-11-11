@@ -59,4 +59,5 @@ object AppConfig {
     var FORK_HEIGHT = 0
 
     fun buildTransactionLink(kernelId: String) = "${EXPLORER_LINK}block?kernel_id=$kernelId"
+    fun buildAssetIdLink(assetId: Int) = "${EXPLORER_LINK}assets/details/$assetId"
 }

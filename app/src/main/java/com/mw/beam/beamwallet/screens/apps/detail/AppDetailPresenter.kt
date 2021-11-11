@@ -38,11 +38,15 @@ class AppDetailPresenter(view: AppDetailContract.View?, repository: AppDetailCon
         super.initSubscriptions()
 
         onCallSubApproveContractInfoSubscription = AppManager.instance.subApproveContractInfo.subscribe {
-            view?.showConfirmation(it)
+            if(it.amounts.length > 10) {
+                view?.showConfirmation(it)
+            }
         }
 
         onCallWalletApiApprovedSubscription = AppManager.instance.subCallWalletApiApproved.subscribe {
-            view?.showConfirmation(it)
+            if(it.amounts.length > 10) {
+                view?.showConfirmation(it)
+            }
         }
 
         onCallWalletApiResultSubscription = AppManager.instance.onCallWalletApiResult.subscribe {

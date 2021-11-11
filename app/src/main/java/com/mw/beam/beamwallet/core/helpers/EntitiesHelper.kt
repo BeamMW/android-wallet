@@ -50,7 +50,7 @@ enum class TxSender(val value: Boolean) {
 }
 
 enum class TxStatus(val value: Int) {
-    Pending(0), InProgress(1), Cancelled(2), Completed(3), Failed(4), Registered(5);
+    Pending(0), InProgress(1), Cancelled(2), Completed(3), Failed(4), Registered(5), Confirming(6);
 
     companion object {
         private val map: HashMap<Int, TxStatus> = HashMap()

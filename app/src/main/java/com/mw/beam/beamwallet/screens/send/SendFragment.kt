@@ -58,6 +58,7 @@ import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
+
 import com.mw.beam.beamwallet.core.helpers.*
 import com.mw.beam.beamwallet.core.views.*
 import com.mw.beam.beamwallet.core.watchers.AmountFilter
@@ -490,8 +491,14 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         amount.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 amount.hint = "0"
+                if (!amount.isStateError) {
+                    amount.isStateAccent = true
+                }
                 showKeyboard()
             } else {
+                if (!amount.isStateError) {
+                    amount.isStateNormal = true
+                }
                 amount.hint = ""
                 presenter?.onAmountUnfocused()
             }
@@ -661,6 +668,11 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         else {
             gradientView.setBackgroundResource(R.drawable.send_bg)
         }
+
+        currencyLayout.onSizeChange {
+            val w = currencyLayout.width + ScreenHelper.dpToPx(requireContext(), 20)
+            amount.setPaddingRelative(ScreenHelper.dpToPx(requireContext(), 10),0, w, 0)
+        }
     }
 
     override fun onStart() {
@@ -707,7 +719,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 //        if (contactName.visibility == View.VISIBLE) {
 //            offset = 120
 //        }
-        return ScreenHelper.dpToPx(context, 110) //addressContainer.height - offset
+        return ScreenHelper.dpToPx(context, 130) //addressContainer.height - offset
     }
 
     @SuppressLint("InflateParams", "StringFormatInvalid")
@@ -1421,7 +1433,19 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
             amountError.setTextColor(ContextCompat.getColor(requireContext(), R.color.category_red))
             amount.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.text_color_selector))
         }
-        amount.isStateError = true
+
+        if (errorString.startsWith("Maximum amount")) {
+            if (amount.isFocused) {
+                amount.isStateAccent = true
+            }
+            else {
+                amount.isStateNormal = true
+            }
+        }
+        else {
+            amount.isStateError = true
+        }
+
         updateFeeTransactionVisibility()
 
         val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)

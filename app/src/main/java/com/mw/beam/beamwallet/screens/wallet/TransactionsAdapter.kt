@@ -48,7 +48,7 @@ import kotlinx.android.synthetic.main.item_transaction.*
 import java.util.regex.Pattern
 
 class TransactionsAdapter(private val context: Context, private val longListener: OnLongClickListener? = null, var data: List<TxDescription>, private val cellMode: TransactionsAdapter.Mode, private val clickListener: (TxDescription) -> Unit) :
-        RecyclerView.Adapter<TransactionsAdapter.ViewHolder>() {
+        RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     enum class Mode {
         SHORT, FULL, SEARCH
@@ -104,7 +104,10 @@ class TransactionsAdapter(private val context: Context, private val longListener
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        val holder = (viewHolder as ViewHolder)
+        holder.setIsRecyclable(false)
+
         val transaction = data[position]
 
         holder.apply {
@@ -114,8 +117,8 @@ class TransactionsAdapter(private val context: Context, private val longListener
             assetIcon.setImageResource(asset?.image ?: R.drawable.ic_asset_0)
 
             when (transaction.sender) {
-                TxSender.RECEIVED -> amountLabel.text = "+ " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
-                TxSender.SENT -> amountLabel.text = "- " + transaction.amount.convertToAssetString(asset?.unitName ?: "")
+                TxSender.RECEIVED -> amountLabel.text = "+" + transaction.amount.convertToAssetString(asset?.unitName ?: "")
+                TxSender.SENT -> amountLabel.text = "-" + transaction.amount.convertToAssetString(asset?.unitName ?: "")
             }
 
             if (privacyMode) {
@@ -125,11 +128,11 @@ class TransactionsAdapter(private val context: Context, private val longListener
             else {
                 secondBalanceLabel.visibility = View.VISIBLE
 
-                val secondValue = transaction.amount.exchangeValueAsset(transaction.assetId)
+                val secondValue = transaction.amount.exchangeValueAssetWithRate(transaction.rate, transaction.assetId)
                 if (secondValue.isNotEmpty()) {
                     when (transaction.sender) {
-                        TxSender.RECEIVED -> secondBalanceLabel.text = "+ $secondValue"
-                        TxSender.SENT -> secondBalanceLabel.text = "- $secondValue"
+                        TxSender.RECEIVED -> secondBalanceLabel.text = "+$secondValue"
+                        TxSender.SENT -> secondBalanceLabel.text = "-$secondValue"
                     }
                 }
             }

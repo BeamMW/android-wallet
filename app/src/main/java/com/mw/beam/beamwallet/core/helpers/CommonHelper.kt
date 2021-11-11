@@ -28,7 +28,7 @@ import android.os.storage.StorageManager
 fun List<*>.prepareForLog() = this.joinToString { it.toString() }
 
 enum class WelcomeMode {
-    OPEN, CREATE, RESTORE, RESTORE_AUTOMATIC, CHANGE_PASS, MOBILE_CONNECT
+    OPEN, CREATE, RESTORE, RESTORE_AUTOMATIC, CHANGE_PASS, MOBILE_CONNECT, RESCAN
 }
 
 enum class NetworkStatus {

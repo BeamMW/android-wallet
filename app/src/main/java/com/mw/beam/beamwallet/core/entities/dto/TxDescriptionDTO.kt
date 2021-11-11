@@ -51,7 +51,9 @@ data class TxDescriptionDTO(var id: String,
                             var isDapps:Boolean,
                             var appName:String?,
                             var appID:String?,
-                            var contractCids:String?) : Parcelable {
+                            var contractCids:String?,
+                            var minConfirmations:Int?,
+                            var minConfirmationsProgress:String?) : Parcelable {
 
                                 @JvmName("getSenderValue")
                                 fun getSenderValue():Boolean {

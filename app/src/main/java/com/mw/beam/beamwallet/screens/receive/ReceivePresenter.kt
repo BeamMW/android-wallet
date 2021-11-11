@@ -23,6 +23,7 @@ import io.reactivex.disposables.Disposable
 
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
+import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.*
@@ -63,7 +64,9 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 forceRequest = true
 
                 val isToken = AppManager.instance.wallet?.isToken(address.address)
-                if (isToken == true) {
+                val canSend = AppManager.instance.isMaxPrivacyEnabled()
+
+                if (isToken == true && canSend) {
                     val params = AppManager.instance.wallet?.getTransactionParameters(address.address, false)
                     if (params?.isMaxPrivacy == true) {
                         transaction = TransactionTypeOptions.MAX_PRIVACY
@@ -71,7 +74,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                     paramsAmount = params?.amount ?: 0L
                 }
                 else {
-                    isSBBS = true
+                    isSBBS = !canSend
                 }
 
                 if (paramsAmount > 0L) {
@@ -179,7 +182,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
         else {
             if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                view?.shareToken(state.address?.address ?: "")
+                view?.shareToken(state.address?.id ?: "")
             }
             else {
                 view?.shareToken(state.address?.tokenOffline ?: "")
@@ -208,7 +211,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
         else {
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                view?.showQR(state.address?.address ?: "")
+                view?.showQR(state.address?.id ?: "")
             }
             else {
                 view?.showQR(state.address?.tokenOffline ?: "")
@@ -222,7 +225,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
         else {
             if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                view?.copyToken(state.address?.address ?: "")
+                view?.copyToken(state.address?.id ?: "")
             }
             else {
                 view?.copyToken(state.address?.tokenOffline ?: "")
@@ -270,7 +273,18 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
             view?.showShowToken(state.address?.tokenMaxPrivacy ?: "")
         }
         else {
-            view?.showShowToken(state.address?.tokenOffline ?: "")
+            if (!AppManager.instance.isMaxPrivacyEnabled()) {
+                val params = AppManager.instance.wallet?.getTransactionParameters(state.address?.address ?: "", false)
+                if (params?.getAddressType() == BMAddressType.BMAddressTypeMaxPrivacy) {
+                    view?.showShowToken(state.address?.id ?: "")
+                }
+                else {
+                    view?.showShowToken(state.address?.address ?: "")
+                }
+            }
+            else {
+                view?.showShowToken(state.address?.tokenOffline ?: "")
+            }
         }
     }
 

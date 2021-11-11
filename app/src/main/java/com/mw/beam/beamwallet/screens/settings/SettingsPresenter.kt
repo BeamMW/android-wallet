@@ -118,6 +118,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
             view?.setAllowOpenExternalLinkValue(repository.isAllowOpenExternalLink())
             view?.setLogSettings(repository.getLogSettings())
             view?.setCurrencySettings(repository.getCurrencySettings())
+            view?.setConfirmations(repository.getConfirmations())
             view?.setLanguage(repository.getCurrentLanguage())
             view?.setRunOnBackground(repository.isAllowBackgroundMode())
         }
@@ -200,13 +201,9 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
     override fun onChangeConfirmTransactionSettings(isConfirm: Boolean) {
-        if (isConfirm) {
+        view?.showConfirmPasswordDialog({
             repository.saveConfirmTransactionSettings(isConfirm)
-        } else {
-            view?.showConfirmPasswordDialog({
-                repository.saveConfirmTransactionSettings(isConfirm)
-            }, ::updateConfirmTransactionValue)
-        }
+        }, ::updateConfirmTransactionValue)
     }
 
     override fun onChangeFingerprintSettings(isEnabled: Boolean) {
