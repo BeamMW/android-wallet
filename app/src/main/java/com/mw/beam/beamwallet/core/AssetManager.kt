@@ -3,12 +3,14 @@ package com.mw.beam.beamwallet.core
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.TxDescription
 import com.mw.beam.beamwallet.core.entities.dto.AssetInfoDTO
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import java.io.StringReader
 
 class AssetManager {
 
@@ -61,7 +63,11 @@ class AssetManager {
         if (!json.isNullOrBlank()) {
             val g = Gson()
             val token: TypeToken<List<Asset>> = object : TypeToken<List<Asset>>() {}
-            val a = g.fromJson(json, token.type) as List<Asset>
+
+            val reader = JsonReader(StringReader(json))
+            reader.isLenient = true
+
+            val a = g.fromJson(reader, token.type) as List<Asset>
             assets.addAll(a)
         }
 
@@ -92,7 +98,7 @@ class AssetManager {
         assetBeam.paper = ""
         assets.add(assetBeam)
 
-        val assetBeamX = Asset(31 ,0L, 0L,
+        val assetBeamX = Asset(12 ,0L, 0L,
             0,0L,0L,0L,0,0,
             0, SystemStateDTO("", 0))
         assetBeamX.nthUnitName = "BEAMX";
@@ -172,32 +178,35 @@ class AssetManager {
     }
 
     private  fun getColor(asset: Asset):String {
-        return if (asset.isBeam()) {
-            return "#00F6D2"
-        }
-        else if (asset.isBeamX()) {
-            return "#977dff"
-        }
-//        else if(asset.isDemoX()) {
-//            return "#00F6D2"
-//        }
-        else {
-            val idx = (asset.assetId % icons.size);
-            colors[idx]
+        return when {
+            asset.isBeam() -> {
+                return "#00F6D2"
+            }
+            asset.isBeamX() -> {
+                return "#977dff"
+            }
+            //        else if(asset.isDemoX()) {
+            //            return "#00F6D2"
+            //        }
+            else -> {
+                val idx = (asset.assetId % icons.size);
+                colors[idx]
+            }
         }
     }
 
     private  fun getImage(asset: Asset):Int {
-
-        return if(asset.isBeam()) {
-            R.drawable.ic_asset_0
-        }
-        else if(asset.isBeamX()) {
-            R.drawable.assetbeamx
-        }
-        else {
-            val idx = (asset.assetId % icons.size);
-            icons[idx];
+        return when {
+            asset.isBeam() -> {
+                R.drawable.ic_asset_0
+            }
+            asset.isBeamX() -> {
+                R.drawable.ic_beamxverified
+            }
+            else -> {
+                val idx = (asset.assetId % icons.size);
+                icons[idx];
+            }
         }
     }
 

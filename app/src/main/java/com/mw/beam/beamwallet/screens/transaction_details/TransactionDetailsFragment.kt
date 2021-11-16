@@ -374,7 +374,7 @@ else{
         addressTypeProofLayout.visibility = View.GONE
 
         startProofAddressTitle.text = getString(R.string.sender_wallet_signature) + ":"
-        endAddressProofTitle.text = getString(R.string.sender_wallet_signature) + ":"
+        endAddressProofTitle.text = getString(R.string.receiver_wallet_signature) + ":"
 
         startProofAddress.text = txDescription.senderIdentity
         endProofAddress.text = txDescription.receiverIdentity

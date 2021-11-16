@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.ContractConsentDTO
@@ -18,6 +19,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import java.io.File
+import java.io.StringReader
 import java.util.*
 
 
@@ -109,7 +111,11 @@ class AppManager {
         }
 
         val token: TypeToken<List<String>> = object : TypeToken<List<String>>() {}
-        return gson.fromJson(json, token.type) as List<String>
+
+        val reader = JsonReader(StringReader(json))
+        reader.isLenient = true
+
+        return gson.fromJson(reader, token.type) as List<String>
     }
 
     fun setIgnoreAddress(id: String?) {
@@ -893,7 +899,11 @@ class AppManager {
             if (!json.isNullOrBlank()) {
                 val g = Gson()
                 val token: TypeToken<List<TxDescription>> = object : TypeToken<List<TxDescription>>() {}
-                val a = g.fromJson(json, token.type) as List<TxDescription>
+
+                val reader = JsonReader(StringReader(json))
+                reader.isLenient = true
+
+                val a = g.fromJson(reader, token.type) as List<TxDescription>
                 transactions.clear()
                 transactions.addAll(a)
             }

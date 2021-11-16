@@ -158,8 +158,8 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             secondFeeLabel.visibility = View.GONE
         }
 
-        if(asset == 31 || asset == 7) {
-            assetIcon.setImageResource(R.drawable.assetbeamx)
+        if(asset == 31 || asset == 12) {
+            assetIcon.setImageResource(R.drawable.ic_beamxverified)
         }
 
         if (details.isSpend == false) {

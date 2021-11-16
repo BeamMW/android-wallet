@@ -6,8 +6,10 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.entities.DAOApp
+import java.io.StringReader
 
 object DAOManager {
 
@@ -27,7 +29,12 @@ object DAOManager {
             { response ->
                 val gson = Gson()
                 val token: TypeToken<List<DAOApp>> = object : TypeToken<List<DAOApp>>() {}
-                val array =  gson.fromJson(response, token.type) as List<DAOApp>
+
+                val reader = JsonReader(StringReader(response))
+                reader.isLenient = true
+
+                val array =  gson.fromJson(reader, token.type) as List<DAOApp>
+
                 apps.clear()
                 apps.addAll(array)
 

@@ -35,7 +35,7 @@ class Asset(val assetId: Int,
     }
 
     fun isBeamX():Boolean {
-        return assetId == 31 || assetId == 7
+        return assetId == 12
     }
 
     fun hasInProgressTransactions():Boolean {
