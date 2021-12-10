@@ -43,7 +43,7 @@ android {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 489
+        versionCode 491
         versionName "6.1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
@@ -253,7 +253,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
 
     //icon
-    implementation("io.coil-kt:coil:1.2.0")
+    implementation("io.coil-kt:coil:1.2.1")
     implementation("io.coil-kt:coil-svg:1.2.0")
 }
 

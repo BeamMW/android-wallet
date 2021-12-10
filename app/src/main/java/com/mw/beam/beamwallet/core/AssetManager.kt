@@ -98,7 +98,7 @@ class AssetManager {
         assetBeam.paper = ""
         assets.add(assetBeam)
 
-        val assetBeamX = Asset(12 ,0L, 0L,
+        val assetBeamX = Asset(7 ,0L, 0L,
             0,0L,0L,0L,0,0,
             0, SystemStateDTO("", 0))
         assetBeamX.nthUnitName = "BEAMX";

@@ -303,12 +303,21 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     return
                 }
 
-                // we can't send money to own expired address
-                if (state.addresses.values.find { it.id == token && it.isExpired && !it.isContact } != null) {
-                    view?.showCantSendToExpiredError()
-                } else if (state.outgoingAddress != null) {
-                    saveAddress()
-                    view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
+                val address = AppManager.instance.getAddress(token)
+                if (address != null) {
+                    if (address.isExpired && !address.isContact) {
+                        view?.showCantSendToExpiredError()
+                    }
+                    else {
+                        saveAddress()
+                        view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
+                    }
+                }
+                else {
+                    if (state.outgoingAddress != null) {
+                        saveAddress()
+                        view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
+                    }
                 }
             }
         }

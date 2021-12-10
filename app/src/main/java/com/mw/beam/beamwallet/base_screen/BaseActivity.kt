@@ -41,6 +41,7 @@ import androidx.core.content.ContextCompat.startActivity
 import android.content.ComponentName
 import android.content.pm.PackageManager
 import com.mw.beam.beamwallet.core.entities.Currency
+import org.jetbrains.anko.runOnUiThread
 
 
 /**
@@ -249,7 +250,9 @@ abstract class BaseActivity<T : BasePresenter<out MvpView, out MvpRepository>> :
 
             val navigationOptions = navBuilder.build()
 
-            findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
+            baseContext.runOnUiThread {
+                findNavController(R.id.nav_host).navigate(R.id.welcomeOpenFragment, null, navigationOptions)
+            }
         }
     }
 

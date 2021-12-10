@@ -93,11 +93,12 @@ class AppManager {
             }
 
         fun getNode():String {
-            val node = Api.getDefaultPeers().random()
-            if (!node.contains("shanghai")) {
-                return  node
-            }
-            return Api.getDefaultPeers().random()
+            return "eu-node01.masternet.beam.mw:8100"
+//            val node = Api.getDefaultPeers().random()
+//            if (!node.contains("shanghai")) {
+//                return  node
+//            }
+//            return Api.getDefaultPeers().random()
         }
     }
 
@@ -257,14 +258,14 @@ class AppManager {
     }
 
     fun randomNode(): String {
-        val nodes = Api.getDefaultPeers();
-        val result = mutableListOf<String>();
-        nodes.forEach {
-            if(!it.contains("shanghai")) {
-                result.add(it)
-            }
-        }
-        return result.random()
+//        val nodes = Api.getDefaultPeers();
+//        val result = mutableListOf<String>();
+//        nodes.forEach {
+//            if(!it.contains("shanghai")) {
+//                result.add(it)
+//            }
+//        }
+        return "eu-node01.masternet.beam.mw:8100" //result.random()
     }
 
     fun importData(data: String) {

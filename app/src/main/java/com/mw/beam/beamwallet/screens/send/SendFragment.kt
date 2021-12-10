@@ -74,6 +74,7 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 import kotlinx.android.synthetic.main.fragment_send.*
+import org.jetbrains.anko.runOnUiThread
 
 import java.text.NumberFormat
 import java.util.*
@@ -329,6 +330,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                 presenter?.requestFee()
             } else {
                 isOffline = true
+                val params = AppManager.instance.wallet?.getTransactionParameters(address, true)
+
                 updateMaxPrivacyCount(presenter?.state?.maxPrivacyCount ?: 1)
                 setSegmentButtons()
                 presenter?.requestFee()
@@ -353,13 +356,15 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun updateMaxPrivacyCount(count: Int) {
-        if (isOffline) {
-            val left = getString(R.string.transactions_left, count.toString())
-            var result = getString(R.string.regular_offline_address) + ": " + left + "."
-            if (count <=3) {
-                result += " " + getString(R.string.transactions_left_hint)
+        AppActivity.self.runOnUiThread {
+            if (isOffline) {
+                val left = getString(R.string.transactions_left, count.toString())
+                var result = getString(R.string.regular_offline_address) + ": " + left + "."
+                if (count <=3) {
+                    result += " " + getString(R.string.transactions_left_hint)
+                }
+                addressTypeLabel.text = result
             }
-            addressTypeLabel.text = result
         }
     }
 
