@@ -13,6 +13,7 @@ class RestoreTrustedNodeRepository: BaseRepository(), RestoreTrustedNodeContract
             AppConfig.NODE_ADDRESS = address
             AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
             PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+            PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
             PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS, address)
         }
     }

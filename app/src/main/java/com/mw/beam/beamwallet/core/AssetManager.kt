@@ -1,6 +1,7 @@
 package com.mw.beam.beamwallet.core
 
 import android.util.Log
+import androidx.multidex.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
@@ -98,7 +99,15 @@ class AssetManager {
         assetBeam.paper = ""
         assets.add(assetBeam)
 
-        val assetBeamX = Asset(7 ,0L, 0L,
+        var assetId = 7
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
+            assetId = 31
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
+            assetId = 12
+        }
+
+        val assetBeamX = Asset(assetId ,0L, 0L,
             0,0L,0L,0L,0,0,
             0, SystemStateDTO("", 0))
         assetBeamX.nthUnitName = "BEAMX";

@@ -265,10 +265,16 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 }
             }
             else if(WelcomeMode.RESTORE_AUTOMATIC == state.mode) {
-                view?.updateProgress(it, state.mode, isDownloadProgress = false, isRestoreProgress = true)
-                if (it.done == it.total && isWaitingRestore && recoveryPresented) {
+                if (isWaitingRestore && recoveryPresented) {
                     isWaitingRestore = false
                     showWallet()
+                }
+                else {
+                    view?.updateProgress(it, state.mode, isDownloadProgress = false, isRestoreProgress = true)
+                    if (it.done == it.total && isWaitingRestore && recoveryPresented) {
+                        isWaitingRestore = false
+                        showWallet()
+                    }
                 }
             }
             else if (isNodeSyncFinished && it.total > 0) {

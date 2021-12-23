@@ -11,7 +11,9 @@ class RestoreModeChoiceRepository: BaseRepository(), RestoreModeChoiceContract.R
         AppManager.instance.wallet = null
 
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
-        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+        PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
+        PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS,"")
 
         removeDatabase()
 
@@ -19,6 +21,7 @@ class RestoreModeChoiceRepository: BaseRepository(), RestoreModeChoiceContract.R
     }
 
     override fun saveStartRestoreFlag() {
+        PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS,"")
         PreferencesManager.putBoolean(PreferencesManager.KEY_UNFINISHED_RESTORE, true)
     }
 }

@@ -38,7 +38,10 @@ import com.mw.beam.beamwallet.screens.apps.confirm.AppConfirmDialog
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 
 import kotlinx.android.synthetic.main.fragment_app_detail.*
+import kotlinx.android.synthetic.main.fragment_app_detail.toolbarLayout
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.toolbar.*
+
 import org.jetbrains.anko.runOnUiThread
 
 class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.View {
@@ -115,11 +118,18 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
     private fun setupWebView() {
         val app = getApp()
 
+        toolbarLayout.changeNodeButton.alpha = 0f
+        toolbarLayout.changeNodeButton.visibility = View.GONE
+        toolbarLayout.changeNodeButton.isEnabled = false
+
         AppManager.instance.wallet?.launchApp(app.name ?: "", app.url ?: "")
 
         webInterface.onCallWalletApi = { json->
             AppActivity.self.runOnUiThread {
                 loadingView?.visibility = View.GONE
+                toolbarLayout.changeNodeButton.alpha = 1.0f
+                toolbarLayout.changeNodeButton.visibility = View.VISIBLE
+                toolbarLayout.changeNodeButton.isEnabled = true
                 webView?.alpha = 1f
             }
             AppManager.instance.wallet?.callWalletApi(json)

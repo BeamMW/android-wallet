@@ -35,7 +35,16 @@ class Asset(val assetId: Int,
     }
 
     fun isBeamX():Boolean {
-        return assetId == 7
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET && assetId == 31) {
+            return true
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET && assetId == 12) {
+            return true
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET && assetId == 7) {
+            return true
+        }
+        return false
     }
 
     fun hasInProgressTransactions():Boolean {

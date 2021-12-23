@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import androidx.multidex.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -19,6 +20,7 @@ import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.entities.DAOAmount
@@ -158,7 +160,14 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             secondFeeLabel.visibility = View.GONE
         }
 
-        if(asset == 7) {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET && assetId == 31) {
+            assetIcon.setImageResource(R.drawable.ic_beamxverified)
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET && assetId == 12) {
+            assetIcon.setImageResource(R.drawable.ic_beamxverified)
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET && assetId == 7
+            || amountLabel.text.contains("BEAMX")) {
             assetIcon.setImageResource(R.drawable.ic_beamxverified)
         }
 

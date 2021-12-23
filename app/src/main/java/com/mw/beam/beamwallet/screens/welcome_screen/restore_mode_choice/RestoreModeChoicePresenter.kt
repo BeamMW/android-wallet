@@ -16,7 +16,8 @@ class RestoreModeChoicePresenter(view: RestoreModeChoiceContract.View?, reposito
 
     override fun onNextPressed(isAutomaticRestore: Boolean) {
         PreferencesManager.putString(PreferencesManager.KEY_NODE_ADDRESS,"")
-        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE,true)
+        PreferencesManager.putBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, true)
+        PreferencesManager.putBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
 
         if (isAutomaticRestore) {
             view?.showAutoRestoreWarning()

@@ -76,6 +76,7 @@ enum class NodeConnectionError(val value: Int) {
 
 fun removeDatabase() {
     File(AppConfig.DB_PATH, AppConfig.DB_FILE_NAME).delete()
+    PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS,"")
 }
 
 fun removeNodeDatabase() {

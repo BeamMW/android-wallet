@@ -240,7 +240,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     title.text = restoreTitleString
                     restoreFullDescription.visibility = View.VISIBLE
                     configProgress(countProgress(progressData), descriptionString)
-                } else {
+                }
+                else {
                     var descriptionString = if (progressData.time != null) {
                         val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
                         "$restoreDescriptionString ${countProgress(progressData)}%. $estimate"
