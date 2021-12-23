@@ -250,6 +250,7 @@ class App : Application() {
     }
 
     fun stopBackgroundService() {
+        
         val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
         jobScheduler.cancelAll()
     }
