@@ -125,14 +125,16 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
         AppManager.instance.wallet?.launchApp(app.name ?: "", app.url ?: "")
 
         webInterface.onCallWalletApi = { json->
-            AppActivity.self.runOnUiThread {
-                loadingView?.visibility = View.GONE
-                toolbarLayout.changeNodeButton.alpha = 1.0f
-                toolbarLayout.changeNodeButton.visibility = View.VISIBLE
-                toolbarLayout.changeNodeButton.isEnabled = true
-                webView?.alpha = 1f
+            if (context != null) {
+                AppActivity.self.runOnUiThread {
+                    loadingView?.visibility = View.GONE
+                    toolbarLayout?.changeNodeButton?.alpha = 1.0f
+                    toolbarLayout?.changeNodeButton?.visibility = View.VISIBLE
+                    toolbarLayout?.changeNodeButton?.isEnabled = true
+                    webView?.alpha = 1f
+                }
+                AppManager.instance.wallet?.callWalletApi(json)
             }
-            AppManager.instance.wallet?.callWalletApi(json)
         }
 
         webView.alpha = 0f

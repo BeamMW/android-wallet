@@ -27,7 +27,10 @@ object DownloadCalculator {
     private var m_bpsWholeTimeFilter1 = mutableListOf<Double>()
     private var m_estimateFilter1 = mutableListOf<Double>()
 
+    private var count = 0
+
     fun onStopDownload() {
+        count = 0
         m_isDownloadStarted = false
     }
 
@@ -39,6 +42,7 @@ object DownloadCalculator {
 
             m_done = 0
             m_total = 0
+            count = 0
 
             m_startTimestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
 
@@ -55,7 +59,8 @@ object DownloadCalculator {
     }
 
     fun onCalculateTime(done:Int, total:Int):Int? {
-        return if (m_isDownloadStarted && total > 0) {
+        count += 1
+        return if (m_isDownloadStarted && total > 0 && count > 3) {
             m_previousUpdateTimestamp = m_lastUpdateTimestamp;
             m_lastUpdateTimestamp = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis())
             m_lastDone = m_done

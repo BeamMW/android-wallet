@@ -43,10 +43,10 @@
                 android:id="@+id/randomLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                android:background="@drawable/wallet_state_card_plain"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/ic_random_node" />
 
                 <TextView
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/random_node_title"
                     android:textAllCaps="false" />
 
@@ -77,6 +77,7 @@
                         android:id="@+id/randomButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
                         android:checked="true" />
 
                     <TextView
@@ -91,12 +92,12 @@
                     style="@style/common_text_big_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_italic"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-                    android:textAlignment="center"
-                    android:textColor="?attr/subHeaderTextColor"
-                    android:text="@string/remote_node_hint" />
+                    android:fontFamily="@font/roboto_italic"
+                    android:text="@string/remote_node_hint"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="?attr/subHeaderTextColor" />
 
             </LinearLayout>
 
@@ -104,10 +105,10 @@
                 android:id="@+id/mobileLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                android:background="@drawable/wallet_state_card_plain"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/ic_mobile_node" />
 
                 <TextView
@@ -126,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/mobile_node_title"
                     android:textAllCaps="false" />
 
@@ -139,6 +140,7 @@
                         android:id="@+id/mobileNodeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
                         android:checked="false" />
 
                     <TextView
@@ -146,6 +148,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
+                        android:layout_marginBottom="12dp"
                         android:text="@string/mobile_node_hint" />
                 </LinearLayout>
             </LinearLayout>
@@ -154,10 +157,10 @@
                 android:id="@+id/ownLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
                 android:orientation="vertical"
+                android:background="@drawable/wallet_state_card_plain"
+                android:paddingHorizontal="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="10dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/ic_own_node" />
 
                 <TextView
@@ -176,8 +179,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
-                    android:layout_marginTop="5dp"
                     android:text="@string/own_node_title"
+                    android:layout_marginTop="6dp"
                     android:textAllCaps="false" />
 
                 <LinearLayout
@@ -189,6 +192,7 @@
                         android:id="@+id/ownNodeButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
                         android:checked="false" />
 
                     <TextView
@@ -204,32 +208,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/wallet_state_card_backgroud"
-                    android:layout_marginTop="8dp"
                     android:minHeight="80dp"
                     android:orientation="horizontal">
 
                     <TextView
                         style="@style/common_text_big_light"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:textAllCaps="true"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/ip_port" />
+                        android:padding="10dp"
+                        android:text="@string/ip_port"
+                        android:textAllCaps="true" />
 
                     <com.mw.beam.beamwallet.core.views.BeamEditText
                         android:id="@+id/dialogNodeValue"
                         style="@style/common_text_big_light"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="16dp"
                         android:background="@drawable/edit_text_selector"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:./-_"
                         android:hint="@string/node_ip_hint"
                         android:imeOptions="actionDone"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="16dp"
                         android:inputType="text"
                         android:singleLine="true"
                         tools:ignore="Autofill,LabelFor" />

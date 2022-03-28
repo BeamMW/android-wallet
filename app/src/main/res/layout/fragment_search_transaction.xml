@@ -11,7 +11,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/search_toolbar_color"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,6 +33,7 @@
             android:layout_width="0dp"
             android:singleLine="true"
             android:maxLines="1"
+            android:imeOptions="actionDone"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
         <ImageView
@@ -47,14 +47,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
     <com.mw.beam.beamwallet.core.views.RecyclerViewEmptySupport
         android:id="@+id/recyclerView"
-        android:fitsSystemWindows="true"
-        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_transaction"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="0dp"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
+        tools:listitem="@layout/item_transaction" />
+
+    <TextView
+        android:id="@+id/notFoundLabel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="80dp"
+        android:drawableTop="@drawable/ic_search_no_results"
+        android:drawablePadding="15dp"
+        android:fontFamily="@font/proxima_regular"
+        android:padding="30dp"
+        android:text="@string/there_are_no_transactions_matching_search_criteria"
+        android:textAlignment="center"
+        android:textColor="@color/common_text_dark_color"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchToolbar"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/emptyLabel"

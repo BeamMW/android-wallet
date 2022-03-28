@@ -38,13 +38,13 @@ android {
         signingConfigs {
     }
 
-    compileSdkVersion 30
+    compileSdkVersion 32
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 493
-        versionName "6.2"
+        targetSdkVersion 32
+        versionCode 499
+        versionName "6.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

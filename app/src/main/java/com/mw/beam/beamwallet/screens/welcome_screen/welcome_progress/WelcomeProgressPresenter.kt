@@ -46,7 +46,6 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     lateinit var file:File
     private var recoveryPresented = false
     private var isWaitingRestore = false
-    private  var isNeedCheck = false
 
     private lateinit var syncProgressUpdatedSubscription: Disposable
     private lateinit var nodeProgressUpdatedSubscription: Disposable
@@ -54,6 +53,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeStoppedSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
     private lateinit var nodeThreadFinishedSubscription: Disposable
+
     private val onRecoveryLiveData = MutableLiveData<() -> Unit>()
     private var downloadSubscription: Disposable = EmptyDisposable()
         set(value) {
@@ -96,6 +96,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun onViewCreated() {
         super.onViewCreated()
+
         view?.init(state.mode)
 
         if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
@@ -218,75 +219,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
     override fun initSubscriptions() {
 
-        val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
-        val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
-        val isOwn = !mobile && !isRandom
-
         syncProgressUpdatedSubscription = repository.getSyncProgressUpdated().subscribe {
-            Log.e("UPDATE", "${it.done} ==== ${it.total}")
-
-            if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
-
-                if(WelcomeMode.CREATE == state.mode && mobile && it.total == 0) {
-
-                }
-                else if(WelcomeMode.CREATE == state.mode && isOwn && it.total == 0) {
-
-                }
-                else if(WelcomeMode.RESCAN == state.mode && it.total == 0) {
-
-                }
-                else if(WelcomeMode.RESCAN == state.mode && (it.total == it.done)) {
-                    showWallet()
-                }
-                else if(WelcomeMode.MOBILE_CONNECT == state.mode && it.total == 0) {
-                    if(isOwn) {
-                        if(AppManager.instance.isSynced()) {
-                            showWallet()
-                        }
-                        else {
-                            AppManager.instance.wallet?.syncWithNode()
-                        }
-                    }
-                    else {
-                        AppManager.instance.wallet?.syncWithNode()
-                    }
-                }
-                else if (it.total == 0 && WelcomeMode.RESCAN != state.mode) {
-                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-                    showWallet()
-                }
-                else {
-                    view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false)
-
-                    if (it.done == it.total) {
-                        showWallet()
-                    }
-                }
-            }
-            else if(WelcomeMode.RESTORE_AUTOMATIC == state.mode) {
-                if (isWaitingRestore && recoveryPresented) {
-                    isWaitingRestore = false
-                    showWallet()
-                }
-                else {
-                    view?.updateProgress(it, state.mode, isDownloadProgress = false, isRestoreProgress = true)
-                    if (it.done == it.total && isWaitingRestore && recoveryPresented) {
-                        isWaitingRestore = false
-                        showWallet()
-                    }
-                }
-            }
-            else if (isNodeSyncFinished && it.total > 0) {
-                view?.updateProgress(it, state.mode, isDownloadProgress = true, isRestoreProgress = false)
-
-                if (it.done == it.total) {
-                    //sometimes lib notifies us few times about end of progress
-                    //so we need to unsubscribe from events to prevent unexpected behaviour
-                    syncProgressUpdatedSubscription.dispose()
-                    repository.closeWallet()
-                }
-            }
+            onProgress(it)
         }
 
         nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
@@ -305,9 +239,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         nodeConnectionFailedSubscription = repository.getNodeConnectionFailed().subscribe {
             when (state.mode) {
-                WelcomeMode.OPEN -> {
-                    view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
-                    showWallet()
+                WelcomeMode.OPEN, WelcomeMode.MOBILE_CONNECT  -> {
+                    showWallet(true)
                 }
                 WelcomeMode.RESTORE -> {
                     if (!isFailedToStartNode) {
@@ -320,9 +253,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                         view?.logOut()
                     }
                 }
-                else -> {
-                    //for now do nothing
-                }
+                else -> {}
             }
         }
 
@@ -366,6 +297,23 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 }
             }
         }
+
+        AppManager.instance.subOnConnectingFailed = {
+            when (state.mode) {
+                WelcomeMode.OPEN, WelcomeMode.MOBILE_CONNECT  -> {
+                    showWallet(true)
+                }
+                else -> {}
+            }
+        }
+
+        AppManager.instance.subOnLoginSyncProgressUpdated = {
+            onProgress(it)
+        }
+
+        if ((state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
+            repository.wallet?.getWalletStatus()
+        }
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
@@ -375,21 +323,98 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     override fun onDestroy() {
         importRecoverySubscription.dispose()
         downloadSubscription.dispose()
+        AppManager.instance.subOnConnectingFailed = null
+        AppManager.instance.subOnLoginSyncProgressUpdated = null
 
         RestoreManager.instance.stopDownload()
 
         super.onDestroy()
     }
 
-    private fun showWallet() {
+    private fun onProgress(it: OnSyncProgressData) {
+        val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
+        val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
+        val isOwn = !mobile && !isRandom
+
+        Log.e("UPDATE", "${it.done} ==== ${it.total}")
+
+        if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
+
+            if(WelcomeMode.CREATE == state.mode && mobile && it.total == 0) {
+
+            }
+            else if(WelcomeMode.CREATE == state.mode && isOwn && it.total == 0) {
+
+            }
+            else if(WelcomeMode.RESCAN == state.mode && it.total == 0) {
+
+            }
+            else if(WelcomeMode.RESCAN == state.mode && (it.total == it.done)) {
+                showWallet()
+            }
+            else if(WelcomeMode.MOBILE_CONNECT == state.mode && it.total == 0) {
+                if(isOwn) {
+                    if(AppManager.instance.isSynced()) {
+                        showWallet()
+                    }
+                    else {
+                        AppManager.instance.wallet?.syncWithNode()
+                    }
+                }
+                else {
+                    AppManager.instance.wallet?.syncWithNode()
+                }
+            }
+            else if (it.total == 0 && WelcomeMode.RESCAN != state.mode) {
+                view?.updateProgress(OnSyncProgressData(1, 1), state.mode,isDownloadProgress = false, isRestoreProgress = false)
+                showWallet()
+            }
+            else {
+                view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false)
+
+                if (it.done == it.total) {
+                    showWallet()
+                }
+            }
+        }
+        else if(WelcomeMode.RESTORE_AUTOMATIC == state.mode) {
+            if (isWaitingRestore && recoveryPresented) {
+                isWaitingRestore = false
+                showWallet()
+            }
+            else {
+                view?.updateProgress(it, state.mode, isDownloadProgress = false, isRestoreProgress = true)
+                if (it.done == it.total && isWaitingRestore && recoveryPresented) {
+                    isWaitingRestore = false
+                    showWallet()
+                }
+            }
+        }
+        else if (isNodeSyncFinished && it.total > 0) {
+            view?.updateProgress(it, state.mode, isDownloadProgress = true, isRestoreProgress = false)
+
+            if (it.done == it.total) {
+                //sometimes lib notifies us few times about end of progress
+                //so we need to unsubscribe from events to prevent unexpected behaviour
+                syncProgressUpdatedSubscription.dispose()
+                repository.closeWallet()
+            }
+        }
+    }
+
+    private fun showWallet(error:Boolean = false) {
        if(!isShow) {
+
            val mobile = (PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL,false))
            val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
            val isOwn = !mobile && !isRandom
 
-           if (isOwn && !AppManager.instance.isSynced()) {
+           if (isOwn && !AppManager.instance.isSynced() && !error) {
                return
            }
+
+           AppManager.instance.subOnConnectingFailed = null
+           AppManager.instance.subOnLoginSyncProgressUpdated = null
 
            isShow = true
 

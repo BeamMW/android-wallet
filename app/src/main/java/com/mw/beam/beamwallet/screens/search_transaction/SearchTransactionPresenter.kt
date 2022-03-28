@@ -57,9 +57,10 @@ class SearchTransactionPresenter(view: SearchTransactionContract.View?, reposito
         val transactions = if (state.searchText.isNotBlank()) {
             state.getAllTransactions(view?.getAssetId() ?: -1).filter {
                 it.id.toLowerCase().startsWith(state.searchText) ||
-                it.kernelId.toLowerCase().startsWith(state.searchText) ||
-                        it.peerId.toLowerCase().startsWith(state.searchText) ||
-                        it.myId.toLowerCase().startsWith(state.searchText) ||
+                        it.kernelId.toLowerCase().startsWith(state.searchText) ||
+                        it.senderAddress.toLowerCase().startsWith(state.searchText) ||
+                        it.token.toLowerCase().startsWith(state.searchText) ||
+                        it.receiverAddress.toLowerCase().startsWith(state.searchText) ||
                         findWalletAddress(it, state.searchText) ||
                         it.message.toLowerCase().contains(state.searchText)
             }

@@ -147,9 +147,8 @@ class BeamToolbar : LinearLayout {
         changeNodeButtonClickable.setOnClickListener {
             if (changeNodeButton.visibility == View.VISIBLE && changeNodeButton.alpha == 1.0f) {
                 val destinationFragment = R.id.nodeFragment
-                val navBuilder = NavOptions.Builder()
-                val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
-                AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment, bundleOf("password" to null, "seed" to emptyArray<String>()), navigationOptions)
+                AppActivity.self.findNavController(R.id.nav_host).navigate(destinationFragment,
+                    bundleOf("password" to null, "seed" to emptyArray<String>()), null)
             }
         }
     }
@@ -301,7 +300,7 @@ class BeamToolbar : LinearLayout {
                         }
                         else {
                             statusIcon.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.green_status))
-                            status.text = context.getString(R.string.own_node_new_status).toLowerCase()
+                            status.text = context.getString(R.string.own_node_not_config).toLowerCase()
                             if(changeNodeButton.alpha != 0f) {
                                 if (canShowChangeButton) {
                                     changeNodeButton.visibility = View.VISIBLE

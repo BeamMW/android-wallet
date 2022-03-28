@@ -67,6 +67,7 @@ object WalletListener {
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
 
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
+
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnChangeCalculated: Subject<Long> = BehaviorSubject.create<Long>().toSerialized()
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
@@ -154,10 +155,12 @@ object WalletListener {
     fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), "onTxStatus")
 
     @JvmStatic
-    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), "onSyncProgressUpdated")
+    fun onSyncProgressUpdated(done: Int, total: Int) : Unit  {
+        return returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total, DownloadCalculator.onCalculateTime(done,total)), "onSyncProgressUpdated")
+    }
 
     @JvmStatic
-    fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total), "onNodeSyncProgressUpdated")
+    fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total, DownloadCalculator.onCalculateTime(done,total)), "onNodeSyncProgressUpdated")
 
     @JvmStatic
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
@@ -194,7 +197,9 @@ object WalletListener {
     fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, "onNodeConnectedStatusChanged")
 
     @JvmStatic
-    fun onNodeConnectionFailed(error : Int) = returnResult(subOnNodeConnectionFailed, NodeConnectionError.fromValue(error), "onNodeConnectionFailed")
+    fun onNodeConnectionFailed(error : Int) {
+        returnResult(subOnNodeConnectionFailed, NodeConnectionError.fromValue(error), "onNodeConnectionFailed")
+    }
 
     @JvmStatic
     fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, "onCantSendToExpired")

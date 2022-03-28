@@ -70,6 +70,8 @@ class AppManager {
     var onCallWalletApiResult: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subApproveContractInfo: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
     var subCallWalletApiApproved: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
+    var subOnConnectingFailed: (() -> Unit)? = null
+    var subOnLoginSyncProgressUpdated: ((OnSyncProgressData) -> Unit)? = null
 
     private var newAddressSubscription: Disposable? = null
 
@@ -1139,12 +1141,14 @@ class AppManager {
                     networkStatus = NetworkStatus.OFFLINE
                     subOnNetworkStatusChanged.onNext(0)
                 }
+                subOnConnectingFailed?.invoke()
             }
 
             WalletListener.subOnSyncProgressUpdated.subscribe {
                 syncProgressData = it
                 networkStatus = if (it.done == it.total) NetworkStatus.ONLINE else NetworkStatus.UPDATING
                 subOnNetworkStatusChanged.onNext(0)
+                subOnLoginSyncProgressUpdated?.invoke(it)
             }
 
             WalletListener.subOnExchangeRates.subscribe {

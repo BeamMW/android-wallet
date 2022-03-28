@@ -66,6 +66,7 @@
     <!--PasswordFragment-->
     <string name="pass_proceed_to_wallet">Start using your wallet</string>
     <string name="pass_save_new">Save new password</string>
+    <string name="proceed">Proceed</string>
 
     <!--WelcomeOpenFragment-->
     <string name="welcome_open">Open your wallet</string>
@@ -594,7 +595,7 @@ address or contact</string>
     <string name="fast_secure_advance">Fast and secure, advanced</string>
     <string name="own_node_text">For those who run a node configured with the wallet’s Owner Key.</string>
     <string name="connect_to_mobilenode">Connecting to Mobile node</string>
-    <string name="syncing_with_blockchain">Syncing  with blockchain</string>
+    <string name="syncing_with_blockchain">Syncing with the blockchain</string>
     <string name="please_no_lock">Please do not lock your phone and do not close the wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet connected to Mobile node</string>
     <string name="connect">Connect</string>
@@ -645,6 +646,7 @@ address or contact</string>
     <string name="max_funds_hint_2">Maximum amount</string>
     <string name="random_node_status">online: random node supports online transactions only</string>
     <string name="own_node_new_status">own node: supports online transactions only</string>
+    <string name="own_node_not_config">online: configure your own node with owner key</string>
     <string name="dAppStore">DAPP Store</string>
     <string name="fee">Fee</string>
     <string name="confirm_accept">Confirm</string>
@@ -751,7 +753,20 @@ address or contact</string>
     <string name="tx_failure_cannot_get_vouchers">The sender cannot get vouchers for max privacy transaction</string>
     <string name="failure_reason">Failure reason</string>
     <string name="no_funds_dao">There is not enough funds to complete the transaction</string>
-
-
+    <string name="there_are_no_transactions_matching_search_criteria">There are no transactions\nmatching search criteria</string>
+    <string name="calc_est_time">calculating estimated time</string>
+    <string name="less_minute">Less than a minute</string>
+    <string name="to_completion">%s to completion</string>
+    <string name="switch_to_own">Switch to own node</string>
+    <string name="switch_to_random">Switch to random node</string>
+    <string name="switch_to_mobile">Switch to mobile node</string>
+    <string name="switch_to_own_from_mobile">Are you sure to switch from mobile node to own node\n%s?</string>
+    <string name="switch_to_own_from_random">Are you sure to switch from random node to own node\n%s?</string>
+    <string name="switch_to_own_from_own">Are you sure to switch from own node %s to own node\n%s?</string>
+    <string name="switch_to_random_from_mobile">Are you sure to switch from mobile node to random node?\nRandom node supports only online transactions.</string>
+    <string name="switch_to_random_from_own">Are you sure to switch from own node %s to random node?\nRandom node supports only online transactions.</string>
+    <string name="switch_to_mobile_from_random">Are you sure to switch from random node to mobile node?</string>
+    <string name="switch_to_mobile_from_own">Are you sure to switch from own node %s to mobile node?</string>
+    <string name="sw">Switch</string>
 </resources>
 
