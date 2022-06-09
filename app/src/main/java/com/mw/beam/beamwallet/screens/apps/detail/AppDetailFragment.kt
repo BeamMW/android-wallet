@@ -91,7 +91,9 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
     }
 
     override fun setJSCommand(command: String) {
-        webView.evaluateJavascript(command)  {}
+        if (view != null && context != null) {
+            webView?.evaluateJavascript(command)  {}
+        }
     }
 
     override fun showConfirmation(info: ContractConsentDTO) {

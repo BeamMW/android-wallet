@@ -93,38 +93,41 @@ class TransactionsAdapter(private val context: Context, private val longListener
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
-        this.containerView.setOnClickListener {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val holder = ViewHolder(LayoutInflater.from(context).inflate(getRowId(), parent, false)).apply {
+            this.containerView.setOnClickListener {
 
-            if (adapterPosition>-1)
-            {
-                clickListener.invoke(data[adapterPosition])
+                if (adapterPosition > -1) {
+                    clickListener.invoke(data[adapterPosition])
 
-                if (mode == TransactionsFragment.Mode.EDIT) {
-                    if (selectedTransactions.contains(data[adapterPosition].id)) {
-                        selectedTransactions.remove(data[adapterPosition].id)
-                    } else {
-                        selectedTransactions.add(data[adapterPosition].id)
+                    if (mode == TransactionsFragment.Mode.EDIT) {
+                        if (selectedTransactions.contains(data[adapterPosition].id)) {
+                            selectedTransactions.remove(data[adapterPosition].id)
+                        } else {
+                            selectedTransactions.add(data[adapterPosition].id)
+                        }
+
+                        checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
                     }
+                }
 
-                    checkBox.isChecked = selectedTransactions.contains(data[adapterPosition].id)
+            }
+
+            if (longListener != null) {
+                this.containerView.setOnLongClickListener {
+                    longListener?.onLongClick(data[adapterPosition])
+                    return@setOnLongClickListener true
                 }
             }
-
         }
-
-        if (longListener != null) {
-            this.containerView.setOnLongClickListener {
-                longListener?.onLongClick(data[adapterPosition])
-                return@setOnLongClickListener true
-            }
-        }
+        holder.setIsRecyclable(false)
+        return holder
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         val holder = (viewHolder as ViewHolder)
-//        holder.setIsRecyclable(false)
+        holder.setIsRecyclable(false)
 
         val transaction = data[position]
 

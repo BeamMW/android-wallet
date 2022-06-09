@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <View
+        android:id="@+id/view5"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_gradient_size"
         android:background="?attr/headerBackground"
@@ -35,44 +36,135 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarLayout">
 
         <LinearLayout
-            android:id="@+id/mainLayout"
+            android:id="@+id/mainView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:filterTouchesWhenObscured="true"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical"
+            android:focusable="false"
+            android:focusableInTouchMode="true">
+
+            <LinearLayout
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/wallet_state_card_backgroud"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/menu_search"
+                    android:tint="#bdbdbd" />
+
+                <EditText
+                    android:id="@+id/searchField"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/search_by_section_name_or_parameter"
+                    android:textStyle="italic"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textCapSentences"
+                    android:textColor="@color/white_100"
+                    android:textColorHint="@color/white_02"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/clearFieldButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_clear_field" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/emptyLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:drawableTop="@drawable/ic_search_no_results"
+                android:drawablePadding="15dp"
+                android:fontFamily="@font/proxima_regular"
+                android:padding="30dp"
+                android:text="@string/there_are_no_results_matching_search_criteria"
+                android:textAlignment="center"
+                android:textColor="@color/common_text_dark_color"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/mainLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:filterTouchesWhenObscured="true"
+                android:orientation="vertical"/>
+        </LinearLayout>
 
 
     </ScrollView>
 
+
+
     <LinearLayout
         android:id="@+id/appVersionLayout"
         android:layout_width="0dp"
-        android:layout_height="19dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="24dp"
         android:filterTouchesWhenObscured="true"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/appVersionTitle"
+            android:id="@+id/blockChainHeight"
             style="@style/common_text_big_dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_version" />
+            android:text="@string/settings_version"
+            android:layout_marginBottom="16dp"/>
 
-        <TextView
-            android:id="@+id/appVersionValue"
-            style="@style/common_text_big_dark"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/settings_version" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/appVersionTitle"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_version" />
+
+            <TextView
+                android:id="@+id/appVersionValue"
+                style="@style/common_text_big_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/settings_version" />
+        </LinearLayout>
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatImageView

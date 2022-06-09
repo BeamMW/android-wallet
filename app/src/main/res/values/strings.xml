@@ -619,7 +619,7 @@ address or contact</string>
     <string name="locked">Locked</string>
     <string name="beam_confidential_asset">Beam Confidential Asset</string>
     <string name="website">Website</string>
-    <string name="description_paper">description Paper</string>
+    <string name="description_paper">Description Paper</string>
     <string name="smallest_unit_name">Smallest unit name</string>
     <string name="short_description">Short description</string>
     <string name="long_description">Long description</string>
@@ -641,13 +641,13 @@ address or contact</string>
     <string name="remote_node_hint">To support maximum anonymity set and offline transactions please connect to mobile node or own node configured with your owner key.</string>
     <string name="receive_description_2">For online payment to complete, you should get online during 12 hours after coins are sent.</string>
     <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
-    <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s</string>
+    <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s.</string>
     <string name="max_funds_hint">Maximum amount is %s</string>
     <string name="max_funds_hint_2">Maximum amount</string>
     <string name="random_node_status">online: random node supports online transactions only</string>
     <string name="own_node_new_status">own node: supports online transactions only</string>
     <string name="own_node_not_config">online: configure your own node with owner key</string>
-    <string name="dAppStore">DAPP Store</string>
+    <string name="dAppStore">My DApp Browser</string>
     <string name="fee">Fee</string>
     <string name="confirm_accept">Confirm</string>
     <string name="will_take_funds">%s will take the funds from your wallet</string>
@@ -659,6 +659,7 @@ address or contact</string>
     <string name="receive_address_hint">To ensure a better privacy, new address is generated every time. In case you’d like to re-use an earlier created regular address please use the Address Book.</string>
     <string name="beam_x_dao">BeamX DAO</string>
     <string name="documentation">Documentation</string>
+    <string name="beam_x_dao_voting">BeamX DAO Voting</string>
 
     <string name="dapp_transaction_completed">DApp transaction completed</string>
     <string name="dapp_transaction_failed">DApp transaction failed</string>
@@ -768,5 +769,7 @@ address or contact</string>
     <string name="switch_to_mobile_from_random">Are you sure to switch from random node to mobile node?</string>
     <string name="switch_to_mobile_from_own">Are you sure to switch from own node %s to mobile node?</string>
     <string name="sw">Switch</string>
+    <string name="search_by_section_name_or_parameter">Search by section name or parameter</string>
+    <string name="there_are_no_results_matching_search_criteria">There are no results\nmatching search criteria</string>
 </resources>
 

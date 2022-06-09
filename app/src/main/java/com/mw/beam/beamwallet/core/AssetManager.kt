@@ -114,11 +114,22 @@ class AssetManager {
         assetBeamX.unitName = "BEAMX"
         assetBeamX.color = "#977dff"
         assetBeamX.shortName = "BEAMX"
-        assetBeamX.shortDesc = ""
-        assetBeamX.longDesc = ""
-        assetBeamX.site = ""
-        assetBeamX.paper = ""
+        assetBeamX.shortDesc = "BeamX DAO governance token"
+        assetBeamX.longDesc = "BEAMX token is a Confidential Asset issued on top of the Beam blockchain with a fixed emission of 100,000,000 units (except for the lender of a \"last resort\" scenario). BEAMX is the governance token for the BeamX DAO, managed by the BeamX DAO Core contract. Holders can earn BeamX tokens by participating in the DAO activities: providing liquidity to the DeFi applications governed by the DAO or participating in the governance process."
+        assetBeamX.site = "https://www.beamxdao.org/"
+        assetBeamX.paper = "https://documentation.beam.mw/overview/beamx-tokenomics"
         assets.add(assetBeamX)
+    }
+
+    fun beamXId():Int {
+        var assetId = 7
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
+            assetId = 31
+        }
+        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
+            assetId = 12
+        }
+        return assetId
     }
 
     fun clear() {
@@ -228,12 +239,6 @@ class AssetManager {
     fun getAsset(id:Int): Asset? {
         return assets.firstOrNull {
             it.assetId == id
-        }
-    }
-
-    fun getAssetName(name:String): Asset? {
-        return assets.firstOrNull {
-            it.unitName == name ||  it.unitName.startsWith(name)
         }
     }
 

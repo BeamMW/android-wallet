@@ -50,6 +50,17 @@ object DAOManager {
         queue.add(stringRequest)
     }
 
+    fun getDaoVotingApp():DAOApp {
+        val url = when (BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_MASTERNET -> "http://3.19.141.112:80/app-same-origin/dao-voting-app/index.html\""
+            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/dao-voting-app/index.html"
+            AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/app/dao-voting-app/index.html"
+            else -> ""
+        }
+
+        return DAOApp("BeamX DAO Voting","",url,"", "", "", true)
+    }
+
     fun getDaoCoreApp():DAOApp {
         val url = when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MASTERNET -> "http://3.19.141.112:80/app/plugin-dao-core/index.html"

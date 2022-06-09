@@ -51,7 +51,15 @@ class SaveAddressPresenter(view: SaveAddressContract.View?, repository: SaveAddr
 
             val dto = WalletAddressDTO(id, getName(), "", System.currentTimeMillis(), 0, 0, identity, address)
             AppManager.lastSendSavedContact = dto
-            AppManager.instance.wallet?.saveAddress(dto, false)
+            AppManager.instance.wallet?.saveAddress(dto, true)
+
+//            val tmpAddress = AppManager.instance.getAddress(id)
+//            if(tmpAddress!=null) {
+//                AppManager.instance.wallet?.updateAddress(id ,getName(),0)
+//            }
+//            else {
+//                AppManager.lastSendSavedContact = null
+//            }
 
             close()
         }

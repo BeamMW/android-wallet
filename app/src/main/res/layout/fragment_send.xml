@@ -319,41 +319,46 @@
                     android:visibility="visible"
                     app:layout_constraintEnd_toEndOf="@id/amountDivider"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/amountDivider"
+                    app:layout_constraintTop_toBottomOf="@id/amountErrorsLayout"
                     tools:text="1234 USD (+10 GROTH transaction fee)" />
 
-                <TextView
-                    android:id="@+id/amountError"
-                    style="@style/common_text_big_light"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/amountErrorsLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:ellipsize="middle"
-                    android:maxLines="3"
-                    android:textColor="@color/common_error_color"
-                    android:visibility="gone"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/usedFee"
-                    tools:visibility="gone" />
+                    app:layout_constraintTop_toBottomOf="@id/amount">
+                    <TextView
+                        android:id="@+id/amountError"
+                        style="@style/common_text_big_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:ellipsize="middle"
+                        android:maxLines="3"
+                        android:textStyle="italic"
+                        android:textColor="@color/common_error_color"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
 
-                <TextView
-                    android:id="@+id/amountHintError"
-                    style="@style/common_text_big_dark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="@dimen/common_offset"
-                    android:ellipsize="middle"
-                    android:maxLines="3"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/usedFee"
-                    tools:visibility="gone" />
+                    <TextView
+                        android:id="@+id/amountHintError"
+                        style="@style/common_text_big_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/common_offset"
+                        android:ellipsize="middle"
+                        android:maxLines="3"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/currencyLayout"
@@ -406,7 +411,7 @@
                     android:layout_marginTop="15dp"
                     android:text="@string/available"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/amountError" />
+                    app:layout_constraintTop_toBottomOf="@id/usedFee" />
 
                 <TextView
                     android:id="@+id/availableSum"

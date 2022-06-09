@@ -83,6 +83,7 @@ interface SettingsContract {
         fun showPublicOfflineAddress()
         fun showRescanDialog()
         fun showUTXO()
+        fun updateBlockchainHeight()
     }
 
     interface Presenter : MvpPresenter<View> {

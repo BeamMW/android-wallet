@@ -34,7 +34,6 @@ data class Wallet(val _this: Long) {
     external fun getAddresses(own: Boolean)
     external fun generateNewAddress()
     external fun saveAddress(address: WalletAddressDTO, own: Boolean)
-
     external fun updateAddress(addr: String, name: String, addressExpirationEnum: Int)
     external fun cancelTx(id: String)
     external fun deleteTx(id: String)

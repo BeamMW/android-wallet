@@ -29,6 +29,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.transition.TransitionManager
 import android.view.Gravity
+import android.view.Menu
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
@@ -315,6 +316,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 menu.setOnDismissListener {
                     animateDropDownIcon(btnExpandCurrency, false)
                 }
+                var index = 0
                 AssetManager.instance.filteredAssets.forEach {
                     var name = it.unitName
                     if (name.length > 8) {
@@ -328,18 +330,19 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     else {
                         sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
                     }
-                    val item = menu.menu.add(sb)
+                    val item = menu.menu.add(Menu.NONE, index, Menu.NONE, sb)
                     item.setIcon(it.image)
+                    index += 1
                 }
                 menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                    val title = item.title.toString().replace("...", "")
-                    val asset = AssetManager.instance.getAssetName(title)
-                    this.assetId = asset?.assetId ?:0
+                    val id = item.itemId
+                    val asset = AssetManager.instance.filteredAssets[id]
+                    this.assetId = asset.assetId
 
                     amount.setText("")
                     secondAvailableSum.text = 0.0.convertToGroth().exchangeValueAsset(assetId)
-                    currency.text = asset?.unitName ?: ""
-                    currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+                    currency.text = asset.unitName
+                    currencyImageView.setImageResource(asset.image)
 
                     presenter?.updateToken()
                     presenter?.saveToken()

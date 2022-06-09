@@ -32,12 +32,21 @@ class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
 
         if (AppManager.lastSendSavedContact != null) {
             Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                wallet?.saveAddress(AppManager.lastSendSavedContact!!, false)
+                wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
+//                val id = AppManager.lastSendSavedContact?.walletID ?: ""
+//                val name = AppManager.lastSendSavedContact?.label ?: ""
+//                if (name.isNotEmpty()) {
+//                    val tmpAddress = AppManager.instance.getAddress(id)
+//                    if(tmpAddress!=null) {
+//                        AppManager.instance.wallet?.updateAddress(id,name,0)
+//                    }
+//                    wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
+//                }
             }, 300)
 
             Handler(Looper.getMainLooper()).postDelayed(Runnable {
                 AppManager.lastSendSavedContact = null
-            }, 350)
+            }, 400)
         }
     }
 
