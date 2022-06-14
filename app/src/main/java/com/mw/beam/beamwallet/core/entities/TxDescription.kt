@@ -252,7 +252,12 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
                 if(isPublicOffline || isShielded) {
                     return when (this.status) {
                         TxStatus.Cancelled -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_canceled_offline)
-                        TxStatus.Failed -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed_offline)
+                        TxStatus.Failed -> {
+                            when (failureReason) {
+                                TxFailureReason.TRANSACTION_EXPIRED -> ContextCompat.getDrawable(App.self, R.drawable.ic_expired)
+                                else -> ContextCompat.getDrawable(App.self, R.drawable.ic_send_failed_offline)
+                            }
+                        }
                         TxStatus.Completed, TxStatus.Confirming -> if (selfTx) {
                             ContextCompat.getDrawable(App.self, R.drawable.ic_sent_own_offline)
                         }

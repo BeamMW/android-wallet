@@ -89,9 +89,8 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
     override fun initSubscriptions() {
         super.initSubscriptions()
 
-        if(AppManager.instance.isRestored) {
-            AppManager.instance.requestUTXO()
-        }
+        AppManager.instance.requestUTXO()
+
 
         filter()
 
@@ -100,9 +99,7 @@ class UtxoPresenter(currentView: UtxoContract.View, currentRepository: UtxoContr
         }
 
         txStatusSubscription = AppManager.instance.subOnTransactionsChanged.subscribe() {
-            if (utxosCount > 0) {
-                filter()
-            }
+            filter()
         }
     }
 
