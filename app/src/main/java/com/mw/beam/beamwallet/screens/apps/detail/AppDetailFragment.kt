@@ -63,7 +63,8 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
 
 
     override fun getApp(): DAOApp {
-        return AppDetailFragmentArgs.fromBundle(requireArguments()).app
+        val app = AppDetailFragmentArgs.fromBundle(requireArguments()).app
+        return app
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -167,6 +168,14 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
                 webView.evaluateJavascript("window.BEAM.style.content_main = \"#ffffff\"") {}
                 webView.evaluateJavascript("window.BEAM.style.background_popup = \"#323232\"") {}
                 webView.evaluateJavascript("window.BEAM.style.validator_error = \"#ff625c\"") {}
+
+                AppActivity.self.runOnUiThread {
+                    loadingView?.visibility = View.GONE
+                    toolbarLayout?.changeNodeButton?.alpha = 1.0f
+                    toolbarLayout?.changeNodeButton?.visibility = View.VISIBLE
+                    toolbarLayout?.changeNodeButton?.isEnabled = true
+                    webView?.alpha = 1f
+                }
             }
         }
 

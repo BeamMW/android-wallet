@@ -42,6 +42,10 @@ object DAOManager {
                     it.support = AppManager.instance.wallet?.appSupported(it.api_version ?: "current",
                         it.min_api_version ?: "")
                 }
+
+                apps.removeAll {
+                    (it.name ?: "").contains("Name Service")
+                }
             },
             {
 

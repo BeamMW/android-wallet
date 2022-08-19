@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class DAOApp (
     val name:String?,
     val description: String?,
-    val url: String?,
+    var url: String?,
     val icon:String?,
     val api_version:String?,
     val min_api_version:String?,
