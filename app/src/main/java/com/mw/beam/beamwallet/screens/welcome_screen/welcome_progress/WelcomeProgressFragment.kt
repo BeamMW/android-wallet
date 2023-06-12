@@ -74,6 +74,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private var timer: Timer? = null
     private var isShowWallet = false
 
+    private val handler = Handler()
+    private val delayMillis = 30000L
+    private val myRunnable = Runnable {
+        AppActivity.self.runOnUiThread {
+            if (progress.progress == 0) {
+                showWallet()
+            }
+        }
+    }
+
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         openTitleString = getString(R.string.welcome_progress_open)
@@ -140,25 +150,30 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             timer?.cancel()
             timer = null
             if(mode == WelcomeMode.CREATE && mobile) {
-
+                openWithDelay()
             }
             else if(mode == WelcomeMode.CREATE && isOwn) {
-
+                openWithDelay()
             }
             else if(mode == WelcomeMode.OPEN && mobile) {
-
+                openWithDelay()
             }
             else if(mode == WelcomeMode.OPEN && isOwn) {
-
+                openWithDelay()
             }
             else {
                 if (!App.isAuthenticated) {
+                    openWithDelay()
                     AppActivity.self.runOnUiThread {
                         showWallet()
                     }
                 }
             }
         }
+    }
+
+    private fun openWithDelay() {
+        handler.postDelayed(myRunnable, delayMillis)
     }
 
     override fun addListeners() {
@@ -391,6 +406,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        handler.removeCallbacks(myRunnable)
+
         if(!isShowWallet && (getMode() == WelcomeMode.MOBILE_CONNECT || getMode() == WelcomeMode.RESCAN) && App.isAuthenticated) {
             isShowWallet = true
 

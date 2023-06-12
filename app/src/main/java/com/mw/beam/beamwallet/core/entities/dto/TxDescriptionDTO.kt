@@ -22,7 +22,6 @@ import kotlinx.android.parcel.Parcelize
 /**
  *  1/4/19.
  */
-@Parcelize
 data class TxDescriptionDTO(var id: String,
                             var amount: Long,
                             var fee: Long,
@@ -53,7 +52,8 @@ data class TxDescriptionDTO(var id: String,
                             var appID:String?,
                             var contractCids:String?,
                             var minConfirmations:Int?,
-                            var minConfirmationsProgress:String?) : Parcelable {
+                            var minConfirmationsProgress:String?,
+                            var assets: java.util.ArrayList<TxDescriptionDTO>?) {
 
                                 @JvmName("getSenderValue")
                                 fun getSenderValue():Boolean {

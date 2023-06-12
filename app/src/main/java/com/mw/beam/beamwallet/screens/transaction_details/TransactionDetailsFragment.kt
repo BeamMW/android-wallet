@@ -258,6 +258,10 @@ else{
             startContactLayout.visibility = View.GONE
         }
 
+        if (startAddress.text.isNullOrEmpty()) {
+            senderLayout.visibility = View.GONE
+        }
+
         val end = AppManager.instance.getAddress(txDescription.receiverAddress)
         if (end != null && end.label.isNotEmpty()) {
             endContactLayout.visibility = View.VISIBLE

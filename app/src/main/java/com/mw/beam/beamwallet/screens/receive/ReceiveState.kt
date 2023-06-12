@@ -23,7 +23,7 @@ import com.mw.beam.beamwallet.core.entities.WalletAddress
  */
 class ReceiveState {
     var address: WalletAddress? = null
-    var wasAddressSaved: Boolean = false
+    var wasAddressSaved: Boolean = true
     var expandAmount = false
     var expandComment = false
     var expandAdvanced = false

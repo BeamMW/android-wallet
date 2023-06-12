@@ -241,17 +241,17 @@ class App : Application() {
     }
 
     fun startBackgroundService() {
-        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        val jobInfo = JobInfo.Builder(BACKGROUND_JOB_ID, ComponentName(applicationContext, BackgroundService::class.java))
-                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
-                .setPersisted(true)
-                .build()
-        jobScheduler.schedule(jobInfo)
+//        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+//        val jobInfo = JobInfo.Builder(BACKGROUND_JOB_ID, ComponentName(applicationContext, BackgroundService::class.java))
+//                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
+//                .setPersisted(true)
+//                .build()
+//        jobScheduler.schedule(jobInfo)
     }
 
     fun stopBackgroundService() {
-        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
-        jobScheduler.cancelAll()
+//        val jobScheduler: JobScheduler = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+//        jobScheduler.cancelAll()
     }
 
     fun clearLogs() {

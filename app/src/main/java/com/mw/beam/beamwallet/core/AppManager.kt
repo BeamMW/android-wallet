@@ -65,6 +65,9 @@ class AppManager {
     var subOnBeamGameGenerated: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnRegularAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnOfflineAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+
     var subOnExportToCSV: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnAddressCreated: Subject<WalletAddress> = PublishSubject.create<WalletAddress>().toSerialized()
     var onCallWalletApiResult: Subject<String> = PublishSubject.create<String>().toSerialized()
@@ -95,11 +98,15 @@ class AppManager {
             }
 
         fun getNode():String {
-            val node = Api.getDefaultPeers().random()
-            if (!node.contains("shanghai")) {
-                return  node
+            val nodes = Api.getDefaultPeers();
+            val result = arrayListOf<String>();
+            nodes.forEach {
+                if(!it.contains("shanghai") && !it.contains("raskul")
+                    && !it.contains("45.")) {
+                    result.add(it)
+                }
             }
-            return Api.getDefaultPeers().random()
+            return result.random()
         }
     }
 
@@ -132,7 +139,6 @@ class AppManager {
     }
 
     fun isMaxPrivacyEnabled(): Boolean {
-       // return true
         val protocolEnabled = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false);
         return wallet?.isConnectionTrusted() == true || protocolEnabled
     }
@@ -262,7 +268,8 @@ class AppManager {
         val nodes = Api.getDefaultPeers();
         val result = mutableListOf<String>();
         nodes.forEach {
-            if(!it.contains("shanghai")) {
+            if(!it.contains("shanghai") && !it.contains("raskul")
+                && !it.contains("45.")) {
                 result.add(it)
             }
         }
@@ -342,7 +349,8 @@ class AppManager {
                 it.displayAddress = it.address
             }
             else{
-                it.displayAddress = it.getOriginalId
+                it.displayAddress = it.address
+               // it.displayAddress = it.getOriginalId
             }
         }
 
@@ -993,8 +1001,20 @@ class AppManager {
                     item.rate = wallet?.getTransactionRate(item.id, currencyId, item.assetId.toLong())
                 }
 
+                transactions.forEach { tx->
+                    if (tx.assets != null) {
+                        val copy = tx.assets?.toMutableList()
+                        if (copy != null) {
+                            tx.assets = arrayListOf()
+                            tx.assets?.addAll(copy.toTypedArray())
+                        }
+                    }
+                }
+
                 val g = Gson()
-                val jsonString = g.toJson(transactions)
+                val saved = transactions.toList()
+
+                val jsonString = g.toJson(saved)
                 PreferencesManager.putString(PreferencesManager.KEY_TRANSACTIONS, jsonString)
 
                 subOnTransactionsChanged.onNext(0)
@@ -1107,7 +1127,9 @@ class AppManager {
                         it.displayAddress = it.address
                     }
                     else{
-                        it.displayAddress = it.getOriginalId
+                        it.displayAddress = it.address
+
+                        // it.displayAddress = it.getOriginalId
                     }
                 }
 
@@ -1129,6 +1151,14 @@ class AppManager {
 
             WalletListener.subOnMaxPrivacyAddress.subscribe {
                 subOnMaxPrivacyAddress.onNext(it)
+            }
+
+            WalletListener.subOnRegularAddress.subscribe {
+                subOnRegularAddress.onNext(it)
+            }
+
+            WalletListener.subOnOfflineAddress.subscribe {
+                subOnOfflineAddress.onNext(it)
             }
 
             WalletListener.subOnNodeConnectedStatusChanged.subscribe {

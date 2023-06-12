@@ -26,28 +26,28 @@ import android.os.Looper
 
 class AppActivityRepository: BaseRepository(), AppActivityContract.Repository {
     override fun sendMoney(outgoingAddress: String, token: String, comment: String?, amount: Long, fee: Long, saveAddress: Boolean, assetId:Int, isOffline:Boolean) {
-        getResult("sendMoney", " sender: $outgoingAddress\n token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
-            wallet?.sendTransaction(outgoingAddress, token, comment ?: "", amount, fee,  assetId, isOffline)
+        getResult("sendMoney", "token: $token\n comment: $comment\n amount: $amount\n fee: $fee") {
+            wallet?.sendTransaction(token, comment ?: "", amount, fee,  assetId, isOffline)
         }
 
-        if (AppManager.lastSendSavedContact != null) {
-            Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
-//                val id = AppManager.lastSendSavedContact?.walletID ?: ""
-//                val name = AppManager.lastSendSavedContact?.label ?: ""
-//                if (name.isNotEmpty()) {
-//                    val tmpAddress = AppManager.instance.getAddress(id)
-//                    if(tmpAddress!=null) {
-//                        AppManager.instance.wallet?.updateAddress(id,name,0)
-//                    }
-//                    wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
-//                }
-            }, 300)
-
-            Handler(Looper.getMainLooper()).postDelayed(Runnable {
-                AppManager.lastSendSavedContact = null
-            }, 400)
-        }
+//        if (AppManager.lastSendSavedContact != null) {
+//            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+//                wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
+////                val id = AppManager.lastSendSavedContact?.walletID ?: ""
+////                val name = AppManager.lastSendSavedContact?.label ?: ""
+////                if (name.isNotEmpty()) {
+////                    val tmpAddress = AppManager.instance.getAddress(id)
+////                    if(tmpAddress!=null) {
+////                        AppManager.instance.wallet?.updateAddress(id,name,0)
+////                    }
+////                    wallet?.saveAddress(AppManager.lastSendSavedContact!!, true)
+////                }
+//            }, 300)
+//
+//            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+//                AppManager.lastSendSavedContact = null
+//            }, 400)
+//        }
     }
 
     override fun cancelSendMoney(token: String) {

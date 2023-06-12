@@ -58,13 +58,13 @@ data class Wallet(val _this: Long) {
     external fun markNotificationAsRead(id : String)
     external fun deleteNotification(id : String)
 
-    external fun generateRegularAddress(isPermanentAddress: Boolean, amount: Long, walletId: String, assetId:Int): String
-    external fun generateOfflineAddress(amount: Long, walletId: String, assetId:Int): String
-    external fun generateMaxPrivacyAddress(amount: Long, walletId: String, assetId:Int)
+    external fun generateRegularAddress(amount: Long, assetId:Int)
+    external fun generateOfflineAddress(amount: Long, assetId:Int)
+    external fun generateMaxPrivacyAddress(amount: Long, assetId:Int)
 
     external fun isToken(token: String): Boolean
     external fun isAddress(address: String): Boolean
-    external fun sendTransaction(sender: String, receiver: String, comment: String?, amount: Long, fee: Long, assetId:Int, isOffline:Boolean)
+    external fun sendTransaction(receiver: String, comment: String?, amount: Long, fee: Long, assetId:Int, isOffline:Boolean)
     external fun getTransactionParameters(token: String, requestInfo: Boolean): TransactionParametersDTO
 
     external fun isConnectionTrusted(): Boolean

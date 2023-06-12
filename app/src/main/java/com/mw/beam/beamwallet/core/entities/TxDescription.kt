@@ -15,6 +15,7 @@
  */
 package com.mw.beam.beamwallet.core.entities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Parcelable
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
+import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.TxFailureReason
 import com.mw.beam.beamwallet.core.helpers.TxSender
 import com.mw.beam.beamwallet.core.helpers.TxStatus
@@ -31,48 +33,81 @@ import kotlinx.android.parcel.Parcelize
  *  10/2/18.
  */
 @Parcelize
-class TxDescription(val source: TxDescriptionDTO) : Parcelable {
-    val id: String = source.id
-    val amount: Long = if (source.amount >= 0) {
-        source.amount
-    }
-    else {
-        source.amount * (-1)
-    }
-    val fee: Long = source.fee
-    val change: Long = source.change
-    val minHeight: Long = source.minHeight
-    val peerId: String = source.peerId.replaceFirst(Regex("^0+"), "")
-    val myId: String = source.myId.replaceFirst(Regex("^0+"), "")
-    var message: String = source.message?.capitalize() ?: ""
-    val createTime: Long = source.createTime
-    val modifyTime: Long = source.modifyTime
-    val sender: TxSender = TxSender.fromValue(source.getSenderValue())
-    val status: TxStatus = TxStatus.fromValue(source.status)
-    val kernelId: String = source.kernelId
-    val selfTx: Boolean = source.selfTx
-    val failureReason: TxFailureReason = TxFailureReason.fromValue(source.failureReason)
-    val failureReasonID: Int = source.failureReason
-    val identity: String? = source.identity
-    val isShielded = source.isShielded
-    val isMaxPrivacy = source.isMaxPrivacy
-    val isPublicOffline = source.isPublicOffline
-    val token = source.token
-    val senderIdentity = source.senderIdentity
-    val receiverIdentity = source.receiverIdentity
-    val receiverAddress = source.receiverAddress
-    val senderAddress = source.senderAddress
-    val assetId = source.assetId
-    var asset:Asset? = null
+data class TxDescription(var id: String,
+                         var amount: Long,
+                         var fee: Long,
+                         var change: Long,
+                         var minHeight: Long,
+                         var peerId: String,
+                         var myId: String,
+                         var message: String,
+                         var createTime: Long,
+                         var modifyTime: Long,
+                         var sender: TxSender,
+                         var status: TxStatus,
+                         var kernelId: String,
+                         var selfTx: Boolean,
+                         var failureReason: TxFailureReason,
+                         var failureReasonID: Int,
+                         var identity: String?,
+                         var isShielded: Boolean,
+                         var isMaxPrivacy: Boolean,
+                         var isPublicOffline: Boolean,
+                         var token: String,
+                         var senderIdentity: String,
+                         var receiverIdentity: String,
+                         var receiverAddress: String,
+                         var senderAddress: String,
+                         var assetId: Int,
+                         var asset:Asset? = null,
+                         var assets: java.util.ArrayList<WalletStatusDTO>? = null,
+                         var isDapps:Boolean? = null,
+                         var appName:String? = null,
+                         var appID:String? = null,
+                         var contractCids:String? = null,
+                         var minConfirmationsProgress:String? = null,
+                         var minConfirmations:Int? = null,
+                         var rate:Long? = null
+) : Parcelable {
 
-    var isDapps:Boolean? = source.isDapps
-    var appName:String? = source.appName
-    var appID:String? = source.appID
-    var contractCids:String? = source.contractCids
-    var minConfirmationsProgress:String? = source.minConfirmationsProgress
-    var minConfirmations:Int? = source.minConfirmations
+    constructor(source: TxDescriptionDTO) : this(
+        source.id,
+        if (source.amount >= 0) source.amount else source.amount * (-1),
+        source.fee,
+        source.change,
+        source.minHeight,
+        source.peerId.replaceFirst(Regex("^0+"), ""),
+        source.myId.replaceFirst(Regex("^0+"), ""),
+        source.message?.capitalize() ?: "",
+        source.createTime,
+        source.modifyTime,
+        TxSender.fromValue(source.getSenderValue()),
+        TxStatus.fromValue(source.status),
+        source.kernelId,
+        source.selfTx,
+        TxFailureReason.fromValue(source.failureReason),
+        source.failureReason,
+        source.identity,
+        source.isShielded,
+        source.isMaxPrivacy,
+        source.isPublicOffline,
+        source.token,
+        source.senderIdentity,
+        source.receiverIdentity,
+        source.receiverAddress,
+        source.senderAddress,
+        source.assetId,
+        null, // Initialize asset to null, to be set later.
+        null, // Initialize assets to null, to be set later.
+        source.isDapps,
+        source.appName,
+        source.appID,
+        source.contractCids,
+        source.minConfirmationsProgress,
+        source.minConfirmations,
+        null // Initialize rate to null, to be set later.
+    )
 
-    var rate:Long? = null
 
     fun isInProgress():Boolean {
         return (status == TxStatus.Pending || status==TxStatus.Registered || status==TxStatus.InProgress)
@@ -125,6 +160,7 @@ class TxDescription(val source: TxDescriptionDTO) : Parcelable {
         return this.status
     }
 
+    @SuppressLint("SuspiciousIndentation")
     fun getStatusString(context: Context) : String {
       var  status = when (getStatusEnum()) {
           TxStatus.Confirming -> {

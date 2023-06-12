@@ -31,11 +31,10 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.AssetManager
-import com.mw.beam.beamwallet.core.ExchangeManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.Asset
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.max_privacy_details.MaxPrivacyDetailSort
 import com.mw.beam.beamwallet.screens.wallet.AssetsAdapter
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.*
@@ -89,9 +88,23 @@ class AssetsListFragment : BaseFragment<AssetsListPresenter>(), AssetsListContra
     override fun init() {
         assetsAdapter = AssetsAdapter(
                 requireContext(), presenter?.getAssets() ?: arrayListOf()
-        ) {
+        , {
             presenter?.onAssetPressed(it)
-        }
+        }, {
+                if (PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)) {
+                    AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+                } else {
+                    showAlert(
+                        getString(R.string.common_external_link_dialog_message),
+                        getString(R.string.open),
+                        {
+                            AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+                        },
+                        getString(R.string.common_external_link_dialog_title),
+                        getString(R.string.cancel)
+                    )
+                }
+        })
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = assetsAdapter

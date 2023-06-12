@@ -27,6 +27,8 @@ import com.mw.beam.beamwallet.core.entities.BMAddressType
 import com.mw.beam.beamwallet.core.entities.WalletAddress
 import com.mw.beam.beamwallet.core.entities.dto.WalletAddressDTO
 import com.mw.beam.beamwallet.core.helpers.*
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import org.jetbrains.anko.runOnUiThread
 
 class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: ReceiveContract.Repository, val state: ReceiveState)
     : BasePresenter<ReceiveContract.View, ReceiveContract.Repository>(currentView, currentRepository),
@@ -38,9 +40,11 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     private lateinit var walletIdSubscription: Disposable
     private lateinit var maxAddressSubscription: Disposable
+    private lateinit var regularAddressSubscription: Disposable
+    private lateinit var offlineAddressSubscription: Disposable
 
     var transaction = TransactionTypeOptions.REGULAR
-    private var isSkipSave = false
+    private var isSkipSave = true
     private var oldAmount = 0L
     private var oldAssetId = 0
     private var forceRequest = false
@@ -97,7 +101,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 view?.setAmount(amount.convertToBeam())
             }
 
-            saveToken()
+//            saveToken()
         }
         else if(state.address != null) {
             initViewAddress(state.address)
@@ -109,26 +113,26 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         state.address?.label = name
     }
 
-    override fun saveToken() {
-        state.address?.let { address ->
-            val comment = view?.getComment()
-            address.label = comment ?: ""
-
-            if(transaction == TransactionTypeOptions.MAX_PRIVACY) {
-                address.address = address.tokenMaxPrivacy
-            }
-            else {
-                if(AppManager.instance.isMaxPrivacyEnabled()) {
-                    address.address = address.tokenOffline
-                }
-                else {
-                    address.address = address.address
-                }
-            }
-
-            repository.saveAddress(address)
-        }
-    }
+//    override fun saveToken() {
+//        state.address?.let { address ->
+//            val comment = view?.getComment()
+//            address.label = comment ?: ""
+//
+//            if(transaction == TransactionTypeOptions.MAX_PRIVACY) {
+//                address.address = address.tokenMaxPrivacy
+//            }
+//            else {
+//                if(AppManager.instance.isMaxPrivacyEnabled()) {
+//                    address.address = address.tokenOffline
+//                }
+//                else {
+//                    address.address = address.address
+//                }
+//            }
+//
+//            repository.saveAddress(address)
+//        }
+//    }
 
     private fun initViewAddress(address: WalletAddress?) {
         if (address != null) {
@@ -166,14 +170,14 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
                 view?.showSaveAddressDialog(nextStep)
             }
             else {
-                saveAddress()
+//                saveAddress()
                 nextStep()
             }
         }
     }
 
     override fun onSaveAddressPressed() {
-        saveAddress()
+//        saveAddress()
     }
 
     override fun onShareTokenPressed() {
@@ -253,18 +257,33 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
                 Handler(Looper.getMainLooper()).postDelayed({
                     updateToken()
-
                     initViewAddress(state.address)
                 }, 100)
             }
         }
 
+        offlineAddressSubscription = AppManager.instance.subOnOfflineAddress.subscribe {
+            state.address?.tokenOffline = it
+            initViewAddress(state.address)
+        }
+
         maxAddressSubscription = AppManager.instance.subOnMaxPrivacyAddress.subscribe {
             state.address?.tokenMaxPrivacy = it
+            initViewAddress(state.address)
+        }
+
+        regularAddressSubscription = AppManager.instance.subOnRegularAddress.subscribe {
+            state.address = WalletAddress(it)
+            initViewAddress(state.address)
+            updateToken()
         }
 
         if (state.address == null) {
-            AppManager.instance.wallet?.generateNewAddress()
+            val amount = view?.getAmount()?.convertToGroth() ?: 0L
+            val assetId = view?.getAssetId() ?: 0
+            AppManager.instance.wallet?.generateRegularAddress(amount, assetId)
+
+//            AppManager.instance.wallet?.generateNewAddress()
         }
     }
 
@@ -274,13 +293,7 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
         else {
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                val params = AppManager.instance.wallet?.getTransactionParameters(state.address?.address ?: "", false)
-                if (params?.getAddressType() == BMAddressType.BMAddressTypeMaxPrivacy) {
-                    view?.showShowToken(state.address?.id ?: "")
-                }
-                else {
-                    view?.showShowToken(state.address?.address ?: "")
-                }
+                view?.showShowToken(state.address?.address ?: "")
             }
             else {
                 view?.showShowToken(state.address?.tokenOffline ?: "")
@@ -288,20 +301,20 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
     }
 
-    private fun saveAddress() {
-        state.address?.let { address ->
-            val comment = view?.getComment()
-            address.label = comment ?: ""
-
-            view?.getTxComment()?.let {
-                if (it.isNotBlank()) {
-                    ReceiveTxCommentHelper.saveCommentToAddress(address.id, it)
-                }
-            }
-
-           saveToken()
-        }
-    }
+//    private fun saveAddress() {
+//        state.address?.let { address ->
+//            val comment = view?.getComment()
+//            address.label = comment ?: ""
+//
+//            view?.getTxComment()?.let {
+//                if (it.isNotBlank()) {
+//                    ReceiveTxCommentHelper.saveCommentToAddress(address.id, it)
+//                }
+//            }
+//
+//           saveToken()
+//        }
+//    }
 
     override fun onMaxPrivacyPressed() {
         transaction = TransactionTypeOptions.MAX_PRIVACY
@@ -328,13 +341,12 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
             if (!isSBBS) {
                 if (state.address?.tokenOffline.isNullOrEmpty() || isNew) {
-                    state.address?.tokenOffline = AppManager.instance.wallet?.generateOfflineAddress(oldAmount, state.address!!.id, assetId)!!
+                    AppManager.instance.wallet?.generateOfflineAddress(oldAmount, assetId)
                 }
 
                 if (state.address?.tokenMaxPrivacy.isNullOrEmpty() || isNew) {
-                    AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, state.address!!.id, assetId)
+                    AppManager.instance.wallet?.generateMaxPrivacyAddress(oldAmount, assetId)
                 }
-
             }
 
             view?.updateTokens(state.address!!, transaction)
@@ -345,5 +357,5 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
 
     override fun hasStatus(): Boolean = true
 
-    override fun getSubscriptions(): Array<Disposable> = arrayOf(walletIdSubscription, maxAddressSubscription)
+    override fun getSubscriptions(): Array<Disposable> = arrayOf(walletIdSubscription, maxAddressSubscription, regularAddressSubscription, offlineAddressSubscription)
 }

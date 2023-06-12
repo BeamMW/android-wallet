@@ -215,7 +215,7 @@ class AssetManager {
         }
     }
 
-    private  fun getImage(asset: Asset):Int {
+    fun getImage(asset: Asset):Int {
         return when {
             asset.isBeam() -> {
                 R.drawable.ic_asset_0

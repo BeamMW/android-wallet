@@ -118,6 +118,7 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
 
         DAOManager.loadApps(requireContext())
+        AppManager.instance.reload()
 
         itemsswipetorefresh.setProgressBackgroundColorSchemeColor(android.graphics.Color.WHITE)
         itemsswipetorefresh.setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
@@ -220,10 +221,24 @@ class WalletFragment : BaseFragment<WalletPresenter>(), WalletContract.View {
         transactionsList.adapter = transactionsAdapter
 
         assetsAdapter = AssetsAdapter(
-                context, presenter?.state?.getAssets() ?: arrayListOf()
-        ) {
+                context, presenter?.state?.getAssets() ?: arrayListOf(),
+         {
             findNavController().navigate(WalletFragmentDirections.actionWalletFragmentToAssetDetailFragment(it.assetId, it.unitName))
-        }
+        }, {
+            if (PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)) {
+                AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+            } else {
+                showAlert(
+                    getString(R.string.common_external_link_dialog_message),
+                    getString(R.string.open),
+                    {
+                        AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+                    },
+                    getString(R.string.common_external_link_dialog_title),
+                    getString(R.string.cancel)
+                )
+            }
+        })
 
         assetsList.layoutManager = LinearLayoutManager(context)
         assetsList.adapter = assetsAdapter

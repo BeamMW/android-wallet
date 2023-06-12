@@ -75,7 +75,7 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 import kotlinx.android.synthetic.main.fragment_send.*
-import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.withAlpha
 
 import java.text.NumberFormat
 import java.util.*
@@ -583,7 +583,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         if (name.length > 8) {
                             name = name.substring(0,8) + "..."
                         }
-                        val sb = SpannableString(name)
+                        val sb = SpannableString(name + " " + "(${it.assetId})")
                         if (it.assetId == presenter?.assetId) {
                             sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                             sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
@@ -591,6 +591,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         else {
                             sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
                         }
+                        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), name.length, sb.length, 0)
+
                         val item = menu.menu.add(Menu.NONE, index, Menu.NONE, sb)
                         item.setIcon(it.image)
                         index += 1
@@ -607,6 +609,10 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
                         currency.text = asset.unitName
                         currencyImageView.setImageResource(asset.image)
+
+                        val sb = SpannableString(asset.unitName + " " + "(${asset.assetId})")
+                        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset.unitName.length ?: 0, sb.length, 0)
+                        currency.text = sb
 
                         presenter?.onAmountChanged()
                         updateAvailable(AssetManager.instance.getAvailable(assetId))
@@ -700,6 +706,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
         currency.text = asset?.unitName
+
+        val sb = SpannableString(asset?.unitName + " " + "(${asset?.assetId})")
+        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset?.unitName?.length ?: 0, sb.length, 0)
+        currency.text = sb
+
+
         currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
     }
 

@@ -175,7 +175,7 @@
     <string name="regular">Regular</string>
     <string name="kernel">Kernel</string>
     <string name="kernel2">Kernel2</string>
-    <string name="identity">Wallet signature</string>
+    <string name="identity">Signature</string>
     <string name="childKey">ChildKey</string>
     <string name="bbs">Bbs</string>
     <string name="date">Date</string>
@@ -771,5 +771,8 @@ address or contact</string>
     <string name="sw">Switch</string>
     <string name="search_by_section_name_or_parameter">Search by section name or parameter</string>
     <string name="there_are_no_results_matching_search_criteria">There are no results\nmatching search criteria</string>
+
+    <string name="sbbs_address_new">SBBS ADDRESS\n(use for CEX withdrawals)</string>
+
 </resources>
 

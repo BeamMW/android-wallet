@@ -41,7 +41,7 @@ class SendRepository : BaseRepository(), SendContract.Repository {
     }
 
     override fun generateNewAddress() {
-        wallet?.generateNewAddress()
+      //  wallet?.generateNewAddress()
     }
 
     override fun updateAddress(address: WalletAddress) {

@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.wallet
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -34,11 +35,12 @@ import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.helpers.ScreenHelper
 import com.mw.beam.beamwallet.core.helpers.convertToAssetString
 import com.mw.beam.beamwallet.core.helpers.exchangeValueAsset
+import kotlinx.android.synthetic.main.item_asset.view.*
 import org.jetbrains.anko.withAlpha
 
 
-class AssetsAdapter(private val context: Context, private var data: List<Asset>, private val clickListener: (Asset) -> Unit) :
-        RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
+class AssetsAdapter(private val context: Context, private var data: List<Asset>, private val clickListener: (Asset) -> Unit,
+        private val assetIdClickListener: (Asset) -> Unit): RecyclerView.Adapter<AssetsAdapter.ViewHolder>() {
 
     fun reloadData(list: List<Asset>) {
         data = list
@@ -56,16 +58,28 @@ class AssetsAdapter(private val context: Context, private var data: List<Asset>,
         this.containerView.setOnClickListener {
             clickListener.invoke(data[adapterPosition])
         }
+        this.containerView.assetIdLayout.setOnClickListener {
+            assetIdClickListener.invoke(data[adapterPosition])
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val asset = data[position]
 
         holder.apply {
             assetLabel.text = asset.available.convertToAssetString(asset.unitName)
             assetSecondLabel.text = asset.available.exchangeValueAsset(asset.assetId)
+            assetIdLabel.text = "#" + asset.assetId.toString()
             assetIcon.setImageResource(asset.image)
             gradientView.start = Color.parseColor(asset.color)
+
+            if (assetSecondLabel.text.toString().isEmpty()) {
+                assetSecondLabel.visibility = View.GONE
+            }
+            else {
+                assetSecondLabel.visibility = View.VISIBLE
+            }
 
             if (asset.lockedSum() == 0L) {
                 val layoutParams = gradientView.layoutParams as RelativeLayout.LayoutParams

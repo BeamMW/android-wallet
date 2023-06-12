@@ -44,6 +44,8 @@ enum class BMAddressType(val value: Int) {
 
 @Parcelize
 class WalletAddress(var source: WalletAddressDTO) : Parcelable {
+    constructor(address: String) : this(WalletAddressDTO("", "", "", 0L, 0L, 1L, "", address))
+
     private val walletID: String = source.walletID.replaceFirst(Regex("^0+"), "")
 
     var label: String = source.label

@@ -152,6 +152,10 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
 
+                if (context == null) {
+                    return
+                }
+
                 val hex =  if (App.isDarkMode) {
                      Integer.toHexString(resources.getColor(R.color.colorPrimaryDark_dark, requireContext().theme)).uppercase().substring(2)
                 }
