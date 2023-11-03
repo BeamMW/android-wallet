@@ -78,7 +78,7 @@ class App : Application() {
         var isNeedOpenScanner: Boolean = false
         var isForeground = false
 
-        const val documentationUrl = "https://documentation.beam.mw/"
+        const val documentationUrl = "https://beam.mw/docs"
     }
 
     override fun onCreate() {
