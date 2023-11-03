@@ -43,7 +43,7 @@ class RestoreManager {
         val link =  when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MAINNET -> "https://mobile-restore.beam.mw/mainnet/mainnet_recovery.bin"
             AppConfig.FLAVOR_TESTNET -> "https://mobile-restore.beam.mw/testnet/testnet_recovery.bin"
-            else -> "https://mobile-restore.beam.mw/masternet/masternet_recovery.bin"
+            else -> "https://s3.eu-central-1.amazonaws.com/mobile-restore.beam.mw/dappnet/dappnet_recovery.bin" //"https://mobile-restore.beam.mw/masternet/masternet_recovery.bin"
         }
 
         val fetchConfiguration = FetchConfiguration.Builder(App.self.baseContext)

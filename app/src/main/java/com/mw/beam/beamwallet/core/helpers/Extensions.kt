@@ -10,6 +10,7 @@ fun Int.toTimeFormat(context: Context?): String {
     val seconds:Int = this%60
 
     return when {
+        hours == 0 && minutes <= 1 -> context?.getString(R.string.less_minute) ?: ""
         hours>0 && minutes == 0 -> String.format("%d %s", hours, context?.getString(R.string.h))
         hours>0 && minutes > 0 -> String.format("%d %s %d %s", hours, context?.getString(R.string.h), minutes, context?.getString(R.string.m))
         minutes>0 -> String.format("%d %s %d %s", minutes, context?.getString(R.string.m), seconds, context?.getString(R.string.s))

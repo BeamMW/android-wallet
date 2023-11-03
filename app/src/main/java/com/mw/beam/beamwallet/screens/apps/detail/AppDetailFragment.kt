@@ -63,7 +63,8 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
 
 
     override fun getApp(): DAOApp {
-        return AppDetailFragmentArgs.fromBundle(requireArguments()).app
+        val app = AppDetailFragmentArgs.fromBundle(requireArguments()).app
+        return app
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,7 +92,9 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
     }
 
     override fun setJSCommand(command: String) {
-        webView.evaluateJavascript(command)  {}
+        if (view != null && context != null) {
+            webView?.evaluateJavascript(command)  {}
+        }
     }
 
     override fun showConfirmation(info: ContractConsentDTO) {
@@ -125,14 +128,16 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
         AppManager.instance.wallet?.launchApp(app.name ?: "", app.url ?: "")
 
         webInterface.onCallWalletApi = { json->
-            AppActivity.self.runOnUiThread {
-                loadingView?.visibility = View.GONE
-                toolbarLayout.changeNodeButton.alpha = 1.0f
-                toolbarLayout.changeNodeButton.visibility = View.VISIBLE
-                toolbarLayout.changeNodeButton.isEnabled = true
-                webView?.alpha = 1f
+            if (context != null) {
+                AppActivity.self.runOnUiThread {
+                    loadingView?.visibility = View.GONE
+                    toolbarLayout?.changeNodeButton?.alpha = 1.0f
+                    toolbarLayout?.changeNodeButton?.visibility = View.VISIBLE
+                    toolbarLayout?.changeNodeButton?.isEnabled = true
+                    webView?.alpha = 1f
+                }
+                AppManager.instance.wallet?.callWalletApi(json)
             }
-            AppManager.instance.wallet?.callWalletApi(json)
         }
 
         webView.alpha = 0f
@@ -146,6 +151,10 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+
+                if (context == null) {
+                    return
+                }
 
                 val hex =  if (App.isDarkMode) {
                      Integer.toHexString(resources.getColor(R.color.colorPrimaryDark_dark, requireContext().theme)).uppercase().substring(2)
@@ -163,6 +172,14 @@ class AppDetailFragment : BaseFragment<AppDetailPresenter>(), AppDetailContract.
                 webView.evaluateJavascript("window.BEAM.style.content_main = \"#ffffff\"") {}
                 webView.evaluateJavascript("window.BEAM.style.background_popup = \"#323232\"") {}
                 webView.evaluateJavascript("window.BEAM.style.validator_error = \"#ff625c\"") {}
+
+                AppActivity.self.runOnUiThread {
+                    loadingView?.visibility = View.GONE
+                    toolbarLayout?.changeNodeButton?.alpha = 1.0f
+                    toolbarLayout?.changeNodeButton?.visibility = View.VISIBLE
+                    toolbarLayout?.changeNodeButton?.isEnabled = true
+                    webView?.alpha = 1f
+                }
             }
         }
 

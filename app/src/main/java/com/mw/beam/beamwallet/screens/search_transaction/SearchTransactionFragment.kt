@@ -95,9 +95,21 @@ class SearchTransactionFragment : BaseFragment<SearchTransactionPresenter>(), Se
 
     override fun configTransactions(transactions: List<TxDescription>, isEnablePrivacyMode: Boolean, searchText: String?) {
         adapter.setPrivacyMode(isEnablePrivacyMode)
-        adapter.setSearchText(searchText)
-        adapter.data = transactions
-        adapter.notifyDataSetChanged()
+        adapter.setSearchText(searchText, transactions)
+
+        emptyLabel.visibility = View.GONE
+        notFoundLabel.visibility = View.GONE
+
+        if ((searchText ?: "").isEmpty()) {
+            emptyLabel.visibility = View.VISIBLE
+            notFoundLabel.visibility = View.GONE
+            recyclerView.setEmptyView(emptyLabel)
+        }
+        else if (transactions.isEmpty()) {
+            emptyLabel.visibility = View.GONE
+            notFoundLabel.visibility = View.VISIBLE
+            recyclerView.setEmptyView(notFoundLabel)
+        }
     }
 
     override fun setClearButtonVisible(isVisible: Boolean) {

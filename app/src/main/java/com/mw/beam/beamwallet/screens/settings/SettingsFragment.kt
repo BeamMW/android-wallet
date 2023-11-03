@@ -76,6 +76,7 @@ import com.mw.beam.beamwallet.core.views.SettingsItemView
 import kotlinx.android.synthetic.main.item_settings.view.*
 import android.text.style.StyleSpan
 import android.os.Build
+import androidx.core.widget.addTextChangedListener
 import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.ExchangeRate
@@ -85,15 +86,19 @@ import com.mw.beam.beamwallet.screens.node.NodeFragmentDirections
 import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 import kotlinx.android.synthetic.main.dialog_confirmations_settings.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.radioGroupLockSettings
+import kotlinx.android.synthetic.main.item_settings.view.textLabel
+import kotlinx.android.synthetic.main.item_settings_node.view.*
+import java.util.regex.Pattern
 
 /**
  *  1/21/19.
  */
 class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.View {
 
-    data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null)
+    data class SettingsItem (val icon: Int?, val text:String, var detail:String?, val mode: SettingsFragmentMode, val switch:Boolean? = null, val spannable:Spannable? = null, val searchString:String? = null)
 
     var items = mutableListOf<Array<SettingsItem>>()
+    var allItems = mutableListOf<SettingsItem>()
 
     override fun mode(): SettingsFragmentMode {
         return SettingsFragmentArgs.fromBundle(requireArguments()).mode
@@ -129,12 +134,61 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         }
     }
 
+    private fun onNeedAddedViewsSearch(txt:String) {
+        val filtered = allItems.filter {
+            it.detail?.lowercase()?.contains(txt.lowercase()) == true || it.text.lowercase().contains(txt.lowercase())
+                    || it.searchString?.lowercase()?.contains(txt.lowercase()) == true
+        }
+
+        val node = filtered.firstOrNull {
+            it.text == getString(R.string.node)
+        }
+        val nodeArray = arrayListOf<SettingsItem>()
+        if (node != null) {
+            nodeArray.add(node)
+        }
+
+        if (filtered.isEmpty()) {
+            emptyLabel.visibility = View.VISIBLE
+            mainLayout.removeAllViews()
+        }
+        else {
+            mainLayout.removeAllViews()
+
+            val single = mutableListOf<SettingsItem>()
+            single.addAll(filtered)
+
+            items.clear()
+            if (nodeArray.isNotEmpty()) {
+                single.removeAll {
+                    it.text == getString(R.string.node)
+                }
+                items.add(nodeArray.toTypedArray())
+            }
+            if (single.isNotEmpty()) {
+                items.add(single.toTypedArray())
+            }
+
+            if (items.isEmpty()) {
+                emptyLabel.visibility = View.VISIBLE
+            }
+            else {
+                emptyLabel.visibility = View.GONE
+            }
+
+            addItems(txt)
+        }
+    }
+
     override fun onNeedAddedViews() {
+        emptyLabel.visibility = View.GONE
+
         mainLayout.removeAllViews()
         items.clear()
 
         when {
             mode() == SettingsFragmentMode.All -> {
+                initAllItems()
 
                 val s1 = mutableListOf<SettingsItem>()
                 s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, SettingsFragmentMode.General))
@@ -169,7 +223,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
 
                 val s2 = mutableListOf<SettingsItem>()
-                s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
+              //  s2.add(SettingsItem(null, getString(R.string.language),null, SettingsFragmentMode.Language))
                 s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
 
                 items.add(s1.toTypedArray())
@@ -210,10 +264,10 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 items.add(s1.toTypedArray())
             }
             mode() == SettingsFragmentMode.Utilities -> {
-                val status = AppManager.instance.getStatus().system.height
+             //   val status = AppManager.instance.getStatus().system.height
 
-                val s1 = mutableListOf<SettingsItem>()
-                s1.add(SettingsItem(null, getString(R.string.blockchain_height),status.toString(), SettingsFragmentMode.Height))
+              //  val s1 = mutableListOf<SettingsItem>()
+             //   s1.add(SettingsItem(null, getString(R.string.blockchain_height),status.toString(), SettingsFragmentMode.Height))
 
                 val s2 = mutableListOf<SettingsItem>()
                 s2.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
@@ -230,11 +284,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
-                items.add(s1.toTypedArray())
+             //   items.add(s1.toTypedArray())
                 items.add(s2.toTypedArray())
                 items.add(s3.toTypedArray())
-
-
             }
         }
 
@@ -242,14 +294,103 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         addItems()
     }
 
+    private fun initAllItems() {
+        allItems.clear()
+
+        var s1 = mutableListOf<SettingsItem>()
+        s1.add(SettingsItem(R.drawable.ic_icon_settings_general,getString(R.string.settings_general_settings),null, SettingsFragmentMode.General))
+        s1.add(SettingsItem(R.drawable.ic_notification,getString(R.string.notifications),null, SettingsFragmentMode.Notifications))
+        s1.add(SettingsItem(R.drawable.ic_icon_node,getString(R.string.node),null, SettingsFragmentMode.Node, null, null, "random,mobile,own"))
+        s1.add(SettingsItem(R.drawable.ic_icon_settings_privacy,getString(R.string.privacy),null, SettingsFragmentMode.Privacy))
+        s1.add(SettingsItem(R.drawable.ic_icon_settings_utilities,getString(R.string.utilities),null, SettingsFragmentMode.Utilities))
+
+        var s2 = mutableListOf<SettingsItem>()
+
+        var s3 = mutableListOf<SettingsItem>()
+        s3.add(SettingsItem(R.drawable.ic_icon_settings_rate,getString(R.string.rate_app),null, SettingsFragmentMode.Rate))
+        s3.add(SettingsItem(R.drawable.ic_icon_settings_report,getString(R.string.settings_report),null, SettingsFragmentMode.Report))
+
+        allItems.addAll(s1)
+        allItems.addAll(s3)
+
+        if(BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET ||  BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
+        {
+            allItems.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
+        }
+
+        val lockScreenValue = presenter?.repository?.getLockScreenValue() ?: 0L
+        val maxPrivacyValue = getMaxPrivacyStringValue(AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L, false)
+
+        s1 = mutableListOf<SettingsItem>()
+        s1.add(SettingsItem(null, getString(R.string.settings_allow_open_link),null, SettingsFragmentMode.Allow, switch = presenter?.repository?.isAllowOpenExternalLink()))
+        s1.add(SettingsItem(null, getString(R.string.background_mode_title),null, SettingsFragmentMode.BackgroundMode, switch = presenter?.repository?.isAllowBackgroundMode()))
+        s1.add(SettingsItem(null, getString(R.string.lock_screen),getLockScreenStringValue(lockScreenValue), SettingsFragmentMode.Lock))
+        s1.add(SettingsItem(null, getString(R.string.show_amounts),presenter?.repository?.getCurrencySettings()?.name(requireContext()), SettingsFragmentMode.Currency))
+        s1.add(SettingsItem(null, getString(R.string.minumum_confirmations),presenter?.repository?.getConfirmations()?.toString(), SettingsFragmentMode.Confirmations))
+        s1.add(SettingsItem(null, getString(R.string.clear_local_data),null, SettingsFragmentMode.ClearLocal))
+
+        s2 = mutableListOf<SettingsItem>()
+        s2.add(SettingsItem(null, getString(R.string.dark_mode),null, SettingsFragmentMode.DarkMode, switch = App.isDarkMode))
+
+        allItems.addAll(s1)
+        allItems.addAll(s2)
+
+
+        s1 = mutableListOf<SettingsItem>()
+        s1.add(SettingsItem(null, getString(R.string.wallet_updates),null, SettingsFragmentMode.WalletUpdates, switch = presenter?.repository?.isAllowWalletUpdates()))
+        s1.add(SettingsItem(null, getString(R.string.transaction_status),null, SettingsFragmentMode.TransactionStatus, switch = presenter?.repository?.isAllowTransactions()))
+        allItems.addAll(s1)
+
+        s1 = mutableListOf<SettingsItem>()
+        s1.add(SettingsItem(null, getString(R.string.settings_ask_password_on_send),null, SettingsFragmentMode.AskPassword, switch = presenter?.repository?.shouldConfirmTransaction()))
+        s1.add(SettingsItem(null, getString(R.string.settings_enable_fingerprint),null, SettingsFragmentMode.FingerPrint, switch = presenter?.repository?.isFingerPrintEnabled()))
+        s1.add(SettingsItem(null, getString(R.string.max_privacy_lock_time),maxPrivacyValue, SettingsFragmentMode.MaxPrivacyLimit))
+
+        if (OnboardManager.instance.isSkipedSeed()) {
+            s1.add(SettingsItem(null, getString(R.string.complete_seed_verification),null, SettingsFragmentMode.Verification))
+        }
+        s1.add(SettingsItem(null, getString(R.string.show_owner_key),null, SettingsFragmentMode.OwnerKey))
+        s1.add(SettingsItem(null, getString(R.string.change_password),null, SettingsFragmentMode.ChangePassword))
+        allItems.addAll(s1)
+
+
+        val status = AppManager.instance.getStatus().system.height
+
+        s1 = mutableListOf<SettingsItem>()
+        s1.add(SettingsItem(null, getString(R.string.blockchain_height),status.toString(), SettingsFragmentMode.Height))
+
+        s2 = mutableListOf<SettingsItem>()
+        s2.add(SettingsItem(null, getString(R.string.export_wallet_data),null, SettingsFragmentMode.Export))
+        s2.add(SettingsItem(null, getString(R.string.import_wallet_data),null, SettingsFragmentMode.Import))
+        s2.add(SettingsItem(null, getString(R.string.show_utxo),null, SettingsFragmentMode.UTXO))
+        if (AppManager.instance.isMaxPrivacyEnabled())
+        {
+            s2.add(SettingsItem(null, getString(R.string.rescan),null, SettingsFragmentMode.Rescan))
+        }
+        s2.add(SettingsItem(null,getString(R.string.clear_wallet),null, SettingsFragmentMode.RemoveWallet))
+
+        s3 = mutableListOf<SettingsItem>()
+        s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
+        s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
+        s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
+
+        allItems.addAll(s1)
+        allItems.addAll(s2)
+        allItems.addAll(s3)
+    }
+
+
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         toolbarLayout.centerTitle = mode() == SettingsFragmentMode.All
 
+        val status = AppManager.instance.getStatus().system.height
+
         appVersionTitle.text = ""
         appVersionValue.text = "v " + BuildConfig.VERSION_NAME
+        blockChainHeight.text = getString(R.string.blockchain_height) + ": " + status.toString()
 
         onBackPressedCallback.isEnabled = true
 
@@ -257,21 +398,74 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         if(mode() == SettingsFragmentMode.All) {
             requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
+            searchView.visibility = View.VISIBLE
+            appVersionLayout.visibility = View.VISIBLE
 
             (activity as? AppActivity)?.enableLeftMenu(true)
             toolbar.setNavigationIcon(R.drawable.ic_menu)
             toolbar.setNavigationOnClickListener {
                 (activity as? AppActivity)?.openMenu()
             }
+
+            searchField.addTextChangedListener {
+                val txt = it.toString()
+                if (txt.isEmpty()) {
+                    searchField.setTypeface(null,Typeface.ITALIC)
+                    clearFieldButton.visibility = View.GONE
+                    onNeedAddedViews()
+                }
+                else {
+                    searchField.setTypeface(null,Typeface.NORMAL)
+                    clearFieldButton.visibility = View.VISIBLE
+                    onNeedAddedViewsSearch(txt)
+                }
+            }
+
+            clearFieldButton.setOnClickListener {
+                searchField.setText("")
+            }
+
+            searchField.clearFocus()
         }
     }
 
+    override fun updateBlockchainHeight() {
+        val status = AppManager.instance.getStatus().system.height
+        blockChainHeight.text = getString(R.string.blockchain_height) + ": " + status.toString()
+    }
 
-    private fun addItems() {
+    override fun onResume() {
+        super.onResume()
+
+        val txt = searchField.text.toString()
+        if (txt.isNotEmpty()) {
+            clearFieldButton.visibility = View.VISIBLE
+            onNeedAddedViewsSearch(txt)
+        }
+
+        val status = AppManager.instance.getStatus().system.height
+        blockChainHeight.text = getString(R.string.blockchain_height) + ": " + status.toString()
+    }
+
+    override fun onHideKeyboard() {
+        super.onHideKeyboard()
+        if (searchView.visibility == View.VISIBLE) {
+            appVersionLayout.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onShowKeyboard() {
+        super.onShowKeyboard()
+        if (searchView.visibility == View.VISIBLE) {
+            appVersionLayout.visibility = View.GONE
+        }
+    }
+
+    private fun addItems(txt:String? = null) {
         mainLayout.removeAllViews()
 
         for (subItems in items.reversed()) {
-            var param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            val param = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT)
             param.setMargins(ScreenHelper.dpToPx(context, 10),
                     ScreenHelper.dpToPx(context, 10),
@@ -284,7 +478,12 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
             section.layoutParams = param
 
             for ((index, item) in subItems.withIndex()) {
-                val item = SettingsItemView(requireContext()).apply {
+                val isNode = !txt.isNullOrEmpty() && item.text == getString(R.string.node)
+                if (isNode) {
+                    section.background = null
+                }
+
+                val item = SettingsItemView(requireContext(), isNode).apply {
                     text = item.text
                     detail = item.detail
                     iconResId = item.icon
@@ -432,31 +631,90 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                     item.visibility = View.GONE
                 }
 
-                if (item.mode == SettingsFragmentMode.News || item.mode == SettingsFragmentMode.WalletUpdates ||
+                if (txt.isNullOrEmpty()) {
+                    if (item.mode == SettingsFragmentMode.News || item.mode == SettingsFragmentMode.WalletUpdates ||
                         item.mode == SettingsFragmentMode.AddressExpiration || item.mode == SettingsFragmentMode.TransactionStatus) {
-                    item.setPadding(0, 4, 0, 25)
+                        item.setPadding(0, 4, 0, 25)
+                    }
+                    else  if (item.mode == SettingsFragmentMode.CreateTag) {
+                        item.setPadding(0, 12, 0, 12)
+                    }
+                    else if (subItems.count() == 1 && item.iconResId != null) {
+                        item.setPadding(0, 10, 0, 10)
+                    }
+                    else if (item.switch != null && index == 0) {
+                        item.setPadding(0, 4, 0, 25)
+                    }
+                    else {
+                        item.setPadding(0, 4, 0, 4)
+                    }
                 }
-                else  if (item.mode == SettingsFragmentMode.CreateTag) {
-                    item.setPadding(0, 12, 0, 12)
-                } else if (subItems.count() == 1 && item.iconResId != null) {
-                    item.setPadding(0, 10, 0, 10)
-                } else if (item.switch != null && index == 0) {
-                    item.setPadding(0, 4, 0, 25)
-                } else {
-                    item.setPadding(0, 4, 0, 4)
+                else {
+                    if (item.switch != null) {
+                        item.setPadding(0, 4, 0, 25)
+                    }
+                    else {
+                        item.setPadding(0, 4, 0, 4)
+                    }
+                }
+
+                if (!txt.isNullOrEmpty()) {
+                    val colorRes  = if (App.isDarkMode) {
+                        R.color.common_text_dark_color_dark
+                    }
+                    else{
+                        R.color.common_text_dark_color
+                    }
+
+                    val text = item.text
+                    val detail = item.detail ?: ""
+                    item.textLabel.text = getSpannableFromText(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.white_100)),
+                        text, txt)
+                    if (detail.isNotEmpty()) {
+                        item.detailLabel.text = getSpannableFromText(ForegroundColorSpan(ContextCompat.getColor(requireContext(), colorRes)),
+                            detail, txt)
+                    }
+
+                    if (text.lowercase() == getString(R.string.node).lowercase()) {
+                        item.randomNode.text = getSpannableFromText(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.white_100)),
+                            getString(R.string.random_node_title), txt)
+
+                        item.mobileNode.text = getSpannableFromText(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.white_100)),
+                            getString(R.string.mobile_node_title), txt)
+
+                        item.ownNode.text = getSpannableFromText(ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.white_100)),
+                            getString(R.string.own_node_title), txt)
+                    }
                 }
 
                 section.addView(item)
-
             }
 
-            if (subItems.count() > 0) {
-                if (subItems.last().icon == null) {
-                    section.setPadding(0, 12, 0, 12)
+            if (txt.isNullOrEmpty()) {
+                if (subItems.count() > 0) {
+                    if (subItems.last().icon == null) {
+                        section.setPadding(0, 12, 0, 12)
+                    }
                 }
+            }
+            else {
+                section.setPadding(0, 12, 0, 12)
             }
 
             mainLayout.addView(section, 0)
+        }
+    }
+
+    private fun getSpannableFromText(color: ForegroundColorSpan, allText: String, containedText: String): SpannableStringBuilder {
+        val colorSpan by lazy { ForegroundColorSpan(ContextCompat.getColor(requireContext(), R.color.received_color)) }
+
+        return SpannableStringBuilder().apply {
+            append(allText)
+            val matcher = Pattern.compile(containedText.toLowerCase()).matcher(allText.toLowerCase())
+            setSpan(color, 0, allText.length, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            if (matcher.find()) {
+                setSpan(colorSpan, matcher.start(), matcher.end(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
+            }
         }
     }
 

@@ -372,6 +372,8 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
             NavItem(NavItem.ID.DAO, R.drawable.menu_dao, getString(R.string.dAppStore)),
             NavItem(NavItem.ID.DAO_CORE, R.drawable.ic_dao, getString(R.string.beam_x_dao)),
+            NavItem(NavItem.ID.DAO_VOTING, R.drawable.ic_dao_voting, getString(R.string.beam_x_dao_voting)),
+
             NavItem(NavItem.ID.SPACE, 0, ""),
             NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
             NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),
@@ -382,7 +384,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
         navigationView = layoutInflater.inflate(R.layout.left_menu, null)
         val navMenu = navigationView.findViewById<RecyclerView>(R.id.navMenu)
 
-        val space = screenHeight - (7 * 60) - 190
+        val space = screenHeight - (8 * 60) - 190
 
         navItemsAdapter = NavItemsAdapter(applicationContext, menuItems.toTypedArray(), ScreenHelper.dpToPx(this, space), object : NavItemsAdapter.OnItemClickListener {
             override fun onItemClick(navItem: NavItem) {
@@ -420,6 +422,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                             NavItem.ID.NOTIFICATIONS -> R.id.notificationsFragment
                             NavItem.ID.DAO -> R.id.appListFragment
                             NavItem.ID.DAO_CORE -> R.id.appDetailFragment
+                            NavItem.ID.DAO_VOTING -> R.id.appDetailFragment
                             else -> 0
                         }
 
@@ -431,7 +434,11 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
                         val navBuilder = NavOptions.Builder()
                         val navigationOptions = navBuilder.setPopUpTo(destinationFragment, true).build()
 
-                        if (navItem.id == NavItem.ID.DAO_CORE) {
+                        if (navItem.id == NavItem.ID.DAO_VOTING) {
+                            val args = AppDetailFragmentArgs(DAOManager.getDaoVotingApp(), true)
+                            findNavController(R.id.nav_host).navigate(destinationFragment, args.toBundle(), navigationOptions);
+                        }
+                        else if (navItem.id == NavItem.ID.DAO_CORE) {
                             val args = AppDetailFragmentArgs(DAOManager.getDaoCoreApp(), true)
                             findNavController(R.id.nav_host).navigate(destinationFragment, args.toBundle(), navigationOptions);
                         }
@@ -570,6 +577,7 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             NavItem(NavItem.ID.WALLET, R.drawable.menu_wallet_active, getString(R.string.wallet)),
             NavItem(NavItem.ID.DAO, R.drawable.menu_dao, getString(R.string.dAppStore)),
             NavItem(NavItem.ID.DAO_CORE, R.drawable.ic_dao, getString(R.string.beam_x_dao)),
+            NavItem(NavItem.ID.DAO_VOTING, R.drawable.ic_dao_voting, getString(R.string.beam_x_dao_voting)),
             NavItem(NavItem.ID.SPACE, 0, ""),
             NavItem(NavItem.ID.ADDRESS_BOOK, R.drawable.menu_address_book, getString(R.string.address_book)),
             NavItem(NavItem.ID.NOTIFICATIONS, R.drawable.menu_notification, getString(R.string.notifications)),

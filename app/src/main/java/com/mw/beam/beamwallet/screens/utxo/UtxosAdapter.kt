@@ -61,17 +61,16 @@ class UtxosAdapter(private val context: Context, private val clickListener: OnIt
     private var data: List<Utxo> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_utxo, parent, false)).apply {
-        this.containerView.setOnClickListener {
-            clickListener.onItemClick(data[adapterPosition])
-        }
+        this.setIsRecyclable(false)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.setIsRecyclable(false)
-
         val utxo = data[position]
 
+        holder.containerView.setOnClickListener {
+            clickListener.onItemClick(data[position])
+        }
         holder.apply {
             statusLabel.setTextColor(when (utxo.status) {
                 UtxoStatus.Available -> accentColor

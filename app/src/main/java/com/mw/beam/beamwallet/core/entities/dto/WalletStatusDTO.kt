@@ -16,10 +16,14 @@
 
 package com.mw.beam.beamwallet.core.entities.dto
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  *  1/4/19.
  */
-class WalletStatusDTO(val assetId: Int,
+@Parcelize
+data class WalletStatusDTO(val assetId: Int,
                       val available: Long,
                       val receiving: Long,
                       val sending: Long,
@@ -29,4 +33,4 @@ class WalletStatusDTO(val assetId: Int,
                       val updateLastTime: Long,
                       val updateDone: Int,
                       val updateTotal: Int,
-                      val system: SystemStateDTO)
+                      val system: SystemStateDTO) : Parcelable

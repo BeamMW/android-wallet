@@ -74,6 +74,16 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     private var timer: Timer? = null
     private var isShowWallet = false
 
+    private val handler = Handler()
+    private val delayMillis = 30000L
+    private val myRunnable = Runnable {
+        AppActivity.self.runOnUiThread {
+            if (progress.progress == 0) {
+                showWallet()
+            }
+        }
+    }
+
     override fun onControllerCreate(extras: Bundle?) {
         super.onControllerCreate(extras)
         openTitleString = getString(R.string.welcome_progress_open)
@@ -86,6 +96,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     }
 
     override fun init(mode: WelcomeMode) {
+        DownloadCalculator.onStartDownload()
+
         val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
         val isRandom = PreferencesManager.getBoolean(PreferencesManager.KEY_CONNECT_TO_RANDOM_NODE, false)
         val isOwn = !mobile && !isRandom
@@ -98,37 +110,22 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
 
         when (mode) {
             WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
-                if (mode == WelcomeMode.RESCAN) {
-                    btnCancel.visibility = View.INVISIBLE
-                    btnCancel.isEnabled = false
-                    title.text = getString(R.string.rescan)
-                }
-                else {
-                    if(mobile) {
-                        title.text = getString(R.string.connect_to_mobilenode)
-                    }
-                    else {
-                        title.text = getString(R.string.welcome_progress_open)
-                    }
-                    btnCancel.visibility = View.VISIBLE
-                }
-                appVersion.visibility = View.GONE
-                restoreFullDescription.visibility = View.VISIBLE
-                restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
-                restoreFullDescriptionText2.visibility = View.GONE
-                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
-                configProgress(0, descriptionString)
+                btnCancel.visibility = View.INVISIBLE
+                btnCancel.isEnabled = false
+
+                title.visibility = View.GONE
+                appVersion.visibility = View.INVISIBLE
+                btnCancel.visibility = View.INVISIBLE
+                btnCancel.isEnabled = false
+
+                restoreFullDescription.visibility = View.GONE
+                configProgress(0, getString(R.string.syncing_with_blockchain) + " " + 0 + "%"  + "\n" + getString(R.string.calc_est_time).lowercase())
             }
             WelcomeMode.OPEN -> {
-                title.text = openTitleString
-                if (mobile) {
-                    btnCancel.visibility = View.VISIBLE
-                    restoreFullDescription.visibility = View.VISIBLE
-                    restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
-                    restoreFullDescriptionText2.visibility = View.GONE
-                    val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
-                    configProgress(0, descriptionString)
-                }
+                title.visibility = View.GONE
+                btnCancel.visibility = View.VISIBLE
+                restoreFullDescription.visibility = View.GONE
+                configProgress(0, getString(R.string.syncing_with_blockchain) + " " + 0 + "%"  + "\n" + getString(R.string.calc_est_time).lowercase())
             }
             WelcomeMode.RESTORE, WelcomeMode.RESTORE_AUTOMATIC -> {
                 title.text = downloadTitleString
@@ -141,7 +138,7 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     restoreFullDescriptionText1.text = getString(R.string.please_no_lock)
                     restoreFullDescriptionText2.visibility = View.GONE
                     val descriptionString = getString(R.string.syncing_with_blockchain) + " " + 0 + "%"
-                    configProgress(0, descriptionString)
+                    configProgress(0, descriptionString + "\n" + getString(R.string.calc_est_time).lowercase())
                 }
                 title.text = createTitleString
                 btnCancel.visibility = View.VISIBLE
@@ -153,25 +150,30 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
             timer?.cancel()
             timer = null
             if(mode == WelcomeMode.CREATE && mobile) {
-
+                openWithDelay()
             }
             else if(mode == WelcomeMode.CREATE && isOwn) {
-
+                openWithDelay()
             }
             else if(mode == WelcomeMode.OPEN && mobile) {
-
+                openWithDelay()
+            }
+            else if(mode == WelcomeMode.OPEN && isOwn) {
+                openWithDelay()
             }
             else {
-                timer = Timer()
-                timer?.schedule(timerTask {
-                    if (!App.isAuthenticated) {
-                        AppActivity.self.runOnUiThread {
-                            showWallet()
-                        }
+                if (!App.isAuthenticated) {
+                    openWithDelay()
+                    AppActivity.self.runOnUiThread {
+                        showWallet()
                     }
-                }, 2000)
+                }
             }
         }
+    }
+
+    private fun openWithDelay() {
+        handler.postDelayed(myRunnable, delayMillis)
     }
 
     override fun addListeners() {
@@ -201,29 +203,41 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                val mobile = PreferencesManager.getBoolean(PreferencesManager.KEY_MOBILE_PROTOCOL, false)
-                if (mobile) {
-                    val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-                    val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
-                    configProgress(countProgress(progressData), descriptionString)
+                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+
+                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+                val estimateTime = if (progressData.time != null) {
+                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
                 }
                 else {
-                    configProgress(countProgress(progressData), "$updateUtxoDescriptionString ${progressData.done}/${progressData.total}")
+                    getString(R.string.calc_est_time).lowercase()
                 }
+
+                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
             }
             WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
                 val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
-                configProgress(countProgress(progressData), descriptionString)
+
+                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+                val estimateTime = if (progressData.time != null) {
+                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+                }
+                else {
+                    getString(R.string.calc_est_time).lowercase()
+                }
+
+                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
             }
             WelcomeMode.RESTORE -> {
+
             }
             WelcomeMode.RESTORE_AUTOMATIC -> {
                 if (isDownloadProgress) {
-                    var descriptionString = if (progressData.time != null) {
+                    val descriptionString = if (progressData.time != null) {
                         val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
                         "$downloadDescriptionString ${progressData.done}%. $estimate"
-                    } else {
+                    }
+                    else {
                         "$downloadDescriptionString ${progressData.done}%."
                     }
 
@@ -232,34 +246,55 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     restoreFullDescription.visibility = View.GONE
 
                     configProgress(progressData.done, descriptionString)
-                } else if (isRestoreProgress) {
+                }
+                else if (isRestoreProgress) {
                     val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
 
-                    val descriptionString = getString(R.string.sync_with_node) + ": " + percent.toInt().toString() + "%"
-
-                    title.text = restoreTitleString
-                    restoreFullDescription.visibility = View.VISIBLE
-                    configProgress(countProgress(progressData), descriptionString)
-                }
-                else {
-                    var descriptionString = if (progressData.time != null) {
-                        val estimate = "${getString(R.string.estimted_time).toLowerCase()} ${progressData.time.toTimeFormat(context)}."
-                        "$restoreDescriptionString ${countProgress(progressData)}%. $estimate"
-                    } else {
-                        "$restoreDescriptionString ${countProgress(progressData)}%."
+                    val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+                    val estimateTime = if (progressData.time != null) {
+                        getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+                    }
+                    else {
+                        getString(R.string.calc_est_time).lowercase()
                     }
 
                     title.text = restoreTitleString
+                    restoreFullDescription.visibility = View.VISIBLE
+                    configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
+                }
+                else {
+                    val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+
+                    val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+                    val estimateTime = if (progressData.time != null) {
+                        getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+                    }
+                    else {
+                        getString(R.string.calc_est_time).lowercase()
+                    }
+
+                    title.text = restoreTitleString
+                    restoreFullDescription.visibility = View.VISIBLE
+
+                    title.text = restoreTitleString
 
                     restoreFullDescription.visibility = View.VISIBLE
 
-                    configProgress(countProgress(progressData), descriptionString)
+                    configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
                 }
             }
             WelcomeMode.CREATE -> {
                 val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-                val descriptionString = getString(R.string.syncing_with_blockchain) + " " + percent.toInt().toString() + "%"
-                configProgress(countProgress(progressData), descriptionString)
+
+                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+                val estimateTime = if (progressData.time != null) {
+                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+                }
+                else {
+                    getString(R.string.calc_est_time).lowercase()
+                }
+
+                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
             }
         }
     }
@@ -371,6 +406,8 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
     override fun getIsTrustedRestore(): Boolean? = arguments?.let { WelcomeProgressFragmentArgs.fromBundle(it).isTrustedRestore }
 
     override fun showWallet() {
+        handler.removeCallbacks(myRunnable)
+
         if(!isShowWallet && (getMode() == WelcomeMode.MOBILE_CONNECT || getMode() == WelcomeMode.RESCAN) && App.isAuthenticated) {
             isShowWallet = true
 
@@ -384,6 +421,13 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                     Handler().postDelayed({
                         AppActivity.self.runOnUiThread {
                             showToast(getString(R.string.wallet_connected_to_mobile_node), 4000)
+                            findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
+                        }
+                    }, 1000)
+                }
+                else {
+                    Handler().postDelayed({
+                        AppActivity.self.runOnUiThread {
                             findNavController().navigate(WelcomeProgressFragmentDirections.actionWelcomeProgressFragmentToWalletFragment())
                         }
                     }, 1000)

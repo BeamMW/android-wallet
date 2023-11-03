@@ -22,7 +22,8 @@
             android:launchMode="singleTask"
             android:usesCleartextTraffic="true"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
 
             <meta-data
                 android:name="android.app.shortcuts"
@@ -38,7 +39,7 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
 
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"></action>
                 <category android:name="android.intent.category.DEFAULT"></category>
                 <category android:name="android.intent.category.BROWSABLE"></category>
@@ -51,7 +52,8 @@
             android:name=".screens.app_activity.AppActivity"
             android:hardwareAccelerated="true"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -61,6 +63,7 @@
         </activity>
 
         <activity
+            android:exported="false"
             android:name=".screens.qr.ScanQrActivity"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
@@ -84,6 +87,7 @@
         </provider>
 
         <service
+            android:exported="false"
             android:name=".service.BackgroundService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 

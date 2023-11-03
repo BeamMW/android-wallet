@@ -146,16 +146,18 @@ else{
             nameLabel.text = getString(R.string.no_name)
         }
 
-        val expirationVisibility = if (address.isContact) View.GONE else View.VISIBLE
-       // expirationLayout.visibility = expirationVisibility
+        sbbsLayout.visibility = View.GONE
+        identityLayout.visibility = View.GONE
 
-        if (address.identity.isNullOrEmpty() || address.identity == "0") {
-            identityLayout.visibility = View.GONE
-        }
-        else {
-            identityLayout.visibility = View.VISIBLE
-            identityLabel.text = address.identity
-        }
+        val isToken = AppManager.instance.wallet?.isToken(address.address)
+       if (isToken == true) {
+           identityLayout.visibility = View.VISIBLE
+           sbbsLayout.visibility = View.VISIBLE
+
+           val params = AppManager.instance.wallet?.getTransactionParameters(address.address, false)
+           identityLabel.text = params?.identity
+           sbbsLabel.text = params?.address
+       }
     }
 
     @SuppressLint("InflateParams")

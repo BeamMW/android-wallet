@@ -29,6 +29,7 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.transition.TransitionManager
 import android.view.Gravity
+import android.view.Menu
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.view.menu.MenuBuilder
@@ -52,6 +53,7 @@ import com.mw.beam.beamwallet.core.watchers.AmountFilter
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 
 import kotlinx.android.synthetic.main.fragment_receive.*
+import org.jetbrains.anko.withAlpha
 
 import java.util.*
 
@@ -125,37 +127,41 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     }
 
     override fun updateTokens(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions) {
-        sbbsAddress = walletAddress.id
-        offlineAddress = walletAddress.tokenOffline
-        maxPrivacyAddress = walletAddress.tokenMaxPrivacy
+        activity?.runOnUiThread {
+            sbbsAddress = walletAddress.id
+            offlineAddress = walletAddress.tokenOffline
+            maxPrivacyAddress = walletAddress.tokenMaxPrivacy
 
-        if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressHintLabel.visibility = View.VISIBLE
-            if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                addressLabel.text = walletAddress.id.trimAddress()
+            if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
+                addressHintLabel.visibility = View.GONE
+                if (!AppManager.instance.isMaxPrivacyEnabled()) {
+                    addressLabel.text = walletAddress.address.trimAddress()
+                }
+                else {
+                    addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                }
             }
             else {
-                addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                addressHintLabel.visibility = View.GONE
+                addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
             }
-        }
-        else {
-            addressHintLabel.visibility = View.GONE
-            addressLabel.text = walletAddress.tokenMaxPrivacy.trimAddress()
         }
     }
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun initAddress(walletAddress: WalletAddress, transaction: ReceivePresenter.TransactionTypeOptions){
+        AppActivity.self.runOnUiThread {
+
         nameComment.setText(walletAddress.label)
         txComment.setText(walletAddress.label)
 
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressHintLabel.visibility = View.VISIBLE
+            addressHintLabel.visibility = View.GONE
             switchView.isChecked = false
             addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
-                addressLabel.text = walletAddress.id.trimAddress()
+                addressLabel.text = walletAddress.address.trimAddress()
             }
             else {
                 addressLabel.text = walletAddress.tokenOffline.trimAddress()
@@ -178,18 +184,24 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             addressHintLabel.visibility = View.GONE
         }
 
-        AppActivity.self.runOnUiThread {
             if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                //  notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
+                // notAvailableLabel.visibility = View.VISIBLE
+
                 switcherView.alpha = 0.5f
                 maxLabel.alpha = 0.5f
-              //  notAvailableLabel.text = getString(R.string.max_privacy_disabled_node)
-               // notAvailableLabel.visibility = View.VISIBLE
                 switchView.isEnabled = false
+
+                amount.alpha = 0.5f
+                amount.isEnabled = false
+
+                currencyLayout.alpha = 0.5f
+                currencyLayout.isEnabled = false
+
                 receiveDescription.text = resources.getString(R.string.receive_description_2)
             }
         }
     }
-
 
     override fun handleExpandAmount(expand: Boolean) {
         animateDropDownIcon(btnExpandAmount, expand)
@@ -239,7 +251,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun copyToken(receiveToken: String) {
         presenter?.state?.wasAddressSaved = true
-        presenter?.saveToken()
+//        presenter?.saveToken()
         copyToClipboard(receiveToken, copyTag)
         showSnackBar(getString(R.string.address_copied_to_clipboard))
     }
@@ -264,11 +276,11 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         switchView.setOnClickListener {
             if (switchView.isChecked) {
                 presenter?.onMaxPrivacyPressed()
-                presenter?.saveToken()
+//                presenter?.saveToken()
             }
             else {
                 presenter?.onRegularPressed()
-                presenter?.saveToken()
+//                presenter?.saveToken()
             }
         }
 
@@ -315,12 +327,13 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                 menu.setOnDismissListener {
                     animateDropDownIcon(btnExpandCurrency, false)
                 }
+                var index = 0
                 AssetManager.instance.filteredAssets.forEach {
                     var name = it.unitName
                     if (name.length > 8) {
                         name = name.substring(0,8) + "..."
                     }
-                    val sb = SpannableString(name)
+                    val sb = SpannableString(name + " " + "(${it.assetId})")
                     if (it.assetId == this.assetId) {
                         sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                         sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
@@ -328,21 +341,29 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
                     else {
                         sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
                     }
-                    val item = menu.menu.add(sb)
+
+                    sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), name.length, sb.length, 0)
+
+                    val item = menu.menu.add(Menu.NONE, index, Menu.NONE, sb)
                     item.setIcon(it.image)
+                    index += 1
                 }
                 menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                    val title = item.title.toString().replace("...", "")
-                    val asset = AssetManager.instance.getAssetName(title)
-                    this.assetId = asset?.assetId ?:0
+                    val id = item.itemId
+                    val asset = AssetManager.instance.filteredAssets[id]
+                    this.assetId = asset.assetId
 
                     amount.setText("")
                     secondAvailableSum.text = 0.0.convertToGroth().exchangeValueAsset(assetId)
-                    currency.text = asset?.unitName ?: ""
-                    currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+                    currency.text = asset.unitName
+                    currencyImageView.setImageResource(asset.image)
+
+                    val sb = SpannableString(asset.unitName + " " + "(${asset.assetId})")
+                    sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset.unitName.length, sb.length, 0)
+                    currency.text = sb
 
                     presenter?.updateToken()
-                    presenter?.saveToken()
+//                    presenter?.saveToken()
 
                     true
                 })
@@ -382,7 +403,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
         setFragmentResultListener("FragmentB_REQUEST_KEY") { key, bundle ->
             presenter?.state?.wasAddressSaved = true
-            presenter?.saveToken()
+//            presenter?.saveToken()
         }
 
         if(App.isDarkMode) {
@@ -396,6 +417,10 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         val asset = AssetManager.instance.getAsset(getAssetId())
         currency.text = asset?.unitName
         currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+
+        val sb = SpannableString(asset?.unitName + " " + "(${asset?.assetId})")
+        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset?.unitName?.length ?: 0, sb.length, 0)
+        currency.text = sb
 
         currencyLayout.onSizeChange {
             val w = currencyLayout.width + ScreenHelper.dpToPx(requireContext(), 20)
@@ -421,7 +446,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
 
     override fun shareToken(receiveToken: String) {
         presenter?.state?.wasAddressSaved = true
-        presenter?.saveToken()
+//        presenter?.saveToken()
         shareText(getString(R.string.common_share_title), receiveToken, activity)
     }
 
@@ -431,7 +456,7 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         val address = presenter?.state?.address
         if (address!=null) {
             presenter?.state?.wasAddressSaved = true
-            presenter?.saveToken()
+//            presenter?.saveToken()
             findNavController().navigate(ReceiveFragmentDirections.actionReceiveFragmentToQrDialogFragment(address,
                     0,
                     false,
@@ -480,7 +505,8 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
     override fun showShowToken(receiveToken: String) {
         val name = if(presenter?.transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
             if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                getString(R.string.regular_online_address)
+                getString(R.string.regular_address)
+                // getString(R.string.regular_online_address)
             }
             else {
                 getString(R.string.regular_address)

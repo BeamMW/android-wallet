@@ -16,6 +16,7 @@
 
 package com.mw.beam.beamwallet.screens.transactions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -86,6 +87,7 @@ class TransactionsPageAdapter(private val context: Context,
         container.removeView(view as View)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun updateData() {
         allTxAdapter.data = transactions
         sentTxAdapter.data = transactions.filter { it.sender.value && isCompletedTx(it)}

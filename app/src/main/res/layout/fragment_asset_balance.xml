@@ -89,7 +89,7 @@
                         android:letterSpacing="0.2"
                         android:text="@string/available"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white"
+                        android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
 
                     <TextView
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:letterSpacing="0.2"
-                        android:text="@string/max_privacy"
+                        android:text="@string/shielded"
                         android:textAllCaps="true"
                         android:textColor="?attr/subHeaderTextColor"
                         android:textSize="12sp" />
@@ -244,7 +244,7 @@
                                android:maxLines="1"
                                android:ellipsize="end"
                                android:textAllCaps="true"
-                               android:textColor="@android:color/white"
+                               android:textColor="?attr/subHeaderTextColor"
                                android:textSize="12sp" />
 
                            <View

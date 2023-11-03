@@ -44,6 +44,7 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     private lateinit var exportDataSubscription: Disposable
     private lateinit var importDataSubscription: Disposable
     private lateinit var reconnectedSubscription: Disposable
+    private lateinit var walletStatusSubscription: Disposable
     private var excludeExportParameters: Array<String> = arrayOf()
 
     private var exportType = ExportType.SAVE
@@ -58,6 +59,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
     override fun initSubscriptions() {
         super.initSubscriptions()
+
+        walletStatusSubscription = AppManager.instance.subOnStatusChanged.subscribe {
+            view?.updateBlockchainHeight()
+        }
 
         reconnectedSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
             view?.onReconnected()
@@ -419,5 +424,5 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription, walletStatusSubscription)
 }

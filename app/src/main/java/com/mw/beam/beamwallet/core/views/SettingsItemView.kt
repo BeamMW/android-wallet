@@ -29,18 +29,26 @@ import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
 
 import kotlinx.android.synthetic.main.item_settings.view.*
+import kotlinx.android.synthetic.main.item_settings.view.iconView
+import kotlinx.android.synthetic.main.item_settings.view.textLabel
+import kotlinx.android.synthetic.main.item_settings_node.view.*
 
 class SettingsItemView: FrameLayout {
+
     constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {
-        init(context)
+        init(context, false)
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context)
+        init(context, false)
     }
 
     constructor(context: Context) : super(context) {
-        init(context)
+        init(context, false)
+    }
+
+    constructor(context: Context, isNode:Boolean) : super(context) {
+        init(context, isNode)
     }
 
     var iconResId: Int? = null
@@ -79,13 +87,13 @@ class SettingsItemView: FrameLayout {
     var detail: String? = ""
     set(value) {
         field = value
-        detailLabel.text = field
+        detailLabel?.text = field
 
         if(value.isNullOrEmpty()) {
-            detailLabel.visibility = View.GONE
+            detailLabel?.visibility = View.GONE
         }
         else{
-            detailLabel.visibility = View.VISIBLE
+            detailLabel?.visibility = View.VISIBLE
         }
     }
 
@@ -93,8 +101,8 @@ class SettingsItemView: FrameLayout {
         set(value) {
             field = value
             if(value!=null) {
-                detailLabel.text = field
-                detailLabel.visibility = View.VISIBLE
+                detailLabel?.text = field
+                detailLabel?.visibility = View.VISIBLE
             }
         }
 
@@ -103,13 +111,13 @@ class SettingsItemView: FrameLayout {
             field = value
 
             if(value == null) {
-                switchView.visibility = View.GONE
+                switchView?.visibility = View.GONE
             }
             else{
-                cardItem.setPadding(0,12,0,0)
-                cardItem.foreground = null
-                switchView.isChecked = value
-                switchView.visibility = View.VISIBLE
+                cardItem?.setPadding(0,12,0,0)
+                cardItem?.foreground = null
+                switchView?.isChecked = value
+                switchView?.visibility = View.VISIBLE
             }
         }
 
@@ -117,14 +125,20 @@ class SettingsItemView: FrameLayout {
 
     override fun setOnClickListener(l: OnClickListener?) {
         if (switch==null) {
-            cardItem.setOnClickListener(l)
+            cardItem?.setOnClickListener(l)
+            constrainItem?.setOnClickListener(l)
         }
         else{
-            switchView.setOnClickListener(l)
+            switchView?.setOnClickListener(l)
         }
     }
 
-    private fun init(context: Context) {
-        inflate(context, R.layout.item_settings, this)
+    private fun init(context: Context, isNode:Boolean) {
+        if (isNode) {
+            inflate(context, R.layout.item_settings_node, this)
+        }
+        else {
+            inflate(context, R.layout.item_settings, this)
+        }
     }
 }

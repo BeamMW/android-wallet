@@ -67,18 +67,9 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
             btnNext.iconResId = R.drawable.ic_btn_proceed
         }
         else {
-            isNeedDisconnect = true
-
-            if (isNeedDisconnect) {
-                btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button_red)
-                btnNext.textResId = R.string.disconnect
-                btnNext.iconResId = R.drawable.ic_delete_blue
-            }
-            else {
-                btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button)
-                btnNext.textResId = R.string.connect
-                btnNext.iconResId = R.drawable.ic_btn_proceed
-            }
+            btnNext.textResId = R.string.proceed
+            btnNext.iconResId = R.drawable.ic_btn_proceed
+            btnNext.visibility = View.GONE
         }
 
         var okString = ""
@@ -126,31 +117,46 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         mobileNodeTitle.text = getString(R.string.mobile_node_title).toUpperCase() + " (" + getString(R.string.slow_sync).toLowerCase() + ")"
         randomNodeTitle.text = getString(R.string.random_node_title).toUpperCase() + " (" + getString(R.string.fast_sync).toLowerCase() + ")"
 
-        val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
-        val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
 
         if (isCreate() == true) {
             dialogNodeValue.setText("")
         }
         else {
+            isNeedDisconnect = true
+
             val own = PreferencesManager.getString(KEY_NODE_ADDRESS) ?: ""
             dialogNodeValue.setText(own)
         }
 
+        checkCurrentNode()
+        checkEnables()
+    }
+
+    private fun checkCurrentNode() {
+        val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
+        val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
+
         when {
             mobile -> {
+                if (isCreate() == false) {
+                    btnNext.visibility = View.GONE
+                }
                 inputNodeLayout.visibility = View.GONE
                 mobileNodeButton.isChecked = true
                 ownNodeButton.isChecked = false
                 randomButton.isChecked = false
             }
             random -> {
+                if (isCreate() == false) {
+                    btnNext.visibility = View.GONE
+                }
                 inputNodeLayout.visibility = View.GONE
                 randomButton.isChecked = true
                 mobileNodeButton.isChecked = false
                 ownNodeButton.isChecked = false
             }
             else -> {
+                btnNext.visibility = View.VISIBLE
                 inputNodeLayout.visibility = View.VISIBLE
                 ownNodeButton.isChecked = true
                 mobileNodeButton.isChecked = false
@@ -158,174 +164,75 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
             }
         }
 
-        checkEnables()
+        ownNodeButton.jumpDrawablesToCurrentState()
+        mobileNodeButton.jumpDrawablesToCurrentState()
+        randomButton.jumpDrawablesToCurrentState()
     }
 
     private fun checkEnables() {
+        ownLayout.background = null
+        mobileLayout.background = null
+        randomLayout.background = null
+
         randomLayout.alpha = 1f
         ownLayout.alpha = 1f
         mobileLayout.alpha = 1f
+
         randomButton.isEnabled = true
         ownNodeButton.isEnabled = true
         mobileNodeButton.isEnabled = true
         dialogNodeValue.isEnabled = true
         dialogNodeValue.setTextColor(requireContext().getColor(R.color.white_100))
+
         inputNodeLayout.background =  ContextCompat.getDrawable(requireContext(), R.drawable.wallet_state_card_backgroud)
         inputNodeLayout.alpha = 1f
 
-        if (isNeedDisconnect) {
-            val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
-            val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
-
-            when {
-                mobile -> {
-                    randomButton.isEnabled = false
-                    ownNodeButton.isEnabled = false
-
-                    randomLayout.alpha = 0.3f
-                    ownLayout.alpha = 0.3f
-                }
-                random -> {
-                    mobileNodeButton.isEnabled = false
-                    ownNodeButton.isEnabled = false
-
-                    mobileLayout.alpha = 0.3f
-                    ownLayout.alpha = 0.3f
-                }
-                else -> {
-                    mobileNodeButton.isEnabled = false
-                    randomButton.isEnabled = false
-                    dialogNodeValue.isEnabled = false
-                    dialogNodeValue.setTextColor(requireContext().getColor(R.color.white_02))
-                    inputNodeLayout.alpha = 0.8f
-
-                    mobileLayout.alpha = 0.3f
-                    randomLayout.alpha = 0.3f
-                }
+        when {
+            mobileNodeButton.isChecked -> {
+                ownLayout.background = null
+                mobileLayout.background = ContextCompat.getDrawable(requireContext(), R.drawable.wallet_state_card_plain)
+                randomLayout.background = null
+            }
+            randomButton.isChecked  -> {
+                ownLayout.background = null
+                mobileLayout.background = null
+                randomLayout.background = ContextCompat.getDrawable(requireContext(), R.drawable.wallet_state_card_plain)
+            }
+            else -> {
+                ownLayout.background =  ContextCompat.getDrawable(requireContext(), R.drawable.wallet_state_card_plain)
+                mobileLayout.background = null
+                randomLayout.background = null
             }
         }
     }
 
     override fun addListeners() {
         mobileLayout.setOnClickListener {
-            if (!isNeedDisconnect) {
-                mobileNodeButton.isChecked = true
-                ownNodeButton.isChecked = false
-                randomButton.isChecked = false
-                inputNodeLayout.visibility = View.GONE
-            }
+            clickMobile()
         }
 
         ownLayout.setOnClickListener {
-            if (!isNeedDisconnect) {
-                ownNodeButton.isChecked = true
-                mobileNodeButton.isChecked = false
-                randomButton.isChecked = false
-                inputNodeLayout.visibility = View.VISIBLE
-            }
+           clickOwn()
         }
 
         randomLayout.setOnClickListener {
-            if (!isNeedDisconnect) {
-                randomButton.isChecked = true
-                mobileNodeButton.isChecked = false
-                ownNodeButton.isChecked = false
-                inputNodeLayout.visibility = View.GONE
-            }
+            clickRandom()
         }
 
         mobileNodeButton.setOnClickListener {
-            if (!isNeedDisconnect) {
-                mobileNodeButton.isChecked = true
-                ownNodeButton.isChecked = false
-                randomButton.isChecked = false
-                inputNodeLayout.visibility = View.GONE
-            }
+            clickMobile()
         }
 
         ownNodeButton.setOnClickListener {
-            if (!isNeedDisconnect) {
-                ownNodeButton.isChecked = true
-                mobileNodeButton.isChecked = false
-                randomButton.isChecked = false
-                inputNodeLayout.visibility = View.VISIBLE
-            }
+            clickOwn()
         }
 
         randomButton.setOnClickListener {
-            if (!isNeedDisconnect) {
-                randomButton.isChecked = true
-                mobileNodeButton.isChecked = false
-                ownNodeButton.isChecked = false
-                inputNodeLayout.visibility = View.GONE
-            }
+            clickRandom()
         }
 
         btnNext.setOnClickListener {
-            hideKeyboard()
-
-            if (isNeedDisconnect) {
-                isNeedDisconnect = false
-
-                btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button)
-                btnNext.textResId = R.string.connect
-                btnNext.iconResId = R.drawable.ic_btn_proceed
-
-                checkEnables()
-            }
-            else {
-                if (randomButton.isChecked) {
-                    onRandomNode()
-
-                    if (isCreate() == false) {
-                        isNeedDisconnect = true
-
-                        btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button_red)
-                        btnNext.textResId = R.string.disconnect
-                        btnNext.iconResId = R.drawable.ic_delete_blue
-
-                        checkEnables()
-                    }
-                }
-                else if (mobileNodeButton.isChecked) {
-                    onMobileNode()
-
-                    if (isCreate() == false) {
-                        isNeedDisconnect = true
-
-                        btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button_red)
-                        btnNext.textResId = R.string.disconnect
-                        btnNext.iconResId = R.drawable.ic_delete_blue
-
-                        checkEnables()
-                    }
-                }
-                else if(ownNodeButton.isChecked) {
-                    val node = dialogNodeValue.text.toString()
-                    if(node.isEmpty()) {
-                        showAlert(getString(R.string.please_enter_node_address),getString(R.string.ok), {
-
-                        })
-                    }
-                    else if(!validateUrl()) {
-                        showAlert(getString(R.string.settings_dialog_node_error),getString(R.string.ok), {
-
-                        })
-                    }
-                    else {
-                        if (isCreate() == false) {
-                            isNeedDisconnect = true
-
-                            btnNext.background = ContextCompat.getDrawable(requireContext(), R.drawable.common_button_red)
-                            btnNext.textResId = R.string.disconnect
-                            btnNext.iconResId = R.drawable.ic_delete_blue
-
-                            checkEnables()
-                        }
-                        onOwnNode()
-                    }
-                }
-            }
+            onNext()
         }
     }
 
@@ -337,6 +244,184 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
         return NodePresenter(this, NodeRepository(), NodeState())
     }
 
+    private fun onNext() {
+        hideKeyboard()
+
+        if (randomButton.isChecked) {
+            onRandomNode()
+        }
+        else if (mobileNodeButton.isChecked) {
+            onMobileNode()
+        }
+        else if(ownNodeButton.isChecked) {
+            val node = dialogNodeValue.text.toString()
+            if(node.isEmpty()) {
+                showAlert(getString(R.string.please_enter_node_address),getString(R.string.ok), {
+
+                })
+            }
+            else if(!validateUrl()) {
+                showAlert(getString(R.string.settings_dialog_node_error),getString(R.string.ok), {
+
+                })
+            }
+            else {
+                if (isCreate() == true) {
+                    onOwnNode()
+                }
+                else {
+                    val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
+                    val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
+
+                    when {
+                        mobile -> {
+                            showAlert(getString(R.string.switch_to_own_from_mobile, node), getString(R.string.sw), {
+                                mobileNodeButton.isChecked = false
+                                ownNodeButton.isChecked = true
+                                randomButton.isChecked = false
+                                onOwnNode()
+                            }, getString(R.string.switch_to_own), getString(R.string.cancel), {
+                                checkCurrentNode()
+                                checkEnables()
+                            })
+                        }
+                        random -> {
+                            showAlert(getString(R.string.switch_to_own_from_random, node), getString(R.string.sw), {
+                                mobileNodeButton.isChecked = false
+                                ownNodeButton.isChecked = true
+                                randomButton.isChecked = false
+                                onOwnNode()
+                            }, getString(R.string.switch_to_own), getString(R.string.cancel), {
+                                checkCurrentNode()
+                                checkEnables()
+                            })
+                        }
+                        node != AppConfig.NODE_ADDRESS -> {
+                            showAlert(getString(R.string.switch_to_own_from_own, AppConfig.NODE_ADDRESS, node), getString(R.string.sw), {
+                                mobileNodeButton.isChecked = false
+                                ownNodeButton.isChecked = true
+                                randomButton.isChecked = false
+                                onOwnNode()
+                            }, getString(R.string.switch_to_own), getString(R.string.cancel), {
+                                checkCurrentNode()
+                                checkEnables()
+                            })
+                        }
+                        else -> {
+                            mobileNodeButton.isChecked = false
+                            ownNodeButton.isChecked = true
+                            randomButton.isChecked = false
+                            onOwnNode()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun clickMobile() {
+        if (isCreate() == false) {
+            val own = PreferencesManager.getString(KEY_NODE_ADDRESS) ?: ""
+            val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
+            val isMobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
+
+            if (random && !isMobile) {
+                showAlert(getString(R.string.switch_to_mobile_from_random), getString(R.string.sw), {
+                    mobileNodeButton.isChecked = true
+                    ownNodeButton.isChecked = false
+                    randomButton.isChecked = false
+                    onNext()
+                }, getString(R.string.switch_to_mobile), getString(R.string.cancel), {
+                    checkCurrentNode()
+                    checkEnables()
+                })
+            }
+            else if (ownNodeButton.isChecked && !random && own.isNotEmpty()) {
+                showAlert(getString(R.string.switch_to_mobile_from_own, own), getString(R.string.sw), {
+                    mobileNodeButton.isChecked = true
+                    ownNodeButton.isChecked = false
+                    randomButton.isChecked = false
+                    onNext()
+                }, getString(R.string.switch_to_mobile), getString(R.string.cancel), {
+                    checkCurrentNode()
+                    checkEnables()
+                })
+            }
+            else if (!mobileNodeButton.isChecked) {
+                mobileNodeButton.isChecked = true
+                ownNodeButton.isChecked = false
+                randomButton.isChecked = false
+                checkCurrentNode()
+                checkEnables()
+            }
+        }
+        else {
+            mobileNodeButton.isChecked = true
+            ownNodeButton.isChecked = false
+            randomButton.isChecked = false
+            checkEnables()
+        }
+    }
+
+    private fun clickOwn() {
+        ownNodeButton.isChecked = true
+        mobileNodeButton.isChecked = false
+        randomButton.isChecked = false
+        inputNodeLayout.visibility = View.VISIBLE
+        btnNext.visibility = View.VISIBLE
+        checkEnables()
+    }
+
+    private fun clickRandom() {
+        if (isNeedDisconnect) {
+            val own = PreferencesManager.getString(KEY_NODE_ADDRESS) ?: ""
+            val random = PreferencesManager.getBoolean(KEY_CONNECT_TO_RANDOM_NODE, false)
+            val mobile = PreferencesManager.getBoolean(KEY_MOBILE_PROTOCOL, false)
+
+            if (mobile) {
+                showAlert(getString(R.string.switch_to_random_from_mobile), getString(R.string.sw), {
+                    mobileNodeButton.isChecked = false
+                    ownNodeButton.isChecked = false
+                    randomButton.isChecked = true
+                    onNext()
+                    checkEnables()
+                }, getString(R.string.switch_to_random), getString(R.string.cancel), {
+                    checkCurrentNode()
+                    checkEnables()
+                })
+            }
+            else if (ownNodeButton.isChecked && !random && own.isNotEmpty()) {
+                showAlert(getString(R.string.switch_to_random_from_own, own), getString(R.string.sw), {
+                    mobileNodeButton.isChecked = false
+                    ownNodeButton.isChecked = false
+                    randomButton.isChecked = true
+                    inputNodeLayout.visibility = View.GONE
+                    btnNext.visibility = View.GONE
+                    onNext()
+                    checkEnables()
+                }, getString(R.string.switch_to_random), getString(R.string.cancel), {
+                    checkCurrentNode()
+                    checkEnables()
+                })
+            }
+            else if (!randomButton.isChecked) {
+                mobileNodeButton.isChecked = false
+                ownNodeButton.isChecked = false
+                randomButton.isChecked = true
+                inputNodeLayout.visibility = View.GONE
+                btnNext.visibility = View.GONE
+                onNext()
+                checkEnables()
+            }
+        }
+        else {
+            mobileNodeButton.isChecked = false
+            ownNodeButton.isChecked = false
+            randomButton.isChecked = true
+            checkEnables()
+        }
+    }
+
     private fun onOwnNode() {
         val node = dialogNodeValue.text.toString()
 
@@ -346,7 +431,9 @@ class NodeFragment: BaseFragment<NodePresenter>(), NodeContract.View {
 
         AppManager.instance.wallet?.enableBodyRequests(false)
         AppManager.instance.onChangeNodeAddress()
+
         AppConfig.NODE_ADDRESS = node
+
         AppManager.instance.wallet?.changeNodeAddress(AppConfig.NODE_ADDRESS)
 
         if (isCreate() == true) {

@@ -40,6 +40,7 @@ import com.mw.beam.beamwallet.core.helpers.convertToBeamString
 
 import kotlinx.android.synthetic.main.fragment_receive_show_token.*
 import kotlinx.android.synthetic.main.fragment_receive_show_token.toolbarLayout
+import kotlinx.android.synthetic.main.item_navigation.view.*
 
 /**
  *  3/4/19.
@@ -89,14 +90,27 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
 
         val isReceive = ShowTokenFragmentArgs.fromBundle(requireArguments()).receive
 
-        if(AppManager.instance.wallet?.isToken(token) == true) {
-            val params = AppManager.instance.wallet?.getTransactionParameters(token, false)
+        val nToken = token
+        if(AppManager.instance.wallet?.isToken(nToken) == true) {
+            val params = AppManager.instance.wallet?.getTransactionParameters(nToken, false)
             if(params != null) {
-//                if(params.amount > 0) {
-//                    val asset = params.assetId
-//                    amountLayout.visibility = View.VISIBLE
-//                    amountValue.text =params.amount.convertToAssetStringWithId(asset)
-//                }
+
+                tokenTitle.text = getString(R.string.address)
+                tokenValue.text = nToken
+
+                if(!AppManager.instance.isMaxPrivacyEnabled()) {
+                    dividerView.visibility = View.GONE
+                    sbbsNewLayout.visibility = View.GONE
+                    aboutAddressLabel.text = getString(R.string.only_online_support)
+                }
+
+                if (getNewFormat()) {
+                    aboutAddressLabel.visibility = View.VISIBLE
+                    dividerView.visibility = View.VISIBLE
+                    sbbsNewLayout.visibility = View.VISIBLE
+                    sbbsAddressTitle.text = getString(R.string.sbbs_address_new)
+                    sbbsNewLabel.text = params.address
+                }
 
                 if (!getNewFormat()) {
                     transactionTypeLayout.visibility = View.VISIBLE
@@ -119,24 +133,10 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                     }
                     else -> {
                         transactionTypeValue.text = getString(R.string.regular)
-                        if (getNewFormat()) {
-                            aboutAddressLabel.visibility = View.VISIBLE
-                            dividerView.visibility = View.VISIBLE
-                            sbbsNewLayout.visibility = View.VISIBLE
-                            sbbsNewLabel.text = params.address
-
-                            if(!AppManager.instance.isMaxPrivacyEnabled()) {
-                                dividerView.visibility = View.GONE
-                                tokenTitle.text = getString(R.string.online_sbbs_address)
-                                tokenValue.text = params.address
-                                sbbsNewLayout.visibility = View.GONE
-                                aboutAddressLabel.text = getString(R.string.only_online_support)
-                            }
-                        }
                     }
                 }
 
-                if(params.identity.isNotEmpty() && !getNewFormat()) {
+                if(params.identity.isNotEmpty()) {
                     identityLayout.visibility = View.VISIBLE
                     identityValue.text = params.identity
                 }
@@ -222,6 +222,11 @@ class ShowTokenFragment : BaseFragment<ShowTokenPresenter>(), ShowTokenContract.
                 setFragmentResult("FragmentB_REQUEST_KEY", bundleOf("data" to "button clicked"))
             }
             showSnackBar(getString(R.string.address_copied_to_clipboard))
+        }
+
+        btnCopyIdentity.setOnClickListener {
+            copyToClipboard(identityValue.text.toString(), "ADDRESS")
+            showSnackBar(getString(R.string.copied_to_clipboard))
         }
     }
 

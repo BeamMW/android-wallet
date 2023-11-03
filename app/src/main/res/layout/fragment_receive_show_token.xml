@@ -131,30 +131,7 @@
                     tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/identityLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:visibility="gone"
-                tools:visibility="visible">
 
-                <TextView
-                    style="@style/common_subheader_dark"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/identity" />
-
-                <TextView
-                    android:id="@+id/identityValue"
-                    style="@style/common_text_big_light"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/tokenLayout"
@@ -235,6 +212,7 @@
                 tools:visibility="visible">
 
                 <TextView
+                    android:id="@+id/sbbsAddressTitle"
                     style="@style/common_subheader_dark"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -252,9 +230,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:ellipsize="middle"
-                        android:lines="1"
-                        android:maxLines="1"
                         tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
 
                     <ImageView
@@ -267,9 +242,51 @@
                         android:paddingBottom="5dp"
                         android:src="@drawable/ic_copy_small_white" />
                 </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/identityLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    style="@style/common_subheader_dark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/identity" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/identityValue"
+                        style="@style/common_text_big_light"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        tools:text="129d23fde272a62b529ca270a2b676698313c885c6ea0d732d0ea19c49bfba63cc3" />
+
+                    <ImageView
+                        android:id="@+id/btnCopyIdentity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="0dp"
+                        android:paddingBottom="5dp"
+                        android:src="@drawable/ic_copy_small_white" />
+                </LinearLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
     </ScrollView>
 

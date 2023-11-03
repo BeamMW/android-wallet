@@ -88,6 +88,7 @@
                 android:layout_marginStart="@dimen/common_offset"
                 android:layout_marginTop="30dp"
                 android:text="@string/outgoing_address"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
@@ -99,6 +100,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="@dimen/common_offset"
                 android:textAlignment="textEnd"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/outgoingAddressTitle"
                 app:layout_constraintTop_toTopOf="@+id/outgoingAddressTitle"

@@ -75,6 +75,7 @@ class WelcomeProgressRepository : BaseRepository(), WelcomeProgressContract.Repo
 
         WalletListener.oldCurrent = -1
 
+        DownloadCalculator.onStopDownload()
         DownloadCalculator.onStartDownload()
 
         return getResult(WalletListener.subOnImportRecoveryProgress, "importRecovery") {

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Beam Wallet Masternet</string>
+    <string name="redirect" translatable="false">open.master.app</string>
+</resources>

@@ -67,6 +67,7 @@ object WalletListener {
     var subOnAllUtxoChanged: Subject<List<Utxo>> = BehaviorSubject.create<List<Utxo>>().toSerialized()
 
     var subOnSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
+
     var subOnNodeSyncProgressUpdated: Subject<OnSyncProgressData> = BehaviorSubject.create<OnSyncProgressData>().toSerialized()
     var subOnChangeCalculated: Subject<Long> = BehaviorSubject.create<Long>().toSerialized()
     var subOnAddresses: Subject<OnAddressesData> = BehaviorSubject.create<OnAddressesData>().toSerialized()
@@ -92,6 +93,8 @@ object WalletListener {
     var subOnPublicAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnMaxPrivacyAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
     var suboOExportTxHistoryToCsv: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnRegularAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
+    var subOnOfflineAddress: Subject<String> = PublishSubject.create<String>().toSerialized()
 
     var subOnCallWalletApiResult: Subject<String> = PublishSubject.create<String>().toSerialized()
     var subOnCallWalletApiApproved: Subject<ContractConsentDTO> = PublishSubject.create<ContractConsentDTO>().toSerialized()
@@ -151,13 +154,26 @@ object WalletListener {
     }
 
     @JvmStatic
-    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map { TxDescription(it) }), "onTxStatus")
+    fun onTxStatus(action: Int, tx: Array<TxDescriptionDTO>?) = returnResult(subOnTxStatus, OnTxStatusData(ChangeAction.fromValue(action), tx?.map {
+        val txD = TxDescription(it)
+        if (it.assets != null) {
+           // val s = it.assets as java.util.Arrays
+//            val walletStatusList: List<WalletStatusDTO> = Arrays.asList(it.assets!!)
+          //  txD.assets = arrayListOf()
+//            for (i in 0 until it.assets!) {
+//                txD.assets!!.add(it.assets!![i])
+//            }
+        }
+        txD
+    }), "onTxStatus")
 
     @JvmStatic
-    fun onSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total), "onSyncProgressUpdated")
+    fun onSyncProgressUpdated(done: Int, total: Int) : Unit  {
+        return returnResult(subOnSyncProgressUpdated, OnSyncProgressData(done, total, DownloadCalculator.onCalculateTime(done,total)), "onSyncProgressUpdated")
+    }
 
     @JvmStatic
-    fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total), "onNodeSyncProgressUpdated")
+    fun onNodeSyncProgressUpdated(done: Int, total: Int) = returnResult(subOnNodeSyncProgressUpdated, OnSyncProgressData(done, total, DownloadCalculator.onCalculateTime(done,total)), "onNodeSyncProgressUpdated")
 
     @JvmStatic
     fun onChangeCalculated(amount: Long) = returnResult(subOnChangeCalculated, amount, "onChangeCalculated")
@@ -194,7 +210,9 @@ object WalletListener {
     fun onNodeConnectedStatusChanged(isNodeConnected: Boolean) = returnResult(subOnNodeConnectedStatusChanged, isNodeConnected, "onNodeConnectedStatusChanged")
 
     @JvmStatic
-    fun onNodeConnectionFailed(error : Int) = returnResult(subOnNodeConnectionFailed, NodeConnectionError.fromValue(error), "onNodeConnectionFailed")
+    fun onNodeConnectionFailed(error : Int) {
+        returnResult(subOnNodeConnectionFailed, NodeConnectionError.fromValue(error), "onNodeConnectionFailed")
+    }
 
     @JvmStatic
     fun onCantSendToExpired() = returnResult(subOnCantSendToExpired, DUMMY_OBJECT, "onCantSendToExpired")
@@ -445,6 +463,18 @@ object WalletListener {
     fun onMaxPrivacyAddress(value: String) {
         LogUtils.logResponse(value, "onMaxPrivacyAddress")
         subOnMaxPrivacyAddress.onNext(value)
+    }
+
+    @JvmStatic
+    fun onRegularAddress(value: String) {
+        LogUtils.logResponse(value, "onRegularAddress")
+        subOnRegularAddress.onNext(value)
+    }
+
+    @JvmStatic
+    fun onOfflineAddress(value: String) {
+        LogUtils.logResponse(value, "onOfflineAddress")
+        subOnOfflineAddress.onNext(value)
     }
 
     @JvmStatic

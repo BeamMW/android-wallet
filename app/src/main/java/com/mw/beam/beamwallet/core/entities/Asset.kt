@@ -1,23 +1,26 @@
 package com.mw.beam.beamwallet.core.entities
 
+import android.os.Parcelable
 import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AssetManager
 import com.mw.beam.beamwallet.core.ExchangeManager
 import com.mw.beam.beamwallet.core.entities.dto.SystemStateDTO
+import kotlinx.android.parcel.Parcelize
 
 
-class Asset(val assetId: Int,
-            var available: Long,
-            var receiving: Long,
-            var sending: Long,
-            var maturing: Long,
-            var shielded: Long,
-            var maxPrivacy: Long,
-            var updateLastTime: Long,
-            var updateDone: Int,
-            var updateTotal: Int,
-            var system: SystemStateDTO) {
+@Parcelize
+data class Asset(val assetId: Int,
+            var available: Long = 0L,
+            var receiving: Long = 0L,
+            var sending: Long = 0L,
+            var maturing: Long = 0L,
+            var shielded: Long = 0L,
+            var maxPrivacy: Long = 0L,
+            var updateLastTime: Long = 0L,
+            var updateDone: Int = 0,
+            var updateTotal: Int = 0,
+            var system: SystemStateDTO = SystemStateDTO("", 0L)) : Parcelable {
 
     var unitName: String = ""
     var nthUnitName: String = ""
@@ -35,7 +38,7 @@ class Asset(val assetId: Int,
     }
 
     fun isBeamX():Boolean {
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET && assetId == 31) {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET && assetId == 3) {
             return true
         }
         else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET && assetId == 12) {

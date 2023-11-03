@@ -27,12 +27,11 @@ import com.mw.beam.beamwallet.base_screen.BaseFragment
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.base_screen.MvpRepository
 import com.mw.beam.beamwallet.base_screen.MvpView
-import com.mw.beam.beamwallet.core.App
-import com.mw.beam.beamwallet.core.AppManager
-import com.mw.beam.beamwallet.core.AssetManager
-import com.mw.beam.beamwallet.core.ExchangeManager
+import com.mw.beam.beamwallet.core.*
 import com.mw.beam.beamwallet.core.entities.Asset
 import com.mw.beam.beamwallet.core.entities.TxDescription
+import com.mw.beam.beamwallet.core.helpers.PreferencesManager
+import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import com.mw.beam.beamwallet.screens.wallet.AssetsAdapter
 import com.mw.beam.beamwallet.screens.wallet.TransactionsAdapter
 
@@ -99,7 +98,23 @@ class AssetDetailFragment : BaseFragment<AssetDetailPresenter>(), AssetDetailCon
             arrayListOf(asset)
         }
 
-        assetsAdapter = AssetsAdapter(requireContext(),list) {}
+        assetsAdapter = AssetsAdapter(requireContext(), list, {
+
+        }, {
+            if (PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)) {
+                AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+            } else {
+                showAlert(
+                    getString(R.string.common_external_link_dialog_message),
+                    getString(R.string.open),
+                    {
+                        AppActivity.self.openExternalLink(AppConfig.buildAssetIdLink(it.assetId))
+                    },
+                    getString(R.string.common_external_link_dialog_title),
+                    getString(R.string.cancel)
+                )
+            }
+        })
         assetsList.layoutManager = LinearLayoutManager(context)
         assetsList.adapter = assetsAdapter
 

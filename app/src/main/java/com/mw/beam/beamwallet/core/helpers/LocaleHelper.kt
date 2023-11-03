@@ -31,19 +31,19 @@ object LocaleHelper {
     private val systemLocale: Locale = getSystemLocale()
 
     val supportedLanguages = listOf(
-            englishLanguage,
-            SupportedLanguage("ru", "Russian", "Русский"),
-            SupportedLanguage("sv", "Swedish", "Svenska"),
-            SupportedLanguage("es", "Spanish", "Español"),
-            SupportedLanguage("tr", "Turkish", "Türk"),
-            SupportedLanguage("vi", "Vietnamese", "Tiếng Việt"),
-            SupportedLanguage("zh", "Chinese", "中文"),
-            SupportedLanguage("fr", "French", "Français"),
-            SupportedLanguage("ja", "Japanese", "日本語"),
-            SupportedLanguage("ko", "Korean", "한국어"),
-            SupportedLanguage("th", "Thai", "ภาษาไทย"),
-            SupportedLanguage("nl", "Dutch", "Nederlands"),
-            SupportedLanguage("fi", "Finnish", "Suomi")
+            englishLanguage
+//            SupportedLanguage("ru", "Russian", "Русский"),
+//            SupportedLanguage("sv", "Swedish", "Svenska"),
+//            SupportedLanguage("es", "Spanish", "Español"),
+//            SupportedLanguage("tr", "Turkish", "Türk"),
+//            SupportedLanguage("vi", "Vietnamese", "Tiếng Việt"),
+//            SupportedLanguage("zh", "Chinese", "中文"),
+//            SupportedLanguage("fr", "French", "Français"),
+//            SupportedLanguage("ja", "Japanese", "日本語"),
+//            SupportedLanguage("ko", "Korean", "한국어"),
+//            SupportedLanguage("th", "Thai", "ภาษาไทย"),
+//            SupportedLanguage("nl", "Dutch", "Nederlands"),
+//            SupportedLanguage("fi", "Finnish", "Suomi")
     )
 
     private var languageCode = enLanguageCode
@@ -55,7 +55,7 @@ object LocaleHelper {
     }
 
     fun loadLocale() {
-        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: "en"
+        languageCode = "en" //PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: "en"
         val isSupportedSavedLanguage = supportedLanguages.any { it.languageCode == languageCode }
 
         if (!isSupportedSavedLanguage) {
@@ -80,8 +80,8 @@ object LocaleHelper {
     object ContextWrapper {
         fun wrap(context: Context?): android.content.ContextWrapper {
             val conf = context?.resources?.configuration
-
             conf?.setLocale(AppConfig.LOCALE)
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 conf?.setLocales(LocaleList(AppConfig.LOCALE).apply { LocaleList.setDefault(this) })
             }

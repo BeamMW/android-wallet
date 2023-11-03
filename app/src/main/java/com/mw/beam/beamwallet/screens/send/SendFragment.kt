@@ -24,6 +24,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
@@ -74,7 +75,7 @@ import com.mw.beam.beamwallet.screens.change_address.ChangeAddressFragment
 import com.mw.beam.beamwallet.screens.qr.ScanQrActivity
 
 import kotlinx.android.synthetic.main.fragment_send.*
-import org.jetbrains.anko.runOnUiThread
+import org.jetbrains.anko.withAlpha
 
 import java.text.NumberFormat
 import java.util.*
@@ -445,7 +446,7 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
         return ignoreAmountWatcher
     }
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi", "ClickableViewAccessibility")
     override fun addListeners() {
         btnFeeKeyboard.setOnClickListener {
             presenter?.onLongPressFee()
@@ -576,13 +577,13 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         animateDropDownIcon(btnExpandCurrency, false)
                     }
                     menu.gravity = Gravity.END;
-
+                    var index = 0
                     AssetManager.instance.filteredAssets.forEach {
                         var name = it.unitName
                         if (name.length > 8) {
                             name = name.substring(0,8) + "..."
                         }
-                        val sb = SpannableString(name)
+                        val sb = SpannableString(name + " " + "(${it.assetId})")
                         if (it.assetId == presenter?.assetId) {
                             sb.setSpan(StyleSpan(Typeface.BOLD), 0, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
                             sb.setSpan(ForegroundColorSpan(requireContext().getColor(R.color.colorAccent)), 0, sb.length, 0)
@@ -590,21 +591,28 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                         else {
                             sb.setSpan(ForegroundColorSpan(Color.WHITE), 0, sb.length, 0)
                         }
-                        val item = menu.menu.add(sb)
+                        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), name.length, sb.length, 0)
+
+                        val item = menu.menu.add(Menu.NONE, index, Menu.NONE, sb)
                         item.setIcon(it.image)
+                        index += 1
                     }
                     menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-                        val title = item.title.toString().replace("...", "")
-                        val asset = AssetManager.instance.getAssetName(title)
-                        val assetId = asset?.assetId ?: 0
+                        val id = item.itemId
+                        val asset = AssetManager.instance.filteredAssets[id]
+                        val assetId = asset.assetId
                         if(presenter?.assetId != assetId) {
                             presenter?.isAllPressed = false
                             amount.setText("")
                         }
                         presenter?.assetId = assetId
 
-                        currency.text = asset?.unitName
-                        currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
+                        currency.text = asset.unitName
+                        currencyImageView.setImageResource(asset.image)
+
+                        val sb = SpannableString(asset.unitName + " " + "(${asset.assetId})")
+                        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset.unitName.length ?: 0, sb.length, 0)
+                        currency.text = sb
 
                         presenter?.onAmountChanged()
                         updateAvailable(AssetManager.instance.getAvailable(assetId))
@@ -698,6 +706,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
         val asset = AssetManager.instance.getAsset(presenter?.assetId ?: 0)
         currency.text = asset?.unitName
+
+        val sb = SpannableString(asset?.unitName + " " + "(${asset?.assetId})")
+        sb.setSpan(ForegroundColorSpan(Color.WHITE.withAlpha(125)), asset?.unitName?.length ?: 0, sb.length, 0)
+        currency.text = sb
+
+
         currencyImageView.setImageResource(asset?.image ?: R.drawable.asset0)
     }
 
@@ -1041,7 +1055,12 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     true
                 }
                 amount + fee > availableAmount && presenter?.assetId == 0 -> {
-                    configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
+                    if (availableAmount == 0L) {
+                        configAmountError(configAmountErrorMessage((availableAmount).convertToAssetString(assetName), isEnablePrivacyMode))
+                    }
+                    else {
+                        configAmountError(configAmountErrorMessage(((availableAmount - (amount + fee)) * -1).convertToAssetString(assetName), isEnablePrivacyMode))
+                    }
                     true
                 }
                 (presenter?.isAllPressed == true && amount > (presenter?.maxSelected ?: 0)
@@ -1072,11 +1091,20 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
 
     @SuppressLint("StringFormatInvalid")
     private fun configAmountErrorMessage(amountString: String, isEnablePrivacyMode: Boolean): String {
+        var assetName = AssetManager.instance.getAsset(presenter?.assetId ?: 0)?.unitName ?: ""
+        if (assetName.length > 15) {
+            assetName = assetName.substring(0,14) + "..."
+        }
+
         return if (isEnablePrivacyMode) {
             getString(R.string.insufficient_funds)
         } else {
             if (presenter?.assetId == 0) {
-               getString(R.string.send_amount_overflow_error, amountString)
+                var max = presenter?.maxSelected ?: 0L
+                if (max < 0) {
+                    max = 0L
+                }
+                getString(R.string.max_funds_error, max.convertToAssetString(assetName))
             }
             else {
                 val beamsAvailable = AssetManager.instance.getAvailable(0)
@@ -1090,7 +1118,8 @@ class SendFragment : BaseFragment<SendPresenter>(), SendContract.View {
                     getString(R.string.send_amount_overflow_error, left.convertToBeamString())
                 }
                 else {
-                  getString(R.string.send_amount_overflow_error, amountString)
+                    val max = presenter?.maxSelected ?: 0L
+                    getString(R.string.max_funds_error, max.convertToAssetString(assetName))
                 }
             }
         }

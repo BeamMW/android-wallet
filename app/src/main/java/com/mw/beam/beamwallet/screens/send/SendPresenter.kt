@@ -310,14 +310,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     }
                     else {
                         saveAddress()
-                        view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
+                        view?.showConfirmTransaction(state.outgoingAddress?.id ?: "", token, comment, amount.convertToGroth(), fee)
                     }
                 }
                 else {
-                    if (state.outgoingAddress != null) {
-                        saveAddress()
-                        view?.showConfirmTransaction(state.outgoingAddress!!.id, token, comment, amount.convertToGroth(), fee)
-                    }
+                    saveAddress()
+                    view?.showConfirmTransaction(state.outgoingAddress?.id ?: "", token, comment, amount.convertToGroth(), fee)
                 }
             }
         }
