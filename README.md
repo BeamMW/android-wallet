@@ -4,7 +4,7 @@
 
 Beam wallet app for Android allows you to confidentially exchange funds anywhere you are.
 
-Read documentation [here](https://documentation.beam.mw).
+Read documentation [here](https://beam.mw/docs/mobile).
 
 Things that make BEAM special include:
 
