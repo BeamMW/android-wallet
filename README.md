@@ -36,4 +36,4 @@ Mainnet is released
 # Build status
 
 # Support
-Android Beam Wallet is currently in Mainnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via [Telegram](https://t.me/joinchat/DNuv_REgViDpHhj3U7ylxA)
+Android Beam Wallet is currently in Mainnet In case you encounter any problem, please open a GitHub ticket at https://github.com/BeamMW/android-wallet/issues, or email us at testnet@beam.mw, or communicate via [Telegram](https://t.me/beamdevsupport)
