@@ -17,16 +17,12 @@ Things that make BEAM special include:
 
 
 # Roadmap
-- February-March 2019    : Testnet Betas
-- March 2019       : Mainnet release
+- February-March 2019 : Testnet Betas
+- March 2019          : Mainnet release
 
-# Current status
-Mainnet is released
 
 # Known limitations and workarounds:
 - When sending beams from mobile to desktop wallet, the QR code scanning works from desktop wallet version 2.0
-- The app will always choose a random node to connect to; connecting to specific node will be added later.
-- Restore flow (which requires integrated or dedicated node) is currently implemented on desktop only, hence to restore mobile funds use desktop wallet with the same seed the mobile wallet was created with.
 - In case the user has both mobile and a desktop wallets which are using the same seed phrase, the funds sent to the desktop wallet won’t appear on the mobile wallet. If the desktop wallet is running a local node, it will see funds sent to both wallets. The reason is that the local node (integrated into desktop wallet) always monitors the blockchain for UTXOs related to the seed of the wallet. The mobile wallet does not run a local node and thus can only monitor transactions sent to its specific SBBS addresses. Of course, no funds will be lost in any event.
 - If multiple wallets are restored from the same seed phrase, transaction history and addresses will not be shared among the wallets.
 
