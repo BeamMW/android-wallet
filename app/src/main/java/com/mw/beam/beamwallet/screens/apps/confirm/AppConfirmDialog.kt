@@ -49,6 +49,7 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private var sendFee = 0L
     private var isSpend = false
     private var amountsList = listOf<DAOAmount>()
+    private var consentDetails: DAOInfo? = null
 
     override var isMatchParent: Boolean
         get() = false
@@ -148,6 +149,7 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         val infoToken: TypeToken<DAOInfo> = object : TypeToken<DAOInfo>() {}
         val amounts = gson.fromJson(info.amounts, amountToken.type) as List<DAOAmount>
         val details = gson.fromJson(info.info, infoToken.type) as DAOInfo
+        consentDetails = details
 
         val fee = (details.fee ?: "0").toDouble()
         val amount = (amounts[0].amount ?: "0").toDouble()
@@ -227,14 +229,16 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private fun checkAmount():Boolean {
         if (isSpend) {
             var isOK = true
+            val sourceAssetId = consentDetails?.sourceAssetId
             amountsList.forEach { a->
-                val assetId = a.assetID ?: 0
-                val available = AssetManager.instance.getAvailable(assetId)
+                // Use source asset for balance check (wallet debits source); amount.assetID may be target.
+                val assetIdForBalance = (if (a.spend == true) sourceAssetId else null) ?: a.assetID ?: 0
+                val available = AssetManager.instance.getAvailable(assetIdForBalance)
                 val availableFee = AssetManager.instance.getAvailable(0)
                 val amount = (a.amount ?: "0").toDouble()
                 val amountLong = amount.convertToGroth()
 
-                if (assetId == 0) {
+                if (assetIdForBalance == 0) {
                     val totalSend = sendFee + amountLong
                     if (available < totalSend) {
                         hintLabel.visibility = View.GONE
