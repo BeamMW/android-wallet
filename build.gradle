@@ -33,7 +33,9 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts (#648)
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:${ver_gradle}"
@@ -51,7 +53,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
+        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts (#648)
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://jitpack.io' }
     }
 }

@@ -228,13 +228,17 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         if (isSpend) {
             var isOK = true
             amountsList.forEach { a->
-                val assetId = a.assetID ?: 0
-                val available = AssetManager.instance.getAvailable(assetId)
+                // Only spend legs debit the wallet. In a swap the receive leg carries the
+                // target asset, which the wallet doesn't hold yet — checking its balance
+                // made "not enough funds" always fire (#653).
+                if (a.spend == false) return@forEach
+                val assetIdForBalance = a.assetID ?: 0
+                val available = AssetManager.instance.getAvailable(assetIdForBalance)
                 val availableFee = AssetManager.instance.getAvailable(0)
                 val amount = (a.amount ?: "0").toDouble()
                 val amountLong = amount.convertToGroth()
 
-                if (assetId == 0) {
+                if (assetIdForBalance == 0) {
                     val totalSend = sendFee + amountLong
                     if (available < totalSend) {
                         hintLabel.visibility = View.GONE
@@ -304,7 +308,9 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             var amountSecondLabel: TextView? = null
             var amountIdLabel: TextView? = null
             var assetIcon: ImageView? = null
-            val assetValue = Asset(assetId)
+            // Icon must follow this row's asset, not the dialog-level assetId (= amounts[0]),
+            // otherwise both legs of a swap show the first asset's icon.
+            val assetValue = Asset(asset)
 
             if (index == 0) {
                 assetLayout1.visibility = View.VISIBLE

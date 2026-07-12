@@ -212,9 +212,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:$ver_leak_canary"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$ver_leak_canary"
-    debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$ver_leak_canary"
+    // LeakCanary 1.x removed: its DisplayLeakActivity lacks android:exported, which
+    // blocks installs on API 31+ (INSTALL_PARSE_FAILED_MANIFEST_MALFORMED). No code usage.
     implementation "com.google.code.gson:gson:$ver_gson"
     implementation 'androidx.core:core-ktx:1.0.1'
     implementation "org.jetbrains.anko:anko-commons:0.10.4"
