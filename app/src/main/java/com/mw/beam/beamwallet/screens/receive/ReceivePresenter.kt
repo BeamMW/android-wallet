@@ -279,11 +279,10 @@ class ReceivePresenter(currentView: ReceiveContract.View, currentRepository: Rec
         }
 
         if (state.address == null) {
-            val amount = view?.getAmount()?.convertToGroth() ?: 0L
-            val assetId = view?.getAssetId() ?: 0
-            AppManager.instance.wallet?.generateRegularAddress(amount, assetId)
-
-//            AppManager.instance.wallet?.generateNewAddress()
+            // generateNewAddress() mints and persists a fresh address per call, delivered
+            // via subOnAddressCreated. generateRegularAddress() re-tokenises the persisted
+            // default instead, so it returned the same address on every open.
+            AppManager.instance.wallet?.generateNewAddress()
         }
     }
 
