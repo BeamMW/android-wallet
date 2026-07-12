@@ -975,34 +975,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
     }
 
     override fun showReceiveFaucet() {
-        val allow = PreferencesManager.getBoolean(PreferencesManager.KEY_ALWAYS_OPEN_LINK)
-
-        if (allow) {
-            presenter?.generateFaucetAddress()
-        }
-        else{
-            showAlert(
-                    getString(R.string.common_external_link_dialog_message),
-                    getString(R.string.open),
-                    {  presenter?.generateFaucetAddress() },
-                    getString(R.string.common_external_link_dialog_title),
-                    getString(R.string.cancel)
-            )
-        }
-    }
-
-    override fun onFaucetAddressGenerated(link: String) {
-        blurView.visibility = View.VISIBLE
-
-        jp.wasabeef.blurry.Blurry.with(context).capture(view).into(blurView)
-
-        val dialog = TimerOverlayDialog.newInstance {
-            blurView.visibility = View.GONE
-            if(it) {
-                openExternalLink(link)
-            }
-        }
-        dialog.show(activity?.supportFragmentManager!!, TimerOverlayDialog.getFragmentTag())
+        // The old web faucet (faucet.beamprivacy.community) is gone; open the
+        // BEAM Faucet dApp in the in-app browser instead.
+        findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToAppDetailFragment(DAOManager.getFaucetApp()))
     }
 
     private fun isEnableFingerprint(): Boolean {

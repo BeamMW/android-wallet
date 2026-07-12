@@ -51,7 +51,6 @@ interface WalletContract {
         fun showFaucet(show:Boolean)
         fun showSecure(show:Boolean)
         fun showReceiveFaucet()
-        fun onFaucetAddressGenerated(link:String)
         fun showSeedScreen()
     }
 
@@ -66,7 +65,6 @@ interface WalletContract {
         fun onShowAllPressed()
         fun onShowAllAssetsPressed()
         fun onReceiveFaucet()
-        fun generateFaucetAddress()
         fun onSecure()
     }
 

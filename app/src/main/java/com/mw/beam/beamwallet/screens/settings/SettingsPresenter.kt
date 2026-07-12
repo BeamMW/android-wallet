@@ -40,7 +40,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         SAVE, SHARE
     }
 
-    private lateinit var faucetGeneratedSubscription: Disposable
     private lateinit var exportDataSubscription: Disposable
     private lateinit var importDataSubscription: Disposable
     private lateinit var reconnectedSubscription: Disposable
@@ -66,18 +65,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
 
         reconnectedSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe() {
             view?.onReconnected()
-        }
-
-        faucetGeneratedSubscription = AppManager.instance.subOnFaucedGenerated.subscribe(){
-            AppActivity.self.runOnUiThread {
-                val link =  when (BuildConfig.FLAVOR) {
-                    AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
-                    AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
-                    else -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
-                }
-
-                view?.onFaucetAddressGenerated(link)
-            }
         }
 
         exportDataSubscription = WalletListener.subOnDataExported.subscribe {
@@ -350,10 +337,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         view?.navigateToPaymentProof()
     }
 
-    override fun generateFaucetAddress() {
-        AppManager.instance.createAddressForFaucet()
-    }
-
     override fun onDialogClosePressed() {
         view?.closeDialog()
     }
@@ -424,5 +407,5 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
 
-    override fun getSubscriptions(): Array<Disposable>? = arrayOf(faucetGeneratedSubscription,exportDataSubscription, importDataSubscription, reconnectedSubscription, walletStatusSubscription)
+    override fun getSubscriptions(): Array<Disposable>? = arrayOf(exportDataSubscription, importDataSubscription, reconnectedSubscription, walletStatusSubscription)
 }

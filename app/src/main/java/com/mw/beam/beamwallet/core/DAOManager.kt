@@ -54,6 +54,20 @@ object DAOManager {
         queue.add(stringRequest)
     }
 
+    fun getFaucetApp():DAOApp {
+        apps.firstOrNull { (it.name ?: "").contains("faucet", true) }?.let {
+            return it
+        }
+
+        val url = when (BuildConfig.FLAVOR) {
+            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/plugin-faucet/index.html"
+            AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/app/plugin-faucet/index.html"
+            else -> ""
+        }
+
+        return DAOApp("BEAM Faucet","",url,"", "", "", true)
+    }
+
     fun getDaoVotingApp():DAOApp {
         val url = when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/dao-voting-app/index.html"
