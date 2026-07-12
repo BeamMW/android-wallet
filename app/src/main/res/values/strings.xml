@@ -772,7 +772,8 @@ address or contact</string>
     <string name="search_by_section_name_or_parameter">Search by section name or parameter</string>
     <string name="there_are_no_results_matching_search_criteria">There are no results\nmatching search criteria</string>
 
-    <string name="sbbs_address_new">SBBS ADDRESS\n(use for CEX withdrawals)</string>
+    <string name="sbbs_address_new">SBBS ADDRESS\n(use for CEX withdrawals and mining)</string>
+    <string name="sbbs_address_hint">use for CEX withdrawals and mining</string>
 
 </resources>
 

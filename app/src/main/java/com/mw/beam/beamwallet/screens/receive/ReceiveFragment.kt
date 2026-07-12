@@ -133,12 +133,14 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
             maxPrivacyAddress = walletAddress.tokenMaxPrivacy
 
             if (transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-                addressHintLabel.visibility = View.GONE
                 if (!AppManager.instance.isMaxPrivacyEnabled()) {
                     addressLabel.text = walletAddress.address.trimAddress()
+                    addressHintLabel.text = getString(R.string.sbbs_address_hint)
+                    addressHintLabel.visibility = View.VISIBLE
                 }
                 else {
                     addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                    addressHintLabel.visibility = View.GONE
                 }
             }
             else {
@@ -156,15 +158,17 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         txComment.setText(walletAddress.label)
 
         if(transaction == ReceivePresenter.TransactionTypeOptions.REGULAR) {
-            addressHintLabel.visibility = View.GONE
             switchView.isChecked = false
             addressTitle.text = resources.getString(R.string.address).toUpperCase()
             receiveDescription.text = resources.getString(R.string.receive_description)
             if (!AppManager.instance.isMaxPrivacyEnabled()) {
                 addressLabel.text = walletAddress.address.trimAddress()
+                addressHintLabel.text = getString(R.string.sbbs_address_hint)
+                addressHintLabel.visibility = View.VISIBLE
             }
             else {
                 addressLabel.text = walletAddress.tokenOffline.trimAddress()
+                addressHintLabel.visibility = View.GONE
             }
         }
         else {
