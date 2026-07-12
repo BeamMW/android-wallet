@@ -24,7 +24,7 @@ class SaveAddressRepository: BaseRepository(), SaveAddressContract.Repository {
     override fun saveAddress(address: WalletAddress, own: Boolean) {
         getResult("updateAddress") {
             val dto = address.toDTO()
-            val name = dto.label
+            val name = dto.label ?: ""
             val tmpAddress = AppManager.instance.getAddress(address.id)
             if(tmpAddress==null) {
                 wallet?.saveAddress(dto, own)
