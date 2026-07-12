@@ -164,7 +164,7 @@ class WalletPresenter(currentView: WalletContract.View, currentRepository: Walle
               val link =  when (BuildConfig.FLAVOR) {
                   AppConfig.FLAVOR_MAINNET -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
                   AppConfig.FLAVOR_TESTNET -> "https://faucet.beamprivacy.community/?address=$it&type=testnet&redirectUri=app://open.testnet.app"
-                  else -> "https://faucet.beamprivacy.community/?address=$it&type=masternet&redirectUri=app://open.master.app"
+                  else -> "https://faucet.beamprivacy.community/?address=$it&type=mainnet&redirectUri=app://open.mainnet.app"
               }
               view?.onFaucetAddressGenerated(link)
           }

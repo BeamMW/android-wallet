@@ -38,10 +38,7 @@ data class Asset(val assetId: Int,
     }
 
     fun isBeamX():Boolean {
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET && assetId == 3) {
-            return true
-        }
-        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET && assetId == 12) {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET && assetId == 12) {
             return true
         }
         else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MAINNET && assetId == 7) {
@@ -77,7 +74,6 @@ data class Asset(val assetId: Int,
 
     fun blockChainUrl():String {
         return when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> "https://master-net.explorer.beam.mw/assets/details/${assetId}"
             AppConfig.FLAVOR_TESTNET -> "https://testnet.explorer.beam.mw/assets/details/${assetId}"
             else -> "https://explorer.beam.mw/assets/details/${assetId}"
         }

@@ -110,13 +110,11 @@ class App : Application() {
         })
 
         when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> AppConfig.EXPLORER_PREFIX = AppConfig.MASTERNET_EXPLORER_PREFIX
             AppConfig.FLAVOR_TESTNET -> AppConfig.EXPLORER_PREFIX = AppConfig.TESTNET_EXPLORER_PREFIX
         }
 
         AppConfig.FORK_HEIGHT = when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MAINNET -> AppConfig.MAINNET_FORK_HEIGHT
-            AppConfig.FLAVOR_MASTERNET -> AppConfig.MASTERNET_FORK_HEIGHT
             AppConfig.FLAVOR_TESTNET -> AppConfig.TESTNET_FORK_HEIGHT
             else -> 0
         }

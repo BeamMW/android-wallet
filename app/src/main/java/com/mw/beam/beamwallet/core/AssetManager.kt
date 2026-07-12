@@ -100,10 +100,7 @@ class AssetManager {
         assets.add(assetBeam)
 
         var assetId = 7
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
-            assetId = 31
-        }
-        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
             assetId = 12
         }
 
@@ -123,10 +120,7 @@ class AssetManager {
 
     fun beamXId():Int {
         var assetId = 7
-        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_MASTERNET) {
-            assetId = 31
-        }
-        else if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
+        if (BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET) {
             assetId = 12
         }
         return assetId

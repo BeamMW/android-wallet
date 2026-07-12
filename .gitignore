@@ -4,7 +4,6 @@
 .gradle/
 /build
 /app/release
-/app/masternet
 /app/beamtestnet
 /app/mainnet
 /local.properties

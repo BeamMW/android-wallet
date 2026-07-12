@@ -80,11 +80,6 @@ android {
             applicationIdSuffix ".mainnet"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-mainnet.pro'
         }
-        masternet {
-            dimension "api"
-            applicationIdSuffix ".masternet"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-masternet.pro'
-        }
         beamtestnet {
             dimension "api"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-testnet.pro'
@@ -134,28 +129,11 @@ repositories {
 
 
 tasks.whenTaskAdded { task ->
-    if (task.name == 'assembleMasternetDebug' || task.name == 'assembleMasternetRelease') {
-//        task.dependsOn updateMasternetLibs
-    }
     if (task.name == 'assembleBeamtestnetDebug' || task.name == 'assembleBeamtestnetRelease') {
 //        task.dependsOn updateTestnetLibs
     }
     if (task.name == 'assembleMainnetDebug' || task.name == 'assembleMainnetRelease') {
         //  task.dependsOn updateMainnetLibs
-    }
-}
-
-task updateMasternetLibs(type: Exec) {
-    doFirst {
-        workingDir "$rootDir"
-        if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-            //  commandLine 'cmd', '/c', file("$rootDir/android-wallet-masternet.bat").absolutePath
-        } else {
-            exec {
-                commandLine 'chmod', '+x', file("$rootDir/android-wallet-masternet.sh").absolutePath
-            }
-            commandLine "$rootDir/android-wallet-masternet.sh"
-        }
     }
 }
 

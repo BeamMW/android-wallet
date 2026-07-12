@@ -59,9 +59,6 @@ class WelcomeRestoreFragment : BaseFragment<WelcomeRestorePresenter>(), WelcomeR
         btnNext.isEnabled = false
 
         when(BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_MASTERNET -> {
-                btnShare.visibility = View.VISIBLE
-            }
             AppConfig.FLAVOR_TESTNET -> {
                 btnShare.visibility = View.VISIBLE
             }

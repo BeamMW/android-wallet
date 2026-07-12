@@ -26,10 +26,8 @@ object AppConfig {
     const val APP_TAG = "BeamWallet"
     const val APP_VERSION = "version: ${BuildConfig.VERSION_NAME}.00" //code: ${BuildConfig.VERSION_CODE}
     const val FLAVOR_MAINNET = "mainnet"
-    const val FLAVOR_MASTERNET = "masternet"
     const val FLAVOR_TESTNET = "beamtestnet"
     const val MAINNET_FORK_HEIGHT = 321321
-    const val MASTERNET_FORK_HEIGHT = 199403
     const val TESTNET_FORK_HEIGHT = 270910
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
     const val SHARE_TYPE = "application/zip"
@@ -42,7 +40,6 @@ object AppConfig {
     const val NODE_JOURNAL_FILE_NAME_RECOVER = "node.db-journal_recover"
     const val BEAM_SITE_LINK = "https://www.beam.mw/"
     const val BEAM_EXCHANGES_LINK = "$BEAM_SITE_LINK#exchanges"
-    const val MASTERNET_EXPLORER_PREFIX = "master-net."
     const val TESTNET_EXPLORER_PREFIX = "testnet."
     var EXPLORER_PREFIX = ""
     var NODE_ADDRESS = ""
