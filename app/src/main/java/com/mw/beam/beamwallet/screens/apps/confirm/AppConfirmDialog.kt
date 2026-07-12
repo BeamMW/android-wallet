@@ -49,7 +49,6 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private var sendFee = 0L
     private var isSpend = false
     private var amountsList = listOf<DAOAmount>()
-    private var consentDetails: DAOInfo? = null
 
     override var isMatchParent: Boolean
         get() = false
@@ -149,7 +148,6 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
         val infoToken: TypeToken<DAOInfo> = object : TypeToken<DAOInfo>() {}
         val amounts = gson.fromJson(info.amounts, amountToken.type) as List<DAOAmount>
         val details = gson.fromJson(info.info, infoToken.type) as DAOInfo
-        consentDetails = details
 
         val fee = (details.fee ?: "0").toDouble()
         val amount = (amounts[0].amount ?: "0").toDouble()
@@ -229,10 +227,12 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private fun checkAmount():Boolean {
         if (isSpend) {
             var isOK = true
-            val sourceAssetId = consentDetails?.sourceAssetId
             amountsList.forEach { a->
-                // Use source asset for balance check (wallet debits source); amount.assetID may be target.
-                val assetIdForBalance = (if (a.spend == true) sourceAssetId else null) ?: a.assetID ?: 0
+                // Only spend legs debit the wallet. In a swap the receive leg carries the
+                // target asset, which the wallet doesn't hold yet — checking its balance
+                // made "not enough funds" always fire (#653).
+                if (a.spend == false) return@forEach
+                val assetIdForBalance = a.assetID ?: 0
                 val available = AssetManager.instance.getAvailable(assetIdForBalance)
                 val availableFee = AssetManager.instance.getAvailable(0)
                 val amount = (a.amount ?: "0").toDouble()
@@ -308,7 +308,9 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             var amountSecondLabel: TextView? = null
             var amountIdLabel: TextView? = null
             var assetIcon: ImageView? = null
-            val assetValue = Asset(assetId)
+            // Icon must follow this row's asset, not the dialog-level assetId (= amounts[0]),
+            // otherwise both legs of a swap show the first asset's icon.
+            val assetValue = Asset(asset)
 
             if (index == 0) {
                 assetLayout1.visibility = View.VISIBLE
