@@ -365,7 +365,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
-    <string name="receive_description">Sender will be given a choice between regular and offline payment.\n\nFor online payment to complete, you should get online during 12 hours after coins are sent.</string>
+    <string name="receive_description">Sender will be given a choice between online and offline payment.\n\nFor online payment to complete, you will need to open and connect your wallet sometime within 12 hours after the coins are sent.</string>
     <string name="search_by_address_tag_or_name">Search by name or paste address</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -639,7 +639,7 @@ address or contact</string>
     <string name="transaction_time">Transaction can last at most %s.</string>
     <string name="online_new_status">random node supports online transactions only</string>
     <string name="remote_node_hint">To support maximum anonymity set and offline transactions please connect to mobile node or own node configured with your owner key.</string>
-    <string name="receive_description_2">For online payment to complete, you should get online during 12 hours after coins are sent.</string>
+    <string name="receive_description_2">For online payment to complete, you will need to open and connect your wallet sometime within 12 hours after the coins are sent.</string>
     <string name="only_online_support">You are currently connected to the node\nthat supports only online transactions.</string>
     <string name="max_funds_error">Insufficient funds to complete the transaction. Maximum amount is %s.</string>
     <string name="max_funds_hint">Maximum amount is %s</string>
