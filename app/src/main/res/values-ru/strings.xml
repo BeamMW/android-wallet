@@ -315,7 +315,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Сохранить адрес</string>
     <string name="dont_save">Не сохранять</string>
     <string name="save_changes">Сохранить изменения</string>
-    <string name="receive_description">Для завершения транзакции вы должны быть онлайн в течение 12 часов после отправки.</string>
+    <string name="receive_description">Отправитель сможет выбрать между онлайн- и офлайн-платежом.\n\nДля завершения онлайн-платежа вам потребуется открыть и подключить кошелек в течение 12 часов после отправки монет.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Удалить все транзакции, связанные с этим адресом</string>
@@ -511,4 +511,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Для завершения онлайн-платежа вам потребуется открыть и подключить кошелек в течение 12 часов после отправки монет.</string>
+    <string name="sbbs_address_new">SBBS-АДРЕС
+(используется для вывода средств с CEX-бирж и майнинга)</string>
+    <string name="sbbs_address_hint">используется для вывода средств с CEX-бирж и майнинга</string>
 </resources>

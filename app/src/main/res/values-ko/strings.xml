@@ -313,7 +313,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">주소 저장</string>
     <string name="dont_save">저장하지 않기</string>
     <string name="save_changes">변경 저장</string>
-    <string name="receive_description">거래를 완료하기 위해서는, Beam 을 보낸 후 12시간 동안 온라인 상태이어야 합니다.</string>
+    <string name="receive_description">보내는 사람은 온라인 결제와 오프라인 결제 중에서 선택할 수 있습니다.\n\n온라인 결제를 완료하려면 Beam이 전송된 후 12시간 이내에 지갑을 열고 연결해야 합니다.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">해당 주소와 연관된 거래 모두 삭제하기</string>
@@ -509,4 +509,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">온라인 결제를 완료하려면 Beam이 전송된 후 12시간 이내에 지갑을 열고 연결해야 합니다.</string>
+    <string name="sbbs_address_new">SBBS 주소
+(CEX 출금 및 채굴용)</string>
+    <string name="sbbs_address_hint">CEX 출금 및 채굴용</string>
 </resources>

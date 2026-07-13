@@ -313,7 +313,7 @@ Denna adress finns redan</string>
     <string name="save_address">Spara adress</string>
     <string name="dont_save">Spara inte</string>
     <string name="save_changes">Spara ändringar</string>
-    <string name="receive_description">För att transaktionen ska lyckas måste plånboken vara online inom 12 timmar efter Beam har skickats.</string>
+    <string name="receive_description">Sändaren får välja mellan online- och offline-betalning.\n\nFör att online-betalningen ska slutföras måste du öppna och ansluta din plånbok någon gång inom 12 timmar efter att Beam har skickats.</string>
     <string name="search_by_address_tag_or_name">Klistra in adress eller sök efter adress, tagg eller namn</string>
     <string name="min_fee_error">Mynt valdes automatiskt för att maximera sekretess och minsta transaktionsavgift på %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Ta bort alla transaktioner som är kopplade till denna adress</string>
@@ -509,4 +509,8 @@ Denna adress finns redan</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">För att online-betalningen ska slutföras måste du öppna och ansluta din plånbok någon gång inom 12 timmar efter att Beam har skickats.</string>
+    <string name="sbbs_address_new">SBBS ADRESS
+(används för CEX-uttag och mining)</string>
+    <string name="sbbs_address_hint">används för CEX-uttag och mining</string>
 </resources>

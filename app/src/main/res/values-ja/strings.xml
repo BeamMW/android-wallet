@@ -314,7 +314,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">アドレスを保存</string>
     <string name="dont_save">保存しない</string>
     <string name="save_changes">変更を保存</string>
-    <string name="receive_description">トランザクションを完了する為に、Beamを送信した後12時間オンラインでいてください</string>
+    <string name="receive_description">送信者はオンライン支払いとオフライン支払いのいずれかを選択できます。\n\nオンライン支払いを完了するには、Beamが送信されてから12時間以内にウォレットを開いて接続する必要があります。</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">このアドレスに関連する全てのトランザクションを削除</string>
@@ -511,4 +511,8 @@ address or contact</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">オンライン支払いを完了するには、Beamが送信されてから12時間以内にウォレットを開いて接続する必要があります。</string>
+    <string name="sbbs_address_new">SBBSアドレス
+（CEXの出金とマイニングに使用）</string>
+    <string name="sbbs_address_hint">CEXの出金とマイニングに使用</string>
 </resources>

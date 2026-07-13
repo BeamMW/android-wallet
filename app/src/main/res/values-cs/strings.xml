@@ -312,7 +312,7 @@
     <string name="save_address">Uložit adresu</string>
     <string name="dont_save">Neukládat</string>
     <string name="save_changes">Uložit změny</string>
-    <string name="receive_description">Pro dokončení transakce byste měli být online během 12 hodin po odeslání.</string>
+    <string name="receive_description">Odesílatel bude mít na výběr mezi online a offline platbou.\n\nAby se online platba dokončila, budete muset otevřít a připojit peněženku někdy během 12 hodin po odeslání mincí.</string>
     <string name="search_by_address_tag_or_name">Vložit adresu nebo vyhledat podle adresy, štítku nebo jména</string>
     <string name="min_fee_error">Mince byly automaticky vybrány pro platby s maximální ochranou soukromí a minimální transakční poplatek ve výši %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Odstranit všechny transakce související s touto adresou</string>
@@ -509,4 +509,8 @@ adresy nebo kontaktu</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Aby se online platba dokončila, budete muset otevřít a připojit peněženku někdy během 12 hodin po odeslání mincí.</string>
+    <string name="sbbs_address_new">SBBS ADRESA
+(použijte pro výběry z CEX burz a těžbu)</string>
+    <string name="sbbs_address_hint">použijte pro výběry z CEX burz a těžbu</string>
 </resources>

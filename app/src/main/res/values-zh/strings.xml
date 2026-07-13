@@ -328,7 +328,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">保存地址</string>
     <string name="dont_save">不保存</string>
     <string name="save_changes">保存修改</string>
-    <string name="receive_description">为使交易顺利完成，您需要在支付完Beam后12小时内上线同步钱包</string>
+    <string name="receive_description">付款方可以选择在线付款或离线付款。\n\n若要完成在线付款，您需要在Beam发送后的12小时内打开并连接您的钱包。</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">删除与该地址有关的所有交易</string>
@@ -530,4 +530,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">若要完成在线付款，您需要在Beam发送后的12小时内打开并连接您的钱包。</string>
+    <string name="sbbs_address_new">SBBS地址
+（用于CEX提现和挖矿）</string>
+    <string name="sbbs_address_hint">用于CEX提现和挖矿</string>
 </resources>

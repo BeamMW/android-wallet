@@ -315,7 +315,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Save address</string>
     <string name="dont_save">Don’t save</string>
     <string name="save_changes">Save changes</string>
-    <string name="receive_description">For the transaction to complete, you should get online during the 12 hours after Beams are sent.</string>
+    <string name="receive_description">Адпраўнік зможа выбраць паміж анлайн- і афлайн-плацяжом.\n\nКаб анлайн-плацёж завяршыўся, вам трэба будзе адкрыць і падключыць кашалёк на працягу 12 гадзін пасля адпраўкі манет.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Delete all transactions related to this address</string>
@@ -512,4 +512,8 @@ address or contact</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Каб анлайн-плацёж завяршыўся, вам трэба будзе адкрыць і падключыць кашалёк на працягу 12 гадзін пасля адпраўкі манет.</string>
+    <string name="sbbs_address_new">SBBS-АДРАС
+(выкарыстоўваецца для вываду сродкаў з CEX-біржаў і майнінгу)</string>
+    <string name="sbbs_address_hint">выкарыстоўваецца для вываду сродкаў з CEX-біржаў і майнінгу</string>
 </resources>

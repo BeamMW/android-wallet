@@ -317,7 +317,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Salvar dirección</string>
     <string name="dont_save">No guardar</string>
     <string name="save_changes">Salvar cambios</string>
-    <string name="receive_description">Para que la transacción se complete, debe conectarse durante las 12 horas posteriores al envío de los Beams.</string>
+    <string name="receive_description">El remitente podrá elegir entre un pago en línea y fuera de línea.\n\nPara que el pago en línea se complete, deberá abrir y conectar su wallet dentro de las 12 horas posteriores al envío de los Beams.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Eliminar todas las transacciones relacionadas con esta dirección</string>
@@ -514,4 +514,8 @@ dirección o contacto</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Para que el pago en línea se complete, deberá abrir y conectar su wallet dentro de las 12 horas posteriores al envío de los Beams.</string>
+    <string name="sbbs_address_new">DIRECCIÓN SBBS
+(usar para retiros de CEX y minería)</string>
+    <string name="sbbs_address_hint">usar para retiros de CEX y minería</string>
 </resources>

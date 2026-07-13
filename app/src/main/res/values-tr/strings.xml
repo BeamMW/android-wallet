@@ -316,7 +316,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Adresi kaydet</string>
     <string name="dont_save">Kaydetme</string>
     <string name="save_changes">Değişiklikleri kaydedin</string>
-    <string name="receive_description">İşlemin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde çevrimiçi olmalısınız.</string>
+    <string name="receive_description">Gönderici, çevrimiçi ve çevrimdışı ödeme arasında seçim yapabilir.\n\nÇevrimiçi ödemenin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde herhangi bir zamanda cüzdanınızı açıp bağlamanız gerekir.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Bu adresle ilintili tüm işlemleri sil</string>
@@ -513,4 +513,8 @@ address or contact</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Çevrimiçi ödemenin tamamlanması için, Beam\'ler gönderildikten sonraki 12 saat içinde herhangi bir zamanda cüzdanınızı açıp bağlamanız gerekir.</string>
+    <string name="sbbs_address_new">SBBS ADRESİ
+(CEX çekimleri ve madencilik için kullanın)</string>
+    <string name="sbbs_address_hint">CEX çekimleri ve madencilik için kullanın</string>
 </resources>

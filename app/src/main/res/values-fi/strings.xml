@@ -315,7 +315,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Tallenna osoite</string>
     <string name="dont_save">Älä tallenna</string>
     <string name="save_changes">Tallenna muutokset</string>
-    <string name="receive_description">Jotta maksutapahtuma onnistuu, tulee sinun avata lompakkosi 12 tunnin sisällä lähetyksestä.</string>
+    <string name="receive_description">Lähettäjä voi valita online- ja offline-maksun välillä.\n\nJotta online-maksu onnistuu, tulee sinun avata ja yhdistää lompakkosi 12 tunnin sisällä Beamien lähettämisestä.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Poista kaikki tapahtumat, jotka liittyvät tähän osoitteeseen</string>
@@ -512,4 +512,8 @@ osoitteella tai yhteystiedolla</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Jotta online-maksu onnistuu, tulee sinun avata ja yhdistää lompakkosi 12 tunnin sisällä Beamien lähettämisestä.</string>
+    <string name="sbbs_address_new">SBBS-OSOITE
+(käytä CEX-nostoihin ja louhintaan)</string>
+    <string name="sbbs_address_hint">käytä CEX-nostoihin ja louhintaan</string>
 </resources>

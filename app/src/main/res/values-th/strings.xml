@@ -315,7 +315,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">บันทึกที่อยู่</string>
     <string name="dont_save">ไม่ต้องบันทึก</string>
     <string name="save_changes">บันทึกการเปลี่ยนแปลง</string>
-    <string name="receive_description">เพื่อให้การทำธุรกรรมเสร็จสมบูรณ์ คุณควรจะออนไลน์ระหว่าง 12 ชั่วโมงหลังจากที่ได้ทำการสั่งโอน Beam ออกไป</string>
+    <string name="receive_description">ผู้โอนจะสามารถเลือกระหว่างการชำระเงินแบบออนไลน์และแบบออฟไลน์\n\nเพื่อให้การชำระเงินแบบออนไลน์เสร็จสมบูรณ์ คุณจะต้องเปิดและเชื่อมต่อกระเป๋าของคุณภายใน 12 ชั่วโมงหลังจากที่ส่ง Beam ออกไป</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">ลบรายการธุรกรรมทั้งหมดที่เกี่ยวข้องกับที่อยู่นี้</string>
@@ -513,4 +513,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">เพื่อให้การชำระเงินแบบออนไลน์เสร็จสมบูรณ์ คุณจะต้องเปิดและเชื่อมต่อกระเป๋าของคุณภายใน 12 ชั่วโมงหลังจากที่ส่ง Beam ออกไป</string>
+    <string name="sbbs_address_new">ที่อยู่ SBBS
+(ใช้สำหรับการถอนจาก CEX และการขุด)</string>
+    <string name="sbbs_address_hint">ใช้สำหรับการถอนจาก CEX และการขุด</string>
 </resources>

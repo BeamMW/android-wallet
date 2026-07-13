@@ -315,7 +315,7 @@ U moet de 2-stapsverificatie (wachtwoord opgeven en gezichtsherkenning gebruiken
     <string name="save_address">Adres opslaan</string>
     <string name="dont_save">Niet opslaan</string>
     <string name="save_changes">Wijzigingen opslaan</string>
-    <string name="receive_description">Om de transactie te voltooien moet u binnen 12 uur nadat de Beam\'s zijn verzonden online zijn.</string>
+    <string name="receive_description">De verzender krijgt de keuze tussen een online en offline betaling.\n\nOm de online betaling te voltooien moet u uw wallet binnen 12 uur nadat de Beam\'s zijn verzonden openen en verbinden.</string>
     <string name="search_by_address_tag_or_name">Plak adres of zoek op adres, tag of naam</string>
     <string name="min_fee_error">Coins zijn automatisch geselecteerd om de privacy en minimale transactiekosten van %1$s GROTH te maximaliseren</string>
     <string name="delete_all_transactions_related_to_this_address">Verwijder alle transacties die gerelateerd zijn aan dit adres</string>
@@ -511,4 +511,8 @@ U moet de 2-stapsverificatie (wachtwoord opgeven en gezichtsherkenning gebruiken
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Om de online betaling te voltooien moet u uw wallet binnen 12 uur nadat de Beam\'s zijn verzonden openen en verbinden.</string>
+    <string name="sbbs_address_new">SBBS ADRES
+(gebruik voor CEX-opnames en mining)</string>
+    <string name="sbbs_address_hint">gebruik voor CEX-opnames en mining</string>
 </resources>

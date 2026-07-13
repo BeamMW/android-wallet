@@ -316,7 +316,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="save_address">Lưu địa chỉ</string>
     <string name="dont_save">Không lưu</string>
     <string name="save_changes">Lưu thay đổi</string>
-    <string name="receive_description">Để giao dịch hoàn tất, bạn cần truy cập trực tuyến trong vòng 12 giờ sau khi Beams được gửi.</string>
+    <string name="receive_description">Người gửi sẽ được lựa chọn giữa thanh toán trực tuyến và ngoại tuyến.\n\nĐể hoàn tất thanh toán trực tuyến, bạn cần mở và kết nối ví của mình trong vòng 12 giờ sau khi Beam được gửi.</string>
     <string name="search_by_address_tag_or_name">Paste address or search by address, tag or name</string>
     <string name="min_fee_error">Coins were automatically selected to maximize privacy and minimum transaction fee of %1$s GROTH</string>
     <string name="delete_all_transactions_related_to_this_address">Xóa toàn bộ giao dịch liên quan đến địa chỉ này</string>
@@ -513,4 +513,8 @@ address or contact</string>
     <string name="amount_small">Amount: smallest to largest</string>
     <string name="amount_large">Amount: largest to smallest</string>
     <string name="cant_send_to_max_privacy">Can\'t send to the Max privacy address again. No voucher, no address to receive it.</string>
+    <string name="receive_description_2">Để hoàn tất thanh toán trực tuyến, bạn cần mở và kết nối ví của mình trong vòng 12 giờ sau khi Beam được gửi.</string>
+    <string name="sbbs_address_new">ĐỊA CHỈ SBBS
+(dùng để rút tiền từ CEX và đào coin)</string>
+    <string name="sbbs_address_hint">dùng để rút tiền từ CEX và đào coin</string>
 </resources>
