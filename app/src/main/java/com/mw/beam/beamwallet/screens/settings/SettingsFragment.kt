@@ -203,13 +203,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 items.add(s1.toTypedArray())
                 items.add(s3.toTypedArray())
-
-                if(BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
-                {
-                    val s5 = mutableListOf<SettingsItem>()
-                    s5.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
-                    items.add(s5.toTypedArray())
-                }
             }
 
             mode()== SettingsFragmentMode.General -> {
@@ -312,11 +305,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         allItems.addAll(s1)
         allItems.addAll(s3)
-
-        if(BuildConfig.FLAVOR == AppConfig.FLAVOR_TESTNET)
-        {
-            allItems.add(SettingsItem(R.drawable.ic_icon_settings_general,"Share DB",null, SettingsFragmentMode.ShareDB))
-        }
 
         val lockScreenValue = presenter?.repository?.getLockScreenValue() ?: 0L
         val maxPrivacyValue = getMaxPrivacyStringValue(AppManager.instance.wallet?.getMaxPrivacyLockTimeLimitHours() ?: 0L, false)
@@ -1033,9 +1021,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                 uiThread {
 
                     val subject =  when(BuildConfig.FLAVOR) {
-                        AppConfig.FLAVOR_TESTNET -> {
-                            "beam wallet testnet logs"
-                        }
                         AppConfig.FLAVOR_MAINNET -> {
                             "beam wallet logs"
                         }

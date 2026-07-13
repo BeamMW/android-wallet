@@ -28,9 +28,7 @@ object AppConfig {
     // Single source for the "vX.Y" label shown on the welcome/settings screens.
     const val APP_VERSION_LABEL = "v${BuildConfig.VERSION_NAME}"
     const val FLAVOR_MAINNET = "mainnet"
-    const val FLAVOR_TESTNET = "beamtestnet"
     const val MAINNET_FORK_HEIGHT = 321321
-    const val TESTNET_FORK_HEIGHT = 270910
     const val LOG_PATTERN = "{d yyyy-MM-dd hh:mm:ss.SSS} {l}/{t}: {m}"
     const val SHARE_TYPE = "application/zip"
     const val AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider"
@@ -42,7 +40,6 @@ object AppConfig {
     const val NODE_JOURNAL_FILE_NAME_RECOVER = "node.db-journal_recover"
     const val BEAM_SITE_LINK = "https://www.beam.mw/"
     const val BEAM_EXCHANGES_LINK = "$BEAM_SITE_LINK#exchanges"
-    const val TESTNET_EXPLORER_PREFIX = "testnet."
     var EXPLORER_PREFIX = ""
     var NODE_ADDRESS = ""
     var DB_PATH = ""

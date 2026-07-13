@@ -66,14 +66,6 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             presenter?.onNextPressed()
         }
 
-        if (BuildConfig.FLAVOR != AppConfig.FLAVOR_MAINNET)
-        {
-            seedLayout.setOnLongClickListener {
-                presenter?.onCopyPressed()
-                return@setOnLongClickListener true
-            }
-        }
-
         btnLater.setOnClickListener {
             presenter?.oLaterPressed()
         }

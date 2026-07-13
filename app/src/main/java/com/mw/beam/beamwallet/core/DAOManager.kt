@@ -18,7 +18,6 @@ object DAOManager {
     fun loadApps(context:Context) {
         val url =  when (BuildConfig.FLAVOR) {
             AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/appslist.json"
-            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/appslist.json"
             else -> "http://3.16.160.95/app/appslist.json" //"http://3.19.141.112/app/appslist.json"
         }
 
@@ -60,7 +59,6 @@ object DAOManager {
         }
 
         val url = when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/plugin-faucet/index.html"
             AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/app/plugin-faucet/index.html"
             else -> ""
         }
@@ -70,7 +68,6 @@ object DAOManager {
 
     fun getDaoVotingApp():DAOApp {
         val url = when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/dao-voting-app/index.html"
             AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/app/dao-voting-app/index.html"
             else -> ""
         }
@@ -80,7 +77,6 @@ object DAOManager {
 
     fun getDaoCoreApp():DAOApp {
         val url = when (BuildConfig.FLAVOR) {
-            AppConfig.FLAVOR_TESTNET -> "https://apps-testnet.beam.mw/app/dao-core-app/index.html"
             AppConfig.FLAVOR_MAINNET -> "https://apps.beam.mw/app/dao-core-app/index.html"
             else -> ""
         }
