@@ -163,6 +163,15 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                                 if (!recoveryPresented) {
                                     recoveryPresented = true
                                     isWaitingRestore = true
+
+                                    // Automatic restore normally shows the wallet on the
+                                    // next sync-progress event. When the wallet is already
+                                    // synced once recovery finishes, no such event arrives,
+                                    // so complete directly instead of waiting forever.
+                                    if (state.mode == WelcomeMode.RESTORE_AUTOMATIC && AppManager.instance.isSynced()) {
+                                        isWaitingRestore = false
+                                        showWallet()
+                                    }
                                 }
                             }
                             else if (progress >= 0.99 && !recoveryPresented) {
