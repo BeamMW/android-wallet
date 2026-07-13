@@ -24,9 +24,8 @@ import kotlinx.android.parcel.Parcelize
  */
 /**
  * Constructed from native code (JNI), which can pass null for any String field —
- * e.g. token-address callbacks leave walletID/label null (same core bug crashed
- * iOS, ios-wallet#587). Keep the String fields nullable and default them at the
- * boundary (see WalletAddress).
+ * e.g. token-address callbacks leave walletID/label null. Keep the String fields
+ * nullable and default them at the boundary (see WalletAddress).
  */
 @Parcelize
 data class WalletAddressDTO(val walletID: String?,

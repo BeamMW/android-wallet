@@ -33,7 +33,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts (#648)
+        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
     }
     dependencies {
@@ -53,7 +53,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts (#648)
+        // JCenter was sunset in Aug 2024; this mirror still serves the jcenter-only artifacts
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
         maven { url 'https://jitpack.io' }
     }

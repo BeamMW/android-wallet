@@ -230,7 +230,7 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
             amountsList.forEach { a->
                 // Only spend legs debit the wallet. In a swap the receive leg carries the
                 // target asset, which the wallet doesn't hold yet — checking its balance
-                // made "not enough funds" always fire (#653).
+                // made "not enough funds" always fire.
                 if (a.spend == false) return@forEach
                 val assetIdForBalance = a.assetID ?: 0
                 val available = AssetManager.instance.getAvailable(assetIdForBalance)
