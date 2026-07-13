@@ -76,7 +76,7 @@ android {
 
             reset()
 
-            include "arm64-v8a", "armeabi", "armeabi-v7a", "x86", "x86_64"
+            include "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
 
             universalApk true
         }

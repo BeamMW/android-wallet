@@ -56,11 +56,12 @@ for abi in "${abis[@]}"; do
     cp "$so" "$jnilibs/$abi/libwallet-jni.so"
 done
 
-# Legacy layout quirk kept from the original script: the armeabi and armv8
-# directories receive copies of the arm64-v8a library.
+# Remove the legacy armeabi/armv8 dirs the old script created: they held copies
+# of the 64-bit arm64 library (never loadable on a real armeabi device) and only
+# bloated the universal APK by ~2x the largest .so. minSdk 23 hardware is
+# ARMv7+, so armeabi-v7a already covers every 32-bit ARM device.
 for legacy in armeabi armv8; do
-    mkdir -p "$jnilibs/$legacy"
-    cp "$jnilibs/arm64-v8a/libwallet-jni.so" "$jnilibs/$legacy/libwallet-jni.so"
+    rm -rf "$jnilibs/$legacy"
 done
 
-echo "Done. Installed ABIs: ${abis[*]} (+armeabi/armv8 copies of arm64-v8a)"
+echo "Done. Installed ABIs: ${abis[*]}"
