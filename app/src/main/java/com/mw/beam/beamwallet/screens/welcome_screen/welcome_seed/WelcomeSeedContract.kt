@@ -31,6 +31,7 @@ interface WelcomeSeedContract {
         fun showCopiedAlert()
         fun showSaveAlert()
         fun onBack()
+        fun isVerification(): Boolean
     }
 
     interface Presenter : MvpPresenter<View> {
@@ -41,6 +42,6 @@ interface WelcomeSeedContract {
     }
 
     interface Repository : MvpRepository {
-        fun seed(): Array<String>
+        fun seed(isVerification: Boolean): Array<String>
     }
 }

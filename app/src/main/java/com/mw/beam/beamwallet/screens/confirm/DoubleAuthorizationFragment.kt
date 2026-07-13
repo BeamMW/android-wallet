@@ -175,7 +175,7 @@ class DoubleAuthorizationFragment: BaseFragment<DoubleAuthorizationPresenter>(),
             findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(true))
         }
         else if (type() == DoubleAuthorizationFragmentMode.VerificationSeed){
-            findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(false))
+            findNavController().navigate(DoubleAuthorizationFragmentDirections.actionDoubleAuthorizationFragmentToWelcomeSeedFragment2(false, true))
         }
     }
 

@@ -69,7 +69,7 @@ class WelcomeConfirmPresenter(currentView: WelcomeConfirmContract.View, currentR
     }
 
     override fun onBackPressed() {
-        if(App.isAuthenticated) {
+        if(view?.isVerification() == true) {
             view?.showSeedFragment()
         }
         else{

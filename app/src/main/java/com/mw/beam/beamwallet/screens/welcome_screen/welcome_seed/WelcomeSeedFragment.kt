@@ -44,6 +44,10 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
         return WelcomeSeedFragmentArgs.fromBundle(arguments!!).onlyDisplay
     }
 
+    override fun isVerification():Boolean {
+        return WelcomeSeedFragmentArgs.fromBundle(arguments!!).isVerification
+    }
+
     private lateinit var copiedAlert: String
 
     override fun onControllerGetContentLayoutId() = R.layout.fragment_welcome_seed
@@ -81,7 +85,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
             btnLater.visibility = View.GONE
             btnNext.visibility = View.GONE
         }
-        else if(App.isAuthenticated) {
+        else if(isVerification()) {
             btnLater.visibility = View.GONE
         }
 
@@ -138,7 +142,7 @@ class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedCon
     }
 
     override fun showConfirmFragment(seed: Array<String>) {
-        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed))
+        findNavController().navigate(WelcomeSeedFragmentDirections.actionWelcomeSeedFragmentToWelcomeConfirmFragment(seed, isVerification()))
     }
 
     override fun showPasswordFragment(seed: Array<String>) {

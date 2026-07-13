@@ -136,6 +136,10 @@
             android:name="onlyDisplay"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="isVerification"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/welcomeConfirmFragment"
@@ -145,6 +149,10 @@
         <argument
             android:name="seed"
             app:argType="string[]" />
+        <argument
+            android:name="isVerification"
+            app:argType="boolean"
+            android:defaultValue="false" />
         <action
             android:id="@+id/action_welcomeConfirmFragment_to_passwordFragment"
             app:destination="@id/passwordFragment"

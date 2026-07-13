@@ -37,7 +37,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     override fun onViewCreated() {
         super.onViewCreated()
 
-        seed = repository.seed().toMutableList()
+        seed = repository.seed(view?.isVerification() ?: false).toMutableList()
 
         view?.configSeed(seed.toTypedArray())
     }
@@ -47,7 +47,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     }
 
     override fun onNextPressed() {
-        if (!App.isAuthenticated) {
+        if (view?.isVerification() != true) {
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, false)
         }
 
@@ -60,7 +60,7 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     }
 
     override fun oLaterPressed() {
-        if (!App.isAuthenticated) {
+        if (view?.isVerification() != true) {
             PreferencesManager.putBoolean(PreferencesManager.KEY_SEED_IS_SKIP, true)
             view?.showPasswordFragment(seed.toTypedArray())
         }
