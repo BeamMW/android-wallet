@@ -21,7 +21,8 @@ if ! command -v gh >/dev/null; then
 fi
 
 strip_tool=""
-for candidate in llvm-strip /opt/homebrew/opt/llvm/bin/llvm-strip; do
+for candidate in llvm-strip /opt/homebrew/opt/llvm/bin/llvm-strip \
+    "${ANDROID_NDK_LATEST_HOME:-}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip"; do
     if command -v "$candidate" >/dev/null; then strip_tool="$candidate"; break; fi
 done
 

@@ -39,6 +39,14 @@ android {
     }
 
     compileSdkVersion 32
+
+    // The wallet core .so files are prebuilt (and stripped when fetched). Don't
+    // let AGP strip them again: that needs the NDK, which isn't required to build
+    // otherwise and isn't present on CI, where it fails stripReleaseDebugSymbols.
+    packagingOptions {
+        doNotStrip '**/*.so'
+    }
+
     defaultConfig {
         applicationId "com.mw.beam.beamwallet"
         minSdkVersion 23

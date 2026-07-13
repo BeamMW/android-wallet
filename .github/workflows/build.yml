@@ -1,0 +1,71 @@
+name: Build
+
+on:
+  push:
+    branches: [master, v7.4]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build mainnet release APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The toolchain is pinned: AGP 3.5.0 + Gradle 6.1.1 only run on JDK 8-13,
+      # and JDK 8's javac crashes on modern dependency jars, so JDK 11 it is.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '11'
+          cache: gradle
+
+      # AGP 3.5.0 can't parse the metadata of the runner's preinstalled SDK
+      # (API 34+ platforms use an extension-level format that trips its parser:
+      # "NumberFormatException: Not a number: 34x"). Install an isolated,
+      # minimal SDK with only what this build needs: android-32 (compileSdk)
+      # and build-tools 28.0.3 (AGP 3.5's default).
+      - name: Prepare an AGP-3.5-compatible Android SDK
+        run: |
+          set -e
+          SDK="$HOME/android-sdk-agp35"
+          mkdir -p "$SDK"
+          # sdkmanager needs JDK 17+; the build itself runs on JDK 11 (set above),
+          # so invoke sdkmanager with the runner's JDK 17 explicitly.
+          export JAVA_HOME="$JAVA_HOME_17_X64"
+          SDKMANAGER="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKMANAGER" --sdk_root="$SDK" \
+            "platform-tools" "platforms;android-32" "build-tools;28.0.3" > /dev/null
+          yes | "$SDKMANAGER" --sdk_root="$SDK" --licenses > /dev/null || true
+          echo "sdk.dir=$SDK" > local.properties
+          echo "ANDROID_SDK_ROOT=$SDK" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=$SDK" >> "$GITHUB_ENV"
+          # The runner's NDK (27.x) is incompatible with AGP 3.5's strip task
+          # (missing GNU strip tools, unknown riscv64 ABI). Hide it so the task
+          # degrades to a warning and packages the prebuilt .so files as-is.
+          echo "ANDROID_NDK_ROOT=" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK=" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_LATEST_HOME=" >> "$GITHUB_ENV"
+
+      # libwallet-jni.so is gitignored; fetch the current libs from the
+      # BeamMW/beam Build workflow artifacts (see android-wallet-mainnet.sh).
+      - name: Fetch native wallet libraries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./android-wallet-mainnet.sh
+
+      # No signing config is checked in, so the release APKs are unsigned;
+      # sign them locally (apksigner) before distributing.
+      - name: Build
+        run: ./gradlew assembleMainnetRelease --no-daemon
+
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-mainnet-release
+          path: |
+            app/build/outputs/apk/mainnet/release/app-mainnet-arm64-v8a-release-unsigned.apk
+            app/build/outputs/apk/mainnet/release/app-mainnet-universal-release-unsigned.apk
+          if-no-files-found: error
