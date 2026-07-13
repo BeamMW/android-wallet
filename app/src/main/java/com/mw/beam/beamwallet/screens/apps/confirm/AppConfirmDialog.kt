@@ -227,11 +227,13 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
     private fun checkAmount():Boolean {
         if (isSpend) {
             var isOK = true
+            var feeChecked = false
             amountsList.forEach { a->
                 // Only spend legs debit the wallet. In a swap the receive leg carries the
                 // target asset, which the wallet doesn't hold yet — checking its balance
                 // made "not enough funds" always fire.
                 if (a.spend == false) return@forEach
+                feeChecked = true
                 val assetIdForBalance = a.assetID ?: 0
                 val available = AssetManager.instance.getAvailable(assetIdForBalance)
                 val availableFee = AssetManager.instance.getAvailable(0)
@@ -263,6 +265,13 @@ class AppConfirmDialog: BaseDialogFragment<AppConfirmPresenter>(), AppConfirmCon
                         }
                     }
                 }
+            }
+            // The fee debits BEAM even when every leg is a receive.
+            if (!feeChecked && AssetManager.instance.getAvailable(0) < sendFee) {
+                hintLabel.visibility = View.GONE
+                errorLabel.visibility = View.VISIBLE
+                btnConfirm.isEnabled = false
+                isOK = false
             }
             return isOK
         }
