@@ -37,7 +37,10 @@ class WelcomeSeedPresenter(currentView: WelcomeSeedContract.View, currentReposit
     override fun onViewCreated() {
         super.onViewCreated()
 
-        seed = repository.seed(view?.isVerification() ?: false).toMutableList()
+        // Both verifying and displaying the seed must show the wallet's existing
+        // seed; only the create flow generates a fresh mnemonic.
+        val useExistingSeed = view?.isVerification() == true || view?.onlyDisplay() == true
+        seed = repository.seed(useExistingSeed).toMutableList()
 
         view?.configSeed(seed.toTypedArray())
     }

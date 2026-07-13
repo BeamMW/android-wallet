@@ -40,7 +40,7 @@ import kotlinx.android.synthetic.main.fragment_welcome_seed.*
  */
 class WelcomeSeedFragment : BaseFragment<WelcomeSeedPresenter>(), WelcomeSeedContract.View {
 
-    private fun onlyDisplay():Boolean {
+    override fun onlyDisplay():Boolean {
         return WelcomeSeedFragmentArgs.fromBundle(arguments!!).onlyDisplay
     }
 

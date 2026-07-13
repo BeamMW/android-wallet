@@ -26,8 +26,8 @@ import com.mw.beam.beamwallet.core.OnboardManager
  */
 class WelcomeSeedRepository : BaseRepository(), WelcomeSeedContract.Repository {
 
-    override fun seed(isVerification: Boolean): Array<String> {
-        if (isVerification) {
+    override fun seed(useExistingSeed: Boolean): Array<String> {
+        if (useExistingSeed) {
             val seed = OnboardManager.instance.getSeed()
             if (seed!=null) {
                 val lstValues: List<String> = seed.split(";").map { it -> it.trim() }.dropLast(1)
