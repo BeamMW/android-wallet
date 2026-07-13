@@ -39,7 +39,6 @@ import com.mw.beam.beamwallet.core.watchers.TextWatcher
 
 import com.mw.beam.beamwallet.core.helpers.LockScreenManager
 import com.mw.beam.beamwallet.screens.app_activity.AppActivity
-import com.mw.beam.beamwallet.BuildConfig
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
@@ -77,7 +76,7 @@ class WelcomeOpenFragment : BaseFragment<WelcomeOpenPresenter>(), WelcomeOpenCon
             requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), onBackPressedCallback)
         }
 
-        appVersion.text = "v " + BuildConfig.VERSION_NAME
+        appVersion.text = AppConfig.APP_VERSION_LABEL
     }
 
     override fun onStart() {

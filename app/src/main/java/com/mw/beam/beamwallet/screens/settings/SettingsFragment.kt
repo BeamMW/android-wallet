@@ -389,7 +389,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         val status = AppManager.instance.getStatus().system.height
 
         appVersionTitle.text = ""
-        appVersionValue.text = "v " + BuildConfig.VERSION_NAME
+        appVersionValue.text = AppConfig.APP_VERSION_LABEL
         blockChainHeight.text = getString(R.string.blockchain_height) + ": " + status.toString()
 
         onBackPressedCallback.isEnabled = true

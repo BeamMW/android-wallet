@@ -25,6 +25,8 @@ import java.util.*
 object AppConfig {
     const val APP_TAG = "BeamWallet"
     const val APP_VERSION = "version: ${BuildConfig.VERSION_NAME}.00" //code: ${BuildConfig.VERSION_CODE}
+    // Single source for the "vX.Y" label shown on the welcome/settings screens.
+    const val APP_VERSION_LABEL = "v${BuildConfig.VERSION_NAME}"
     const val FLAVOR_MAINNET = "mainnet"
     const val FLAVOR_TESTNET = "beamtestnet"
     const val MAINNET_FORK_HEIGHT = 321321
