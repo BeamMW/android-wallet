@@ -719,6 +719,12 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
                     state.maxPrivacyCount = -1
                 }
                 view?.updateMaxPrivacyCount(state.maxPrivacyCount)
+
+                // The scanned-address path asks for this information (requestInfo = true) and
+                // then evaluates the address type before the answer arrives, so the online /
+                // offline toggle stayed hidden until some unrelated event happened to
+                // re-evaluate it. Re-evaluate it here, when the answer actually lands.
+                view?.refreshAddressType()
             }
         }
     }
