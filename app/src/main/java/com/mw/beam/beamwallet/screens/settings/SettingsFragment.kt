@@ -580,11 +580,13 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         val isDark = (it as androidx.appcompat.widget.SwitchCompat).isChecked
                         App.isDarkMode = isDark
                         PreferencesManager.putBoolean(PreferencesManager.DARK_MODE, isDark)
-                        (activity as? AppActivity)?.changeTheme()
-                        (activity as? AppActivity)?.selectItem(NavItem.ID.SETTINGS)
 
-                        val ft = requireFragmentManager().beginTransaction()
-                        ft.detach(this).attach(this).commit()
+                        // setTheme() only affects views inflated after the call, so re-attaching
+                        // just this fragment left every other screen — and the activity's own
+                        // chrome — painted with the previous theme's ?attr colours until the app
+                        // was restarted. Recreating re-inflates everything against the new theme.
+                        AppActivity.returnToSettings = true
+                        activity?.recreate()
                     }
                     else  if (item.mode == SettingsFragmentMode.ShareDB) {
                         ZipManager.zip(AppConfig.DB_PATH, AppConfig.ZIP_PATH);
