@@ -139,8 +139,11 @@ else{
                 menu?.findItem(R.id.saveContact)?.isVisible = false
             }
             else {
+                // Hide when there is no counterparty address to save (shielded receives), so the
+                // option is never offered for a transaction it cannot act on.
                 val contact = AppManager.instance.getAddress(transaction.peerId)
-                menu?.findItem(R.id.saveContact)?.isVisible = contact == null
+                menu?.findItem(R.id.saveContact)?.isVisible =
+                    contact == null && transaction.contactAddress().isNotEmpty()
             }
 
             menu?.findItem(R.id.dapp)?.isVisible = transaction.isDapps == true

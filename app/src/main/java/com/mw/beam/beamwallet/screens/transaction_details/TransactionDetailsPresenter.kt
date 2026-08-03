@@ -173,7 +173,12 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
 
     override fun onSaveContact() {
         state.txDescription?.let { txDescription ->
-            view?.showSaveContact(txDescription.receiverAddress)
+            // Always the other party. Using receiverAddress unconditionally meant a received
+            // transaction offered to save our own address, which the address book already holds.
+            val contactAddress = txDescription.contactAddress()
+            if (contactAddress.isNotEmpty()) {
+                view?.showSaveContact(contactAddress)
+            }
         }
     }
 

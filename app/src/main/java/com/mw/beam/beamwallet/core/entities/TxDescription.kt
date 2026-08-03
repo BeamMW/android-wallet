@@ -22,6 +22,7 @@ import android.os.Parcelable
 import androidx.core.content.ContextCompat
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.App
+import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.dto.TxDescriptionDTO
 import com.mw.beam.beamwallet.core.entities.dto.WalletStatusDTO
 import com.mw.beam.beamwallet.core.helpers.TxFailureReason
@@ -122,6 +123,22 @@ data class TxDescription(var id: String,
         return (sender == TxSender.SENT && status == TxStatus.Completed && !selfTx && isDapps == false);
     }
 
+    /**
+     * The other party of the transaction: the receiver for outgoing transactions, the sender
+     * for incoming ones. Empty when the counterparty cannot be recovered — a shielded,
+     * max-privacy or public-offline receive comes out of the shielded pool, so there is no
+     * sender address to save.
+     */
+    fun contactAddress(): String {
+        if (sender == TxSender.SENT) {
+            return receiverAddress
+        }
+        if (isPublicOffline || isMaxPrivacy || isShielded) {
+            return ""
+        }
+        return senderAddress
+    }
+
     fun getAddressType(context: Context): String {
         return when {
             isPublicOffline -> {
@@ -132,6 +149,11 @@ data class TxDescription(var id: String,
             }
             isShielded -> {
                 context.getString(R.string.offline)
+            }
+            // A new-style Regular address is a token; a bare SBBS wallet ID is not. Both used
+            // to be reported as "Regular", which hid the distinction the user actually made.
+            token.isNotEmpty() && AppManager.instance.wallet?.isToken(token) == false -> {
+                context.getString(R.string.sbbs)
             }
             else -> context.getString(R.string.regular)
         }

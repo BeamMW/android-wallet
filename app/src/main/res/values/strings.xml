@@ -173,6 +173,8 @@
     <string name="coinbase">Coinbase</string>
     <string name="decoy">Decoy</string>
     <string name="regular">Regular</string>
+    <!-- Protocol acronym — identical in every locale, so it is intentionally not translated. -->
+    <string name="sbbs">SBBS</string>
     <string name="kernel">Kernel</string>
     <string name="kernel2">Kernel2</string>
     <string name="identity">Signature</string>
