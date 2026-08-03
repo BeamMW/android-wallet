@@ -368,6 +368,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Search by transaction or kernel ID, comment,
 address or contact</string>
     <string name="address_details">Address details</string>
+    <string name="generate_new_address">Genera nuovo indirizzo</string>
+    <string name="generate_new_address_hint">Riutilizzare questo indirizzo è sicuro: te ne serve uno nuovo solo se vuoi che i pagamenti non siano collegabili tra loro.</string>
     <string name="contact_details">Dettagli del contatto</string>
     <string name="crash_title">Portafoglio Beam crashato inaspettatamente</string>
     <string name="crash_message">Sei d\'accordo di segnalare la quantità limitata di informazioni a noi? Raccogliendo le informazioni sui crash ci permetterebbero di scoprire e risolvere i bug molto più velocemente. Questo è solo un singolo report correlato al crash, non continueremo a collazionare i tuoi dati.</string>

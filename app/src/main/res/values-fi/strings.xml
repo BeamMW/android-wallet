@@ -368,6 +368,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Etsi tapahtuman ID:llä, kernel ID:llä, kommentilla, 
 osoitteella tai yhteystiedolla</string>
     <string name="address_details">Osoitetiedot</string>
+    <string name="generate_new_address">Luo uusi osoite</string>
+    <string name="generate_new_address_hint">Tämän osoitteen uudelleenkäyttö on turvallista — uutta tarvitaan vain, jos haluat, ettei maksuja voi yhdistää toisiinsa.</string>
     <string name="contact_details">Yhteystiedot</string>
     <string name="crash_title">Beam-lompakko kaatui odottamattomasti</string>
     <string name="crash_message">Haluaisitko lähettää raportin virhetiedoista meille? Virhetietojen saaminen auttaisi meitä paikantamaan ja korjaamaan virheet nopeammin. Tämä on ainoastaan yksittäinen virheraportti eikä siis jatkuva virhetietojen keräämisen hyväksyminen.</string>

@@ -367,6 +367,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Suche nach Transaktion oder Kernel-ID, Kommentar,
 Adresse oder Kontakt</string>
     <string name="address_details">Adressdetails</string>
+    <string name="generate_new_address">Neue Adresse erzeugen</string>
+    <string name="generate_new_address_hint">Diese Adresse erneut zu verwenden ist sicher — eine neue brauchen Sie nur, wenn Zahlungen nicht miteinander verknüpfbar sein sollen.</string>
     <string name="contact_details">Kontaktdetails</string>
     <string name="crash_title">Beam Wallet stürzte unerwartet ab</string>
     <string name="crash_message">Würden Sie zustimmen, uns Ihre begrenzte Menge an Informationen zu melden? Das Sammeln von Absturzinformationen würde es uns ermöglichen, Fehler viel schneller zu entdecken, und zu beheben. Dies ist nur ein Absturzbericht, wir werden Ihre Daten nicht dauerhaft speichern.</string>

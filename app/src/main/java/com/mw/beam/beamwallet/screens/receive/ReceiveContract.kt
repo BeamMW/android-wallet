@@ -53,6 +53,7 @@ interface ReceiveContract {
         fun onShowQrPressed()
         fun onTokenPressed()
         fun onCopyPressed()
+        fun onRefreshAddressPressed()
         fun onCommentPressed()
         fun onAmountPressed()
         fun onAdvancedPressed()

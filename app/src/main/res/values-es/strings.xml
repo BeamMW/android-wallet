@@ -370,6 +370,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Buscar por transacción o ID del núcleo, comentario,
 dirección o contacto</string>
     <string name="address_details">Detalles de la dirección</string>
+    <string name="generate_new_address">Generar dirección nueva</string>
+    <string name="generate_new_address_hint">Reutilizar esta dirección es seguro: solo necesitas una nueva si quieres que los pagos no puedan vincularse entre sí.</string>
     <string name="contact_details">Detalles del contacto</string>
     <string name="crash_title">La wallet de Beam falló inesperadamente</string>
     <string name="crash_message">¿Aceptaría enviarnos su cantidad limitada de información? Recopilar información sobre fallos nos permitiría descubrir y corregir errores mucho más rápido. Este es solo un informe único relacionado con el error, no seguiremos recopilando sus datos más adelante.</string>

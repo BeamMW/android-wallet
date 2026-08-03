@@ -367,6 +367,8 @@ U moet de 2-stapsverificatie (wachtwoord opgeven en gezichtsherkenning gebruiken
     <string name="connecting">Verbinden...</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Zoek op transactie- of kernel ID, omschrijving, adres of contact</string>
     <string name="address_details">Adresgegevens</string>
+    <string name="generate_new_address">Nieuw adres genereren</string>
+    <string name="generate_new_address_hint">Dit adres opnieuw gebruiken is veilig — een nieuw adres is alleen nodig als je wilt dat betalingen niet aan elkaar te koppelen zijn.</string>
     <string name="contact_details">Contactgegevens</string>
     <string name="crash_title">Beam Wallet is onverwachts gecrasht</string>
     <string name="crash_message">Zou u ermee instemmen een beperkte hoeveelheid informatie aan ons te verstrekken? Door crashinformatie te verzamelen kunnen wij bugs een stuk sneller ontdekken en verhelpen. Dit is slechts een eenmalig, crashgerelateerd rapport. We zullen uw gegevens niet blijven verzamelen.</string>
