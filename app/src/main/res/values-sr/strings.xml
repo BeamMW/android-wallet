@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Мрежни чворови</string>
+    <string name="node_type">Тип чвора</string>
+    <string name="node_peer_active">Активни чвор</string>
+    <string name="node_peer_pool">Скуп чворова</string>
+    <string name="node_peer_connected">Повезано</string>
+    <string name="node_peer_disconnected">Веза прекинута</string>
+    <string name="node_peer_last_seen">Последњи пут виђено у %s</string>
+    <string name="node_peer_in_use">у употреби</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Lock screen</string>

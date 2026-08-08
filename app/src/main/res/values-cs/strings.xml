@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">Verze aplikace</string>
     <string name="node">přístupový bod Node</string>
+    <string name="node_peers">Uzly sítě</string>
+    <string name="node_type">Typ uzlu</string>
+    <string name="node_peer_active">Aktivní uzel</string>
+    <string name="node_peer_pool">Fond uzlů</string>
+    <string name="node_peer_connected">Připojeno</string>
+    <string name="node_peer_disconnected">Odpojeno</string>
+    <string name="node_peer_last_seen">Naposledy viděno v %s</string>
+    <string name="node_peer_in_use">používá se</string>
     <string name="settings_ip_title">IP:port:</string>
     <string name="settings_general_settings">Obecné</string>
     <string name="lock_screen">Zamknout obrazovku</string>

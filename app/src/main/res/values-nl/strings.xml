@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Versie</string>
     <string name="node">Node</string>
+    <string name="node_peers">Node-peers</string>
+    <string name="node_type">Nodetype</string>
+    <string name="node_peer_active">Actieve node</string>
+    <string name="node_peer_pool">Nodepool</string>
+    <string name="node_peer_connected">Verbonden</string>
+    <string name="node_peer_disconnected">Verbinding verbroken</string>
+    <string name="node_peer_last_seen">Laatst gezien om %s</string>
+    <string name="node_peer_in_use">in gebruik</string>
     <string name="settings_ip_title">ip:poort:</string>
     <string name="settings_general_settings">Algemeen</string>
     <string name="lock_screen">Vergrendel scherm</string>

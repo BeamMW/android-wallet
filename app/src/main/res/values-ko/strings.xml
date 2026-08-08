@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">앱 버전</string>
     <string name="node">노드</string>
+    <string name="node_peers">노드 피어</string>
+    <string name="node_type">노드 유형</string>
+    <string name="node_peer_active">활성 노드</string>
+    <string name="node_peer_pool">노드 풀</string>
+    <string name="node_peer_connected">연결됨</string>
+    <string name="node_peer_disconnected">연결 끊김</string>
+    <string name="node_peer_last_seen">마지막 연결: %s</string>
+    <string name="node_peer_in_use">사용 중</string>
     <string name="settings_ip_title">아이피 : 포트:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">잠금 화면</string>

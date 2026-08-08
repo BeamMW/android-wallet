@@ -394,6 +394,10 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
     }
 
 
+    override fun onNodePeersPressed() {
+        view?.showNodePeers()
+    }
+
     override fun onUTXOPressed() {
         view?.showUTXO()
     }

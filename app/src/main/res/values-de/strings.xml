@@ -224,6 +224,14 @@ diese Transaktion abbrechen möchten?</string>
     <!--SettingsFragment-->
     <string name="settings_version">App-Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Node-Peers</string>
+    <string name="node_type">Node-Typ</string>
+    <string name="node_peer_active">Aktiver Node</string>
+    <string name="node_peer_pool">Node-Pool</string>
+    <string name="node_peer_connected">Verbunden</string>
+    <string name="node_peer_disconnected">Getrennt</string>
+    <string name="node_peer_last_seen">Zuletzt gesehen um %s</string>
+    <string name="node_peer_in_use">in Verwendung</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Allgemein</string>
     <string name="lock_screen">Bildschirm sperren</string>

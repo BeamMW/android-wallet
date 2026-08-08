@@ -80,6 +80,7 @@ interface SettingsContract {
         fun setAllowAddressExpiration(allow: Boolean)
         fun onReconnected()
         fun showRescanDialog()
+        fun showNodePeers()
         fun showUTXO()
         fun updateBlockchainHeight()
     }
@@ -125,6 +126,7 @@ interface SettingsContract {
         fun onChangeAllowAddressExpiration(allow: Boolean)
         fun onChangeMaxPrivacySettings(value: Long)
         fun onEnableMobileNode(enable: Boolean)
+        fun onNodePeersPressed()
         fun onUTXOPressed()
     }
 

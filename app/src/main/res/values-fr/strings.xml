@@ -226,6 +226,14 @@ Cette adresse existe déjà</string>
     <!--SettingsFragment-->
     <string name="settings_version">Version de l’application</string>
     <string name="node">Noeud</string>
+    <string name="node_peers">Pairs du nœud</string>
+    <string name="node_type">Type de nœud</string>
+    <string name="node_peer_active">Nœud actif</string>
+    <string name="node_peer_pool">Pool de nœuds</string>
+    <string name="node_peer_connected">Connecté</string>
+    <string name="node_peer_disconnected">Déconnecté</string>
+    <string name="node_peer_last_seen">Vu pour la dernière fois à %s</string>
+    <string name="node_peer_in_use">utilisé</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Vérouiller écran</string>

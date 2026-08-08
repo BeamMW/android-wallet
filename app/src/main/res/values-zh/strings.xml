@@ -233,6 +233,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">APP版本</string>
     <string name="node">节点</string>
+    <string name="node_peers">节点对等端</string>
+    <string name="node_type">节点类型</string>
+    <string name="node_peer_active">活动节点</string>
+    <string name="node_peer_pool">节点池</string>
+    <string name="node_peer_connected">已连接</string>
+    <string name="node_peer_disconnected">已断开连接</string>
+    <string name="node_peer_last_seen">最后连接于 %s</string>
+    <string name="node_peer_in_use">使用中</string>
     <string name="settings_ip_title">IP地址:端口</string>
     <string name="settings_general_settings">概述</string>
     <string name="lock_screen">锁定屏幕</string>

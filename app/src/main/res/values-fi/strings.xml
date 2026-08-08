@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">Sovelluksen versio</string>
     <string name="node">Palvelin (node)</string>
+    <string name="node_peers">Solmun vertaiset</string>
+    <string name="node_type">Solmun tyyppi</string>
+    <string name="node_peer_active">Aktiivinen solmu</string>
+    <string name="node_peer_pool">Solmuvaranto</string>
+    <string name="node_peer_connected">Yhdistetty</string>
+    <string name="node_peer_disconnected">Yhteys katkaistu</string>
+    <string name="node_peer_last_seen">Viimeksi nähty %s</string>
+    <string name="node_peer_in_use">käytössä</string>
     <string name="settings_ip_title">IP:portti:</string>
     <string name="settings_general_settings">Yleiset</string>
     <string name="lock_screen">Lukitusnäyttö</string>

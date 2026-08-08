@@ -265,17 +265,17 @@ class AppManager {
         AppConfig.NODE_ADDRESS = randomNode()
     }
 
-    fun randomNode(): String {
-        val nodes = Api.getDefaultPeers();
-        val result = mutableListOf<String>();
-        nodes.forEach {
-            if(!it.contains("shanghai") && !it.contains("raskul")
-                && !it.contains("45.")) {
-                result.add(it)
-            }
+    /**
+     * The peers a random-node connection picks from: everything the library ships minus the
+     * three groups that have never been reachable.
+     */
+    fun nodePool(): List<String> {
+        return Api.getDefaultPeers().filter {
+            !it.contains("shanghai") && !it.contains("raskul") && !it.contains("45.")
         }
-        return result.random()
     }
+
+    fun randomNode(): String = nodePool().random()
 
     fun importData(data: String) {
         wallet?.importDataFromJson(data)
@@ -891,8 +891,13 @@ class AppManager {
         ))
     }
 
+    /** When the connection last came up or went down, for the node peers screen. */
+    var lastConnectionChangedAt: Long? = null
+        private set
+
     fun setNetworkStatus(it: Boolean) {
         networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
+        lastConnectionChangedAt = System.currentTimeMillis()
 
         if (it)
         {

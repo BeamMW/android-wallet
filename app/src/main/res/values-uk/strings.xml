@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Вузли мережі</string>
+    <string name="node_type">Тип вузла</string>
+    <string name="node_peer_active">Активний вузол</string>
+    <string name="node_peer_pool">Пул вузлів</string>
+    <string name="node_peer_connected">Підключено</string>
+    <string name="node_peer_disconnected">Відключено</string>
+    <string name="node_peer_last_seen">Востаннє в мережі %s</string>
+    <string name="node_peer_in_use">використовується</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Lock screen</string>

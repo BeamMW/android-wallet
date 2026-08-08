@@ -224,6 +224,14 @@ Denna adress finns redan</string>
     <!--SettingsFragment-->
     <string name="settings_version">App version</string>
     <string name="node">Nod</string>
+    <string name="node_peers">Nodkamrater</string>
+    <string name="node_type">Nodtyp</string>
+    <string name="node_peer_active">Aktiv nod</string>
+    <string name="node_peer_pool">Nodpool</string>
+    <string name="node_peer_connected">Ansluten</string>
+    <string name="node_peer_disconnected">Frånkopplad</string>
+    <string name="node_peer_last_seen">Senast sedd %s</string>
+    <string name="node_peer_in_use">används</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">Generell</string>
     <string name="lock_screen">Lås skärm</string>

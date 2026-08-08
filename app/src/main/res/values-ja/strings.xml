@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">アプリバージョン</string>
     <string name="node">ノード</string>
+    <string name="node_peers">ノードピア</string>
+    <string name="node_type">ノードの種類</string>
+    <string name="node_peer_active">アクティブなノード</string>
+    <string name="node_peer_pool">ノードプール</string>
+    <string name="node_peer_connected">接続済み</string>
+    <string name="node_peer_disconnected">切断されました</string>
+    <string name="node_peer_last_seen">最終確認: %s</string>
+    <string name="node_peer_in_use">使用中</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">ロックスクリーン</string>

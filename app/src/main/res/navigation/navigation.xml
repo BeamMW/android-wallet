@@ -463,6 +463,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
+            android:id="@+id/action_settingsFragment_to_nodePeersFragment"
+            app:destination="@id/nodePeersFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/action_settingsFragment_to_passwordChangeFragment"
             app:destination="@id/passwordChangeFragment"
             app:enterAnim="@anim/fade_in"
@@ -1247,6 +1254,11 @@
         android:id="@+id/publicOfflineAddressFragment"
         android:name="com.mw.beam.beamwallet.screens.public_offline_address.PublicOfflineAddressFragment"
         android:label="PublicOfflineAddressFragment" />
+    <fragment
+        android:id="@+id/nodePeersFragment"
+        tools:layout="@layout/fragment_node_peers"
+        android:name="com.mw.beam.beamwallet.screens.node_peers.NodePeersFragment"
+        android:label="NodePeersFragment" />
     <fragment
         android:id="@+id/chooseCurrencyFragment"
         android:name="com.mw.beam.beamwallet.screens.choose_currency.ChooseCurrencyFragment"

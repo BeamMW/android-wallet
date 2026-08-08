@@ -225,6 +225,14 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <!--SettingsFragment-->
     <string name="settings_version">Versión de la aplicación</string>
     <string name="node">Nodo</string>
+    <string name="node_peers">Nodos de la red</string>
+    <string name="node_type">Tipo de nodo</string>
+    <string name="node_peer_active">Nodo activo</string>
+    <string name="node_peer_pool">Grupo de nodos</string>
+    <string name="node_peer_connected">Conectado</string>
+    <string name="node_peer_disconnected">Desconectado</string>
+    <string name="node_peer_last_seen">Visto por última vez a las %s</string>
+    <string name="node_peer_in_use">en uso</string>
     <string name="settings_ip_title">ip: puerto:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Bloquear pantalla</string>

@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">เวอร์ชั่นแอป</string>
     <string name="node">Node</string>
+    <string name="node_peers">โหนดเพียร์</string>
+    <string name="node_type">ประเภทโหนด</string>
+    <string name="node_peer_active">โหนดที่ใช้งาน</string>
+    <string name="node_peer_pool">กลุ่มโหนด</string>
+    <string name="node_peer_connected">เชื่อมต่อแล้ว</string>
+    <string name="node_peer_disconnected">ตัดการเชื่อมต่อแล้ว</string>
+    <string name="node_peer_last_seen">พบล่าสุดเมื่อ %s</string>
+    <string name="node_peer_in_use">กำลังใช้งาน</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">ทั่วไป</string>
     <string name="lock_screen">ล็อกหน้าจอ</string>

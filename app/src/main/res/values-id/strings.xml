@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Peer node</string>
+    <string name="node_type">Jenis node</string>
+    <string name="node_peer_active">Node aktif</string>
+    <string name="node_peer_pool">Kumpulan node</string>
+    <string name="node_peer_connected">Terhubung</string>
+    <string name="node_peer_disconnected">Terputus</string>
+    <string name="node_peer_last_seen">Terakhir terlihat pada %s</string>
+    <string name="node_peer_in_use">digunakan</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Kunci layar</string>

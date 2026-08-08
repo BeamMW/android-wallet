@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Version</string>
     <string name="node">Node</string>
+    <string name="node_peers">Peer del nodo</string>
+    <string name="node_type">Tipo di nodo</string>
+    <string name="node_peer_active">Nodo attivo</string>
+    <string name="node_peer_pool">Pool di nodi</string>
+    <string name="node_peer_connected">Connesso</string>
+    <string name="node_peer_disconnected">Disconnesso</string>
+    <string name="node_peer_last_seen">Visto l\'ultima volta alle %s</string>
+    <string name="node_peer_in_use">in uso</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Schermata di blocco</string>

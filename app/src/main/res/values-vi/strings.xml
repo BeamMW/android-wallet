@@ -224,6 +224,14 @@ hế độ bảo mật</string>
     <!--SettingsFragment-->
     <string name="settings_version">Phiên bản ứng dụng</string>
     <string name="node">Nút</string>
+    <string name="node_peers">Các node ngang hàng</string>
+    <string name="node_type">Loại node</string>
+    <string name="node_peer_active">Node đang hoạt động</string>
+    <string name="node_peer_pool">Nhóm node</string>
+    <string name="node_peer_connected">Đã kết nối</string>
+    <string name="node_peer_disconnected">Đã ngắt kết nối</string>
+    <string name="node_peer_last_seen">Lần cuối lúc %s</string>
+    <string name="node_peer_in_use">đang dùng</string>
     <string name="settings_ip_title">cổng:ip:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Màn hình khoá</string>

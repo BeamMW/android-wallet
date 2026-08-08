@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">Версия приложения</string>
     <string name="node">Узел</string>
+    <string name="node_peers">Узлы сети</string>
+    <string name="node_type">Тип узла</string>
+    <string name="node_peer_active">Активный узел</string>
+    <string name="node_peer_pool">Пул узлов</string>
+    <string name="node_peer_connected">Подключено</string>
+    <string name="node_peer_disconnected">Отключено</string>
+    <string name="node_peer_last_seen">Последний раз в сети %s</string>
+    <string name="node_peer_in_use">используется</string>
     <string name="settings_ip_title">ip адрес:порт:</string>
     <string name="settings_general_settings">Общее</string>
     <string name="lock_screen">Блокировать экран</string>

@@ -223,6 +223,14 @@
     <!--SettingsFragment-->
     <string name="settings_version">App Versiyonu</string>
     <string name="node">Nod</string>
+    <string name="node_peers">Düğüm eşleri</string>
+    <string name="node_type">Düğüm türü</string>
+    <string name="node_peer_active">Etkin düğüm</string>
+    <string name="node_peer_pool">Düğüm havuzu</string>
+    <string name="node_peer_connected">Bağlandı</string>
+    <string name="node_peer_disconnected">Bağlantı kesildi</string>
+    <string name="node_peer_last_seen">Son görülme %s</string>
+    <string name="node_peer_in_use">kullanımda</string>
     <string name="settings_ip_title">ip:port:</string>
     <string name="settings_general_settings">General</string>
     <string name="lock_screen">Ekranı kilitle</string>

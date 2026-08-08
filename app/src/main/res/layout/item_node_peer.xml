@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp">
+
+    <TextView
+        android:id="@+id/peerAddress"
+        style="@style/common_text_big_dark"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        tools:text="eu-node01.mainnet.beam.mw:8100" />
+
+    <TextView
+        android:id="@+id/peerActiveMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/accent"
+        android:textSize="13sp"
+        android:textAllCaps="true"
+        android:visibility="gone"
+        android:text="@string/node_peer_in_use"
+        tools:visibility="visible" />
+
+</LinearLayout>
