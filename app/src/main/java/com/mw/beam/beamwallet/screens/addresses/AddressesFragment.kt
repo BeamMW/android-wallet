@@ -102,13 +102,19 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                         if (mode == Mode.NONE) {
                             presenter?.onAddressPressed(item)
                         } else {
+                            // The pinned public offline entry is a token, not a database
+                            // address — there is nothing to select or delete.
+                            if (presenter?.isPublicOffline(item) == true) {
+                                return
+                            }
+
                             if (selectedAddresses.contains(item.id)) {
                                 selectedAddresses.remove(item.id)
                             } else {
                                 selectedAddresses.add(item.id)
                             }
 
-                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.filteredAddresses(pager.currentItem)?.count()
+                            presenter?.isAllSelected = selectedAddresses.count() == selectableCount()
 
                             onSelectedAddressesChanged()
                         }
@@ -117,6 +123,9 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
                 object : AddressesAdapter.OnLongClickListener {
                     override fun onLongClick(item: WalletAddress) {
                         if (mode == Mode.NONE) {
+                            if (presenter?.isPublicOffline(item) == true) {
+                                return
+                            }
 
                             presenter?.onModeChanged(Mode.EDIT)
 
@@ -126,7 +135,7 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
 
                             pagerAdapter.reloadData(mode)
 
-                            presenter?.isAllSelected = selectedAddresses.count() == presenter?.state?.filteredAddresses(pager.currentItem)?.count()
+                            presenter?.isAllSelected = selectedAddresses.count() == selectableCount()
 
                             onSelectedAddressesChanged()
                         }
@@ -263,6 +272,16 @@ class AddressesFragment : BaseFragment<AddressesPresenter>(), AddressesContract.
             presenter?.onSelectAll()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * How many rows on the current tab can actually be selected. The pinned public offline
+     * entry is rendered but not selectable, so counting it would keep "all selected" from
+     * ever being reached by hand on the active tab.
+     */
+    private fun selectableCount(): Int {
+        return presenter?.state?.filteredAddresses(pager.currentItem)
+            ?.count { presenter?.isPublicOffline(it) != true } ?: 0
     }
 
     override fun didSelectAllAddresses(addresses: List<WalletAddress>) {
@@ -449,6 +468,10 @@ else{
 
     override fun showAddressDetails(address: WalletAddress) {
         findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToAddressFragment(address))
+    }
+
+    override fun showPublicOfflineAddress() {
+        findNavController().navigate(AddressesFragmentDirections.actionAddressesFragmentToPublicOfflineAddressFragment())
     }
 
     override fun updateAddresses(tab: Tab, addresses: List<WalletAddress>) {

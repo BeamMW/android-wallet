@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonReader
+import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.core.entities.*
 import com.mw.beam.beamwallet.core.entities.Currency
 import com.mw.beam.beamwallet.core.entities.dto.ContractConsentDTO
@@ -859,6 +860,37 @@ class AppManager {
         wallet?.getPublicAddress()
     }
 
+    /**
+     * The wallet's public offline token, cached from the last onPublicAddress callback. It is one
+     * token per wallet and it never expires, so it is worth holding on to; empty until the first
+     * getPublicAddress() answer lands.
+     */
+    var publicOfflineAddress: String = ""
+        private set
+
+    /**
+     * The public offline token dressed as an address, so the addresses list can pin it above the
+     * real ones the way the desktop and iOS wallets do. Not a database address: it has no wallet
+     * ID (`id` falls back to the token), it never expires, and `own = 1` keeps it out of contacts.
+     */
+    fun publicOfflineWalletAddress(): WalletAddress? {
+        // The settings entry this replaced refused to open without a trusted or mobile node
+        // ("connect_node_offline_public"); the row simply does not appear instead.
+        if (publicOfflineAddress.isEmpty() || !isMaxPrivacyEnabled()) {
+            return null
+        }
+        return WalletAddress(WalletAddressDTO(
+            walletID = "",
+            label = App.self.getString(R.string.public_offline),
+            category = "",
+            createTime = 0L,
+            duration = 0L,
+            own = 1L,
+            identity = "",
+            address = publicOfflineAddress
+        ))
+    }
+
     fun setNetworkStatus(it: Boolean) {
         networkStatus = if (it) NetworkStatus.ONLINE else NetworkStatus.OFFLINE
 
@@ -1146,6 +1178,7 @@ class AppManager {
             }
 
             WalletListener.subOnPublicAddress.subscribe {
+                publicOfflineAddress = it
                 subOnPublicAddress.onNext(it)
             }
 

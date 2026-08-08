@@ -274,7 +274,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                 val s3 = mutableListOf<SettingsItem>()
                 s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
-                s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
                 s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
              //   items.add(s1.toTypedArray())
@@ -359,7 +358,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
         s3 = mutableListOf<SettingsItem>()
         s3.add(SettingsItem(null, getString(R.string.payment_proof),null, SettingsFragmentMode.Proof))
-        s3.add(SettingsItem(null, getString(R.string.show_public_offline),null, SettingsFragmentMode.ShowPublicOfflineAddress))
         s3.add(SettingsItem(null, getString(R.string.get_beam_faucet),null, SettingsFragmentMode.Faucet))
 
         allItems.addAll(s1)
@@ -599,9 +597,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
                         shareIntent.type = AppConfig.SHARE_TYPE
                         shareIntent.action = Intent.ACTION_SEND;
                         startActivity(shareIntent)
-                    }
-                    else if (item.mode == SettingsFragmentMode.ShowPublicOfflineAddress) {
-                        presenter?.onShowPublicOfflineAddressPressed()
                     }
                     else if (item.mode == SettingsFragmentMode.Rescan) {
                         presenter?.onRescanPressed()
@@ -1573,20 +1568,6 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
     }
 
-    override fun showPublicOfflineAddress() {
-        if(AppManager.instance.isMaxPrivacyEnabled()) {
-            findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToPublicOfflineAddressFragment())
-        }
-        else {
-            showAlert(message = getString(R.string.connect_node_offline_public),
-                    btnConfirmText = getString(R.string.ok),
-                    onConfirm = {
-                    },
-                    title = getString(R.string.show_public_offline),
-                    btnCancelText = null,
-                    onCancel = {  })
-        }
-    }
 
     override fun showUTXO() {
         findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUtxoFragment())

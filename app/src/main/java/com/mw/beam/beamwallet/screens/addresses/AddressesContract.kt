@@ -31,6 +31,7 @@ interface AddressesContract {
         fun updateAddresses(tab: Tab, addresses: List<WalletAddress>)
         fun updatePlaceholder(showPlaceholder:Boolean)
         fun showAddressDetails(address: WalletAddress)
+        fun showPublicOfflineAddress()
         fun navigateToAddContactScreen()
         fun navigateToEditAddressScreen()
         fun copyAddress()

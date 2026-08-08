@@ -393,9 +393,6 @@ class SettingsPresenter(currentView: SettingsContract.View, currentRepository: S
         repository.setAllowAddressExpiration(allow)
     }
 
-    override fun onShowPublicOfflineAddressPressed() {
-        view?.showPublicOfflineAddress()
-    }
 
     override fun onUTXOPressed() {
         view?.showUTXO()
