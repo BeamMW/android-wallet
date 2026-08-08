@@ -601,6 +601,10 @@ address or contact</string>
     <string name="own_node_text">For those who run a node configured with the wallet’s Owner Key.</string>
     <string name="connect_to_mobilenode">Connecting to Mobile node</string>
     <string name="syncing_with_blockchain">Syncing with the blockchain</string>
+    <string name="sync_phase_connecting">Connecting to node…</string>
+    <string name="sync_phase_reconnecting">Reconnecting to node…</string>
+    <string name="sync_phase_almost_done">Almost done…</string>
+    <string name="sync_phase_finalizing">Finalizing…</string>
     <string name="please_no_lock">Please do not lock your phone and do not close the wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet connected to Mobile node</string>
     <string name="connect">Connect</string>

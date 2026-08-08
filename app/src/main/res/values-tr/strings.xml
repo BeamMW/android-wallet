@@ -566,6 +566,10 @@ Emin misiniz?</string>
     <string name="own_node_text">Cüzdanın Sahiplik Anahtarı ile yapılandırılmış bir nod çalıştıranlar için.</string>
     <string name="connect_to_mobilenode">Mobil noda bağlanılıyor</string>
     <string name="syncing_with_blockchain">Blockchain ile senkronize ediliyor</string>
+    <string name="sync_phase_connecting">Düğüme bağlanılıyor…</string>
+    <string name="sync_phase_reconnecting">Düğüme yeniden bağlanılıyor…</string>
+    <string name="sync_phase_almost_done">Neredeyse tamam…</string>
+    <string name="sync_phase_finalizing">Tamamlanıyor…</string>
     <string name="please_no_lock">Lütfen telefonunuzu kilitlemeyin ve cüzdanı kapatmayın.</string>
     <string name="wallet_connected_to_mobile_node">Cüzdan Mobil noda bağlandı</string>
     <string name="connect">Bağlan</string>

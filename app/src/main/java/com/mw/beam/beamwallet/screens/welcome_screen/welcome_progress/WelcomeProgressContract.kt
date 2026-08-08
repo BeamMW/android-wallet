@@ -35,7 +35,7 @@ interface WelcomeProgressContract {
     interface View : MvpView {
         var enableOnBackPress: Boolean
         fun init(mode: WelcomeMode)
-        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean)
+        fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean, phase: SyncPhase? = null)
         fun getMode(): WelcomeMode?
         fun getIsTrustedRestore(): Boolean?
         fun getPassword(): String?
@@ -76,4 +76,12 @@ interface WelcomeProgressContract {
         fun removeRestoreFile()
         fun setContext(c: Context)
     }
+}
+
+/**
+ * The points in a sync worth describing in words rather than a percentage. Everything in
+ * between keeps the percentage, which is the useful figure while the bulk of the work runs.
+ */
+enum class SyncPhase {
+    CONNECTING, RECONNECTING, ALMOST_DONE, FINALIZING
 }

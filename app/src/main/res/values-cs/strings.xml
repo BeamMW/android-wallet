@@ -562,6 +562,10 @@ Jste si jisti?</string>
     <string name="own_node_text">Pro ty, kteří provozují uzel nakonfigurovaný pomocí vlastnického klíče peněženky.</string>
     <string name="connect_to_mobilenode">Připojování k mobilnímu uzlu</string>
     <string name="syncing_with_blockchain">Synchronizace s blockchainem</string>
+    <string name="sync_phase_connecting">Připojování k uzlu…</string>
+    <string name="sync_phase_reconnecting">Opětovné připojování k uzlu…</string>
+    <string name="sync_phase_almost_done">Téměř hotovo…</string>
+    <string name="sync_phase_finalizing">Dokončování…</string>
     <string name="please_no_lock">Nezamykejte prosím telefon a nezavírejte peněženku.</string>
     <string name="wallet_connected_to_mobile_node">Peněženka připojena k mobilnímu uzlu</string>
     <string name="connect">Připojit</string>

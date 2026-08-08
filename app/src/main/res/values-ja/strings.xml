@@ -564,6 +564,10 @@ address or contact</string>
     <string name="own_node_text">ウォレットのオーナーキーで構成されたノードを実行している方向けです。</string>
     <string name="connect_to_mobilenode">モバイルノードに接続中</string>
     <string name="syncing_with_blockchain">ブロックチェーンと同期中</string>
+    <string name="sync_phase_connecting">ノードに接続しています…</string>
+    <string name="sync_phase_reconnecting">ノードに再接続しています…</string>
+    <string name="sync_phase_almost_done">まもなく完了します…</string>
+    <string name="sync_phase_finalizing">最終処理中…</string>
     <string name="please_no_lock">スマートフォンをロックしたり、ウォレットを閉じたりしないでください。</string>
     <string name="wallet_connected_to_mobile_node">ウォレットがモバイルノードに接続されました</string>
     <string name="connect">接続</string>

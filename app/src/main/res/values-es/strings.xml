@@ -567,6 +567,10 @@ es de 0.01 BEAM.</string>
     <string name="own_node_text">Para quienes ejecutan un nodo configurado con la Clave de propietario del wallet.</string>
     <string name="connect_to_mobilenode">Conectando al nodo móvil</string>
     <string name="syncing_with_blockchain">Sincronizando con la blockchain</string>
+    <string name="sync_phase_connecting">Conectando al nodo…</string>
+    <string name="sync_phase_reconnecting">Reconectando al nodo…</string>
+    <string name="sync_phase_almost_done">Casi listo…</string>
+    <string name="sync_phase_finalizing">Finalizando…</string>
     <string name="please_no_lock">Por favor, no bloquees tu teléfono ni cierres el wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet conectado al nodo móvil</string>
     <string name="connect">Conectar</string>

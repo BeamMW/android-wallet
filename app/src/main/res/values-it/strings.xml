@@ -565,6 +565,10 @@ Sei sicuro?</string>
     <string name="own_node_text">Per chi esegue un nodo configurato con la chiave proprietaria del wallet.</string>
     <string name="connect_to_mobilenode">Connessione al nodo mobile</string>
     <string name="syncing_with_blockchain">Sincronizzazione con la blockchain</string>
+    <string name="sync_phase_connecting">Connessione al nodo…</string>
+    <string name="sync_phase_reconnecting">Riconnessione al nodo…</string>
+    <string name="sync_phase_almost_done">Quasi finito…</string>
+    <string name="sync_phase_finalizing">Finalizzazione…</string>
     <string name="please_no_lock">Non bloccare il telefono e non chiudere il wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet connesso al nodo mobile</string>
     <string name="connect">Connetti</string>

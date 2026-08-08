@@ -568,6 +568,10 @@ sont de 0.01 BEAM.</string>
     <string name="own_node_text">Pour ceux qui exécutent un nœud configuré avec la clé propriétaire du portefeuille.</string>
     <string name="connect_to_mobilenode">Connexion au nœud mobile</string>
     <string name="syncing_with_blockchain">Synchronisation avec la blockchain</string>
+    <string name="sync_phase_connecting">Connexion au nœud…</string>
+    <string name="sync_phase_reconnecting">Reconnexion au nœud…</string>
+    <string name="sync_phase_almost_done">Presque terminé…</string>
+    <string name="sync_phase_finalizing">Finalisation…</string>
     <string name="please_no_lock">Veuillez ne pas verrouiller votre téléphone et ne pas fermer le portefeuille.</string>
     <string name="wallet_connected_to_mobile_node">Portefeuille connecté au nœud mobile</string>
     <string name="connect">Connecter</string>

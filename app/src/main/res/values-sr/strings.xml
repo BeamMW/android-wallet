@@ -565,6 +565,10 @@ address or contact</string>
     <string name="own_node_text">За оне који покрећу ноду конфигурисану са Власничким кључем новчаника.</string>
     <string name="connect_to_mobilenode">Повезивање са Мобилном нодом</string>
     <string name="syncing_with_blockchain">Синхронизација са блокчејном</string>
+    <string name="sync_phase_connecting">Повезивање са чвором…</string>
+    <string name="sync_phase_reconnecting">Поновно повезивање са чвором…</string>
+    <string name="sync_phase_almost_done">Скоро готово…</string>
+    <string name="sync_phase_finalizing">Завршавање…</string>
     <string name="please_no_lock">Молимо вас да не закључавате телефон и не затварате новчаник.</string>
     <string name="wallet_connected_to_mobile_node">Новчаник је повезан са Мобилном нодом</string>
     <string name="connect">Повежи се</string>

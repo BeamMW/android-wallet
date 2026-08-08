@@ -565,6 +565,10 @@ Oletko varma?</string>
     <string name="own_node_text">Niille, jotka käyttävät lompakon omistajan avaimella määritettyä solmua.</string>
     <string name="connect_to_mobilenode">Yhdistetään mobiilisolmuun</string>
     <string name="syncing_with_blockchain">Synkronoidaan lohkoketjun kanssa</string>
+    <string name="sync_phase_connecting">Yhdistetään solmuun…</string>
+    <string name="sync_phase_reconnecting">Yhdistetään uudelleen solmuun…</string>
+    <string name="sync_phase_almost_done">Melkein valmis…</string>
+    <string name="sync_phase_finalizing">Viimeistellään…</string>
     <string name="please_no_lock">Älä lukitse puhelintasi äläkä sulje lompakkoa.</string>
     <string name="wallet_connected_to_mobile_node">Lompakko yhdistetty mobiilisolmuun</string>
     <string name="connect">Yhdistä</string>

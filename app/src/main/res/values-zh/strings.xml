@@ -583,6 +583,10 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="own_node_text">适合使用钱包所有者密钥配置并运行节点的用户。</string>
     <string name="connect_to_mobilenode">正在连接到移动节点</string>
     <string name="syncing_with_blockchain">正在与区块链同步</string>
+    <string name="sync_phase_connecting">正在连接节点…</string>
+    <string name="sync_phase_reconnecting">正在重新连接节点…</string>
+    <string name="sync_phase_almost_done">即将完成…</string>
+    <string name="sync_phase_finalizing">正在完成…</string>
     <string name="please_no_lock">请不要锁定手机，也不要关闭钱包。</string>
     <string name="wallet_connected_to_mobile_node">钱包已连接到移动节点</string>
     <string name="connect">连接</string>

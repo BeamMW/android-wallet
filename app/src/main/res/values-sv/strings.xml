@@ -562,6 +562,10 @@ Denna adress finns redan</string>
     <string name="own_node_text">För dig som kör en nod konfigurerad med plånbokens ägarnyckel.</string>
     <string name="connect_to_mobilenode">Ansluter till mobil nod</string>
     <string name="syncing_with_blockchain">Synkroniserar med blockkedjan</string>
+    <string name="sync_phase_connecting">Ansluter till nod…</string>
+    <string name="sync_phase_reconnecting">Återansluter till nod…</string>
+    <string name="sync_phase_almost_done">Nästan klart…</string>
+    <string name="sync_phase_finalizing">Slutför…</string>
     <string name="please_no_lock">Lås inte telefonen och stäng inte plånboken.</string>
     <string name="wallet_connected_to_mobile_node">Plånboken är ansluten till mobil nod</string>
     <string name="connect">Anslut</string>

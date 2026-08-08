@@ -564,6 +564,10 @@ Weet u het zeker?</string>
     <string name="own_node_text">Voor wie een node draait die is geconfigureerd met de eigenaarssleutel van de wallet.</string>
     <string name="connect_to_mobilenode">Verbinden met mobiele node</string>
     <string name="syncing_with_blockchain">Synchroniseren met de blockchain</string>
+    <string name="sync_phase_connecting">Verbinden met node…</string>
+    <string name="sync_phase_reconnecting">Opnieuw verbinden met node…</string>
+    <string name="sync_phase_almost_done">Bijna klaar…</string>
+    <string name="sync_phase_finalizing">Afronden…</string>
     <string name="please_no_lock">Vergrendel uw telefoon niet en sluit de wallet niet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet verbonden met mobiele node</string>
     <string name="connect">Verbinden</string>

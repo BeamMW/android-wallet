@@ -564,6 +564,10 @@ Sind Sie sicher?</string>
     <string name="own_node_text">Für alle, die einen node betreiben, der mit dem Owner Key der Wallet konfiguriert ist.</string>
     <string name="connect_to_mobilenode">Verbinde mit mobilem node</string>
     <string name="syncing_with_blockchain">Synchronisiere mit der Blockchain</string>
+    <string name="sync_phase_connecting">Verbindung zum Node…</string>
+    <string name="sync_phase_reconnecting">Erneute Verbindung zum Node…</string>
+    <string name="sync_phase_almost_done">Fast fertig…</string>
+    <string name="sync_phase_finalizing">Wird abgeschlossen…</string>
     <string name="please_no_lock">Bitte sperren Sie Ihr Telefon nicht und schließen Sie die Wallet nicht.</string>
     <string name="wallet_connected_to_mobile_node">Wallet mit mobilem node verbunden</string>
     <string name="connect">Verbinden</string>

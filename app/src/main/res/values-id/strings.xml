@@ -565,6 +565,10 @@ Apakah Anda yakin?</string>
     <string name="own_node_text">Untuk mereka yang menjalankan node yang dikonfigurasi dengan Owner Key wallet.</string>
     <string name="connect_to_mobilenode">Menghubungkan ke Mobile node</string>
     <string name="syncing_with_blockchain">Menyinkronkan dengan blockchain</string>
+    <string name="sync_phase_connecting">Menghubungkan ke node…</string>
+    <string name="sync_phase_reconnecting">Menghubungkan ulang ke node…</string>
+    <string name="sync_phase_almost_done">Hampir selesai…</string>
+    <string name="sync_phase_finalizing">Menyelesaikan…</string>
     <string name="please_no_lock">Harap jangan mengunci ponsel Anda dan jangan menutup wallet.</string>
     <string name="wallet_connected_to_mobile_node">Wallet terhubung ke Mobile node</string>
     <string name="connect">Hubungkan</string>

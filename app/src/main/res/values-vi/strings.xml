@@ -566,6 +566,10 @@ Bạn có chắc chắn không?</string>
     <string name="own_node_text">Dành cho những người chạy một nút được cấu hình với Khóa chủ sở hữu của ví.</string>
     <string name="connect_to_mobilenode">Đang kết nối với Nút di động</string>
     <string name="syncing_with_blockchain">Đang đồng bộ với blockchain</string>
+    <string name="sync_phase_connecting">Đang kết nối tới node…</string>
+    <string name="sync_phase_reconnecting">Đang kết nối lại tới node…</string>
+    <string name="sync_phase_almost_done">Sắp xong…</string>
+    <string name="sync_phase_finalizing">Đang hoàn tất…</string>
     <string name="please_no_lock">Vui lòng không khóa điện thoại và không đóng ví.</string>
     <string name="wallet_connected_to_mobile_node">Ví đã kết nối với Nút di động</string>
     <string name="connect">Kết nối</string>

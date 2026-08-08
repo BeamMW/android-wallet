@@ -565,6 +565,10 @@ address or contact</string>
     <string name="own_node_text">Для тих, хто запускає вузол, налаштований з ключем власника гаманця.</string>
     <string name="connect_to_mobilenode">Підключення до мобільного вузла</string>
     <string name="syncing_with_blockchain">Синхронізація з блокчейном</string>
+    <string name="sync_phase_connecting">Підключення до вузла…</string>
+    <string name="sync_phase_reconnecting">Перепідключення до вузла…</string>
+    <string name="sync_phase_almost_done">Майже готово…</string>
+    <string name="sync_phase_finalizing">Завершення…</string>
     <string name="please_no_lock">Будь ласка, не блокуйте телефон і не закривайте гаманець.</string>
     <string name="wallet_connected_to_mobile_node">Гаманець підключено до мобільного вузла</string>
     <string name="connect">Підключити</string>

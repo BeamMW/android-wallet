@@ -565,6 +565,10 @@ address or contact</string>
     <string name="own_node_text">Для тых, хто запускае вузел, наладжаны з ключом уладальніка кашалька.</string>
     <string name="connect_to_mobilenode">Падключэнне да мабільнага вузла</string>
     <string name="syncing_with_blockchain">Сінхранізацыя з блокчэйнам</string>
+    <string name="sync_phase_connecting">Падлучэнне да вузла…</string>
+    <string name="sync_phase_reconnecting">Перападлучэнне да вузла…</string>
+    <string name="sync_phase_almost_done">Амаль гатова…</string>
+    <string name="sync_phase_finalizing">Завяршэнне…</string>
     <string name="please_no_lock">Калі ласка, не блакіруйце тэлефон і не закрывайце кашалёк.</string>
     <string name="wallet_connected_to_mobile_node">Кашалёк падключаны да мабільнага вузла</string>
     <string name="connect">Падключыць</string>

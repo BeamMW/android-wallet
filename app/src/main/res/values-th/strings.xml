@@ -566,6 +566,10 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="own_node_text">สำหรับผู้ที่รันโหนดที่ตั้งค่าด้วย Owner Key ของกระเป๋า</string>
     <string name="connect_to_mobilenode">กำลังเชื่อมต่อกับโหนดมือถือ</string>
     <string name="syncing_with_blockchain">กำลังซิงค์กับบล็อคเชน</string>
+    <string name="sync_phase_connecting">กำลังเชื่อมต่อกับโหนด…</string>
+    <string name="sync_phase_reconnecting">กำลังเชื่อมต่อกับโหนดอีกครั้ง…</string>
+    <string name="sync_phase_almost_done">ใกล้เสร็จแล้ว…</string>
+    <string name="sync_phase_finalizing">กำลังสรุปผล…</string>
     <string name="please_no_lock">กรุณาอย่าล็อกโทรศัพท์และอย่าปิดกระเป๋า</string>
     <string name="wallet_connected_to_mobile_node">กระเป๋าเชื่อมต่อกับโหนดมือถือแล้ว</string>
     <string name="connect">เชื่อมต่อ</string>

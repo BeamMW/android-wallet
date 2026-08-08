@@ -16,6 +16,8 @@
 
 package com.mw.beam.beamwallet.screens.welcome_screen.welcome_progress
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -51,6 +53,8 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     private lateinit var nodeProgressUpdatedSubscription: Disposable
     private lateinit var nodeConnectionFailedSubscription: Disposable
     private lateinit var nodeStoppedSubscription: Disposable
+    private lateinit var connectingSubscription: Disposable
+    private lateinit var reconnectingSubscription: Disposable
     private lateinit var failedToStartNodeSubscription: Disposable
     private lateinit var nodeThreadFinishedSubscription: Disposable
 
@@ -70,6 +74,18 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
             field = value
         }
+
+    // Stabilization window: on the open path the wallet often goes from done=0 to done=total in
+    // a single tick, which renders as a useless 0% -> 100% flash. Hold the percentage back for
+    // half a second and then decide once: open the wallet, or commit to showing real progress.
+    private val stabilizationDelayMs = 500L
+    private val trivialSyncThreshold = 2
+
+    private val stabilizationHandler = Handler(Looper.getMainLooper())
+    private var isStabilizing = false
+    private var pendingProgress: OnSyncProgressData? = null
+    private var hasConnected = false
+    private var isReconnecting = false
 
     private var isNodeSyncFinished = false
     private var isFailedToStartNode = false
@@ -101,6 +117,10 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         if ((state.mode == WelcomeMode.CREATE || state.mode == WelcomeMode.OPEN) && repository.wallet != null) {
             repository.wallet?.syncWithNode()
+        }
+
+        if (state.mode == WelcomeMode.OPEN) {
+            startStabilizationWindow()
         }
 
         onRecoveryLiveData.observe(view!!.getLifecycleOwner(), Observer {
@@ -232,6 +252,24 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
             onProgress(it)
         }
 
+        // Already connected when the screen opens (a warm resume, say) means no connecting event
+        // is coming — without this the line would sit on "Connecting to node…" for the whole sync.
+        hasConnected = AppManager.instance.getNetworkStatus() != NetworkStatus.OFFLINE
+
+        // Feeds the connecting / reconnecting phases. BasePresenter subscribes to the same two
+        // subjects for the toolbar; here they decide whether the progress line says "Connecting
+        // to node…" instead of a percentage that means nothing yet.
+        connectingSubscription = AppManager.instance.subOnConnectingChanged.subscribe {
+            if (AppManager.instance.getNetworkStatus() != NetworkStatus.OFFLINE) {
+                hasConnected = true
+                isReconnecting = false
+            }
+        }
+
+        reconnectingSubscription = AppManager.instance.subOnOnNetworkStartReconnecting.subscribe {
+            isReconnecting = true
+        }
+
         nodeProgressUpdatedSubscription = repository.getNodeProgressUpdated().subscribe {
             if (WelcomeMode.RESTORE == state.mode) {
                 if (it.total == 0) {
@@ -326,7 +364,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
     }
 
     override fun getSubscriptions(): Array<Disposable>? {
-        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription)
+        return arrayOf(syncProgressUpdatedSubscription, nodeConnectionFailedSubscription, nodeProgressUpdatedSubscription, nodeStoppedSubscription, connectingSubscription, reconnectingSubscription)
     }
 
     override fun onDestroy() {
@@ -335,9 +373,49 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         AppManager.instance.subOnConnectingFailed = null
         AppManager.instance.subOnLoginSyncProgressUpdated = null
 
+        // A pending stabilization callback must not fire into a dead screen: showWallet()'s
+        // side effects reach past this presenter (restore file, download calculator).
+        stabilizationHandler.removeCallbacksAndMessages(null)
+
         RestoreManager.instance.stopDownload()
 
         super.onDestroy()
+    }
+
+    private fun startStabilizationWindow() {
+        isStabilizing = true
+
+        stabilizationHandler.postDelayed({
+            isStabilizing = false
+
+            val pending = pendingProgress
+
+            when {
+                AppManager.instance.isSynced() -> showWallet()
+                pending != null && pending.total > 0 && (pending.total - pending.done) <= trivialSyncThreshold -> showWallet()
+                pending != null -> onProgress(pending)
+            }
+        }, stabilizationDelayMs)
+    }
+
+    /**
+     * Words instead of a percentage at the two ends of a sync. Null in the steady state, where
+     * the percentage is what the user actually wants to see.
+     */
+    private fun resolveBoundaryPhase(it: OnSyncProgressData): SyncPhase? {
+        if (isReconnecting) {
+            return SyncPhase.RECONNECTING
+        }
+        if (!hasConnected) {
+            return SyncPhase.CONNECTING
+        }
+        if (it.total > 0 && it.done == it.total && !AppManager.instance.isSynced()) {
+            return SyncPhase.FINALIZING
+        }
+        if (it.total > 0 && (it.total - it.done) <= trivialSyncThreshold) {
+            return SyncPhase.ALMOST_DONE
+        }
+        return null
     }
 
     private fun onProgress(it: OnSyncProgressData) {
@@ -346,6 +424,22 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         val isOwn = !mobile && !isRandom
 
         Log.e("UPDATE", "${it.done} ==== ${it.total}")
+
+        if (isStabilizing) {
+            pendingProgress = it
+            return
+        }
+
+        // Real numbers from the node are proof enough of a connection.
+        if (it.total > 0) {
+            hasConnected = true
+        }
+
+        val phase = if (state.mode == WelcomeMode.OPEN || state.mode == WelcomeMode.MOBILE_CONNECT) {
+            resolveBoundaryPhase(it)
+        } else {
+            null
+        }
 
         if (WelcomeMode.RESTORE != state.mode && WelcomeMode.RESTORE_AUTOMATIC != state.mode) {
 
@@ -379,7 +473,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                 showWallet()
             }
             else {
-                view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false)
+                view?.updateProgress(it, state.mode,isDownloadProgress = false, isRestoreProgress = false, phase = phase)
 
                 if (it.done == it.total) {
                     showWallet()

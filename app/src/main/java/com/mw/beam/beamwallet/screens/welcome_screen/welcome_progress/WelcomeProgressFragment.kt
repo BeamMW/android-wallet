@@ -199,33 +199,38 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
         btnCancel.setOnClickListener(null)
     }
 
-    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean) {
+    /**
+     * The percentage is the useful figure in the middle of a sync, but not at the ends: a phase
+     * replaces it with words when connecting, reconnecting, nearly finished or finalizing.
+     */
+    private fun syncDescription(progressData: OnSyncProgressData, phase: SyncPhase?): String {
+        val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
+
+        val descriptionString = when (phase) {
+            SyncPhase.CONNECTING -> getString(R.string.sync_phase_connecting)
+            SyncPhase.RECONNECTING -> getString(R.string.sync_phase_reconnecting)
+            SyncPhase.ALMOST_DONE -> getString(R.string.sync_phase_almost_done)
+            SyncPhase.FINALIZING -> getString(R.string.sync_phase_finalizing)
+            null -> getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
+        }
+
+        val estimateTime = if (progressData.time != null) {
+            getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
+        }
+        else {
+            getString(R.string.calc_est_time).lowercase()
+        }
+
+        return descriptionString + "\n" + estimateTime
+    }
+
+    override fun updateProgress(progressData: OnSyncProgressData, mode: WelcomeMode, isDownloadProgress: Boolean, isRestoreProgress: Boolean, phase: SyncPhase?) {
         when (mode) {
             WelcomeMode.OPEN -> {
-                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-
-                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
-                val estimateTime = if (progressData.time != null) {
-                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
-                }
-                else {
-                    getString(R.string.calc_est_time).lowercase()
-                }
-
-                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
+                configProgress(countProgress(progressData), syncDescription(progressData, phase))
             }
             WelcomeMode.MOBILE_CONNECT, WelcomeMode.RESCAN -> {
-                val percent = (progressData.done.toDouble() / progressData.total.toDouble()) * 100.0
-
-                val descriptionString = getString(R.string.syncing_with_blockchain) + ": " + percent.toInt().toString() + "%"
-                val estimateTime = if (progressData.time != null) {
-                    getString(R.string.to_completion, progressData.time.toTimeFormat(context)).lowercase()
-                }
-                else {
-                    getString(R.string.calc_est_time).lowercase()
-                }
-
-                configProgress(countProgress(progressData), descriptionString + "\n" + estimateTime)
+                configProgress(countProgress(progressData), syncDescription(progressData, phase))
             }
             WelcomeMode.RESTORE -> {
 
