@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">•  must contain at least one uppercase letter</string>
     <string name="pass_description_number">•  must contain at least one number</string>
     <string name="password_can_not_be_empty">La password non può essere vuota</string>
+    <string name="password_does_not_meet_requirements">La password non soddisfa i requisiti indicati sotto</string>
     <string name="pass_old_pass_error">La nuova password non può essere la stessa della vecchia</string>
     <string name="pass_wrong">Wrong password</string>
     <string name="confirm_password">Conferma password</string>

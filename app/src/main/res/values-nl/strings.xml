@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">Moet ten minste één hoofdletter bevatten</string>
     <string name="pass_description_number">Moet ten minste één cijfer bevatten</string>
     <string name="password_can_not_be_empty">Wachtwoord kan niet leeg zijn</string>
+    <string name="password_does_not_meet_requirements">Het wachtwoord voldoet niet aan de onderstaande vereisten</string>
     <string name="pass_old_pass_error">Het nieuwe wachtwoord kan niet hetzelfde zijn als het oude wachtwoord</string>
     <string name="pass_wrong">Onjuist wachtwoord</string>
     <string name="confirm_password">Bevestig wachtwoord</string>

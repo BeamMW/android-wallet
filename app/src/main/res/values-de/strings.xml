@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">• muss mindestens einen Großbuchstaben enthalten</string>
     <string name="pass_description_number">• muss mindestens eine Zahl enthalten</string>
     <string name="password_can_not_be_empty">Passwort darf nicht leer sein</string>
+    <string name="password_does_not_meet_requirements">Das Passwort erfüllt die unten genannten Anforderungen nicht</string>
     <string name="pass_old_pass_error">Das neue Passwort kann nicht das gleiche sein wie das alte</string>
     <string name="pass_wrong">Falsches Passwort</string>
     <string name="confirm_password">Passwort bestätigen</string>

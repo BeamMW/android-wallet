@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">• harus mengandung setidaknya satu huruf besar</string>
     <string name="pass_description_number">• harus mengandung setidaknya satu angka</string>
     <string name="password_can_not_be_empty">Password can not be empty</string>
+    <string name="password_does_not_meet_requirements">Kata sandi tidak memenuhi persyaratan di bawah ini</string>
     <string name="pass_old_pass_error">New password cannot be the same as old</string>
     <string name="pass_wrong">Kata sandi salah</string>
     <string name="confirm_password">Confirm password</string>

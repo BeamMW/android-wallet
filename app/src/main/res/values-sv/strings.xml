@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">måste innehålla åtminstone en stor bokstav</string>
     <string name="pass_description_number">måste innehålla åtminstone en siffra</string>
     <string name="password_can_not_be_empty">Lösenordsfältet kan inte vara tomt</string>
+    <string name="password_does_not_meet_requirements">Lösenordet uppfyller inte kraven nedan</string>
     <string name="pass_old_pass_error">Ditt nya lösenord kan inte vara samma som ditt gamla</string>
     <string name="pass_wrong">Fel lösenord</string>
     <string name="confirm_password">Verifiera lösenord</string>

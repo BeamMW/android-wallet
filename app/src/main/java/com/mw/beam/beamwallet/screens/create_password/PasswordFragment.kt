@@ -314,6 +314,19 @@ class PasswordFragment : BaseFragment<PasswordPresenter>(), PasswordContract.Vie
             isButtonPressed = false
         }
 
+        // The requirements listed on this screen were advisory — a single letter was accepted,
+        // when creating a wallet as much as when changing the password. Only the new password
+        // is held to them; the current one is verified against the wallet a few lines above.
+        if (!pass.text.isNullOrBlank() && !PasswordPresenter.meetsRequirements(pass.text.toString())) {
+            passError.visibility = View.VISIBLE
+            passError.text = getString(R.string.password_does_not_meet_requirements)
+            pass.isStateError = true
+            hasErrors = true
+            btnProceed.isEnabled = false
+            isButtonPressed = false
+            return hasErrors
+        }
+
         if (!pass.text.isNullOrBlank() && pass.text.toString() != confirmPass.text.toString()) {
             passError.visibility = View.VISIBLE
             passError.text = getString(R.string.password_not_match)

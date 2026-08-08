@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">•  ประกอบไปด้วยตัวตัวพิมพ์ใหญ่อย่างน้อย 1 ตัวอักษร</string>
     <string name="pass_description_number">•  จะต้องประกอบด้วยตัวเลขอย่างน้อย 1 ตัวอักษร</string>
     <string name="password_can_not_be_empty">รหัสผ่านไม่สามารถปล่อยว่างได้</string>
+    <string name="password_does_not_meet_requirements">รหัสผ่านไม่ตรงตามข้อกำหนดด้านล่าง</string>
     <string name="pass_old_pass_error">รหัสผ่านใหม่จะต้องไม่ซ้ำกับรหัสผ่านเก่า</string>
     <string name="pass_wrong">รหัสผ่านไม่ถูกต้อง</string>
     <string name="confirm_password">ยืนยันรหัสผ่าน</string>

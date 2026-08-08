@@ -99,6 +99,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="pass_description_uppercase">• debe contener al menos una letra mayúscula</string>
     <string name="pass_description_number">debe contener al menos un número</string>
     <string name="password_can_not_be_empty">La contraseña no puede estar vacía</string>
+    <string name="password_does_not_meet_requirements">La contraseña no cumple los requisitos indicados abajo</string>
     <string name="pass_old_pass_error">La nueva contraseña no puede ser la misma que la anterior</string>
     <string name="pass_wrong">Contraseña incorrecta</string>
     <string name="confirm_password">Confirma la contraseña</string>

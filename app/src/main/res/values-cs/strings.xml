@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">• musí obsahovat alespoň jedno velké písmeno</string>
     <string name="pass_description_number">• musí obsahovat alespoň jedno číslo</string>
     <string name="password_can_not_be_empty">Heslo nesmí být prázdné</string>
+    <string name="password_does_not_meet_requirements">Heslo nesplňuje níže uvedené požadavky</string>
     <string name="pass_old_pass_error">Nové heslo nemůže být stejné jako předchozí</string>
     <string name="pass_wrong">Chybné heslo</string>
     <string name="confirm_password">Potvrďte heslo</string>

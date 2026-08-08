@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">・最低１文字の大文字が含まれる必要があります</string>
     <string name="pass_description_number">・最低１つの数字が含まれる必要があります</string>
     <string name="password_can_not_be_empty">パスワードを入力してください</string>
+    <string name="password_does_not_meet_requirements">パスワードが下記の要件を満たしていません</string>
     <string name="pass_old_pass_error">新しいパスワードを現在のパスワードと同じにすることはできません</string>
     <string name="pass_wrong">パスワードが正しくありません</string>
     <string name="confirm_password">パスワードを確認</string>

@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">• en az bir büyük harf içermelidir</string>
     <string name="pass_description_number">• en az bir sayı içermelidir</string>
     <string name="password_can_not_be_empty">Şifre boş bırakılamaz</string>
+    <string name="password_does_not_meet_requirements">Parola aşağıdaki gereklilikleri karşılamıyor</string>
     <string name="pass_old_pass_error">Yeni şifre eskisiyle aynı olamaz</string>
     <string name="pass_wrong">Yanlış şifre</string>
     <string name="confirm_password">Şifreyi onaylayın</string>

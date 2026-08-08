@@ -99,6 +99,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="pass_description_uppercase">Le mot de passe doit contenir au moins 1 lettre minuscule</string>
     <string name="pass_description_number">Le mot de passe doit contenir au moins un chiffre</string>
     <string name="password_can_not_be_empty">Le mot de passe ne peut pas être sans entrée</string>
+    <string name="password_does_not_meet_requirements">Le mot de passe ne respecte pas les exigences ci-dessous</string>
     <string name="pass_old_pass_error">Votre nouveau mot de passe ne peut pas être identitique à votre ancien mot de passe </string>
     <string name="pass_wrong">Mauvais mot de passe</string>
     <string name="confirm_password">Confirmer votre nouveau mot de passe</string>

@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">Пароль должен содержать хотя бы одну заглавную букву.</string>
     <string name="pass_description_number">Пароль должен содержать хотя бы одну цифру.</string>
     <string name="password_can_not_be_empty">Пароль не может быть пустым</string>
+    <string name="password_does_not_meet_requirements">Пароль не соответствует требованиям ниже</string>
     <string name="pass_old_pass_error">Новый пароль не может совпадать с старым</string>
     <string name="pass_wrong">Неверный пароль</string>
     <string name="confirm_password">Подтвердите пароль</string>

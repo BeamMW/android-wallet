@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">• 최소한 1개의 대문자가 포함되어야 합니다.</string>
     <string name="pass_description_number">• 최소한 1개의 숫자가 포함되어야 합니다.</string>
     <string name="password_can_not_be_empty">비밀번호란이 공백입니다.</string>
+    <string name="password_does_not_meet_requirements">비밀번호가 아래 요구 사항을 충족하지 않습니다</string>
     <string name="pass_old_pass_error">새로운 비밀번호는 옛날 비밀번호와 같을 수 없습니다.</string>
     <string name="pass_wrong">틀린 비밀번호</string>
     <string name="confirm_password">비밀번호 확인하기</string>

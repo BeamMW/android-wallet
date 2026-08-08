@@ -97,6 +97,7 @@
     <string name="pass_description_uppercase">•  vähintään yksi kirjain isolla</string>
     <string name="pass_description_number">•  vähintään yksi numero</string>
     <string name="password_can_not_be_empty">Salasanaa ei voi jättää tyhjäksi</string>
+    <string name="password_does_not_meet_requirements">Salasana ei täytä alla olevia vaatimuksia</string>
     <string name="pass_old_pass_error">Uusi salasana ei voi olla sama kuin vanha salasanasi</string>
     <string name="pass_wrong">Virheellinen salasana</string>
     <string name="confirm_password">Vahvista salasana</string>

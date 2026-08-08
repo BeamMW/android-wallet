@@ -98,6 +98,7 @@ hế độ bảo mật</string>
     <string name="pass_description_uppercase">• phải chứa ít nhất một chữ cái viết hoa</string>
     <string name="pass_description_number">cần chứa ít nhất một số</string>
     <string name="password_can_not_be_empty">Mật khẩu không thể để trống</string>
+    <string name="password_does_not_meet_requirements">Mật khẩu không đáp ứng các yêu cầu bên dưới</string>
     <string name="pass_old_pass_error">Mật khẩu mới không thể giống mật khẩu cũ</string>
     <string name="pass_wrong">Mật khẩu sai</string>
     <string name="confirm_password">Xác nhận mật khẩu</string>
