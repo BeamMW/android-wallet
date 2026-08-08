@@ -330,10 +330,17 @@ class ReceiveFragment : BaseFragment<ReceivePresenter>(), ReceiveContract.View {
         refreshAddressButton.setOnClickListener {
             presenter?.onRefreshAddressPressed()
 
-            // Shown once, so the first tap explains that refreshing is optional.
+            // Shown once, so the first tap explains that refreshing is optional. An alert
+            // rather than a snackbar: the snackbar dismisses itself after three seconds,
+            // which is not long enough to read a sentence that is only ever shown once.
             if (!PreferencesManager.getBoolean(PreferencesManager.KEY_GENERATE_NEW_ADDRESS_HINT_SHOWN)) {
                 PreferencesManager.putBoolean(PreferencesManager.KEY_GENERATE_NEW_ADDRESS_HINT_SHOWN, true)
-                showSnackBar(getString(R.string.generate_new_address_hint))
+                showAlert(
+                    message = getString(R.string.generate_new_address_hint),
+                    btnConfirmText = getString(R.string.ok),
+                    onConfirm = {},
+                    title = getString(R.string.generate_new_address)
+                )
             }
         }
 
