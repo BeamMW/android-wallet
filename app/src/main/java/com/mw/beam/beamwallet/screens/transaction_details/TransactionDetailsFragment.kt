@@ -250,7 +250,11 @@ else{
             startAddress.text = getString(R.string.shielded_pool)
             senderLayout.visibility = View.GONE
         }
-        endAddress.text = txDescription.receiverAddress
+        // Mirrors the desktop wallet (TransactionDetailsPopup.qml): show the token when the
+        // transaction carries one, otherwise the receiver address. An offline receive lands in
+        // the shielded pool with no receiver wallet ID at all — the core returns an empty
+        // string for a zero ID — which used to render an empty "Receiving address:" row.
+        endAddress.text = if (txDescription.token.isNotEmpty()) txDescription.token else txDescription.receiverAddress
 
         val start = AppManager.instance.getAddress(txDescription.senderAddress)
 
@@ -271,6 +275,15 @@ else{
             endContactValue.text = end.label
         } else {
             endContactLayout.visibility = View.GONE
+        }
+
+        if (endAddress.text.isNullOrEmpty()) {
+            receiverLayout.visibility = View.GONE
+        }
+        else if (txDescription.isDapps != true) {
+            // The details re-render as the transaction changes, so the row has to come back
+            // once an address is known — but never for dApp transactions, hidden above.
+            receiverLayout.visibility = View.VISIBLE
         }
 
         addressTypeLabel.text = txDescription.getAddressType(requireContext())
