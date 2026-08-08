@@ -34,12 +34,15 @@ class EditAddressRepository : BaseRepository(), EditAddressContract.Repository {
         }
     }
 
-    override fun saveAddressChanges(addr: String, name: String, makeExpired: Boolean, makeActive: Boolean, isExtend: Boolean) {
+    override fun saveAddressChanges(addr: String, name: String, makeExpired: Boolean, makeActive: Boolean, isExtend: Boolean, isNever: Boolean) {
         getResult("saveAddressChanges") {
             var addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.AsIs
 
             if(makeExpired) {
                 addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Expired
+            }
+            else if(isNever) {
+                addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Never
             }
             else if(makeActive || isExtend) {
                 addressExpiration = WalletAddressDTO.WalletAddressExpirationStatus.Auto

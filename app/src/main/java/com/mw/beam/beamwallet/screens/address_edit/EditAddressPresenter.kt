@@ -145,7 +145,8 @@ class EditAddressPresenter(currentView: EditAddressContract.View, currentReposit
             repository.saveAddressChanges(addr = address.id, name = address.label,
                 makeActive = state.shouldActivateNow,
                 makeExpired = state.shouldExpireNow,
-                isExtend = state.shouldExtend)
+                isExtend = state.shouldExtend,
+                isNever = state.chosenPeriod == ExpirePeriod.NEVER)
         }
         else {
             repository.saveAddress(address, false)
