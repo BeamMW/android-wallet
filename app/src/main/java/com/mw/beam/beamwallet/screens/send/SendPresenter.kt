@@ -61,6 +61,8 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
 
     private val changeAddressLiveData = MutableLiveData<WalletAddress>()
 
+    private var isStarted = false
+
     override fun onViewCreated() {
         super.onViewCreated()
 
@@ -124,18 +126,10 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
     override fun onStart() {
         super.onStart()
 
-        // we need to apply scanned address after watchers were added
-        if (state.scannedAddress != null) {
-            state.scannedAddress?.let {
-                view?.setAddress(it)
-                view?.handleAddressSuggestions(null)
-              //  view?.requestFocusToAmount()
-            }
-            state.scannedAmount?.let { view?.setAmount(it) }
+        isStarted = true
 
-            state.scannedAddress = null
-            state.scannedAmount = null
-        }
+        // we need to apply scanned address after watchers were added
+        applyScannedAddress()
 
         view?.handleExpandAdvanced(state.expandAdvanced)
         view?.handleExpandEditAddress(state.expandEditAddress)
@@ -151,6 +145,29 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
         notifyPrivacyStateChange()
 
         requestFee()
+    }
+
+    override fun onStop() {
+        isStarted = false
+        super.onStop()
+    }
+
+    /**
+     * Moves a scanned address from the state into the view. Deferred until the view is started
+     * because the address has to be applied after the text watchers were added.
+     */
+    private fun applyScannedAddress() {
+        if (state.scannedAddress == null) return
+
+        state.scannedAddress?.let {
+            view?.setAddress(it)
+            view?.handleAddressSuggestions(null)
+          //  view?.requestFocusToAmount()
+        }
+        state.scannedAmount?.let { view?.setAmount(it) }
+
+        state.scannedAddress = null
+        state.scannedAmount = null
     }
 
     override fun onMaxPrivacy(value: Boolean) {
@@ -425,6 +442,16 @@ class SendPresenter(currentView: SendContract.View, currentRepository: SendContr
             }
             else {
                 state.maxPrivacyCount = -1
+            }
+
+            // requestFocus marks the one caller that is the QR scanner's result (the others
+            // pass an address the field already holds). That result is delivered through
+            // onActivityResult, which runs after onStart — so waiting for the next onStart
+            // left the address field and the online/offline toggle empty until the user
+            // happened to leave the screen and come back. Apply it straight away when the view
+            // is already started; onStart still covers the opposite ordering.
+            if (requestFocus && isStarted) {
+                applyScannedAddress()
             }
 
             val enteredAmount = view?.getAmount()?.convertToGroth() ?: 0L
