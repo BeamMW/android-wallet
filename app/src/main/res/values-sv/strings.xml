@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Laddar plånbok</string>
     <string name="welcome_progress_restore">Återställer plånbok</string>
     <string name="welcome_progress_restore_error_title">Återställning av plånbok misslyckades</string>
+    <string name="welcome_progress_restore_download_error">Återställningsfilen kunde inte laddas ned. Försök igen senare.</string>
     <string name="welcome_progress_restore_error_description">Plånboken kan inte ansluta mot noden. Vänligen försök vid ett senare tillfälle.</string>
     <string name="welcome_progress_restore_btn_try_again">Försök igen</string>
     <string name="welcome_progress_cancel_restore_title">Avbryter återställandet</string>

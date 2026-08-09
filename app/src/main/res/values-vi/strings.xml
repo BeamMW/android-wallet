@@ -79,6 +79,7 @@ hế độ bảo mật</string>
     <string name="welcome_progress_open">Đang tải ví</string>
     <string name="welcome_progress_restore">Khôi phục ví</string>
     <string name="welcome_progress_restore_error_title">Khôi phục ví thất bại</string>
+    <string name="welcome_progress_restore_download_error">Không thể tải xuống tệp khôi phục. Vui lòng thử lại sau.</string>
     <string name="welcome_progress_restore_error_description">Ví không thể kết nối với nút. Vui lòng thử lại sau.</string>
     <string name="welcome_progress_restore_btn_try_again">Thử lại lần nữa</string>
     <string name="welcome_progress_cancel_restore_title">Huỷ khôi phục</string>

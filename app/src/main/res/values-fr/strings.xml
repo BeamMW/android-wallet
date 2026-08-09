@@ -80,6 +80,7 @@ vous aurez besoin de cette phrase pour récupérer votre portefeuille! Merci de 
     <string name="welcome_progress_open">Chargement du portefeuille</string>
     <string name="welcome_progress_restore">Restaurer le portefeuille</string>
     <string name="welcome_progress_restore_error_title">La restauration du portefeuille a echoué</string>
+    <string name="welcome_progress_restore_download_error">Le fichier de restauration n\'a pas pu être téléchargé. Veuillez réessayer plus tard.</string>
     <string name="welcome_progress_restore_error_description">Le portefeuille ne peut pas se connecter au noeud. Merci de réessayer plus tard.</string>
     <string name="welcome_progress_restore_btn_try_again">Réessayer</string>
     <string name="welcome_progress_cancel_restore_title">Annuler la restauration</string>

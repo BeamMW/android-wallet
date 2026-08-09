@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Ladataan lompakkoa</string>
     <string name="welcome_progress_restore">Palautetaan lompakkoa</string>
     <string name="welcome_progress_restore_error_title">Lompakon palautus epäonnistui</string>
+    <string name="welcome_progress_restore_download_error">Palautustiedostoa ei voitu ladata. Yritä myöhemmin uudelleen.</string>
     <string name="welcome_progress_restore_error_description">Palvelimeen (node) ei saada yhteyttä. Yritä myöhemmin uudelleen.</string>
     <string name="welcome_progress_restore_btn_try_again">Yritä uudelleen</string>
     <string name="welcome_progress_cancel_restore_title">Peruutetaan palautus</string>

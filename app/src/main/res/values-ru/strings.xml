@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Загрузка кошелька</string>
     <string name="welcome_progress_restore">Восстановление кошелька</string>
     <string name="welcome_progress_restore_error_title">Ошибка при восстановлении кошелька</string>
+    <string name="welcome_progress_restore_download_error">Не удалось загрузить файл восстановления. Пожалуйста, попробуйте позже.</string>
     <string name="welcome_progress_restore_error_description">Не удается соединиться с узлом сети. Повторите позже.</string>
     <string name="welcome_progress_restore_btn_try_again">Попробуйте еще раз</string>
     <string name="welcome_progress_cancel_restore_title">Прекратить процесс восстановления</string>

@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Wallet wird geladen</string>
     <string name="welcome_progress_restore">Wallet wiederherstellen</string>
     <string name="welcome_progress_restore_error_title">Wallet-Wiederherstellungsfehler</string>
+    <string name="welcome_progress_restore_download_error">Die Wiederherstellungsdatei konnte nicht heruntergeladen werden. Bitte versuchen Sie es später erneut.</string>
     <string name="welcome_progress_restore_error_description">Es konnte keine Verbindung mit dem node hergestellt werden. Versuche es bitte später erneut.</string>
     <string name="welcome_progress_restore_btn_try_again">Erneut versuchen</string>
     <string name="welcome_progress_cancel_restore_title">Wiederherstellung wird abgebrochen</string>

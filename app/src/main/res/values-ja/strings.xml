@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">ウォレットを読み込み中</string>
     <string name="welcome_progress_restore">ウォレットをリストアしています</string>
     <string name="welcome_progress_restore_error_title">ウォレットのリストアに失敗しました</string>
+    <string name="welcome_progress_restore_download_error">復元ファイルをダウンロードできませんでした。しばらくしてからもう一度お試しください。</string>
     <string name="welcome_progress_restore_error_description">ウォレットをノードに接続できません。再試行してください。</string>
     <string name="welcome_progress_restore_btn_try_again">再試行してください。</string>
     <string name="welcome_progress_cancel_restore_title">リストアをキャンセル</string>

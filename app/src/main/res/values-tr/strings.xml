@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Cüzdan yükleniyor</string>
     <string name="welcome_progress_restore">Cüzdanı geri yükle</string>
     <string name="welcome_progress_restore_error_title">Cüzdan geri yüklemesi hatası</string>
+    <string name="welcome_progress_restore_download_error">Geri yükleme dosyası indirilemedi. Lütfen daha sonra tekrar deneyin.</string>
     <string name="welcome_progress_restore_error_description">Cüzdan düğüme bağlanamıyor. Lütfen tekrar deneyin.</string>
     <string name="welcome_progress_restore_btn_try_again">Tekrar deneyin</string>
     <string name="welcome_progress_cancel_restore_title">Geri yüklemeyi iptal et</string>

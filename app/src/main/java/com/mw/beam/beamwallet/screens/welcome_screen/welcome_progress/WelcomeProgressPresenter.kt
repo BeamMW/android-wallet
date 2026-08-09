@@ -106,7 +106,7 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
         super.onStart()
 
         if (state.isFailedNetworkConnect && state.mode == WelcomeMode.RESTORE_AUTOMATIC) {
-            view?.showFailedDownloadRestoreFileAlert()
+            view?.showFailedDownloadRestoreFileAlert(RestoreManager.instance.lastError)
         }
     }
 
@@ -139,11 +139,25 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
 
         file = repository.createRestoreFile()
 
+        // Try again comes back through here, so the previous subscription has to go or every
+        // retry would stack another alert on the next failure.
+        downloadSubscription.dispose()
+
         downloadSubscription = RestoreManager.instance.subDownloadProgress
                 .subscribe({
 
+                    // The downloader reports a failure as a -1 emission rather than an Rx error,
+                    // so the error branch below never runs and this is the only place a failed
+                    // download is seen. It used to close the screen, dropping the user back on
+                    // create/restore with no explanation; offer the try-again alert instead.
                     if (it.done == -1) {
-                        view?.close()
+                        state.isFailedNetworkConnect = true
+                        // Through the same live data as the progress updates, which is what
+                        // guarantees the hop to the main thread before touching the view.
+                        val reason = RestoreManager.instance.lastError
+                        onRecoveryLiveData.postValue {
+                            view?.showFailedDownloadRestoreFileAlert(reason)
+                        }
                     } else {
                         onRecoveryLiveData.postValue {
                             view?.updateProgress(it, state.mode, isDownloadProgress = true, isRestoreProgress = false)
@@ -157,9 +171,9 @@ class WelcomeProgressPresenter(currentView: WelcomeProgressContract.View, curren
                     }
 
 
-                }, {
+                }, { error ->
                     state.isFailedNetworkConnect = true
-                    view?.showFailedDownloadRestoreFileAlert()
+                    view?.showFailedDownloadRestoreFileAlert(error.localizedMessage)
                 })
 
         DownloadCalculator.onStartDownload()

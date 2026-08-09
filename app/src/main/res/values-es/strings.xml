@@ -80,6 +80,7 @@ Nunca escriba su frase semilla en keychains o administradores de contraseñas. N
     <string name="welcome_progress_open">Cargando wallet</string>
     <string name="welcome_progress_restore">Restaurando wallet</string>
     <string name="welcome_progress_restore_error_title">La restauración del wallet ha fallado</string>
+    <string name="welcome_progress_restore_download_error">No se pudo descargar el archivo de restauración. Vuelva a intentarlo más tarde.</string>
     <string name="welcome_progress_restore_error_description">El wallet no puede conectarse al nodo. Por favor, inténtelo de nuevo más tarde.</string>
     <string name="welcome_progress_restore_btn_try_again">Prueba de nuevo</string>
     <string name="welcome_progress_cancel_restore_title">Cancelando restauración</string>

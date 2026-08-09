@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">กำลังเปิดกระเป๋า</string>
     <string name="welcome_progress_restore">กำลังกู้กระเป๋า</string>
     <string name="welcome_progress_restore_error_title">การกู้กระเป๋าล้มเหลว</string>
+    <string name="welcome_progress_restore_download_error">ไม่สามารถดาวน์โหลดไฟล์กู้คืนได้ โปรดลองอีกครั้งในภายหลัง</string>
     <string name="welcome_progress_restore_error_description">กระเป๋าไม่สามารถต่อไปยัง Node ได้ กรุณาลองอีกครั้ง</string>
     <string name="welcome_progress_restore_btn_try_again">ลองอีกครั้ง</string>
     <string name="welcome_progress_cancel_restore_title">ยกเลิกการกู้</string>

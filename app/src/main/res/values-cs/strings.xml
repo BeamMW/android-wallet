@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Načítání peněženky</string>
     <string name="welcome_progress_restore">Obnovování peněženky</string>
     <string name="welcome_progress_restore_error_title">Obnovení peněženky se nezdařilo</string>
+    <string name="welcome_progress_restore_download_error">Soubor pro obnovení se nepodařilo stáhnout. Zkuste to prosím později.</string>
     <string name="welcome_progress_restore_error_description">Peněženka se nemůže připojit k uzlu. Opakujte akci později.</string>
     <string name="welcome_progress_restore_btn_try_again">Zkusit znovu</string>
     <string name="welcome_progress_cancel_restore_title">Zrušení obnovy</string>

@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Memuat wallet</string>
     <string name="welcome_progress_restore">Restoring wallet</string>
     <string name="welcome_progress_restore_error_title">Pemulihan Wallet gagal</string>
+    <string name="welcome_progress_restore_download_error">File pemulihan tidak dapat diunduh. Silakan coba lagi nanti.</string>
     <string name="welcome_progress_restore_error_description">The wallet can’t connect to the node. Please try again later.</string>
     <string name="welcome_progress_restore_btn_try_again">Coba lagi</string>
     <string name="welcome_progress_cancel_restore_title">Membatalkan pemulihan</string>

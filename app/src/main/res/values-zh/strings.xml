@@ -85,6 +85,7 @@
     <string name="welcome_progress_open">正在载入钱包</string>
     <string name="welcome_progress_restore">正在恢复钱包</string>
     <string name="welcome_progress_restore_error_title">钱包恢复失败</string>
+    <string name="welcome_progress_restore_download_error">无法下载恢复文件。请稍后重试。</string>
     <string name="welcome_progress_restore_error_description">钱包无法连接到节点
 请稍后再试</string>
     <string name="welcome_progress_restore_btn_try_again">请再试一次</string>

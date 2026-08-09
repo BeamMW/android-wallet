@@ -350,8 +350,18 @@ class WelcomeProgressFragment : BaseFragment<WelcomeProgressPresenter>(), Welcom
                 onCancel = { presenter?.onCancel() })
     }
 
-    override fun showFailedDownloadRestoreFileAlert() {
-        showAlert(message = getString(R.string.welcome_progress_restore_error_description),
+    override fun showFailedDownloadRestoreFileAlert(details: String?) {
+        // The old copy blamed the node connection, which was a guess — the download can just as
+        // well have been refused by the server. Say what actually happened and append the
+        // downloader's reason, so a report carries something diagnosable.
+        val message = if (details.isNullOrEmpty()) {
+            getString(R.string.welcome_progress_restore_download_error)
+        }
+        else {
+            getString(R.string.welcome_progress_restore_download_error) + "\n\n" + details
+        }
+
+        showAlert(message = message,
                 btnConfirmText = getString(R.string.welcome_progress_restore_btn_try_again),
                 onConfirm = { presenter?.onTryAgain() },
                 title = getString(R.string.welcome_progress_restore_error_title),

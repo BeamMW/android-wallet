@@ -78,6 +78,7 @@
     <string name="welcome_progress_open">Caricamento portafoglio</string>
     <string name="welcome_progress_restore">Ripristino del portafoglio</string>
     <string name="welcome_progress_restore_error_title">Wallet restore failure</string>
+    <string name="welcome_progress_restore_download_error">Non è stato possibile scaricare il file di ripristino. Riprova più tardi.</string>
     <string name="welcome_progress_restore_error_description">The wallet can’t connect to the node. Please try again later.</string>
     <string name="welcome_progress_restore_btn_try_again">Riprova</string>
     <string name="welcome_progress_cancel_restore_title">Canceling restore</string>

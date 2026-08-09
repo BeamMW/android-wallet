@@ -46,7 +46,7 @@ interface WelcomeProgressContract {
         fun showCancelRestoreAlert()
         fun showCancelCreateAlert()
         fun showFailedRestoreAlert()
-        fun showFailedDownloadRestoreFileAlert()
+        fun showFailedDownloadRestoreFileAlert(details: String? = null)
         fun getLifecycleOwner(): LifecycleOwner
         fun navigateToCreateFragment()
         fun changeCancelButtonVisibility(visible: Boolean)
