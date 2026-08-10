@@ -73,7 +73,7 @@ interface SettingsContract {
         fun showImportDialog()
         fun showConfirmRemoveWallet()
         fun walletRemoved()
-        fun exportError()
+        fun importError()
         fun setAllowNews(allow: Boolean)
         fun setAllowTransaction(allow: Boolean)
         fun setAllowWalletUpdates(allow: Boolean)

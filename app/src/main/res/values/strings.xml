@@ -473,6 +473,8 @@ address or contact</string>
     <string name="utilities">Utilities</string>
     <string name="incorrect_file_title">Incorrect file</string>
     <string name="incorrect_file_text">The file you’re trying to import to Beam wallet doesn’t fit. Please choose another file and try again.</string>
+    <string name="import_failed_title">Data not imported</string>
+    <string name="import_failed_text">The wallet couldn’t import this data. It was most likely exported from a wallet with a different seed phrase, so its addresses and transactions don’t belong to this one.</string>
     <string name="import_data_text">Are you sure you want to import data to your Beam wallet? All the current data will be replaced with imported one.</string>
     <string name="imp">Import</string>
     <string name="change_node_text_2">Use your fingerprint or enter your password to change node settings</string>
@@ -481,6 +483,7 @@ address or contact</string>
     <string name="privacy">Privacy</string>
     <string name="enter_your_password">Enter your password</string>
     <string name="wallet_data_saved">Wallet data saved to Downloads</string>
+    <string name="wallet_data_not_saved">Couldn’t save the wallet data to Downloads. Try sharing it instead.</string>
     <string name="remove_wallet_password_1">Use your fingerprint or enter your password to remove current wallet</string>
     <string name="remove_wallet_password_2">Enter your password to remove current wallet</string>
     <string name="welcome_seed_description_old">Your seed phrase is the access key to all the funds in your wallet. Print or write down the phrase to keep it in a safe or in a locked vault. Without the phrase you will not be able to recover your money.</string>

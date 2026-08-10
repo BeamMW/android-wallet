@@ -371,12 +371,26 @@ class AppActivity : BaseActivity<AppActivityPresenter>(), AppActivityContract.Vi
             val inputStream = contentResolver.openInputStream(uri)
             val json = inputStream?.bufferedReader().use { it?.readText() }
 
-            Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+            val element = Gson().getAdapter(JsonElement::class.java).fromJson(json) ?: return  null
+
+            if (!isWalletData(element)) return null
 
             return json
         }
         catch (e: Exception) {
             return null
+        }
+    }
+
+    // Shape check so "Incorrect file" only fires for wrong files — a valid file the
+    // wallet core rejects gets its own message instead.
+    private fun isWalletData(element: JsonElement): Boolean {
+        if (!element.isJsonObject) return false
+
+        val json = element.asJsonObject
+
+        return listOf("OwnAddresses", "Contacts", "TransactionParameters").any {
+            json.get(it)?.isJsonArray == true
         }
     }
 

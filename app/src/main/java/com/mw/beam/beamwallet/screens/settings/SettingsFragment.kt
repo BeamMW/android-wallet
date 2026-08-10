@@ -1495,6 +1495,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
 
                         } catch (e: IOException) {
                             e.printStackTrace()
+
+                            showSnackBar(getString(R.string.wallet_data_not_saved))
                         }
                     }
 
@@ -1596,11 +1598,11 @@ class SettingsFragment : BaseFragment<SettingsPresenter>(), SettingsContract.Vie
         return SettingsPresenter(this, SettingsRepository(), SettingsState())
     }
 
-    override fun exportError() {
+    override fun importError() {
         activity?.runOnUiThread {
-            showAlert(getString(R.string.incorrect_file_text), getString(R.string.ok), {
+            showAlert(getString(R.string.import_failed_text), getString(R.string.ok), {
 
-            }, getString(R.string.incorrect_file_title))
+            }, getString(R.string.import_failed_title))
         }
     }
 }
