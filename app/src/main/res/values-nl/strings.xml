@@ -442,7 +442,6 @@ U moet de 2-stapsverificatie (wachtwoord opgeven en gezichtsherkenning gebruiken
     <string name="dont_use">Niet gebruiken</string>
     <string name="since_block_height">Sinds block height</string>
     <string name="import_data_warning">Alleen de data geëxporteerd uit een wallet met dezelfde herstelzin kan worden geïmporteerd.</string>
-    <string name="faucet_redirect_text">Doorverwijzen naar de faucet website.\nUw adres wordt automatisch ingevuld.</string>
     <string name="clear_wallet_transactions_text">Kan wallet met actieve transacties niet verwijderen</string>
     <string name="background_mode_title">Toestaan dat de wallet op de achtergrond wordt uitgevoerd</string>
     <string name="background_mode_text">Beam Wallet vereist toestemming om op de achtergrond te worden uitgevoerd. We raden u dit aan om altijd transacties te kunnen accepteren. U kunt uw keuze op elk gewenst moment wijzigen in de instellingen.</string>

@@ -440,7 +440,6 @@ adresy nebo kontaktu</string>
     <string name="dont_use">Nepoužívat</string>
     <string name="since_block_height">Od velikosti bloku</string>
     <string name="import_data_warning">Importovat lze pouze data exportovaná z peněženky vytvořené pomocí stejných klíčových slov.</string>
-    <string name="faucet_redirect_text">Přesměrování na webovou stránku faucetu.\nVaše adresa bude automaticky vyplněna.</string>
     <string name="clear_wallet_transactions_text">Nelze odstranit peněženku s aktivními transakcemi</string>
     <string name="background_mode_title">Povolit běh peněženky na pozadí</string>
     <string name="background_mode_text">Peněženka Beam vyžaduje oprávnění ke spuštění na pozadí. Doporučujeme ji povolit, abyste mohli vždy přijímat transakce. Svou volbu můžete kdykoliv změnit v nastavení.</string>

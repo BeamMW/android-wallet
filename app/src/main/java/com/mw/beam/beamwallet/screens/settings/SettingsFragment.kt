@@ -83,7 +83,6 @@ import com.mw.beam.beamwallet.core.entities.ExchangeRate
 import com.mw.beam.beamwallet.screens.wallet.NavItem
 import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.screens.node.NodeFragmentDirections
-import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 import kotlinx.android.synthetic.main.dialog_confirmations_settings.view.*
 import kotlinx.android.synthetic.main.dialog_lock_screen_settings.view.radioGroupLockSettings
 import kotlinx.android.synthetic.main.item_settings.view.textLabel

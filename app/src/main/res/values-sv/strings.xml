@@ -440,7 +440,6 @@ Denna adress finns redan</string>
     <string name="dont_use">Använd inte</string>
     <string name="since_block_height">Sedan blockets höjd</string>
     <string name="import_data_warning">Endast datat från den exporterade plånboken med samma seed phrase kan bli importerat.</string>
-    <string name="faucet_redirect_text">Omdirigering till faucet-hemsidan.\nDin adress kommer att fyllas i automatiskt.</string>
     <string name="clear_wallet_transactions_text">Det går inte att ta bort plånboken med aktiva transaktioner</string>
     <string name="background_mode_title">Tillåt plånboken att köras i bakgrunden</string>
     <string name="background_mode_text">Beam Wallet kräver tillstånd för att köras i bakgrunden. Vi rekommenderar att du tillåter det så att du alltid kan acceptera transaktioner. Du kan ändra ditt val i appinställningen när som helst.</string>

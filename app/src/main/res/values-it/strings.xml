@@ -443,7 +443,6 @@ address or contact</string>
     <string name="dont_use">Non usato</string>
     <string name="since_block_height">Since block height</string>
     <string name="import_data_warning">Only the data exported from the wallet with the same seed phrase can be imported.</string>
-    <string name="faucet_redirect_text">Redirecting to the faucet website.\nYour address will be filled-in automatically.</string>
     <string name="clear_wallet_transactions_text">Unable to delete wallet with active transactions</string>
     <string name="background_mode_title">Allow wallet to run in background</string>
     <string name="background_mode_text">Beam Wallet requires permission to run in background. We recommend to allow it so you can always accept transactions. You can change your choice in app setting anytime.</string>

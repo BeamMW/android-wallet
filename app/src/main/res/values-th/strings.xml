@@ -444,7 +444,6 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="dont_use">ไม่ใช้งาน</string>
     <string name="since_block_height">Since block height</string>
     <string name="import_data_warning">ข้อมูลกระเป๋าที่จะนำเข้าจะต้องมีกลุ่มคำลับเหมือนกันถึงจะสามารถนำเข้าได้</string>
-    <string name="faucet_redirect_text">Redirecting to the faucet website.\nYour address will be filled-in automatically.</string>
     <string name="clear_wallet_transactions_text">Unable to delete wallet with active transactions</string>
     <string name="background_mode_title">Allow wallet to run in background</string>
     <string name="background_mode_text">Beam Wallet requires permission to run in background. We recommend to allow it so you can always accept transactions. You can change your choice in app setting anytime.</string>

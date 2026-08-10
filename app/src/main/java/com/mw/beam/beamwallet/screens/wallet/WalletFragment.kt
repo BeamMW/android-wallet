@@ -36,7 +36,6 @@ import com.mw.beam.beamwallet.screens.confirm.DoubleAuthorizationFragmentMode
 import com.mw.beam.beamwallet.core.helpers.NetworkStatus
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
 import com.mw.beam.beamwallet.core.views.gone
-import com.mw.beam.beamwallet.screens.timer_overlay_dialog.TimerOverlayDialog
 import com.mw.beam.beamwallet.R
 import com.mw.beam.beamwallet.base_screen.*
 import com.mw.beam.beamwallet.core.*
