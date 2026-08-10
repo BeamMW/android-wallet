@@ -380,7 +380,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 address or contact</string>
     <string name="address_details">Adres detayları</string>
     <string name="generate_new_address">Yeni adres oluştur</string>
-    <string name="generate_new_address_hint">Bu adresi yeniden kullanmak güvenlidir — yeni bir adres yalnızca ödemelerin birbiriyle ilişkilendirilmesini istemiyorsanız gereklidir.</string>
+    <string name="generate_new_address_hint">Bir adresi yeniden kullanmak güvenlidir (adresler blok zincirinde saklanmaz) — yeni bir adres yalnızca ödemelerin birbiriyle ilişkilendirilmesini istemiyorsanız gereklidir.</string>
     <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>

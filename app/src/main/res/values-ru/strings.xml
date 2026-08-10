@@ -378,7 +378,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Поиск по ID транзакции, комментарию, адресу или контакту</string>
     <string name="address_details">Подробности адреса</string>
     <string name="generate_new_address">Создать новый адрес</string>
-    <string name="generate_new_address_hint">Повторное использование этого адреса безопасно — новый нужен, только если вы хотите, чтобы платежи нельзя было связать между собой.</string>
+    <string name="generate_new_address_hint">Повторное использование адреса безопасно (адреса не хранятся в блокчейне) — новый нужен, только если вы хотите, чтобы платежи нельзя было связать между собой.</string>
     <string name="contact_details">Детали контакта</string>
     <string name="crash_title">Сбой приложения</string>
     <string name="crash_message">Вы хотите сообщить нам о ограниченном количестве информации? Сбор информации о сбоях позволит нам быстрее обнаружить и исправлять ошибки. Это только один отчет, связанный с ошибкой, мы не будем собирать какие-либо из ваших данных позже.</string>

@@ -379,7 +379,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 address or contact</string>
     <string name="address_details">Rincian alamat</string>
     <string name="generate_new_address">Buat alamat baru</string>
-    <string name="generate_new_address_hint">Menggunakan ulang alamat ini aman — alamat baru hanya diperlukan jika Anda ingin pembayaran tidak dapat dikaitkan satu sama lain.</string>
+    <string name="generate_new_address_hint">Menggunakan ulang alamat itu aman (alamat tidak disimpan di blockchain) — alamat baru hanya diperlukan jika Anda ingin pembayaran tidak dapat dikaitkan satu sama lain.</string>
     <string name="contact_details">Rincian kontak</string>
     <string name="crash_title">Wallet Beam gagal tiba-tiba</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>

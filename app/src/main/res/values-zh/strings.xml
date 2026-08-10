@@ -394,7 +394,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 地址或联系人搜索</string>
     <string name="address_details">地址详情</string>
     <string name="generate_new_address">生成新地址</string>
-    <string name="generate_new_address_hint">重复使用此地址是安全的 — 只有在你希望各笔付款之间无法被关联时，才需要新地址。</string>
+    <string name="generate_new_address_hint">重复使用地址是安全的（地址不会存储在区块链上）— 只有在你希望各笔付款之间无法被关联时，才需要新地址。</string>
     <string name="contact_details">联系人详细信息</string>
     <string name="crash_title">Beam 钱包意外崩溃</string>
     <string name="crash_message">你是否同意向我们报告有关的信息？收集崩溃信息将使我们能够更快地发现和修复漏洞。 这只是一个与崩溃有关的报告，我们以后不会继续收集你的任何数据。</string>

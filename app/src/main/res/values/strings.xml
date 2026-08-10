@@ -431,7 +431,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 address or contact</string>
     <string name="address_details">Address details</string>
     <string name="generate_new_address">Generate new address</string>
-    <string name="generate_new_address_hint">Reusing this address is safe — a new one is only needed if you want to keep payments unlinked.</string>
+    <string name="generate_new_address_hint">Reusing an address is safe (addresses are not stored onchain) — a new one is only needed if you want to keep payments unlinked.</string>
     <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
 

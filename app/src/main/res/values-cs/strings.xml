@@ -376,7 +376,7 @@
 adresy nebo kontaktu</string>
     <string name="address_details">Detaily adresy</string>
     <string name="generate_new_address">Vygenerovat novou adresu</string>
-    <string name="generate_new_address_hint">Opakované použití této adresy je bezpečné — novou potřebujete jen tehdy, pokud chcete, aby platby nebylo možné propojit.</string>
+    <string name="generate_new_address_hint">Opakované použití adresy je bezpečné (adresy se neukládají do blockchainu) — novou potřebujete jen tehdy, pokud chcete, aby platby nebylo možné propojit.</string>
     <string name="contact_details">Kontaktní údaje</string>
     <string name="crash_title">Peněženka Beam přestala neočekávaně fungovat</string>
     <string name="crash_message">Souhlasíte s tím, že nám nahlašujete své omezené množství informací? Sběr informací o selhání nám umožní mnohem rychleji objevit a opravit chyby. Toto je pouze jediná zpráva týkající se selhání, později už nebudeme shromažďovat žádná další data.</string>

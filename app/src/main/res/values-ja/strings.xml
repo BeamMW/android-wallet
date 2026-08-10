@@ -378,7 +378,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 address or contact</string>
     <string name="address_details">アドレスの詳細</string>
     <string name="generate_new_address">新しいアドレスを生成</string>
-    <string name="generate_new_address_hint">このアドレスは繰り返し使用しても安全です。支払い同士を関連付けられないようにしたい場合にのみ、新しいアドレスが必要です。</string>
+    <string name="generate_new_address_hint">アドレスは繰り返し使用しても安全です（アドレスはブロックチェーンに保存されません）。支払い同士を関連付けられないようにしたい場合にのみ、新しいアドレスが必要です。</string>
     <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>

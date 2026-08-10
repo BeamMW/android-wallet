@@ -376,7 +376,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">거래 ID , 코멘트 , 주소 혹은 연락처로 검색하기</string>
     <string name="address_details">주소 상세정보</string>
     <string name="generate_new_address">새 주소 생성</string>
-    <string name="generate_new_address_hint">이 주소를 다시 사용해도 안전합니다. 결제 내역이 서로 연결되지 않도록 하려는 경우에만 새 주소가 필요합니다.</string>
+    <string name="generate_new_address_hint">주소를 다시 사용해도 안전합니다(주소는 블록체인에 저장되지 않습니다). 결제 내역이 서로 연결되지 않도록 하려는 경우에만 새 주소가 필요합니다.</string>
     <string name="contact_details">연락처 세부 정보</string>
     <string name="crash_title">Beam 지갑이 알 수 없는 이유로 종료되었습니다</string>
     <string name="crash_message">제한된 양의 정보를 당사에 보고하기로 동의 하시겠습니까? 에러 정보를 수집하면 버그를 훨씬 빨리 발견하고 수정할 수 있습니다. 이것은 에러 관련 보고서일 뿐이며 저희는 귀하의 데이터를 계속 수집하지는 않습니다.</string>

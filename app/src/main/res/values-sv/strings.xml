@@ -376,7 +376,7 @@ Denna adress finns redan</string>
     <string name="search_by_transaction_or_kernel_id_comment_address_or_contact">Sök med transaktions eller kernel-ID, kommentar, adress eller kontakt</string>
     <string name="address_details">Adressuppgifter</string>
     <string name="generate_new_address">Skapa ny adress</string>
-    <string name="generate_new_address_hint">Det är säkert att återanvända den här adressen – en ny behövs bara om du vill att betalningar inte ska kunna kopplas ihop.</string>
+    <string name="generate_new_address_hint">Det är säkert att återanvända en adress (adresser lagras inte på blockkedjan) – en ny behövs bara om du vill att betalningar inte ska kunna kopplas ihop.</string>
     <string name="contact_details">Kontaktdetaljer</string>
     <string name="crash_title">Beam-plånboken krashade oväntat</string>
     <string name="crash_message">Skulle du godkänna att rapportera din begränsade mängd information till oss? Insamlandet av krash-informationen skulle möjliggöra att vi upptäcker fixar och buggar mycket snabbare. Detta är endast en krash-relaterad rapport, vi kommer inte att samla in några av dina data senare.</string>

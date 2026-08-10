@@ -379,7 +379,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 คอมเมนต์, ที่อยู่หรือรายชื่อผู้ติดต่อ</string>
     <string name="address_details">รายละเอียดที่อยู่</string>
     <string name="generate_new_address">สร้างที่อยู่ใหม่</string>
-    <string name="generate_new_address_hint">การใช้ที่อยู่นี้ซ้ำนั้นปลอดภัย คุณต้องใช้ที่อยู่ใหม่ก็ต่อเมื่อไม่ต้องการให้การชำระเงินเชื่อมโยงถึงกันเท่านั้น</string>
+    <string name="generate_new_address_hint">การใช้ที่อยู่ซ้ำนั้นปลอดภัย (ที่อยู่จะไม่ถูกบันทึกบนบล็อกเชน) คุณต้องใช้ที่อยู่ใหม่ก็ต่อเมื่อไม่ต้องการให้การชำระเงินเชื่อมโยงถึงกันเท่านั้น</string>
     <string name="contact_details">ราย​ละเอียด​รายชื่อผู้ติดต่อ</string>
     <string name="crash_title">กระเป๋า Beam มีปัญหาที่ไม่สามารถระบุได้</string>
     <string name="crash_message">คุณตกลงที่จะรายงานข้อมูลเล็กน้อยกับทางเราหรือไม่? ข้อมูลความผิดพลาดนี้จะทำให้ทางเราสามารถหาปัญหาและแก้ไขได้เร็วยิ่งขึ้น เราจะเก็บเฉพาะข้อมูลที่เกี่ยวกับความผิดพลาดเท่านั้น เราจะไม่เก็บข้อมูลอื่นๆในภายหลัง</string>

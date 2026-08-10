@@ -382,7 +382,7 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
 address or contact</string>
     <string name="address_details">Détails de l\'adresse</string>
     <string name="generate_new_address">Générer une nouvelle adresse</string>
-    <string name="generate_new_address_hint">Réutiliser cette adresse est sûr — une nouvelle n\'est nécessaire que si vous voulez que les paiements ne puissent pas être reliés entre eux.</string>
+    <string name="generate_new_address_hint">Réutiliser une adresse est sûr (les adresses ne sont pas stockées sur la blockchain) — une nouvelle n\'est nécessaire que si vous voulez que les paiements ne puissent pas être reliés entre eux.</string>
     <string name="contact_details">Contact details</string>
     <string name="crash_title">Beam Wallet crashed unexpectedly</string>
     <string name="crash_message">Would you agree to report your limited amount of information to us? Collecting crash information would allow us to discover and fix bugs much faster. This is only a single crash-related report, we won\'t keep collecting any of your data later.</string>
