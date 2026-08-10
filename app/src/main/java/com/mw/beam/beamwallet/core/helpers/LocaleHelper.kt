@@ -30,20 +30,28 @@ object LocaleHelper {
     private val englishLanguage = SupportedLanguage(enLanguageCode, "English", "English")
     private val systemLocale: Locale = getSystemLocale()
 
+    // One entry per values-<code> resource directory.
     val supportedLanguages = listOf(
-            englishLanguage
-//            SupportedLanguage("ru", "Russian", "Русский"),
-//            SupportedLanguage("sv", "Swedish", "Svenska"),
-//            SupportedLanguage("es", "Spanish", "Español"),
-//            SupportedLanguage("tr", "Turkish", "Türk"),
-//            SupportedLanguage("vi", "Vietnamese", "Tiếng Việt"),
-//            SupportedLanguage("zh", "Chinese", "中文"),
-//            SupportedLanguage("fr", "French", "Français"),
-//            SupportedLanguage("ja", "Japanese", "日本語"),
-//            SupportedLanguage("ko", "Korean", "한국어"),
-//            SupportedLanguage("th", "Thai", "ภาษาไทย"),
-//            SupportedLanguage("nl", "Dutch", "Nederlands"),
-//            SupportedLanguage("fi", "Finnish", "Suomi")
+            englishLanguage,
+            SupportedLanguage("be", "Belarusian", "Беларуская"),
+            SupportedLanguage("cs", "Czech", "Čeština"),
+            SupportedLanguage("de", "German", "Deutsch"),
+            SupportedLanguage("es", "Spanish", "Español"),
+            SupportedLanguage("fi", "Finnish", "Suomi"),
+            SupportedLanguage("fr", "French", "Français"),
+            SupportedLanguage("id", "Indonesian", "Bahasa Indonesia"),
+            SupportedLanguage("it", "Italian", "Italiano"),
+            SupportedLanguage("ja", "Japanese", "日本語"),
+            SupportedLanguage("ko", "Korean", "한국어"),
+            SupportedLanguage("nl", "Dutch", "Nederlands"),
+            SupportedLanguage("ru", "Russian", "Русский"),
+            SupportedLanguage("sr", "Serbian", "Српски"),
+            SupportedLanguage("sv", "Swedish", "Svenska"),
+            SupportedLanguage("th", "Thai", "ภาษาไทย"),
+            SupportedLanguage("tr", "Turkish", "Türkçe"),
+            SupportedLanguage("uk", "Ukrainian", "Українська"),
+            SupportedLanguage("vi", "Vietnamese", "Tiếng Việt"),
+            SupportedLanguage("zh", "Chinese", "中文")
     )
 
     private var languageCode = enLanguageCode
@@ -55,7 +63,7 @@ object LocaleHelper {
     }
 
     fun loadLocale() {
-        languageCode = "en" //PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: "en"
+        languageCode = PreferencesManager.getString(PreferencesManager.KEY_LANGUAGE_CODE) ?: enLanguageCode
         val isSupportedSavedLanguage = supportedLanguages.any { it.languageCode == languageCode }
 
         if (!isSupportedSavedLanguage) {
