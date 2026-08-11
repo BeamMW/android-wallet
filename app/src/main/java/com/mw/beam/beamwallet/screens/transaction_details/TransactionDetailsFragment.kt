@@ -345,19 +345,22 @@ else{
         idLabel.text = txDescription.id
         kernelLabel.text = txDescription.kernelId
 
-        dateTitleLabel.text = dateTitleLabel.text.toString() + ":"
-        startAddressTitle.text = startAddressTitle.text.toString() + ":"
-        endAddressTitle.text = endAddressTitle.text.toString() + ":"
-        addressTypeTitleLabel.text = addressTypeTitleLabel.text.toString() + ":"
-        confirmationTitleLabel.text = confirmationTitleLabel.text.toString() + ":"
-        amountTitleLabel.text = amountTitleLabel.text.toString() + ":"
-        feeTitleLabel.text = feeTitleLabel.text.toString() + ":"
-        dAppNameTitleLabel.text = dAppNameTitleLabel.text.toString() + ":"
-        dAppShaderTitleLabel.text = dAppShaderTitleLabel.text.toString() + ":"
+        // From the string resources, not the labels' current text: this method runs again on
+        // every transaction or address-book event, and appending to the current text grew a
+        // colon per repaint ("DATE::::").
+        dateTitleLabel.text = getString(R.string.date) + ":"
+        startAddressTitle.text = getString(R.string.sending_address) + ":"
+        endAddressTitle.text = getString(R.string.receiving_address) + ":"
+        addressTypeTitleLabel.text = getString(R.string.address_type) + ":"
+        confirmationTitleLabel.text = getString(R.string.confirmation_status) + ":"
+        amountTitleLabel.text = getString(R.string.amount) + ":"
+        feeTitleLabel.text = getString(R.string.fee) + ":"
+        dAppNameTitleLabel.text = getString(R.string.dapp_anme) + ":"
+        dAppShaderTitleLabel.text = getString(R.string.app_shader_id) + ":"
         commentTitleLabel.text = commentTitleLabel.text.toString() + ":"
-        transactionIdTitleLabel.text = transactionIdTitleLabel.text.toString() + ":"
-        kernelTitleLabel.text = kernelTitleLabel.text.toString() + ":"
-        failedTitle.text = failedTitle.text.toString() + ":"
+        transactionIdTitleLabel.text = getString(R.string.transaction_id) + ":"
+        kernelTitleLabel.text = getString(R.string.kernel_id) + ":"
+        failedTitle.text = getString(R.string.failure_reason) + ":"
 
         addressTypeProofTitleLabel.text = addressTypeTitleLabel.text.toString()
         kernelProofTitleLabel.text = kernelTitleLabel.text.toString()
@@ -386,7 +389,7 @@ else{
         kernelProofButton.visibility = kernelButton.visibility
         kernelProofLabel.text = kernelLabel.text.toString()
 
-        proofCodeTitleLabel.text = proofCodeTitleLabel.text.toString() + ":"
+        proofCodeTitleLabel.text = getString(R.string.code) + ":"
 
         if (!AppManager.instance.isToken(endAddress.text.toString())) {
             senderProofLayout.visibility = View.GONE
