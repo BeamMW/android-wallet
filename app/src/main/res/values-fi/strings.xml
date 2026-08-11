@@ -546,8 +546,8 @@ osoitteella tai yhteystiedolla</string>
     <string name="exchange_not_available_mobile">mobiilisolmu (%1$s-vaihtokurssia ei saatu)</string>
     <string name="exchange_not_available_own">oma solmu (%1$s-vaihtokurssia ei saatu)</string>
     <string name="exchange_not_available_random">satunnainen solmu (%1$s-vaihtokurssia ei saatu)</string>
-    <string name="reconnect_random">satunnainen solmu: yhdistetään toiseen satunnaiseen solmuun…</string>
-    <string name="reconnect_mobile">mobiilisolmu: yhdistetään toiseen mobiilisolmuun…</string>
+    <string name="reconnect_random">satunnainen solmu: yhdistetään toiseen solmuun…</string>
+    <string name="reconnect_mobile">mobiilisolmu: yhdistetään uudelleen…</string>
     <string name="reconnecting">yhdistetään uudelleen…</string>
     <string name="min_fee_offline">Vähimmäistapahtumamaksu offline-tapahtuman lähettämiseen
 on 0.01 BEAM.</string>

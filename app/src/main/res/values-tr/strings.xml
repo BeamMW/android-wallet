@@ -547,8 +547,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">mobil nod (%1$s döviz kuru alınamadı)</string>
     <string name="exchange_not_available_own">kendi nodu (%1$s döviz kuru alınamadı)</string>
     <string name="exchange_not_available_random">rastgele nod (%1$s döviz kuru alınamadı)</string>
-    <string name="reconnect_random">rastgele nod: başka bir rastgele noda yeniden bağlanılıyor…</string>
-    <string name="reconnect_mobile">mobil nod: başka bir mobil noda yeniden bağlanılıyor…</string>
+    <string name="reconnect_random">rastgele nod: başka bir noda yeniden bağlanılıyor…</string>
+    <string name="reconnect_mobile">mobil nod: yeniden bağlanılıyor…</string>
     <string name="reconnecting">yeniden bağlanılıyor…</string>
     <string name="min_fee_offline">Çevrimdışı işlem göndermek için minimum işlem ücreti
 0.01 BEAM\'dir.</string>

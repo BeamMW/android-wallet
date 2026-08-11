@@ -545,8 +545,8 @@ U moet de 2-stapsverificatie (wachtwoord opgeven en gezichtsherkenning gebruiken
     <string name="exchange_not_available_mobile">mobiele node (wisselkoers naar %1$s werd niet ontvangen)</string>
     <string name="exchange_not_available_own">eigen node (wisselkoers naar %1$s werd niet ontvangen)</string>
     <string name="exchange_not_available_random">willekeurige node (wisselkoers naar %1$s werd niet ontvangen)</string>
-    <string name="reconnect_random">willekeurige node: opnieuw verbinden met een andere willekeurige node…</string>
-    <string name="reconnect_mobile">mobiele node: opnieuw verbinden met een andere mobiele node…</string>
+    <string name="reconnect_random">willekeurige node: opnieuw verbinden met een andere node…</string>
+    <string name="reconnect_mobile">mobiele node: opnieuw verbinden…</string>
     <string name="reconnecting">opnieuw verbinden…</string>
     <string name="min_fee_offline">Minimale transactiekosten om een offline transactie te verzenden
 zijn 0.01 BEAM.</string>

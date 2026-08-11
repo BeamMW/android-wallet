@@ -543,8 +543,8 @@ Denna adress finns redan</string>
     <string name="exchange_not_available_mobile">mobil nod (växelkurs till %1$s mottogs inte)</string>
     <string name="exchange_not_available_own">egen nod (växelkurs till %1$s mottogs inte)</string>
     <string name="exchange_not_available_random">slumpmässig nod (växelkurs till %1$s mottogs inte)</string>
-    <string name="reconnect_random">slumpmässig nod: återansluter till en annan slumpmässig nod…</string>
-    <string name="reconnect_mobile">mobil nod: återansluter till en annan mobil nod…</string>
+    <string name="reconnect_random">slumpmässig nod: återansluter till en annan nod…</string>
+    <string name="reconnect_mobile">mobil nod: återansluter…</string>
     <string name="reconnecting">återansluter…</string>
     <string name="min_fee_offline">Lägsta transaktionsavgift för att skicka offline-transaktion
 är 0,01 BEAM.</string>

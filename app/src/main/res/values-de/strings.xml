@@ -545,8 +545,8 @@ Adresse oder Kontakt</string>
     <string name="exchange_not_available_mobile">mobiler node (Wechselkurs zu %1$s wurde nicht empfangen)</string>
     <string name="exchange_not_available_own">eigener node (Wechselkurs zu %1$s wurde nicht empfangen)</string>
     <string name="exchange_not_available_random">zufälliger node (Wechselkurs zu %1$s wurde nicht empfangen)</string>
-    <string name="reconnect_random">zufälliger node: erneute Verbindung zu einem anderen zufälligen node…</string>
-    <string name="reconnect_mobile">mobiler node: erneute Verbindung zu einem anderen mobilen node…</string>
+    <string name="reconnect_random">zufälliger node: erneute Verbindung zu einem anderen node…</string>
+    <string name="reconnect_mobile">mobiler node: erneute Verbindung…</string>
     <string name="reconnecting">verbinde erneut…</string>
     <string name="min_fee_offline">Die Mindestgebühr zum Senden einer Offline-Transaktion
 beträgt 0.01 BEAM.</string>

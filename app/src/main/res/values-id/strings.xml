@@ -546,8 +546,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">mobile node (nilai tukar ke %1$s tidak diterima)</string>
     <string name="exchange_not_available_own">own node (nilai tukar ke %1$s tidak diterima)</string>
     <string name="exchange_not_available_random">random node (nilai tukar ke %1$s tidak diterima)</string>
-    <string name="reconnect_random">random node: menghubungkan kembali ke random node lain…</string>
-    <string name="reconnect_mobile">mobile node: menghubungkan kembali ke mobile node lain…</string>
+    <string name="reconnect_random">random node: menghubungkan kembali ke node lain…</string>
+    <string name="reconnect_mobile">mobile node: menghubungkan kembali…</string>
     <string name="reconnecting">menghubungkan kembali…</string>
     <string name="min_fee_offline">Biaya transaksi minimum untuk mengirim transaksi offline
 adalah 0.01 BEAM.</string>

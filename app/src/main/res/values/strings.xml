@@ -545,8 +545,8 @@ address or contact</string>
     <string name="wallet_id">Signature</string>
     <string name="share_token">Share address</string>
     <string name="token">Address</string>
-    <string name="reconnect_random">random node: reconnecting to another random node…</string>
-    <string name="reconnect_mobile">mobile node: reconnecting to another mobile node…</string>
+    <string name="reconnect_random">random node: reconnecting to another node…</string>
+    <string name="reconnect_mobile">mobile node: reconnecting…</string>
     <string name="reconnecting">reconnecting…</string>
     <string name="max_privacy_text">The receiver pays fees.</string>
     <string name="transaction_type">Transaction type</string>

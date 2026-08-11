@@ -549,8 +549,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">nœud mobile (le taux de change vers %1$s n\'a pas été reçu)</string>
     <string name="exchange_not_available_own">nœud personnel (le taux de change vers %1$s n\'a pas été reçu)</string>
     <string name="exchange_not_available_random">nœud aléatoire (le taux de change vers %1$s n\'a pas été reçu)</string>
-    <string name="reconnect_random">nœud aléatoire : reconnexion à un autre nœud aléatoire…</string>
-    <string name="reconnect_mobile">nœud mobile : reconnexion à un autre nœud mobile…</string>
+    <string name="reconnect_random">nœud aléatoire : reconnexion à un autre nœud…</string>
+    <string name="reconnect_mobile">nœud mobile : reconnexion…</string>
     <string name="reconnecting">reconnexion…</string>
     <string name="min_fee_offline">Les frais de transaction minimum pour envoyer une transaction hors ligne
 sont de 0.01 BEAM.</string>

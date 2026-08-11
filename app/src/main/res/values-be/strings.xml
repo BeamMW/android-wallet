@@ -546,8 +546,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">мабільны вузел (курс %1$s не атрыманы)</string>
     <string name="exchange_not_available_own">уласны вузел (курс %1$s не атрыманы)</string>
     <string name="exchange_not_available_random">выпадковы вузел (курс %1$s не атрыманы)</string>
-    <string name="reconnect_random">выпадковы вузел: падключэнне да іншага выпадковага вузла…</string>
-    <string name="reconnect_mobile">мабільны вузел: падключэнне да іншага мабільнага вузла…</string>
+    <string name="reconnect_random">выпадковы вузел: падключэнне да іншага вузла…</string>
+    <string name="reconnect_mobile">мабільны вузел: паўторнае падключэнне…</string>
     <string name="reconnecting">перападключэнне…</string>
     <string name="min_fee_offline">Мінімальная камісія для адпраўкі афлайн-транзакцыі
 складае 0.01 BEAM.</string>

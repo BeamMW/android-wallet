@@ -546,8 +546,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">nodo mobile (tasso di cambio verso %1$s non ricevuto)</string>
     <string name="exchange_not_available_own">nodo proprio (tasso di cambio verso %1$s non ricevuto)</string>
     <string name="exchange_not_available_random">nodo casuale (tasso di cambio verso %1$s non ricevuto)</string>
-    <string name="reconnect_random">nodo casuale: riconnessione a un altro nodo casuale…</string>
-    <string name="reconnect_mobile">nodo mobile: riconnessione a un altro nodo mobile…</string>
+    <string name="reconnect_random">nodo casuale: riconnessione a un altro nodo…</string>
+    <string name="reconnect_mobile">nodo mobile: riconnessione…</string>
     <string name="reconnecting">riconnessione…</string>
     <string name="min_fee_offline">La commissione minima per inviare una transazione offline
 è 0.01 BEAM.</string>

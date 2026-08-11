@@ -548,8 +548,8 @@ dirección o contacto</string>
     <string name="exchange_not_available_mobile">nodo móvil (no se recibió la tasa de cambio a %1$s)</string>
     <string name="exchange_not_available_own">nodo propio (no se recibió la tasa de cambio a %1$s)</string>
     <string name="exchange_not_available_random">nodo aleatorio (no se recibió la tasa de cambio a %1$s)</string>
-    <string name="reconnect_random">nodo aleatorio: reconectando a otro nodo aleatorio…</string>
-    <string name="reconnect_mobile">nodo móvil: reconectando a otro nodo móvil…</string>
+    <string name="reconnect_random">nodo aleatorio: reconectando a otro nodo…</string>
+    <string name="reconnect_mobile">nodo móvil: reconectando…</string>
     <string name="reconnecting">reconectando…</string>
     <string name="min_fee_offline">La tarifa mínima de transacción para enviar una transacción fuera de línea
 es de 0.01 BEAM.</string>

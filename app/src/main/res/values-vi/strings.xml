@@ -547,8 +547,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">nút di động (chưa nhận được tỷ giá sang %1$s)</string>
     <string name="exchange_not_available_own">nút riêng (chưa nhận được tỷ giá sang %1$s)</string>
     <string name="exchange_not_available_random">nút ngẫu nhiên (chưa nhận được tỷ giá sang %1$s)</string>
-    <string name="reconnect_random">nút ngẫu nhiên: đang kết nối lại với một nút ngẫu nhiên khác…</string>
-    <string name="reconnect_mobile">nút di động: đang kết nối lại với một nút di động khác…</string>
+    <string name="reconnect_random">nút ngẫu nhiên: đang kết nối lại với một nút khác…</string>
+    <string name="reconnect_mobile">nút di động: đang kết nối lại…</string>
     <string name="reconnecting">đang kết nối lại…</string>
     <string name="min_fee_offline">Phí giao dịch tối thiểu để gửi giao dịch ngoại tuyến
 là 0.01 BEAM.</string>

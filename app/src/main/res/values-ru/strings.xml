@@ -545,8 +545,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="exchange_not_available_mobile">мобильный узел (обменный курс к %1$s не получен)</string>
     <string name="exchange_not_available_own">собственный узел (обменный курс к %1$s не получен)</string>
     <string name="exchange_not_available_random">случайный узел (обменный курс к %1$s не получен)</string>
-    <string name="reconnect_random">случайный узел: переподключение к другому случайному узлу…</string>
-    <string name="reconnect_mobile">мобильный узел: переподключение к другому мобильному узлу…</string>
+    <string name="reconnect_random">случайный узел: переподключение к другому узлу…</string>
+    <string name="reconnect_mobile">мобильный узел: переподключение…</string>
     <string name="reconnecting">переподключение…</string>
     <string name="min_fee_offline">Мин. комиссия за отправку офлайн-транзакции
 составляет 0.01 BEAM.</string>

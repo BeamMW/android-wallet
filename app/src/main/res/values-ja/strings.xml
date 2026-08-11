@@ -545,8 +545,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">モバイルノード（%1$s への為替レートを受信できませんでした）</string>
     <string name="exchange_not_available_own">自分のノード（%1$s への為替レートを受信できませんでした）</string>
     <string name="exchange_not_available_random">任意のノード（%1$s への為替レートを受信できませんでした）</string>
-    <string name="reconnect_random">任意のノード：別の任意のノードに再接続中…</string>
-    <string name="reconnect_mobile">モバイルノード：別のモバイルノードに再接続中…</string>
+    <string name="reconnect_random">任意のノード：別のノードに再接続中…</string>
+    <string name="reconnect_mobile">モバイルノード：再接続中…</string>
     <string name="reconnecting">再接続中…</string>
     <string name="min_fee_offline">オフライントランザクションを送信するための最低トランザクション手数料は
 0.01 BEAMです。</string>

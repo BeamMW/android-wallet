@@ -547,8 +547,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="exchange_not_available_mobile">โหนดมือถือ (ไม่ได้รับอัตราแลกเปลี่ยนเป็น %1$s)</string>
     <string name="exchange_not_available_own">โหนดของตัวเอง (ไม่ได้รับอัตราแลกเปลี่ยนเป็น %1$s)</string>
     <string name="exchange_not_available_random">โหนดแบบสุ่ม (ไม่ได้รับอัตราแลกเปลี่ยนเป็น %1$s)</string>
-    <string name="reconnect_random">โหนดแบบสุ่ม: กำลังเชื่อมต่อไปยังโหนดแบบสุ่มอื่นอีกครั้ง…</string>
-    <string name="reconnect_mobile">โหนดมือถือ: กำลังเชื่อมต่อไปยังโหนดมือถืออื่นอีกครั้ง…</string>
+    <string name="reconnect_random">โหนดแบบสุ่ม: กำลังเชื่อมต่อไปยังโหนดอื่นอีกครั้ง…</string>
+    <string name="reconnect_mobile">โหนดมือถือ: กำลังเชื่อมต่ออีกครั้ง…</string>
     <string name="reconnecting">กำลังเชื่อมต่ออีกครั้ง…</string>
     <string name="min_fee_offline">ค่าธรรมเนียมธุรกรรมขั้นต่ำในการส่งธุรกรรมออฟไลน์
 คือ 0.01 BEAM</string>

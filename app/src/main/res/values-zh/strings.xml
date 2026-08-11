@@ -564,8 +564,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="exchange_not_available_mobile">移动节点（未收到兑%1$s的汇率）</string>
     <string name="exchange_not_available_own">自有节点（未收到兑%1$s的汇率）</string>
     <string name="exchange_not_available_random">随机节点（未收到兑%1$s的汇率）</string>
-    <string name="reconnect_random">随机节点：正在重新连接到另一个随机节点…</string>
-    <string name="reconnect_mobile">移动节点：正在重新连接到另一个移动节点…</string>
+    <string name="reconnect_random">随机节点：正在重新连接到另一个节点…</string>
+    <string name="reconnect_mobile">移动节点：正在重新连接…</string>
     <string name="reconnecting">正在重新连接…</string>
     <string name="min_fee_offline">发送离线交易的最低交易费
 为0.01 BEAM。</string>

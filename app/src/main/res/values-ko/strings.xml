@@ -543,8 +543,8 @@ You must pass 2-step verification (submit a password and use FaceID) to see your
     <string name="exchange_not_available_mobile">모바일 노드 (%1$s 환율을 받지 못했습니다)</string>
     <string name="exchange_not_available_own">자체 노드 (%1$s 환율을 받지 못했습니다)</string>
     <string name="exchange_not_available_random">임의 노드 (%1$s 환율을 받지 못했습니다)</string>
-    <string name="reconnect_random">임의 노드: 다른 임의 노드에 다시 연결 중…</string>
-    <string name="reconnect_mobile">모바일 노드: 다른 모바일 노드에 다시 연결 중…</string>
+    <string name="reconnect_random">임의 노드: 다른 노드에 다시 연결 중…</string>
+    <string name="reconnect_mobile">모바일 노드: 다시 연결 중…</string>
     <string name="reconnecting">다시 연결 중…</string>
     <string name="min_fee_offline">오프라인 거래를 전송하기 위한 최소 거래 수수료는
 0.01 BEAM입니다.</string>

@@ -543,8 +543,8 @@ adresy nebo kontaktu</string>
     <string name="exchange_not_available_mobile">mobilní uzel (směnný kurz pro %1$s nebyl přijat)</string>
     <string name="exchange_not_available_own">vlastní uzel (směnný kurz pro %1$s nebyl přijat)</string>
     <string name="exchange_not_available_random">náhodný uzel (směnný kurz pro %1$s nebyl přijat)</string>
-    <string name="reconnect_random">náhodný uzel: opětovné připojování k jinému náhodnému uzlu…</string>
-    <string name="reconnect_mobile">mobilní uzel: opětovné připojování k jinému mobilnímu uzlu…</string>
+    <string name="reconnect_random">náhodný uzel: opětovné připojování k jinému uzlu…</string>
+    <string name="reconnect_mobile">mobilní uzel: opětovné připojování…</string>
     <string name="reconnecting">opětovné připojování…</string>
     <string name="min_fee_offline">Minimální transakční poplatek pro odeslání offline transakce
 je 0.01 BEAM.</string>

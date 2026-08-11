@@ -546,8 +546,8 @@ address or contact</string>
     <string name="exchange_not_available_mobile">мобилна нода (курс према %1$s није примљен)</string>
     <string name="exchange_not_available_own">сопствена нода (курс према %1$s није примљен)</string>
     <string name="exchange_not_available_random">насумична нода (курс према %1$s није примљен)</string>
-    <string name="reconnect_random">насумична нода: поновно повезивање на другу насумичну ноду…</string>
-    <string name="reconnect_mobile">мобилна нода: поновно повезивање на другу мобилну ноду…</string>
+    <string name="reconnect_random">насумична нода: поновно повезивање на другу ноду…</string>
+    <string name="reconnect_mobile">мобилна нода: поновно повезивање…</string>
     <string name="reconnecting">поновно повезивање…</string>
     <string name="min_fee_offline">Минимална накнада за слање офлајн трансакције
 је 0.01 BEAM.</string>
