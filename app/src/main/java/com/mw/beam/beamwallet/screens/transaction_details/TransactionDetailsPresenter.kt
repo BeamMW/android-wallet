@@ -77,11 +77,11 @@ class TransactionDetailsPresenter(currentView: TransactionDetailsContract.View, 
         }
 
         addressesSubscription = AppManager.instance.subOnAddressesChanged.subscribe(){
-            if (it == false) {
-                state.txDescription = AppManager.instance.getTransaction(state.txID!!)
-                if (state.txDescription != null) {
-                    view?.updateAddresses(state.txDescription!!)
-                }
+            // Refresh on any address-book change: saving a contact arrives as an ADDED
+            // change event, which AppManager forwards with `true`, not `false`.
+            state.txDescription = AppManager.instance.getTransaction(state.txID!!)
+            if (state.txDescription != null) {
+                view?.updateAddresses(state.txDescription!!)
             }
         }
     }

@@ -207,7 +207,10 @@ else{
 
     @SuppressLint("SetTextI18n")
     override fun updateAddresses(txDescription: TxDescription) {
-
+        // Repaint the contact rows and menu right away, so a just-saved contact shows its
+        // name without reopening the screen and the "Save contact" entry disappears.
+        configGeneralTransactionInfo(txDescription)
+        activity?.invalidateOptionsMenu()
     }
 
     @SuppressLint("SetTextI18n", "DefaultLocale")
@@ -256,7 +259,10 @@ else{
         // string for a zero ID — which used to render an empty "Receiving address:" row.
         endAddress.text = if (txDescription.token.isNotEmpty()) txDescription.token else txDescription.receiverAddress
 
+        // Also try peerId: contacts are keyed by SBBS wallet ID, which a token-valued
+        // sender/receiver address never matches (the menu check already uses peerId).
         val start = AppManager.instance.getAddress(txDescription.senderAddress)
+                ?: if (txDescription.sender != TxSender.SENT) AppManager.instance.getAddress(txDescription.peerId) else null
 
         if (start != null && start.label.isNotEmpty()) {
             startContactLayout.visibility = View.VISIBLE
@@ -270,6 +276,7 @@ else{
         }
 
         val end = AppManager.instance.getAddress(txDescription.receiverAddress)
+                ?: if (txDescription.sender == TxSender.SENT) AppManager.instance.getAddress(txDescription.peerId) else null
         if (end != null && end.label.isNotEmpty()) {
             endContactLayout.visibility = View.VISIBLE
             endContactValue.text = end.label
