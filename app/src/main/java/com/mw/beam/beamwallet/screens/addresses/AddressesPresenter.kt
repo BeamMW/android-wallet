@@ -19,7 +19,8 @@ package com.mw.beam.beamwallet.screens.addresses
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.entities.WalletAddress
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
+import android.os.Handler
+import android.os.Looper
 import io.reactivex.disposables.Disposable
 
 /**
@@ -66,9 +67,10 @@ class AddressesPresenter(currentView: AddressesContract.View, currentRepository:
 
         // Unlike most listener callbacks, onPublicAddress is delivered straight from the native
         // thread rather than through WalletListener's ui handler, so the list update has to be
-        // marshalled (the same dance PublicOfflineAddressPresenter does).
+        // marshalled. Main-looper post rather than AppActivity.self: no activity reference to
+        // race with teardown, and view? is simply null once the fragment is gone.
         publicOfflineSubscription = AppManager.instance.subOnPublicAddress.subscribe {
-            AppActivity.self.runOnUiThread {
+            Handler(Looper.getMainLooper()).post {
                 updateView()
             }
         }

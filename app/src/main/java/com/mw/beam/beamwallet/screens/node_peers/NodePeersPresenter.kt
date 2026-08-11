@@ -16,11 +16,12 @@
 
 package com.mw.beam.beamwallet.screens.node_peers
 
+import android.os.Handler
+import android.os.Looper
 import com.mw.beam.beamwallet.base_screen.BasePresenter
 import com.mw.beam.beamwallet.core.AppConfig
 import com.mw.beam.beamwallet.core.AppManager
 import com.mw.beam.beamwallet.core.helpers.PreferencesManager
-import com.mw.beam.beamwallet.screens.app_activity.AppActivity
 import io.reactivex.disposables.Disposable
 
 class NodePeersPresenter(currentView: NodePeersContract.View, currentRepository: NodePeersContract.Repository)
@@ -35,7 +36,9 @@ class NodePeersPresenter(currentView: NodePeersContract.View, currentRepository:
         // The status line, the last-seen stamp and the height all move with the connection,
         // so the screen redraws on the same events the toolbar listens to.
         statusSubscription = AppManager.instance.subOnNetworkStatusChanged.subscribe {
-            AppActivity.self.runOnUiThread {
+            // Main-looper post rather than AppActivity.self: no activity reference to race
+            // with teardown, and view? is simply null once the fragment is gone.
+            Handler(Looper.getMainLooper()).post {
                 updateView()
             }
         }
@@ -52,8 +55,13 @@ class NodePeersPresenter(currentView: NodePeersContract.View, currentRepository:
     }
 
     private fun activeNode(): String {
-        val saved = PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS)
-        return if (saved.isNullOrBlank()) AppConfig.NODE_ADDRESS else saved
+        // AppConfig.NODE_ADDRESS tracks what the wallet was actually pointed at — startup,
+        // settings changes and reconnect hops all write it — while the preference only holds
+        // the configured address, which goes stale the moment a random-node reconnect hops.
+        if (AppConfig.NODE_ADDRESS.isNotBlank()) {
+            return AppConfig.NODE_ADDRESS
+        }
+        return PreferencesManager.getString(PreferencesManager.KEY_NODE_ADDRESS) ?: ""
     }
 
     override fun getSubscriptions(): Array<Disposable> = arrayOf(statusSubscription)
